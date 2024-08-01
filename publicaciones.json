@@ -1,0 +1,44 @@
+[
+    {
+        "titulo": "¡Feliz Sábado!",
+        "contenido": "Un día como hoy, una meta fue propuesta, una idea salió de un propósito divino, y hoy lo celebramos. ¡Nuestra nueva página del ministerio PROYECTO JA! Desde hace más de 10 años anunciando el evangelio a través de las redes digitales. Sea de gran bendición para tu vida, bienvenido! Gracias por confiar en Jesús y en PROYECTO JA | Compartiendo esperanza!",
+        "perfil": "https://i.imgur.com/65vS9gh.png",
+        "publicador": "PROYECTO JA",
+        "fecha": "2024-07-19",
+        "hora": "5:00 PM",
+        "redes_sociales": {
+            "whatsapp": "https://whatsapp.com/channel/0029VaDMfYK5fM5bmqhsxk0h",
+            "facebook": "https://www.facebook.com/profile.php?id=61553083292111",
+            "tiktok": "",
+            "instagram": ""
+        }
+    },
+    {
+        "titulo": "Segunda Publicación",
+        "contenido": "Este es el contenido de la segunda publicación.",
+        "perfil": "https://i.imgur.com/1ETDjwL.png",
+        "publicador": "De Joven A Joven",
+        "fecha": "2023-07-21",
+        "hora": "11:00 AM",
+        "redes_sociales": {
+            "whatsapp": "https://whatsapp.com/publicador2",
+            "facebook": "https://facebook.com/publicador2",
+            "tiktok": "https://tiktok.com/publicador2",
+            "instagram": "https://instagram.com/publicador2"
+        }
+    },
+    {
+        "titulo": "Segunda Publicación",
+        "contenido": "Este es el contenido de la segunda publicación.",
+        "perfil": "https://i.imgur.com/1ETDjwL.png",
+        "publicador": "De Joven A Joven",
+        "fecha": "2023-07-21",
+        "hora": "11:00 AM",
+        "redes_sociales": {
+            "whatsapp": "https://whatsapp.com/publicador2",
+            "facebook": "https://facebook.com/publicador2",
+            "tiktok": "https://tiktok.com/publicador2",
+            "instagram": "https://instagram.com/publicador2"
+        }
+    }
+]
