@@ -17,6 +17,7 @@
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/clappr-playback-rate-plugin@latest/lib/clappr-playback-rate-plugin.min.js"></script>
     <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -6965,106 +6966,137 @@
 
 
 
-        <script>
-        // URL del archivo JSON con las publicaciones
-        const publicacionesUrl = 'publicaciones.json';
+<script>
+    const publicacionesUrl = 'publicaciones.json';
 
-        // Función para cargar las publicaciones
-        async function cargarPublicaciones() {
-            try {
-                const response = await fetch(publicacionesUrl);
-                if (!response.ok) {
-                    throw new Error('Error al cargar el archivo JSON');
-                }
-                const publicaciones = await response.json();
-                const contenedor = document.getElementById('contenedor-publicaciones');
+    async function cargarPublicaciones() {
+        try {
+            const response = await fetch(publicacionesUrl);
+            if (!response.ok) {
+                throw new Error('Error al cargar el archivo JSON');
+            }
+            const publicaciones = await response.json();
+            const contenedor = document.getElementById('contenedor-publicaciones');
 
-                // Solo mostrar las primeras 2 publicaciones o las que se requiera del limite deseado
-                const publicacionesLimitadas = publicaciones.slice(0, 50);
-                publicacionesLimitadas.forEach(pub => {
-                    const publicacionElem = document.createElement('div');
-                    publicacionElem.className = 'publicacion';
+            const publicacionesLimitadas = publicaciones.slice(0, 50);
+            publicacionesLimitadas.forEach((pub, index) => {
+                const publicacionElem = document.createElement('div');
+                publicacionElem.className = 'publicacion';
+                publicacionElem.id = `publicacion-${index}`;
 
-                    const cabeceraElem = document.createElement('div');
-                    cabeceraElem.className = 'cabecera-publicacion';
+                const cabeceraElem = document.createElement('div');
+                cabeceraElem.className = 'cabecera-publicacion';
 
-                    const perfilElem = document.createElement('img');
-                    perfilElem.className = 'perfil';
-                    perfilElem.src = pub.perfil;
+                const perfilElem = document.createElement('img');
+                perfilElem.className = 'perfil';
+                perfilElem.src = pub.perfil;
 
-                    const infoElem = document.createElement('div');
-                    infoElem.className = 'info-publicacion';
+                const infoElem = document.createElement('div');
+                infoElem.className = 'info-publicacion';
 
-                    const publicadorElem = document.createElement('div');
-                    publicadorElem.className = 'publicador';
-                    publicadorElem.textContent = pub.publicador;
+                const publicadorElem = document.createElement('div');
+                publicadorElem.className = 'publicador';
+                publicadorElem.textContent = pub.publicador;
 
-                    const fechaHoraElem = document.createElement('div');
-                    fechaHoraElem.className = 'fecha-hora';
-                    fechaHoraElem.textContent = `${pub.fecha} - ${pub.hora}`;
+                const fechaHoraElem = document.createElement('div');
+                fechaHoraElem.className = 'fecha-hora';
+                fechaHoraElem.textContent = `${pub.fecha} - ${pub.hora}`;
 
-                    const tituloElem = document.createElement('div');
-                    tituloElem.className = 'titulo';
-                    tituloElem.textContent = pub.titulo;
+                const tituloElem = document.createElement('div');
+                tituloElem.className = 'titulo';
+                tituloElem.textContent = pub.titulo;
 
-                    const contenidoElem = document.createElement('div');
-                    contenidoElem.className = 'contenido';
-                    contenidoElem.textContent = pub.contenido;
+                const contenidoElem = document.createElement('div');
+                contenidoElem.className = 'contenido';
+                contenidoElem.textContent = pub.contenido;
 
-                    const redesSocialesElem = document.createElement('div');
-                    redesSocialesElem.className = 'redes-sociales';
+                const redesSocialesElem = document.createElement('div');
+                redesSocialesElem.className = 'redes-sociales';
 
-                    if(pub.redes_sociales.whatsapp){
+                if (pub.redes_sociales.whatsapp) {
                     const whatsappBtn = document.createElement('button');
                     whatsappBtn.className = 'whatsapp';
                     whatsappBtn.textContent = 'WhatsApp';
                     whatsappBtn.onclick = () => window.open(pub.redes_sociales.whatsapp, '_blank');
                     redesSocialesElem.appendChild(whatsappBtn);
-                    }
+                }
 
-                    if(pub.redes_sociales.facebook){
+                if (pub.redes_sociales.facebook) {
                     const facebookBtn = document.createElement('button');
                     facebookBtn.className = 'facebook';
                     facebookBtn.textContent = 'Facebook';
                     facebookBtn.onclick = () => window.open(pub.redes_sociales.facebook, '_blank');
                     redesSocialesElem.appendChild(facebookBtn);
-                    }
+                }
 
-                    if(pub.redes_sociales.instagram){
+                if (pub.redes_sociales.instagram) {
                     const instagramBtn = document.createElement('button');
                     instagramBtn.className = 'instagram';
                     instagramBtn.textContent = 'Instagram';
                     instagramBtn.onclick = () => window.open(pub.redes_sociales.instagram, '_blank');
                     redesSocialesElem.appendChild(instagramBtn);
-                    }
+                }
 
-                    if(pub.redes_sociales.tiktok){
+                if (pub.redes_sociales.tiktok) {
                     const tiktokBtn = document.createElement('button');
                     tiktokBtn.className = 'tiktok';
                     tiktokBtn.textContent = 'Tik Tok';
                     tiktokBtn.onclick = () => window.open(pub.redes_sociales.tiktok, '_blank');
                     redesSocialesElem.appendChild(tiktokBtn);
-                    }
+                }
 
-                    infoElem.appendChild(publicadorElem);
-                    infoElem.appendChild(fechaHoraElem);
-                    cabeceraElem.appendChild(perfilElem);
-                    cabeceraElem.appendChild(infoElem);
-                    publicacionElem.appendChild(cabeceraElem);
-                    publicacionElem.appendChild(tituloElem);
-                    publicacionElem.appendChild(contenidoElem);
-                    publicacionElem.appendChild(redesSocialesElem);
+                const descargarBtn = document.createElement('button');
+                descargarBtn.textContent = 'Descargar';
+                descargarBtn.onclick = () => descargarImagen(publicacionElem);
 
-                    contenedor.appendChild(publicacionElem);
-                });
-            } catch (error) {
-                console.error('Error cargando las publicaciones:', error);
-            }
+                const copiarBtn = document.createElement('button');
+                copiarBtn.textContent = 'Copiar';
+                copiarBtn.onclick = () => copiarImagen(publicacionElem);
+
+                infoElem.appendChild(publicadorElem);
+                infoElem.appendChild(fechaHoraElem);
+                cabeceraElem.appendChild(perfilElem);
+                cabeceraElem.appendChild(infoElem);
+                publicacionElem.appendChild(cabeceraElem);
+                publicacionElem.appendChild(tituloElem);
+                publicacionElem.appendChild(contenidoElem);
+                publicacionElem.appendChild(redesSocialesElem);
+
+                publicacionElem.appendChild(descargarBtn);
+                publicacionElem.appendChild(copiarBtn);
+
+                contenedor.appendChild(publicacionElem);
+            });
+        } catch (error) {
+            console.error('Error cargando las publicaciones:', error);
         }
+    }
 
-        // Cargar las publicaciones cuando la página se cargue
-        window.onload = cargarPublicaciones;
-    </script>
+    function descargarImagen(elemento) {
+        html2canvas(elemento).then(canvas => {
+            const imgData = canvas.toDataURL("image/jpeg", 1.0);
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = 'publicacion.jpg';
+            link.click();
+        });
+    }
+
+    function copiarImagen(elemento) {
+        html2canvas(elemento).then(canvas => {
+            canvas.toBlob(blob => {
+                const item = new ClipboardItem({ "image/png": blob });
+                navigator.clipboard.write([item]).then(() => {
+                    alert("Imagen copiada al portapapeles");
+                }).catch(err => {
+                    console.error("Error al copiar al portapapeles: ", err);
+                });
+            }, "image/png");
+        });
+    }
+
+    window.onload = cargarPublicaciones;
+</script>
 
 
 
