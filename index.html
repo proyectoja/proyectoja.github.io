@@ -7094,7 +7094,7 @@
         // Ajustar el estilo del contenedor para la captura
         document.body.appendChild(copiaElem);
 
-        html2canvas(copiaElem, { backgroundColor: "#080c1c", scale: 3 }).then(canvas => {
+        html2canvas(copiaElem, { backgroundColor: "#080c1c", scale: 3, useCORS: true }).then(canvas => {
             const imgData = canvas.toDataURL("image/jpeg", 1.0);
             const link = document.createElement('a');
             link.href = imgData;
@@ -7125,7 +7125,7 @@
         // Ajustar el estilo del contenedor para la captura
         document.body.appendChild(copiaElem);
 
-        html2canvas(copiaElem, { backgroundColor: "#080c1c", scale: 3 }).then(canvas => {
+        html2canvas(copiaElem, { backgroundColor: "#080c1c", scale: 3, useCORS: true }).then(canvas => {
             canvas.toBlob(blob => {
                 const item = new ClipboardItem({ "image/png": blob });
                 navigator.clipboard.write([item]).then(() => {
