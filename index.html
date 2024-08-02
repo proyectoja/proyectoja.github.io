@@ -6989,31 +6989,31 @@
 
                 const perfilElem = document.createElement('img');
                 perfilElem.className = 'perfil';
-                perfilElem.src = pub.perfil;
+                perfilElem.src = pub.perfil || 'default-profile.png';
 
                 const infoElem = document.createElement('div');
                 infoElem.className = 'info-publicacion';
 
                 const publicadorElem = document.createElement('div');
                 publicadorElem.className = 'publicador';
-                publicadorElem.textContent = pub.publicador;
+                publicadorElem.textContent = pub.publicador || 'Anónimo';
 
                 const fechaHoraElem = document.createElement('div');
                 fechaHoraElem.className = 'fecha-hora';
-                fechaHoraElem.textContent = `${pub.fecha} - ${pub.hora}`;
+                fechaHoraElem.textContent = `${pub.fecha || 'Fecha desconocida'} - ${pub.hora || 'Hora desconocida'}`;
 
                 const tituloElem = document.createElement('div');
                 tituloElem.className = 'titulo';
-                tituloElem.textContent = pub.titulo;
+                tituloElem.textContent = pub.titulo || 'Sin título';
 
                 const contenidoElem = document.createElement('div');
                 contenidoElem.className = 'contenido';
-                contenidoElem.textContent = pub.contenido;
+                contenidoElem.textContent = pub.contenido || 'Sin contenido';
 
                 const redesSocialesElem = document.createElement('div');
                 redesSocialesElem.className = 'redes-sociales';
 
-                if (pub.redes_sociales.whatsapp) {
+                if (pub.redes_sociales && pub.redes_sociales.whatsapp) {
                     const whatsappBtn = document.createElement('button');
                     whatsappBtn.className = 'whatsapp';
                     whatsappBtn.textContent = 'WhatsApp';
@@ -7021,7 +7021,7 @@
                     redesSocialesElem.appendChild(whatsappBtn);
                 }
 
-                if (pub.redes_sociales.facebook) {
+                if (pub.redes_sociales && pub.redes_sociales.facebook) {
                     const facebookBtn = document.createElement('button');
                     facebookBtn.className = 'facebook';
                     facebookBtn.textContent = 'Facebook';
@@ -7029,7 +7029,7 @@
                     redesSocialesElem.appendChild(facebookBtn);
                 }
 
-                if (pub.redes_sociales.instagram) {
+                if (pub.redes_sociales && pub.redes_sociales.instagram) {
                     const instagramBtn = document.createElement('button');
                     instagramBtn.className = 'instagram';
                     instagramBtn.textContent = 'Instagram';
@@ -7037,7 +7037,7 @@
                     redesSocialesElem.appendChild(instagramBtn);
                 }
 
-                if (pub.redes_sociales.tiktok) {
+                if (pub.redes_sociales && pub.redes_sociales.tiktok) {
                     const tiktokBtn = document.createElement('button');
                     tiktokBtn.className = 'tiktok';
                     tiktokBtn.textContent = 'Tik Tok';
@@ -7045,13 +7045,21 @@
                     redesSocialesElem.appendChild(tiktokBtn);
                 }
 
+                const botonesAccionElem = document.createElement('div');
+                botonesAccionElem.className = 'botones-accion';
+
                 const descargarBtn = document.createElement('button');
-                descargarBtn.textContent = 'Descargar';
+                descargarBtn.className = 'descargar';
+                descargarBtn.textContent = 'Descargar jpg';
                 descargarBtn.onclick = () => descargarImagen(publicacionElem);
 
                 const copiarBtn = document.createElement('button');
-                copiarBtn.textContent = 'Copiar';
+                copiarBtn.className = 'copiar';
+                copiarBtn.textContent = 'Copiar png';
                 copiarBtn.onclick = () => copiarImagen(publicacionElem);
+
+                botonesAccionElem.appendChild(descargarBtn);
+                botonesAccionElem.appendChild(copiarBtn);
 
                 infoElem.appendChild(publicadorElem);
                 infoElem.appendChild(fechaHoraElem);
@@ -7061,9 +7069,7 @@
                 publicacionElem.appendChild(tituloElem);
                 publicacionElem.appendChild(contenidoElem);
                 publicacionElem.appendChild(redesSocialesElem);
-
-                publicacionElem.appendChild(descargarBtn);
-                publicacionElem.appendChild(copiarBtn);
+                publicacionElem.appendChild(botonesAccionElem);
 
                 contenedor.appendChild(publicacionElem);
             });
@@ -7073,17 +7079,53 @@
     }
 
     function descargarImagen(elemento) {
-        html2canvas(elemento).then(canvas => {
+        // Crear una copia del contenedor de la publicación
+        const copiaElem = elemento.cloneNode(true);
+        copiaElem.style.position = 'fixed'; // Asegurar que se posicione en el viewport
+        copiaElem.style.top = '0';
+        copiaElem.style.left = '0';
+        copiaElem.style.width = '500px'; // Ancho deseado
+        copiaElem.style.height = 'auto'; // Ajustar alto automáticamente
+        copiaElem.style.overflow = 'hidden'; // Evitar desbordamiento
+
+        // Ocultar botones antes de la captura
+        ocultarBotones(copiaElem);
+
+        // Ajustar el estilo del contenedor para la captura
+        document.body.appendChild(copiaElem);
+
+        html2canvas(copiaElem, { backgroundColor: "#080c1c", scale: 3 }).then(canvas => {
             const imgData = canvas.toDataURL("image/jpeg", 1.0);
             const link = document.createElement('a');
             link.href = imgData;
             link.download = 'publicacion.jpg';
             link.click();
+
+            // Eliminar la copia del contenedor después de la descarga
+            document.body.removeChild(copiaElem);
+
+            // Mostrar botones después de la captura
+            mostrarBotones(elemento);
         });
     }
 
     function copiarImagen(elemento) {
-        html2canvas(elemento).then(canvas => {
+        // Crear una copia del contenedor de la publicación
+        const copiaElem = elemento.cloneNode(true);
+        copiaElem.style.position = 'fixed'; // Asegurar que se posicione en el viewport
+        copiaElem.style.top = '0';
+        copiaElem.style.left = '0';
+        copiaElem.style.width = '500px'; // Ancho deseado
+        copiaElem.style.height = 'auto'; // Ajustar alto automáticamente
+        copiaElem.style.overflow = 'hidden'; // Evitar desbordamiento
+
+        // Ocultar botones antes de la captura
+        ocultarBotones(copiaElem);
+
+        // Ajustar el estilo del contenedor para la captura
+        document.body.appendChild(copiaElem);
+
+        html2canvas(copiaElem, { backgroundColor: "#080c1c", scale: 3 }).then(canvas => {
             canvas.toBlob(blob => {
                 const item = new ClipboardItem({ "image/png": blob });
                 navigator.clipboard.write([item]).then(() => {
@@ -7091,15 +7133,31 @@
                 }).catch(err => {
                     console.error("Error al copiar al portapapeles: ", err);
                 });
+
+                // Eliminar la copia del contenedor después de copiar
+                document.body.removeChild(copiaElem);
+
+                // Mostrar botones después de la captura
+                mostrarBotones(elemento);
             }, "image/png");
         });
     }
 
+    function ocultarBotones(elemento) {
+        // Encuentra y oculta los botones dentro del elemento
+        const botones = elemento.querySelectorAll('.botones-accion');
+        botones.forEach(boton => boton.style.display = 'none');
+    }
+
+    function mostrarBotones(elemento) {
+        // Muestra los botones dentro del elemento
+        const botones = elemento.querySelectorAll('.botones-accion');
+        botones.forEach(boton => boton.style.display = '');
+    }
+
+
     window.onload = cargarPublicaciones;
 </script>
-
-
-
 
 
         <script type="text/javascript">
