@@ -7037,6 +7037,14 @@
                     redesSocialesElem.appendChild(instagramBtn);
                 }
 
+                if (pub.redes_sociales && pub.redes_sociales.youtube) {
+                    const youtubeBtn = document.createElement('button');
+                    youtubeBtn.className = 'youtube';
+                    youtubeBtn.textContent = 'You Tube';
+                    youtubeBtn.onclick = () => window.open(pub.redes_sociales.youtube, '_blank');
+                    redesSocialesElem.appendChild(youtubeBtn);
+                }
+
                 if (pub.redes_sociales && pub.redes_sociales.tiktok) {
                     const tiktokBtn = document.createElement('button');
                     tiktokBtn.className = 'tiktok';
