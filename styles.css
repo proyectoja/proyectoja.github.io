@@ -917,10 +917,10 @@
         }
 
         .imagen-publicacion {
-            width: 500px;
+            max-width: 40%;
             height: auto;
-            max-height: 500px;
             border-radius: 1rem;
+            float: left;
         }
 
         .titulo {
