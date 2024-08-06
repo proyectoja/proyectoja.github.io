@@ -919,6 +919,7 @@
         }
 
         .imagen-publicacion {
+            width: 100%;
             max-width: 400px;
             height: auto;
             max-height: 400px;
