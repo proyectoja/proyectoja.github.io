@@ -918,8 +918,9 @@
         }
 
         .imagen-publicacion {
-            max-width: 500px;
+            max-width: 592px;
             height: auto;
+            max-height: 841px;
             margin-right: 20px;
             border-radius: 1rem;
             float: left;
