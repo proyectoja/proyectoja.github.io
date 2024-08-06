@@ -911,6 +911,7 @@
         .publicacion {
             margin-bottom: 25px;
             padding: 15px;
+            padding-right: 15px;
             border: 1px solid #ccc;
             border-radius: 1rem;
             background: rgba(255, 255, 255, 0.2);
@@ -918,10 +919,11 @@
         }
 
         .imagen-publicacion {
-            max-width: 592px;
+            max-width: 300px;
             height: auto;
-            max-height: 841px;
+            max-height: 300px;
             margin-right: 20px;
+            margin-bottom: 10px;
             border-radius: 1rem;
             float: left;
         }
