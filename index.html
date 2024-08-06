@@ -7002,13 +7002,6 @@
                 fechaHoraElem.className = 'fecha-hora';
                 fechaHoraElem.textContent = `${pub.fecha || 'Fecha desconocida'} - ${pub.hora || 'Hora desconocida'}`;
 
-                if (pub.imagen) {
-                        const imagenElem = document.createElement('img');
-                        imagenElem.className = 'imagen-publicacion';
-                        imagenElem.src = pub.imagen;
-                        publicacionElem.appendChild(imagenElem);
-                    }
-
                 const tituloElem = document.createElement('div');
                 tituloElem.className = 'titulo';
                 tituloElem.textContent = pub.titulo || 'Sin título';
@@ -7082,6 +7075,12 @@
                 cabeceraElem.appendChild(perfilElem);
                 cabeceraElem.appendChild(infoElem);
                 publicacionElem.appendChild(cabeceraElem);
+                if (pub.imagen) {
+                    const imagenElem = document.createElement('img');
+                    imagenElem.className = 'imagen-publicacion';
+                    imagenElem.src = pub.imagen;
+                    publicacionElem.appendChild(imagenElem);
+                }
                 publicacionElem.appendChild(tituloElem);
                 publicacionElem.appendChild(contenidoElem);
                 publicacionElem.appendChild(redesSocialesElem);
