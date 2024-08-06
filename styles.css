@@ -919,9 +919,9 @@
         }
 
         .imagen-publicacion {
-            max-width: 300px;
+            max-width: 400px;
             height: auto;
-            max-height: 300px;
+            max-height: 400px;
             margin-right: 20px;
             margin-bottom: 10px;
             border-radius: 1rem;
