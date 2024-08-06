@@ -918,10 +918,9 @@
         }
 
         .imagen-publicacion {
-            max-width: 40%;
+            max-width: 500px;
             height: auto;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            margin-right: 20px;
             border-radius: 1rem;
             float: left;
         }
