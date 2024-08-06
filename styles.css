@@ -917,8 +917,9 @@
         }
 
         .imagen-publicacion {
-            width: 100%;
+            width: 500px;
             height: auto;
+            max-height: 1000px;
             border-radius: 1rem;
         }
 
