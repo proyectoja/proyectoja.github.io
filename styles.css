@@ -917,7 +917,7 @@
         }
 
         .imagen-publicacion {
-            width: 20%;
+            width: 300px;
             height: auto;
             border-radius: 1rem;
             float: left;
