@@ -919,7 +919,7 @@
         .imagen-publicacion {
             width: 500px;
             height: auto;
-            max-height: 1000px;
+            max-height: 500px;
             border-radius: 1rem;
         }
 
