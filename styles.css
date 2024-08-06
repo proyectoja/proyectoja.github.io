@@ -916,6 +916,13 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        .imagen-publicacion {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 1rem;
+        }
+
         .titulo {
             font-size: 18px;
             font-weight: bold;
