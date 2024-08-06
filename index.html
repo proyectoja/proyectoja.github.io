@@ -7096,7 +7096,9 @@
     function descargarImagen(elemento) {
         // Encuentra la imagen dentro del elemento
         const imagenElem = elemento.querySelector('.imagen-publicacion');
-        imagenElem.style.maxWidth = '100%';
+        if(imagenElem){
+            imagenElem.style.maxWidth = '100%';
+        }
 
         // Crear una copia del contenedor de la publicación
         const copiaElem = elemento.cloneNode(true);
@@ -7128,14 +7130,18 @@
             mostrarBotones(elemento);
 
             // Restaura el max-width original
-            imagenElem.style.maxWidth = '400px';
+            if(imagenElem){
+                imagenElem.style.maxWidth = '400px';
+            }
         });
     }
 
     function copiarImagen(elemento) {
         // Encuentra la imagen dentro del elemento
         const imagenElem = elemento.querySelector('.imagen-publicacion');
-        imagenElem.style.maxWidth = '100%';
+        if(imagenElem){
+            imagenElem.style.maxWidth = '100%';
+        }
 
         // Crear una copia del contenedor de la publicación
         const copiaElem = elemento.cloneNode(true);
@@ -7169,7 +7175,9 @@
                 mostrarBotones(elemento);
 
                 // Restaura el max-width original
-                imagenElem.style.maxWidth = '400px';
+                if(imagenElem){
+                    imagenElem.style.maxWidth = '400px';
+                }
             }, "image/png");
         });
     }
