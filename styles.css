@@ -914,6 +914,7 @@
             border: 1px solid #ccc;
             border-radius: 1rem;
             background: rgba(255, 255, 255, 0.2);
+            overflow: hidden;
         }
 
         .imagen-publicacion {
