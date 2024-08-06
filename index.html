@@ -7094,6 +7094,10 @@
     }
 
     function descargarImagen(elemento) {
+        // Encuentra la imagen dentro del elemento
+        const imagenElem = element.querySelector('.imagen-publicacion');
+        imagenElem.style.maxWidth = '100%';
+
         // Crear una copia del contenedor de la publicación
         const copiaElem = elemento.cloneNode(true);
         copiaElem.style.position = 'fixed'; // Asegurar que se posicione en el viewport
@@ -7121,10 +7125,17 @@
 
             // Mostrar botones después de la captura
             mostrarBotones(elemento);
+
+            // Restaura el max-width original
+            imagenElem.style.maxWidth = '400px';
         });
     }
 
     function copiarImagen(elemento) {
+        // Encuentra la imagen dentro del elemento
+        const imagenElem = element.querySelector('.imagen-publicacion');
+        imagenElem.style.maxWidth = '100%';
+
         // Crear una copia del contenedor de la publicación
         const copiaElem = elemento.cloneNode(true);
         copiaElem.style.position = 'fixed'; // Asegurar que se posicione en el viewport
@@ -7154,6 +7165,9 @@
 
                 // Mostrar botones después de la captura
                 mostrarBotones(elemento);
+
+                // Restaura el max-width original
+                imagenElem.style.maxWidth = '400px';
             }, "image/png");
         });
     }
