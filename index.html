@@ -7144,9 +7144,13 @@
         copiaElem.style.width = '500px'; // Ancho deseado
         copiaElem.style.height = 'auto'; // Ajustar alto automáticamente
         copiaElem.style.overflow = 'hidden'; // Evitar desbordamiento
+        copiaElem.style.zIndex = '-1';
 
         // Ocultar botones antes de la captura
         ocultarBotones(copiaElem);
+
+        // Ajustar el estilo del contenedor para la captura
+        document.body.appendChild(copiaElem);
 
         html2canvas(copiaElem, { backgroundColor: "#080c1c", scale: 3, useCORS: true }).then(canvas => {
             canvas.toBlob(blob => {
@@ -7156,6 +7160,9 @@
                 }).catch(err => {
                     console.error("Error al copiar al portapapeles: ", err);
                 });
+
+                // Eliminar la copia del contenedor después de copiar
+                document.body.removeChild(copiaElem);
 
                 // Mostrar botones después de la captura
                 mostrarBotones(elemento);
