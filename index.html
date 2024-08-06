@@ -6968,7 +6968,7 @@
 
 <script>
     const publicacionesUrl = 'publicaciones.json';
-
+    var tituloAux;
     async function cargarPublicaciones() {
         try {
             const response = await fetch(publicacionesUrl);
@@ -7002,9 +7002,17 @@
                 fechaHoraElem.className = 'fecha-hora';
                 fechaHoraElem.textContent = `${pub.fecha || 'Fecha desconocida'} - ${pub.hora || 'Hora desconocida'}`;
 
+                if (pub.imagen) {
+                        const imagenElem = document.createElement('img');
+                        imagenElem.className = 'imagen-publicacion';
+                        imagenElem.src = pub.imagen;
+                        publicacionElem.appendChild(imagenElem);
+                    }
+
                 const tituloElem = document.createElement('div');
                 tituloElem.className = 'titulo';
                 tituloElem.textContent = pub.titulo || 'Sin título';
+                tituloAux = pub.titulo;
 
                 const contenidoElem = document.createElement('div');
                 contenidoElem.className = 'contenido';
@@ -7106,7 +7114,7 @@
             const imgData = canvas.toDataURL("image/jpeg", 1.0);
             const link = document.createElement('a');
             link.href = imgData;
-            link.download = 'publicacion.jpg';
+            link.download = tituloAux + "-" + 'publicación.jpg';
             link.click();
 
             // Eliminar la copia del contenedor después de la descarga
