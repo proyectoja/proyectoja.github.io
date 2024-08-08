@@ -18,6 +18,7 @@
         src="https://cdn.jsdelivr.net/npm/clappr-playback-rate-plugin@latest/lib/clappr-playback-rate-plugin.min.js"></script>
     <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -127,7 +128,30 @@
 
         <!-- HERRAMIENTAS-->
         <div class="video-list" id="herramientas">
+            <h1>Convertidor de Imagen a Texto.</h1>
+    
+    <!-- Área de arrastrar y soltar -->
+    <div id="drop-area">Arrastra y suelta una imagen aquí o haz clic para seleccionar o Pegar (Ctrl + V)</div>
+    
+    <!-- Input para archivo -->
+    <input type="file" id="input-file" accept="image/*" style="display:none;">
+    
+    <!-- Input para enlace de imagen -->
+    <div id="input-link">
+        <label for="image-url"> O Añade Enlace de Imagen:</label>
+        <input type="text" id="image-url" placeholder="Introduce el enlace de la imagen">
+        <button id="process-url">Procesar Imagen</button>
+    </div>
+    
+    <div id="progress-container">
+        <div id="progress-bar">0%</div>
+    </div>
 
+    <div id="result">
+        <h2>Texto Extraído:</h2>
+        <p id="extracted-text"></p>
+        <button id="copy-button">Copiar Texto</button>
+    </div>
         </div>
         
 
@@ -6978,6 +7002,118 @@
                 console.log('Mostrar categoría:', category);
             }
         </script>
+
+
+
+
+<script>
+    // Manejador para el área de arrastrar y soltar
+    const dropArea = document.getElementById('drop-area');
+    const inputFile = document.getElementById('input-file');
+    const inputLink = document.getElementById('image-url');
+    const processUrlButton = document.getElementById('process-url');
+    const copyButton = document.getElementById('copy-button');
+
+    // Función para procesar imagen
+    function processImage(file) {
+        document.getElementById('progress-bar').style.width = '100%';
+        document.getElementById('progress-bar').innerText = 'Imagen Pegada';
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const image = event.target.result;
+            recognizeText(image);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Función para procesar imagen desde un enlace
+    function processImageFromUrl(url) {
+        document.getElementById('progress-bar').style.width = '100%';
+        document.getElementById('progress-bar').innerText = 'Imagen Pegada';
+        if (url) {
+            recognizeText(url);
+        }
+    }
+
+    // Función para reconocer texto con Tesseract.js
+    function recognizeText(image) {
+        Tesseract.recognize(
+            image,
+            'spa', // Código de idioma para español
+            {
+                logger: info => {
+                    if (info.status === 'recognizing text') {
+                        // Actualizar la barra de progreso
+                        const progress = Math.round(info.progress * 100);
+                        document.getElementById('progress-bar').style.width = progress + '%';
+                        document.getElementById('progress-bar').innerText = progress + '%';
+                    }
+                }
+            }
+        ).then(({ data: { text } }) => {
+            document.getElementById('extracted-text').innerText = text;
+        }).catch(error => {
+            console.error('Error al procesar la imagen:', error);
+        });
+    }
+
+    // Eventos de arrastrar y soltar
+    dropArea.addEventListener('click', () => inputFile.click());
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropArea.style.backgroundColor = '#e0e0e0';
+    });
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.style.backgroundColor = '';
+    });
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropArea.style.backgroundColor = '';
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            processImage(file);
+        }
+    });
+
+    // Evento para selección de archivo
+    inputFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            processImage(file);
+        }
+    });
+
+    // Botón para procesar imagen desde enlace
+    processUrlButton.addEventListener('click', () => {
+        const url = inputLink.value;
+        if (url) {
+            processImageFromUrl(url);
+        }
+    });
+
+    // Manejo del evento de pegar imágenes
+    document.addEventListener('paste', (e) => {
+        const items = e.clipboardData.items;
+        for (const item of items) {
+            if (item.kind === 'file' && item.type.startsWith('image/')) {
+                const file = item.getAsFile();
+                processImage(file);
+            }
+        }
+    });
+
+    // Función para copiar el texto extraído al portapapeles
+    copyButton.addEventListener('click', () => {
+        const text = document.getElementById('extracted-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Texto copiado al portapapeles');
+        }).catch(err => {
+            console.error('Error al copiar el texto:', err);
+        });
+    });
+</script>
 
 
 
