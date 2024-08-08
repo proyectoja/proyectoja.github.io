@@ -7067,8 +7067,14 @@
                 copiarBtn.textContent = 'Copiar png';
                 copiarBtn.onclick = () => copiarImagen(publicacionElem);
 
+                const copiarTxt = document.createElement('button');
+                copiarTxt.className = 'copiar-texto';
+                copiarTxt.textContent = 'Copiar texto';
+                copiarTxt.onclick = () => copiarTexto(publicacionElem);
+
                 botonesAccionElem.appendChild(descargarBtn);
                 botonesAccionElem.appendChild(copiarBtn);
+                botonesAccionElem.appendChild(copiarTxt);
 
                 infoElem.appendChild(publicadorElem);
                 infoElem.appendChild(fechaHoraElem);
@@ -7091,6 +7097,20 @@
         } catch (error) {
             console.error('Error cargando las publicaciones:', error);
         }
+    }
+
+    function copiarTexto(elemento) {
+        const titulo = elemento.querySelector('.titulo').textContent;
+        const contenido = elemento.querySelector('.contenido').textContent;
+        const publicador = elemento.querySelector('.publicador').textContent;
+
+        const texto = `_${contenido}_\n*${titulo} | ${publicador}*`;
+
+        navigator.clipboard.writeText(texto).then(() => {
+            alert('Texto copiado al portapapeles');
+        }).catch(err => {
+            console.error('Error al copiar el texto: ', err);
+        });
     }
 
     function descargarImagen(elemento) {
