@@ -871,7 +871,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('https://example.com/your-background-image.jpg') no-repeat center center/cover; /* Cambia la URL a tu imagen de fondo */
+            background: url('') no-repeat center center/cover; /* Cambia la URL a tu imagen de fondo */
             color: white;
             text-align: center;
             width: 100%;
@@ -1097,6 +1097,18 @@
             background: rgba(255, 255, 255, 0.2);
             overflow: hidden;
         }
+        .texto-imagen-texto {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('') no-repeat center center/cover; /* Cambia la URL a tu imagen de fondo */
+            color: white;
+            text-align: center;
+            width: 100%;
+            max-width: 98%;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
         #progress-container {
             width: 100%;
             background-color: #f3f3f3;
@@ -1116,12 +1128,59 @@
             text-align: center;
             margin-top: 20px;
             cursor: pointer;
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
         }
         #input-link {
             margin-top: 20px;
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #input-link {
+            margin-top: 20px;
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #imagen-url {
+            margin-top: 20px;
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #process-url{
+            color: #000;
+            border-radius: 1rem;
+            padding: 5px 10px;
+            margin-top: 10px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
         }
         #result {
             margin-top: 20px;
+            color: white;
+        }
+        .texto-extraido {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #extracted-text {
+            margin-top: 20px;
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
         }
         #copy-button {
             color: #000;
