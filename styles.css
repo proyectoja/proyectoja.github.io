@@ -1086,3 +1086,44 @@
         .copiar-texto:hover {
             background-color: #ccc;
         }
+
+        #progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        #progress-bar {
+            width: 0;
+            height: 20px;
+            background-color: #4caf50;
+            text-align: center;
+            color: white;
+        }
+        #drop-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        #input-link {
+            margin-top: 20px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        #copy-button {
+            color: #000;
+            border-radius: 1rem;
+            padding: 5px 10px;
+            margin-top: 10px;
+            margin-right: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #copy-button:hover {
+            background-color: #ccc;
+        }
