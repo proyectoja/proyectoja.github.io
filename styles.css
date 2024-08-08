@@ -1068,3 +1068,19 @@
         .copiar:hover {
             background-color: #ccc;
         }
+
+        .copiar-texto {
+            color: #000;
+            border-radius: 1rem;
+            padding: 5px 10px;
+            margin-top: 10px;
+            margin-right: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .copiar-texto:hover {
+            background-color: #ccc;
+        }
