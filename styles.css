@@ -1088,6 +1088,15 @@
             background-color: #ccc;
         }
 
+        .contenedor-imagen-texto {
+            margin-bottom: 25px;
+            padding: 15px;
+            padding-right: 15px;
+            border: 1px solid #ccc;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
         #progress-container {
             width: 100%;
             background-color: #f3f3f3;
