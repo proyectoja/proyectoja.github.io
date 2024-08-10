@@ -14,12 +14,12 @@
             background-image: url("");
             background-color: #003366;
             /*SE PUEDE CAMBIAR TODO EL FONDO DE LA APP*/
-            overflow-x: hidden;
-            overflow-y: hidden;
+            overflow: hidden;
             background-size: cover;
+            margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
-            display: block;
         }
 
         .videoFondo {
