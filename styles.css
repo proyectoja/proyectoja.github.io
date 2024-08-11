@@ -88,6 +88,7 @@
             height: 100%;
             
         }
+        
         /* Mostrar la lista de videos cuando se selecciona una categoría */
         .video-list.active {
             display: block;

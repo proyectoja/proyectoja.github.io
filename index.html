@@ -67,27 +67,27 @@
         </div>
         <div class="contenedor-categorias">
             <div class="categorias" id="categorias">
-                <div class="categoria" onclick="showCategory('inicio')">
+                <div class="categoria" data-category="inicio" onclick="showCategory('inicio')">
                     <img src="https://i.imgur.com/amwPYN9.png"></img>
                     <span>Inicio</span>
                 </div>
-                <div class="categoria" onclick="showCategory('himnario')">
+                <div class="categoria" data-category="himnario" onclick="showCategory('himnario')">
                     <img src="https://i.imgur.com/tTmFXC9.png"></img>
                     <span>Himnario Adventista</span>
                 </div>
-                <div class="categoria" onclick="showCategory('peliculas')">
+                <div class="categoria" data-category="peliculas" onclick="showCategory('peliculas')">
                     <img src="https://i.imgur.com/AUZtzmH.png"></img>
                     <span>Películas Adventistas</span>
                 </div>
-                <div class="categoria" onclick="showCategory('radios')">
+                <div class="categoria" data-category="radios" onclick="showCategory('radios')">
                     <img src="https://i.imgur.com/8P171oD.png"></img>
                     <span>Radios Adventistas</span>
                 </div>
-                <div class="categoria" onclick="showCategory('television')">
+                <div class="categoria" data-category="television" onclick="showCategory('television')">
                     <img src="https://i.imgur.com/fc0Lhdu.png"></img>
                     <span>Televisión Adventista</span>
                 </div>
-                <div class="categoria" onclick="showCategory('herramientas')">
+                <div class="categoria" data-category="herramientas" onclick="showCategory('herramientas')">
                     <img src="https://i.imgur.com/qjWahA3.png"></img>
                     <span>Herramientas</span>
                 </div>
@@ -98,7 +98,7 @@
 
 
         <!-- BIENVENIDA E INICIO-->
-        <div class="video-list active" id="inicio">
+        <div class="video-list active" id="inicio" data-categoria="inicio">
             <div class="welcome-container">
                 <div class="content">
                     <h1>Bienvenido a PROYECTO JA</h1>
@@ -127,7 +127,7 @@
 
 
         <!-- HERRAMIENTAS-->
-        <div class="video-list" id="herramientas">
+        <div class="video-list" id="herramientas" data-categoria="herramientas">
             <div class="contenedor-publicaciones">
                 <div class="contenedor-imagen-texto">
                     <h1 class="texto-imagen-texto">Convertidor de Imagen a Texto IA.</h1>
@@ -166,7 +166,7 @@
 
 
         <!-- LISTA DE HIMNOS ADVENTISTAS-->
-        <div class="video-list" id="himnario">
+        <div class="video-list" id="himnario" data-categoria="himnario">
             <!-- Video -->
             <div class="vid" id="botonMostrar" onclick="" data-categoria="">
                 <h3 class="hd-2"></h3>
@@ -5057,7 +5057,7 @@
 
 
 
-        <div class="video-list" id="peliculas">
+        <div class="video-list" id="peliculas" data-categoria="peliculas">
             <!-- Video -->
             <div class="vid"  id="botonMostrar" onclick="" data-categoria="">
                 <h3 class="hd-1"></h3>
@@ -6223,7 +6223,7 @@
 
 
         <!-- LISTA DE CANALES DE TELEVISIÓN ADVENTISTA-->
-        <div class="video-list" id="television">
+        <div class="video-list" id="television" data-categoria="television">
             <!-- Video -->
             <div class="vid" id="botonMostrar" onclick="" data-categoria="">
                 <h3 class="hd-tv"></h3>
@@ -6806,7 +6806,7 @@
 
 
         <!-- Contenido de tu lista de radio fm -->
-        <div class="video-list" id="radios">
+        <div class="video-list" id="radios" data-categoria="radios">
             <!-- Radio -->
             <div class="vid" id="botonMostrar" onclick="" data-categoria="">
                 <h3 class="hd-fm"></h3>
@@ -7936,6 +7936,8 @@
             function searchMovies() {
                 const searchInput = document.getElementById('search-input').value.toLowerCase();
                 const movieContainers = document.querySelectorAll('.vid');
+                const movieLists = document.querySelectorAll('.video-list');
+                movieLists.forEach(list => list.style.display = 'none');
 
                 movieContainers.forEach(function (container) {
                     const title = container.querySelector('.title').textContent.toLowerCase();
