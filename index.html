@@ -7936,8 +7936,6 @@
             function searchMovies() {
                 const searchInput = document.getElementById('search-input').value.toLowerCase();
                 const movieContainers = document.querySelectorAll('.vid');
-                const movieLists = document.querySelectorAll('.video-list');
-                movieLists.forEach(list => list.style.display = 'none');
 
                 movieContainers.forEach(function (container) {
                     const title = container.querySelector('.title').textContent.toLowerCase();
