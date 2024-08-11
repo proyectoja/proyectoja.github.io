@@ -7936,6 +7936,7 @@
             function searchMovies() {
                 const searchInput = document.getElementById('search-input').value.toLowerCase();
                 const movieContainers = document.querySelectorAll('.vid');
+                const listAux = document.querySelectorAll('.video-list');
 
                 movieContainers.forEach(function (container) {
                     const title = container.querySelector('.title').textContent.toLowerCase();
@@ -7943,6 +7944,7 @@
                         container.style.display = 'block'; // Si el campo de búsqueda está vacío, mostrar todas las películas
                     } else if (title.includes(searchInput)) {
                         container.style.display = 'block'; // Mostrar la película si coincide con la búsqueda
+                        container.style.display = 'flex';
                     } else {
                         container.style.display = 'none'; // Ocultar la película si no coincide con la búsqueda
                     }
