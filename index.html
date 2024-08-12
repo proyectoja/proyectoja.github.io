@@ -7150,9 +7150,16 @@
                 const infoElem = document.createElement('div');
                 infoElem.className = 'info-publicacion';
 
+                const fusionPubCheckElem = document.createElement('div');
+                fusionPubCheckElem.className = 'fusionPubCheckElem';
+
                 const publicadorElem = document.createElement('div');
                 publicadorElem.className = 'publicador';
                 publicadorElem.textContent = pub.publicador || 'Anónimo';
+
+                const checkElem = document.createElement('img');
+                checkElem.className = 'check';
+                checkElem.src = pub.check || 'default-check.png';
 
                 const fechaHoraElem = document.createElement('div');
                 fechaHoraElem.className = 'fecha-hora';
@@ -7232,7 +7239,9 @@
                 botonesAccionElem.appendChild(copiarBtn);
                 botonesAccionElem.appendChild(copiarTxt);
 
-                infoElem.appendChild(publicadorElem);
+                fusionPubCheckElem.appendChild(publicadorElem);
+                fusionPubCheckElem.appendChild(checkElem);
+                infoElem.appendChild(fusionPubCheckElem);
                 infoElem.appendChild(fechaHoraElem);
                 cabeceraElem.appendChild(perfilElem);
                 cabeceraElem.appendChild(infoElem);
