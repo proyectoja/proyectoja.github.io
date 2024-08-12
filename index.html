@@ -6990,6 +6990,30 @@
 
 <!-- MANEJADOR AUTOMÁTICO DE ANUNCIOS PUBLICITARIOS-->
 <script>
+    let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
+    const limite = 10; // Número de veces que los anuncios se mostrarán antes de la pausa
+    const pausa = 5 * 60 * 1000; // 5 minutos en milisegundos
+
+    // Función para actualizar los anuncios
+    function actualizarAnuncios() {
+        if (contador < limite) {
+            // Actualizar los tres anuncios
+            actualizarAnuncio1();
+            setTimeout(actualizarAnuncio2, 500);
+            setTimeout(actualizarAnuncio3, 1000);
+            contador++;
+        } else {
+            // Pausa de 5 minutos
+            console.log('Pausa de 5 minutos...');
+            setTimeout(() => {
+                contador = 0; // Reiniciar el contador después de la pausa
+                console.log('Reiniciando presentación de anuncios...');
+                actualizarAnuncios(); // Volver a mostrar los anuncios después de la pausa
+            }, pausa);
+        }
+    }
+
+    // Funciones para actualizar cada uno de los anuncios
     function actualizarAnuncio1() {
         const anuncioContainer = document.getElementById('anuncio-container1');
         anuncioContainer.innerHTML = '';
@@ -7014,11 +7038,11 @@
         const scriptElem = document.createElement('script');
         scriptElem.type = 'text/javascript';
         window.atOptions = {
-            'key' : '5087bca611db89252f1fe5a993e26a54',
-            'format' : 'iframe',
-            'height' : 90,
-            'width' : 728,
-            'params' : {}
+            'key': '5087bca611db89252f1fe5a993e26a54',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
         };
         scriptElem.src = '//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js';
         anuncioContainer.appendChild(scriptElem);
@@ -7031,28 +7055,20 @@
         const scriptElem = document.createElement('script');
         scriptElem.type = 'text/javascript';
         window.atOptions = {
-            'key' : '1d1ae1152780bd736b475f226c17a8a6',
-            'format' : 'iframe',
-            'height' : 600,
-            'width' : 160,
-            'params' : {}
+            'key': '1d1ae1152780bd736b475f226c17a8a6',
+            'format': 'iframe',
+            'height': 600,
+            'width': 160,
+            'params': {}
         };
         scriptElem.src = '//www.topcreativeformat.com/1d1ae1152780bd736b475f226c17a8a6/invoke.js';
         anuncioContainer.appendChild(scriptElem);
     }
 
-    // Llamar a las funciones para cargar los anuncios con un retardo
-    actualizarAnuncio1();
-    setTimeout(actualizarAnuncio2, 500); // 0.5 segundos de retardo
-    setTimeout(actualizarAnuncio3, 1000); // 1 segundo de retardo
-
-    // Llama a las funciones cada 20 segundos para actualizar los anuncios
-    setInterval(() => {
-        actualizarAnuncio1();
-        setTimeout(actualizarAnuncio2, 500);
-        setTimeout(actualizarAnuncio3, 1000);
-    }, 30000);
+    // Llamar a actualizarAnuncios cada 20 segundos
+    setInterval(actualizarAnuncios, 20000);
 </script>
+
 
 
 
