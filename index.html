@@ -53,17 +53,9 @@
 
 
     <div class="container">
-        <div class="container-adsterra" id="anuncio-container">
-            <script type="text/javascript">
-                atOptions = {
-                    'key': '5f392f22d133fff7ad6704df675beeb2',
-                    'format': 'iframe',
-                    'height': 60,
-                    'width': 468,
-                    'params': {}
-                };
-                document.write('<scr' + 'ipt type="text/javascript" src="//www.profitablecreativeformat.com/5f392f22d133fff7ad6704df675beeb2/invoke.js"></scr' + 'ipt>');
-            </script>
+         <!-- Contenedor del primer anuncio -->
+        <div class="container-adsterra" id="anuncio-container1">
+            <!-- El primer anuncio se cargará aquí -->
         </div>
         <div class="contenedor-categorias">
             <div class="categorias" id="categorias">
@@ -6913,17 +6905,9 @@
                 <!-- Contenedor para el reproductor de Clappr -->
 
                 <div id="jw-player"></div>
-                <div class="container-adsterra-banner" id="adsterra-container">
-                    <script type="text/javascript">
-	atOptions = {
-		'key' : '5087bca611db89252f1fe5a993e26a54',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js"></script>
+                <!-- Contenedor del segundo anuncio -->
+                <div class="container-adsterra-banner" id="anuncio-container2">
+                    <!-- El segundo anuncio se cargará aquí -->
                 </div>
                 <!-- Aquí puedes agregar información adicional sobre el video -->
                 <h3 class="popup-title">Título del video</h3>
@@ -6950,17 +6934,9 @@
                 </div>
                 <button id="close-popup-fm" onclick="closePopupFm();">Cerrar</button>
             </div>
+            <!-- Contenedor del tercer anuncio -->
             <div id="anuncio-container3">
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '1d1ae1152780bd736b475f226c17a8a6',
-                        'format' : 'iframe',
-                        'height' : 600,
-                        'width' : 160,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.topcreativeformat.com/1d1ae1152780bd736b475f226c17a8a6/invoke.js"></script>
+                <!-- El tercer anuncio se cargará aquí -->
             </div>
         </div>
 
@@ -7014,9 +6990,9 @@
 
 <!-- MANEJADOR AUTOMÁTICO DE ANUNCIOS PUBLICITARIOS-->
 <script>
-    // Función para actualizar el anuncio
-    function actualizarAnuncio() {
-        const anuncioContainer = document.getElementById('anuncio-container');
+    // Función para actualizar el primer anuncio
+    function actualizarAnuncio1() {
+        const anuncioContainer = document.getElementById('anuncio-container1');
         
         // Borra el contenido actual del contenedor
         anuncioContainer.innerHTML = '';
@@ -7041,23 +7017,17 @@
         anuncioContainer.appendChild(scriptElem);
     }
 
-    // Llama a la función cada 20 segundos
-    setInterval(actualizarAnuncio, 20000);
-
-    // Llama a la función una vez al cargar la página
-    actualizarAnuncio();
-
-    // Función para actualizar el anuncio
+    // Función para actualizar el segundo anuncio
     function actualizarAnuncio2() {
-        const anuncioContainer = document.getElementById('adsterra-container');
-            
+        const anuncioContainer = document.getElementById('anuncio-container2');
+        
         // Borra el contenido actual del contenedor
         anuncioContainer.innerHTML = '';
 
         // Crea un nuevo elemento script
         const scriptElem = document.createElement('script');
         scriptElem.type = 'text/javascript';
-            
+        
         // Configura los parámetros de atOptions
         window.atOptions = {
             'key' : '5087bca611db89252f1fe5a993e26a54',
@@ -7066,7 +7036,7 @@
             'width' : 728,
             'params' : {}
         };
-            
+        
         // Asigna el src del script
         scriptElem.src = '//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js';
 
@@ -7074,23 +7044,17 @@
         anuncioContainer.appendChild(scriptElem);
     }
 
-    // Llama a la función cada 20 segundos
-    setInterval(actualizarAnuncio2, 20000);
-
-    // Llama a la función una vez al cargar la página
-    actualizarAnuncio2();
-
-    // Función para actualizar el anuncio
+    // Función para actualizar el tercer anuncio
     function actualizarAnuncio3() {
         const anuncioContainer = document.getElementById('anuncio-container3');
-            
+        
         // Borra el contenido actual del contenedor
         anuncioContainer.innerHTML = '';
 
         // Crea un nuevo elemento script
         const scriptElem = document.createElement('script');
         scriptElem.type = 'text/javascript';
-            
+        
         // Configura los parámetros de atOptions
         window.atOptions = {
             'key' : '1d1ae1152780bd736b475f226c17a8a6',
@@ -7099,7 +7063,7 @@
             'width' : 160,
             'params' : {}
         };
-            
+        
         // Asigna el src del script
         scriptElem.src = '//www.topcreativeformat.com/1d1ae1152780bd736b475f226c17a8a6/invoke.js';
 
@@ -7107,13 +7071,16 @@
         anuncioContainer.appendChild(scriptElem);
     }
 
-    // Llama a la función cada 20 segundos
-    setInterval(actualizarAnuncio3, 20000);
-
-    // Llama a la función una vez al cargar la página
+    // Llama a las funciones para cargar los anuncios al iniciar
+    actualizarAnuncio1();
+    actualizarAnuncio2();
     actualizarAnuncio3();
 
-        
+    // Llama a las funciones cada 20 segundos para actualizar los anuncios
+    setInterval(actualizarAnuncio1, 20000);
+    setInterval(actualizarAnuncio2, 20000);
+    setInterval(actualizarAnuncio3, 20000);
+
 </script>
 
 
