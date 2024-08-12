@@ -6993,93 +6993,69 @@
     // Función para actualizar el primer anuncio
     function actualizarAnuncio1() {
         const anuncioContainer = document.getElementById('anuncio-container1');
-        
-        // Borra el contenido actual del contenedor
-        anuncioContainer.innerHTML = '';
+        anuncioContainer.innerHTML = ''; // Limpiar el contenedor
 
-        // Crea un nuevo elemento script
         const scriptElem = document.createElement('script');
         scriptElem.type = 'text/javascript';
-        
-        // Configura los parámetros de atOptions dentro de un ámbito local
-        (function() {
-            const atOptions = {
-                'key': '5f392f22d133fff7ad6704df675beeb2',
-                'format': 'iframe',
-                'height': 60,
-                'width': 468,
-                'params': {}
-            };
-            // Asigna el src del script
-            scriptElem.src = '//www.profitablecreativeformat.com/5f392f22d133fff7ad6704df675beeb2/invoke.js';
-        })();
 
-        // Agrega el nuevo script al contenedor del anuncio
+        const atOptions = {
+            'key': '5f392f22d133fff7ad6704df675beeb2',
+            'format': 'iframe',
+            'height': 60,
+            'width': 468,
+            'params': {}
+        };
+
+        scriptElem.src = '//www.profitablecreativeformat.com/5f392f22d133fff7ad6704df675beeb2/invoke.js';
         anuncioContainer.appendChild(scriptElem);
     }
 
     // Función para actualizar el segundo anuncio
     function actualizarAnuncio2() {
         const anuncioContainer = document.getElementById('anuncio-container2');
-        
-        // Borra el contenido actual del contenedor
-        anuncioContainer.innerHTML = '';
+        anuncioContainer.innerHTML = ''; // Limpiar el contenedor
 
-        // Crea un nuevo elemento script
         const scriptElem = document.createElement('script');
         scriptElem.type = 'text/javascript';
-        
-        // Configura los parámetros de atOptions dentro de un ámbito local
-        (function() {
-            const atOptions = {
-                'key' : '5087bca611db89252f1fe5a993e26a54',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-            };
-            // Asigna el src del script
-            scriptElem.src = '//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js';
-        })();
 
-        // Agrega el nuevo script al contenedor del anuncio
+        const atOptions = {
+            'key' : '5087bca611db89252f1fe5a993e26a54',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+        };
+
+        scriptElem.src = '//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js';
         anuncioContainer.appendChild(scriptElem);
     }
 
     // Función para actualizar el tercer anuncio
     function actualizarAnuncio3() {
         const anuncioContainer = document.getElementById('anuncio-container3');
-        
-        // Borra el contenido actual del contenedor
-        anuncioContainer.innerHTML = '';
+        anuncioContainer.innerHTML = ''; // Limpiar el contenedor
 
-        // Crea un nuevo elemento script
         const scriptElem = document.createElement('script');
         scriptElem.type = 'text/javascript';
-        
-        // Configura los parámetros de atOptions dentro de un ámbito local
-        (function() {
-            const atOptions = {
-                'key' : '1d1ae1152780bd736b475f226c17a8a6',
-                'format' : 'iframe',
-                'height' : 600,
-                'width' : 160,
-                'params' : {}
-            };
-            // Asigna el src del script
-            scriptElem.src = '//www.topcreativeformat.com/1d1ae1152780bd736b475f226c17a8a6/invoke.js';
-        })();
 
-        // Agrega el nuevo script al contenedor del anuncio
+        const atOptions = {
+            'key' : '1d1ae1152780bd736b475f226c17a8a6',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+        };
+
+        scriptElem.src = '//www.topcreativeformat.com/1d1ae1152780bd736b475f226c17a8a6/invoke.js';
         anuncioContainer.appendChild(scriptElem);
     }
 
-    // Llama a las funciones para cargar los anuncios al iniciar
+    // Llamar a las funciones para cargar los anuncios al iniciar
     actualizarAnuncio1();
     actualizarAnuncio2();
     actualizarAnuncio3();
 
-    // Llama a las funciones cada 20 segundos para actualizar los anuncios
+    // Llamar a las funciones cada 20 segundos para actualizar los anuncios
     setInterval(actualizarAnuncio1, 20000);
     setInterval(actualizarAnuncio2, 20000);
     setInterval(actualizarAnuncio3, 20000);
