@@ -6996,6 +6996,48 @@
 
 
 
+<!--SCRIPT PARA ENTRAR O SALIR DE PANTALLA COMPLETA-->
+<script>
+    // Función para activar el modo de pantalla completa
+    function activarPantallaCompleta() {
+        const docElement = document.documentElement;
+
+        if (docElement.requestFullscreen) {
+            docElement.requestFullscreen();
+        } else if (docElement.mozRequestFullScreen) { // Firefox
+            docElement.mozRequestFullScreen();
+        } else if (docElement.webkitRequestFullscreen) { // Chrome, Safari y Opera
+            docElement.webkitRequestFullscreen();
+        } else if (docElement.msRequestFullscreen) { // IE/Edge
+            docElement.msRequestFullscreen();
+        }
+    }
+
+    // Añadir evento al botón para activar pantalla completa
+    document.getElementById('btnFullscreen').addEventListener('click', activarPantallaCompleta);
+
+
+    function salirPantallaCompleta() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari y Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    }
+
+    // Añadir un segundo botón para salir de pantalla completa
+    document.getElementById('btnSalirFullscreen').addEventListener('click', salirPantallaCompleta);
+
+</script>
+
+
+
+
+
 <!-- MANEJADOR AUTOMÁTICO DE ANUNCIOS PUBLICITARIOS-->
 <script>
     let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
