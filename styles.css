@@ -496,13 +496,12 @@
             border-bottom: 5px solid rgba(255, 255, 255, 0.8);
         }
 
-        .btnFullscreen {
+        .btnFullscreen img {
             width: 60px;
             height: 60px;
-            margin-left: 10px;
         }
 
-        .btnSalirFullscreen {
+        .btnSalirFullscreen img{
             width: 60px;
             height: 60px;
         }
