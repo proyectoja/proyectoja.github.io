@@ -7043,6 +7043,7 @@
     let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
     const limite = 10; // Número de veces que los anuncios se mostrarán antes de la pausa
     const pausa = 5 * 60 * 1000; // 5 minutos en milisegundos
+    let intervaloID; // Variable para almacenar el ID del intervalo
 
     // Función para actualizar los anuncios
     function actualizarAnuncios() {
@@ -7115,8 +7116,43 @@
         anuncioContainer.appendChild(scriptElem);
     }
 
-    // Llamar a actualizarAnuncios cada 20 segundos
-    setInterval(actualizarAnuncios, 20000);
+    // Función para iniciar la actualización de anuncios
+    function iniciarActualizacion() {
+        if (!intervaloID) {
+            console.log('Iniciando actualización de anuncios...');
+            intervaloID = setInterval(actualizarAnuncios, 20000);
+        }
+    }
+
+    // Función para detener la actualización de anuncios
+    function detenerActualizacion() {
+        if (intervaloID) {
+            clearInterval(intervaloID);
+            intervaloID = null;
+            console.log('Actualización de anuncios detenida.');
+        }
+    }
+
+    // Detectar cuando la pestaña está visible o el mouse está en la pestaña
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            iniciarActualizacion();
+        } else {
+            detenerActualizacion();
+        }
+    });
+
+    window.addEventListener('mousemove', () => {
+        if (document.visibilityState === 'visible') {
+            iniciarActualizacion();
+        }
+    });
+
+    // Inicia la actualización si la página está visible al cargar
+    if (document.visibilityState === 'visible') {
+        iniciarActualizacion();
+    }
+
 </script>
 
 
