@@ -508,6 +508,11 @@
             object-fit: cover; 
             background-color: #0066ff;
             border: none;
+            border-radius: 50%;
+        }
+
+        .btnsFullscreen button {
+            border-radius: 50%;
         }
         #btnFullscreen {
             border-radius: 50%;
