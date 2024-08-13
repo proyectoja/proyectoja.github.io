@@ -496,6 +496,11 @@
             border-bottom: 5px solid rgba(255, 255, 255, 0.8);
         }
 
+        .btnsFullscreen {
+            width: 10px;
+            height: 10px;
+        }
+
         .btnFullscreen img {
             width: 10px;
             height: 10px;
