@@ -507,6 +507,7 @@
             height: 30px;
             object-fit: cover; 
             border-radius: 50%;
+            background-color: transparent;
         }
 
         .menu-toggle {
