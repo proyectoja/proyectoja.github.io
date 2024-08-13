@@ -497,18 +497,15 @@
         }
 
         .btnsFullscreen {
-            width: 10px;
-            height: 10px;
+            display: flex;
+            gap: 10px; 
         }
-
-        .btnFullscreen img {
-            width: 10px;
-            height: 10px;
-        }
-
-        .btnSalirFullscreen img{
-            width: 10px;
-            height: 10px;
+    
+        
+        .btnsFullscreen button img {
+            width: 30px;  
+            height: 30px;
+            object-fit: cover; 
         }
 
         .menu-toggle {
