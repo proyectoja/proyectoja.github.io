@@ -509,6 +509,9 @@
             border-radius: 50%;
             background-color: transparent;
         }
+        #btnFullscreen {
+            border-radius: 50%;
+        }
 
         .menu-toggle {
             cursor: pointer;
