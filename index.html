@@ -19,6 +19,8 @@
     <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.1/dist/locomotive-scroll.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.1/dist/locomotive-scroll.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -29,7 +31,7 @@
     </video>-->
 
     <!-- Categorías -->
-    <div class="contenedor-principal-superior">
+    <div class="contenedor-principal-superior" >
         <div class="menu-toggle" onclick="toggleMenu()">
             <img src="https://i.imgur.com/b9gdPuL.png"></img>
             <span></span>
@@ -8254,6 +8256,13 @@
         </script>
 
 
+        <script>
+            //SCROLL DESPLAZAMIENTO SUAVE PARA COMPONENTE
+            const LocoScroll = new LocomotiveScroll({
+                el: document.querySelector("[data-scroll-container]"),
+                smooth: true
+            });
+        </script>
 
         <!---------------------------------------------------------------------->
         <!---------------------------------------------------------------------->
