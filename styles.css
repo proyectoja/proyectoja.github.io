@@ -779,12 +779,12 @@ html {
 .container-adsterra {
   position: fixed;
   background-color: #003366;
-  bottom: -10px;
-  left: -80px;
+  bottom: 0px;
+  right: 0px;
   border: 2px solid rgb(255, 255, 255, 0.5);
   box-shadow: 0 0 50px #0066ff;
   border-radius: 5px;
-  transform: scale(0.5);
+  transform: scale(0.7);
   z-index: 1;
   width: 468px;
   height: 60px;
