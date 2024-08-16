@@ -8411,6 +8411,16 @@
                     }
 
                 });
+
+                // Cambiar el tamaño del logo usando CSS
+                jwplayer().on('ready', function() {
+                // Esperar a que el logo se cargue
+                const logoElement = document.querySelector('.jw-logo');
+                if (logoElement) {
+                    logoElement.style.width = '150px'; 
+                    logoElement.style.height = 'auto'; 
+                }
+});
             }
 
             // Función para cerrar la ventana emergente
