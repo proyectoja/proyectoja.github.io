@@ -8445,22 +8445,26 @@
 
             // Función para buscar películas
             function searchMovies() {
-                const searchInput = document.getElementById('search-input').value.toLowerCase();
-                const movieContainers = document.querySelectorAll('.vid');
-                const listAux = document.querySelectorAll('.video-list');
+    const searchInput = document.getElementById('search-input').value.toLowerCase();
+    const movieContainers = document.querySelectorAll('.vid');
+    const videoList = document.querySelector('.video-list');
 
-                movieContainers.forEach(function (container) {
-                    const title = container.querySelector('.title').textContent.toLowerCase();
-                    if (searchInput === '') {
-                        container.style.display = 'block'; // Si el campo de búsqueda está vacío, mostrar todas las películas
-                    } else if (title.includes(searchInput)) {
-                        container.style.display = 'block'; // Mostrar la película si coincide con la búsqueda
-                        container.style.display = 'flex';
-                    } else {
-                        container.style.display = 'none'; // Ocultar la película si no coincide con la búsqueda
-                    }
-                });
-            }
+    // Reset video list container to ensure it behaves like a row
+    videoList.style.flexDirection = 'row';
+    videoList.style.overflowX = 'auto'; // Allow horizontal scrolling
+
+    movieContainers.forEach(function (container) {
+        const title = container.querySelector('.title').textContent.toLowerCase();
+        if (searchInput === '') {
+            container.style.display = 'block'; // Show all movies if search input is empty
+        } else if (title.includes(searchInput)) {
+            container.style.display = 'block'; // Show the movie if it matches the search
+        } else {
+            container.style.display = 'none'; // Hide the movie if it doesn't match the search
+        }
+    });
+}
+
 
             //Función para las categorías
             function showCategory(category) {
