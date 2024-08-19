@@ -777,7 +777,6 @@ html {
 }
 
 .search-results {
-  background-color: transparent;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
@@ -787,7 +786,7 @@ html {
   max-height: 600px;
   white-space: nowrap;
   margin-top: 20px;
-  background: #f4f4f4;
+  background:transparent;
   padding: 10px;
   border: 1px solid #ddd;
 }
