@@ -776,6 +776,22 @@ html {
   display: none;
 }
 
+.search-results {
+  background-color: transparent;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 600px;
+  white-space: nowrap;
+  margin-top: 20px;
+  background: #f4f4f4;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
 .container-adsterra {
   position: fixed;
   background-color: #003366;

@@ -142,7 +142,7 @@
 
 
 
-
+        <div id="search-results-container"></div>
 
 
 
@@ -8445,26 +8445,32 @@
 
             // Función para buscar películas
             function searchMovies() {
-    const searchInput = document.getElementById('search-input').value.toLowerCase();
-    const movieContainers = document.querySelectorAll('.vid');
-    const videoList = document.querySelector('.video-list');
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const movieContainers = document.querySelectorAll('.vid');
+            const searchResultsContainer = document.getElementById('search-results-container');
 
-    // Reset video list container to ensure it behaves like a row
-    videoList.style.flexDirection = 'row';
-    videoList.style.overflowX = 'auto'; // Allow horizontal scrolling
+            // Limpiar los resultados anteriores
+            searchResultsContainer.innerHTML = '';
 
-    movieContainers.forEach(function (container) {
-        const title = container.querySelector('.title').textContent.toLowerCase();
-        if (searchInput === '') {
-            container.style.display = 'block'; // Show all movies if search input is empty
-        } else if (title.includes(searchInput)) {
-            container.style.display = 'block'; // Show the movie if it matches the search
-        } else {
-            container.style.display = 'none'; // Hide the movie if it doesn't match the search
+            if (searchInput !== '') {
+                const searchResults = document.createElement('div');
+                searchResults.classList.add('search-results');
+
+                movieContainers.forEach(function (container) {
+                    const title = container.querySelector('.title').textContent.toLowerCase();
+                    if (title.includes(searchInput)) {
+                        const movieClone = container.cloneNode(true);
+                        searchResults.appendChild(movieClone);
+                    }
+                });
+
+                if (searchResults.children.length > 0) {
+                    searchResultsContainer.appendChild(searchResults);
+                } else {
+                    searchResultsContainer.innerHTML = '<p>No se encontraron resultados.</p>';
+                }
+            }
         }
-    });
-}
-
 
             //Función para las categorías
             function showCategory(category) {
