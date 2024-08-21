@@ -991,6 +991,14 @@ p {
   color: #fff;
 }
 
+.subcontenido {
+  font-size: 18px;
+  font-style: normal;
+  font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
 .perfil {
   width: 60px;
   height: 60px;

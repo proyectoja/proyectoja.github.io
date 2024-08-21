@@ -7665,7 +7665,11 @@
 
                 const contenidoElem = document.createElement('div');
                 contenidoElem.className = 'contenido';
-                contenidoElem.textContent = pub.contenido || 'Sin contenido';
+                contenidoElem.textContent = pub.contenido;
+
+                const subContenidoElem = document.createElement('div');
+                subContenidoElem.className = 'subcontenido';
+                subContenidoElem.textContent = pub.subcontenido;
 
                 const redesSocialesElem = document.createElement('div');
                 redesSocialesElem.className = 'redes-sociales';
@@ -7747,6 +7751,7 @@
                 }
                 publicacionElem.appendChild(tituloElem);
                 publicacionElem.appendChild(contenidoElem);
+                publicacionElem.appendChild(subContenidoElem);
                 publicacionElem.appendChild(redesSocialesElem);
                 publicacionElem.appendChild(botonesAccionElem);
 
