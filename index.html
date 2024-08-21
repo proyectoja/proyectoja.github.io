@@ -7765,9 +7765,10 @@
     function copiarTexto(elemento) {
         const titulo = elemento.querySelector('.titulo').textContent;
         const contenido = elemento.querySelector('.contenido').textContent;
+        const subcontenido = elemento.querySelector('.subcontenido').textContent;
         const publicador = elemento.querySelector('.publicador').textContent;
 
-        const texto = `_${contenido}_\n*${titulo} | ${publicador}*`;
+        const texto = `*${titulo} | ${publicador}*\n\n_${contenido}_\n\n\`\`\`${subcontenido}\`\`\``;
 
         navigator.clipboard.writeText(texto).then(() => {
             alert('Texto copiado al portapapeles');
