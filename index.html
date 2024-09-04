@@ -129,7 +129,27 @@
             </div>
             <div class="contenedor-publicaciones" id="contenedor-publicaciones">
                 <!-- Las publicaciones se agregarán aquí automáticamente -->
+                
             </div>
+            <div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-proyectoja-github-io-proyectoja.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
             <!-- BEGIN: Powered by Supercounters.com -->
             <center>
                 <script type="text/javascript" src="//widget.supercounters.com/ssl/flag.js"></script>
@@ -7680,7 +7700,7 @@
             const publicaciones = await response.json();
             const contenedor = document.getElementById('contenedor-publicaciones');
 
-            const publicacionesLimitadas = publicaciones.slice(0, 50);
+            const publicacionesLimitadas = publicaciones.slice(0, 10);
             publicacionesLimitadas.forEach((pub, index) => {
                 const publicacionElem = document.createElement('div');
                 publicacionElem.className = 'publicacion';
