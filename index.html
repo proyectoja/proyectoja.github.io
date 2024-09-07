@@ -8243,7 +8243,7 @@
         const subcontenido = elemento.querySelector('.subcontenido').textContent;
         const publicador = elemento.querySelector('.publicador').textContent;
 
-        const texto = `*${titulo} | ${publicador}*\n\n_${contenido}_\n\n\`\`\`${subcontenido}\`\`\``;
+        const texto = `*${titulo} | ${publicador}*\n\n_${contenido}_\n\n\`\`\`${subcontenido}\`\`\`\n\n\`${"https://proyectoja.github.io/proyectoja/"}\``;
 
         navigator.clipboard.writeText(texto).then(() => {
             alert('Texto copiado al portapapeles');
