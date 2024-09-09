@@ -1,4 +1,46 @@
-[   {
+[   
+    {
+        "titulo": "Propósito Divino",
+        "contenido": "Dios te creó con un propósito específico, y no estás aquí por casualidad. Cada paso que das en tu vida tiene un sentido dentro de Su plan. No importa lo difícil que sea el camino, recuerda que tienes una misión única y especial. Nunca olvides que estás en las manos de Dios, quien guía tu destino con amor y sabiduría.",
+        "subcontenido": "",
+        "imagen": "https://i.imgur.com/9A4XpVF.png",
+        "perfil": "https://i.imgur.com/65vS9gh.png",
+        "check": "https://i.imgur.com/HrJfl1s.png",
+        "publicador": "PROYECTO JA",
+        "fecha": "2024-09-09",
+        "hora": "09:09 AM",
+        "redes_sociales": {
+            "whatsapp": "https://whatsapp.com/channel/0029VaDMfYK5fM5bmqhsxk0h",
+            "facebook": "https://www.facebook.com/profile.php?id=61563461855863",
+            "youtube": "https://www.youtube.com/channel/UCYInXv1XOHQVDKdqjJYUdBA?sub_confirmation=1",
+            "tiktok": "",
+            "instagram": ""
+        }
+    },
+    {
+        "titulo": "Vence tus temores",
+        "contenido": "La única manera de vencer los miedos es enfrentarlos. Mientras corras de ellos, siempre te perseguirán y jamás sabrás lo que es contemplar el nacimiento del sol rompiendo el reino de la noche.",
+        "subcontenido": "",
+        "imagen": "",
+        "perfil": "https://i.imgur.com/3ZJP3Wr.png",
+        "check": "https://i.imgur.com/HrJfl1s.png",
+        "publicador": "Alejandro Bullón",
+        "fecha": "PROYECTO JA | 2024-09-09",
+        "hora": "09:09 AM",
+        "redes_sociales": {
+            "whatsapp": "https://whatsapp.com/channel/0029VaDMfYK5fM5bmqhsxk0h",
+            "facebook": "https://www.facebook.com/ministeriobullon",
+            "youtube": "https://www.youtube.com/@MinisterioBullon",
+            "tiktok": "",
+            "instagram": "https://www.instagram.com/alejandrobullon?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+        }
+    },
+    
+    
+
+
+
+    {
         "titulo": "Amado por Dios",
         "contenido": "No importa lo que enfrentes hoy, recuerda que eres completamente amado por Dios. Su amor es incondicional, eterno y no depende de tus circunstancias. Él te conoce por completo y aun así te acepta tal como eres. Camina confiado, sabiendo que el amor de Dios es tu fuerza y tu seguridad.",
         "subcontenido": "",
