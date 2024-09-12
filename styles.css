@@ -1278,3 +1278,48 @@ p {
 #copy-button:hover {
   background-color: #ccc;
 }
+
+.contenedor-categorias-himnos {
+  all: unset;
+  display: flex;
+  border: 5px solid #003399;
+  border-radius: 1rem;
+  overflow-y: hidden;
+  overflow-x: auto;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.vid::-webkit-scrollbar {
+  width: 10px;
+}
+
+.vid::-webkit-scrollbar-track {
+  background: #000000;
+  border-radius: 5px;
+}
+
+.vid::-webkit-scrollbar-thumb {
+  background: #0066ff;
+  border-radius: 5px;
+}
+
+.categoria-himnos {
+  color: #fff;
+  font-size: 22px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #003366;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, padding 0.3s, width 0.3s;
+  border-radius: 30px;
+  width: 100%;
+  text-align: center;
+  text-wrap: nowrap;
+}
+
+.categoria-himnos:hover{
+  background-color: #0066ff;
+}
