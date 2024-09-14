@@ -1329,3 +1329,42 @@ p {
   height: auto;
   align-items: center;
 }
+
+.contenedor-miniaturas-video-generador {
+  width: 100%;
+  height: auto;
+  align-items: center;
+  z-index: -999;
+}
+
+.container-canvas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  opacity: 1;
+}
+
+#canvas {
+  border: 5px solid black;
+  display: block;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  background-color: transparent; /* Asegúrate de que el fondo sea transparente */
+}
+
+#thumbnail {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid black;
+}
