@@ -8778,101 +8778,14 @@
 
             var vast = "https://vast.yomeno.xyz/vast?spot_id=726610";
             // Función para abrir la ventana emergente con una URL específica JWPLAYER
-            let videoUrl = "https://hugh.cdn.rumble.cloud/video/s8/2/F/k/H/r/FkHrr.gaa.mp4?u=0&b=0"; 
-        let thumbnailUrl = ''; 
-
-        function generateThumbnails(callback) {
-            const video = document.getElementById('video');
-            const canvas = document.getElementById('canvas');
-            const context = canvas.getContext('2d');
-            const cols = 3;  
-            const rows = 3;  
-            const thumbWidth = canvas.width / cols;
-            const thumbHeight = canvas.height / rows;
-            const totalThumbs = cols * rows;
-            const borderWidth = 5;  
-            let captureCount = 0;
-
-            context.clearRect(0, 0, canvas.width, canvas.height);
-
-            video.currentTime = 0;
-            video.play(); 
-
-            video.addEventListener('seeked', function captureFrame() {
-                if (captureCount >= totalThumbs) {
-                    video.pause();  
-                    video.removeEventListener('seeked', captureFrame);
-
-                    // Añadir un retraso para asegurar que el canvas esté listo
-                    setTimeout(() => {
-                        captureThumbnail(callback);
-                        document.getElementById('container-canvas').remove();
-                        video.remove();
-                    }, 500);
-
-                    return;
-                }
-
-                const row = Math.floor(captureCount / cols);
-                const col = captureCount % cols;
-                const x = col * thumbWidth;
-                const y = row * thumbHeight;
-
-                context.drawImage(video, x, y, thumbWidth, thumbHeight);
-
-                context.lineWidth = borderWidth;
-                context.strokeStyle = 'white';
-                context.strokeRect(x, y, thumbWidth, thumbHeight);
-
-                captureCount++;
-
-                const duration = video.duration;
-                const interval = duration / totalThumbs;
-                video.currentTime += interval;
-            });
-
-            video.addEventListener('error', function(e) {
-                console.error('Error al cargar el video:', e);
-            });
-        }
-
-        function captureThumbnail(callback) {
-            const container = document.getElementById('container-canvas');
-
-            if (typeof html2canvas === 'undefined') {
-                alert("html2canvas no está disponible");
-                return;
-            }
-
-            html2canvas(container, {
-                backgroundColor: null,
-                useCORS: true,
-                scale: 2 
-            }).then(canvas => {
-                canvas.toBlob(blob => {
-                    if (blob) {
-                        thumbnailUrl = URL.createObjectURL(blob);
-                        const img = document.getElementById('thumbnail');
-                        img.src = thumbnailUrl;
-                        img.alt = "Miniatura del video generada";
-                        console.log("URL de la miniatura generada:", thumbnailUrl);
-                        if (callback) callback(thumbnailUrl);
-                    } else {
-                        console.error("Error al crear el blob de la miniatura.");
-                    }
-                }, "image/png");
-            }).catch(err => {
-                console.error("Error en html2canvas:", err);
-            });
-        }
-
-        function openPopupJW(poster, pelicula, title, description, anio) {
-            generateThumbnails(function(thumbnailUrl) {
-                // Actualiza el contenido de la ventana emergente
+            function openPopupJW(poster, pelicula, title, description, anio) {
                 const popup = document.getElementById('video-popup');
+
+                // Actualiza el contenido de la ventana emergente
                 document.querySelector('.popup-title').textContent = title;
                 document.querySelector('.popup-description').textContent = description;
                 document.querySelector('.popup-anio').textContent = anio;
+                // Actualiza más contenido aquí
 
                 // Muestra la ventana emergente
                 popup.style.display = 'flex';
@@ -8886,22 +8799,21 @@
                 videoElement.id = 'new-jw-player';
 
                 videoContainer.appendChild(videoElement);
-
                 // Configura el reproductor de video JW PLAYER
                 jwplayer("new-jw-player").setup({
                     "debug": 1,
                     "file": pelicula,
-                    "image": thumbnailUrl, // Usa la miniatura generada
+                    "image": poster,
                     "title": title,
                     "description": description,
                     "height": "auto",
                     "width": "100%",
                     "playbackRateControls": true,
                     "logo": {
-                        "file": "https://i.imgur.com/PH40Vz0.png",
-                        "link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+                        "file": "https://i.imgur.com/PH40Vz0.png", //watermark image path
+                        "link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US", //link url on watermark image
                         "hide": "false",
-                        "position": "top-right"
+                        "position": "top-right" //position of watermark on player
                     },
                     "preload": "metadata",
                     "repeat": false,
@@ -8916,22 +8828,91 @@
                             }, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
                         ]
                     },
+                    //"tracks": [{ "file": "<?php echo $cc; ?>", "label": "Español", "kind": "captions", "default": "false" },
+                    //{ "file": "<?php echo $cc; ?>", "label": "English", "kind": "captions", "default": "false" }],
+                    //"captions": { "color": '#ffb800', "fontSize": 30, "backgroundOpacity": 0 },
                     "skin": {
                         "controlbar": {
                             "background": "rgba(0,0,0,0.5)",
                             "icons": "#b8b8b8",
                             "iconsActive": "#0066FF",
                             "text": "#FFFFFF"
+                        },
+                        "menus": {
+                            "background": "#003366",
+                            "text": "#b8b8b8",
+                            "textActive": "#FFFFFF"
+                        },
+                        "name": "stormtrooper",
+                        "timeslider": {
+                            "progress": "#0066FF"
+                        },
+                        "tooltips": {
+                            "background": "#0066FF",
+                            "text": "#FFFFFF"
+                        }
+                    },
+                    "stretching": "uniform",
+                    "autostart": false,
+                    "cast": {},
+                    "controls": true,
+                    "defaultBandwidthEstimate": 5000000,
+                    "displaydescription": true,
+                    "displaytitle": true,
+                    "aboutlink": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+                    "abouttext": "PROYECTO JA HOPE CHANNEL",
+
+
+
+                    //"advertising": {
+                        //"client": "vast",
+                        //"adscheduleid": "Az87bY12",
+                        //"schedule": [
+                            //{
+                                //"offset": "pre",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "25%",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "50%",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "75%",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "post",
+                                //"tag": vast
+                            //}
+                        //]
+                    //},
+
+
+
+
+
+                    "horizontalVolumeSlider": true,
+                    "volume": 100,
+                    "nextupoffset": -30,
+                    "related": {
+                        "autoplaytimer": 10,
+                        "oncomplete": "autoplay"
+                    },
+                    "intl": {
+                        "en": {
+                            "related": {
+                                "autoplaymessage": "__title__ se reproducirá en xx segundos.",
+                                "heading": "Más Capítulos"
+                            }
                         }
                     }
+
                 });
-            });
-        }
-        
-        // Abre el popup con los detalles del video
-        document.getElementById('open-popup-button').addEventListener('click', function() {
-            openPopupJW('https://i.imgur.com/PEbHLaA.png', videoUrl, 'Título del Video', 'Descripción del Video', '2024');
-        });
+            }
 
             // Función para abrir la ventana emergente con una URL específica JWPLAYER
             function openPopupJWList(poster, title, description, anio, serieData) {
