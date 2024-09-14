@@ -8869,9 +8869,7 @@
                     video.src = videoUrl; 
                     video.addEventListener('loadeddata', function() {
                         generateThumbnails();
-                    });
-                });
-                const popup = document.getElementById('video-popup');
+                        const popup = document.getElementById('video-popup');
 
                 // Actualiza el contenido de la ventana emergente
                 document.querySelector('.popup-title').textContent = title;
@@ -9004,6 +9002,9 @@
                     }
 
                 });
+                    });
+                });
+                
             }
 
             // Función para abrir la ventana emergente con una URL específica JWPLAYER
