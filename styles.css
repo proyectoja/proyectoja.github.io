@@ -1331,10 +1331,18 @@ p {
 }
 
 .contenedor-miniaturas-video-generador {
-  width: 100%;
-  height: auto;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
   z-index: -999;
+  opacity: 1;
 }
 
 .container-canvas {
