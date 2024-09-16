@@ -7848,16 +7848,22 @@
 
 
         <!-- HERRAMIENTA PARA GENERAR MINIATURAS PARA LOS VIDEOS AUTOMÁTICAMENTE-->
-        <div class="contenedor-miniaturas-video-generador">
-            <video id="video" width="320" height="240" autoplay muted crossorigin="anonymous" style="position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;">
-                Tu navegador no soporta la reproducción de videos.
-            </video>
-            <br>
-            <div class="container-canvas" id="container-canvas">
-                <canvas id="canvas" width="1920" height="1080"></canvas>
-            </div>
-            <br>
-            <img id="thumbnail" alt="Miniatura del video">
+        <video id="video" width="320" height="240" autoplay muted crossorigin="anonymous" style="position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;">
+            Tu navegador no soporta la reproducción de videos.
+        </video>
+        <br>
+    
+        <div class="container-canvas" id="container-canvas">
+            <canvas id="canvas" width="1920" height="1080"></canvas>
+        </div>
+        <br>
+    
+        <div id="player"></div>
+    
+        <!-- Ventana modal de cargando -->
+        <div id="modal-cargando">
+            <div class="loader"></div>
+            <span>Cargando...</span>
         </div>
 
 
@@ -8776,6 +8782,20 @@
 
 
 
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
             var vast = "https://vast.yomeno.xyz/vast?spot_id=726610";
             // Función para abrir la ventana emergente con una URL específica JWPLAYER
             function openPopupJW(poster, pelicula, title, description, anio) {
@@ -9033,7 +9053,7 @@
 
 
 
-            
+
 
             // Función para abrir la ventana emergente con una URL específica JWPLAYER
             function openPopupJWList(poster, title, description, anio, serieData) {
