@@ -7848,22 +7848,16 @@
 
 
         <!-- HERRAMIENTA PARA GENERAR MINIATURAS PARA LOS VIDEOS AUTOMÁTICAMENTE-->
-        <video id="video" width="320" height="240" autoplay muted crossorigin="anonymous" style="position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;">
-            Tu navegador no soporta la reproducción de videos.
-        </video>
-        <br>
-    
-        <div class="container-canvas" id="container-canvas">
-            <canvas id="canvas" width="1920" height="1080"></canvas>
-        </div>
-        <br>
-    
-        <div id="player"></div>
-    
-        <!-- Ventana modal de cargando -->
-        <div id="modal-cargando">
-            <div class="loader"></div>
-            <span>Cargando...</span>
+        <div class="contenedor-miniaturas-video-generador">
+            <video id="video" width="320" height="240" autoplay muted crossorigin="anonymous" style="position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;">
+                Tu navegador no soporta la reproducción de videos.
+            </video>
+            <br>
+            <div class="container-canvas" id="container-canvas">
+                <canvas id="canvas" width="1920" height="1080"></canvas>
+            </div>
+            <br>
+            <img id="thumbnail" alt="Miniatura del video">
         </div>
 
 
@@ -8782,20 +8776,6 @@
 
 
 
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
             var vast = "https://vast.yomeno.xyz/vast?spot_id=726610";
             // Función para abrir la ventana emergente con una URL específica JWPLAYER
             function openPopupJW(poster, pelicula, title, description, anio) {
@@ -8820,240 +8800,119 @@
 
                 videoContainer.appendChild(videoElement);
                 // Configura el reproductor de video JW PLAYER
-                let videoUrl = pelicula; 
-                let thumbnailUrl = ''; 
-
-                function mostrarCargando() {
-                    document.getElementById('modal-cargando').style.display = 'flex'; // Mostrar la ventana de carga
-                }
-
-                function ocultarCargando() {
-                    document.getElementById('modal-cargando').style.display = 'none'; // Ocultar la ventana de carga
-                }
-
-                function generateThumbnails() {
-                    mostrarCargando(); // Mostrar la ventana de carga al iniciar
-
-                    const video = document.getElementById('video');
-                    const canvas = document.getElementById('canvas');
-                    const context = canvas.getContext('2d');
-                    const cols = 3;
-                    const rows = 3;
-                    const thumbWidth = canvas.width / cols;
-                    const thumbHeight = canvas.height / rows;
-                    const totalThumbs = cols * rows;
-                    const borderWidth = 5;
-                    let captureCount = 0;
-
-                    context.clearRect(0, 0, canvas.width, canvas.height);
-
-                    video.currentTime = 0;
-                    video.play();
-
-                    video.addEventListener('seeked', function captureFrame() {
-                        if (captureCount >= totalThumbs) {
-                            video.pause();
-                            video.removeEventListener('seeked', captureFrame);
-
-                            setTimeout(() => {
-                                captureThumbnail();
-                                document.getElementById('container-canvas').remove();
-                                video.remove();
-                            }, 500);
-
-                            return;
+                jwplayer("new-jw-player").setup({
+                    "debug": 1,
+                    "file": pelicula,
+                    "image": poster,
+                    "title": title,
+                    "description": description,
+                    "height": "auto",
+                    "width": "100%",
+                    "playbackRateControls": true,
+                    "logo": {
+                        "file": "https://i.imgur.com/PH40Vz0.png", //watermark image path
+                        "link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US", //link url on watermark image
+                        "hide": "false",
+                        "position": "top-right" //position of watermark on player
+                    },
+                    "preload": "metadata",
+                    "repeat": false,
+                    "sharing": {
+                        "heading": "Compartir Video",
+                        "link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+                        "sites": [
+                            {
+                                "icon": "https://i.imgur.com/7TleNbh.png",
+                                "src": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+                                "label": "Play Store"
+                            }, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
+                        ]
+                    },
+                    //"tracks": [{ "file": "<?php echo $cc; ?>", "label": "Español", "kind": "captions", "default": "false" },
+                    //{ "file": "<?php echo $cc; ?>", "label": "English", "kind": "captions", "default": "false" }],
+                    //"captions": { "color": '#ffb800', "fontSize": 30, "backgroundOpacity": 0 },
+                    "skin": {
+                        "controlbar": {
+                            "background": "rgba(0,0,0,0.5)",
+                            "icons": "#b8b8b8",
+                            "iconsActive": "#0066FF",
+                            "text": "#FFFFFF"
+                        },
+                        "menus": {
+                            "background": "#003366",
+                            "text": "#b8b8b8",
+                            "textActive": "#FFFFFF"
+                        },
+                        "name": "stormtrooper",
+                        "timeslider": {
+                            "progress": "#0066FF"
+                        },
+                        "tooltips": {
+                            "background": "#0066FF",
+                            "text": "#FFFFFF"
                         }
+                    },
+                    "stretching": "uniform",
+                    "autostart": false,
+                    "cast": {},
+                    "controls": true,
+                    "defaultBandwidthEstimate": 5000000,
+                    "displaydescription": true,
+                    "displaytitle": true,
+                    "aboutlink": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+                    "abouttext": "PROYECTO JA HOPE CHANNEL",
 
-                        const row = Math.floor(captureCount / cols);
-                        const col = captureCount % cols;
-                        const x = col * thumbWidth;
-                        const y = row * thumbHeight;
 
-                        context.drawImage(video, x, y, thumbWidth, thumbHeight);
 
-                        context.lineWidth = borderWidth;
-                        context.strokeStyle = 'white';
-                        context.strokeRect(x, y, thumbWidth, thumbHeight);
+                    //"advertising": {
+                        //"client": "vast",
+                        //"adscheduleid": "Az87bY12",
+                        //"schedule": [
+                            //{
+                                //"offset": "pre",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "25%",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "50%",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "75%",
+                                //"tag": vast
+                            //},
+                            //{
+                                //"offset": "post",
+                                //"tag": vast
+                            //}
+                        //]
+                    //},
 
-                        captureCount++;
 
-                        const duration = video.duration;
-                        const interval = duration / totalThumbs;
-                        video.currentTime += interval;
-                    });
 
-                    video.addEventListener('error', function(e) {
-                        console.error('Error al cargar el video:', e);
-                    });
-                }
 
-                function captureThumbnail() {
-                    const container = document.getElementById('container-canvas');
 
-                    if (typeof html2canvas === 'undefined') {
-                        alert("html2canvas no está disponible");
-                        return;
+                    "horizontalVolumeSlider": true,
+                    "volume": 100,
+                    "nextupoffset": -30,
+                    "related": {
+                        "autoplaytimer": 10,
+                        "oncomplete": "autoplay"
+                    },
+                    "intl": {
+                        "en": {
+                            "related": {
+                                "autoplaymessage": "__title__ se reproducirá en xx segundos.",
+                                "heading": "Más Capítulos"
+                            }
+                        }
                     }
 
-                    html2canvas(container, {
-                        backgroundColor: null,
-                        useCORS: true,
-                        scale: 2 
-                    }).then(canvas => {
-                        canvas.toBlob(blob => {
-                            if (blob) {
-                                thumbnailUrl = URL.createObjectURL(blob);
-                                //REPRODUCTOR JW
-                                jwplayer("new-jw-player").setup({
-                                "debug": 1,
-                                "file": videoUrl,
-                                "image": thumbnailUrl,
-                                "title": title,
-                                "description": description,
-                                "height": "auto",
-                                "width": "100%",
-                                "playbackRateControls": true,
-                                "logo": {
-                                    "file": "https://i.imgur.com/PH40Vz0.png", //watermark image path
-                                    "link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US", //link url on watermark image
-                                    "hide": "false",
-                                    "position": "top-right" //position of watermark on player
-                                },
-                                "preload": "metadata",
-                                "repeat": false,
-                                "sharing": {
-                                    "heading": "Compartir Video",
-                                    "link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
-                                    "sites": [
-                                        {
-                                            "icon": "https://i.imgur.com/7TleNbh.png",
-                                            "src": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
-                                            "label": "Play Store"
-                                        }, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
-                                    ]
-                                },
-                                //"tracks": [{ "file": "<?php echo $cc; ?>", "label": "Español", "kind": "captions", "default": "false" },
-                                //{ "file": "<?php echo $cc; ?>", "label": "English", "kind": "captions", "default": "false" }],
-                                //"captions": { "color": '#ffb800', "fontSize": 30, "backgroundOpacity": 0 },
-                                "skin": {
-                                    "controlbar": {
-                                        "background": "rgba(0,0,0,0.5)",
-                                        "icons": "#b8b8b8",
-                                        "iconsActive": "#0066FF",
-                                        "text": "#FFFFFF"
-                                    },
-                                    "menus": {
-                                        "background": "#003366",
-                                        "text": "#b8b8b8",
-                                        "textActive": "#FFFFFF"
-                                    },
-                                    "name": "stormtrooper",
-                                    "timeslider": {
-                                        "progress": "#0066FF"
-                                    },
-                                    "tooltips": {
-                                        "background": "#0066FF",
-                                        "text": "#FFFFFF"
-                                    }
-                                },
-                                "stretching": "uniform",
-                                "autostart": false,
-                                "cast": {},
-                                "controls": true,
-                                "defaultBandwidthEstimate": 5000000,
-                                "displaydescription": true,
-                                "displaytitle": true,
-                                "aboutlink": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
-                                "abouttext": "PROYECTO JA HOPE CHANNEL",
-
-
-
-                                //"advertising": {
-                                    //"client": "vast",
-                                    //"adscheduleid": "Az87bY12",
-                                    //"schedule": [
-                                        //{
-                                            //"offset": "pre",
-                                            //"tag": vast
-                                        //},
-                                        //{
-                                            //"offset": "25%",
-                                            //"tag": vast
-                                        //},
-                                        //{
-                                            //"offset": "50%",
-                                            //"tag": vast
-                                        //},
-                                        //{
-                                            //"offset": "75%",
-                                            //"tag": vast
-                                        //},
-                                        //{
-                                            //"offset": "post",
-                                            //"tag": vast
-                                        //}
-                                    //]
-                                //},
-
-
-
-
-
-                                "horizontalVolumeSlider": true,
-                                "volume": 100,
-                                "nextupoffset": -30,
-                                "related": {
-                                    "autoplaytimer": 10,
-                                    "oncomplete": "autoplay"
-                                },
-                                "intl": {
-                                    "en": {
-                                        "related": {
-                                            "autoplaymessage": "__title__ se reproducirá en xx segundos.",
-                                            "heading": "Más Capítulos"
-                                        }
-                                    }
-                                }
-
-                            });
-                                console.log("URL de la miniatura generada:", thumbnailUrl);
-
-                                ocultarCargando(); // Ocultar la ventana de carga cuando la miniatura esté lista
-                            } else {
-                                console.error("Error al crear el blob de la miniatura.");
-                                ocultarCargando(); // Ocultar la ventana de carga en caso de error
-                            }
-                        }, "image/png");
-                    }).catch(err => {
-                        console.error("Error en html2canvas:", err);
-                        ocultarCargando(); // Ocultar la ventana de carga en caso de error
-                    });
-                }
-
-                document.addEventListener('DOMContentLoaded', function() {
-                    const video = document.getElementById('video');
-                    video.src = videoUrl;
-                    video.addEventListener('loadeddata', function() {
-                        generateThumbnails();
-                    });
                 });
-                
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             // Función para abrir la ventana emergente con una URL específica JWPLAYER
             function openPopupJWList(poster, title, description, anio, serieData) {
