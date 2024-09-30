@@ -16,6 +16,9 @@
 
     <title>EN VIVO 🔴</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>  
     <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
     <style> 
     html, body {
@@ -255,7 +258,7 @@
 
 
     <script>
-        let videoUrl = "https://edge1-us-dallas.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/index.m3u8"; 
+        let videoUrl = "https://proyectoja.github.io/music.mp4"; 
         let poster = "https://i.imgur.com/ayIV94z.jpg";
         var player = new Clappr.Player({
             source: videoUrl,
@@ -264,13 +267,29 @@
             poster: poster,
             autoPlayVisible: "partial",
             exitFullscreenOnEnd: true,
-            disableVideoTagContextMenu: true,
+            //disableVideoTagContextMenu: true,
+            
             hideVolumeBar: false,
             actualLiveTime: true,
+            actualLiveServerTime:  "2024/09/30 00:00:00",
             hideMediaControl: true,
             playbackNotSupportedMessage: 'No se puede reproducir.',
             watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
-            parentId: "#player"
+            parentId: "#player",
+            plugins: [ClapprNerdStats, ClapprStats, ClapprThumbnailsPlugin],      
+            clapprNerdStats: {
+                shortcut: ['command+shift+s', 'ctrl+shift+s'],
+                iconPosition: 'top-right'
+            },
+            scrubThumbnails: {
+                backdropHeight: 64,
+                spotlightHeight: 84,
+                thumbs: [
+                    { time: 0, url: "https://i.imgur.com/GC591rt.png" },
+                    { time: 300, url: "https://i.imgur.com/6DqGzxf.png" },
+                    { time: 600, url: "https://i.imgur.com/HdegF9C.png" }
+                ]
+            }
         });
 
         let liveButton = document.getElementById('live-button');
