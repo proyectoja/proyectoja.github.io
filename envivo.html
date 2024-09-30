@@ -127,8 +127,9 @@
             color: #fff;
             align-content: center;
             justify-content: center;
-            width: 728px;
-            height: 90px;
+            width: 100%;
+            min-width: 728px;
+            height: auto;
             margin: auto;
             margin-top: 7px;
             overflow: hidden;
@@ -149,11 +150,94 @@
           </div>
           <div class="anuncio-container2" id="anuncio-container2"></div>
       </div>
-      
+
       <div class="container-transmision-chat">
       <iframe src="https://xat.com/embed/chat.php#id=220528881&gn=proyectoja" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
       </div>
     </div>
+
+
+    <!-- MANEJADOR AUTOMÁTICO DE ANUNCIOS PUBLICITARIOS-->
+<script>
+    let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
+    const limite = 10; // Número de veces que los anuncios se mostrarán antes de la pausa
+    const pausa = 5 * 60 * 1000; // 5 minutos en milisegundos
+    let intervaloID; // Variable para almacenar el ID del intervalo
+
+    // Función para actualizar los anuncios
+    function actualizarAnuncios() {
+        if (contador < limite) {
+            setTimeout(actualizarAnuncio2, 500);
+            contador++;
+        } else {
+            // Pausa de 5 minutos
+            console.log('Pausa de 5 minutos...');
+            setTimeout(() => {
+                contador = 0; // Reiniciar el contador después de la pausa
+                console.log('Reiniciando presentación de anuncios...');
+                actualizarAnuncios(); // Volver a mostrar los anuncios después de la pausa
+            }, pausa);
+        }
+    }
+
+    // Funciones para actualizar cada uno de los anuncios
+    function actualizarAnuncio2() {
+        const anuncioContainer = document.getElementById('anuncio-container2');
+        anuncioContainer.innerHTML = '';
+
+        const scriptElem = document.createElement('script');
+        scriptElem.type = 'text/javascript';
+        window.atOptions = {
+            'key': '5087bca611db89252f1fe5a993e26a54',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
+        };
+        scriptElem.src = '//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js';
+        anuncioContainer.appendChild(scriptElem);
+    }
+
+    // Función para iniciar la actualización de anuncios
+    function iniciarActualizacion() {
+        if (!intervaloID) {
+            console.log('Iniciando actualización de anuncios...');
+            intervaloID = setInterval(actualizarAnuncios, 20000);
+        }
+    }
+
+    // Función para detener la actualización de anuncios
+    function detenerActualizacion() {
+        if (intervaloID) {
+            clearInterval(intervaloID);
+            intervaloID = null;
+            console.log('Actualización de anuncios detenida.');
+        }
+    }
+
+    // Detectar cuando la pestaña está visible o el mouse está en la pestaña
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            iniciarActualizacion();
+        } else {
+            detenerActualizacion();
+        }
+    });
+
+    window.addEventListener('mousemove', () => {
+        if (document.visibilityState === 'visible') {
+            iniciarActualizacion();
+        }
+    });
+
+    // Inicia la actualización si la página está visible al cargar
+    if (document.visibilityState === 'visible') {
+        iniciarActualizacion();
+    }
+
+</script>
+
+
 
     <script>
         let videoUrl = "https://edge1-us-dallas.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/index.m3u8"; 
@@ -233,124 +317,6 @@
                     viewerCount.innerText = `👁️ 0`;
                 });
         }
-    </script>
-
-
-    <!-- MANEJADOR AUTOMÁTICO DE ANUNCIOS PUBLICITARIOS-->
-    <script>
-    let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
-    const limite = 10; // Número de veces que los anuncios se mostrarán antes de la pausa
-    const pausa = 5 * 60 * 1000; // 5 minutos en milisegundos
-    let intervaloID; // Variable para almacenar el ID del intervalo
-
-    // Función para actualizar los anuncios
-    function actualizarAnuncios() {
-        if (contador < limite) {
-            // Actualizar los tres anuncios
-            actualizarAnuncio1();
-            setTimeout(actualizarAnuncio2, 500);
-            setTimeout(actualizarAnuncio3, 1000);
-            contador++;
-        } else {
-            // Pausa de 5 minutos
-            console.log('Pausa de 5 minutos...');
-            setTimeout(() => {
-                contador = 0; // Reiniciar el contador después de la pausa
-                console.log('Reiniciando presentación de anuncios...');
-                actualizarAnuncios(); // Volver a mostrar los anuncios después de la pausa
-            }, pausa);
-        }
-    }
-
-    // Funciones para actualizar cada uno de los anuncios
-    function actualizarAnuncio1() {
-        const anuncioContainer = document.getElementById('anuncio-container1');
-        anuncioContainer.innerHTML = '';
-
-        const scriptElem = document.createElement('script');
-        scriptElem.type = 'text/javascript';
-        window.atOptions = {
-            'key': '5f392f22d133fff7ad6704df675beeb2',
-            'format': 'iframe',
-            'height': 60,
-            'width': 468,
-            'params': {}
-        };
-        scriptElem.src = '//www.profitablecreativeformat.com/5f392f22d133fff7ad6704df675beeb2/invoke.js';
-        anuncioContainer.appendChild(scriptElem);
-    }
-
-    function actualizarAnuncio2() {
-        const anuncioContainer = document.getElementById('anuncio-container2');
-        anuncioContainer.innerHTML = '';
-
-        const scriptElem = document.createElement('script');
-        scriptElem.type = 'text/javascript';
-        window.atOptions = {
-            'key': '5087bca611db89252f1fe5a993e26a54',
-            'format': 'iframe',
-            'height': 90,
-            'width': 728,
-            'params': {}
-        };
-        scriptElem.src = '//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js';
-        anuncioContainer.appendChild(scriptElem);
-    }
-
-    function actualizarAnuncio3() {
-        const anuncioContainer = document.getElementById('anuncio-container3');
-        anuncioContainer.innerHTML = '';
-
-        const scriptElem = document.createElement('script');
-        scriptElem.type = 'text/javascript';
-        window.atOptions = {
-            'key': '1d1ae1152780bd736b475f226c17a8a6',
-            'format': 'iframe',
-            'height': 600,
-            'width': 160,
-            'params': {}
-        };
-        scriptElem.src = '//www.topcreativeformat.com/1d1ae1152780bd736b475f226c17a8a6/invoke.js';
-        anuncioContainer.appendChild(scriptElem);
-    }
-
-    // Función para iniciar la actualización de anuncios
-    function iniciarActualizacion() {
-        if (!intervaloID) {
-            console.log('Iniciando actualización de anuncios...');
-            intervaloID = setInterval(actualizarAnuncios, 20000);
-        }
-    }
-
-    // Función para detener la actualización de anuncios
-    function detenerActualizacion() {
-        if (intervaloID) {
-            clearInterval(intervaloID);
-            intervaloID = null;
-            console.log('Actualización de anuncios detenida.');
-        }
-    }
-
-    // Detectar cuando la pestaña está visible o el mouse está en la pestaña
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            iniciarActualizacion();
-        } else {
-            detenerActualizacion();
-        }
-    });
-
-    window.addEventListener('mousemove', () => {
-        if (document.visibilityState === 'visible') {
-            iniciarActualizacion();
-        }
-    });
-
-    // Inicia la actualización si la página está visible al cargar
-    if (document.visibilityState === 'visible') {
-        iniciarActualizacion();
-    }
-
     </script>
 </body>
 </html>
