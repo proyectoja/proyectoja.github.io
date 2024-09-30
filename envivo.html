@@ -310,6 +310,10 @@
             liveButton.innerText = '⚫ Emisión detenida';
             livePerfil.style.border = '3px solid transparent';
             viewerCount.innerText = `👁️ 0`; // Resetea el contador
+            if (player) {
+                player.destroy();
+                player = null;  // Para liberar el objeto y la memoria
+            }
         });
         
         player.on(Clappr.Events.PLAYER_PAUSE, function() {
