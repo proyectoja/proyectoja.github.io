@@ -258,39 +258,85 @@
 
 
     <script>
-        let videoUrl = "https://edge1-us-dallas.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/index.m3u8"; 
         let poster = "https://i.imgur.com/ayIV94z.jpg";
-        var player = new Clappr.Player({
-            source: videoUrl,
-            autoPlay: false,
-            width: "100%",
-            poster: poster,
-            autoPlayVisible: "partial",
-            exitFullscreenOnEnd: true,
-            //disableVideoTagContextMenu: true,
-            
-            hideVolumeBar: false,
-            actualLiveTime: true,
-            actualLiveServerTime:  "2024/09/30 00:00:00",
-            hideMediaControl: true,
-            playbackNotSupportedMessage: 'No se puede reproducir.',
-            watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
-            parentId: "#player",
-            plugins: [ClapprNerdStats, ClapprStats, ClapprThumbnailsPlugin],      
-            clapprNerdStats: {
-                shortcut: ['command+shift+s', 'ctrl+shift+s'],
-                iconPosition: 'top-right'
-            },
-            scrubThumbnails: {
-                backdropHeight: 64,
-                spotlightHeight: 84,
-                thumbs: [
-                    { time: 0, url: "https://i.imgur.com/GC591rt.png" },
-                    { time: 300, url: "https://i.imgur.com/6DqGzxf.png" },
-                    { time: 600, url: "https://i.imgur.com/HdegF9C.png" }
-                ]
-            }
-        });
+        var videoUrls = [
+        "https://edge1-us-miami.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8",
+        "https://edge1-us-dallas.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8",
+		"https://edge1-eu-west.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8",
+        "https://edge1-us-newyork.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8",
+        "https://edge1-us-losangeles.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8"
+        ];
+
+        // Función para verificar si una URL tiene un flujo de transmisión activo
+        function checkStream(url) {
+            return new Promise(function(resolve, reject) {
+                // Verificación simple usando fetch
+                fetch(url, { method: 'HEAD' })
+                    .then(function(response) {
+                        if (response.ok) {
+                            // Si la respuesta es exitosa, se considera que está activa
+                            resolve(url);
+                        } else {
+                            reject(url);
+                        }
+                    })
+                    .catch(function() {
+                        reject(url);
+                    });
+            });
+        }
+
+        // Verificar las URLs y seleccionar la primera que esté activa
+        function findActiveStream(urls) {
+            let promiseChain = Promise.reject();
+
+            urls.forEach(function(url) {
+                promiseChain = promiseChain.catch(function() {
+                    return checkStream(url);
+                });
+            });
+
+            return promiseChain;
+        }
+
+        // Iniciar el reproductor con la URL activa
+        findActiveStream(videoUrls)
+            .then(function(activeUrl) {
+                var player = new Clappr.Player({
+                    source: activeUrl,
+                    autoPlay: false,
+                    width: "100%",
+                    poster: poster,
+                    autoPlayVisible: "partial",
+                    exitFullscreenOnEnd: true,
+                    //disableVideoTagContextMenu: true,
+                    hideVolumeBar: false,
+                    actualLiveTime: true,
+                    actualLiveServerTime:  "2024/09/30 00:00:00",
+                    hideMediaControl: true,
+                    playbackNotSupportedMessage: 'No se puede reproducir.',
+                    watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
+                    parentId: "#player",
+                    plugins: [ClapprNerdStats, ClapprStats, ClapprThumbnailsPlugin],      
+                    clapprNerdStats: {
+                        shortcut: ['command+shift+s', 'ctrl+shift+s'],
+                        iconPosition: 'top-right'
+                    },
+                    scrubThumbnails: {
+                        backdropHeight: 64,
+                        spotlightHeight: 84,
+                        thumbs: [
+                            { time: 0, url: "https://i.imgur.com/GC591rt.png" },
+                            { time: 300, url: "https://i.imgur.com/6DqGzxf.png" },
+                            { time: 600, url: "https://i.imgur.com/HdegF9C.png" }
+                        ]
+                    }
+                });
+                console.log("Stream activo encontrado: " + activeUrl);
+            })
+            .catch(function() {
+                console.log("No se encontró ningún stream activo.");
+            });
 
         let liveButton = document.getElementById('live-button');
         let viewerCount = document.getElementById('viewer-count');
