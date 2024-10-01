@@ -275,20 +275,21 @@
             ];
 
             // Función para verificar si una URL tiene un flujo de transmisión activo
-                function checkStream(url) {
+            function checkStream(url) {
                     return fetch(url, { method: 'HEAD' })
                         .then(response => {
                             if (response.ok) {
                                 return url; // Devuelve la URL si la respuesta es correcta
                             } else {
-                                throw new Error('Stream no disponible'); // Lanza un error si la respuesta no es correcta
+                                throw new Error('Stream no disponible'); // Lanza un error si no está disponible
                             }
                         })
                         .catch(error => {
-                            console.error(`Error al verificar ${url}:`, error.message); // Muestra el error en la consola
-                            return null; // Devuelve null en caso de error
+                            console.error(error);
+                            return null; // Devuelve null si el stream no está activo
                         });
                 }
+
 
                 // Verificar las URLs y seleccionar la primera que esté activa
                 async function findActiveStream(urls) {
@@ -315,6 +316,9 @@
 
             // Función para inicializar el player
             function iniciarPlayer() {
+                if (player) {
+                    player.destroy(); // Destruye el reproductor si ya está activo
+                }
                 if (activeUrl) {  // Verificar que hay un stream activo
                     var player = new Clappr.Player({
                         source: activeUrl,
@@ -360,9 +364,6 @@
                         liveButton.innerText = '⚫ Emisión detenida';
                         livePerfil.style.border = '3px solid transparent';
                         viewerCount.innerText = `👁️ 0`; // Resetea el contador
-                        if (player) {
-                            player = null;  // Para liberar el objeto y la memoria
-                        }
                     });
 
                     player.on(Clappr.Events.PLAYER_PAUSE, function () {
@@ -374,7 +375,7 @@
                     });
 
                     // Verificación inicial al cargar la página
-                    if (player.isPlaying()) {
+                    if (player && player.isPlaying()) {
                         liveButton.classList.add('live');
                         liveButton.innerText = '🔴 EN VIVO';
                         livePerfil.style.border = '3px solid rgba(255,0,0)';
@@ -400,6 +401,7 @@
                         const viewers = data.viewers; // Obtiene el número de espectadores actuales
                         viewerCount.innerText = `👁️ ${viewers}`;
                     } else {
+                        viewerCount.innerText = ``;
                         viewerCount.innerText = `👁️ 0`;
                     }
                 })
