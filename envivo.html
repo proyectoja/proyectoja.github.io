@@ -320,7 +320,7 @@
             // Función para inicializar el player
             function iniciarPlayer() {
                 if (activeUrl) {  // Verificar que hay un stream activo
-                    const player = new Clappr.Player({
+                    var player = new Clappr.Player({
                         source: activeUrl,
                         autoPlay: false,
                         width: "100%",
