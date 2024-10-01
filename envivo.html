@@ -275,47 +275,43 @@
             ];
 
             // Función para verificar si una URL tiene un flujo de transmisión activo
-            function checkStream(url) {
-                return new Promise(function (resolve, reject) {
-                    // Verificación simple usando fetch con método HEAD
-                    fetch(url, { method: 'HEAD' })
-                        .then(function (response) {
+                function checkStream(url) {
+                    return fetch(url, { method: 'HEAD' })
+                        .then(response => {
                             if (response.ok) {
-                                // Si la respuesta es exitosa, se considera que está activa
-                                resolve(url);
+                                return url; // Devuelve la URL si la respuesta es correcta
                             } else {
-                                reject(url);
+                                throw new Error('Stream no disponible'); // Lanza un error si la respuesta no es correcta
                             }
                         })
-                        .catch(function () {
-                            reject(url);
+                        .catch(error => {
+                            console.error(`Error al verificar ${url}:`, error.message); // Muestra el error en la consola
+                            return null; // Devuelve null en caso de error
                         });
-                });
-            }
+                }
 
-            // Verificar las URLs y seleccionar la primera que esté activa
-            function findActiveStream(urls) {
-                let promiseChain = Promise.reject();
+                // Verificar las URLs y seleccionar la primera que esté activa
+                async function findActiveStream(urls) {
+                    for (const url of urls) {
+                        const result = await checkStream(url);
+                        if (result) {
+                            return result; // Retorna la URL activa
+                        }
+                    }
+                    throw new Error('No se encontró ningún stream activo.'); // Lanza un error si no se encontró ningún stream
+                }
 
-                urls.forEach(function (url) {
-                    promiseChain = promiseChain.catch(function () {
-                        return checkStream(url);
+                // Iniciar la búsqueda del stream activo
+                findActiveStream(videoUrls)
+                    .then(url => {
+                        activeUrl = url;  // Guardar la URL activa
+                        console.log("Stream activo encontrado: " + activeUrl);
+                        iniciarPlayer();  // Llamar a la función que inicia el player
+                    })
+                    .catch(error => {
+                        console.log(error.message); // Manejo del error al no encontrar streams activos
                     });
-                });
 
-                return promiseChain;
-            }
-
-            // Iniciar la búsqueda del stream activo
-            findActiveStream(videoUrls)
-                .then(function (url) {
-                    activeUrl = url;  // Guardar la URL activa
-                    console.log("Stream activo encontrado: " + activeUrl);
-                    iniciarPlayer();  // Llamar a la función que inicia el player
-                })
-                .catch(function () {
-                    console.log("No se encontró ningún stream activo.");
-                });
 
             // Función para inicializar el player
             function iniciarPlayer() {
