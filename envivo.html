@@ -335,8 +335,8 @@
         }
 
         // Verifica el contador de espectadores cada 10 segundos
-        setInterval(fetchViewerCount, 60000); // Cambia el intervalo según sea necesario
-
+        setInterval(fetchViewerCount, 10000); // Cambia el intervalo según sea necesario
+        
         // Función para obtener el contador de espectadores
         function fetchViewerCount() {
             fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`)
