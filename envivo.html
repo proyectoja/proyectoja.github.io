@@ -311,7 +311,6 @@
             livePerfil.style.border = '3px solid transparent';
             viewerCount.innerText = `👁️ 0`; // Resetea el contador
             if (player) {
-                player.destroy();
                 player = null;  // Para liberar el objeto y la memoria
             }
         });
@@ -336,7 +335,7 @@
         }
 
         // Verifica el contador de espectadores cada 10 segundos
-        setInterval(fetchViewerCount, 10000); // Cambia el intervalo según sea necesario
+        setInterval(fetchViewerCount, 60000); // Cambia el intervalo según sea necesario
 
         // Función para obtener el contador de espectadores
         function fetchViewerCount() {
