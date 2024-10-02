@@ -14,7 +14,7 @@
     <meta property="og:image" content="https://i.imgur.com/ayIV94z.jpg" />
     <meta property="og:type" content="website" />
 
-    <title>EN VIVO 🔴</title>
+    <title>EN VIVO</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
@@ -262,6 +262,7 @@
         let poster = "https://i.imgur.com/ayIV94z.jpg";
         let activeUrl = null;
         let player = null;
+        let activeEnVivo = 0;
         let liveButton = document.getElementById('live-button');
         let viewerCount = document.getElementById('viewer-count');
         let livePerfil = document.querySelector('.container-cont-principal img');
@@ -304,16 +305,46 @@
 
                 // Iniciar la búsqueda del stream activo
                 findActiveStream(videoUrls)
-                    .then(url => {
-                        activeUrl = url;  // Guardar la URL activa
-                        console.log("Stream activo encontrado: " + activeUrl);
-                        iniciarPlayer();  // Llamar a la función que inicia el player
-                    })
-                    .catch(error => {
-                        console.log(error.message); // Manejo del error al no encontrar streams activos
-                    });
+                        .then(url => {
+                            activeUrl = url;  // Guardar la URL activa
+                            console.log("Stream activo encontrado: " + activeUrl);
+                            iniciarPlayer();  // Llamar a la función que inicia el player
+                        })
+                        .catch(error => {
+                            console.log(error.message); // Manejo del error al no encontrar streams activos
+                        });
 
-
+                    
+                        function activeEnVivoFunction() {
+                                switch (activeEnVivo) {
+                                    case 1:
+                                        // PLAY
+                                        if (!window.titleInterval) {
+                                            window.titleInterval = setInterval(() => {
+                                                document.title = document.title === "EN VIVO 🔴" ? "EN VIVO ⚫" : "EN VIVO 🔴";
+                                            }, 1000);
+                                        }
+                                        break;
+                                    case 2:
+                                        // STOP
+                                        clearInterval(window.titleInterval);
+                                        document.title = "EN VIVO ⚫"; 
+                                        delete window.titleInterval; 
+                                        break;
+                                    case 3:
+                                        // PAUSE
+                                        if (!window.titleInterval) {
+                                            window.titleInterval = setInterval(() => {
+                                                document.title = document.title === "EN VIVO 🟡" ? "EN VIVO ⚫" : "EN VIVO 🟡";
+                                            }, 1000);
+                                        }
+                                        break;
+                                    default:
+                                        document.title = "EN VIVO"; 
+                                        clearInterval(window.titleInterval); 
+                                        delete window.titleInterval; 
+                                }
+                            }
             // Función para inicializar el player
             function iniciarPlayer() {
                 if (player) {
@@ -351,38 +382,49 @@
                         }
                     });
                     console.log("Clappr en marcha...");
+                    
                     // Detecta cambios en el estado de la reproducción
                     player.on(Clappr.Events.PLAYER_PLAY, function () {
                         liveButton.classList.add('live');
                         liveButton.innerText = '🔴 EN VIVO';
+                        activeEnVivo = 1;
                         livePerfil.style.border = '3px solid rgba(255,0,0)';
                         fetchViewerCount(); // Obtener el contador de espectadores al iniciar la transmisión
+                        activeEnVivoFunction();
                     });
 
                     player.on(Clappr.Events.PLAYER_STOP, function () {
                         liveButton.classList.remove('live');
                         liveButton.innerText = '⚫ Emisión detenida';
+                        activeEnVivo = 2;
                         livePerfil.style.border = '3px solid transparent';
                         viewerCount.innerText = `👁️ 0`; // Resetea el contador
+                        activeEnVivoFunction();
                     });
 
                     player.on(Clappr.Events.PLAYER_PAUSE, function () {
                         // Cuando se pausa la transmisión
                         liveButton.classList.remove('live');
-                        liveButton.innerText = '⚫ Emisión en pausa';
+                        liveButton.innerText = '🟡 Emisión en pausa';
+                        activeEnVivo = 3;
                         livePerfil.style.border = '3px solid transparent';
                         viewerCount.innerText = `👁️ 0`;
+                        activeEnVivoFunction();
                     });
 
                     // Verificación inicial al cargar la página
                     if (player && player.isPlaying()) {
                         liveButton.classList.add('live');
                         liveButton.innerText = '🔴 EN VIVO';
+                        activeEnVivo = 1;
                         livePerfil.style.border = '3px solid rgba(255,0,0)';
+                        activeEnVivoFunction();
                     } else {
                         liveButton.classList.remove('live');
                         liveButton.innerText = '⚫ No hay emisión';
+                        activeEnVivo = 0;
                         livePerfil.style.border = '3px solid transparent';
+                        activeEnVivoFunction();
                     }
                 } else {
                     console.log("Player no activado, no hay stream activo.");
