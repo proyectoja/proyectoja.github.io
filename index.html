@@ -7947,6 +7947,8 @@
             </div>
         </div>-->
 
+
+
         <script>
             const categorias = document.getElementById('categorias');
             function toggleMenu() {
@@ -8245,6 +8247,20 @@
 <script>
     const publicacionesUrl = 'publicaciones.json';
     var tituloAux;
+    let proyectoJaOnline = false; // Variable para almacenar el estado de "PROYECTO JA"
+
+    async function verificarProyectoJaEstado(username) {
+    try {
+        const response = await fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`);
+        const data = await response.json();
+        if (data.online) {
+            proyectoJaOnline = data.online; // Guardar el estado online del canal "PROYECTO JA"
+            console.log("Prueba API: " + proyectoJaOnline);
+        }
+    } catch (error) {
+        console.error('Error al verificar estado de PROYECTO JA:', error);
+    }
+}
     async function cargarPublicaciones() {
         try {
             const response = await fetch(publicacionesUrl);
@@ -8376,11 +8392,60 @@
                     imagenElem.src = pub.imagen;
                     publicacionElem.appendChild(imagenElem);
                 }
+                // Aplicar el contorno rojo y estado "EN VIVO" si es PROYECTO JA y está online
+                if (pub.publicador === "PROYECTO JA" && proyectoJaOnline) {
+                    perfilElem.style.border = '3px solid red'; // Contorno rojo
+                    perfilElem.style.cursor = 'pointer';
+                    perfilElem.onclick = () => {
+                        window.open('/envivo', '_blank');
+                    };
+                }
+
+
+
+
                 publicacionElem.appendChild(tituloElem);
                 publicacionElem.appendChild(contenidoElem);
                 publicacionElem.appendChild(subContenidoElem);
                 publicacionElem.appendChild(redesSocialesElem);
                 publicacionElem.appendChild(botonesAccionElem);
+
+                
+                const ventanaFlotante = document.createElement('div');
+                ventanaFlotante.className = 'ventana-flotante';
+                ventanaFlotante.innerHTML = `
+                <h3 style="color:white; font-family: Arial, Helvetica, sans-serif;">${pub.publicador}</h3>
+                <p style="color:white; font-family: Arial, Helvetica, sans-serif;">
+                    Estado: ${pub.publicador === "PROYECTO JA" && proyectoJaOnline ? '<span style="color:red;">EN VIVO 🔴</span>' : 'Fuera de línea'}
+                </p>
+                `;
+
+                // Estilo para la ventana flotante
+                ventanaFlotante.style.padding = 'auto';
+                ventanaFlotante.style.position = 'absolute';
+                ventanaFlotante.style.backgroundColor = '#003399';
+                ventanaFlotante.style.border = '3px solid #ccc';
+                ventanaFlotante.style.borderRadius = '15px';
+                ventanaFlotante.style.padding = '10px';
+                ventanaFlotante.style.zIndex = '1000';
+                ventanaFlotante.style.display = 'none'; // Inicialmente oculto
+
+                // Agregar la ventana flotante al documento
+                document.body.appendChild(ventanaFlotante);
+
+                // Función para mostrar la ventana flotante
+                perfilElem.addEventListener('mouseover', (event) => {
+                    ventanaFlotante.style.display = 'block';
+                    // Posicionar la ventana cerca del perfil
+                    ventanaFlotante.style.left = `${event.pageX + 20}px`;
+                    ventanaFlotante.style.top = `${event.pageY + 20}px`;
+                });
+
+                // Función para ocultar la ventana flotante
+                perfilElem.addEventListener('mouseout', () => {
+                    ventanaFlotante.style.display = 'none';
+                });
+
 
                 contenedor.appendChild(publicacionElem);
             });
@@ -8388,6 +8453,13 @@
             console.error('Error cargando las publicaciones:', error);
         }
     }
+
+    // Asumiendo que 'username' está definido
+const username = 'XSTUDIOCODE'; // 
+
+//función para verificar el estado antes de cargar las publicaciones
+verificarProyectoJaEstado(username)
+    .then(() => cargarPublicaciones());
 
     function copiarTexto(elemento) {
         const titulo = elemento.querySelector('.titulo').textContent;
