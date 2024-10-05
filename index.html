@@ -8395,6 +8395,7 @@
                 // Aplicar el contorno rojo y estado "EN VIVO" si es PROYECTO JA y está online
                 if (pub.publicador === "PROYECTO JA" && proyectoJaOnline) {
                     perfilElem.style.border = '3px solid red'; // Contorno rojo
+                    perfilElem.style.padding = '3px';
                     perfilElem.style.cursor = 'pointer';
                     perfilElem.onclick = () => {
                         window.open('/envivo', '_blank');
