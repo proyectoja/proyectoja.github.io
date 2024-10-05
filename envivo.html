@@ -168,8 +168,8 @@
         .text-live{
             position: absolute;
             justify-content: center;
-            left: 21px;
-            bottom: 3px;
+            left: 22px;
+            bottom: 1px;
             border-radius: 3px;
             background-color: red;
             color: white;
@@ -310,12 +310,13 @@
     <script>
         // Variables
         let poster = "https://i.imgur.com/ayIV94z.jpg";
-        let activeUrl = ;
+        let activeUrl = null;
         let player = null;
         let activeEnVivo = 0;
         let liveButton = document.getElementById('live-button');
         let viewerCount = document.getElementById('viewer-count');
         let livePerfil = document.querySelector('.container-cont-principal img');
+        let liveText = document.querySelector('.text-live');
         const username = "XSTUDIOCODE";
         var videoUrls = [
                 "https://edge1-us-miami.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8",
@@ -439,6 +440,7 @@
                         liveButton.innerText = '🔴 EN VIVO';
                         activeEnVivo = 1;
                         livePerfil.style.border = '3px solid rgba(255,0,0)';
+                        liveText.style.display = 'flex';
                         fetchViewerCount(); // Obtener el contador de espectadores al iniciar la transmisión
                         activeEnVivoFunction();
                     });
@@ -448,6 +450,7 @@
                         liveButton.innerText = '⚫ Emisión detenida';
                         activeEnVivo = 2;
                         livePerfil.style.border = '3px solid transparent';
+                        liveText.style.display = 'none';
                         viewerCount.innerText = `👁️ 0`; // Resetea el contador
                         activeEnVivoFunction();
                     });
@@ -459,6 +462,8 @@
                         activeEnVivo = 3;
                         livePerfil.style.border = '3px solid transparent';
                         viewerCount.innerText = `👁️ 0`;
+                        liveText.style.display = 'flex';
+                        liveText.style.backgroundColor = 'yellow';
                         activeEnVivoFunction();
                     });
 
@@ -468,12 +473,14 @@
                         liveButton.innerText = '🔴 EN VIVO';
                         activeEnVivo = 1;
                         livePerfil.style.border = '3px solid rgba(255,0,0)';
+                        liveText.style.display = 'flex';
                         activeEnVivoFunction();
                     } else {
                         liveButton.classList.remove('live');
                         liveButton.innerText = '⚫ No hay emisión';
                         activeEnVivo = 0;
                         livePerfil.style.border = '3px solid transparent';
+                        liveText.style.display = 'none';
                         activeEnVivoFunction();
                     }
                 } else {
