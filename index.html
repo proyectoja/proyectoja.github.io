@@ -8386,6 +8386,7 @@
                 // Aplicar el contorno rojo y estado "EN VIVO" si es PROYECTO JA y está online
                 if (pub.publicador === "PROYECTO JA" && proyectoJaOnline) {
                     const perfilContenedor = document.createElement('div');
+                    perfilContenedor.style.display = 'flex';
                     perfilContenedor.style.position = 'relative'; // Necesario para el posicionamiento del indicador
                     perfilContenedor.style.display = 'inline-block';
 
