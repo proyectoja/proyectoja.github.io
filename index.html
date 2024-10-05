@@ -8383,6 +8383,49 @@
                 fusionPubCheckElem.appendChild(checkElem);
                 infoElem.appendChild(fusionPubCheckElem);
                 infoElem.appendChild(fechaHoraElem);
+                // Aplicar el contorno rojo y estado "EN VIVO" si es PROYECTO JA y está online
+                if (pub.publicador === "PROYECTO JA" && proyectoJaOnline) {
+                    const perfilContenedor = document.createElement('div');
+                    perfilContenedor.style.position = 'relative'; // Necesario para el posicionamiento del indicador
+                    perfilContenedor.style.display = 'inline-block';
+
+                    perfilElem.style.border = '3px solid red'; // Contorno rojo
+                    perfilElem.style.padding = '3px';
+                    perfilElem.style.cursor = 'pointer';
+                    perfilContenedor.appendChild(perfilElem);
+
+                    const liveIndicator = document.createElement('div');
+                    liveIndicator.textContent = 'EN VIVO';
+                    liveIndicator.style.position = 'absolute';
+                    liveIndicator.style.bottom = '-30px';
+                    liveIndicator.style.left = '5px';
+                    liveIndicator.style.transform = 'translateX(-50%,0)';
+                    liveIndicator.style.backgroundColor = 'red';
+                    liveIndicator.style.color = 'white';
+                    liveIndicator.style.fontSize = '10px';
+                    liveIndicator.style.fontWeight = 'bold';
+                    liveIndicator.style.fontFamily = 'Arial, Helvetica, sans-serif';
+                    liveIndicator.style.padding = '2px 5px';
+                    liveIndicator.style.borderRadius = '3px';
+                    liveIndicator.style.textTransform = 'uppercase';
+                    liveIndicator.style.textWrap = 'nowrap';
+                    liveIndicator.style.zIndex = '10';
+                    
+                    perfilElem.addEventListener('mouseover', function() {
+                    perfilElem.style.boxShadow = '0px 0px 15px rgba(255, 0, 0, 0.7)'; // Aplica sombra
+                    });
+
+                    // Evento para cuando el cursor sale del perfil
+                    perfilElem.addEventListener('mouseout', function() {
+                        perfilElem.style.boxShadow = 'none'; // Quita la sombra
+                    });
+
+                    perfilElem.onclick = () => {
+                        window.open('/envivo', '_blank');
+                    };
+                    perfilContenedor.appendChild(liveIndicator);
+                    cabeceraElem.appendChild(perfilContenedor);
+                }
                 cabeceraElem.appendChild(perfilElem);
                 cabeceraElem.appendChild(infoElem);
                 publicacionElem.appendChild(cabeceraElem);
@@ -8391,15 +8434,6 @@
                     imagenElem.className = 'imagen-publicacion';
                     imagenElem.src = pub.imagen;
                     publicacionElem.appendChild(imagenElem);
-                }
-                // Aplicar el contorno rojo y estado "EN VIVO" si es PROYECTO JA y está online
-                if (pub.publicador === "PROYECTO JA" && proyectoJaOnline) {
-                    perfilElem.style.border = '3px solid red'; // Contorno rojo
-                    perfilElem.style.padding = '3px';
-                    perfilElem.style.cursor = 'pointer';
-                    perfilElem.onclick = () => {
-                        window.open('/envivo', '_blank');
-                    };
                 }
 
 
