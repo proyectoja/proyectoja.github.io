@@ -1408,5 +1408,5 @@ p {
 .player-container {
   position: fixed;
     width: 45%;
-    z-index: -1;
+    z-index: -999;
 }
