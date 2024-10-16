@@ -8,7 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        
+        body,html {overflow: hidden;
+        padding: 0;
+        margin: 0;}
         .hidden-video-container {
             position: absolute;
             top: -9999px; /* Mueve el video fuera de la pantalla */
@@ -45,6 +47,7 @@
             source: activeUrl,
             autoPlay: false,
             width: "100%",
+            height: "100vh",
             poster: poster,
             exitFullscreenOnEnd: true,
             disableVideoTagContextMenu: true,
