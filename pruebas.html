@@ -93,12 +93,12 @@
                 if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
                     html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
                     captureThumbnail(); // Capturar la miniatura
-                    currentTime += 30; // Incrementar el tiempo en 30 segundos
+                    currentTime += 120; // Incrementar el tiempo en 30 segundos
                 } else {
                     clearInterval(captureInterval); // Detener captura si alcanzamos el final
                     html5Player.pause(); // Pausar el video al final
                 }
-            }, 3000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
+            }, 2000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
         }
         startCapturing(); 
                
