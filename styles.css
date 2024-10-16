@@ -1404,3 +1404,9 @@ p {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.player-container {
+  position: fixed;
+    width: 45%;
+    z-index: -1;
+}

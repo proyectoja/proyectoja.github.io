@@ -24,6 +24,7 @@
         src="//cdn.jsdelivr.net/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/clappr-playback-rate-plugin@latest/lib/clappr-playback-rate-plugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
     <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
@@ -42,9 +43,13 @@
 </head>
 
 <body>
+    <div class="player-container">
+        <video id="html5player" width="100%" muted crossOrigin="anonymous">
+        </video>
+    </div>
     <!-- Video de fondo
     <video class="videoFondo" autoplay muted loop>
-        <source src="https://hugh.cdn.rumble.cloud/video/s8/2/N/-/0/6/N-06q.gaa.mp4?u=0&b=0" type="video/mp4">
+        <source src="https://ak2.rmbl.ws/s8/2/N/-/0/6/N-06q.gaa.mp4?u=0&b=0" type="video/mp4">
     </video>-->
 
     <!-- Categorías -->
@@ -241,47 +246,47 @@
                 'Año: 2018 | Calidad HD | FHD',
                 [
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/5/T/J/i/5TJit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/5/T/J/i/5TJit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/V4jQ1hy.jpg',
                         'title': '1. ADORADORES 4 - CONFÍA (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/5/6/J/i/56Jit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/5/6/J/i/56Jit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/UV5GW5x.jpg',
                         'title': '2. ADORADORES 4 - LEVANTO LA CRUZ (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/X/a/K/i/XaKit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/X/a/K/i/XaKit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/slqk2DG.jpg',
                         'title': '3. ADORADORES 4 - ESTOY AQUÍ (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/9/e/K/i/9eKit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/9/e/K/i/9eKit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/sXnDhek.jpg',
                         'title': '4. ADORADORES 4 - MISIÓN (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/K/k/K/i/KkKit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/K/k/K/i/KkKit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/FgPx8Nw.jpg',
                         'title': '5. ADORADORES 4 - VUELVE POR MÍ (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/D/p/K/i/DpKit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/D/p/K/i/DpKit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/UimBMGP.jpg',
                         'title': '6. ADORADORES 4 - HABITA EN MÍ (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/n/C/K/i/nCKit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/n/C/K/i/nCKit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/dR4jfqc.jpg',
                         'title': '7. ADORADORES 4 - SÉ EL CENTRO (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/v/O/K/i/vOKit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/v/O/K/i/vOKit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/Q1ySBdq.jpg',
                         'title': '8. ADORADORES 4 - TU AMOR (LYRIC VIDEO)',
                     },
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/n/R/K/i/nRKit.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/n/R/K/i/nRKit.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/Cn7fCr0.jpg',
                         'title': '9. ADORADORES 4 - MI PASTOR (LYRIC VIDEO)',
                     }
@@ -300,52 +305,52 @@
                 'Año: 2020 | Calidad HD | FHD',
                 [
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/v/E/B/w/vEBwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/v/E/B/w/vEBwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/SiP3rNU.png',
                         'title': '01. Cristo ya viene otra vez - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/9/W/B/w/9WBwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/9/W/B/w/9WBwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/JJh3Sau.png',
                         'title': '02. El Calvario me habla de amor - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/n/m/C/w/nmCwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/n/m/C/w/nmCwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/UkZLzrv.png',
                         'title': '03. Por siempre Él vivirá - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/D/K/C/w/DKCwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/D/K/C/w/DKCwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/xZLhNO2.png',
                         'title': '04. Le contemplaremos - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/X/2/C/w/X2Cwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/X/2/C/w/X2Cwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/0jBt5fm.png',
                         'title': '05. Justo a tiempo - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/z/A/D/w/zADwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/z/A/D/w/zADwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/9QSTnNO.png',
                         'title': '06. El cielo es mi hogar - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/7/Y/D/w/7YDwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/7/Y/D/w/7YDwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/xwnCcId.png',
                         'title': '07. El Sacrificio - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/f/l/E/w/flEwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/f/l/E/w/flEwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/HGZmVLJ.png',
                         'title': '08. Quiero llegar a la Ciudad - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/v/G/E/w/vGEwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/v/G/E/w/vGEwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/eFs3Pej.png',
                         'title': '09. Cuando Jesús vendrá - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/c/S/E/w/cSEwt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/c/S/E/w/cSEwt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/WaT7lXO.png',
                         'title': '10. ¡Aleluya, llegamos al hogar! - Coro de Cámara UNACH (Álbum ¡Aleluya, llegamos al hogar!)',
                     }
@@ -364,62 +369,62 @@
                 'Año: 2022 | Calidad HD | FHD',
                 [
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/K/p/W/z/KpWzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/K/p/W/z/KpWzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/gmaVr1z.png',
                         'title': '01. Canto Al Señor Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/1/D/W/z/1DWzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/1/D/W/z/1DWzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/OfWKng6.png',
                         'title': '02. Digno Eres Tú Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/L/N/W/z/LNWzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/L/N/W/z/LNWzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/0spCc6H.png',
                         'title': '03. Un Día Volaré Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/L/I/X/z/LIXzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/L/I/X/z/LIXzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/m3AnkiQ.png',
                         'title': '04. Nunca Fallará Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/u/T/X/z/uTXzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/u/T/X/z/uTXzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/ZmOB6MJ.png',
                         'title': '05. No Más Noche Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/L/5/X/z/L5Xzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/L/5/X/z/L5Xzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/X8oqsqQ.png',
                         'title': '06. Sobre Esta Roca Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/5/q/Y/z/5qYzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/5/q/Y/z/5qYzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/aZ15Ua0.png',
                         'title': '07. Dios me Sorprende Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/D/H/Y/z/DHYzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/D/H/Y/z/DHYzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/K6N5w3a.png',
                         'title': '08. Libre por Su Amor Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/b/X/Y/z/bXYzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/b/X/Y/z/bXYzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/SEioN7u.png',
                         'title': '09. Fue por Nosotros Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/7/9/Y/z/79Yzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/7/9/Y/z/79Yzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/KztOcE3.png',
                         'title': '10. Yo Iré Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/u/E/Z/z/uEZzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/u/E/Z/z/uEZzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/AqLxzeV.png',
                         'title': '11. La Santa Ciudad Coro de Cámara UNACH',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/1/W/Z/z/1WZzt.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/1/W/Z/z/1WZzt.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/lgnlg33.png',
                         'title': '12. Aleluya Coro de Cámara UNACH',
                     }
@@ -462,52 +467,52 @@
                 'Año: 2017 | Calidad HD | FHD',
                 [
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/9/M/n/C/9MnCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/9/M/n/C/9MnCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/5R7spt8.png',
                         'title': '01. BRILLA JESÚS',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/v/P/n/C/vPnCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/v/P/n/C/vPnCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/MIFEcbq.png',
                         'title': '02. LADO A LADO',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/9/R/n/C/9RnCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/9/R/n/C/9RnCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/LiKNVtg.png',
                         'title': '03. EN MOMENTOS ASÍ',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/P/U/n/C/PUnCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/P/U/n/C/PUnCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/YiCqrbz.png',
                         'title': '04. VOY CAMINANDO',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/v/X/n/C/vXnCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/v/X/n/C/vXnCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/P9nncQt.png',
                         'title': '05. DIOS ESTÁ AQUÍ',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/9/Z/n/C/9ZnCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/9/Z/n/C/9ZnCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/jK6b0vr.png',
                         'title': '06. BUSCA PRIMERO',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/b/2/n/C/b2nCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/b/2/n/C/b2nCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/zRddwGE.png',
                         'title': '07. EL SEÑOR ES MI FIEL AMIGO',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/f/3/o/C/f3oCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/f/3/o/C/f3oCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/neJjsXF.png',
                         'title': '08. RENUÉVAME',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/0/4/n/C/04nCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/0/4/n/C/04nCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/3xE1hRd.png',
                         'title': '09. ALABARÉ',
                     },
                     {
-                        'file': 'https://1a-1791.com/video/s8/2/n/7/n/C/n7nCt.gaa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/n/7/n/C/n7nCt.gaa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/S9fTigs.png',
                         'title': '10. QUÉDATE SEÑOR',
                     }
@@ -561,7 +566,7 @@
                 'Año: 8 de diciembre de 2021 | Calidad HD | FHD',
                 [
                     {
-                        'file': 'https://hugh.cdn.rumble.cloud/video/s8/2/1/W/8/h/1W8ht.haa.mp4?u=0&b=0',
+                        'file': 'https://ak2.rmbl.ws/s8/2/1/W/8/h/1W8ht.haa.mp4?u=0&b=0',
                         'image': 'https://i.imgur.com/UZUZqaP.png',
                         'title': 'Consejos sobre el noviazgo | Pr. Daniel Herrera | De Joven A Joven | 15 de Agosto de 2024',
                     },
@@ -764,7 +769,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/XDGT5O4.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/k/T/x/3/kTx3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/k/T/x/3/kTx3s.haa.mp4?u=0&b=0',
                     'Himno 001 - Cantad Alegres al Señor',
                     'Cantad alegres al Señor, mortales todos por doquier; servidle siempre con fervor, obedecedle con placer. Con gratitud canción alzad al Hacedor que el ser os dio; al Dios excelso venerad, que como Padre nos amó. Su pueblo somos: salvará a los que busquen al Señor; ninguno de ellos dejará; él los ampara con su amor.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -777,7 +782,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Ji3WylW.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/z/V/x/3/zVx3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/z/V/x/3/zVx3s.haa.mp4?u=0&b=0',
                     'Himno 002 - Da Gloria al Señor',
                     'Da gloria al Señor, de rodillas adórale en la hermosura de su santidad, tu plena obediencia cual oro ofreciéndole con el incienso de grata humildad. Echada a sus pies esa carga que oprímete, la llevará sobre su corazón; tus penas te quitará, limpiando tus lágrimas, guiando tus pies a mayor bendición. En sus santos atrios adonde convídate, aunque eres pobre no temas entrar; la firme, constante fe y el puro, sencillo amor: tales ofrendas pon sobre el altar. Y cuando tú vayas temblando a llevárselas, por su Hijo amado las aceptará; y tras noche lúgubre habrá aurora espléndida: gozo, alegría y paz te dará.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -789,7 +794,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Oy0jtjU.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/L/X/x/3/LXx3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/L/X/x/3/LXx3s.haa.mp4?u=0&b=0',
                     'Himno 003 - Unidos en Espíritu',
                     'Unidos en espíritu al coro celestial, cantemos con los ángeles un cántico triunfal. Y si vertimos lágrimas al frente de la cruz, rebose hoy el júbilo, pues vive el buen Jesús. Lo que en el triste Gólgota derrota pareció, desde el sellado túmulo en triunfo se cambió. Vencido el enemigo está, menguado su poder; y el mortal su súbdito ya no habrá de ser. Jesús, de gloria Príncipe, autor de nuestra paz, ven, muéstranos benévolo tu esplendorosa faz. Y acepta el dulce cántico de nuestra gratitud, por tu valiosa dádiva de la eternal salud.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -801,7 +806,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/HBrJjQq.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/f/1/x/3/f1x3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/f/1/x/3/f1x3s.haa.mp4?u=0&b=0',
                     'Himno 004 - Alabanzas sin cesar',
                     'Alabanzas sin cesar entonemos al Señor; himnos mil a su bondad entonemos con amor. Él nos da la plenitud de su gracia celestial; es la fuente de salud para el infeliz mortal. Del pecado abrumador él nos vino a libertar; nos ofrece salvación, y nos llama sin cesar. Ya podemos recorrer el camino terrenal sin temor hasta obtener nuestra herencia celestial. Y entretanto que el Señor nos reciba donde está, entonemos el loor que bondadoso aceptará. Mientras huelle nuestro pie este mundo pecador, ofrezcámosle con fe nuestro canto, nuestro amor.',
                     'Año: 2009 | Duración: | Calidad HD');" draggable="false">
@@ -813,7 +818,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/eIT25Hl.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/n/3/x/3/n3x3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/n/3/x/3/n3x3s.haa.mp4?u=0&b=0',
                     'Himno 005 - A ti, glorioso Dios',
                     'A ti, glorioso Dios, cantamos alabanzas; rendímoste honor por todas tus grandezas. Nos das tu bendición en nuestra senda aquí; nos guiarás, Señor, a tu mansión allí. Ven siempre, oh gran Dios, muy cerca de nosotros; con celo y con fervor queremos ir a otros. Tu brazo protector del mal nos guardará; en lucha y aflicción consuelo nos será. Oh Padre, eterno Dios, cantámoste loores, y al Hijo Redentor, Señor de los señores, y al Santo Espíritu, el gran Consolador: al grande, trino Dios cantamos con fervor.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -825,7 +830,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/EUYjwJg.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/n/a/y/3/nay3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/n/a/y/3/nay3s.haa.mp4?u=0&b=0',
                     'Himno 006 - ¡Hosanna!',
                     '¡Hosanna! ¡Hosanna! ¡Hosanna! En cielo y tierra, es del Señor la gloria y potestad, y nos circunda con su amor por la eternidad. Alzad, pues, himnos de loor, que es grato a nuestro Dios; a él rindamos todo honor ahora y siempre, amén. ¡A Dios rindamos todo honor, todo honor, todo honor! ¡A Dios rindamos todo honor, ahora y siempre! Amén.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -837,7 +842,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Cwy4Sf3.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/n/c/y/3/ncy3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/n/c/y/3/ncy3s.haa.mp4?u=0&b=0',
                     'Himno 007 - Oh Dios, mi soberano Rey',
                     'Oh Dios, mi soberano Rey; a ti daré loor; tu nombre yo exaltaré, santísimo Señor. Tus obras evidencia son de tu infinito amor, y cantan con alegre voz las glorias del Señor. Aquel que busca salvación, en Cristo la hallará; y su ferviente petición él pronto atenderá. Eternamente durará el reino del Señor. Allí sus siervos gozarán la plenitud de amor.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -849,7 +854,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/60GEoJZ.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/D/f/y/3/Dfy3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/f/y/3/Dfy3s.haa.mp4?u=0&b=0',
                     'Himno 008 - ¡Suenen dulces himnos!',
                     '¡Suenen dulces himnos gratos al Señor y óiganse en concierto universal! Desde el alto cielo baja el Salvador para beneficio del mortal. Coro: ¡Gloria!, ¡gloria sea a nuestro Dios! ¡Gloria!, sí, cantemos a una voz. Y el cantar de gloria que se oyó en Belén, sea nuestro cántico también. Montes y collados fluyan leche y miel, y abundancia esparzan y solaz. Gócense los pueblos, gócese Israel, que a la tierra viene ya la paz. Salte, de alegría lleno el corazón, la abatida y pobre humanidad; Dios se compadece viendo su aflicción y le muestra buena voluntad. Vibre en nuestros pechos noble gratitud hacia quien nos brinda redención; y a Jesús el Cristo, que nos da salud, tributemos nuestra adoración.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -861,7 +866,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/UsELK23.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/9/g/y/3/9gy3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/9/g/y/3/9gy3s.haa.mp4?u=0&b=0',
                     'Himno 009 - Alabemos al Señor',
                     'Alabemos al Señor; demos gloria al Señor. Aleluya, amén, aleluya, amén. Prediquemos de su amor; anunciemos su perdón. Aleluya, amén, aleluya, amén.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -873,7 +878,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/68Ds8hR.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/6/G/y/3/6Gy3s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/6/G/y/3/6Gy3s.haa.mp4?u=0&b=0',
                     'Himno 010 - Alaba al Dios de Abraham',
                     'Alaba al Dios de Abraham, quien reina con honor; quien es anciano eterno y gran Dios de amor. Yo soy el gran Jehová proclama a gran voz. Me inclino y bendigo el nombre del santo Dios. Alaba al Dios de Abraham, quien reina en majestad. Me elevo y busco el gozo que a su diestra va. La fama y el poder todo esto lo dejé. Él es mi parte, torre y escudo que yo busqué. Triunfante multitud las gracias todos dan. Al Padre, Hijo, Espíritu, cantando están. Alaba al Dios de Abraham, Señor del gran confín. Pues suyo es el poder, majestad y loor sin fin.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -885,7 +890,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/WACIcP5.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/9/n/_/6/9n_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/9/n/_/6/9n_6s.haa.mp4?u=0&b=0',
                     'Himno 011 - Alma, bendice al Señor',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -897,7 +902,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/xaTbtCw.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/f/p/_/6/fp_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/f/p/_/6/fp_6s.haa.mp4?u=0&b=0',
                     'Himno 012 - Todos juntos reunidos',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -909,7 +914,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/cooq33M.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/C/q/_/6/Cq_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/C/q/_/6/Cq_6s.haa.mp4?u=0&b=0',
                     'Himno 013 - Al Dios invisible',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -921,7 +926,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/tcfW5Cj.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/b/s/_/6/bs_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/b/s/_/6/bs_6s.haa.mp4?u=0&b=0',
                     'Himno 014 - Engrandecido sea Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -933,7 +938,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/PasoYlJ.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/6/t/_/6/6t_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/6/t/_/6/6t_6s.haa.mp4?u=0&b=0',
                     'Himno 015 - Loámoste, ¡oh Dios!',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -945,7 +950,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/D5KOEyp.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/b/w/_/6/bw_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/b/w/_/6/bw_6s.haa.mp4?u=0&b=0',
                     'Himno 016 - A nuestro Padre Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -957,7 +962,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/3Sl0dzv.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/v/x/_/6/vx_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/v/x/_/6/vx_6s.haa.mp4?u=0&b=0',
                     'Himno 017 - Oh Padre, eterno Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -969,7 +974,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/EDutGVx.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/D/y/_/6/Dy_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/y/_/6/Dy_6s.haa.mp4?u=0&b=0',
                     'Himno 018 - Load al Padre',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -981,7 +986,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/wzx5pbI.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/s/z/_/6/sz_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/s/z/_/6/sz_6s.haa.mp4?u=0&b=0',
                     'Himno 019 - Padre nuestro',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -993,7 +998,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/h9vDRRS.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/P/A/_/6/PA_6s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/P/A/_/6/PA_6s.haa.mp4?u=0&b=0',
                     'Himno 020 - A Dios, el Padre celestial',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1005,7 +1010,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Vic2tL5.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/f/q/-/f/fq-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/f/q/-/f/fq-ft.haa.mp4?u=0&b=0',
                     'Himno 021 - Gloria sea al Padre',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1017,7 +1022,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/yY37vZT.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/T/r/-/f/Tr-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/T/r/-/f/Tr-ft.haa.mp4?u=0&b=0',
                     'Himno 022 - Jehová está en sus santo templo',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1029,7 +1034,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/xueL2W4.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/6/s/-/f/6s-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/6/s/-/f/6s-ft.haa.mp4?u=0&b=0',
                     'Himno 023 - ¡Silencio!¡Silencio!',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1041,7 +1046,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/m0uGDo3.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/P/u/-/f/Pu-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/P/u/-/f/Pu-ft.haa.mp4?u=0&b=0',
                     'Himno 024 - Imploramos tu presencia',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1053,7 +1058,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/zmgMwIB.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/X/v/-/f/Xv-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/X/v/-/f/Xv-ft.haa.mp4?u=0&b=0',
                     'Himno 025 - Siento la presencia del Señor',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1065,7 +1070,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/NjIpbdV.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/Q/w/-/f/Qw-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/Q/w/-/f/Qw-ft.haa.mp4?u=0&b=0',
                     'Himno 026 - Aquí reunidos',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1077,7 +1082,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/SZdHcAu.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/B/y/-/f/By-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/B/y/-/f/By-ft.haa.mp4?u=0&b=0',
                     'Himno 027 - ¡Oh Pastor divino, escucha!',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1089,7 +1094,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/dmLXFof.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/D/z/-/f/Dz-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/z/-/f/Dz-ft.haa.mp4?u=0&b=0',
                     'Himno 028 - Tu pueblo jubiloso',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1101,7 +1106,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/D1O1GGT.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/J/B/-/f/JB-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/J/B/-/f/JB-ft.haa.mp4?u=0&b=0',
                     'Himno 029 - Del culto el tiempo llega',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1113,7 +1118,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/ayBcFtH.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/e/C/-/f/eC-ft.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/e/C/-/f/eC-ft.haa.mp4?u=0&b=0',
                     'Himno 030 - Abre mis ojos',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1125,7 +1130,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/lJofP6d.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/D/l/_/h/Dl_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/l/_/h/Dl_ht.haa.mp4?u=0&b=0',
                     'Himno 031 - ¡Oh, Señor! al orar',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1137,7 +1142,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/CqXvZ0y.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/T/m/_/h/Tm_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/T/m/_/h/Tm_ht.haa.mp4?u=0&b=0',
                     'Himno 032 - Nos reunimos en tu santuario',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1149,7 +1154,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/12SbxnF.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/s/n/_/h/sn_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/s/n/_/h/sn_ht.haa.mp4?u=0&b=0',
                     'Himno 033 - Tu presencia, Padre amante, invocamos',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1161,7 +1166,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/CPbcbFA.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/0/n/_/h/0n_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/0/n/_/h/0n_ht.haa.mp4?u=0&b=0',
                     'Himno 034 - En momentos así',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1173,7 +1178,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Ilp6189.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/D/o/_/h/Do_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/o/_/h/Do_ht.haa.mp4?u=0&b=0',
                     'Himno 035 - Oye, oh Señor',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1185,7 +1190,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/xuMKdaD.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/H/p/_/h/Hp_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/H/p/_/h/Hp_ht.haa.mp4?u=0&b=0',
                     'Himno 036 - ¡Oh Dios, que oyes cada oración!',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1197,7 +1202,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/43yOUXT.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/f/q/_/h/fq_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/f/q/_/h/fq_ht.haa.mp4?u=0&b=0',
                     'Himno 037 - Dios os guarde',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1209,7 +1214,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/pFrCPOG.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/9/q/_/h/9q_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/9/q/_/h/9q_ht.haa.mp4?u=0&b=0',
                     'Himno 038 - Que Dios te guarde',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1221,7 +1226,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/1IVRMjh.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/5/r/_/h/5r_ht.haa.1.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/5/r/_/h/5r_ht.haa.1.mp4?u=0&b=0',
                     'Himno 039 - Despide hoy tu grey',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1233,7 +1238,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/PMIcniH.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/L/s/_/h/Ls_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/L/s/_/h/Ls_ht.haa.mp4?u=0&b=0',
                     'Himno 040 - Shalom',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1245,7 +1250,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Y01hhwN.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/v/t/_/h/vt_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/v/t/_/h/vt_ht.haa.mp4?u=0&b=0',
                     'Himno 041 - Gracia, amor y comunión',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1257,7 +1262,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/1acDam3.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/1/t/_/h/1t_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/1/t/_/h/1t_ht.haa.mp4?u=0&b=0',
                     'Himno 042 - Queda, Señor',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1269,7 +1274,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/43XNNnp.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/K/v/_/h/Kv_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/K/v/_/h/Kv_ht.haa.mp4?u=0&b=0',
                     'Himno 043 - Agua de vida',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1281,7 +1286,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/6vrbogh.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/f/w/_/h/fw_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/f/w/_/h/fw_ht.haa.mp4?u=0&b=0',
                     'Himno 044 - Despídenos con tu bendición',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1293,7 +1298,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/UZrsRr4.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/A/x/_/h/Ax_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/A/x/_/h/Ax_ht.haa.mp4?u=0&b=0',
                     'Himno 045 - Después, Señor',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1305,7 +1310,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/GATsexs.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/1/x/_/h/1x_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/1/x/_/h/1x_ht.haa.mp4?u=0&b=0',
                     'Himno 046 - Hoy amanece',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1317,7 +1322,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/6LfIFja.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/D/y/_/h/Dy_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/y/_/h/Dy_ht.haa.mp4?u=0&b=0',
                     'Himno 047 - Por la mañana',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1329,7 +1334,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/GwiMSXP.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/L/z/_/h/Lz_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/L/z/_/h/Lz_ht.haa.mp4?u=0&b=0',
                     'Himno 048 - Oh Dios, si he ofendido un corazón',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1341,7 +1346,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/USc9XkS.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/Y/A/_/h/YA_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/Y/A/_/h/YA_ht.haa.mp4?u=0&b=0',
                     'Himno 049 - Cristo, ya la noche cierra',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1353,7 +1358,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Hm1Le4b.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/D/B/_/h/DB_ht.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/B/_/h/DB_ht.haa.mp4?u=0&b=0',
                     'Himno 050 - Baja el sol',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1365,7 +1370,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/LudoebN.jpg',
-                    'https://1a-1791.com/video/s8/2/0/8/r/o/08rot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/0/8/r/o/08rot.haa.mp4?u=0&b=0',
                     'Himno 051 - Nuestro sol se pone ya',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1377,7 +1382,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/JeCu8Lr.jpg',
-                    'https://1a-1791.com/video/s8/2/s/-/r/o/s-rot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/s/-/r/o/s-rot.haa.mp4?u=0&b=0',
                     'Himno 052 - Señor Jesús, el día ya se fue',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1389,7 +1394,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/CyKpAXa.jpg',
-                    'https://1a-1791.com/video/s8/2/9/a/s/o/9asot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/9/a/s/o/9asot.haa.mp4?u=0&b=0',
                     'Himno 053 - ¡Oh amor de Dios!',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1401,7 +1406,7 @@
                 <h3 class="hd-4"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/AWYnSOq.jpg',
-                    'https://1a-1791.com/video/s8/2/1/c/s/o/1csot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/1/c/s/o/1csot.haa.mp4?u=0&b=0',
                     'Himno 054 - Tan Bueno es Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1413,7 +1418,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/BJoapT4.jpg',
-                    'https://1a-1791.com/video/s8/2/P/g/s/o/Pgsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/P/g/s/o/Pgsot.haa.mp4?u=0&b=0',
                     'Himno 055 - Grande, Señor, es tu misericordia',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1425,7 +1430,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/bYMgQWM.jpg',
-                    'https://1a-1791.com/video/s8/2/B/i/s/o/Bisot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/B/i/s/o/Bisot.haa.mp4?u=0&b=0',
                     'Himno 056 - De tal manera amó',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1437,7 +1442,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/3fOEzYh.jpg',
-                    'https://1a-1791.com/video/s8/2/R/k/s/o/Rksot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/R/k/s/o/Rksot.haa.mp4?u=0&b=0',
                     'Himno 057 - Mi Dios me ama',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1449,7 +1454,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Foi44Mi.jpg',
-                    'https://1a-1791.com/video/s8/2/k/n/s/o/knsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/k/n/s/o/knsot.haa.mp4?u=0&b=0',
                     'Himno 058 - Grande es el amor divino',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1461,7 +1466,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/wOU9B4F.jpg',
-                    'https://1a-1791.com/video/s8/2/L/o/s/o/Losot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/L/o/s/o/Losot.haa.mp4?u=0&b=0',
                     'Himno 059 - Mirad qué amor',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1473,7 +1478,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Ka8fG7Q.jpg',
-                    'https://1a-1791.com/video/s8/2/1/r/s/o/1rsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/1/r/s/o/1rsot.haa.mp4?u=0&b=0',
                     'Himno 060 - ¡Santo!¡Santo!¡Santo! Tu gloria llena',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1485,7 +1490,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/rKEOTGp.jpg',
-                    'https://1a-1791.com/video/s8/2/8/t/s/o/8tsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/8/t/s/o/8tsot.haa.mp4?u=0&b=0',
                     'Himno 061 - Santo, Santo, Santo, Dios Omnipotente',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1497,7 +1502,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/TGJoWRY.jpg',
-                    'https://1a-1791.com/video/s8/2/L/v/s/o/Lvsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/L/v/s/o/Lvsot.haa.mp4?u=0&b=0',
                     'Himno 062 - Santo, santo, santo, santo es el Señor',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1509,7 +1514,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/2xw1jyk.jpg',
-                    'https://1a-1791.com/video/s8/2/R/w/s/o/Rwsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/R/w/s/o/Rwsot.haa.mp4?u=0&b=0',
                     'Himno 063 - Al Rey adorad',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1521,7 +1526,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/5U8JaKA.jpg',
-                    'https://1a-1791.com/video/s8/2/v/y/s/o/vysot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/v/y/s/o/vysot.haa.mp4?u=0&b=0',
                     'Himno 064 - Yo canto el poder de Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1533,7 +1538,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/lcb9phX.jpg',
-                    'https://1a-1791.com/video/s8/2/t/B/s/o/tBsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/t/B/s/o/tBsot.haa.mp4?u=0&b=0',
                     'Himno 065 - El mundo es de mi Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1545,7 +1550,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/0GDcrXq.jpg',
-                    'https://1a-1791.com/video/s8/2/0/C/s/o/0Csot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/0/C/s/o/0Csot.haa.mp4?u=0&b=0',
                     'Himno 066 - ¿Sabes cuántos?',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1557,7 +1562,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/000WpRr.jpg',
-                    'https://1a-1791.com/video/s8/2/C/F/s/o/CFsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/C/F/s/o/CFsot.haa.mp4?u=0&b=0',
                     'Himno 067 - ¡Señor, yo te conozco!',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1569,7 +1574,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/6WOaxme.jpg',
-                    'https://1a-1791.com/video/s8/2/D/H/s/o/DHsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/H/s/o/DHsot.haa.mp4?u=0&b=0',
                     'Himno 068 - Todo lo que ha creado Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1581,7 +1586,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/lHWAgcQ.jpg',
-                    'https://1a-1791.com/video/s8/2/Q/J/s/o/QJsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/Q/J/s/o/QJsot.haa.mp4?u=0&b=0',
                     'Himno 069 - Señor, mi Dios',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1593,7 +1598,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/sS0qDIv.jpg',
-                    'https://1a-1791.com/video/s8/2/D/L/s/o/DLsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/D/L/s/o/DLsot.haa.mp4?u=0&b=0',
                     'Himno 070 - ¡Nuestro Dios reina!',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1605,7 +1610,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/og1O8tq.jpg',
-                    'https://1a-1791.com/video/s8/2/f/P/s/o/fPsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/f/P/s/o/fPsot.haa.mp4?u=0&b=0',
                     'Himno 071 - Cada cosa hermosa',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1617,7 +1622,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/kPL0Khz.jpg',
-                    'https://1a-1791.com/video/s8/2/A/S/s/o/ASsot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/A/S/s/o/ASsot.haa.mp4?u=0&b=0',
                     'Himno 072 - Fue un milagro',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1629,7 +1634,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/v4Uoil8.jpg',
-                    'https://1a-1791.com/video/s8/2/Y/k/t/o/Yktot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/Y/k/t/o/Yktot.haa.mp4?u=0&b=0',
                     'Himno 073 - La creación',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1641,7 +1646,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/VOglnSQ.jpg',
-                    'https://1a-1791.com/video/s8/2/S/s/t/o/Sstot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/S/s/t/o/Sstot.haa.mp4?u=0&b=0',
                     'Himno 074 - Himno al Creador',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1653,7 +1658,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/kz9JT8k.png',
-                    'https://1a-1791.com/video/s8/2/T/u/t/o/Tutot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/T/u/t/o/Tutot.haa.mp4?u=0&b=0',
                     'Himno 075 - Grande es Jehová',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1665,7 +1670,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/bXsaHQv.jpg',
-                    'https://1a-1791.com/video/s8/2/n/w/t/o/nwtot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/n/w/t/o/nwtot.haa.mp4?u=0&b=0',
                     'Himno 076 - Eterno Dios, mi Creador',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -1677,7 +1682,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/VWWafVE.jpg',
-                    'https://1a-1791.com/video/s8/2/n/x/t/o/nxtot.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/n/x/t/o/nxtot.haa.mp4?u=0&b=0',
                     'Himno 077 - Sea exaltado',
                     '',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -5588,7 +5593,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     '',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/f/z/E/0/fzE0s.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/f/z/E/0/fzE0s.gaa.mp4?u=0&b=0',
                     'Himno 001 - Cantad Alegres | Walter Hernan',
                     'Cantad alegres al Señor, mortales todos por doquier; servidle siempre con fervor, obedecedle con placer. Con gratitud canción alzad al Hacedor que el ser os dio; al Dios excelso venerad, que como Padre nos amó. Su pueblo somos: salvará a los que busquen al Señor; ninguno de ellos dejará; él los ampara con su amor.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -5601,7 +5606,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     '',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/j/G/E/0/jGE0s.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/j/G/E/0/jGE0s.haa.mp4?u=0&b=0',
                     'Himno N° 365 Elevemos al Señor | Walter Hernan',
                     'Elevemos al Señor nuestros himnos de loor, pues los campos visitó con su rica bendición. Ya la siega terminó, la cosecha se guardó; el invierno llegará, pero nada faltará. Este mundo es de Dios, el eterno Sembrador; y en su mies han de crecer hasta el fin el mal y el bien. Todo grano brotará, flor y espiga crecerá; Oh, Señor, queremos ser, el buen trigo en tu mies. Ven, Señor, a recoger la cosecha de tu haber; junta al pueblo en tu alfolí, tenlo siempre unido a ti. Libre ya de su pecar y sin penas que pasar; ven, levanta, oh Señor, la cosecha de tu amor.',
                     'Año: 2009 | Calidad HD');" draggable="false">
@@ -5654,9 +5659,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar" data-categoria="">
                 <h3 class="hd-1"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://i.imgur.com/Ya3fvlH.png',
-                    'https://1a-1791.com/video/s8/2/C/2/L/w/C2Lwt.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/C/2/L/w/C2Lwt.gaa.mp4?u=0&b=0',
                     'Camile',
                     'Después que su mejor amiga Camile, fuera brutalmente agredida por su esposo, Alana decide grabar un documental para concientizar sobre la violencia doméstica y sexual contra mujeres y niños.',
                     'Año: 2024 | Duración: 00h 42m | Calidad HD');" draggable="false">
@@ -5666,9 +5671,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-1"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://i.imgur.com/Z3HJUCM.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/h/t/0/E/ht0Er.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/h/t/0/E/ht0Er.haa.mp4?u=0&b=0',
                     'Apocalipsis - La Novia, la Bestia y Babilonia - doblado al español',
                     'Amazing Facts presenta un documental increíble sobre las profecías de Apocalipsis',
                     'Año: 2020 | Duración: 01h 23m | Calidad HD');" draggable="true">
@@ -5678,9 +5683,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://i.imgur.com/vI7f7Xl.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/K/s/u/r/Ksurr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/K/s/u/r/Ksurr.gaa.mp4?u=0&b=0',
                     '1.La Ventana -  Compartir a Jesús es Todo (Pr. Alejandro Bullón)',
                     'El instrumento que Dios usa para salvar a esta familia es una pareja cristiana que a través de la amistad y el compañerismo lograron cautivar el corazón de ellos para así conducirlos a la fuente de la felicidad y esperanza en Jesucristo.',
                     'Año: 2010 | Duración: 00h 29m | Calidad HD');" draggable="true">
@@ -5690,9 +5695,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://i.imgur.com/SKS6WKO.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/C/n/y/r/Cnyrr.caa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/C/n/y/r/Cnyrr.caa.mp4?u=0&b=0',
                     '2.El Regreso (Pr. Alejandro Bullón)',
                     'Una gran película del Pastor Alejandro Bullón; esta película esta dedicada para recordar a las personas que Dios siempre ofrece una nueva oportunidad. No importa cuán bajo haya caído la persona, o cuantas veces se haya alejado de Dios, Él siempre permanece fiel esperándole con los brazos abiertos.',
                     'Año: 2012 | Duración: 01h 08m | Calidad HD');" draggable="true">
@@ -5702,9 +5707,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://i.imgur.com/IyuGK05.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/8/F/B/r/8FBrr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/8/F/B/r/8FBrr.gaa.mp4?u=0&b=0',
                     '3.Marcados para Morir (Pr. Alejandro Bullón)',
                     'El título Marcados para morir hace referencia al hecho de que, desde que el mundo se volvió pecaminoso, todo ser humano está marcado para morir desde el nacimiento. Para abordar el tema, la trama contará tres historias sin ningún vínculo aparente. De acuerdo con Bullón, el largometraje echa por tierra todos los argumentos que las personas presentan como obstáculos para la decisión del bautismo. Son argumentos como la desaprobación de los padres, el miedo a la ruina en los negocios por causa del descanso sabático, o hasta los mismos pecados que todavía comete o ve que otros cristianos cometen. -Esta será una herramienta poderosa en las manos de los adventistas-, garantiza el pastor y guionista. No obstante, para Bullón, la producción no tendrá carácter evangelizador. La película fue concebida para ser presentada a aquellos que ya estudiaron la Biblia, conocen las doctrinas, pero, así y todo, no optaron por el bautismo. Explica: -La persona ya recibió todos los estudios. Todas las dudas fueron quitadas, pero no se decide por el bautismo. Es pasar la película y rellenar la ficha bautismal-.',
                     'Año: 2015 | Duración: 01h 36m | Calidad HD');" draggable="true">
@@ -5714,9 +5719,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://www.justwatch.com/images/backdrop/307608245/s640/a-million-miles-away/a-million-miles-away',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/F/k/H/r/FkHrr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/F/k/H/r/FkHrr.gaa.mp4?u=0&b=0',
                     'A millones de kilómetros (Latino)',
                     'Narra la historia de José Hernández, el primer trabajador agrícola migrante en viajar al espacio. Una historia de perseverancia, comunidad y sacrificio para lograr un sueño imposible.',
                     'Año: 2023 | Duración: 02h 01m | Calidad HD');" draggable="true">
@@ -5726,9 +5731,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://www.justwatch.com/images/backdrop/174428241/s640/joseph-of-nazareth/joseph-of-nazareth',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/x/2/M/r/x2Mrr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/x/2/M/r/x2Mrr.gaa.mp4?u=0&b=0',
                     'Amigos de Jesús - José de Nazaret',
                     'Las gentes de Jerusalén sufren bajo el reinado de Herodes, y esperan ser liberados de los invasores romanos por el mesías, cuya llegada se rumorea tendrá lugar pronto.',
                     'Año: 2000 | Duración: 01h 40m | Calidad HD');" draggable="true">
@@ -5738,9 +5743,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://images.justwatch.com/backdrop/206724993/s640/barabbas.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/B/J/S/r/BJSrr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/B/J/S/r/BJSrr.gaa.mp4?u=0&b=0',
                     'Barrabás (Latino)',
                     'Relato épico del ladrón Barrabás, que fue perdonado por sus crímenes y se salvó de la crucifixión cuando Pilato ofreció a los israelitas la opción de perdonar a Barrabás o a Jesús. Luchando con su espiritualidad, Barrabás pasa por muchas pruebas que lo llevan a la arena de los gladiadores, donde intenta ganar su libertad y enfrentar sus demonios internos, convirtiéndose finalmente en un seguidor del hombre que fue crucificado en su lugar.',
                     'Año: 1961 | Duración: 02h 17m | Calidad HD');" draggable="true">
@@ -5750,9 +5755,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://images.justwatch.com/backdrop/243044896/s640/cleopatra.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/o/l/k/n/olknr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/o/l/k/n/olknr.gaa.mp4?u=0&b=0',
                     'Cleopatra (Latino)',
                     'Decidida a conservar el trono, Cleopatra seduce al emperador romano Julio César. Cuando César es asesinado, ella redirige su atención a su general, Marco Antonio, quien promete tomar el poder, pero el sucesor de César tiene otros planes.',
                     'Año: 1963 | Duración: 04h 11m | Calidad HD');" draggable="true">
@@ -5762,9 +5767,9 @@
             <!-- Video -->
             <div class="vid"  id="botonMostrar"  data-categoria="">
                 <h3 class="hd-2"></h3>
-                <a href="javascript:void(0);" onclick="openPopupJW(
+                <a href="javascript:void(0);" onclick="openPopupClappr(
                     'https://www.justwatch.com/images/backdrop/832285/s640/el-mesias/el-mesias',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/z/l/m/t/zlmtr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/z/l/m/t/zlmtr.gaa.mp4?u=0&b=0',
                     'El Joven Mesías (Latino)',
                     'Historia que habla de la figura del líder religioso desde sus comienzos. A los siete años, Jesús vive con su familia en Alejandría, Egipto. Pero rápidamente tienen que huir para evitar la masacre de niños iniciada por Herodes, rey de Israel. Jesús sabe que sus padres, José y María, guardan secretos sobre su nacimiento. Recibe un tratamiento diferente por parte de ellos al que recibirían el resto de los niños. Sus padres, sin embargo, consideran que es demasiado pronto para decirle la verdad de su nacimiento milagroso. Con la muerte del rey deciden regresar a Nazaret sin saber que el heredero al trono es igual que su padre y está decidido a matar a Jesús. Mientras, él se entera de la verdad sobre sus propósitos en la vida.',
                     'Año: 2016 | Duración: 02h 00m | Calidad HD');" draggable="true">
@@ -5776,7 +5781,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/bWF3wM8.png',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/P/w/j/s/Pwjsr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/P/w/j/s/Pwjsr.gaa.mp4?u=0&b=0',
                     'El poder de la fe (Latino)',
                     'Un hombre incrédulo se encuentra cargando con el peso del mundo hasta que una experiencia divina cambia su vida y no puede negar el poder de Dios.',
                     'Año: 2019 | Duración: 01h 42m | Calidad HD');" draggable="true">
@@ -5788,7 +5793,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/304253511/s640/el-principe-de-egipto.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/v/5/k/s/v5ksr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/v/5/k/s/v5ksr.gaa.mp4?u=0&b=0',
                     'El Principe De Egipto (Latino)',
                     'En Egipto, hace miles de años, el faraón Seti ordena el ahogamiento de todos los bebés judíos. Una madre desesperada coloca a su bebé en una cesta río abajo y deja que Dios la guíe hasta la orilla en donde será hallada por la reina y el bebé, Moisés, criado como hermano del heredero al trono, Ramsés. Años después los hermanos se distanciarán por el descubrimiento de los orígenes hebreos de Moisés.',
                     'Año: 1998 | Duración: 01h 39m | Calidad HD');" draggable="true">
@@ -5800,7 +5805,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://www.justwatch.com/images/backdrop/252856868/s640/grace-unplugged/grace-unplugged',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/v/s/q/s/vsqsr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/v/s/q/s/vsqsr.gaa.mp4?u=0&b=0',
                     'Grace Unplugged (Latino)',
                     'La fe cristiana y los lazos familiares de una joven talentosa cantante y aspirante a compositora se ponen a prueba cuando desafía a su padre, pastor de adoración, y persigue el estrellato de la música pop en GRACE UNPLUGGED, una nueva película conmovedora e inspiradora que explora el verdadero significado del éxito.',
                     'Año: 2013 | Duración: 01h 42m | Calidad HD');" draggable="true">
@@ -5812,7 +5817,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/J4e7Hn4.png',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/m/d/s/s/mdssr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/m/d/s/s/mdssr.gaa.mp4?u=0&b=0',
                     'Hijo del Hombre (Latino)',
                     'Jesús elige a los doce apóstoles para el núcleo de su comunidad. Su actitud, milagros y mensaje arrastran a miles de personas y molestan a los señores de la ley y escribas que representan la autoridad religiosa en Judea. Jesús es torturado y asesinado, pero lo que parecía ser el final de una trayectoria humana se convierte en la historia más famosa del mundo a partir de su resurrección que perpetúa su mensaje hasta el día de hoy.',
                     'Año: 2019 | Duración: 01h 55m | Calidad HD');" draggable="true">
@@ -5824,7 +5829,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://www.justwatch.com/images/backdrop/243770537/s640/la-biblia-en-su-principio/la-biblia-en-su-principio',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/b/a/H/s/baHsr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/b/a/H/s/baHsr.gaa.mp4?u=0&b=0',
                     'La Biblia...en el principio (Latino)',
                     'Cuenta los primeros 22 capítulos del Génesis: la creación del mundo, la expulsión del hombre del Paraíso Terrenal, la expansión del Pueblo de Dios por la faz de la Tierra, el Diluvio Universal o la destrucción de Sodoma y Gomorra.',
                     'Año: 1966 | Duración: 02h 55m | Calidad HD');" draggable="true">
@@ -5836,7 +5841,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://www.justwatch.com/images/backdrop/309858798/s640/la-historia-mas-grande-jamas-contada/la-historia-mas-grande-jamas-contada',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/n/P/K/s/nPKsr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/n/P/K/s/nPKsr.gaa.mp4?u=0&b=0',
                     'La historia más grande jamás contada (Latino)',
                     'Superproducción sobre la vida de Jesús de Nazaret que contó con un extenso y conocido reparto en el que destaca Max von Sydow como Jesucristo. A partir de los Evangelios narra la vida de Jesús en la Palestina ocupada por Roma: su nacimiento en Belén, su infancia en Nazaret, los tres años de vida pública, la Última Cena, la traición de su discípulo Judas, su juicio, crucifixión y posterior resurrección.',
                     'Año: 1965 | Duración: 04h 20m | Calidad HD');" draggable="true">
@@ -5848,7 +5853,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://www.justwatch.com/images/backdrop/258661656/s640/llena-de-gracia/llena-de-gracia',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/6/S/N/s/6SNsr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/6/S/N/s/6SNsr.gaa.mp4?u=0&b=0',
                     'Llena de Gracia (Latino)',
                     'En los últimos días de la vida de María de Nazaret, el apóstol Pedro acude a ella para que le ayude a difundir la vida y obra de Jesús.',
                     'Año: 2017 | Duración: 01h 23m | Calidad HD');" draggable="true">
@@ -5860,7 +5865,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/302073033/s640/lifemark.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/n/p/S/s/npSsr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/n/p/S/s/npSsr.gaa.mp4?u=0&b=0',
                     'Marca de vida (Latino)',
                     'David es un chico de 18 años que vive feliz con la familia que le adoptó cuando era un bebé. Su cómodo mundo se pone patas arriba cuando, inesperadamente, su madre biológica expresa su deseo de conocerlo. Con el aliento de sus padres adoptivos, David se embarca en un viaje de descubrimiento que le conduce a una asombrosa verdad sobre su pasado.',
                     'Año: 2022 | Duración: 01h 45m | Calidad HD');" draggable="true">
@@ -5872,7 +5877,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/239584118/s640/me-enamore-de-una-chica-cristiana.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/g/5/U/s/g5Usr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/g/5/U/s/g5Usr.gaa.mp4?u=0&b=0',
                     'Me Enamore de una Chica Cristiana',
                     'Miles Montego (Ja Rule) lo tenía todo: dinero, coches y mujeres. Pero también un pasado. Miles era el rey de las calles, un narcotraficante de alto nivel, y aunque ahora trata de seguir adelante y ha tomado la decisión de dejar su pasado atrás, los agentes de la DEA (agencia antidrogas) lo mantiene bajo investigación. Miles sigue saliendo con sus viejos amigos y colegas y los federales están seguros de que aún no se retira por completo de la vida criminal. Cuando Miles conoce a Vanessa Leon (Adrienne Bailon), una mujer diferente a todas las otras que ha conocido, es atraído por su belleza y su fe. Vanessa es una chica cristiana en todo el sentido de la palabra. Pronto Miles se encuentra dividido entre la vida que conoce y el amor que siente por Vanessa.',
                     'Año: 2013 | Duración: 01h 58m | Calidad HD');" draggable="true">
@@ -5884,7 +5889,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/X50vezf.png',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/N/h/5/s/Nh5sr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/N/h/5/s/Nh5sr.gaa.mp4?u=0&b=0',
                     'Nada es imposible (Latino)',
                     'Cuando un equipo de la NBA anuncia repentinamente pruebas abiertas, un conserje de secundaria tiene una segunda oportunidad tanto en el amor como en la vida.',
                     'Año: 2022 | Duración: 01h 46m | Calidad HD');" draggable="true">
@@ -5896,7 +5901,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://www.justwatch.com/images/backdrop/10673941/s640/Noah/Noah',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/6/f/9/s/6f9sr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/6/f/9/s/6f9sr.gaa.mp4?u=0&b=0',
                     'Noé (Latino)',
                     'Superproducción épica sobre la figura bíblica de Noé. En un mundo destruido por la perversión de los hombres, un humilde carpintero llamado Noé recibe una importante misión que será trascendental para la evolución y el desarrollo de la raza humana. Dios, cansado del corrupto y depravado comportamiento de los seres humanos a los que él mismo dio vida, advierte a Noé de un necesario e inminente diluvio universal que depure y libere a la tierra de la acción humana. Noé tendrá que construir un arca gigante para salvar a su familia, donde deberá reunir a una pareja de cada especie animal para preservar su conservación y crecimiento tras el apocalíptico diluvio que acabará con la humanidad y su fatídica conducta. El arca evitará que los seres que estén dentro mueran ahogados y los mantendrá con vida para una posterior reconstrucción del universo.',
                     'Año: 2014 | Duración: 02h 18m | Calidad HD');" draggable="true">
@@ -5908,7 +5913,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/186516077/s640/quo-vadis.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/K/3/_/s/K3_sr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/K/3/_/s/K3_sr.gaa.mp4?u=0&b=0',
                     'Quo Vadis (Latino)',
                     'Cuando regresa a Roma, después de tres años en el campo de batalla, el general Marco Vinicio se enamora de Lygia. Pero ella es cristiana y sus creencias le impiden enamorarse de un guerrero. Aunque fue adoptada por un general retirado, jurídicamente es una esclava de Roma. Pero Marco consigue que el emperador Nerón se la ceda en pago por sus servicios.',
                     'Año: 1951 | Duración: 02h 51m | Calidad HD');" draggable="true">
@@ -5920,7 +5925,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/309146554/s640/his-only-son.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/T/I/f/t/TIftr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/T/I/f/t/TIftr.gaa.mp4?u=0&b=0',
                     'Su único hijo (Latino)',
                     'Después de ser llamado por el Señor, la fe de Abraham se pone a prueba en su viaje de tres días para sacrificar a su hijo.',
                     'Año: 2023 | Duración: 01h 44m | Calidad HD');" draggable="true">
@@ -5932,7 +5937,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/XvSgQ5r.png',
-                    'https://hugh.cdn.rumble.cloud/video/fw/s8/2/Q/5/g/t/Q5gtr.caa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/fw/s8/2/Q/5/g/t/Q5gtr.caa.mp4?u=0&b=0',
                     'Un milagro en texas (Latino)',
                     'Dos estafadores intentan convencer a un grupo de viudas para que inviertan en pozos petroleros sin valor durante la Gran Depresión.',
                     'Año: 2024 | Duración: 01h 40m | Calidad HD');" draggable="true">
@@ -5944,7 +5949,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/P6VXHHF.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/7/B/F/h/7BFhr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/7/B/F/h/7BFhr.gaa.mp4?u=0&b=0',
                     'Cristiano por accidente',
                     'Teo no ha podido superar a su primer amor, y debido a su mala experiencia empieza a odiar a los cristianos, al punto de hacer lo necesario para perjudicarlos, pero en el fondo, necesita de Dios para superar esta situación. Una película de comedia diferente que pretende mostrar los prejuicios que existen en el mundo respecto a la religión, sociedad, amigos y la vida en general.',
                     'Año: 2024 | Duración: 01h 44m | Calidad HD');" draggable="true">
@@ -5956,7 +5961,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/uIC1Mhh.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/s/n/t/S/sntSq.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/s/n/t/S/sntSq.gaa.mp4?u=0&b=0',
                     'El regreso: el gran conflicto parte 3',
                     'Un grupo de personas se encuentra aislado luchando por sobrevivir después que el gran conflicto global que obligó a todos a elegir un bando. Ellos están pasando por persecuciones, plagas y diversas tribulaciones, enfrentan los desafíos del fin de los tiempos. ¿Cuál será es desenlace final?',
                     'Año: 2024 | Duración: | Calidad HD');" draggable="true">
@@ -5968,7 +5973,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/CLUlKvd.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/t/9/_/E/t9_Eq.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/t/9/_/E/t9_Eq.gaa.mp4?u=0&b=0',
                     'El regreso: Fuimos advertidos – Parte 2',
                     'William es parte del grupo de cristianos que están siendo perseguidos, cada uno de ellos abriga en sus corazones la esperanza de ver a sus seres queridos un poco más en esta tierra. La persecución a los cristianos es un hecho actual, las señales se están cumpliendo ¡El mundo esta llegando a sus días finales! ¿Que sucederá con la familia de William? ¿Lograrán mantenerse firmes hasta la prueba final?',
                     'Año: 2024 | Duración: 01h 18m | Calidad HD');" draggable="true">
@@ -5981,7 +5986,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/HoV65U0.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/6/j/h/a/6jhaq.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/6/j/h/a/6jhaq.gaa.mp4?u=0&b=0',
                     'En mis manos',
                     'Cásio está en busca del éxito, de la fama y el reconocimiento a sus esfuerzos para salir de la pobreza y de la discriminación que siente por ser quien es, sin embargo la presión es demasiado fuerte ¿Podrán las oraciones de una madre salvarlo de sus conflictos? ¿Podrá la fuera del amor hacer que sus convicciones sean más fuertes?',
                     'Año: 2024 | Duración: 00h 49m | Calidad HD');" draggable="true">
@@ -5995,7 +6000,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/TCl9AaV.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/s/n/c/T/sncTp.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/s/n/c/T/sncTp.gaa.mp4?u=0&b=0',
                     'Evolución vs. Dios (Spanish Version) HD',
                     'En este fascinante documental Ray Comfort desafía a la teoría de la evolución y confronta a intelectuales, profesores, y científicos de algunas de las universidades más prestigiadas del mundo. No se pierdan este impactante documental que sacudirá el mundo de los evolucionistas.',
                     'Año: 2014 | Duración: 00h 28m | Calidad HD');" draggable="true">
@@ -6009,7 +6014,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/hdz2TOl.jpg',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/1/c/k/T/1ckTp.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/1/c/k/T/1ckTp.haa.mp4?u=0&b=0',
                     'La Rebelión De Lucifer (Película Cristiana) Conflicto Cósmico: El Origen Del Mal.',
                     'La batalla entre el bien y el mal afecta toda vida en la tierra, incluida la suya. ¡Haz un viaje espectacular en el tiempo y rastrea la transformación de un ángel perfecto en Satanás y aprende cómo dirigió un ejército de ángeles en una revuelta! Este video le ayudará a entender el carácter y las acciones de Dios y por qué permitió que el pecado continuara a un costo tan grande. Sea testigo de la creación de un hermoso mundo nuevo... sienta el suspenso cuando el diablo trae su rebelión al Planeta Tierra... vea la tentación y caiga en el Edén... y descubra el asombroso plan de Dios para restaurar a la gente al paraíso.',
                     'Año: 2015 | Duración: 00h 40m | Calidad HD');" draggable="true">
@@ -6023,7 +6028,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/TXWbiHq.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/S/r/o/B/SroBp.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/S/r/o/B/SroBp.gaa.mp4?u=0&b=0',
                     'Donde esté tu corazón',
                     'Lucca decide vivir su vida alejado de su padre, a quién no puede perdonar por los eventos del último año en sus vidas, por ello decide ir hasta uno de los lugares especiales para él, hasta que su viaje más largo inicie. Pero Dios tenía otros planes, y a través del encuentro con Mauricio, su vida puede cambiar y cobrar un nuevo sentido.',
                     'Año: 2024 | Duración: 00h 48m | Calidad HD');" draggable="true">
@@ -6037,7 +6042,7 @@
                 <h3 class="hd-1"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/2j74FYt.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/X/6/n/B/X6nBp.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/X/6/n/B/X6nBp.gaa.mp4?u=0&b=0',
                     'Inevitablemente cerca',
                     'Cuando nos llega prueba sobre prueba, llegamos a pensar que Dios nos ha abandonado. Pero en el momento menos esperado, Él interviene para demostrarnos que Dios siempre está INEVITABLEMENTE CERCA',
                     'Año: 2024 | Duración: 00h 35m | Calidad HD');" draggable="true">
@@ -6219,7 +6224,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://i.imgur.com/Rsw8K1e.png',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/B/h/L/t/BhLtp.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/B/h/L/t/BhLtp.gaa.mp4?u=0&b=0',
                     'Mientras Estés Conmigo',
                     'Cuenta la historia real de la estrella de música cristiana Jeremy Camp, profundizando en su aventura de amor y pérdida, demostrando así que siempre hay esperanza.',
                     'Año: 2020 | Duración: 01h 55m | Calidad HD');" draggable="true">
@@ -6232,7 +6237,7 @@
                 <h3 class="hd-2"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/308572913/s640/sound-of-freedom.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/1/n/y/h/1nyhr.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/1/n/y/h/1nyhr.gaa.mp4?u=0&b=0',
                     'Sonido De Libertad',
                     'Narra la historia de Tim Ballard, un exagente de Seguridad Nacional de Estados Unidos que dejó su trabajo para dedicar su vida, sumergiéndose en el submundo del tráfico de personas a lo largo de hispanoamérica, a intentar salvar las vidas de cientos de niños.',
                     'Año: 2023 | Duración: 02h 11m | Calidad HD');" draggable="true">
@@ -6327,7 +6332,7 @@
                 <h3 class="hd-3"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/8670788/s640/los-diez-mandamientos.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/T/b/g/E/TbgEq.haa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/T/b/g/E/TbgEq.haa.mp4?u=0&b=0',
                     'Los Diez Mandamientos',
                     'Historia bíblica ambientada en el Antiguo Egipto que narra la historia de Moisés, un niño que fue abandonado en el río Nilo, y después recogido por la hija del faraón, convirtiéndose en el favorito de la familia del faraón, Moisés cansado de los abusos del faraón para su verdadera familia decide renunciar a su vida lujosa para conducir a su pueblo, los hebreos esclavizados en Egipto, que son su familia, hacia la libertad.',
                     'Año: 1956 | Duración: 03h 39m | Calidad FHD');" draggable="true">
@@ -6483,7 +6488,7 @@
                 <h3 class="hd-3"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/9071631/s640/the-robe.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/4/l/d/U/4ldUq.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/4/l/d/U/4ldUq.gaa.mp4?u=0&b=0',
                     'El Manto Sagrado',
                     'Marcelo Gallio que es el centurión romano encargado de supervisar la crucifixión. Su vida cambia para siempre cuando, al pie de la cruz, gana la túnica de Cristo en un juego de apuestas. Marcelo no solo se enamorará de la bella Diana sino que se enfrentará a otros desafíos que pondrán a prueba su fe y su honor.',
                     'Año: 1953 | Duración: 02h 15m | Calidad HD');" draggable="true">
@@ -6509,7 +6514,7 @@
                 <h3 class="hd-3"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://www.justwatch.com/images/backdrop/304884857/s640/demetrius-y-los-gladiadores/demetrius-y-los-gladiadores',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/w/2/t/E/w2tEq.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/w/2/t/E/w2tEq.gaa.mp4?u=0&b=0',
                     'Demetrio y los Gladiadores',
                     'Continuación de la -Túnica Sagrada- Tras el martirio al que son sometidos Diana y Marcelo, el gladiador griego Demetrius es el encargado de llevar a Pedro la túnica de Cristo, ya que Calícula quiere apoderarse de ella, convencido de que tiene poderes mágicos.',
                     'Año: 1954 | Duración: 01h 41m | Calidad HD');" draggable="true">
@@ -6665,7 +6670,7 @@
                 <h3 class="hd-3"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/8728651/s640/hasta-el-ultimo-hombre.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/q/b/b/D/qbbDq.gaa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/q/b/b/D/qbbDq.gaa.mp4?u=0&b=0',
                     'Hasta el Último Hombre',
                     'Narra la historia de Desmond Doss, un joven médico militar que participó en la Batalla de Okinawa, en la II Guerra Mundial, y se convirtió en el primer objeto de conciencia en la historia estadounidense en recibir la Medalla de Honor del Congreso.',
                     'Año: 2016 | Duración: 02h 11m | Calidad FHD');" draggable="true">
@@ -6691,7 +6696,7 @@
                 <h3 class="hd-3"></h3>
                 <a href="javascript:void(0);" onclick="openPopupJW(
                     'https://images.justwatch.com/backdrop/8798931/s640/la-pasion-de-cristo.%7Bformat%7D',
-                    'https://hugh.cdn.rumble.cloud/video/s8/2/d/P/h/V/dPhVq.caa.mp4?u=0&b=0',
+                    'https://ak2.rmbl.ws/s8/2/d/P/h/V/dPhVq.caa.mp4?u=0&b=0',
                     'La Pasión de Cristo',
                     'Año 33 de nuestra era. En la provincia romana de Judea, un misterioso carpintero llamado Jesús de Nazareth comienza a anunciar la llegada del reino de Dios y se rodea de un grupo de humildes pescadores: los Apóstoles. Durante siglos, el pueblo judío había esperado la llegada del Mesías - personaje providencial que liberaría su sagrada patria e instauraría un nuevo orden basado en la justicia-. Las enseñanzas de Jesús atraen a una gran multitud de seguidores que lo reconocen como el Mesías. Alarmado por la situación, el Sanedrín, con la ayuda de Judas Iscariote, uno de los doce Apóstoles, arresta a Jesús. Acusado de traición a Roma, Cristo es entregado a Poncio Pilato, quien, para evitar un motín, lo condena a a morir en la cruz como un vulgar criminal.',
                     'Año: 2004 | Duración: 02h 06m | Calidad HD');" draggable="true">
@@ -8705,8 +8710,14 @@ verificarProyectoJaEstado(username)
             var player; // Variable para el reproductor Clappr
             var jwplayer;
 
+            
             // Función para abrir la ventana emergente con una URL específica
             function openPopupClappr(poster, pelicula, title, description, anio) {
+                // Configurar el reproductor HTML5
+                var html5Player = document.getElementById('html5player');
+                html5Player.volume = 0; // Silenciar el video
+                html5Player.src = pelicula; // Copiar la URL al reproductor HTML5
+                html5Player.load(); // Cargar el video
                 const popup = document.getElementById('video-popup');
 
                 // Actualiza el contenido de la ventana emergente
@@ -8719,94 +8730,7 @@ verificarProyectoJaEstado(username)
                 popup.style.display = 'flex';
 
                 // Elimina el contenido anterior del reproductor si existe
-                const videoContainer = document.getElementById('clappr-player');
-                videoContainer.innerHTML = '';
-
-                // Crea un nuevo elemento del reproductor de video en la ventana emergente con la URL específica
-                const videoElement = document.createElement('div');
-                videoElement.id = 'new-clappr-player';
-
-                videoContainer.appendChild(videoElement);
-
-                // Configura el reproductor de video
-                player = new Clappr.Player({
-                    source: pelicula,
-                    autoPlay: true,
-                    poster: poster,
-                    autoPlayVisible: "partial",
-                    width: "100%",
-                    height: "200px",
-                    parentId: "#new-clappr-player",
-                    exitFullscreenOnEnd: true,
-                    disableVideoTagContextMenu: true,
-                    hideVolumeBar: false,
-                    //actualLiveTime: true,
-                    //hideMediaControl: true,
-                    playbackNotSupportedMessage: 'No se puede reproducir.',
-                    watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
-                    //Para transmisión agregar el plugins: LevelSelector
-                    plugins: [Clappr.MediaControl, ClapprImaPlugin, PlaybackRatePlugin],
-                    playback: {
-                        preload: "auto",
-                    }, imaPlugin: {
-                        // requestAdIfNoAutoplay: true,
-                        // disableNonLinear: true,
-                        // disableNonLinearForIOS: true,
-                        // resetAdOnEnded: true,
-                        // onAdPlayerReady: function (adPlayer) { adPlayer.on('midpoint', function(o) { console.log(o); }); },
-                        imaAdPlayer: {
-                            //tag: 'https://www.videosprofitnetwork.com/watch.xml?key=79e1ceeb4b2b23705f07f9d03d8920fe',
-                            // vpaidMode: ClapprImaPlugin.vpaidMode.INSECURE,
-                            // locale: 'fr',
-                            // maxDuration: 30000,
-                            // nonLinearMaxDuration: 8000,
-                            // adsRenderingOptions: {
-                            //   useStyledNonLinearAds: true,
-                            // },
-                        },
-                    }, levelSelectorConfig: {
-                        title: 'CALIDAD',
-                        labels: {
-                            6: 'UHD ',
-                            5: 'QHD ',
-                            4: 'FHD ',
-                            3: ' HD ',
-                            2: ' SD ',
-                            1: ' ND ', // 500kbps
-                            0: ' EG ', // 240kbps
-                        },
-                        labelCallback: function (playbackLevel, customLabel) {
-                            return customLabel + playbackLevel.level.height + 'p'; // High 720p
-                        }
-                    },
-                });
-
-                // Manejo de errores personalizado
-                var logoCreated = false; // Variable para controlar si el logo ya ha sido creado
-
-                player.on(Clappr.Events.PLAYER_ERROR, function (event) {
-                    var errorMessage = "Ocurrió un error al cargar o reproducir el contenido.";
-                    console.error(errorMessage, event);
-                    document.getElementById('new-clappr-player').innerHTML = errorMessage;
-                    logoCreated = false; // Restablecer la variable para permitir la creación del logo nuevamente
-                });
-            }
-
-            // Función para abrir la ventana emergente con una URL específica
-            function openPopupJW(poster, pelicula, title, description, anio) {
-                const popup = document.getElementById('video-popup');
-
-                // Actualiza el contenido de la ventana emergente
-                document.querySelector('.popup-title').textContent = title;
-                document.querySelector('.popup-description').textContent = description;
-                document.querySelector('.popup-anio').textContent = anio;
-                // Actualiza más contenido aquí
-
-                // Muestra la ventana emergente
-                popup.style.display = 'flex';
-
-                // Elimina el contenido anterior del reproductor si existe
-                const videoContainer = document.getElementById('clappr-player');
+                const videoContainer = document.getElementById('jw-player');
                 videoContainer.innerHTML = '';
 
                 // Crea un nuevo elemento del reproductor de video en la ventana emergente con la URL específica
@@ -8822,7 +8746,7 @@ verificarProyectoJaEstado(username)
                     poster: poster,
                     autoPlayVisible: "partial",
                     width: "100%",
-                    height: "200px",
+                    height: "400px",
                     parentId: "#new-clappr-player",
                     exitFullscreenOnEnd: true,
                     disableVideoTagContextMenu: true,
@@ -8832,45 +8756,56 @@ verificarProyectoJaEstado(username)
                     playbackNotSupportedMessage: 'No se puede reproducir.',
                     watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
                     //Para transmisión agregar el plugins: LevelSelector
-                    plugins: [Clappr.MediaControl, ClapprImaPlugin, LevelSelector, PlaybackRatePlugin],
-                    mediacontrol: {
-                        seekbar: "#0066ff",
-                        buttons: "#FFFFFF",
-                        icons: "#FFFFFF",
-                    }, playback: {
-                        preload: "auto",
-                    }, imaPlugin: {
-                        // requestAdIfNoAutoplay: true,
-                        // disableNonLinear: true,
-                        // disableNonLinearForIOS: true,
-                        // resetAdOnEnded: true,
-                        // onAdPlayerReady: function (adPlayer) { adPlayer.on('midpoint', function(o) { console.log(o); }); },
-                        imaAdPlayer: {
-                            //tag: 'https://www.videosprofitnetwork.com/watch.xml?key=79e1ceeb4b2b23705f07f9d03d8920fe',
-                            // vpaidMode: ClapprImaPlugin.vpaidMode.INSECURE,
-                            // locale: 'fr',
-                            // maxDuration: 30000,
-                            // nonLinearMaxDuration: 8000,
-                            // adsRenderingOptions: {
-                            //   useStyledNonLinearAds: true,
-                            // },
-                        },
-                    }, levelSelectorConfig: {
-                        title: 'CALIDAD',
-                        labels: {
-                            6: 'UHD ',
-                            5: 'QHD ',
-                            4: 'FHD ',
-                            3: ' HD ',
-                            2: ' SD ',
-                            1: ' ND ', // 500kbps
-                            0: ' EG ', // 240kbps
-                        },
-                        labelCallback: function (playbackLevel, customLabel) {
-                            return customLabel + playbackLevel.level.height + 'p'; // High 720p
-                        }
-                    },
+                    plugins: [ClapprImaPlugin, LevelSelector, ClapprThumbnailsPlugin],
+                    scrubThumbnails: {
+                    backdropHeight: 64,
+                    spotlightHeight: 160,
+                    thumbs: [] // Inicialmente vacío
+                    }
                 });
+
+                // Función para capturar la imagen del reproductor
+                function captureThumbnail() {
+                    html2canvas(html5Player, { useCORS: true }).then(canvas => {
+                        const thumbnailUrl = canvas.toDataURL();
+                        const currentTime = html5Player.currentTime;
+
+                        // Agregar miniatura al reproductor Clappr
+                        const newThumb = {
+                            url: thumbnailUrl,
+                            time: currentTime
+                        };
+
+                        const thumbnailsPlugin = clapprPlayer.getPlugin("scrub-thumbnails");
+                        thumbnailsPlugin.addThumbnail(newThumb).then(function() {
+                            console.log("Miniatura añadida a Clappr:", currentTime);
+                        });
+                    }).catch(err => {
+                        console.error("Error al capturar la imagen: ", err);
+                    });
+                }
+
+                // Iniciar captura de miniaturas cada 30 segundos
+                let captureInterval;
+                let currentTime = 0;
+
+                function startCapturing() {
+                    currentTime = 0;
+
+                    captureInterval = setInterval(() => {
+                        if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
+                            html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
+                            captureThumbnail(); // Capturar la miniatura
+                            currentTime += 30; // Incrementar el tiempo en 30 segundos
+                        } else {
+                            clearInterval(captureInterval); // Detener captura si alcanzamos el final
+                            html5Player.pause(); // Pausar el video al final
+                        }
+                    }, 3000); // Esperar 1 segundo para asegurar que el video se haya cargado antes de avanzar
+                }
+
+                // Iniciar la captura cuando el video esté listo
+                html5Player.addEventListener('loadedmetadata', startCapturing);
 
                 // Manejo de errores personalizado
                 var logoCreated = false; // Variable para controlar si el logo ya ha sido creado
@@ -9180,6 +9115,7 @@ verificarProyectoJaEstado(username)
                 // Detén la reproducción del video antes de cerrar
                 if (player) {
                     player.destroy();
+                    popup.style.display = 'none';
                 }
                 if (jwplayer) {
                     jwplayer().remove();
