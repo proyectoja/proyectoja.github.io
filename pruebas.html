@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captura de Miniaturas</title>
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        
+        .hidden-video-container {
+            position: absolute;
+            top: -9999px; /* Mueve el video fuera de la pantalla */
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="player"></div>
+
+    <script>
+        var activeUrl = "https://ak2.rmbl.ws/s8/2/s/n/c/T/sncTp.gaa.mp4?u=0&b=0";
+        var poster = "https://i.imgur.com/ymjjVCQ.png";
+        
+        // Crear y configurar el contenedor y el video HTML5 dinámicamente
+        var hiddenVideoContainer = document.createElement('div');
+        hiddenVideoContainer.className = 'hidden-video-container';
+
+        var html5Player = document.createElement('video');
+        html5Player.id = 'html5player';
+        html5Player.muted = true;
+        html5Player.crossOrigin = "anonymous";
+        html5Player.src = activeUrl; // Copiar la URL al reproductor HTML5
+        
+
+        // Agregar el reproductor HTML5 al contenedor oculto
+        hiddenVideoContainer.appendChild(html5Player);
+        document.body.appendChild(hiddenVideoContainer); // Insertar el contenedor en el body
+
+        // Configurar el reproductor Clappr
+        var clapprPlayer = new Clappr.Player({
+            source: activeUrl,
+            autoPlay: false,
+            width: "100%",
+            poster: poster,
+            exitFullscreenOnEnd: true,
+            disableVideoTagContextMenu: true,
+            hideVolumeBar: false,
+            //hideMediaControl: true,
+            playbackNotSupportedMessage: 'No se puede reproducir.',
+            watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
+            parentId: "#player",
+            plugins: [ClapprThumbnailsPlugin],
+            scrubThumbnails: {
+                backdropHeight: 64,
+                spotlightHeight: 160,
+                thumbs: [] // Inicialmente vacío
+            }
+        });
+
+        // Función para capturar la imagen del reproductor
+        function captureThumbnail() {
+            html2canvas(html5Player, { useCORS: true }).then(canvas => {
+                const thumbnailUrl = canvas.toDataURL();
+                const currentTime = html5Player.currentTime;
+
+                // Agregar miniatura al reproductor Clappr
+                const newThumb = {
+                    url: thumbnailUrl,
+                    time: currentTime
+                };
+
+                const thumbnailsPlugin = clapprPlayer.getPlugin("scrub-thumbnails");
+                thumbnailsPlugin.addThumbnail(newThumb).then(function() {
+                    console.log("Miniatura añadida a Clappr:", currentTime);
+                });
+            }).catch(err => {
+                console.error("Error al capturar la imagen: ", err);
+            });
+        }
+
+        // Iniciar captura de miniaturas cada 30 segundos
+        let captureInterval;
+        let currentTime = 0;
+
+        function startCapturing() {
+            currentTime = 0;
+
+            captureInterval = setInterval(() => {
+                if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
+                    html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
+                    captureThumbnail(); // Capturar la miniatura
+                    currentTime += 30; // Incrementar el tiempo en 30 segundos
+                } else {
+                    clearInterval(captureInterval); // Detener captura si alcanzamos el final
+                    html5Player.pause(); // Pausar el video al final
+                }
+            }, 3000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
+        }
+        startCapturing(); 
+               
+    </script>
+</body>
+</html>
