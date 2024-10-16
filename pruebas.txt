@@ -8,29 +8,41 @@
     <script src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        .player-container {
-        	position: fixed;
-            width: 45%;
-            z-index: -1;
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .hidden-video-container {
+            position: absolute;
+            top: -9999px; /* Mueve el video fuera de la pantalla */
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
-        <div class="player-container">
-            <video id="html5player" width="100%" muted crossOrigin="anonymous">
-            </video>
-        </div>
-        <div id="player"></div>
+    <div id="player"></div>
 
     <script>
         var activeUrl = "https://ak2.rmbl.ws/s8/2/s/n/c/T/sncTp.gaa.mp4?u=0&b=0";
         var poster = "https://i.imgur.com/ymjjVCQ.png";
 
-        // Configurar el reproductor HTML5
-        var html5Player = document.getElementById('html5player');
-        html5Player.volume = 0; // Silenciar el video
+        // Crear y configurar el contenedor y el video HTML5 dinámicamente
+        var hiddenVideoContainer = document.createElement('div');
+        hiddenVideoContainer.className = 'hidden-video-container';
+
+        var html5Player = document.createElement('video');
+        html5Player.id = 'html5player';
+        html5Player.muted = true;
+        html5Player.crossOrigin = "anonymous";
         html5Player.src = activeUrl; // Copiar la URL al reproductor HTML5
         html5Player.load(); // Cargar el video
+
+        // Agregar el reproductor HTML5 al contenedor oculto
+        hiddenVideoContainer.appendChild(html5Player);
+        document.body.appendChild(hiddenVideoContainer); // Insertar el contenedor en el body
 
         // Configurar el reproductor Clappr
         var clapprPlayer = new Clappr.Player({
@@ -38,6 +50,12 @@
             autoPlay: false,
             width: "100%",
             poster: poster,
+            exitFullscreenOnEnd: true,
+            disableVideoTagContextMenu: true,
+            hideVolumeBar: false,
+            //hideMediaControl: true,
+            playbackNotSupportedMessage: 'No se puede reproducir.',
+            watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
             parentId: "#player",
             plugins: [ClapprThumbnailsPlugin],
             scrubThumbnails: {
@@ -52,8 +70,6 @@
             html2canvas(html5Player, { useCORS: true }).then(canvas => {
                 const thumbnailUrl = canvas.toDataURL();
                 const currentTime = html5Player.currentTime;
-
-                
 
                 // Agregar miniatura al reproductor Clappr
                 const newThumb = {
@@ -86,7 +102,7 @@
                     clearInterval(captureInterval); // Detener captura si alcanzamos el final
                     html5Player.pause(); // Pausar el video al final
                 }
-            }, 3000); // Esperar 1 segundo para asegurar que el video se haya cargado antes de avanzar
+            }, 3000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
         }
 
         // Iniciar la captura cuando el video esté listo

@@ -1405,8 +1405,10 @@ p {
   100% { transform: rotate(360deg); }
 }
 
-.player-container {
-  position: fixed;
-    width: 45%;
-    z-index: -999;
+.hidden-video-container {
+  position: absolute;
+  top: -9999px; /* Mueve el video fuera de la pantalla */
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }

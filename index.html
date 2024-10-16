@@ -43,10 +43,6 @@
 </head>
 
 <body>
-    <div class="player-container">
-        <video id="html5player" width="100%" muted crossOrigin="anonymous">
-        </video>
-    </div>
     <!-- Video de fondo
     <video class="videoFondo" autoplay muted loop>
         <source src="https://ak2.rmbl.ws/s8/2/N/-/0/6/N-06q.gaa.mp4?u=0&b=0" type="video/mp4">
@@ -8713,13 +8709,8 @@ verificarProyectoJaEstado(username)
             
             // Función para abrir la ventana emergente con una URL específica
             function openPopupClappr(poster, pelicula, title, description, anio) {
-                // Configurar el reproductor HTML5
-                var html5Player = document.getElementById('html5player');
-                html5Player.volume = 0; // Silenciar el video
-                html5Player.src = pelicula; // Copiar la URL al reproductor HTML5
-                html5Player.load(); // Cargar el video
                 const popup = document.getElementById('video-popup');
-
+                var activeUrl = pelicula;
                 // Actualiza el contenido de la ventana emergente
                 document.querySelector('.popup-title').textContent = title;
                 document.querySelector('.popup-description').textContent = description;
@@ -8738,7 +8729,21 @@ verificarProyectoJaEstado(username)
                 videoElement.id = 'new-clappr-player';
 
                 videoContainer.appendChild(videoElement);
+// Crear y configurar el contenedor y el video HTML5 dinámicamente
+var hiddenVideoContainer = document.createElement('div');
+        hiddenVideoContainer.className = 'hidden-video-container';
 
+        var html5Player = document.createElement('video');
+        html5Player.id = 'html5player';
+        html5Player.muted = true;
+        html5Player.crossOrigin = "anonymous";
+        html5Player.src = activeUrl; // Copiar la URL al reproductor HTML5
+        html5Player.load(); // Cargar el video
+
+        // Agregar el reproductor HTML5 al contenedor oculto
+        hiddenVideoContainer.appendChild(html5Player);
+        document.body.appendChild(hiddenVideoContainer); // Insertar el contenedor en el body
+                
                 // Configura el reproductor de video
                 player = new Clappr.Player({
                     source: pelicula,
@@ -8762,62 +8767,54 @@ verificarProyectoJaEstado(username)
                     spotlightHeight: 160,
                     thumbs: [] // Inicialmente vacío
                     }
-                });
-
-                // Manejo de errores personalizado
-                var logoCreated = false; // Variable para controlar si el logo ya ha sido creado
-
-                player.on(Clappr.Events.PLAYER_ERROR, function (event) {
-                    var errorMessage = "Ocurrió un error al cargar o reproducir el contenido.";
-                    console.error(errorMessage, event);
-                    document.getElementById('new-clappr-player').innerHTML = errorMessage;
-                    logoCreated = false; // Restablecer la variable para permitir la creación del logo nuevamente
-                });
-                startCapturing();
+                }); 
+                 // Iniciar la captura cuando el video esté listo
+        html5Player.addEventListener('loadedmetadata', startCapturing); 
             }
 
             // Función para capturar la imagen del reproductor
-            function captureThumbnail() {
-                    html2canvas(html5Player, { useCORS: true }).then(canvas => {
-                        const thumbnailUrl = canvas.toDataURL();
-                        const currentTime = html5Player.currentTime;
+        function captureThumbnail() {
+            html2canvas(html5Player, { useCORS: true }).then(canvas => {
+                const thumbnailUrl = canvas.toDataURL();
+                const currentTime = html5Player.currentTime;
 
-                        // Agregar miniatura al reproductor Clappr
-                        const newThumb = {
-                            url: thumbnailUrl,
-                            time: currentTime
-                        };
+                // Agregar miniatura al reproductor Clappr
+                const newThumb = {
+                    url: thumbnailUrl,
+                    time: currentTime
+                };
 
-                        const thumbnailsPlugin = player.getPlugin("scrub-thumbnails");
-                        thumbnailsPlugin.addThumbnail(newThumb).then(function() {
-                            console.log("Miniatura añadida a Clappr:", currentTime);
-                        });
-                    }).catch(err => {
-                        console.error("Error al capturar la imagen: ", err);
-                    });
+                const thumbnailsPlugin = player.getPlugin("scrub-thumbnails");
+                thumbnailsPlugin.addThumbnail(newThumb).then(function() {
+                    console.log("Miniatura añadida a Clappr:", currentTime);
+                });
+            }).catch(err => {
+                console.error("Error al capturar la imagen: ", err);
+            });
+        }
+
+        // Iniciar captura de miniaturas cada 30 segundos
+        let captureInterval;
+        let currentTime = 0;
+
+        function startCapturing() {
+            currentTime = 0;
+
+            captureInterval = setInterval(() => {
+                if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
+                    html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
+                    captureThumbnail(); // Capturar la miniatura
+                    currentTime += 30; // Incrementar el tiempo en 30 segundos
+                } else {
+                    clearInterval(captureInterval); // Detener captura si alcanzamos el final
+                    html5Player.pause(); // Pausar el video al final
                 }
+            }, 3000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
+        }
 
-                // Iniciar captura de miniaturas cada 30 segundos
-                let captureInterval;
-                let currentTime = 0;
+       
 
-                function startCapturing() {
-                    currentTime = 0;
-
-                    captureInterval = setInterval(() => {
-                        if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
-                            html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
-                            captureThumbnail(); // Capturar la miniatura
-                            currentTime += 30; // Incrementar el tiempo en 30 segundos
-                        } else {
-                            clearInterval(captureInterval); // Detener captura si alcanzamos el final
-                            html5Player.pause(); // Pausar el video al final
-                        }
-                    }, 3000); // Esperar 1 segundo para asegurar que el video se haya cargado antes de avanzar
-                }
-
-                // Iniciar la captura cuando el video esté listo
-                //html5Player.addEventListener('loadedmetadata', startCapturing);
+                
 
 
 
