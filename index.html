@@ -8756,7 +8756,7 @@ verificarProyectoJaEstado(username)
                     playbackNotSupportedMessage: 'No se puede reproducir.',
                     watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
                     //Para transmisión agregar el plugins: LevelSelector
-                    plugins: [ClapprImaPlugin, LevelSelector, ClapprThumbnailsPlugin],
+                    plugins: [ClapprThumbnailsPlugin],
                     scrubThumbnails: {
                     backdropHeight: 64,
                     spotlightHeight: 160,
@@ -8764,8 +8764,20 @@ verificarProyectoJaEstado(username)
                     }
                 });
 
-                // Función para capturar la imagen del reproductor
-                function captureThumbnail() {
+                // Manejo de errores personalizado
+                var logoCreated = false; // Variable para controlar si el logo ya ha sido creado
+
+                player.on(Clappr.Events.PLAYER_ERROR, function (event) {
+                    var errorMessage = "Ocurrió un error al cargar o reproducir el contenido.";
+                    console.error(errorMessage, event);
+                    document.getElementById('new-clappr-player').innerHTML = errorMessage;
+                    logoCreated = false; // Restablecer la variable para permitir la creación del logo nuevamente
+                });
+                startCapturing();
+            }
+
+            // Función para capturar la imagen del reproductor
+            function captureThumbnail() {
                     html2canvas(html5Player, { useCORS: true }).then(canvas => {
                         const thumbnailUrl = canvas.toDataURL();
                         const currentTime = html5Player.currentTime;
@@ -8776,7 +8788,7 @@ verificarProyectoJaEstado(username)
                             time: currentTime
                         };
 
-                        const thumbnailsPlugin = clapprPlayer.getPlugin("scrub-thumbnails");
+                        const thumbnailsPlugin = player.getPlugin("scrub-thumbnails");
                         thumbnailsPlugin.addThumbnail(newThumb).then(function() {
                             console.log("Miniatura añadida a Clappr:", currentTime);
                         });
@@ -8805,18 +8817,7 @@ verificarProyectoJaEstado(username)
                 }
 
                 // Iniciar la captura cuando el video esté listo
-                html5Player.addEventListener('loadedmetadata', startCapturing);
-
-                // Manejo de errores personalizado
-                var logoCreated = false; // Variable para controlar si el logo ya ha sido creado
-
-                player.on(Clappr.Events.PLAYER_ERROR, function (event) {
-                    var errorMessage = "Ocurrió un error al cargar o reproducir el contenido.";
-                    console.error(errorMessage, event);
-                    document.getElementById('new-clappr-player').innerHTML = errorMessage;
-                    logoCreated = false; // Restablecer la variable para permitir la creación del logo nuevamente
-                });
-            }
+                //html5Player.addEventListener('loadedmetadata', startCapturing);
 
 
 
@@ -9119,6 +9120,7 @@ verificarProyectoJaEstado(username)
                 }
                 if (jwplayer) {
                     jwplayer().remove();
+                    popup.style.display = 'none';
                 }
 
                 popup.style.display = 'none';
