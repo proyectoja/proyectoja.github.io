@@ -7887,26 +7887,43 @@
 
 
 
-        
+<!-- Loader Overlay -->
+<div class="loader-overlay hidden" id="loader">
+    <div class="loader2"></div>
+    <div class="loader-text" id="loader-text">Cargando... 0%</div> <!-- Texto para el porcentaje -->
+</div>        
         <script>
             var player;
-            var html5Player;
             var activeUrl = "";
             // Crear y configurar el contenedor y el video HTML5 dinámicamente
-            var hiddenVideoContainer = document.createElement('div');
+                var hiddenVideoContainer = document.createElement('div');
                 hiddenVideoContainer.className = 'hidden-video-container';
     
                 // Crear el reproductor HTML5
-                html5Player = document.createElement('video');
+                var html5Player = document.createElement('video');
                 html5Player.id = 'html5player';
                 html5Player.muted = true;
                 html5Player.crossOrigin = "anonymous";
-                html5Player.src = activeUrl; // Copiar la URL al reproductor HTML5
-                html5Player.load(); // Cargar el video
     
                 // Agregar el reproductor HTML5 al contenedor oculto
                 hiddenVideoContainer.appendChild(html5Player);
                 document.body.appendChild(hiddenVideoContainer); // Insertar el contenedor en el body
+            
+            // Mostrar el loader
+            function showLoader() {
+                document.getElementById('loader').classList.remove('hidden');
+            }
+
+            // Ocultar el loader
+            function hideLoader() {
+                document.getElementById('loader').classList.add('hidden');
+            }
+
+            // Actualizar el porcentaje de carga
+            function updateLoaderText(percentage) {
+                const loaderText = document.getElementById('loader-text');
+                loaderText.textContent = `Cargando... ${percentage}%`;
+            }
             
             // Función para abrir la ventana emergente con una URL específica
             function openPopupClappr(poster, pelicula, title, description, anio) {
@@ -7930,7 +7947,9 @@
                 videoElement.id = 'new-clappr-player';
                 videoContainer.appendChild(videoElement);
     
-                
+                // Actualizar la fuente del reproductor HTML5
+                html5Player.src = activeUrl; // Copiar la nueva URL al reproductor HTML5
+                html5Player.load(); // Cargar el nuevo video
     
                 // Configura el reproductor Clappr
                 player = new Clappr.Player({
@@ -7953,10 +7972,9 @@
                     },
                     parentId: "#new-clappr-player"
                 });
-                
+                startCapturing();
     
             }
-            startCapturing();
     
             // Función para capturar la imagen del reproductor
             function captureThumbnail() {
@@ -7982,22 +8000,38 @@
             // Iniciar captura de miniaturas cada 30 segundos
             let captureInterval;
             let currentTime = 0;
+            let percentage = 0;
     
             function startCapturing() {
+                showLoader();
                 currentTime = 0;
-    
-                captureInterval = setInterval(() => {
-                    if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
-                        html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
-                        captureThumbnail(); // Capturar la miniatura
-                        currentTime += 30; // Incrementar el tiempo en 30 segundos
-                    } else {
-                        clearInterval(captureInterval); // Detener captura si alcanzamos el final
-                        html5Player.pause(); // Pausar el video al final
-                    }
-                }, 3000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
+                percentage = 0;
+
+                // Escuchar el evento 'loadedmetadata' para iniciar la captura
+                html5Player.addEventListener('loadedmetadata', () => {
+                    const duration = html5Player.duration;
+                    captureInterval = setInterval(() => {
+                        if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
+                            html5Player.pause(); // Pausar el video para capturar con precisión
+                            html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
+                            html5Player.onseeked = () => { // Esperar hasta que el tiempo cambie
+                                captureThumbnail(); // Capturar la miniatura
+                                currentTime += 600; // Incrementar el tiempo en 30 segundos
+                                // Calcular el porcentaje y actualizar el texto
+                                percentage = Math.min(100, Math.floor((currentTime / duration) * 100));
+                                updateLoaderText(percentage);
+                            };
+                        } else {
+                            clearInterval(captureInterval); // Detener captura si alcanzamos el final
+                            html5Player.pause(); // Pausar el video al final
+                            
+                            percentage = 0;
+                            updateLoaderText(percentage);
+                            hideLoader();
+                        }
+                    }, 3000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
+                });
             }
-            
         </script>
 
 
@@ -9117,6 +9151,14 @@ verificarProyectoJaEstado(username)
             function closePopup() {
                 const popup = document.getElementById('video-popup');
 
+                clearInterval(captureInterval);
+                if (html5Player) {
+                    // 1. Pausar el video si está en reproducción
+                    html5Player.pause();
+                    // 3. Eliminar la referencia del reproductor
+                    html5Player.src = ""; // Eliminar la URL del video
+                    html5Player.load(); // Recargar el reproductor sin ningún recurso
+                }
                 // Detén la reproducción del video antes de cerrar
                 if (player) {
                     player.destroy();

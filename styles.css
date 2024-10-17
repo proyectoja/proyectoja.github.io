@@ -1412,3 +1412,44 @@ p {
   height: 1px;
   overflow: hidden;
 }
+
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.loader2 {
+  border: 30px solid #f3f3f3; /* Light grey */
+  border-top: 30px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-text {
+  margin-top: 20px;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+
+/* Ocultar el loader por defecto */
+.loader-overlay.hidden {
+  display: none;
+}
