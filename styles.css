@@ -1484,6 +1484,7 @@ p {
 }
 .contenedor-aplicacion button img {
   width: 100px;
+  height: 100px;
 } 
 .contenedor-aplicacion h5{
   color: black;
