@@ -1456,9 +1456,9 @@ p {
 
 /*PROMOCIÓN HIMNARIO ADVENTISTA PRO*/
 .contenedor-aplicaciones {
-  background-color: brown;
+  background: url('fondo1.jpg');
   width: auto;
-  height: auto;
+  height: 200px;
   margin: 30px;
   overflow: hidden;
   display: flex;
@@ -1467,13 +1467,10 @@ p {
   align-items: center;
   padding: 10px;
   border-radius: 1rem;
-}h1{
-  width: 100%;
-  text-align: center;
   color: white;
-  font-size: 30px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
+  font-size: 10px;
+  border: 2px solid rgb(255, 255, 255, 0.5);
+  box-shadow: 0 0 20px #0066ff, inset 0 0 50px #000;
 }
 .contenedor-aplicacion {
   width: 100%;
@@ -1487,13 +1484,15 @@ p {
 }
 .contenedor-aplicacion button img {
   width: 100px;
-}h5{
+} 
+.contenedor-aplicacion h5{
   color: black;
   font-size: 18px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   padding: 5px;
-}button {
+}
+.contenedor-aplicacion button {
   border-radius: 1rem;
   margin-left: 10px;
   box-shadow: 0 0 15px #000;
