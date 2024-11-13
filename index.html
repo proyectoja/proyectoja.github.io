@@ -27,7 +27,8 @@
     <script src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
     <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
+    <script
+            id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '18wWA' });</script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.1/dist/locomotive-scroll.min.js"></script>
     <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.1/dist/locomotive-scroll.min.css">
@@ -8403,7 +8404,7 @@
 
 
 <script>
-    const publicacionesUrl = 'publicaciones.json';
+    const publicacionesUrl = 'publicaciones1.json';
     var tituloAux;
     let proyectoJaOnline = false; // Variable para almacenar el estado de "PROYECTO JA"
 
@@ -8428,7 +8429,7 @@
             const publicaciones = await response.json();
             const contenedor = document.getElementById('contenedor-publicaciones');
 
-            const publicacionesLimitadas = publicaciones.slice(0, 10);
+            const publicacionesLimitadas = publicaciones.slice(0, 1);
             publicacionesLimitadas.forEach((pub, index) => {
                 const publicacionElem = document.createElement('div');
                 publicacionElem.className = 'publicacion';
@@ -9369,8 +9370,7 @@ verificarProyectoJaEstado(username)
         <!---------------------------------------------------------------------->
         
         
-        <script
-            id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '18wWA' });</script>
+        
         
 </body>
 
