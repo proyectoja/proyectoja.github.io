@@ -8488,11 +8488,19 @@
         const diaDelAño = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;  // Convertir a días
         return diaDelAño;
     }
+    function obtenerFechaActual() {
+            const hoy = new Date();
+            const anio = hoy.getFullYear();
+            const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // +1 porque los meses empiezan desde 0
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            return `${anio}-${mes}-${dia}`;  // Devuelve la fecha en formato YYYY-MM-DD
+        }
 
     // Función para mostrar el mensaje del día
     function mostrarMensajeDelDia(mensajes, dia) {
         // Buscar el mensaje correspondiente al día
         const mensajeDelDia = mensajes.find(mensaje => mensaje.dia === dia);
+        let fechaAux = obtenerFechaActual();
 
         if (mensajeDelDia) {
             // Insertar los datos en el contenedor
@@ -8524,7 +8532,7 @@
 
                     const fechaHoraElem = document.createElement('div');
                     fechaHoraElem.className = 'fecha-hora';
-                    fechaHoraElem.textContent = `${mensajeDelDia.fecha || 'Fecha desconocida'} - ${mensajeDelDia.hora || 'Hora desconocida'}`;
+                    fechaHoraElem.textContent = `${fechaAux || 'Fecha desconocida'} - ${mensajeDelDia.hora || 'Hora desconocida'}`;
 
                     const tituloElem = document.createElement('div');
                     tituloElem.className = 'titulo';
