@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargar Himnos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <h1>Descargar Himnos</h1>
+    <ul id="himnos-list"></ul>
+    <button onclick="descargarTodos()">Descargar Todos (ZIP)</button>
+
+    <script>
+        // Arreglo con los nombres de los himnos
+        const himnos = [
+            "Himno: 001 Cantad alegres al Señor_pista",
+            "Himno: 002 Da gloria al Señor_pista",
+            "Himno: 003 Unidos en espiritu_pista"
+        ];
+
+        // URL base del servidor
+        const baseUrl = "https://files.recursos-biblicos.com/Himnario/mp4/Instrumental/";
+
+        // Generar botones para descargar himnos individualmente
+        const himnosList = document.getElementById("himnos-list");
+        himnos.forEach(himno => {
+            const li = document.createElement("li");
+            const button = document.createElement("button");
+
+            // Configurar botón de descarga
+            button.textContent = `Descargar ${himno}`;
+            button.onclick = () => descargarHimno(himno);
+            li.appendChild(button);
+            himnosList.appendChild(li);
+        });
+
+        // Descargar un himno usando fetch
+        async function descargarHimno(himno) {
+            const nombreHimno = himno.replace("Himno: ", "");
+            const nombreFormateado = nombreHimno.replace(/ /g, "%20");
+            const url = baseUrl + nombreFormateado + ".mp4";
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Error al descargar ${himno}: ${response.statusText}`);
+                }
+                const blob = await response.blob();
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = `${nombreHimno}.mp4`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // Descargar todos los himnos y crear un archivo ZIP
+        async function descargarTodos() {
+            const zip = new JSZip();
+            const folder = zip.folder("Himnos");
+
+            // Descargar cada himno y añadirlo al ZIP
+            for (const himno of himnos) {
+                const nombreHimno = himno.replace("Himno: ", "");
+                const nombreFormateado = nombreHimno.replace(/ /g, "%20");
+                const url = baseUrl + nombreFormateado + ".mp4";
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        console.error(`Error al descargar ${himno}: ${response.statusText}`);
+                        continue;
+                    }
+                    const blob = await response.blob();
+                    const arrayBuffer = await blob.arrayBuffer();
+                    folder.file(`${nombreHimno}.mp4`, arrayBuffer);
+                } catch (error) {
+                    console.error(`Error al añadir ${himno} al ZIP: ${error}`);
+                }
+            }
+
+            // Generar el archivo ZIP y descargarlo
+            zip.generateAsync({ type: "blob" }).then(content => {
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(content);
+                a.download = "Himnos.zip";
+                a.click();
+                URL.revokeObjectURL(a.href);
+            });
+        }
+    </script>
+</body>
+</html>

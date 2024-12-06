@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML a JSON: Biblia</title>
+</head>
+<body>
+  <h1>Convertir XML de la Biblia a JSON</h1>
+  <label for="xmlUrl">Ingrese la URL del XML:</label>
+  <input type="text" id="xmlUrl" placeholder="https://example.com/biblia.xml" size="50">
+  <button onclick="fetchAndConvertXml()">Convertir y Descargar JSON</button>
+  <pre id="output" style="background-color: #f4f4f4; padding: 10px; max-height: 300px; overflow-y: auto;"></pre>
+
+  <script>
+    async function fetchAndConvertXml() {
+      const xmlUrl = document.getElementById('xmlUrl').value;
+
+      if (!xmlUrl) {
+        alert("Por favor, ingresa una URL válida.");
+        return;
+      }
+
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+
+      try {
+        const response = await fetch(proxyUrl + xmlUrl);
+        if (!response.ok) {
+          throw new Error(`Error al obtener el XML: ${response.statusText}`);
+        }
+
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+
+        const json = parseBibleXmlToJson(xmlDoc);
+        const jsonString = JSON.stringify(json, null, 2);
+
+        document.getElementById('output').textContent = jsonString;
+
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = "bible.json";
+        downloadLink.textContent = "Haz clic aquí para descargar el JSON";
+        document.body.appendChild(downloadLink);
+
+      } catch (error) {
+        console.error("Error:", error.message);
+        alert(`Error: ${error.message}`);
+      }
+    }
+
+    function parseBibleXmlToJson(xml) {
+      const bible = xml.querySelector("bible");
+      const books = bible.querySelectorAll("book");
+      const testaments = bible.querySelectorAll("testament");
+
+      const bibleJson = {
+        translation: bible.getAttribute("translation") || "Unknown",
+        info: bible.getAttribute("info") || "",
+        testaments: []
+      };
+
+      // Verifica si contiene testaments o solo books
+      if (testaments.length > 0) {
+        testaments.forEach(testament => {
+          const testamentJson = {
+            name: testament.getAttribute("name") || "Unknown",
+            books: []
+          };
+
+          const testamentBooks = testament.querySelectorAll("book");
+          testamentBooks.forEach(book => {
+            testamentJson.books.push(parseBook(book));
+          });
+
+          bibleJson.testaments.push(testamentJson);
+        });
+      } else {
+        // Si no hay testaments, agrega todos los libros directamente
+        const singleTestament = {
+          name: "Complete",
+          books: []
+        };
+
+        books.forEach(book => {
+          singleTestament.books.push(parseBook(book));
+        });
+
+        bibleJson.testaments.push(singleTestament);
+      }
+
+      return bibleJson;
+    }
+
+    function parseBook(book) {
+      const bookJson = {
+        number: book.getAttribute("number") || "Unknown",
+        chapters: []
+      };
+
+      const chapters = book.querySelectorAll("chapter");
+      chapters.forEach(chapter => {
+        const chapterJson = {
+          number: chapter.getAttribute("number") || "Unknown",
+          verses: []
+        };
+
+        const verses = chapter.querySelectorAll("verse");
+        verses.forEach(verse => {
+          chapterJson.verses.push({
+            number: verse.getAttribute("number") || "Unknown",
+            text: verse.textContent.trim()
+          });
+        });
+
+        bookJson.chapters.push(chapterJson);
+      });
+
+      return bookJson;
+    }
+  </script>
+</body>
+</html>

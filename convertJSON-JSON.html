@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Transformer</title>
+    <script>
+    document.getElementById('output').textContent = "";
+        function transformJSON(json) {
+            const transformed = {
+                translation: "Biblia Hebrea Tanakh | Stuttgartensia | Lexham",
+                info: null,
+                testaments: [
+                    {
+                        name: "Old",
+                        books: [
+                            {
+                                number: "1",
+                                name: json.title,
+                                chapters: []
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            const book = transformed.testaments[0].books[0];
+
+            json.text.forEach((chapter, chapterIndex) => {
+                const chapterObject = {
+                    number: (chapterIndex + 1).toString(),
+                    verses: []
+                };
+
+                chapter.forEach((verse, verseIndex) => {
+                    chapterObject.verses.push({
+                        number: (verseIndex + 1).toString(),
+                        text: verse
+                    });
+                });
+
+                book.chapters.push(chapterObject);
+            });
+
+            return transformed;
+        }
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const json = JSON.parse(e.target.result);
+                        const transformed = transformJSON(json);
+                        document.getElementById('output').textContent = JSON.stringify(transformed, null, 2);
+                    } catch (error) {
+                        alert('Invalid JSON file.');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>JSON Transformer</h1>
+    <p>Upload a JSON file to transform:</p>
+    <input type="file" accept="application/json" onchange="handleFile(event)">
+    <pre id="output" style="background: #f4f4f4; padding: 10px; border: 1px solid #ddd; margin-top: 20px; overflow: auto; max-height: 400px;"></pre>
+</body>
+</html>
