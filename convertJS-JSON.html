@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de JSON</title>
+</head>
+<body>
+    <h1>Generador de arreglo a JSON pa</h1>
+    <pre id="contenedor">Resultado esperado</pre>
+
+    <script>
+        // Objeto con los mensajes para cada día
+        const mensajes = {
+            "1": '"... [Nosotros] deberíamos tomar las promesas de Dios una por una, y examinarlas estrechamente por todos lados, para apoderamos de su riqueza y ser aliviados, consolados y fortalecidos por ellas. Dios ha provisto para todos el consuelo que el alma necesita (AFC 215)."',
+            "2": '"Ellas [sus promesas] satisfacen a los solitarios, a los abatidos por la pobreza, a los ricos, a los enfermos, a los afligidos; todos pudieran tener la ayuda apropiada si las vieran y las abrazaran por medio de la fe. Dios distribuye sus bendiciones en nuestro camino para iluminar el escabroso sendero de la vida, y nosotros queremos recibir todo el consuelo y las muestras del amor de Dios con corazones agradecidos (TMK 213)."',
+            // Agrega aquí más citas...
+        };
+
+        // Generar el JSON con la estructura deseada
+        const citasDiarias = Object.keys(mensajes).map(key => ({
+            dia: parseInt(key), // Día correspondiente
+            titulo: `🕊 Cita Diaria ${String(key).padStart(3, "0")} 🕊`, // Título con el número del día
+            mensaje: mensajes[key].replace(/^"|"$/g, ''), // Eliminar comillas al inicio y final
+            tema: "Web: https://proyectoja.github.io/", // Tema fijo
+            imagen: "", // Imagen vacía
+            perfil: "https://i.imgur.com/3W4OgOC.png", // Perfil fijo
+            check: "https://i.imgur.com/HrJfl1s.png", // Check fijo
+            publicador: "Ellen G. White", // Publicador fijo
+            fecha: "", // Fecha vacía
+            hora: "12:00 AM", // Hora fija
+            redes_sociales: {
+                whatsapp: "",
+                facebook: "",
+                youtube: "",
+                tiktok: "",
+                instagram: "",
+            },
+        }));
+
+        // Mostrar el JSON generado dentro del elemento <pre>
+        const cont = document.getElementById('contenedor');
+        cont.textContent = JSON.stringify(citasDiarias, null, 2); // Usa textContent para mostrar en formato JSON
+    </script>
+</body>
+</html>
