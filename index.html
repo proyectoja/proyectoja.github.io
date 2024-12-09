@@ -8504,8 +8504,7 @@
 </div>
 
 <script>
-    // URL del archivo JSON
-    const jsonUrl = "https://proyectoja.github.io/proyecto_ja_001_365.json";
+    
     var tituloAux;
         let proyectoJaOnline = false; // Variable para almacenar el estado de "PROYECTO JA"
 
@@ -8762,6 +8761,10 @@
     }
     
     // Cargar el archivo JSON y mostrar el mensaje correspondiente al día actual
+    // URL del archivo JSON
+    const jsonUrlPROYECTOJA = "https://proyectoja.github.io/proyecto_ja_001_365.json";
+    const jsonUrlELLENWHITE = "https://proyectoja.github.io/ellen_g_white_001_365.json";
+
     function cargarNotaPROYECTOJA(){
     fetch(jsonUrl)
         .then(response => response.json())
