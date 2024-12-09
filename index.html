@@ -8766,7 +8766,20 @@
     const jsonUrlELLENWHITE = "https://proyectoja.github.io/ellen_g_white_001_365.json";
 
     function cargarNotaPROYECTOJA(){
-    fetch(jsonUrl)
+    fetch(jsonUrlPROYECTOJA)
+        .then(response => response.json())
+        .then(mensajes => {
+            const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
+            mostrarMensajeDelDia(mensajes, diaActual); // Mostrar el mensaje correspondiente al día
+        })
+        .catch(error => {
+            console.error("Error al cargar el JSON:", error);
+            document.getElementById("mensajeContainer").innerHTML = "<p>Error al cargar los mensajes.</p>";
+        });
+    }
+
+    function cargarNotaELLENWHITE(){
+    fetch(jsonUrlELLENWHITE)
         .then(response => response.json())
         .then(mensajes => {
             const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
@@ -8781,7 +8794,12 @@
         // Asumiendo que 'username' está definido
         const username = 'XSTUDIOCODE'; // 
         verificarProyectoJaEstado(username)
-            .then(() => cargarNotaPROYECTOJA());
+            .then(
+                function(){
+                    cargarNotaPROYECTOJA();
+                    cargarNotaELLENWHITE();
+                }
+            );
             
             
             
