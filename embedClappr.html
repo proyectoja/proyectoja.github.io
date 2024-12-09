@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reproductor Clappr con URL Dinámica</title>
+  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+</head>
+<body>
+  <h1>Reproductor de Video Clappr</h1>
+  <!-- Contenedor del reproductor -->
+  <div id="player"></div>
+
+  <script>
+    // Función para obtener parámetros de la URL
+    function getUrlParameter(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    // Obtenemos el parámetro 'video' desde la URL
+    const videoUrl = getUrlParameter('video');
+videoUrl = "https://1a-1791.com/video/s8/2/h/t/X/x/htXxv.haa.mp4?u=0&b=0";
+    if (videoUrl) {
+      // Si hay un video en la URL, inicializamos el reproductor Clappr
+      new Clappr.Player({
+        source: videoUrl,
+        parentId: "#player",
+        width: "100%",
+        height: "360px",
+        autoPlay: true,
+      });
+    } else {
+      // Si no hay parámetro, mostramos un mensaje de error
+      document.getElementById('player').innerHTML = "<p style='color: red;'>No se encontró un video en la URL.</p>";
+    }
+  </script>
+</body>
+</html>
