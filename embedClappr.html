@@ -4,7 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reproductor Clappr con URL Dinámica</title>
-  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <style>
+    body, html{
+        margin: 0%;
+        padding: 0%;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 </head>
 <body>
   <h1>Reproductor de Video Clappr</h1>
@@ -17,16 +29,15 @@
       const params = new URLSearchParams(window.location.search);
       return params.get(name);
     }
-
+let player;
     // Obtenemos el parámetro 'video' desde la URL
     const videoUrl = getUrlParameter('video');
-videoUrl = "https://1a-1791.com/video/s8/2/h/t/X/x/htXxv.haa.mp4?u=0&b=0";
     if (videoUrl) {
       // Si hay un video en la URL, inicializamos el reproductor Clappr
-      new Clappr.Player({
+      player = new Clappr.Player({
         source: videoUrl,
         parentId: "#player",
-        width: "100%",
+        width: "100vh",
         height: "360px",
         autoPlay: true,
       });
