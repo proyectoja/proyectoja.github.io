@@ -8764,6 +8764,7 @@
     // URL del archivo JSON
     const jsonUrlPROYECTOJA = "https://proyectoja.github.io/proyecto_ja_001_365.json";
     const jsonUrlELLENWHITE = "https://proyectoja.github.io/ellen_g_white_001_365.json";
+    const jsonUrlDios = "https://proyectoja.github.io/Dios_001_365.json";
 
     function cargarNotaPROYECTOJA(){
     fetch(jsonUrlPROYECTOJA)
@@ -8774,7 +8775,7 @@
         })
         .catch(error => {
             console.error("Error al cargar el JSON:", error);
-            document.getElementById("mensajeContainer").innerHTML = "<p>Error al cargar los mensajes.</p>";
+            
         });
     }
 
@@ -8787,7 +8788,20 @@
         })
         .catch(error => {
             console.error("Error al cargar el JSON:", error);
-            document.getElementById("mensajeContainer").innerHTML = "<p>Error al cargar los mensajes.</p>";
+            
+        });
+    }
+
+    function cargarNotaDios(){
+    fetch(jsonUrlDios)
+        .then(response => response.json())
+        .then(mensajes => {
+            const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
+            mostrarMensajeDelDia(mensajes, diaActual); // Mostrar el mensaje correspondiente al día
+        })
+        .catch(error => {
+            console.error("Error al cargar el JSON:", error);
+            
         });
     }
         
@@ -8798,6 +8812,7 @@
                 function(){
                     cargarNotaPROYECTOJA();
                     cargarNotaELLENWHITE();
+                    cargarNotaDios();
                 }
             );
             
