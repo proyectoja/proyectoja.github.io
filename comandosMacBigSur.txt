@@ -1,0 +1,6 @@
+cd "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage.exe modifyvm "proyectojaMac" –-cpuidset 00000001 000106e5 00100800 0098e3fd bfebfbff
+VBoxManage setextradata "proyectojaMac" VBoxInternal/Devices/efi/0/Config/DmiSystemProduct “MacBookPro15,1”
+VBoxManage setextradata "proyectojaMac" "VBoxInternal/Devices/efi/0/Config/DmiBoardProduct" "Mac-551B86E5744E2388"
+VBoxManage setextradata "proyectojaMac" "VBoxInternal/Devices/smc/0/Config/DeviceKey" "ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"
+VBoxManage setextradata "proyectojaMac" "VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC" 1
