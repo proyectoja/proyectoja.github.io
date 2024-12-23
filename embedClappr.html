@@ -23,8 +23,7 @@
     src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
   <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
-  <script id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '2916T' });
-  </script>
+  
   <style>
     body {
       margin: 0%;
@@ -41,6 +40,14 @@
       -moz-user-select: none;
       -webkit-user-drag: none;
     }
+
+    @media (max-width: 768px) {
+      #player {
+        height: 50vh;
+        /* Ajusta la altura para dispositivos móviles */
+      }
+    }
+
 
     .container-cont-principal {
       display: none;
@@ -151,7 +158,7 @@
       document.addEventListener('chatbroPtCountChanging', function (event) {
         onlineDiv.innerHTML = `👁️ ${JSON.stringify(event.ptCount.web)}`;
       });
-    }); 
+    });
     // Función para obtener parámetros de la URL
     function getUrlParameter(name) {
       const params = new URLSearchParams(window.location.search);
@@ -324,9 +331,37 @@
       // Si es una transmisión en vivo en formato HLS (.m3u8)
       else if (videoUrl.includes('.m3u8')) {
         initializeLivePlayer(videoUrl, posterUrl);
+        executeChatbroScript();
       }
     }
 
+    // Función para cargar el script de Chatbro
+function executeChatbroScript() {
+  const script = document.createElement('script');
+  script.id = 'chatBroEmbedCode';
+  script.textContent = `
+    /* Chatbro Widget Embed Code Start */
+    function ChatbroLoader(chats, async) { 
+      async = !1 !== async; 
+      var params = { 
+        embedChatsParameters: chats instanceof Array ? chats : [chats], 
+        lang: navigator.language || navigator.userLanguage, 
+        needLoadCode: 'undefined' == typeof Chatbro, 
+        embedParamsVersion: localStorage.embedParamsVersion, 
+        chatbroScriptVersion: localStorage.chatbroScriptVersion 
+      }, 
+      xhr = new XMLHttpRequest; 
+      xhr.withCredentials = !0, 
+      xhr.onload = function () { eval(xhr.responseText) }, 
+      xhr.onerror = function () { console.error('Chatbro loading error') }, 
+      xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), 
+      xhr.send() 
+    }
+    ChatbroLoader({ encodedChatId: '2916T' });
+    /* Chatbro Widget Embed Code End */
+  `;
+  document.body.appendChild(script);
+}
 
     function activeEnVivoFunction() {
       switch (activeEnVivo) {
@@ -360,14 +395,14 @@
     }
 
     //Eventos muy importante
-    document.addEventListener("DOMContentLoaded", function() {
-    var playerElement = document.getElementById("player");
+    document.addEventListener("DOMContentLoaded", function () {
+      var playerElement = document.getElementById("player");
 
-    // Evitar clic derecho en el área del reproductor
-    playerElement.addEventListener("contextmenu", function(event) {
+      // Evitar clic derecho en el área del reproductor
+      playerElement.addEventListener("contextmenu", function (event) {
         event.preventDefault(); // Prevenir el menú contextual
+      });
     });
-});
 
 
     // Verifica el contador de espectadores cada 60 segundos
