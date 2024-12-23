@@ -1,113 +1,25 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Captura de Miniaturas</title>
-    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
-        body,
-    html {
-      margin: 0%;
-      padding: 0%;
-      box-sizing: border-box;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #live-button {
-      padding: 7px;
-      padding-top: 3px;
-      padding-bottom: 3px;
-      background-color: gray;
-      color: white;
-      border: none;
-      border-top-left-radius: 50px;
-      border-bottom-left-radius: 50px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      
-    }
-
-    #live-button.live {
-      background-color: red;
-      animation: parpadeo 3s infinite;
-    }
-
-    @keyframes parpadeo {
-      0% {
-        background-color: red;
-      }
-
-      15% {
-        background-color: rgba(0, 0, 0, 0.7);
-      }
-
-      30% {
-        background-color: red;
-      }
-
-      100% {
-        background-color: red;
-      }
-    }
-
-    #viewer-count {
-      margin-left: 5px;
-      padding: 7px;
-      padding-right: 12px;
-      padding-top: 3px;
-      padding-bottom: 3px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      border: none;
-      border-top-right-radius: 50px;
-      border-bottom-right-radius: 50px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      
-    }
-
-    .container-cont-principal {
-      display: flex;
-      flex-direction: row;
-      width: 400px;
-      height: 30px;
-      background-color: chocolate;
-      overflow: hidden;
-      justify-content: flex-start;
-      align-items: flex-start;
-    }
-
-    .container-cont-principal img {
-      background-color: transparent;
-      width: 10px;
-      height: 10px;
-      border: 3px solid rgba(255, 0, 0);
-      border-radius: 50%;
-      margin: 0%;
-      margin-left: 10px;
-      margin-right: 5px;
-      margin-top: 0px;
-      padding: 3px;
-    }
-
-    .container-cont-principal h2 {
-      color: #fff;
-      font-size: 10px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbro Counter</title>
+  <script
+    id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '2916T' });
+  </script>
 </head>
+
 <body>
-    <!-- Contenedor del reproductor -->
-  <div id="player"></div>
-  <div class="container-cont-principal">
-      <img src="https://i.imgur.com/65vS9gh.png"></img>
-      <h2>PROYECTO JA</h2>
-      <button id="live-button">⚫ No hay emisión</button>
-      <div id="viewer-count">👁️ 0</div>
-  </div>
+  <span class="online"></span>
+  <script>
+    var onlineDiv = document.getElementsByClassName('online')[0];
+    document.addEventListener('chatLoaded', function () {
+      document.addEventListener('chatbroPtCountChanging', function (event) {
+        onlineDiv.innerHTML = JSON.stringify(event.ptCount.web);
+      });
+    }); 
+  </script>
 </body>
+
 </html>
