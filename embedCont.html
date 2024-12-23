@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compartiendo esperanza!">
+  <meta name="keywords"
+    content="Películas Online,Películas gratis,Ver Películas Online, películas adventistas, IASD, Adventista.org,Alejandro Bullón, PROYECTO JA, música cristiana, música adventista, radio adventistas, televisión adventista, tv adventista, 3abn,3abn latino, esperanza tv,esperanza tv costa rica, nuevo tiempo perú, tv nuevo tiempo perú, radio nuevo tiempo perú, películas cristianas, películas cristianas en hd gratis, películas adventistas gratis, feliz7play">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Para Internet Explorer -->
+
+  <!--Vista previa del enlace-->
+  <meta property="og:title" content="PROYECTO JA" />
+  <meta property="og:description" content="Compartiendo esperanza!" />
+  <meta property="og:url" content="https://proyectoja.github.io/proyectoja/" />
+  <meta property="og:image" content="https://i.imgur.com/ayIV94z.jpg" />
+  <meta property="og:type" content="website" />
+
+  <title>PROYECTO JA</title>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
+  <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
+  
+  <style>
+    body {
+      margin: 0%;
+      padding: 0%;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: transparent;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      -moz-user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .container-cont-principal {
+      display: flex;
+      top: 0;
+      left: 0;
+      margin-top: 10px;
+      justify-content: flex-start;
+      align-content: center;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .container-cont-principal #live-button {
+      padding: 7px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background-color: gray;
+      color: white;
+      border: none;
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 50px;
+      font-size: 14px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      display: block;
+      position: relative;
+      text-wrap: nowrap;
+      margin-left: 5px;
+    }
+
+    .container-cont-principal #live-button.live {
+      background-color: red;
+      animation: parpadeo 3s infinite;
+    }
+
+    @keyframes parpadeo {
+      0% {
+        background-color: red;
+      }
+
+      15% {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      30% {
+        background-color: red;
+      }
+
+      100% {
+        background-color: red;
+      }
+    }
+
+    .container-cont-principal #viewer-count {
+      margin-left: 5px;
+      padding: 7px;
+      padding-right: 12px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+      font-size: 14px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      display: block;
+      position: relative;
+      text-wrap: nowrap;
+    }
+
+    .container-cont-principal img {
+      background-color: transparent;
+      width: 27px;
+      height: 27px;
+      border: 2px solid rgba(255, 0, 0);
+      border-radius: 50%;
+      margin: 0;
+      margin-left: 10px;
+      margin-right: 0px;
+      margin-top: 0px;
+      padding: 0px;
+      display: block;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-cont-principal h2 {
+      display: block;
+      position: relative;
+      text-wrap: nowrap;
+      margin: 0;
+      color: #fff;
+      font-size: 18px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      text-shadow: 0px 0px 10px #000;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Contenedor del reproductor -->
+  <div id="player"></div>
+  <div class="container-cont-principal" id="container-cont-principal">
+    <img src="https://i.imgur.com/65vS9gh.png"></img>
+    <button id="live-button">🔴 EN VIVO</button>
+    <div id="viewer-count">👁️ 0</div>
+  </div>
+
+  <script>
+    let liveButton = document.getElementById('live-button');
+    let viewerCount = document.getElementById('viewer-count');
+    let livePerfil = document.querySelector('.container-cont-principal img');
+
+    const username = "XSTUDIOCODE";
+    liveButton.classList.add('live');
+
+    // Verifica el contador de espectadores cada 60 segundos
+    setInterval(fetchViewerCount, 3000); // Cambia el intervalo según sea necesario
+
+    // Función para obtener el contador de espectadores
+    function fetchViewerCount() {
+      fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.online) {
+            const viewers = data.viewers; // Obtiene el número de espectadores actuales
+            viewerCount.innerText = `👁️ ${viewers}`;
+          } else {
+            viewerCount.innerText = ``;
+            viewerCount.innerText = `👁️ 0`;
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener el contador de espectadores:', error);
+          viewerCount.innerText = `👁️ 0`;
+        });
+    }
+  </script>
+</body>
+
+</html>
