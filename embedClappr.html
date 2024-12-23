@@ -162,9 +162,39 @@
         height: "100vh",
         autoPlay: true,
         hideVolumeBar: false,
-        hideMediaControl: false,
+        hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
+      });
+
+      // Verificar si la barra de control está disponible
+      player.on(Clappr.Events.PLAYER_PLAY, function () {
+        const customContainer = document.getElementById('container-cont-principal');
+        customContainer.style.display = 'flex';
+        customContainer.style.position = 'absolute';
+        customContainer.style.flexDirection = 'row';
+        customContainer.style.width = 'auto';
+        customContainer.style.height = '100%';
+        customContainer.style.right = '10px';
+        customContainer.style.bottom = '55px';
+        customContainer.style.justifyContent = 'center';
+        customContainer.style.alignItems = 'center';
+        const controlBarRight = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
+        if(!controlBarRight.querySelector('#logo')){
+          const img = document.createElement('img');
+          img.src = 'https://i.imgur.com/PH40Vz0.png';
+          img.alt = 'Logo';
+          img.width = '30px';
+          img.height = '30px';
+          img.id = 'logo';
+          controlBarRight.appendChild(img);
+        }
+        // Verificar si la barra de control está disponible
+        const controlBar = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
+        controlBar.appendChild(customContainer);
+        liveButton.style.display = 'none';
+        viewerCount.style.display = 'none';
+        livePerfil.style.border = '2px solid #0066ff';
       });
     }
 
