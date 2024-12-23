@@ -38,6 +38,8 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
+      -moz-user-select: none;
+      -webkit-user-drag: none;
     }
 
     .container-cont-principal {
@@ -356,6 +358,15 @@
           delete window.titleInterval;
       }
     }
+    document.addEventListener("DOMContentLoaded", function() {
+    var playerElement = document.getElementById("player");
+
+    // Evitar clic derecho en el área del reproductor
+    playerElement.addEventListener("contextmenu", function(event) {
+        event.preventDefault(); // Prevenir el menú contextual
+    });
+});
+
 
     // Verifica el contador de espectadores cada 60 segundos
     setInterval(fetchViewerCount, 60000); // Cambia el intervalo según sea necesario
