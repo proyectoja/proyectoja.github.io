@@ -1,26 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reproductor Clappr con URL Dinámica</title>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
   <style>
-    body, html{
-        margin: 0%;
-        padding: 0%;
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        justify-content: center;
-        align-items: center;
+    body,
+    html {
+      margin: 0%;
+      padding: 0%;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
-</style>
+
+    .container-cont-principal #live-button {
+      padding: 7px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background-color: gray;
+      color: white;
+      border: none;
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 50px;
+      font-size: 14px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      display: block;
+      position: relative;
+      text-wrap: nowrap;
+      margin-left: 10px;
+    }
+
+    .container-cont-principal #live-button.live {
+      background-color: red;
+      animation: parpadeo 3s infinite;
+    }
+
+    @keyframes parpadeo {
+      0% {
+        background-color: red;
+      }
+
+      15% {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      30% {
+        background-color: red;
+      }
+
+      100% {
+        background-color: red;
+      }
+    }
+
+    .container-cont-principal #viewer-count {
+      margin-left: 5px;
+      padding: 7px;
+      padding-right: 12px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+      font-size: 14px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      display: block;
+      position: relative;
+      text-wrap: nowrap;
+    }
+
+    .container-cont-principal img {
+      background-color: transparent;
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(255, 0, 0);
+      border-radius: 50%;
+      margin: 0;
+      margin-left: 10px;
+      margin-right: 5px;
+      margin-top: 0px;
+      padding: 3px;
+      display: block;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-cont-principal h2 {
+      display: block;
+      position: relative;
+      text-wrap: nowrap;
+      margin: 0;
+      color: #fff;
+      font-size: 18px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      text-shadow: 0px 0px 10px #000;
+    }
+
+  </style>
 </head>
+
 <body>
   <!-- Contenedor del reproductor -->
   <div id="player"></div>
+  <div class="container-cont-principal" id="container-cont-principal">
+      <img src="https://i.imgur.com/65vS9gh.png"></img>
+      <h2>PROYECTO JA</h2>
+      <button id="live-button">⚫ No hay emisión</button>
+      <div id="viewer-count">👁️ 0</div>
+  </div>
 
   <script>
     // Función para obtener parámetros de la URL
@@ -28,30 +122,200 @@
       const params = new URLSearchParams(window.location.search);
       return params.get(name);
     }
-let player;
+    let player = null;
+    let activeEnVivo = 0;
+    let liveButton = document.getElementById('live-button');
+    let viewerCount = document.getElementById('viewer-count');
+    let livePerfil = document.querySelector('.container-cont-principal img');
+ 
+    const username = "XSTUDIOCODE";
     // Obtenemos el parámetro 'video' desde la URL
     const videoUrl = getUrlParameter('video');
     const posterUrl = getUrlParameter('poster');
-    if (videoUrl) {
-      // Si hay un video en la URL, inicializamos el reproductor Clappr
+
+
+    // Función para inicializar el reproductor con video MP4
+    function initializeMp4Player(videoUrl, posterUrl) {
+      if (player) {
+        player.destroy(); // Destruye el reproductor si ya está activo
+      }
       player = new Clappr.Player({
         source: videoUrl,
         parentId: "#player",
         poster: posterUrl,
         width: "100%",
         height: "100vh",
-        autoPlay: false,
+        autoPlay: true,
         hideVolumeBar: false,
-                        actualLiveTime: true,
-                        actualLiveServerTime: "2024/09/30 00:00:00",
-                        hideMediaControl: true,
-                        playbackNotSupportedMessage: 'No se puede reproducir.',
-                        //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
+        hideMediaControl: false,
+        playbackNotSupportedMessage: 'No se puede reproducir.',
+        //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
-    } else {
-      // Si no hay parámetro, mostramos un mensaje de error
-      document.getElementById('player').innerHTML = "<p style='color: red;'>No se encontró un video en la URL.</p>";
+    }
+
+    // Función para inicializar el reproductor para transmisión en vivo (HLS)
+    function initializeLivePlayer(streamUrl, posterUrl) {
+      if (player) {
+        player.destroy(); // Destruye el reproductor si ya está activo
+      }
+      player = new Clappr.Player({
+        source: streamUrl,
+        parentId: "#player",
+        poster: posterUrl,
+        width: "100%",
+        height: "100vh",
+        autoPlay: true,
+        hideVolumeBar: false,
+        actualLiveTime: true,
+        actualLiveServerTime: "2024/09/30 00:00:00",
+        hideMediaControl: true,
+        playbackNotSupportedMessage: 'No se puede reproducir.',
+        //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
+      });
+      const customContainer = document.getElementById('container-cont-principal');
+      customContainer.style.display = 'flex';
+      customContainer.style.position = 'absolute';
+      customContainer.style.flexDirection = 'row';
+      customContainer.style.width = 'auto';
+      customContainer.style.height = '100%';
+      customContainer.style.right = '10px';
+      customContainer.style.bottom = '55px';
+      customContainer.style.justifyContent = 'center';
+      customContainer.style.alignItems = 'center';
+      // Verificar si la barra de control está disponible
+      player.on(Clappr.Events.PLAYER_PLAY, function () {
+        const controlBarRight = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
+        if(!controlBarRight.querySelector('#logo')){
+          const img = document.createElement('img');
+          img.src = 'https://i.imgur.com/PH40Vz0.png';
+          img.alt = 'Logo';
+          img.width = 'auto';
+          img.height = '100%';
+          img.id = 'logo';
+          controlBarRight.appendChild(img);
+        }
+        // Verificar si la barra de control está disponible
+        const controlBar = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
+
+        controlBar.appendChild(customContainer);
+      });
+
+      // Detecta cambios en el estado de la reproducción
+      player.on(Clappr.Events.PLAYER_PLAY, function () {
+        liveButton.classList.add('live');
+        liveButton.innerText = '🔴 EN VIVO';
+        activeEnVivo = 1;
+        livePerfil.style.border = '3px solid rgba(255,0,0)';
+        
+        fetchViewerCount(); // Obtener el contador de espectadores al iniciar la transmisión
+        activeEnVivoFunction();
+      });
+
+      player.on(Clappr.Events.PLAYER_STOP, function () {
+        liveButton.classList.remove('live');
+        liveButton.innerText = '⚫ Emisión detenida';
+        activeEnVivo = 2;
+        livePerfil.style.border = '3px solid transparent';
+       
+        viewerCount.innerText = `👁️ 0`; // Resetea el contador
+        activeEnVivoFunction();
+      });
+
+      player.on(Clappr.Events.PLAYER_PAUSE, function () {
+        // Cuando se pausa la transmisión
+        liveButton.classList.remove('live');
+        liveButton.innerText = '🟡 Emisión en pausa';
+        activeEnVivo = 3;
+        livePerfil.style.border = '3px solid transparent';
+        viewerCount.innerText = `👁️ 0`;
+       
+        activeEnVivoFunction();
+      });
+
+      // Verificación inicial al cargar la página
+      if (player && player.isPlaying()) {
+        liveButton.classList.add('live');
+        liveButton.innerText = '🔴 EN VIVO';
+        activeEnVivo = 1;
+        livePerfil.style.border = '3px solid rgba(255,0,0)';
+        
+        activeEnVivoFunction();
+      } else {
+        liveButton.classList.remove('live');
+        liveButton.innerText = '⚫ No hay emisión';
+        activeEnVivo = 0;
+        livePerfil.style.border = '3px solid transparent';
+        
+        activeEnVivoFunction();
+      }
+    }
+
+    // Comprobamos si el parámetro 'video' existe
+    if (videoUrl) {
+      // Si es un archivo MP4
+      if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4')) {
+        initializeMp4Player(videoUrl, posterUrl);
+      }
+      // Si es una transmisión en vivo en formato HLS (.m3u8)
+      else if (videoUrl.includes('.m3u8')) {
+        initializeLivePlayer(videoUrl, posterUrl);
+      }
+    }
+
+
+    function activeEnVivoFunction() {
+      switch (activeEnVivo) {
+        case 1:
+          // PLAY
+          if (!window.titleInterval) {
+            window.titleInterval = setInterval(() => {
+              document.title = document.title === "EN VIVO 🔴" ? "EN VIVO ⚫" : "EN VIVO 🔴";
+            }, 1000);
+          }
+          break;
+        case 2:
+          // STOP
+          clearInterval(window.titleInterval);
+          document.title = "EN VIVO ⚫";
+          delete window.titleInterval;
+          break;
+        case 3:
+          // PAUSE
+          if (!window.titleInterval) {
+            window.titleInterval = setInterval(() => {
+              document.title = document.title === "EN VIVO 🟡" ? "EN VIVO ⚫" : "EN VIVO 🟡";
+            }, 1000);
+          }
+          break;
+        default:
+          document.title = "EN VIVO";
+          clearInterval(window.titleInterval);
+          delete window.titleInterval;
+      }
+    }
+
+    // Verifica el contador de espectadores cada 60 segundos
+    setInterval(fetchViewerCount, 60000); // Cambia el intervalo según sea necesario
+
+    // Función para obtener el contador de espectadores
+    function fetchViewerCount() {
+      fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.online) {
+            const viewers = data.viewers; // Obtiene el número de espectadores actuales
+            viewerCount.innerText = `👁️ ${viewers}`;
+          } else {
+            viewerCount.innerText = ``;
+            viewerCount.innerText = `👁️ 0`;
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener el contador de espectadores:', error);
+          viewerCount.innerText = `👁️ 0`;
+        });
     }
   </script>
 </body>
+
 </html>

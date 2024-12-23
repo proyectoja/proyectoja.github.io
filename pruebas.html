@@ -8,181 +8,106 @@
     <script src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body,html {overflow: hidden;
-        padding: 0;
-        margin: 0;}
-        .hidden-video-container {
-            position: absolute;
-            top: -9999px; /* Mueve el video fuera de la pantalla */
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-        }
-        .loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-}
+        body,
+    html {
+      margin: 0%;
+      padding: 0%;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
 
-.loader2 {
-  border: 30px solid #f3f3f3; /* Light grey */
-  border-top: 30px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 200px;
-  height: 200px;
-  animation: spin 1s linear infinite;
-}
+    #live-button {
+      padding: 7px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background-color: gray;
+      color: white;
+      border: none;
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 50px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      
+    }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    #live-button.live {
+      background-color: red;
+      animation: parpadeo 3s infinite;
+    }
 
-.loader-text {
-  margin-top: 20px;
-  color: white;
-  font-size: 28px;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-}
+    @keyframes parpadeo {
+      0% {
+        background-color: red;
+      }
 
-/* Ocultar el loader por defecto */
-.loader-overlay.hidden {
-  display: none;
-}
+      15% {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      30% {
+        background-color: red;
+      }
+
+      100% {
+        background-color: red;
+      }
+    }
+
+    #viewer-count {
+      margin-left: 5px;
+      padding: 7px;
+      padding-right: 12px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      
+    }
+
+    .container-cont-principal {
+      display: flex;
+      flex-direction: row;
+      width: 400px;
+      height: 30px;
+      background-color: chocolate;
+      overflow: hidden;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    .container-cont-principal img {
+      background-color: transparent;
+      width: 10px;
+      height: 10px;
+      border: 3px solid rgba(255, 0, 0);
+      border-radius: 50%;
+      margin: 0%;
+      margin-left: 10px;
+      margin-right: 5px;
+      margin-top: 0px;
+      padding: 3px;
+    }
+
+    .container-cont-principal h2 {
+      color: #fff;
+      font-size: 10px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
     </style>
 </head>
 <body>
-    <!-- Loader Overlay -->
-<div class="loader-overlay hidden" id="loader">
-    <div class="loader2"></div>
-    <div class="loader-text" id="loader-text">Cargando... 0%</div> <!-- Texto para el porcentaje -->
-</div>  
-    <div id="player"></div>
-
-    <script>
-        var activeUrl = "https://ak2.rmbl.ws/s8/2/s/n/c/T/sncTp.gaa.mp4?u=0&b=0";
-        var poster = "https://i.imgur.com/ymjjVCQ.png";
-        
-        // Crear y configurar el contenedor y el video HTML5 dinámicamente
-        var hiddenVideoContainer = document.createElement('div');
-        hiddenVideoContainer.className = 'hidden-video-container';
-
-        var html5Player = document.createElement('video');
-        html5Player.id = 'html5player';
-        html5Player.muted = true;
-        html5Player.crossOrigin = "anonymous";
-        html5Player.src = activeUrl; // Copiar la URL al reproductor HTML5
-        
-
-        // Agregar el reproductor HTML5 al contenedor oculto
-        hiddenVideoContainer.appendChild(html5Player);
-        document.body.appendChild(hiddenVideoContainer); // Insertar el contenedor en el body
-
-        // Mostrar el loader
-        function showLoader() {
-                document.getElementById('loader').classList.remove('hidden');
-            }
-
-            // Ocultar el loader
-            function hideLoader() {
-                document.getElementById('loader').classList.add('hidden');
-            }
-
-            // Actualizar el porcentaje de carga
-            function updateLoaderText(percentage) {
-                const loaderText = document.getElementById('loader-text');
-                loaderText.textContent = `Cargando... ${percentage}%`;
-            }
-
-        // Configurar el reproductor Clappr
-        var clapprPlayer = new Clappr.Player({
-            source: activeUrl,
-            autoPlay: false,
-            width: "100%",
-            height: "100vh",
-            poster: poster,
-            exitFullscreenOnEnd: true,
-            disableVideoTagContextMenu: true,
-            hideVolumeBar: false,
-            //hideMediaControl: true,
-            playbackNotSupportedMessage: 'No se puede reproducir.',
-            watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right',
-            parentId: "#player",
-            plugins: [ClapprThumbnailsPlugin],
-            scrubThumbnails: {
-                backdropHeight: 64,
-                spotlightHeight: 160,
-                thumbs: [] // Inicialmente vacío
-            }
-        });
-
-        // Función para capturar la imagen del reproductor
-        function captureThumbnail() {
-            html2canvas(html5Player, { useCORS: true }).then(canvas => {
-                const thumbnailUrl = canvas.toDataURL();
-                const currentTime = html5Player.currentTime;
-
-                // Agregar miniatura al reproductor Clappr
-                const newThumb = {
-                    url: thumbnailUrl,
-                    time: currentTime
-                };
-
-                const thumbnailsPlugin = clapprPlayer.getPlugin("scrub-thumbnails");
-                thumbnailsPlugin.addThumbnail(newThumb).then(function() {
-                    console.log("Miniatura añadida a Clappr:", currentTime);
-                });
-            }).catch(err => {
-                console.error("Error al capturar la imagen: ", err);
-            });
-        }
-
-        // Iniciar captura de miniaturas cada 30 segundos
-        let captureInterval;
-            let currentTime = 0;
-            let percentage = 0;
-    
-            function startCapturing() {
-                showLoader();
-                currentTime = 0;
-                percentage = 0;
-
-                // Escuchar el evento 'loadedmetadata' para iniciar la captura
-                html5Player.addEventListener('loadedmetadata', () => {
-                    const duration = html5Player.duration;
-                    captureInterval = setInterval(() => {
-                        if (currentTime < html5Player.duration) { // Si no hemos llegado al final del video
-                            html5Player.pause(); // Pausar el video para capturar con precisión
-                            html5Player.currentTime = currentTime; // Adelantar el video al tiempo deseado
-                            html5Player.onseeked = () => { // Esperar hasta que el tiempo cambie
-                                captureThumbnail(); // Capturar la miniatura
-                                currentTime += 600; // Incrementar el tiempo en 30 segundos
-                                // Calcular el porcentaje y actualizar el texto
-                                percentage = Math.min(100, Math.floor((currentTime / duration) * 100));
-                                updateLoaderText(percentage);
-                            };
-                        } else {
-                            clearInterval(captureInterval); // Detener captura si alcanzamos el final
-                            html5Player.pause(); // Pausar el video al final
-                            
-                            percentage = 0;
-                            updateLoaderText(percentage);
-                            hideLoader();
-                        }
-                    }, 3000); // Esperar 3 segundos para asegurar que el video se haya cargado antes de avanzar
-                });
-            }
-        startCapturing(); 
-               
-    </script>
+    <!-- Contenedor del reproductor -->
+  <div id="player"></div>
+  <div class="container-cont-principal">
+      <img src="https://i.imgur.com/65vS9gh.png"></img>
+      <h2>PROYECTO JA</h2>
+      <button id="live-button">⚫ No hay emisión</button>
+      <div id="viewer-count">👁️ 0</div>
+  </div>
 </body>
 </html>
