@@ -149,7 +149,7 @@
     var onlineDiv = document.getElementById('viewer-count');
     document.addEventListener('chatLoaded', function () {
       document.addEventListener('chatbroPtCountChanging', function (event) {
-        onlineDiv.innerHTML = JSON.stringify(event.ptCount.web);
+        onlineDiv.innerHTML = `👁️ ${JSON.stringify(event.ptCount.web)}`;
       });
     }); 
     // Función para obtener parámetros de la URL
