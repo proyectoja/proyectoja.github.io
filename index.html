@@ -8769,6 +8769,7 @@
     const jsonUrlELLENWHITE = "https://proyectoja.github.io/ellen_g_white_001_365.json";
     const jsonUrlDios = "https://proyectoja.github.io/Dios_001_365.json";
     const jsonUrlPsicologiaPositiva = "https://proyectoja.github.io/psicologia_positiva_001_365.json";
+    const jsonUrlOraciones = "https://proyectoja.github.io/oraciones_001_365.json";
 
     function cargarNotaPROYECTOJA(){
     fetch(jsonUrlPROYECTOJA)
@@ -8821,6 +8822,19 @@
             
         });
     }
+
+    function cargarNotaOraciones(){
+    fetch(jsonUrlOraciones)
+        .then(response => response.json())
+        .then(mensajes => {
+            const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
+            mostrarMensajeDelDia(mensajes, diaActual); // Mostrar el mensaje correspondiente al día
+        })
+        .catch(error => {
+            console.error("Error al cargar el JSON:", error);
+            
+        });
+    }
         
         // Asumiendo que 'username' está definido
         const username = 'XSTUDIOCODE'; // 
@@ -8831,6 +8845,7 @@
                     cargarNotaELLENWHITE();
                     cargarNotaDios();
                     cargarNotaPsicologiaPositiva();
+                    cargarNotaOraciones();
                 }
             );
             
