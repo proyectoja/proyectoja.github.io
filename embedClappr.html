@@ -17,7 +17,10 @@
   <meta property="og:type" content="website" />
 
   <title>PROYECTO JA</title>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script src="https://proyectoja.github.io/clappr.js"></script>
+  <script src="https://proyectoja.github.io/clappr-pip-plugin.js"></script>
+  <script src="https://proyectoja.github.io/level-selector.js"></script>
+
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
   <script type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
@@ -191,6 +194,7 @@
         hideVolumeBar: false,
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin,LevelSelector],
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
 
@@ -242,6 +246,7 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin,LevelSelector],
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
       // Verificar si la barra de control está disponible
