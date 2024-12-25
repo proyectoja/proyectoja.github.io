@@ -21,6 +21,7 @@
   <script src="https://proyectoja.github.io/clappr-pip-plugin.js"></script>
   <script src="https://proyectoja.github.io/level-selector.js"></script>
   <script src="https://proyectoja.github.io/clappr-playback-rate.js"></script>
+  <script src="https://proyectoja.github.io/clappr-video360.js"></script>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
   <script type="text/javascript"
@@ -195,7 +196,7 @@
         hideVolumeBar: false,
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin, Video360],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -211,6 +212,7 @@
         },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
+      player.getPlugin('click_to_pause').disable();
 
       // Verificar si la barra de control está disponible
       player.on(Clappr.Events.PLAYER_PLAY, function () {
@@ -260,7 +262,7 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin, Video360],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -276,6 +278,7 @@
         },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
+      player.getPlugin('click_to_pause').disable();
       // Verificar si la barra de control está disponible
       player.on(Clappr.Events.PLAYER_PLAY, function () {
         const customContainer = document.getElementById('container-cont-principal');
