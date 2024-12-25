@@ -26,7 +26,7 @@
     src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-thumbnails-plugin@3"></script>
   <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
-  
+
   <style>
     body {
       margin: 0%;
@@ -194,7 +194,7 @@
         hideVolumeBar: false,
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin,LevelSelector],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector],
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
 
@@ -246,7 +246,20 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin,LevelSelector],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        playbackRateConfig: {
+          defaultValue: 1,
+          options: [
+            { value: 0.1, label: '0.1x' },
+            { value: 0.5, label: '0.5x' },
+            { value: 0.75, label: '0.75x' },
+            { value: 1, label: 'Normal' },
+            { value: 1.5, label: '1.5x' },
+            { value: 2, label: '2x' },
+            { value: 4, label: '4x' },
+          ],
+          // rateSuffix: 'x',
+        },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
       // Verificar si la barra de control está disponible
@@ -341,10 +354,10 @@
     }
 
     // Función para cargar el script de Chatbro
-function executeChatbroScript() {
-  const script = document.createElement('script');
-  script.id = 'chatBroEmbedCode';
-  script.textContent = `
+    function executeChatbroScript() {
+      const script = document.createElement('script');
+      script.id = 'chatBroEmbedCode';
+      script.textContent = `
     /* Chatbro Widget Embed Code Start */
     function ChatbroLoader(chats, async) { 
       async = !1 !== async; 
@@ -365,8 +378,8 @@ function executeChatbroScript() {
     ChatbroLoader({ encodedChatId: '2916T' });
     /* Chatbro Widget Embed Code End */
   `;
-  document.body.appendChild(script);
-}
+      document.body.appendChild(script);
+    }
 
     function activeEnVivoFunction() {
       switch (activeEnVivo) {
