@@ -302,6 +302,12 @@
         customContainer.style.bottom = '55px';
         customContainer.style.justifyContent = 'center';
         customContainer.style.alignItems = 'center';
+
+        const customContainerImg = document.querySelector('#container-cont-principal img');
+        if(perfilCanal){
+          customContainerImg.src = perfilCanal;
+        }
+        
         const controlBarRight = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
         if (!controlBarRight.querySelector('#logo')) {
           const img = document.createElement('img');
