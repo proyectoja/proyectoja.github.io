@@ -169,8 +169,11 @@
 
     const username = "XSTUDIOCODE";
     // Obtenemos el parámetro 'video' desde la URL
+    const audioUrl = getUrlParameter('audio');
     const videoUrl = getUrlParameter('video');
     const posterUrl = getUrlParameter('poster');
+    const nombreCanal = getUrlParameter('nombreCanal');
+    const perfilCanal = getUrlParameter('perfilCanal');
 
 
     // Función para inicializar el reproductor con video MP4
@@ -218,6 +221,12 @@
         customContainer.style.bottom = '55px';
         customContainer.style.justifyContent = 'center';
         customContainer.style.alignItems = 'center';
+
+        const customContainerImg = document.querySelector('#container-cont-principal img');
+        if(perfilCanal){
+          customContainerImg.src = perfilCanal;
+        }
+
         const controlBarRight = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
         if (!controlBarRight.querySelector('#logo')) {
           const img = document.createElement('img');
@@ -231,6 +240,10 @@
           img.style.margin = '0px';
           img.style.padding = '0px';
           img.id = 'logo';
+          img.style.cursor = 'pointer';
+          img.onclick = () => {
+            window.open('https://www.whatsapp.com/channel/0029VaDMfYK5fM5bmqhsxk0h', '_blank');
+          };
           controlBarRight.appendChild(img);
         }
         // Verificar si la barra de control está disponible
@@ -302,11 +315,15 @@
           img.style.margin = '0px';
           img.style.padding = '0px';
           img.id = 'logo';
+          img.style.cursor = 'pointer';
+          img.onclick = () => {
+            window.open('https://www.whatsapp.com/channel/0029VaDMfYK5fM5bmqhsxk0h', '_blank');
+          };
           controlBarRight.appendChild(img);
         }
         // Verificar si la barra de control está disponible
         const controlBar = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
-        
+
         controlBar.appendChild(customContainer);
       });
 
@@ -317,7 +334,7 @@
         activeEnVivo = 1;
         livePerfil.style.border = '2px solid rgba(255,0,0)';
 
-        fetchViewerCount(); // Obtener el contador de espectadores al iniciar la transmisión
+        //fetchViewerCount(); // Obtener el contador de espectadores al iniciar la transmisión
         activeEnVivoFunction();
       });
 
@@ -327,7 +344,7 @@
         activeEnVivo = 2;
         livePerfil.style.border = '2px solid transparent';
 
-        viewerCount.innerText = `👁️ 0`; // Resetea el contador
+        viewerCount.innerText = `👁️`; // Resetea el contador
         activeEnVivoFunction();
       });
 
@@ -337,7 +354,7 @@
         liveButton.innerText = '🟡 Emisión en pausa';
         activeEnVivo = 3;
         livePerfil.style.border = '2px solid transparent';
-        viewerCount.innerText = `👁️ 0`;
+        viewerCount.innerText = `👁️`;
 
         activeEnVivoFunction();
       });
@@ -357,19 +374,6 @@
         livePerfil.style.border = '2px solid transparent';
 
         activeEnVivoFunction();
-      }
-    }
-
-    // Comprobamos si el parámetro 'video' existe
-    if (videoUrl) {
-      // Si es un archivo MP4
-      if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4')) {
-        initializeMp4Player(videoUrl, posterUrl);
-      }
-      // Si es una transmisión en vivo en formato HLS (.m3u8)
-      else if (videoUrl.includes('.m3u8')) {
-        initializeLivePlayer(videoUrl, posterUrl);
-        executeChatbroScript();
       }
     }
 
@@ -442,9 +446,28 @@
       });
     });
 
+    // Comprobamos si el parámetro 'video' existe
+    if (videoUrl) {
+      // Si es un archivo MP4
+      if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4')) {
+        initializeMp4Player(videoUrl, posterUrl);
+      }
+      // Si es una transmisión en vivo en formato HLS (.m3u8)
+      else if (videoUrl.includes('.m3u8') && videoUrl.includes('XSTUDIOCODE')) {
+        initializeLivePlayer(videoUrl, posterUrl);
+        executeChatbroScript();
+      }else if(videoUrl.includes('.m3u8')){
+        initializeLivePlayer(videoUrl, posterUrl);
+        onlineDiv.innerHTML = "👁️";
+        onlineDiv.style.backgroundColor = '#003399';
+      }
+    }else if(audioUrl){
+      //
+    }
+
 
     // Verifica el contador de espectadores cada 60 segundos
-    setInterval(fetchViewerCount, 60000); // Cambia el intervalo según sea necesario
+    //setInterval(fetchViewerCount, 60000); // Cambia el intervalo según sea necesario
 
     // Función para obtener el contador de espectadores
     /*
