@@ -46,7 +46,6 @@
       -webkit-user-drag: none;
     }
 
-
     .container-cont-principal {
       display: none;
     }
@@ -189,7 +188,7 @@
         hideVolumeBar: false,
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin, Video360],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -205,7 +204,6 @@
         },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
-      player.getPlugin('click_to_pause').disable();
 
       // Verificar si la barra de control está disponible
       player.on(Clappr.Events.PLAYER_PLAY, function () {
@@ -255,7 +253,7 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true,
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin, Video360],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -287,6 +285,7 @@
         const controlBarRight = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
         if (!controlBarRight.querySelector('#logo')) {
           const img = document.createElement('img');
+          
           img.src = 'https://i.imgur.com/PH40Vz0.png';
           img.alt = 'Logo';
           img.width = '30px';
