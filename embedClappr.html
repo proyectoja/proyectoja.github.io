@@ -184,9 +184,9 @@
         poster: posterUrl,
         width: "100%",
         height: "100vh",
-        autoPlay: true, //Desarrollo
+        autoPlay: false, //Desarrollo
         hideVolumeBar: false,
-        hideMediaControl: false, //Desarrollo
+        hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
         plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
@@ -210,6 +210,7 @@
         const customContainer = document.getElementById('container-cont-principal');
         customContainer.style.display = 'flex';
         customContainer.style.position = 'absolute';
+        customContainer.style.zIndex = '-1';
         customContainer.style.flexDirection = 'row';
         customContainer.style.width = 'auto';
         customContainer.style.height = '100%';
@@ -252,11 +253,11 @@
         poster: posterUrl,
         width: "100%",
         height: "100vh",
-        autoPlay: false,
+        autoPlay: false, //Desarrollo
         hideVolumeBar: false,
         actualLiveTime: true,
         actualLiveServerTime: "2024/09/30 00:00:00",
-        hideMediaControl: true,
+        hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
         plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
@@ -280,6 +281,7 @@
         const customContainer = document.getElementById('container-cont-principal');
         customContainer.style.display = 'flex';
         customContainer.style.position = 'absolute';
+        customContainer.style.zIndex = '-1';
         customContainer.style.flexDirection = 'row';
         customContainer.style.width = 'auto';
         customContainer.style.height = '100%';
@@ -304,7 +306,7 @@
         }
         // Verificar si la barra de control está disponible
         const controlBar = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
-
+        
         controlBar.appendChild(customContainer);
       });
 
