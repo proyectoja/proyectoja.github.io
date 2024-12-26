@@ -227,6 +227,11 @@
           customContainerImg.src = perfilCanal;
         }
 
+        const customContainerH2 = document.querySelector('#container-cont-principal h2');
+        if(nombreCanal){
+          customContainerH2.textContent = nombreCanal;
+        }
+
         const controlBarRight = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
         if (!controlBarRight.querySelector('#logo')) {
           const img = document.createElement('img');
@@ -307,7 +312,12 @@
         if(perfilCanal){
           customContainerImg.src = perfilCanal;
         }
-        
+
+        const customContainerH2 = document.querySelector('#container-cont-principal h2');
+        if(nombreCanal){
+          customContainerH2.textContent = nombreCanal;
+        }
+
         const controlBarRight = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
         if (!controlBarRight.querySelector('#logo')) {
           const img = document.createElement('img');
