@@ -20,6 +20,89 @@ body,html {
 
 }
 
+.contenedor-barra-central {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 0;
+    animation: Opacity 3s;
+}
+@keyframes Opacity{
+    1% {background-color: transparent;}
+    100% {background-color: rgba(0, 0, 0, 0.8);}
+}
+.contenedor-barra-central-contenido{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 0px;
+    height: 100%;
+    background-color: black;
+    overflow: hidden;
+    overflow-y: auto;
+    color: white;
+    padding: 0;
+    margin: 0;
+    border-right: 1px solid rgba(255,255,255, 0.5);
+}.contenedor-barra-central-contenido.activo {
+    width: 200px;
+}
+
+.contenedor-barra-central
+.contenedor-barra-central-contenido
+.icon-logo1{
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+.icon-logo1 img{
+    width: 100%;
+    height: auto;
+}.contenedor-categoria{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    width: 100%;
+    max-width: 80%;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    height: auto;
+    background-color: transparent;
+    border-radius: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+}.contenedor-categoria img{
+    width: auto;
+    height: 30px;
+}.contenedor-categoria span{
+    font-size: 18px;
+    margin-left: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+}.contenedor-categoria:hover{
+    background-color: rgba(255,255,255, 0.3);
+}
+
 .contenedor-barra-inferior {
     display: flex;
     position: relative;
@@ -30,6 +113,7 @@ body,html {
     justify-content: flex-start;
     align-items: center;
     border-top: 1px solid rgba(255,255,255, 0.5);
+    box-shadow: 0 0 20px #000;
     overflow: hidden;
     background-color: black;
 }
@@ -87,14 +171,17 @@ body,html {
     overflow: hidden;
     width: auto;
     height: 100%;
-    cursor: pointer;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding-left: 10px;
-    padding-right: 5px;
 }.contenedor-icon-menu img{
     width: auto;
     height: 100%;
+}#icon-menu {
+    cursor: pointer;
+}#icon-logo1 {
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .contenedor-icon-buscar {
@@ -133,6 +220,7 @@ body,html {
     height: 100%;
     max-height: 80%;
     overflow: hidden;
+    background-color: transparent;
 }
 
 /*INICIO DE PÁGINA*/
@@ -147,7 +235,7 @@ body,html {
     height: 100%;
     overflow: hidden;
     overflow-y: auto;
-    background-color: black;
+    background-color: transparent;
     color: white;
     justify-content: center;
     align-items: center;
@@ -155,7 +243,7 @@ body,html {
 
 /*PROMOCIÓN HIMNARIO ADVENTISTA PRO*/
 .contenedor-aplicaciones {
-    background: url('fondo1.jpg');
+    background-image: url('fondo1.jpg');
     width: 100%;
     max-width: 90%;
     margin: auto;
