@@ -1,0 +1,442 @@
+body,html {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 0%;
+    padding: 0%;
+    background-color: black;
+}
+
+.contenedor-rey {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+
+.contenedor-barra-inferior {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 40px;
+    left: 0;
+    bottom: 0;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255, 0.5);
+    overflow: hidden;
+    background-color: black;
+}
+
+.contenedor-barra-inferior-left {
+    display: flex;
+    position: relative;
+    width: auto;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.contenedor-barra-inferior-center {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-barra-inferior-right {
+    display: flex;
+    position: relative;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.contenedor-buscar {
+    display: flex;
+    position: relative;
+    background-color: rgba(255,255,255, 0.5);
+    border-radius: 1rem;
+    width: auto;
+    height: 100%;
+    max-height: 70%;
+    border: 1px solid rgba(255,255,255, 0.5);
+}
+
+.contenedor-icon-menu {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    width: auto;
+    height: 100%;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 5px;
+}.contenedor-icon-menu img{
+    width: auto;
+    height: 100%;
+}
+
+.contenedor-icon-buscar {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    width: auto;
+    height: 100%;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}.contenedor-icon-buscar img{
+    width: auto;
+    height: 20px;
+}#search-input {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    background-color: black;
+    border: 0px;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.btnsFullscreen {
+    display: nonen
+}
+
+.boton-like-page {
+    display: flex;
+    position: relative;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    max-height: 80%;
+    overflow: hidden;
+}
+
+/*INICIO DE PÁGINA*/
+.contenedor-inicio {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    background-color: black;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+/*PROMOCIÓN HIMNARIO ADVENTISTA PRO*/
+.contenedor-aplicaciones {
+    background: url('fondo1.jpg');
+    width: 100%;
+    max-width: 90%;
+    margin: auto;
+    height: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 1rem;
+    color: white;
+    text-shadow: 2px 2px 2px #000;
+    font-size: 10px;
+    border: 5px solid rgb(255, 255, 255, 0.5);
+    box-shadow: 0 0 20px #0066ff, inset 0 0 50px #000;
+  }
+  .contenedor-aplicacion {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 0;
+    margin-left: 15px;
+    margin-right: 15px;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+  .contenedor-aplicacion img {
+    width: 100px;
+    height: auto;
+  } 
+  .contenedor-aplicacion h5{
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px #000;
+  }
+  .contenedor-aplicacion button {
+    border-radius: 1rem;
+    margin-left: 10px;
+    box-shadow: 0 0 15px #000;
+    width: 210px;
+    height: 150px;
+    overflow: hidden;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgb(255, 255, 255, 0.5);
+  }
+  .contenedor-aplicacion button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  .disqus-cont {
+    width: 100%;
+    max-width: 90%;
+    height: auto;
+  }
+
+  /*DISEÑO DE LAS PUBLICACIONES AUTOMÁTICAS*/
+.contenedor-publicaciones {
+    width: 100%;
+    max-width: 98%;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    border-radius: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .publicacion {
+    margin-bottom: 25px;
+    padding: 15px;
+    padding-right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+  }
+  
+  .imagen-publicacion {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border-radius: 1rem;
+    float: left;
+  }
+  
+  .titulo {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .contenido {
+    font-size: 18px;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  
+  .subcontenido {
+    font-size: 18px;
+    font-style: normal;
+    font-family: 'Courier New', Courier, monospace;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  
+  .perfil {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    position: relative;
+  }
+  
+  .fecha-hora {
+    clear: both;
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .cabecera-publicacion {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .info-publicacion {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .fusionPubCheckElem {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .check {
+    margin-top: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-left: 10px;
+  }
+  
+  .publicador {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .redes-sociales button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .redes-sociales .whatsapp {
+    background-color: #25d366;
+    color: white;
+  }
+  
+  .redes-sociales .whatsapp:hover {
+    background-color: #046829;
+  }
+  
+  .redes-sociales .facebook {
+    background-color: #3b5998;
+    color: white;
+  }
+  
+  .redes-sociales .facebook:hover {
+    background-color: #052468;
+  }
+  
+  .redes-sociales .tiktok {
+    background-color: #000000;
+    color: white;
+  }
+  
+  .redes-sociales .tiktok:hover {
+    background-color: #535252;
+  }
+  
+  .redes-sociales .instagram {
+    background-color: #e1306c;
+    color: white;
+  }
+  
+  .redes-sociales .instagram:hover {
+    background-color: #85042f;
+  }
+  
+  .redes-sociales .youtube {
+    background-color: #c4302b;
+    color: white;
+  }
+  
+  .redes-sociales .youtube:hover {
+    background-color: #770602;
+  }
+  
+  .botones-accion {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    background-color: transparent;
+  }
+  
+  .descargar {
+    color: #000;
+    border-radius: 1rem;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .descargar:hover {
+    background-color: #ccc;
+  }
+  
+  .copiar {
+    color: #000;
+    border-radius: 1rem;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .copiar:hover {
+    background-color: #ccc;
+  }
+  
+  .copiar-texto {
+    color: #000;
+    border-radius: 1rem;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .copiar-texto:hover {
+    background-color: #ccc;
+  }
+
+  .welcome-container {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
