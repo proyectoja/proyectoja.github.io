@@ -188,7 +188,7 @@ body,html {
     overflow-x: auto;
   }
   .contenedor-aplicacion img {
-    width: 100px;
+    width: 80px;
     height: auto;
   } 
   .contenedor-aplicacion h5{
@@ -439,4 +439,11 @@ body,html {
 
   .welcome-container {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  h1 {
+    font-size: 28px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    color: white;
   }
