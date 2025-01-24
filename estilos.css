@@ -73,7 +73,7 @@ body,html {
 .contenedor-buscar {
     display: flex;
     position: relative;
-    background-color: rgba(255,255,255, 0.5);
+    background-color: rgba(255,255,255, 0.3);
     border-radius: 1rem;
     width: auto;
     height: 100%;
