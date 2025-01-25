@@ -551,6 +551,10 @@ function obtenerParametro(parametro) {
   return urlParams.get(parametro);
 }
 
+/////////////////////////////////
+
+////////////////////////////////
+
 // Obtener el ID de la URL
 const idVideo = obtenerParametro("id");
 
