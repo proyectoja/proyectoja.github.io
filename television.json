@@ -8,6 +8,7 @@
         "titulo": "Señal en vivo",
         "perfilCanal": "perfilCanal/proyecto-ja.png",
         "nombreCanal": "PROYECTO JA",
+        "checkVerificado": "iconos/check-verificado.png",
         "descripcion": "Compartiendo esperanza!",
         "fecha": "2024-01-24"
       },
@@ -18,7 +19,7 @@
         "urlTelevision": "https://streamlov.alsolnet.com/radiolira/live/playlist.m3u8",
         "titulo": "Señal en vivo Radio Lira",
         "perfilCanal": "perfilCanal/radio-lira.png",
-        "nombreCanal": "Radio Lira",
+        "nombreCanal": "Tv Radio Lira",
         "descripcion": "Radio Lira es una emisora de radio sin fines de lucro adventista existiendo desde casi 40 años y ubicada en Alajuela, Costa Rica. Se puede escuchar Radio Lira con su radio en la frecuencia 88.7 FM, o por internet.",
         "fecha": "2024-01-24"
       },

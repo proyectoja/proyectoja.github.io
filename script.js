@@ -598,6 +598,9 @@ fetch("television.json")
       const descripcion = document.getElementById('descripcion');
       descripcion.textContent = videoEncontrado.descripcion;
 
+      const checkVerificado = document.getElementById('checkVerificado');
+      checkVerificado.src = videoEncontrado.checkVerificado;
+
     } else {
       document.getElementById("").innerHTML =
         "<p>Video no encontrado</p>";

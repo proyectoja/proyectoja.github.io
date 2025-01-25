@@ -689,3 +689,13 @@ body,html {
     background-color: rgb(255, 255, 255, 0.5);
     
   }
+  .contenedor-perfil
+  #checkVerificado{
+    margin-left: 10px;
+    width: 15px;
+    height: 15px;
+    border-radius: 30px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+  }
