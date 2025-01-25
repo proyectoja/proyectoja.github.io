@@ -2,15 +2,28 @@
     "videos": [
       {
         "id": "1",
-        "miniatura": "miniaturaCanal1.png",
-        "poster": "logo3.png",
+        "miniatura": ".png",
+        "poster": "poster/proyecto-ja.jpg",
         "urlTelevision": "https://edge1-us-miami.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/1_0/index.m3u8",
-        "titulo": "PROYECTO JA",
+        "titulo": "Señal en vivo",
+        "perfilCanal": "perfilCanal/proyecto-ja.png",
+        "nombreCanal": "PROYECTO JA",
         "descripcion": "Compartiendo esperanza!",
         "fecha": "2024-01-24"
       },
       {
         "id": "2",
+        "miniatura": ".png",
+        "poster": "poster/radio-lira.jpg",
+        "urlTelevision": "https://streamlov.alsolnet.com/radiolira/live/playlist.m3u8",
+        "titulo": "Señal en vivo Radio Lira",
+        "perfilCanal": "perfilCanal/radio-lira.png",
+        "nombreCanal": "Radio Lira",
+        "descripcion": "Radio Lira es una emisora de radio sin fines de lucro adventista existiendo desde casi 40 años y ubicada en Alajuela, Costa Rica. Se puede escuchar Radio Lira con su radio en la frecuencia 88.7 FM, o por internet.",
+        "fecha": "2024-01-24"
+      },
+      {
+        "id": "30",
         "miniatura": "jpg",
         "poster": "poster/lofi-girl.png",
         "urlTelevision": "https://1a-1791.com/live/nd3n15l5/slot-46/9erd-mia5/chunklist.m3u8",
