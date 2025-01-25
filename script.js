@@ -175,8 +175,8 @@ function mostrarMensajeDelDia(mensajes, dia) {
       const liveIndicator = document.createElement("div");
       liveIndicator.textContent = "EN VIVO";
       liveIndicator.style.position = "absolute";
-      liveIndicator.style.bottom = "-30px";
-      liveIndicator.style.left = "5px";
+      liveIndicator.style.bottom = "-25px";
+      liveIndicator.style.left = "9px";
       liveIndicator.style.transform = "translateX(-50%,0)";
       liveIndicator.style.backgroundColor = "red";
       liveIndicator.style.color = "white";
@@ -187,7 +187,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
       liveIndicator.style.borderRadius = "3px";
       liveIndicator.style.textTransform = "uppercase";
       liveIndicator.style.textWrap = "nowrap";
-      liveIndicator.style.zIndex = "1";
+      liveIndicator.style.zIndex = "0";
 
       perfilElem.addEventListener("mouseover", function () {
         perfilElem.style.boxShadow = "0px 0px 15px rgba(255, 0, 0, 0.7)"; // Aplica sombra
@@ -582,12 +582,12 @@ fetch("television.json")
       // Insertar el iframe en el contenedor
       document.getElementById("contenedor-stream").appendChild(iframe);
     } else {
-      document.getElementById("contenedor-stream").innerHTML =
+      document.getElementById("").innerHTML =
         "<p>Video no encontrado</p>";
     }
   })
   .catch((error) => {
     console.error("Error al cargar el JSON:", error);
-    document.getElementById("videoContainer").innerHTML =
+    document.getElementById("").innerHTML =
       "<p>Error al cargar los datos.</p>";
   });

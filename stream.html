@@ -21,6 +21,8 @@
     <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
     <link rel="stylesheet" href="estilos.css">
     <script
+        id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ parentEncodedChatId: '491TB', chatTitle: 'PROYECTO JA CHAT' });</script>
+    <script
         id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '18wWA' });</script>
 </head>
 
@@ -28,8 +30,13 @@
     <div class="contenedor-rey">
         <!-- BIENVENIDA E INICIO-->
         <div class="contenedor-inicio">
-            
-            <div id="contenedor-stream"></div>
+
+            <div class="contenedor-stream-principal">
+                <div id="contenedor-stream"></div>
+                <div class="contenedor-stream-chat">
+                    <div id="chatbro"></div>
+                </div>
+            </div>
 
             <div class="disqus-cont">
                 <!-- BEGIN: Powered by Supercounters.com -->
@@ -53,8 +60,10 @@
         <div class="contenedor-barra-central" id="barraCentral">
             <div class="contenedor-barra-central-contenido" id="barraCentralContenido">
                 <div class="icon-logo1"><img src="logo1.png" alt="inicio"></div>
-                <a href="inicio.html" class="contenedor-categoria" id="inicio"><img src="inicio.png" alt="inicio"><span>Inicio</span></a>
-                <a href="television.html" class="contenedor-categoria" id="television"><img src="television.png" alt="television"><span>Televisión</span></a>
+                <a href="inicio.html" class="contenedor-categoria" id="inicio"><img src="inicio.png"
+                        alt="inicio"><span>Inicio</span></a>
+                <a href="television.html" class="contenedor-categoria" id="television"><img src="television.png"
+                        alt="television"><span>Televisión</span></a>
             </div>
         </div>
         <div class="contenedor-barra-inferior">
