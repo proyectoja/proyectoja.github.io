@@ -519,8 +519,8 @@ fetch("television.json")
 
       // Crear el elemento de imagen con la miniatura
       const poster = document.createElement("img");
-      poster.src = video.poster;
-      poster.alt = video.titulo;
+      poster.src = video.perfilCanal;
+      poster.alt = video.nombreCanal;
       poster.style.cursor = "pointer";
       poster.onclick = function () {
         window.open(
@@ -531,7 +531,7 @@ fetch("television.json")
 
       // Crear el título del video
       const title = document.createElement("h3");
-      title.textContent = video.titulo;
+      title.textContent = video.nombreCanal;
 
       // Añadir todos los elementos al contenedor del video
       videoItem.appendChild(poster);
