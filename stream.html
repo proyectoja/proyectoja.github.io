@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Compartiendo esperanza!">
+    <meta name="keywords"
+        content="Películas Online,Películas gratis,Ver Películas Online, películas adventistas, IASD, Adventista.org,Alejandro Bullón, PROYECTO JA, música cristiana, música adventista, radio adventistas, televisión adventista, tv adventista, 3abn,3abn latino, esperanza tv,esperanza tv costa rica, nuevo tiempo perú, tv nuevo tiempo perú, radio nuevo tiempo perú, películas cristianas, películas cristianas en hd gratis, películas adventistas gratis, feliz7play">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Para Internet Explorer -->
+
+    <!--Vista previa del enlace-->
+    <meta property="og:title" content="PROYECTO JA" />
+    <meta property="og:description" content="Compartiendo esperanza!" />
+    <meta property="og:url" content="https://proyectoja.github.io/proyectoja/" />
+    <meta property="og:image" content="https://i.imgur.com/ayIV94z.jpg" />
+    <meta property="og:type" content="website" />
+
+    <title>PROYECTO JA</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
+    <link rel="stylesheet" href="estilos.css">
+    <script
+        id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '18wWA' });</script>
+</head>
+
+<body>
+    <div class="contenedor-rey">
+        <!-- BIENVENIDA E INICIO-->
+        <div class="contenedor-inicio">
+            
+            <div id="contenedor-stream"></div>
+
+            <div class="disqus-cont">
+                <!-- BEGIN: Powered by Supercounters.com -->
+                <center>
+                    <script type="text/javascript" src="//widget.supercounters.com/ssl/flag.js"></script>
+                    <script type="text/javascript">sc_flag(1696014, "000000", "ffffff", "ffffff", 8, 100, 0, 0)</script>
+                    <br><noscript><a href="http://www.supercounters.com/">Flag Counter</a></noscript>
+                </center>
+                <!-- END: Powered by Supercounters.com -->
+                <!-- BEGIN: Powered by Supercounters.com -->
+                <center>
+                    <script type="text/javascript" src="//widget.supercounters.com/ssl/vt.js"></script>
+                    <script
+                        type="text/javascript">var sc_visitor_var = sc_visitor_var || []; sc_vt(1700240, "000000", "cccccc", "ffffff", 10)</script>
+                    <br><noscript><a href="http://www.supercounters.com/">free online counter</a></noscript>
+                </center>
+                <!-- END: Powered by Supercounters.com -->
+            </div>
+        </div>
+
+        <div class="contenedor-barra-central" id="barraCentral">
+            <div class="contenedor-barra-central-contenido" id="barraCentralContenido">
+                <div class="icon-logo1"><img src="logo1.png" alt="inicio"></div>
+                <a href="inicio.html" class="contenedor-categoria" id="inicio"><img src="inicio.png" alt="inicio"><span>Inicio</span></a>
+                <a href="television.html" class="contenedor-categoria" id="television"><img src="television.png" alt="television"><span>Televisión</span></a>
+            </div>
+        </div>
+        <div class="contenedor-barra-inferior">
+            <div class="contenedor-barra-inferior-left">
+                <div class="contenedor-icon-menu" onclick="">
+                    <img id="icon-menu" style="height: 30px;" src="menu.png" alt="menu" onclick="toggle();">
+                    <img id="icon-logo1" src="logo1.png" alt="PROYECTO JA">
+                </div>
+            </div>
+
+            <div class="contenedor-barra-inferior-center">
+                <div class="contenedor-buscar">
+                    <!-- Campo de búsqueda -->
+                    <input type="search" id="search-input" placeholder="Buscar" oninput="searchMovies()">
+                    <div class="contenedor-icon-buscar"><img src="buscar.png" alt=""></div>
+                </div>
+            </div>
+            <!--
+                <div class="btnsFullscreenx">
+                    <button id="btnFullscreen">
+                        <img src="https://i.imgur.com/gdsF69V.png" alt="Fullscreen">
+                    </button>
+                    <button id="btnSalirFullscreen">
+                        <img src="https://i.imgur.com/Cz9wNHN.png" alt="Salir Fullscreen">
+                    </button>
+                </div>
+            -->
+            <div class="contenedor-barra-inferior-right">
+                <div class="boton-like-page">
+                    <!-- LikeBtn.com BEGIN -->
+                    <span class="likebtn-wrapper" data-theme="drop" data-ef_voting="buzz" data-identifier="item_1"
+                        data-counter_frmt="period" data-counter_zero_show="true" data-counter_count="true"
+                        data-popup_disabled="true"></span>
+                    <script>(function (d, e, s) { if (d.getElementById("likebtn_wjs")) return; a = d.createElement(e); m = d.getElementsByTagName(e)[0]; a.async = 1; a.id = "likebtn_wjs"; a.src = s; m.parentNode.insertBefore(a, m) })(document, "script", "//w.likebtn.com/js/w/widget.js");</script>
+                    <!-- LikeBtn.com END -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{
+    "videos": [
+      {
+        "id": "1",
+        "miniatura": "miniaturaCanal1.png",
+        "poster": "logo3.png",
+        "urlTelevision": "https://edge1-us-miami.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/1_0/index.m3u8",
+        "titulo": "PROYECTO JA",
+        "descripcion": "Compartiendo esperanza!",
+        "fecha": "2024-01-24"
+      },
+      {
+        "id": "2",
+        "miniatura": "miniaturaCanal1.png",
+        "poster": "logo3.png",
+        "urlTelevision": "https://1a-1791.com/live/nd3n15l5/slot-46/9erd-mia5/chunklist.m3u8",
+        "titulo": "Lofi",
+        "descripcion": "Compartiendo esperanza!",
+        "fecha": "2024-01-24"
+      }
+    ]
+  }
+  
