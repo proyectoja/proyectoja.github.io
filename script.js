@@ -187,7 +187,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
       liveIndicator.style.borderRadius = "3px";
       liveIndicator.style.textTransform = "uppercase";
       liveIndicator.style.textWrap = "nowrap";
-      liveIndicator.style.zIndex = "10";
+      liveIndicator.style.zIndex = "1";
 
       perfilElem.addEventListener("mouseover", function () {
         perfilElem.style.boxShadow = "0px 0px 15px rgba(255, 0, 0, 0.7)"; // Aplica sombra

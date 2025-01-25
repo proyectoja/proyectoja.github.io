@@ -33,7 +33,7 @@ body,html {
     padding: 0;
     margin: 0;
     background-color: rgba(0, 0, 0, 0.8);
-    z-index: 0;
+    z-index: 2;
     animation: Opacity 1s;
     backdrop-filter: blur(5px);
 }
