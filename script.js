@@ -566,10 +566,10 @@ fetch("television.json")
       const iframeSrc = `https://proyectoja.github.io/embedClappr.html?video=${encodeURIComponent(
         videoEncontrado.urlTelevision
       )}&poster=${encodeURIComponent(
-        videoEncontrado.miniatura
-      )}&perfilCanal=${encodeURIComponent(
         videoEncontrado.poster
-      )}&nombreCanal=${encodeURIComponent(videoEncontrado.titulo)}`;
+      )}&perfilCanal=${encodeURIComponent(
+        videoEncontrado.perfilCanal
+      )}&nombreCanal=${encodeURIComponent(videoEncontrado.nombreCanal)}`;
 
       // Crear el elemento iframe
       const iframe = document.createElement("iframe");
@@ -581,6 +581,19 @@ fetch("television.json")
 
       // Insertar el iframe en el contenedor
       document.getElementById("contenedor-stream").appendChild(iframe);
+
+      const titulo = document.getElementById('titulo');
+      titulo.textContent = videoEncontrado.titulo;
+
+      const perfil = document.getElementById('perfil');
+      perfil.src = videoEncontrado.perfilCanal;
+
+      const nombreCanal = document.getElementById('nombreCanal');
+      nombreCanal.textContent = videoEncontrado.nombreCanal;
+
+      const descripcion = document.getElementById('descripcion');
+      descripcion.textContent = videoEncontrado.descripcion;
+
     } else {
       document.getElementById("").innerHTML =
         "<p>Video no encontrado</p>";
