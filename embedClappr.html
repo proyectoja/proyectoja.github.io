@@ -209,7 +209,17 @@
       });
 
       // Verificar si la barra de control está disponible
+      player.on(Clappr.Events.PLAYER_READY, function () {
+        addCustomElementsMp4();
+      });
       player.on(Clappr.Events.PLAYER_PLAY, function () {
+        addCustomElementsMp4();
+      });
+      player.on(Clappr.Events.PLAYER_STOP, function () {
+        addCustomElementsMp4();
+      });
+
+      function addCustomElementsMp4(){
         const customContainer = document.getElementById('container-cont-principal');
         customContainer.style.display = 'flex';
         customContainer.style.position = 'absolute';
@@ -251,13 +261,11 @@
           };
           controlBarRight.appendChild(img);
         }
-        // Verificar si la barra de control está disponible
-        const controlBar = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
-        controlBar.appendChild(customContainer);
+        controlBarRight.appendChild(customContainer);
         liveButton.style.display = 'none';
         viewerCount.style.display = 'none';
         livePerfil.style.border = '2px solid #0066ff';
-      });
+      }
     }
 
     // Función para inicializar el reproductor para transmisión en vivo (HLS)
@@ -295,7 +303,17 @@
       });
       player.getPlugin('click_to_pause').disable();
       // Verificar si la barra de control está disponible
+      player.on(Clappr.Events.PLAYER_READY, function () {
+        addCustomElements();
+      });
       player.on(Clappr.Events.PLAYER_PLAY, function () {
+        addCustomElements();
+      });
+      player.on(Clappr.Events.PLAYER_STOP, function () {
+        addCustomElements();
+      });
+
+      function addCustomElements(){
         const customContainer = document.getElementById('container-cont-principal');
         customContainer.style.display = 'flex';
         customContainer.style.position = 'absolute';
@@ -337,11 +355,12 @@
           };
           controlBarRight.appendChild(img);
         }
-        // Verificar si la barra de control está disponible
-        const controlBar = document.querySelector('.media-control .media-control-layer .media-control-right-panel');
+        
 
-        controlBar.appendChild(customContainer);
-      });
+        controlBarRight.appendChild(customContainer);
+      }
+      
+      
 
       // Detecta cambios en el estado de la reproducción
       player.on(Clappr.Events.PLAYER_PLAY, function () {
@@ -371,7 +390,7 @@
         activeEnVivo = 3;
         livePerfil.style.border = '2px solid transparent';
         viewerCount.innerText = `👁️`;
-
+        addCustomElements();
         activeEnVivoFunction();
       });
 
