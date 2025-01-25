@@ -575,7 +575,7 @@ fetch("television.json")
       const iframe = document.createElement("iframe");
       iframe.src = iframeSrc;
       iframe.width = "100%";
-      iframe.height = "500px";
+      iframe.height = "100%";
       iframe.allowFullscreen = true;
       iframe.frameBorder = "0";
 
