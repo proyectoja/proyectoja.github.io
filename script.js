@@ -504,15 +504,24 @@ document.addEventListener("DOMContentLoaded", function () {
   toggle();
 });
 
+
+
+
+
+
+
+
+
+
 //FUNCIONES CANALES DE TELEVISIÓN
 const videoContainer = document.getElementById("contenedor-canales");
 
 // Función para cargar los datos desde el archivo JSON
-fetch("television.json")
+fetch("contenido.json")
   .then((response) => response.json()) // Convierte la respuesta en JSON
   .then((data) => {
     // Recorre los datos del JSON y carga las imágenes
-    data.videos.forEach((video) => {
+    data.television.forEach((video) => {
       // Crear el contenedor para cada video
       const videoItem = document.createElement("div");
       videoItem.classList.add("contenedor-canal");
@@ -559,11 +568,11 @@ function obtenerParametro(parametro) {
 const idVideo = obtenerParametro("id");
 
 // Cargar el JSON y encontrar el video correspondiente
-fetch("television.json")
+fetch("contenido.json")
   .then((response) => response.json())
   .then((data) => {
     // Buscar el video por ID
-    const videoEncontrado = data.videos.find((video) => video.id === idVideo);
+    const videoEncontrado = data.television.find((video) => video.id === idVideo);
 
     if (videoEncontrado) {
       // Construir la URL del reproductor con los parámetros
@@ -601,6 +610,11 @@ fetch("television.json")
 
       const checkVerificado = document.getElementById('checkVerificado');
       checkVerificado.src = videoEncontrado.checkVerificado;
+
+      const seguidores = document.getElementById('seguidores');
+      if(videoEncontrado.seguidores){
+        seguidores.textContent = videoEncontrado.seguidores + " " + "de seguidores";
+      }
 
       // Cambiar las etiquetas meta
     document.querySelector('meta[property="og:title"]').setAttribute("content", videoEncontrado.titulo);

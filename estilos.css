@@ -54,6 +54,7 @@ body,html {
     color: white;
     padding: 0;
     margin: 0;
+    transition: width 5s ease-in-out;
     border-right: 1px solid rgba(255,255,255, 0.5);
 }.contenedor-barra-central-contenido.activo {
     width: 200px;
@@ -671,7 +672,12 @@ body,html {
     flex-direction: row;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 40px;
+    overflow: hidden;
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    background-color: transparent;
   }.contenedor-perfil-padre #titulo{
     font-size: 28px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -681,10 +687,19 @@ body,html {
     width: 40px;
     height: 40px;
     border-radius: 30px;
-  }.contenedor-perfil #nombreCanal{
+    margin: 0;
+    padding: 0;
+  }
+  .contenedor-perfil
+  .contenedor-perfil-second
+  .contenedor-perfil-tree #nombreCanal{
     font-size: 18px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
     margin-left: 5px;
+    width: auto;
+    height: auto;
   }.contenedor-perfil-padre #descripcion{
     padding: 0;
     margin: 0;
@@ -701,12 +716,66 @@ body,html {
     
   }
   .contenedor-perfil
+  .contenedor-perfil-second
+  .contenedor-perfil-tree
   #checkVerificado{
+    margin: 0;
     margin-left: 10px;
     width: 15px;
     height: 15px;
     border-radius: 30px;
-    margin-top: auto;
-    margin-bottom: auto;
     margin-right: 10px;
+  }
+  .contenedor-perfil-padre
+  .contenedor-perfil
+  .contenedor-perfil-second{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    overflow: hidden;
+  }
+  .contenedor-perfil-second
+  .contenedor-perfil-tree{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+    background-color: transparent;
+  }
+  .contenedor-perfil-second
+  .contenedor-perfil-four{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    align-items: center;
+  }
+  .contenedor-perfil-four
+  #seguidores{
+    font-size: 12px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    margin-left: 5px;
+    width: auto;
+    height: auto;
   }
