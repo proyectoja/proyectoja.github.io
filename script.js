@@ -588,6 +588,7 @@ fetch("television.json")
 
       const titulo = document.getElementById('titulo');
       titulo.textContent = videoEncontrado.titulo;
+      document.title = videoEncontrado.titulo;
 
       const perfil = document.getElementById('perfil');
       perfil.src = videoEncontrado.perfilCanal;
@@ -600,6 +601,12 @@ fetch("television.json")
 
       const checkVerificado = document.getElementById('checkVerificado');
       checkVerificado.src = videoEncontrado.checkVerificado;
+
+      // Cambiar las etiquetas meta
+    document.querySelector('meta[property="og:title"]').setAttribute("content", videoEncontrado.titulo);
+    document.querySelector('meta[property="og:description"]').setAttribute("content", videoEncontrado.descripcion);
+    document.querySelector('meta[property="og:url"]').setAttribute("content", "https://proyectoja.github.io/stream?id="+videoEncontrado.id);
+    document.querySelector('meta[property="og:image"]').setAttribute("content", videoEncontrado.poster);
 
     } else {
       document.getElementById("").innerHTML =
