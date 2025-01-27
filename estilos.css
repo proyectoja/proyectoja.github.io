@@ -841,13 +841,19 @@ body,html {
     flex-direction: column;
     justify-content: flex-start;
     width: auto;
-    height: 100%;
+    height: auto;
     margin-left: 20px;
     background-color: transparent;
     color: white;
     font-weight: normal;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-shadow: 0px 0px 10px black;
+  }.contenedor-poster-info
+  #tituloPoster,#fechaPoster,#paisPoster
+  ,#calidadPoster{
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
   }
   .contenedor-poster
   #miniatura{

@@ -637,9 +637,6 @@ fetch("contenido.json")
       const paisPoster = document.getElementById('paisPoster');
       paisPoster.textContent = "País: "+videoEncontrado.pais;
 
-      const calidadPoster = document.getElementById('calidadPoster');
-      calidadPoster.textContent = "Calidad: "+videoEncontrado.calidad;
-
       const fecha = document.getElementById('fecha');
       fecha.textContent = "Fecha de creación: "+videoEncontrado.fecha;
 
@@ -648,22 +645,28 @@ fetch("contenido.json")
 
       if (videoEncontrado.calidad) {
         const calidad = document.getElementById('calidad');
+        const calidadPoster = document.getElementById('calidadPoster');
 
-        switch (videoEncontrado.calidad.toString()) {
+        switch (videoEncontrado.calidad.toString().trim()) {
           case "1":
             calidad.textContent = "Calidad: SD";
+            calidadPoster.textContent = "Calidad: SD";
             break;
           case "2":
             calidad.textContent = "Calidad: HD";
+            calidadPoster.textContent = "Calidad: HD";
             break;
           case "3":
             calidad.textContent = "Calidad: FULLHD";
+            calidadPoster.textContent = "Calidad: FULLHD";
             break;
           case "4":
             calidad.textContent = "Calidad: 60FPS";
+            calidadPoster.textContent = "Calidad: 60FPS";
             break;
           default:
             calidad.textContent = "Calidad: Desconocida"; 
+            calidadPoster.textContent = "Calidad: Desconocida";
             break;
         }
       }
