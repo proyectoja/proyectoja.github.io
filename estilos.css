@@ -46,15 +46,17 @@ body,html {
     overflow: hidden;
     padding: 0;
     margin: 0;
-    background-color: rgba(0, 0, 0, 0.8);
     z-index: 9998;
-    animation: Opacity 1s;
-    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, transparent);
+    animation: Opacity 5s infinite;
+    backdrop-filter: blur(3px);
 }
-@keyframes Opacity{
-    1% {background-color: transparent;}
-    100% {background-color: rgba(0, 0, 0, 0.8);}
+@keyframes Opacity {
+  0% {background-color: rgba(0, 0, 0, 0.3);}
+  50% {background-color: rgba(0, 0, 0, 0.8);}
+  100% {background-color: rgba(0, 0, 0, 0.3);}
 }
+
 .contenedor-barra-central-contenido{
     display: flex;
     position: relative;
@@ -62,7 +64,7 @@ body,html {
     align-items: flex-start;
     width: 0px;
     height: 100%;
-    background-color: black;
+    background-color: rgb(6, 6, 19,0.8);
     overflow: hidden;
     overflow-y: auto;
     color: white;
@@ -133,7 +135,7 @@ body,html {
     border-top: 1px solid rgba(255,255,255, 0.5);
     box-shadow: 0 0 20px #000;
     overflow: hidden;
-    background-color: black;
+    background-color: #060613;
     z-index: 9999;
 }
 
