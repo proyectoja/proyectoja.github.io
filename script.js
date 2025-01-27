@@ -628,6 +628,9 @@ fetch("contenido.json")
         document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";
       }
 
+      const tituloPoster = document.getElementById('tituloPoster');
+      tituloPoster.textContent = videoEncontrado.titulo;
+
       const fecha = document.getElementById('fecha');
       fecha.textContent = "Fecha: "+videoEncontrado.fecha;
 

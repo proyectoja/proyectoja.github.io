@@ -813,6 +813,8 @@ body,html {
     left: 0;
     top: 0;
     box-shadow: inset 150px -300px 200px black;
+    transition: ease-in-out;
+    transition-duration: 3s;
   }
 
   .contenedor-cartel-informativo
