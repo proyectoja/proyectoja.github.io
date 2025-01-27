@@ -616,6 +616,18 @@ fetch("contenido.json")
         seguidores.textContent = videoEncontrado.seguidores + " " + "de seguidores";
       }
 
+      const miniatura = document.getElementById('miniatura');
+      miniatura.src = videoEncontrado.miniatura;
+
+      const contenedorCartel = document.getElementById('contenedorCartel');
+      contenedorCartel.style.backgroundImage = `url('${videoEncontrado.poster}')`;
+      
+      if(videoEncontrado.poster){
+        document.body.style.backgroundImage = `url('${videoEncontrado.poster}')`;
+      }else{
+        document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";
+      }
+
       // Cambiar las etiquetas meta
     document.querySelector('meta[property="og:title"]').setAttribute("content", videoEncontrado.titulo);
     document.querySelector('meta[property="og:description"]').setAttribute("content", videoEncontrado.descripcion);
@@ -632,3 +644,6 @@ fetch("contenido.json")
     document.getElementById("").innerHTML =
       "<p>Error al cargar los datos.</p>";
   });
+
+  //Por defecto imagen de fondo en el body
+  document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";

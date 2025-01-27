@@ -3,7 +3,7 @@
       {
         "id": "1",
         "seguidores": "11.8 k",
-        "miniatura": ".png",
+        "miniatura": "perfilCanal/proyecto-ja.png",
         "poster": "poster/proyecto-ja.jpg",
         "urlTelevision": "https://edge1-us-miami.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/1_0/index.m3u8",
         "titulo": "Señal en vivo",
@@ -16,7 +16,7 @@
       {
         "id": "2",
         "seguidores": "",
-        "miniatura": ".png",
+        "miniatura": "perfilCanal/radio-lira.png",
         "poster": "poster/radio-lira.jpg",
         "urlTelevision": "https://streamlov.alsolnet.com/radiolira/live/playlist.m3u8",
         "titulo": "Señal en vivo Radio Lira",
@@ -29,7 +29,7 @@
       {
         "id": "30",
         "seguidores": "15 M",
-        "miniatura": "jpg",
+        "miniatura": "perfilCanal/lofi-girl.jpg",
         "poster": "poster/lofi-girl.png",
         "urlTelevision": "https://1a-1791.com/live/nd3n15l5/slot-46/9erd-mia5/chunklist.m3u8",
         "titulo": "Study 24/7",
