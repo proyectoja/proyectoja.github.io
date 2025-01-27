@@ -491,12 +491,14 @@ function toggle() {
   );
   const iconMenu = document.getElementById("icon-menu");
   iconMenu.addEventListener("mouseover", () => {
-    barraCentral.style.display = "flex";
+    barraCentral.classList.add('activo');
     barraCentralContenido.classList.add("activo");
   });
   barraCentralContenido.addEventListener("mouseleave", () => {
-    barraCentral.style.display = "none";
     barraCentralContenido.classList.remove("activo");
+    setTimeout(() => {
+      barraCentral.classList.remove('activo');
+    }, 1000);
   });
 }
 
