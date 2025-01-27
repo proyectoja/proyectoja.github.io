@@ -628,6 +628,15 @@ fetch("contenido.json")
         document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";
       }
 
+      const fecha = document.getElementById('fecha');
+      fecha.textContent = "Fecha: "+videoEncontrado.fecha;
+
+      const pais = document.getElementById('pais');
+      pais.textContent = "País: "+videoEncontrado.pais;
+
+      const calidad = document.getElementById('calidad');
+      calidad.textContent = "Calidad: "+videoEncontrado.calidad;
+
       // Cambiar las etiquetas meta
     document.querySelector('meta[property="og:title"]').setAttribute("content", videoEncontrado.titulo);
     document.querySelector('meta[property="og:description"]').setAttribute("content", videoEncontrado.descripcion);
@@ -647,3 +656,9 @@ fetch("contenido.json")
 
   //Por defecto imagen de fondo en el body
   document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";
+
+  const verAhora = document.getElementById('contenedorVerAhora');
+  const contenedorCartel = document.getElementById('contenedorCartel');
+  verAhora.addEventListener('click', function(){
+    contenedorCartel.style.display = 'none';
+  });

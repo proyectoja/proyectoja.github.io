@@ -11,7 +11,9 @@
         "nombreCanal": "PROYECTO JA",
         "checkVerificado": "iconos/check-verificado.png",
         "descripcion": "Compartiendo esperanza!",
-        "fecha": "2024-01-24"
+        "fecha": "2014-01-01",
+        "pais": "Costa Rica",
+        "calidad": "HD | FULLHD | 60FPS"
       },
       {
         "id": "2",
@@ -24,7 +26,9 @@
         "nombreCanal": "Tv Radio Lira",
         "checkVerificado": "iconos/check-verificado.png",
         "descripcion": "Radio Lira es una emisora de radio sin fines de lucro adventista existiendo desde casi 40 años y ubicada en Alajuela, Costa Rica. Se puede escuchar Radio Lira con su radio en la frecuencia 88.7 FM, o por internet.",
-        "fecha": "2024-01-24"
+        "fecha": "2024-01-24",
+        "pais": "Costa Rica",
+        "calidad": "HD | FULLHD | 60FPS"
       },
       {
         "id": "30",
@@ -37,7 +41,9 @@
         "nombreCanal": "LOFI GIRL",
         "checkVerificado": "iconos/check-verificado.png",
         "descripcion": "Lofi Girl es un canal de YouTube y una marca popular que transmite música lo-fi hip-hop, un género caracterizado por ritmos relajantes, sonidos ambientales y un estilo inspirado en el jazz y el hip-hop. Es conocido por sus transmisiones en vivo 24/7 que proporcionan música ideal para estudiar, trabajar o relajarse. El canal ganó notoriedad gracias a su icónica animación de una chica estudiando junto a una ventana, con una estética relajante y nostálgica. Originalmente, el canal se llamaba ChilledCow, pero cambió su nombre a Lofi Girl en 2021. Además de YouTube, Lofi Girl está presente en plataformas de streaming como Spotify y Apple Music, donde ofrece listas de reproducción con temas similares.  Lofi Girl es un canal de YouTube y una marca popular que transmite música lo-fi hip-hop, un género caracterizado por ritmos relajantes, sonidos ambientales y un estilo inspirado en el jazz y el hip-hop. Es conocido por sus transmisiones en vivo 24/7 que proporcionan música ideal para estudiar, trabajar o relajarse. El canal ganó notoriedad gracias a su icónica animación de una chica estudiando junto a una ventana, con una estética relajante y nostálgica. Originalmente, el canal se llamaba ChilledCow, pero cambió su nombre a Lofi Girl en 2021. Además de YouTube, Lofi Girl está presente en plataformas de streaming como Spotify y Apple Music, donde ofrece listas de reproducción con temas similares.",
-        "fecha": "2024-01-24"
+        "fecha": "2015-03-18",
+        "pais": "Francia",
+        "calidad": "HD | FULLHD | 60FPS"
       }
     ]
   }
