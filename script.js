@@ -44,6 +44,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     const publicacionElem = document.createElement("div");
     publicacionElem.className = "publicacion";
+    publicacionElem.style.animation = 'izquierda 2s ease-out forwards';
 
     const cabeceraElem = document.createElement("div");
     cabeceraElem.className = "cabecera-publicacion";

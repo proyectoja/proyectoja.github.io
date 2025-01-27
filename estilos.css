@@ -34,6 +34,28 @@ body,html {
 }
 .welcome-container{
     text-align: center;
+    animation: bajar 1s ease-in-out forwards;
+}
+@keyframes bajar {
+  from{
+    transform: translateY(-100%);
+  }to{
+    transform: translateY(0%);
+  }
+}
+@keyframes izquierda {
+  from{
+    transform: translateX(-100%);
+  }to{
+    transform: translateX(0%);
+  }
+}
+@keyframes derecha {
+  from{
+    transform: translateX(100%);
+  }to{
+    transform: translateX(0%);
+  }
 }
 
 .contenedor-barra-central {
@@ -825,7 +847,7 @@ body,html {
     padding: 0;
     left: 0;
     box-shadow: inset 200px -350px 200px #060613;
-    animation: subir 1s ease-in-out forwards;
+    animation: subir 2s ease-in-out forwards;
   }
   @keyframes subir {
     from{
