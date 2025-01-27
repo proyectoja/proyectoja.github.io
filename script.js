@@ -631,14 +631,45 @@ fetch("contenido.json")
       const tituloPoster = document.getElementById('tituloPoster');
       tituloPoster.textContent = videoEncontrado.titulo;
 
+      const fechaPoster = document.getElementById('fechaPoster');
+      fechaPoster.textContent = "Fecha: "+videoEncontrado.fecha;
+
+      const paisPoster = document.getElementById('paisPoster');
+      paisPoster.textContent = "País: "+videoEncontrado.pais;
+
+      const calidadPoster = document.getElementById('calidadPoster');
+      calidadPoster.textContent = "Calidad: "+videoEncontrado.calidad;
+
       const fecha = document.getElementById('fecha');
-      fecha.textContent = "Fecha: "+videoEncontrado.fecha;
+      fecha.textContent = "Fecha de creación: "+videoEncontrado.fecha;
 
       const pais = document.getElementById('pais');
-      pais.textContent = "País: "+videoEncontrado.pais;
+      pais.textContent = "Pais de origen: "+videoEncontrado.pais;
 
-      const calidad = document.getElementById('calidad');
-      calidad.textContent = "Calidad: "+videoEncontrado.calidad;
+      if (videoEncontrado.calidad) {
+        const calidad = document.getElementById('calidad');
+
+        switch (videoEncontrado.calidad.toString()) {
+          case "1":
+            calidad.textContent = "Calidad: SD";
+            break;
+          case "2":
+            calidad.textContent = "Calidad: HD";
+            break;
+          case "3":
+            calidad.textContent = "Calidad: FULLHD";
+            break;
+          case "4":
+            calidad.textContent = "Calidad: 60FPS";
+            break;
+          default:
+            calidad.textContent = "Calidad: Desconocida"; 
+            break;
+        }
+      }
+
+
+
 
       // Cambiar las etiquetas meta
     document.querySelector('meta[property="og:title"]').setAttribute("content", videoEncontrado.titulo);
