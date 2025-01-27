@@ -483,6 +483,7 @@ function mostrarBotones(elemento) {
   botones.forEach((boton) => (boton.style.display = ""));
 }
 
+
 //Función para desplazar la barra lateral
 function toggle() {
   const barraCentral = document.getElementById("barraCentral");
@@ -698,6 +699,27 @@ fetch("contenido.json")
 
   const verAhora = document.getElementById('contenedorVerAhora');
   const contenedorCartel = document.getElementById('contenedorCartel');
+  const contenedorStreamPrincipal = document.getElementById('contenedorStreamPrincipal');
+
   verAhora.addEventListener('click', function(){
     contenedorCartel.style.display = 'none';
+    contenedorStreamPrincipal.style.display = 'flex';
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //Carga rápida y primaria con el Dow
+  document.addEventListener('DOMContentLoaded',function(){
+    
   });

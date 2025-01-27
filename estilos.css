@@ -604,7 +604,7 @@ body,html {
   /*ESTILOS PARA LA PÁGINA STREAM QUE REPRODUCE TODO CON CLAPPR*/
   .contenedor-inicio
   .contenedor-stream-principal{
-    display: flex;
+    display: none;
     position: relative;
     flex-direction: row;
     width: 100%;
@@ -825,8 +825,14 @@ body,html {
     padding: 0;
     left: 0;
     box-shadow: inset 200px -350px 200px #060613;
-    transition: ease-in-out;
-    transition-duration: 1s;
+    animation: subir 1s ease-in-out forwards;
+  }
+  @keyframes subir {
+    from{
+      transform: translateY(100%);
+    }to{
+      transform: translateY(0%);
+    }
   }
 
   .contenedor-cartel-informativo
