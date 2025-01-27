@@ -32,6 +32,7 @@ function obtenerFechaActual() {
   return `${anio}-${mes}-${dia}`; // Devuelve la fecha en formato YYYY-MM-DD
 }
 
+let contAux = 0;
 // Función para mostrar el mensaje del día
 function mostrarMensajeDelDia(mensajes, dia) {
   // Buscar el mensaje correspondiente al día
@@ -44,7 +45,12 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     const publicacionElem = document.createElement("div");
     publicacionElem.className = "publicacion";
-    publicacionElem.style.animation = 'izquierda 2s ease-out forwards';
+    if(contAux%2 === 0){
+      publicacionElem.style.animation = 'izquierda 2s ease-out forwards';
+    }else{
+      publicacionElem.style.animation = 'derecha 2s ease-out forwards';
+    }
+    contAux += 1;
 
     const cabeceraElem = document.createElement("div");
     cabeceraElem.className = "cabecera-publicacion";
