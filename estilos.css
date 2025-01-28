@@ -252,7 +252,7 @@ body,html {
 }#search-input {
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
-    background-color: black;
+    background-color: #060613;
     border: 0px;
     padding-left: 10px;
     font-size: 18px;
