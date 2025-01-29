@@ -31,6 +31,81 @@
         "calidad": "3"
       },
       {
+        "id": "3",
+        "seguidores": "",
+        "miniatura": "perfilCanal/hope-channel.jpg",
+        "poster": "poster/hope-channel.jpg",
+        "urlTelevision": "https://jstre.am/live/jsl:0sUSK6VA7GT.m3u8",
+        "titulo": "Señal en vivo Hope Channel",
+        "perfilCanal": "perfilCanal/hope-channel.jpg",
+        "nombreCanal": "Hope Channel",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "Sharing God’s good news for a better life today and for eternity! Hope Channel offers programs on wholistic Christian living and focuses on faith, health, relationships, and community.",
+        "fecha": "2003",
+        "pais": "Global | USA",
+        "calidad": "2"
+      },
+      {
+        "id": "4",
+        "seguidores": "",
+        "miniatura": "perfilCanal/hope-channel-international.png",
+        "poster": "poster/hope-channel-international.png",
+        "urlTelevision": "https://jstre.am/live/jsl:cZXINbwrFj6.m3u8",
+        "titulo": "Señal en vivo Hope Channel International",
+        "perfilCanal": "perfilCanal/hope-channel-international.png",
+        "nombreCanal": "Hope Channel International",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "Sharing God’s good news for a better life today and for eternity! Hope Channel offers programs on wholistic Christian living and focuses on faith, health, relationships, and community.",
+        "fecha": "2003",
+        "pais": "Global | USA",
+        "calidad": "2"
+      },
+      {
+        "id": "5",
+        "seguidores": "",
+        "miniatura": "perfilCanal/hope-channel-italia.png",
+        "poster": "poster/hope-channel-italia.png",
+        "urlTelevision": "https://avventisti.tv:1935/AvventistiUICCA/LiveHLS_source/playlist.m3u8",
+        "titulo": "Señal en vivo Hope Channel Italia",
+        "perfilCanal": "perfilCanal/hope-channel-italia.png",
+        "nombreCanal": "Hope Channel Italia",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "La rete televisiva ufficiale della Chiesa cristiana avventista del settimo giorno, Hope Channel offre programmi sulla vita cristiana in senso olistico e si concentra su fede, salute, relazioni, e vita comunitaria. E’ la TV che cambierà la vostra vita! Produciamo più del 95 per cento dei nostri programmi che raggiungono non solo Italia, Stati Uniti e Canada, ma anche altri paesi.",
+        "fecha": "2003",
+        "pais": "Italia",
+        "calidad": "2"
+      },
+      {
+        "id": "6",
+        "seguidores": "",
+        "miniatura": "perfilCanal/hope-channel-soureste-asia.jpg",
+        "poster": "poster/hope-channel-soureste-asia.jpg",
+        "urlTelevision": "https://jstre.am/live/jsl:jl2Tix8X0Un.m3u8",
+        "titulo": "Señal en vivo Hope Channel Southeast Asia",
+        "perfilCanal": "perfilCanal/hope-channel-soureste-asia.jpg",
+        "nombreCanal": "Hope Channel Southeast Asia",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "The official television network of the Seventh-day Adventist Church, Hope Channel offers programs on wholistic Christian living and focuses of faith, health, relationships, and community. It s television that will change your life!",
+        "fecha": "2019",
+        "pais": "Asia",
+        "calidad": "2"
+      },
+      {
+        "id": "7",
+        "seguidores": "",
+        "miniatura": "perfilCanal/hope-channel-philippines.jpg",
+        "poster": "poster/hope-channel-philippines.jpg",
+        "urlTelevision": "https://jstre.am/live/jsl:7A1swL7Fhlh.m3u8",
+        "titulo": "Señal en vivo Hope Channel Philippines",
+        "perfilCanal": "perfilCanal/hope-channel-philippines.jpg",
+        "nombreCanal": "Hope Channel Philippines",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "Hope Channel Philippines provides TV programs all over Philippines in the main Pilipino and English languages. The broadcasts in English language are identical with the corresponding program of Hope Channel International. Programs of other dialect are produced in local studios of Luzon, Visayas, and Mindanao in order to correspond to the local lifestyle, culture and mentality.",
+        "fecha": "2011",
+        "pais": "Asia",
+        "calidad": "3"
+      },
+      {
         "id": "30",
         "seguidores": "15 M",
         "miniatura": "perfilCanal/lofi-girl.jpg",
@@ -45,6 +120,7 @@
         "pais": "Francia",
         "calidad": "3"
       }
-    ]
+    ],
+    "radios": []
   }
   

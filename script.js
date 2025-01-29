@@ -684,7 +684,7 @@ fetch("contenido.json")
 
 
 
-      // Cambiar las etiquetas meta
+      
     document.querySelector('meta[property="og:title"]').setAttribute("content", videoEncontrado.titulo);
     document.querySelector('meta[property="og:description"]').setAttribute("content", videoEncontrado.descripcion);
     document.querySelector('meta[property="og:url"]').setAttribute("content", "https://proyectoja.github.io/stream?id="+videoEncontrado.id);
