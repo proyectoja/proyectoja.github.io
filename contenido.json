@@ -106,6 +106,21 @@
         "calidad": "3"
       },
       {
+        "id": "8",
+        "seguidores": "",
+        "miniatura": "perfilCanal/hope-channel-tanzania.jpg",
+        "poster": "poster/hope-channel-tanzania.png",
+        "urlTelevision": "https://jstre.am/live/jsl:oVTOBy6W2en.m3u8",
+        "titulo": "Señal en vivo Hope Channel Tanzania",
+        "perfilCanal": "perfilCanal/hope-channel-tanzania.jpg",
+        "nombreCanal": "Hope Channel Tanzania",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "Hope Channel Tanzania is the Media Owned by Seventh Day Adventist church of Tanzania Under TAMC (Tanzania Adventist media Channels).",
+        "fecha": "2014-06-30",
+        "pais": "Tanzania",
+        "calidad": "3"
+      },
+      {
         "id": "30",
         "seguidores": "15 M",
         "miniatura": "perfilCanal/lofi-girl.jpg",
