@@ -211,6 +211,21 @@
         "calidad": "3"
       },
       {
+        "id": "15",
+        "seguidores": "",
+        "miniatura": "perfilCanal/hope-channel-india.png",
+        "poster": "poster/hope-channel-india.jpg",
+        "urlTelevision": "https://jstre.am/live/jsl:bRf7tet2nDb.m3u8",
+        "titulo": "Señal en vivo Hope Channel India",
+        "perfilCanal": "perfilCanal/hope-channel-india.png",
+        "nombreCanal": "Hope Channel India",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "We are a Christian television network, being 1 out of 44 channels around the world. Our mission is to share God’s good news for a better life today and for eternity. Our programs focus on faith, health, relationships, and community. Programs on our channel are contextualized for the local culture and are broadcasted in Hindi, Kannada, Malayalam, Tamil and Telugu. There are many ways to watch Hope Channel!",
+        "fecha": "2010",
+        "pais": "India",
+        "calidad": "3"
+      },
+      {
         "id": "30",
         "seguidores": "15 M",
         "miniatura": "perfilCanal/lofi-girl.jpg",
