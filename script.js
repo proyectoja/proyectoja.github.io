@@ -535,18 +535,18 @@ fetch("contenido.json")
       // Crear el contenedor para cada video
       const videoItem = document.createElement("div");
       videoItem.classList.add("contenedor-canal");
+      videoItem.onclick = function () {
+        window.open(
+          "stream?id=" + encodeURIComponent(video.id),
+          "_self"
+        );
+      };
 
       // Crear el elemento de imagen con la miniatura
       const poster = document.createElement("img");
       poster.src = video.perfilCanal;
       poster.alt = video.nombreCanal;
       poster.style.cursor = "pointer";
-      poster.onclick = function () {
-        window.open(
-          "stream?id=" + encodeURIComponent(video.id),
-          "_self"
-        );
-      };
 
       // Crear el título del video
       const title = document.createElement("h3");
