@@ -736,6 +736,7 @@ body,html {
     margin: 0;
     padding: 0;
     object-fit: cover;
+    background-color: white;
   }
   .contenedor-perfil
   .contenedor-perfil-second
@@ -900,6 +901,7 @@ body,html {
     height: auto;
     max-height: max-content;
     border-radius: 1rem;
+    background-color: white;
   }
   .contenedor-verAhora{
     display: flex;
