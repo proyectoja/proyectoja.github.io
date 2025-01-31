@@ -170,11 +170,29 @@
 
     const username = "XSTUDIOCODE";
     // Obtenemos el parámetro 'video' desde la URL
-    const url = getUrlParameter('url');
-    const posterUrl = getUrlParameter('poster');
-    const nombreCanal = getUrlParameter('nombreCanal');
-    const perfilCanal = getUrlParameter('perfilCanal');
+    let url = getUrlParameter('url');
+    let posterUrl = getUrlParameter('poster');
+    let nombreCanal = getUrlParameter('nombreCanal');
+    let perfilCanal = getUrlParameter('perfilCanal');
+    const idCanal = getUrlParameter('id');
 
+    //Hacemos la validación para el id del json
+    if(idCanal){
+      fetch("contenido.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const datoEncontrado = Object.values(data).flat().find((idAux) => idAux.id === idCanal);
+          if(datoEncontrado){
+            url = datoEncontrado.url;
+            posterUrl = datoEncontrado.poster;
+            nombreCanal = datoEncontrado.nombreCanal;
+            perfilCanal = datoEncontrado.perfilCanal;
+          }
+      })
+      .catch((error) => {
+        console.error("Error al cargar el archivo JSON:", error);
+      });
+    }
 
     // Función para inicializar el reproductor con video MP4
     function initializeMp4Player(url, posterUrl) {
@@ -191,7 +209,7 @@
         hideVolumeBar: false,
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [DashShakaPlayback,ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -219,7 +237,7 @@
         addCustomElementsMp4();
       });
 
-      function addCustomElementsMp4(){
+      function addCustomElementsMp4() {
         const customContainer = document.getElementById('container-cont-principal');
         customContainer.style.display = 'flex';
         customContainer.style.position = 'absolute';
@@ -233,12 +251,12 @@
         customContainer.style.alignItems = 'center';
 
         const customContainerImg = document.querySelector('#container-cont-principal img');
-        if(perfilCanal){
+        if (perfilCanal) {
           customContainerImg.src = perfilCanal;
         }
 
         const customContainerH2 = document.querySelector('#container-cont-principal h2');
-        if(nombreCanal){
+        if (nombreCanal) {
           customContainerH2.textContent = nombreCanal;
         }
 
@@ -285,7 +303,7 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [DashShakaPlayback,ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -313,7 +331,7 @@
         addCustomElements();
       });
 
-      function addCustomElements(){
+      function addCustomElements() {
         const customContainer = document.getElementById('container-cont-principal');
         customContainer.style.display = 'flex';
         customContainer.style.position = 'absolute';
@@ -327,12 +345,12 @@
         customContainer.style.alignItems = 'center';
 
         const customContainerImg = document.querySelector('#container-cont-principal img');
-        if(perfilCanal){
+        if (perfilCanal) {
           customContainerImg.src = perfilCanal;
         }
 
         const customContainerH2 = document.querySelector('#container-cont-principal h2');
-        if(nombreCanal){
+        if (nombreCanal) {
           customContainerH2.textContent = nombreCanal;
         }
 
@@ -355,12 +373,12 @@
           };
           controlBarRight.appendChild(img);
         }
-        
+
 
         controlBarRight.appendChild(customContainer);
       }
-      
-      
+
+
 
       // Detecta cambios en el estado de la reproducción
       player.on(Clappr.Events.PLAYER_PLAY, function () {
@@ -473,12 +491,14 @@
 
     //Eventos muy importante
     document.addEventListener("DOMContentLoaded", function () {
-      var playerElement = document.getElementById("player");
-
-      // Evitar clic derecho en el área del reproductor
-      playerElement.addEventListener("contextmenu", function (event) {
-        event.preventDefault(); // Prevenir el menú contextual
-      });
+      setTimeout(() => {
+        var playerElement = document.getElementById("player");
+  
+        // Evitar clic derecho en el área del reproductor
+        playerElement.addEventListener("contextmenu", function (event) {
+          event.preventDefault(); // Prevenir el menú contextual
+        });
+      }, 1000);
     });
 
     // Comprobamos si el parámetro 'video' existe
@@ -491,16 +511,16 @@
       else if (url.includes('.m3u8') && url.includes('XSTUDIOCODE')) {
         initializeLivePlayer(url, posterUrl);
         executeChatbroScript();
-      }else if(url.includes('.m3u8')){
+      } else if (url.includes('.m3u8')) {
         initializeLivePlayer(url, posterUrl);
         onlineDiv.innerHTML = "👁️";
         onlineDiv.style.backgroundColor = '#003399';
-      }else if(url.includes('.mpd')){
+      } else if (url.includes('.mpd')) {
         initializeLivePlayer(url, posterUrl);
         onlineDiv.innerHTML = "👁️";
         onlineDiv.style.backgroundColor = '#003399';
       }
-    }else if(audioUrl){
+    } else if (false) {
       //
     }
 

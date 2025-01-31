@@ -45,10 +45,10 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     const publicacionElem = document.createElement("div");
     publicacionElem.className = "publicacion";
-    if(contAux%2 === 0){
-      publicacionElem.style.animation = 'izquierda 2s ease-out forwards';
-    }else{
-      publicacionElem.style.animation = 'derecha 2s ease-out forwards';
+    if (contAux % 2 === 0) {
+      publicacionElem.style.animation = "izquierda 2s ease-out forwards";
+    } else {
+      publicacionElem.style.animation = "derecha 2s ease-out forwards";
     }
     contAux += 1;
 
@@ -490,7 +490,6 @@ function mostrarBotones(elemento) {
   botones.forEach((boton) => (boton.style.display = ""));
 }
 
-
 //Función para desplazar la barra lateral
 function toggle() {
   const barraCentral = document.getElementById("barraCentral");
@@ -499,13 +498,13 @@ function toggle() {
   );
   const iconMenu = document.getElementById("icon-menu");
   iconMenu.addEventListener("mouseover", () => {
-    barraCentral.classList.add('activo');
+    barraCentral.classList.add("activo");
     barraCentralContenido.classList.add("activo");
   });
   barraCentralContenido.addEventListener("mouseleave", () => {
     barraCentralContenido.classList.remove("activo");
     setTimeout(() => {
-      barraCentral.classList.remove('activo');
+      barraCentral.classList.remove("activo");
     }, 1000);
   });
 }
@@ -514,16 +513,7 @@ document.addEventListener("DOMContentLoaded", function () {
   toggle();
 });
 
-
-
-
-
-
-
-
-
-
-//FUNCIONES CANALES DE TELEVISIÓN
+//FUNCIONES CANALES DE TELEVISIÓN | IMPORTANTE*
 const videoContainer = document.getElementById("contenedor-canales");
 const radiosContainer = document.getElementById("contenedor-canales-radios");
 
@@ -531,11 +521,11 @@ const radiosContainer = document.getElementById("contenedor-canales-radios");
 fetch("contenido.json")
   .then((response) => response.json()) // Convierte la respuesta en JSON
   .then((data) => {
-    if(videoContainer){
+    if (videoContainer) {
       data.television.forEach((video) => {
         crearCarteles(video);
       });
-    }else if(radiosContainer){
+    } else if (radiosContainer) {
       data.radios.forEach((radios) => {
         crearCarteles(radios);
       });
@@ -545,34 +535,31 @@ fetch("contenido.json")
     console.error("Error al cargar el archivo JSON:", error);
   });
 
-  function crearCarteles(video){
-    // Crear el contenedor para cada video
-    const videoItem = document.createElement("div");
-    videoItem.classList.add("contenedor-canal");
-    videoItem.onclick = function () {
-      window.open(
-        "stream?id=" + encodeURIComponent(video.id),
-        "_self"
-      );
-    };
+function crearCarteles(video) {
+  // Crear el contenedor para cada video
+  const videoItem = document.createElement("div");
+  videoItem.classList.add("contenedor-canal");
+  videoItem.onclick = function () {
+    window.open("stream?id=" + encodeURIComponent(video.id), "_self");
+  };
 
-    // Crear el elemento de imagen con la miniatura
-    const poster = document.createElement("img");
-    poster.src = video.perfilCanal;
-    poster.alt = video.nombreCanal;
-    poster.style.cursor = "pointer";
+  // Crear el elemento de imagen con la miniatura
+  const poster = document.createElement("img");
+  poster.src = video.perfilCanal;
+  poster.alt = video.nombreCanal;
+  poster.style.cursor = "pointer";
 
-    // Crear el título del video
-    const title = document.createElement("h3");
-    title.textContent = video.nombreCanal;
+  // Crear el título del video
+  const title = document.createElement("h3");
+  title.textContent = video.nombreCanal;
 
-    // Añadir todos los elementos al contenedor del video
-    videoItem.appendChild(poster);
-    videoItem.appendChild(title);
+  // Añadir todos los elementos al contenedor del video
+  videoItem.appendChild(poster);
+  videoItem.appendChild(title);
 
-    // Finalmente, añadir este video al contenedor principal
-    videoContainer.appendChild(videoItem);
-  }
+  // Finalmente, añadir este video al contenedor principal
+  videoContainer.appendChild(videoItem);
+}
 
 // Función para obtener parámetros de la URL
 function obtenerParametro(parametro) {
@@ -615,57 +602,58 @@ fetch("contenido.json")
       // Insertar el iframe en el contenedor
       document.getElementById("contenedor-stream").appendChild(iframe);
 
-      const titulo = document.getElementById('titulo');
+      const titulo = document.getElementById("titulo");
       titulo.textContent = videoEncontrado.titulo;
       document.title = videoEncontrado.titulo;
 
-      const perfil = document.getElementById('perfil');
+      const perfil = document.getElementById("perfil");
       perfil.src = videoEncontrado.perfilCanal;
 
-      const nombreCanal = document.getElementById('nombreCanal');
+      const nombreCanal = document.getElementById("nombreCanal");
       nombreCanal.textContent = videoEncontrado.nombreCanal;
 
-      const descripcion = document.getElementById('descripcion');
+      const descripcion = document.getElementById("descripcion");
       descripcion.textContent = videoEncontrado.descripcion;
 
-      const checkVerificado = document.getElementById('checkVerificado');
+      const checkVerificado = document.getElementById("checkVerificado");
       checkVerificado.src = videoEncontrado.checkVerificado;
 
-      const seguidores = document.getElementById('seguidores');
-      if(videoEncontrado.seguidores){
-        seguidores.textContent = videoEncontrado.seguidores + " " + "de seguidores";
+      const seguidores = document.getElementById("seguidores");
+      if (videoEncontrado.seguidores) {
+        seguidores.textContent =
+          videoEncontrado.seguidores + " " + "de seguidores";
       }
 
-      const miniatura = document.getElementById('miniatura');
+      const miniatura = document.getElementById("miniatura");
       miniatura.src = videoEncontrado.miniatura;
 
-      const contenedorCartel = document.getElementById('contenedorCartel');
+      const contenedorCartel = document.getElementById("contenedorCartel");
       contenedorCartel.style.backgroundImage = `url('${videoEncontrado.poster}')`;
-      
-      if(videoEncontrado.poster){
+
+      if (videoEncontrado.poster) {
         document.body.style.backgroundImage = `url('${videoEncontrado.poster}')`;
-      }else{
+      } else {
         document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";
       }
 
-      const tituloPoster = document.getElementById('tituloPoster');
+      const tituloPoster = document.getElementById("tituloPoster");
       tituloPoster.textContent = videoEncontrado.titulo;
 
-      const fechaPoster = document.getElementById('fechaPoster');
-      fechaPoster.textContent = "Fecha: "+videoEncontrado.fecha;
+      const fechaPoster = document.getElementById("fechaPoster");
+      fechaPoster.textContent = "Fecha: " + videoEncontrado.fecha;
 
-      const paisPoster = document.getElementById('paisPoster');
-      paisPoster.textContent = "País: "+videoEncontrado.pais;
+      const paisPoster = document.getElementById("paisPoster");
+      paisPoster.textContent = "País: " + videoEncontrado.pais;
 
-      const fecha = document.getElementById('fecha');
-      fecha.textContent = "Fecha de creación: "+videoEncontrado.fecha;
+      const fecha = document.getElementById("fecha");
+      fecha.textContent = "Fecha de creación: " + videoEncontrado.fecha;
 
-      const pais = document.getElementById('pais');
-      pais.textContent = "Pais de origen: "+videoEncontrado.pais;
+      const pais = document.getElementById("pais");
+      pais.textContent = "Pais de origen: " + videoEncontrado.pais;
 
       if (videoEncontrado.calidad) {
-        const calidad = document.getElementById('calidad');
-        const calidadPoster = document.getElementById('calidadPoster');
+        const calidad = document.getElementById("calidad");
+        const calidadPoster = document.getElementById("calidadPoster");
 
         switch (videoEncontrado.calidad.toString().trim()) {
           case "1":
@@ -685,58 +673,49 @@ fetch("contenido.json")
             calidadPoster.textContent = "Calidad: 60FPS";
             break;
           default:
-            calidad.textContent = "Calidad: Desconocida"; 
+            calidad.textContent = "Calidad: Desconocida";
             calidadPoster.textContent = "Calidad: Desconocida";
             break;
         }
       }
 
-
-
-
-      
-    document.querySelector('meta[property="og:title"]').setAttribute("content", videoEncontrado.titulo);
-    document.querySelector('meta[property="og:description"]').setAttribute("content", videoEncontrado.descripcion);
-    document.querySelector('meta[property="og:url"]').setAttribute("content", "https://proyectoja.github.io/stream?id="+videoEncontrado.id);
-    document.querySelector('meta[property="og:image"]').setAttribute("content", videoEncontrado.poster);
-
+      document
+        .querySelector('meta[property="og:title"]')
+        .setAttribute("content", videoEncontrado.titulo);
+      document
+        .querySelector('meta[property="og:description"]')
+        .setAttribute("content", videoEncontrado.descripcion);
+      document
+        .querySelector('meta[property="og:url"]')
+        .setAttribute(
+          "content",
+          "https://proyectoja.github.io/stream?id=" + videoEncontrado.id
+        );
+      document
+        .querySelector('meta[property="og:image"]')
+        .setAttribute("content", videoEncontrado.poster);
     } else {
-      document.getElementById("").innerHTML =
-        "<p>Video no encontrado</p>";
+      document.getElementById("").innerHTML = "<p>Video no encontrado</p>";
     }
   })
   .catch((error) => {
     console.error("Error al cargar el JSON:", error);
-    document.getElementById("").innerHTML =
-      "<p>Error al cargar los datos.</p>";
+    document.getElementById("").innerHTML = "<p>Error al cargar los datos.</p>";
   });
 
-  //Por defecto imagen de fondo en el body
-  document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";
+//Por defecto imagen de fondo en el body
+document.body.style.backgroundImage = "url('poster/proyecto-ja.jpg')";
 
-  const verAhora = document.getElementById('contenedorVerAhora');
-  const contenedorCartel = document.getElementById('contenedorCartel');
-  const contenedorStreamPrincipal = document.getElementById('contenedorStreamPrincipal');
+const verAhora = document.getElementById("contenedorVerAhora");
+const contenedorCartel = document.getElementById("contenedorCartel");
+const contenedorStreamPrincipal = document.getElementById(
+  "contenedorStreamPrincipal"
+);
 
-  verAhora.addEventListener('click', function(){
-    contenedorCartel.style.display = 'none';
-    contenedorStreamPrincipal.style.display = 'flex';
-  });
+verAhora.addEventListener("click", function () {
+  contenedorCartel.style.display = "none";
+  contenedorStreamPrincipal.style.display = "flex";
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //Carga rápida y primaria con el Dow
-  document.addEventListener('DOMContentLoaded',function(){
-    
-  });
+//Carga rápida y primaria con el Dow
+document.addEventListener("DOMContentLoaded", function () {});
