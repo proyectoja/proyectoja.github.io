@@ -17,11 +17,11 @@
   <meta property="og:type" content="website" />
 
   <title>PROYECTO JA</title>
-  <script src="clappr.js"></script>
-  <script src="clappr-pip-plugin.js"></script>
-  <script src="level-selector.js"></script>
-  <script src="clappr-playback-rate.js"></script>
-  <script src="clappr-video360.js"></script>
+  <script src="https://proyectoja.github.io/clappr.js"></script>
+  <script src="https://proyectoja.github.io/clappr-pip-plugin.js"></script>
+  <script src="https://proyectoja.github.io/level-selector.js"></script>
+  <script src="https://proyectoja.github.io/clappr-playback-rate.js"></script>
+  <script src="https://proyectoja.github.io/clappr-video360.js"></script>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
   <script type="text/javascript"
@@ -191,7 +191,7 @@
         hideVolumeBar: false,
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [DashShakaPlayback,ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -205,11 +205,6 @@
           ],
           // rateSuffix: 'x',
         },
-        shakaConfiguration: {
-        streaming: {
-            bufferingGoal: 15
-        }
-    },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
 
@@ -290,7 +285,7 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [DashShakaPlayback,ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -303,13 +298,7 @@
             { value: 4, label: '4x' },
           ],
           // rateSuffix: 'x',
-          
         },
-        shakaConfiguration: {
-        streaming: {
-            bufferingGoal: 15
-        }
-    },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
       player.getPlugin('click_to_pause').disable();
@@ -495,14 +484,14 @@
     // Comprobamos si el parámetro 'video' existe
     if (videoUrl) {
       // Si es un archivo MP4
-      if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4') || videoUrl.endsWith('.mpd') || videoUrl.includes('.mpd') ) {
+      if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4')) {
         initializeMp4Player(videoUrl, posterUrl);
       }
       // Si es una transmisión en vivo en formato HLS (.m3u8)
-      else if ((videoUrl.includes('.m3u8') && videoUrl.includes('XSTUDIOCODE')) || (videoUrl.includes('.mpd') && videoUrl.includes('XSTUDIOCODE'))) {
+      else if (videoUrl.includes('.m3u8') && videoUrl.includes('XSTUDIOCODE')) {
         initializeLivePlayer(videoUrl, posterUrl);
         executeChatbroScript();
-      }else if(videoUrl.includes('.m3u8') || videoUrl.includes('.mpd')){
+      }else if(videoUrl.includes('.m3u8')){
         initializeLivePlayer(videoUrl, posterUrl);
         onlineDiv.innerHTML = "👁️";
         onlineDiv.style.backgroundColor = '#003399';
@@ -510,6 +499,7 @@
     }else if(audioUrl){
       //
     }
+
 
   </script>
 </body>
