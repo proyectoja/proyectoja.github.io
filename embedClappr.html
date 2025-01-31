@@ -22,6 +22,7 @@
   <script src="https://proyectoja.github.io/level-selector.js"></script>
   <script src="https://proyectoja.github.io/clappr-playback-rate.js"></script>
   <script src="https://proyectoja.github.io/clappr-video360.js"></script>
+  <script src="https://proyectoja.github.io/dashShakaPlayback.js"></script>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
   <script type="text/javascript"
@@ -191,7 +192,7 @@
         hideVolumeBar: false,
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [DashShakaPlayback,ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -285,7 +286,7 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [DashShakaPlayback,ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
