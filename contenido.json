@@ -320,7 +320,7 @@
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-sperant.jpg",
         "poster": "poster/hope-channel-sperant.png",
-        "urlTelevision": "//storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd",
+        "urlTelevision": "https://hc2.hopetv.bg/live/hopetv_all.smil/manifest.mpd",
         "titulo": "Señal en vivo Hope Channel Bulgaria",
         "perfilCanal": "perfilCanal/hope-channel-sperant.jpg",
         "nombreCanal": "Hope Channel Bulgaria",
