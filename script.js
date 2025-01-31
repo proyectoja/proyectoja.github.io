@@ -597,7 +597,7 @@ fetch("contenido.json")
     if (videoEncontrado) {
       // Construir la URL del reproductor con los parámetros
       const iframeSrc = `embedClappr.html?url=${encodeURIComponent(
-        videoEncontrado.urlTelevision
+        videoEncontrado.url
       )}&poster=${encodeURIComponent(
         videoEncontrado.poster
       )}&perfilCanal=${encodeURIComponent(
