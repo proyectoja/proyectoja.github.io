@@ -525,44 +525,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //FUNCIONES CANALES DE TELEVISIÓN
 const videoContainer = document.getElementById("contenedor-canales");
+const audioContainer = document.getElementById("contenedor-canales-audio");
 
 // Función para cargar los datos desde el archivo JSON
 fetch("contenido.json")
   .then((response) => response.json()) // Convierte la respuesta en JSON
   .then((data) => {
-    // Recorre los datos del JSON y carga las imágenes
-    data.television.forEach((video) => {
-      // Crear el contenedor para cada video
-      const videoItem = document.createElement("div");
-      videoItem.classList.add("contenedor-canal");
-      videoItem.onclick = function () {
-        window.open(
-          "stream?id=" + encodeURIComponent(video.id),
-          "_self"
-        );
-      };
-
-      // Crear el elemento de imagen con la miniatura
-      const poster = document.createElement("img");
-      poster.src = video.perfilCanal;
-      poster.alt = video.nombreCanal;
-      poster.style.cursor = "pointer";
-
-      // Crear el título del video
-      const title = document.createElement("h3");
-      title.textContent = video.nombreCanal;
-
-      // Añadir todos los elementos al contenedor del video
-      videoItem.appendChild(poster);
-      videoItem.appendChild(title);
-
-      // Finalmente, añadir este video al contenedor principal
-      videoContainer.appendChild(videoItem);
-    });
+    if(videoContainer){
+      data.television.forEach((video) => {
+        crearCarteles(video);
+      });
+    }else if(audioContainer){
+      data.audio.forEach((audio) => {
+        crearCarteles(audio);
+      });
+    }
   })
   .catch((error) => {
     console.error("Error al cargar el archivo JSON:", error);
   });
+
+  function crearCarteles(video){
+    // Crear el contenedor para cada video
+    const videoItem = document.createElement("div");
+    videoItem.classList.add("contenedor-canal");
+    videoItem.onclick = function () {
+      window.open(
+        "stream?id=" + encodeURIComponent(video.id),
+        "_self"
+      );
+    };
+
+    // Crear el elemento de imagen con la miniatura
+    const poster = document.createElement("img");
+    poster.src = video.perfilCanal;
+    poster.alt = video.nombreCanal;
+    poster.style.cursor = "pointer";
+
+    // Crear el título del video
+    const title = document.createElement("h3");
+    title.textContent = video.nombreCanal;
+
+    // Añadir todos los elementos al contenedor del video
+    videoItem.appendChild(poster);
+    videoItem.appendChild(title);
+
+    // Finalmente, añadir este video al contenedor principal
+    videoContainer.appendChild(videoItem);
+  }
 
 // Función para obtener parámetros de la URL
 function obtenerParametro(parametro) {
@@ -582,11 +592,11 @@ fetch("contenido.json")
   .then((response) => response.json())
   .then((data) => {
     // Buscar el video por ID
-    const videoEncontrado = data.television.find((video) => video.id === idVideo);
+    const videoEncontrado = Object.values(data).flat().find((video) => video.id === idVideo);
 
     if (videoEncontrado) {
       // Construir la URL del reproductor con los parámetros
-      const iframeSrc = `https://proyectoja.github.io/embedClappr.html?video=${encodeURIComponent(
+      const iframeSrc = `embedClappr.html?url=${encodeURIComponent(
         videoEncontrado.urlTelevision
       )}&poster=${encodeURIComponent(
         videoEncontrado.poster
