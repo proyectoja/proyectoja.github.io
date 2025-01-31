@@ -1,7 +1,7 @@
 {
     "television": [
       {
-        "id": "1",
+        "id": "t1",
         "seguidores": "11.8 k",
         "miniatura": "perfilCanal/proyecto-ja.png",
         "poster": "poster/proyecto-ja.jpg",
@@ -16,7 +16,7 @@
         "calidad": "3"
       },
       {
-        "id": "2",
+        "id": "t2",
         "seguidores": "",
         "miniatura": "perfilCanal/radio-lira.png",
         "poster": "poster/radio-lira.jpg",
@@ -31,7 +31,7 @@
         "calidad": "3"
       },
       {
-        "id": "3",
+        "id": "t3",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel.jpg",
         "poster": "poster/hope-channel.jpg",
@@ -46,7 +46,7 @@
         "calidad": "2"
       },
       {
-        "id": "4",
+        "id": "t4",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-international.png",
         "poster": "poster/hope-channel-international.png",
@@ -61,7 +61,7 @@
         "calidad": "2"
       },
       {
-        "id": "5",
+        "id": "t5",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-italia.png",
         "poster": "poster/hope-channel-italia.png",
@@ -76,7 +76,7 @@
         "calidad": "2"
       },
       {
-        "id": "6",
+        "id": "t6",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-soureste-asia.jpg",
         "poster": "poster/hope-channel-soureste-asia.jpg",
@@ -91,7 +91,7 @@
         "calidad": "2"
       },
       {
-        "id": "7",
+        "id": "t7",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-philippines.jpg",
         "poster": "poster/hope-channel-philippines.jpg",
@@ -106,7 +106,7 @@
         "calidad": "3"
       },
       {
-        "id": "8",
+        "id": "t8",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-tanzania.jpg",
         "poster": "poster/hope-channel-tanzania.png",
@@ -121,7 +121,7 @@
         "calidad": "3"
       },
       {
-        "id": "9",
+        "id": "t9",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-kenya.png",
         "poster": "poster/hope-channel-kenya.png",
@@ -136,7 +136,7 @@
         "calidad": "3"
       },
       {
-        "id": "10",
+        "id": "t10",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-ghana.png",
         "poster": "poster/hope-channel-ghana.jpeg",
@@ -151,7 +151,7 @@
         "calidad": "3"
       },
       {
-        "id": "11",
+        "id": "t11",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-africa.jpg",
         "poster": "poster/hope-channel-africa.png",
@@ -166,7 +166,7 @@
         "calidad": "2"
       },
       {
-        "id": "12",
+        "id": "t12",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-polska.png",
         "poster": "poster/hope-channel-polska.jpg",
@@ -181,7 +181,7 @@
         "calidad": "2"
       },
       {
-        "id": "13",
+        "id": "t13",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-ukraine.png",
         "poster": "poster/hope-channel-ukraine.jpg",
@@ -196,7 +196,7 @@
         "calidad": "3"
       },
       {
-        "id": "14",
+        "id": "t14",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-norwegian.jpg",
         "poster": "poster/hope-channel-norwegian.jpg",
@@ -211,7 +211,7 @@
         "calidad": "3"
       },
       {
-        "id": "15",
+        "id": "t15",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-india.png",
         "poster": "poster/hope-channel-india.jpg",
@@ -226,7 +226,7 @@
         "calidad": "3"
       },
       {
-        "id": "16",
+        "id": "t16",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-china.jpg",
         "poster": "poster/hope-channel-china.jpg",
@@ -241,7 +241,7 @@
         "calidad": "3"
       },
       {
-        "id": "17",
+        "id": "t17",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-deutsch.png",
         "poster": "poster/hope-channel-deutsch.png",
@@ -256,7 +256,7 @@
         "calidad": "3"
       },
       {
-        "id": "18",
+        "id": "t18",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-nuevo-tiempo.jpg",
         "poster": "poster/hope-channel-nuevo-tiempo.png",
@@ -271,7 +271,7 @@
         "calidad": "2"
       },
       {
-        "id": "19",
+        "id": "t19",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-novo-tempo.png",
         "poster": "poster/hope-channel-novo-tempo.jpg",
@@ -286,7 +286,7 @@
         "calidad": "2"
       },
       {
-        "id": "20",
+        "id": "t20",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-inter-america.jpg",
         "poster": "poster/hope-channel-inter-america.jpg",
@@ -301,7 +301,7 @@
         "calidad": "3"
       },
       {
-        "id": "21",
+        "id": "t21",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-speranta.jpg",
         "poster": "poster/hope-channel-speranta.png",
@@ -316,7 +316,7 @@
         "calidad": "3"
       },
       {
-        "id": "22",
+        "id": "t22",
         "seguidores": "",
         "miniatura": "perfilCanal/hope-channel-bulgaria.jpg",
         "poster": "poster/hope-channel-bulgaria.jpg",
@@ -331,7 +331,7 @@
         "calidad": "3"
       },
       {
-        "id": "30",
+        "id": "t30",
         "seguidores": "15 M",
         "miniatura": "perfilCanal/lofi-girl.jpg",
         "poster": "poster/lofi-girl.png",

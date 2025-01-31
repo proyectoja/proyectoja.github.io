@@ -525,7 +525,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //FUNCIONES CANALES DE TELEVISIÓN
 const videoContainer = document.getElementById("contenedor-canales");
-const audioContainer = document.getElementById("contenedor-canales-audio");
+const radiosContainer = document.getElementById("contenedor-canales-radios");
 
 // Función para cargar los datos desde el archivo JSON
 fetch("contenido.json")
@@ -535,9 +535,9 @@ fetch("contenido.json")
       data.television.forEach((video) => {
         crearCarteles(video);
       });
-    }else if(audioContainer){
-      data.audio.forEach((audio) => {
-        crearCarteles(audio);
+    }else if(radiosContainer){
+      data.radios.forEach((radios) => {
+        crearCarteles(radios);
       });
     }
   })
