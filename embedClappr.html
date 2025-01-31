@@ -176,23 +176,30 @@
     let perfilCanal = getUrlParameter('perfilCanal');
     const idCanal = getUrlParameter('id');
 
+
     //Hacemos la validación para el id del json
-    if(idCanal){
-      fetch("contenido.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const datoEncontrado = Object.values(data).flat().find((idAux) => idAux.id === idCanal);
-          if(datoEncontrado){
+    async function cargarDatosPrimero() {
+      if (idCanal) {
+        try {
+          const response = await fetch("contenido.json");
+          const data = await response.json();
+          const datoEncontrado = Object.values(data).flat().find((idAux) => idAux.id === idCanal);
+          if (datoEncontrado) {
             url = datoEncontrado.url;
             posterUrl = datoEncontrado.poster;
             nombreCanal = datoEncontrado.nombreCanal;
             perfilCanal = datoEncontrado.perfilCanal;
           }
-      })
-      .catch((error) => {
-        console.error("Error al cargar el archivo JSON:", error);
-      });
+        } catch (error) {
+          console.error("Error al cargar el archivo JSON:", error);
+        };
+      }
     }
+
+    //Importante, comienzo de todo el reproductor
+    cargarDatosPrimero().then(() => {
+      funcionInicial();
+    })
 
     // Función para inicializar el reproductor con video MP4
     function initializeMp4Player(url, posterUrl) {
@@ -489,42 +496,41 @@
       }
     }
 
-    //Eventos muy importante
-    document.addEventListener("DOMContentLoaded", function () {
-      setTimeout(() => {
-        var playerElement = document.getElementById("player");
-  
-        // Evitar clic derecho en el área del reproductor
-        playerElement.addEventListener("contextmenu", function (event) {
-          event.preventDefault(); // Prevenir el menú contextual
-        });
-      }, 1000);
-    });
 
-    // Comprobamos si el parámetro 'video' existe
-    if (url) {
-      // Si es un archivo MP4
-      if (url.endsWith('.mp4') || url.includes('.mp4')) {
-        initializeMp4Player(url, posterUrl);
+
+    function funcionInicial() {
+      // Comprobamos si el parámetro 'video' existe
+      if (url) {
+        // Si es un archivo MP4
+        if (url.endsWith('.mp4') || url.includes('.mp4')) {
+          initializeMp4Player(url, posterUrl);
+        }
+        // Si es una transmisión en vivo en formato HLS (.m3u8)
+        else if (url.includes('.m3u8') && url.includes('XSTUDIOCODE')) {
+          initializeLivePlayer(url, posterUrl);
+          executeChatbroScript();
+        } else if (url.includes('.m3u8')) {
+          initializeLivePlayer(url, posterUrl);
+          onlineDiv.innerHTML = "👁️";
+          onlineDiv.style.backgroundColor = '#003399';
+        } else if (url.includes('.mpd')) {
+          initializeLivePlayer(url, posterUrl);
+          onlineDiv.innerHTML = "👁️";
+          onlineDiv.style.backgroundColor = '#003399';
+        }
+      } else if (false) {
+        //
       }
-      // Si es una transmisión en vivo en formato HLS (.m3u8)
-      else if (url.includes('.m3u8') && url.includes('XSTUDIOCODE')) {
-        initializeLivePlayer(url, posterUrl);
-        executeChatbroScript();
-      } else if (url.includes('.m3u8')) {
-        initializeLivePlayer(url, posterUrl);
-        onlineDiv.innerHTML = "👁️";
-        onlineDiv.style.backgroundColor = '#003399';
-      } else if (url.includes('.mpd')) {
-        initializeLivePlayer(url, posterUrl);
-        onlineDiv.innerHTML = "👁️";
-        onlineDiv.style.backgroundColor = '#003399';
-      }
-    } else if (false) {
-      //
+
+      document.body.style.backgroundImage = `url("${posterUrl}")`;
+      //Eventos muy importante
+      var playerElement = document.getElementById("player");
+
+      // Evitar clic derecho en el área del reproductor
+      playerElement.addEventListener("contextmenu", function (event) {
+        event.preventDefault(); // Prevenir el menú contextual
+      });
     }
-
-    document.body.style.backgroundImage = `url("${posterUrl}")`;
   </script>
 </body>
 
