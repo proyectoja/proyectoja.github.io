@@ -170,19 +170,19 @@
 
     const username = "XSTUDIOCODE";
     // Obtenemos el parámetro 'video' desde la URL
-    const videoUrl = getUrlParameter('url');
+    const url = getUrlParameter('url');
     const posterUrl = getUrlParameter('poster');
     const nombreCanal = getUrlParameter('nombreCanal');
     const perfilCanal = getUrlParameter('perfilCanal');
 
 
     // Función para inicializar el reproductor con video MP4
-    function initializeMp4Player(videoUrl, posterUrl) {
+    function initializeMp4Player(url, posterUrl) {
       if (player) {
         player.destroy(); // Destruye el reproductor si ya está activo
       }
       player = new Clappr.Player({
-        source: videoUrl,
+        source: url,
         parentId: "#player",
         poster: posterUrl,
         width: "100%",
@@ -482,21 +482,21 @@
     });
 
     // Comprobamos si el parámetro 'video' existe
-    if (videoUrl) {
+    if (url) {
       // Si es un archivo MP4
-      if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4')) {
-        initializeMp4Player(videoUrl, posterUrl);
+      if (url.endsWith('.mp4') || url.includes('.mp4')) {
+        initializeMp4Player(url, posterUrl);
       }
       // Si es una transmisión en vivo en formato HLS (.m3u8)
-      else if (videoUrl.includes('.m3u8') && videoUrl.includes('XSTUDIOCODE')) {
-        initializeLivePlayer(videoUrl, posterUrl);
+      else if (url.includes('.m3u8') && url.includes('XSTUDIOCODE')) {
+        initializeLivePlayer(url, posterUrl);
         executeChatbroScript();
-      }else if(videoUrl.includes('.m3u8')){
-        initializeLivePlayer(videoUrl, posterUrl);
+      }else if(url.includes('.m3u8')){
+        initializeLivePlayer(url, posterUrl);
         onlineDiv.innerHTML = "👁️";
         onlineDiv.style.backgroundColor = '#003399';
-      }else if(videoUrl.includes('.mpd')){
-        initializeLivePlayer(videoUrl, posterUrl);
+      }else if(url.includes('.mpd')){
+        initializeLivePlayer(url, posterUrl);
         onlineDiv.innerHTML = "👁️";
         onlineDiv.style.backgroundColor = '#003399';
       }
