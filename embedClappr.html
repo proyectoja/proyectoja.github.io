@@ -17,12 +17,13 @@
   <meta property="og:type" content="website" />
 
   <title>PROYECTO JA</title>
-  <script src="https://proyectoja.github.io/clappr.js"></script>
-  <script src="https://proyectoja.github.io/clappr-pip-plugin.js"></script>
-  <script src="https://proyectoja.github.io/level-selector.js"></script>
-  <script src="https://proyectoja.github.io/clappr-playback-rate.js"></script>
-  <script src="https://proyectoja.github.io/clappr-video360.js"></script>
-  <script src="https://proyectoja.github.io/dashShakaPlayBack.js"></script>
+  <script src="clappr.js"></script>
+  <script src="clappr-pip-plugin.js"></script>
+  <script src="level-selector.js"></script>
+  <script src="clappr-playback-rate.js"></script>
+  <script src="clappr-video360.js"></script>
+  <script src="dashShakaPlayBack.js"></script>
+  <script src="hlsjs-playback.js"></script>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
   <script type="text/javascript"
@@ -216,7 +217,7 @@
         hideVolumeBar: false,
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [HlsjsPlayback, DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -310,7 +311,32 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [HlsjsPlayback, DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        hlsUseNextLevel: true, // Permite cambiar de calidad automáticamente
+        hlsMinimumDvrSize: 120, // Buffer mínimo de 2 minutos para DVR
+        hlsRecoverAttempts: 5, // Reduce los intentos de recuperación para evitar loops infinitos
+        hlsPlayback: {
+          preload: true, // Precarga el video antes de presionar "play"
+          customListeners: [], // Espacio para eventos personalizados
+        },
+        playback: {
+          extrapolatedWindowNumSegments: 2,
+          triggerFatalErrorOnResourceDenied: false,
+          hlsjsConfig: {
+            maxBufferLength: 30, // Mantiene un buffer de 30 segundos
+            maxBufferSize: 60 * 1000 * 1000, // Máximo de 60 MB de buffer
+            liveSyncDuration: 5, // Sincronización de 5 segundos con la transmisión en vivo
+            liveMaxLatencyDuration: 10, // Retraso máximo de 10 segundos en vivo
+            enableWorker: true, // Usa workers para mejorar el rendimiento
+            enableSoftwareAES: true, // Mejora la compatibilidad con flujos cifrados
+            capLevelToPlayerSize: true, // Ajusta la calidad según el tamaño del reproductor
+            autoStartLoad: true, // Carga automáticamente los fragmentos
+            startPosition: -1, // Inicia desde el punto más reciente en transmisión en vivo
+            maxRetries: 5, // Intentos máximos antes de detener la reproducción
+            retryDelay: 2000, // Retraso de 2 segundos entre intentos de recuperación
+            lowLatencyMode: true, // Habilita el modo de baja latencia
+          },
+        },
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -325,24 +351,24 @@
           // rateSuffix: 'x',
         },
         levelSelectorConfig: {
-    title: 'Calidad',
-    labels: {
-        7: '',
-        6: '',
-        5: '',
-        4: '',
-        3: '',
-        2: '', // 500kbps
-        1: '', // 240kbps
-        0: '', // 120kbps
-    },
-    labelCallback: function(playbackLevel, customLabel) {
-        return customLabel + playbackLevel.level.height+'p'; // High 720p
-    },
-    onLevelsAvailable: function(levels) {
-      return levels.reverse(); // For example, reverse levels order
-    },
-  },
+          title: 'Calidad',
+          labels: {
+            7: '',
+            6: '',
+            5: '',
+            4: '',
+            3: '',
+            2: '', // 500kbps
+            1: '', // 240kbps
+            0: '', // 120kbps
+          },
+          labelCallback: function (playbackLevel, customLabel) {
+            return customLabel + playbackLevel.level.height + 'p'; // High 720p
+          },
+          onLevelsAvailable: function (levels) {
+            return levels.reverse(); // For example, reverse levels order
+          },
+        },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
       player.getPlugin('click_to_pause').disable();
