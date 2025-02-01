@@ -324,6 +324,25 @@
           ],
           // rateSuffix: 'x',
         },
+        levelSelectorConfig: {
+    title: 'Calidad',
+    labels: {
+        7: '',
+        6: '',
+        5: '',
+        4: '',
+        3: '',
+        2: '', // 500kbps
+        1: '', // 240kbps
+        0: '', // 120kbps
+    },
+    labelCallback: function(playbackLevel, customLabel) {
+        return customLabel + playbackLevel.level.height+'p'; // High 720p
+    },
+    onLevelsAvailable: function(levels) {
+      return levels.reverse(); // For example, reverse levels order
+    },
+  },
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
       player.getPlugin('click_to_pause').disable();
