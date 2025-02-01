@@ -327,13 +327,13 @@
             maxBufferLength: 30, // Mantiene un buffer de 30 segundos
             maxBufferSize: 60 * 1000 * 1000, // Máximo de 60 MB de buffer
             liveSyncDuration: 5, // Sincronización de 5 segundos con la transmisión en vivo
-            liveMaxLatencyDuration: 30, // Retraso máximo de 10 segundos en vivo
+            liveMaxLatencyDuration: 60, // Retraso máximo de 10 segundos en vivo
             enableWorker: true, // Usa workers para mejorar el rendimiento
             enableSoftwareAES: true, // Mejora la compatibilidad con flujos cifrados
             capLevelToPlayerSize: true, // Ajusta la calidad según el tamaño del reproductor
             autoStartLoad: true, // Carga automáticamente los fragmentos
             startPosition: -1, // Inicia desde el punto más reciente en transmisión en vivo
-            maxRetries: 5, // Intentos máximos antes de detener la reproducción
+            maxRetries: 9999, // Intentos máximos antes de detener la reproducción
             retryDelay: 2000, // Retraso de 2 segundos entre intentos de recuperación
             lowLatencyMode: true, // Habilita el modo de baja latencia
           },
