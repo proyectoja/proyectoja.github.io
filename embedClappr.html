@@ -314,7 +314,7 @@
         plugins: [HlsjsPlayback, DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         hlsUseNextLevel: true, // Permite cambiar de calidad automáticamente
         hlsMinimumDvrSize: 120, // Buffer mínimo de 2 minutos para DVR
-        hlsRecoverAttempts: 5, // Reduce los intentos de recuperación para evitar loops infinitos
+        hlsRecoverAttempts: 16, // Reduce los intentos de recuperación para evitar loops infinitos
         hlsPlayback: {
           preload: true, // Precarga el video antes de presionar "play"
           customListeners: [], // Espacio para eventos personalizados
