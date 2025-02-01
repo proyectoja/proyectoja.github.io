@@ -320,13 +320,14 @@
           customListeners: [], // Espacio para eventos personalizados
         },
         playback: {
+          crossOrigin: "anonymous",
           extrapolatedWindowNumSegments: 2,
           triggerFatalErrorOnResourceDenied: false,
           hlsjsConfig: {
             maxBufferLength: 30, // Mantiene un buffer de 30 segundos
             maxBufferSize: 60 * 1000 * 1000, // Máximo de 60 MB de buffer
             liveSyncDuration: 5, // Sincronización de 5 segundos con la transmisión en vivo
-            liveMaxLatencyDuration: 10, // Retraso máximo de 10 segundos en vivo
+            liveMaxLatencyDuration: 30, // Retraso máximo de 10 segundos en vivo
             enableWorker: true, // Usa workers para mejorar el rendimiento
             enableSoftwareAES: true, // Mejora la compatibilidad con flujos cifrados
             capLevelToPlayerSize: true, // Ajusta la calidad según el tamaño del reproductor
@@ -369,8 +370,10 @@
             return levels.reverse(); // For example, reverse levels order
           },
         },
+        
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
+      
       player.getPlugin('click_to_pause').disable();
       // Verificar si la barra de control está disponible
       player.on(Clappr.Events.PLAYER_READY, function () {

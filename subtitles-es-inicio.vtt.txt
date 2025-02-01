@@ -1,0 +1,10 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.000
+¡Bienvenido a la transmisión en vivo!
+
+00:00:05.000 --> 00:00:10.000
+Esperamos que disfrutes el contenido.
+
+00:00:010.000 --> 00:00:20.000
+Recuerda seguirnos en nuestras redes sociales como << PROYECTO JA >>
