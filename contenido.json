@@ -361,6 +361,21 @@
         "fecha": "2020-01-01",
         "pais": "Costa Rica",
         "calidad": "3"
+      },
+      {
+        "id": "r2",
+        "seguidores": "",
+        "miniatura": "perfilCanal/radio-lira.png",
+        "poster": "poster/radio-lira.jpg",
+        "url": "https://radiolira.ice.infomaniak.ch/radiolira.aac",
+        "titulo": "Radio Lira en vivo 🔴",
+        "perfilCanal": "perfilCanal/radio-lira.png",
+        "nombreCanal": "Radio Lira",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "Una Voz de esperanza! Radio Lira es una emisora de radio sin fines de lucro adventista existiendo desde casi 40 años y ubicada en Alajuela, Costa Rica. Se puede escuchar Radio Lira con su radio en la frecuencia 88.7 FM, o por internet. Historia: Todo inició como un proyecto de algunos estudiantes y profesores de la escuela de teología del entonces conocido Centro Adventista de Estudios Superiores (CADES) ahora llamado Universidad Adventista de Centroamérica (UNADECA) en el año 1981. El proyecto se llamaba «Club Radio» y su slogan era «Una luz en las tinieblas», bajo la dirección del Pr. Rubén García Toc y su cobertura era de tan solo 10 kilómetros a la redonda, en la frecuencia 1540 Amplitud Modulada (A.M.). En un gesto de filantropía misionera, los esposos Boskind patrocinaron la adquisición de una emisora completa, llamada «Radio Lira», para que desde ese centro se irradiara un mensaje continuo de amor y redención cristiana. Pero no fue sino hasta mediados del año 1983, cuando iniciaron los trámites para legalizar la radio. Fue el lunes 19 de septiembre de 1983 cuando por primera vez se puso al aire la señal de Radio Lira de manera legal, ese día y los siguientes hubo muchas felicitaciones, lo más importante es que numerosas personas alabaron el nombre del Señor por el resto del mes. Hubo lágrimas de gozo y felicidad. El primer viernes a la puesta de sol, Radio Lira recibió el santo día del Señor con centenares de familiares residentes en el valle central y sus alrededores.",
+        "fecha": "1981 | 1983-09-19",
+        "pais": "Costa Rica",
+        "calidad": "3"
       }
     ]
   }
