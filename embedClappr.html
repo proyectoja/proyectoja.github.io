@@ -246,6 +246,7 @@
       player.on(Clappr.Events.PLAYER_STOP, function () {
         addCustomElementsMp4();
       });
+      
 
       function addCustomElementsMp4() {
         const customContainer = document.getElementById('container-cont-principal');
@@ -388,6 +389,12 @@
       });
       player.on(Clappr.Events.PLAYER_STOP, function () {
         addCustomElements();
+      });
+      player.on(Clappr.Events.PLAYER_ERROR, function () {
+        if (idCanal === 't1') {
+          auxUrlDoce = 'PLPVicAS85pXJtwNCGdnpNr5PBm_5VCPup';
+          youtubeClappr(auxUrlOnce, auxUrlDoce);
+        }
       });
 
       function addCustomElements() {
@@ -549,7 +556,7 @@
     }
 
 
-
+    let auxUrlDoce, auxUrlOnce;
     function funcionInicial() {
       // Comprobamos si el parámetro 'video' existe
       if (url) {
@@ -571,21 +578,12 @@
           onlineDiv.style.backgroundColor = '#003399';
         } else {
           //Embed para youtube y listas de youtube
-          let auxUrlDoce, auxUrlOnce;
-          if(url.length >= 12){
+          if (url.length >= 12) {
             auxUrlDoce = url;
-          }else{
+          } else {
             auxUrlOnce = url;
           }
-          var player = new Clappr.Player({
-            source: auxUrlOnce,
-            height: "100vh",
-            width: "100%",
-            youtubeShowRelated: true,
-            youtubePlaylist: auxUrlDoce,
-            plugins: [YoutubePlayback],
-            parentId: "#player"
-          });
+          youtubeClappr(auxUrlOnce, auxUrlDoce);
         }
       } else if (false) {
         //
@@ -606,6 +604,21 @@
       // Evitar clic derecho en el área del reproductor
       playerElement.addEventListener("contextmenu", function (event) {
         event.preventDefault(); // Prevenir el menú contextual
+      });
+    }
+
+    function youtubeClappr(auxUrlOnce, auxUrlDoce) {
+      if (player) {
+        player.destroy(); // Destruye el reproductor si ya está activo
+      }
+      player = new Clappr.Player({
+        source: auxUrlOnce,
+        height: "100vh",
+        width: "100%",
+        youtubeShowRelated: true,
+        youtubePlaylist: auxUrlDoce,
+        plugins: [YoutubePlayback],
+        parentId: "#player"
       });
     }
   </script>
