@@ -200,9 +200,11 @@
     }
 
     //Importante, comienzo de todo el reproductor
-    cargarDatosPrimero().then(() => {
-      funcionInicial();
-    })
+    setTimeout(() => {
+      cargarDatosPrimero().then(() => {
+        funcionInicial();
+      })
+    }, 1000);
 
     // Función para inicializar el reproductor con video MP4
     function initializeMp4Player(url, posterUrl) {
