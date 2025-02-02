@@ -27,6 +27,10 @@
   <script src="clappr-youtube-playback.js"></script>
   <script src="audio-track-selector.js"></script>
 
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="lunaradio.min.js"></script>
+  <script src="rocket-loader.min.js" data-cf-settings="3bc5e4e5245e387f3290c38f-|49" defer></script>
+
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
   <script type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script>
@@ -139,12 +143,37 @@
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       text-shadow: 0px 0px 10px #000;
     }
+
+    #lunaradio {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: absolute;
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 0px;
+      background-position: center;
+      -webkit-border-top-left-radius: 0px;
+      -webkit-border-top-right-radius: 0px;
+      -webkit-border-bottom-right-radius: 0px;
+      -webkit-border-bottom-left-radius: 0px;
+      -moz-border-radius-topleft: 0px;
+      -moz-border-radius-topright: 0px;
+      -moz-border-radius-bottomright: 0px;
+      -moz-border-radius-bottomleft: 0px;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border: none;
+    }
   </style>
 </head>
 
 <body>
   <!-- Contenedor del reproductor -->
   <div id="player"></div>
+  <div id="lunaradio"></div>
   <div class="container-cont-principal" id="container-cont-principal">
     <img src="logo3.png"></img>
     <h2>PROYECTO JA</h2>
@@ -174,9 +203,9 @@
     const username = "XSTUDIOCODE";
     // Obtenemos el parámetro 'video' desde la URL
     let url = getUrlParameter('url');
-    let posterUrl = getUrlParameter('poster');
-    let nombreCanal = getUrlParameter('nombreCanal');
-    let perfilCanal = getUrlParameter('perfilCanal');
+    let posterUrl = getUrlParameter('poster') || 'poster/proyecto-ja.jpg';
+    let nombreCanal = getUrlParameter('nombreCanal') || 'PROYECTO JA';
+    let perfilCanal = getUrlParameter('perfilCanal') || 'perfilCanal/proyecto-ja.png';
     const idCanal = getUrlParameter('id');
 
 
@@ -222,7 +251,7 @@
         hideVolumeBar: false,
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [AudioTrackSelector,HlsjsPlayback, DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [AudioTrackSelector, HlsjsPlayback, DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         playbackRateConfig: {
           defaultValue: 1,
           options: [
@@ -249,7 +278,7 @@
       player.on(Clappr.Events.PLAYER_STOP, function () {
         addCustomElementsMp4();
       });
-      
+
 
       function addCustomElementsMp4() {
         const customContainer = document.getElementById('container-cont-principal');
@@ -317,7 +346,7 @@
         actualLiveServerTime: "2024/09/30 00:00:00",
         hideMediaControl: true, //Desarrollo
         playbackNotSupportedMessage: 'No se puede reproducir.',
-        plugins: [AudioTrackSelector,HlsjsPlayback, DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
+        plugins: [AudioTrackSelector, HlsjsPlayback, DashShakaPlayback, ClapprPip.PipButton, ClapprPip.PipPlugin, LevelSelector, PlaybackRatePlugin],
         hlsUseNextLevel: true, // Permite cambiar de calidad automáticamente
         hlsMinimumDvrSize: 120, // Buffer mínimo de 2 minutos para DVR
         hlsRecoverAttempts: 16, // Reduce los intentos de recuperación para evitar loops infinitos
@@ -560,6 +589,7 @@
 
 
     let auxUrlDoce, auxUrlOnce;
+    let tipoVentana = 'big';
     function funcionInicial() {
       // Comprobamos si el parámetro 'video' existe
       if (url) {
@@ -579,6 +609,8 @@
           initializeLivePlayer(url, posterUrl);
           onlineDiv.innerHTML = "👁️";
           onlineDiv.style.backgroundColor = '#003399';
+        } else if (/\.(mp3|aac|ogg|m3u|pls)(\?|#|&|\/|$)/i.test(url)) {
+          lunaRadio();
         } else {
           //Embed para youtube y listas de youtube
           if (url.length >= 12) {
@@ -588,8 +620,6 @@
           }
           youtubeClappr(auxUrlOnce, auxUrlDoce);
         }
-      } else if (false) {
-        //
       } else {
         const fondoPlayer = document.getElementById('player');
         fondoPlayer.style.backgroundImage = `url("error-404.jpg")`;
@@ -598,6 +628,59 @@
         fondoPlayer.style.backgroundSize = 'cover';
         fondoPlayer.style.width = '100%';
         fondoPlayer.style.height = '100vh';
+      }
+
+      var fmPlayer = null;
+      function lunaRadio() {
+        if (player) {
+          player.destroy();
+          fmPlayer.lunaRadio('pause').remove();
+        }
+        document.getElementById('lunaradio').style.backgroundImage = `url(${posterUrl})`;
+        fmPlayer = jQuery("#lunaradio").lunaradio({
+
+          userinterface: tipoVentana,
+          backgroundcolor: "rgba(9,15,25,0)",
+          fontcolor: "#FFFFFF",
+          hightlightcolor: "#FF0000",
+          fontname: "Saira Condensed",
+          googlefont: "Saira+Condensed:wght@100",
+          fontratio: "0.3",
+          radioname: nombreCanal,
+          scroll: "true",
+          usecover: "true",
+          radiocover: posterUrl,
+          coverimage: perfilCanal,
+          usevisualizer: "real",
+          coverstyle: "animated",
+          visualizertype: "4",
+          multicolorvisualizer: "true",
+          color1: "dc143c",
+          color2: "f1666d",
+          color3: "e6f62f",
+          color4: "#e6f62f",
+          itunestoken: "1000lIPN",
+          metadatatechnic: "corsproxy",
+          ownmetadataurl: "",
+          streamurl: url,
+          streamtype: "zenoradio",
+          zenoid: "a536jtganoeuv",
+          icecastmountpoint: "",
+          radionomyid: "",
+          radionomyapikey: "",
+          radiozenoid: "",
+          radiojarid: "",
+          radiocoid: "",
+          shoutcastpath: "",
+          shoutcastid: "1",
+          streamsuffix: "",
+          metadatainterval: "20000",
+          volume: "100",
+          debug: "false",
+          usestreamcorsproxy: "true",
+          corsproxy: "",
+          autoplay: "true",
+        });
       }
 
       document.body.style.backgroundImage = `url("${posterUrl}")`;
