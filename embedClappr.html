@@ -24,6 +24,7 @@
   <script src="clappr-video360.js"></script>
   <script src="dashShakaPlayBack.js"></script>
   <script src="hlsjs-playback.js"></script>
+  <script src="clappr-youtube-playback.js"></script>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
   <script type="text/javascript"
@@ -207,6 +208,7 @@
       if (player) {
         player.destroy(); // Destruye el reproductor si ya está activo
       }
+
       player = new Clappr.Player({
         source: url,
         parentId: "#player",
@@ -324,6 +326,8 @@
           extrapolatedWindowNumSegments: 2,
           triggerFatalErrorOnResourceDenied: false,
           hlsjsConfig: {
+            enableWebVTT: true,
+            captions: true, // Activa subtítulos en HLS
             maxBufferLength: 30, // Mantiene un buffer de 30 segundos
             maxBufferSize: 60 * 1000 * 1000, // Máximo de 60 MB de buffer
             liveSyncDuration: 5, // Sincronización de 5 segundos con la transmisión en vivo
@@ -370,10 +374,10 @@
             return levels.reverse(); // For example, reverse levels order
           },
         },
-        
+
         //watermark: "https://i.imgur.com/ymjjVCQ.png", position: 'top-right'
       });
-      
+
       player.getPlugin('click_to_pause').disable();
       // Verificar si la barra de control está disponible
       player.on(Clappr.Events.PLAYER_READY, function () {
@@ -565,9 +569,34 @@
           initializeLivePlayer(url, posterUrl);
           onlineDiv.innerHTML = "👁️";
           onlineDiv.style.backgroundColor = '#003399';
+        } else {
+          //Embed para youtube y listas de youtube
+          let auxUrlDoce, auxUrlOnce;
+          if(url.length >= 12){
+            auxUrlDoce = url;
+          }else{
+            auxUrlOnce = url;
+          }
+          var player = new Clappr.Player({
+            source: auxUrlOnce,
+            height: "100vh",
+            width: "100%",
+            youtubeShowRelated: true,
+            youtubePlaylist: auxUrlDoce,
+            plugins: [YoutubePlayback],
+            parentId: "#player"
+          });
         }
       } else if (false) {
         //
+      } else {
+        const fondoPlayer = document.getElementById('player');
+        fondoPlayer.style.backgroundImage = `url("error-404.jpg")`;
+        fondoPlayer.style.backgroundPosition = 'center';
+        fondoPlayer.style.backgroundRepeat = 'no-repeat';
+        fondoPlayer.style.backgroundSize = 'cover';
+        fondoPlayer.style.width = '100%';
+        fondoPlayer.style.height = '100vh';
       }
 
       document.body.style.backgroundImage = `url("${posterUrl}")`;
