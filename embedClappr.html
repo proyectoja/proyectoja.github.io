@@ -28,7 +28,7 @@
   <script src="audio-track-selector.js"></script>
 
   <script src="jquery-3.2.1.min.js"></script>
-  <script src="proyectojaRadio.js"></script>
+  <script src="lunaradio.min.js"></script>
   <script src="rocket-loader.min.js" data-cf-settings="3bc5e4e5245e387f3290c38f-|49" defer></script>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script>
@@ -144,7 +144,7 @@
       text-shadow: 0px 0px 10px #000;
     }
 
-    #proyectojaRadio {
+    #lunaradio {
       width: 100%;
       height: 100%;
       display: flex;
@@ -173,7 +173,7 @@
 <body>
   <!-- Contenedor del reproductor -->
   <div id="player"></div>
-  <div id="proyectojaRadio"></div>
+  <div id="lunaradio"></div>
   <div class="container-cont-principal" id="container-cont-principal">
     <img src="logo3.png"></img>
     <h2>PROYECTO JA</h2>
@@ -610,7 +610,7 @@
           onlineDiv.innerHTML = "👁️";
           onlineDiv.style.backgroundColor = '#003399';
         } else if (/\.(mp3|aac|ogg|m3u|pls)(\?|#|&|\/|$)/i.test(url)) {
-          proyectojaRadio();
+          lunaRadio();
         } else {
           //Embed para youtube y listas de youtube
           if (url.length >= 12) {
@@ -631,13 +631,13 @@
       }
 
       var fmPlayer = null;
-      function proyectojaRadio() {
+      function lunaRadio() {
         if (player) {
           player.destroy();
-          fmPlayer.proyectojaRadio('pause').remove();
+          fmPlayer.lunaRadio('pause').remove();
         }
-        document.getElementById('proyectojaRadio').style.backgroundImage = `url(${posterUrl})`;
-        fmPlayer = jQuery("#proyectojaRadio").proyectojaRadio({
+        document.getElementById('lunaradio').style.backgroundImage = `url(${posterUrl})`;
+        fmPlayer = jQuery("#lunaradio").lunaradio({
 
           userinterface: tipoVentana,
           backgroundcolor: "rgba(9,15,25,0)",
@@ -645,7 +645,7 @@
           hightlightcolor: "#FF0000",
           fontname: "Saira Condensed",
           googlefont: "Saira+Condensed:wght@100",
-          fontratio: "0.3",
+          fontratio: "0.6",
           radioname: nombreCanal,
           scroll: "true",
           usecover: "true",
@@ -663,7 +663,7 @@
           metadatatechnic: "corsproxy",
           ownmetadataurl: "",
           streamurl: url,
-          streamtype: "zenoradio",
+          streamtype: "shoutcast2",
           zenoid: "a536jtganoeuv",
           icecastmountpoint: "",
           radionomyid: "",
