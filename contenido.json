@@ -349,17 +349,17 @@
     "radios": [
       {
         "id": "r1",
-        "seguidores": "",
+        "seguidores": "11.8 k",
         "miniatura": "perfilCanal/proyecto.ja.png",
         "poster": "poster/proyecto-ja.jpg",
-        "url": "https://stream.zeno.fm/a536jtganoeuv",
+        "url": "https://stream.zeno.fm/a536jtganoeuv.aac",
         "titulo": "Radio PROYECTO JA en vivo 🔴",
         "perfilCanal": "perfilCanal/proyecto-ja.png",
         "nombreCanal": "PROYECTO JA",
         "checkVerificado": "iconos/check-verificado.png",
-        "descripcion": "Lofi Girl es un canal de YouTube y una marca popular que transmite música lo-fi hip-hop, un género caracterizado por ritmos relajantes, sonidos ambientales y un estilo inspirado en el jazz y el hip-hop. Es conocido por sus transmisiones en vivo 24/7 que proporcionan música ideal para estudiar, trabajar o relajarse. El canal ganó notoriedad gracias a su icónica animación de una chica estudiando junto a una ventana, con una estética relajante y nostálgica. Originalmente, el canal se llamaba ChilledCow, pero cambió su nombre a Lofi Girl en 2021. Además de YouTube, Lofi Girl está presente en plataformas de streaming como Spotify y Apple Music, donde ofrece listas de reproducción con temas similares.",
-        "fecha": "2015-03-18",
-        "pais": "Francia",
+        "descripcion": "Compartiendo esperanza!",
+        "fecha": "2020-01-01",
+        "pais": "Costa Rica",
         "calidad": "3"
       }
     ]
