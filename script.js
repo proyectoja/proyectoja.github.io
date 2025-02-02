@@ -589,7 +589,7 @@ fetch("contenido.json")
         videoEncontrado.poster
       )}&perfilCanal=${encodeURIComponent(
         videoEncontrado.perfilCanal
-      )}&nombreCanal=${encodeURIComponent(videoEncontrado.nombreCanal)}`;
+      )}&nombreCanal=${encodeURIComponent(videoEncontrado.nombreCanal)}&id=${videoEncontrado.id}`;
 
       // Crear el elemento iframe
       const iframe = document.createElement("iframe");
