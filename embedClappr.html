@@ -27,7 +27,7 @@
   <script src="clappr-youtube-playback.js"></script>
   <script src="audio-track-selector.js"></script>
 
-  <script src="jquery-3.2.1.min.js"></script>
+  <script src="jquery-3.2.1.min.js" id="jquery-core-js"></script>
   <script src="lunaradio.min.js"></script>
   <script src="rocket-loader.min.js" data-cf-settings="3bc5e4e5245e387f3290c38f-|49" defer></script>
 
@@ -708,6 +708,12 @@
       });
     }
   </script>
+  <script> 
+    var $radioURL = ""; 
+    var animationactive = 0; 
+    var songMem = new Array(); 
+    var ShowAlbumCover = true; 
+</script>
 </body>
 
 </html>
