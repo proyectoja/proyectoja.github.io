@@ -513,6 +513,57 @@ document.addEventListener("DOMContentLoaded", function () {
   toggle();
 });
 
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+
+//Creación dinámica de las categorías del menú en todas las páginas
+document.addEventListener("DOMContentLoaded", function () {
+  const contenedor = document.getElementById("barraCentralContenido");
+
+  // Crear el contenedor principal
+  const fragmento = document.createDocumentFragment();
+
+  // Crear y agregar elementos de forma segura
+  const divLogo = document.createElement("div");
+  divLogo.className = "icon-logo1";
+  const imgLogo = document.createElement("img");
+  imgLogo.src = "logo1.png";
+  imgLogo.alt = "inicio";
+  divLogo.appendChild(imgLogo);
+  fragmento.appendChild(divLogo);
+
+  function crearEnlace(href, id, imgSrc, texto) {
+      const enlace = document.createElement("a");
+      enlace.href = href;
+      enlace.className = "contenedor-categoria";
+      enlace.id = id;
+
+      const img = document.createElement("img");
+      img.src = imgSrc;
+      img.alt = texto.toLowerCase();
+
+      const span = document.createElement("span");
+      span.textContent = texto;
+
+      enlace.appendChild(img);
+      enlace.appendChild(span);
+      return enlace;
+  }
+
+  // Agregar enlaces |               href     id        imgSrc        texto
+  fragmento.appendChild(crearEnlace("//proyectoja.github.io", "inicio", "inicio.png", "Inicio"));
+  fragmento.appendChild(crearEnlace("television", "television", "television.png", "Televisión"));
+  fragmento.appendChild(crearEnlace("radio", "radio", "radio.png", "Radio"));
+
+  // Agregar todo al contenedor sin perder datos previos
+  contenedor.appendChild(fragmento);
+});
+
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+
 //FUNCIONES CANALES DE TELEVISIÓN | IMPORTANTE*
 const videoContainer = document.getElementById("contenedor-canales");
 const radiosContainer = document.getElementById("contenedor-canales-radios");
@@ -521,6 +572,7 @@ const radiosContainer = document.getElementById("contenedor-canales-radios");
 fetch("contenido.json")
   .then((response) => response.json()) // Convierte la respuesta en JSON
   .then((data) => {
+    //Modificar y validar según se agregen categorías del menú
     if (videoContainer) {
       data.television.forEach((video) => {
         crearCarteles(video);
@@ -535,30 +587,30 @@ fetch("contenido.json")
     console.error("Error al cargar el archivo JSON:", error);
   });
 
-function crearCarteles(video) {
-  // Crear el contenedor para cada video
+function crearCarteles(cartel) {
   const videoItem = document.createElement("div");
   videoItem.classList.add("contenedor-canal");
   videoItem.onclick = function () {
-    window.open("stream?id=" + encodeURIComponent(video.id), "_self");
+    window.open("stream?id=" + encodeURIComponent(cartel.id), "_self");
   };
 
-  // Crear el elemento de imagen con la miniatura
   const poster = document.createElement("img");
-  poster.src = video.perfilCanal;
-  poster.alt = video.nombreCanal;
+  poster.src = cartel.perfilCanal;
+  poster.alt = cartel.nombreCanal;
   poster.style.cursor = "pointer";
 
-  // Crear el título del video
   const title = document.createElement("h3");
-  title.textContent = video.nombreCanal;
+  title.textContent = cartel.nombreCanal;
 
-  // Añadir todos los elementos al contenedor del video
   videoItem.appendChild(poster);
   videoItem.appendChild(title);
 
-  // Finalmente, añadir este video al contenedor principal
-  videoContainer.appendChild(videoItem);
+  //Modificar y validar según se agregen categorías del menú
+  if(videoContainer){
+    videoContainer.appendChild(videoItem);
+  }else if(radiosContainer){
+    radiosContainer.appendChild(videoItem);
+  }
 }
 
 // Función para obtener parámetros de la URL
