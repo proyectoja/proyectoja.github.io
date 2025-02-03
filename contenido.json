@@ -360,7 +360,7 @@
         "descripcion": "Compartiendo esperanza!",
         "fecha": "2020-01-01",
         "pais": "Costa Rica",
-        "calidad": "3"
+        "calidad": ""
       },
       {
         "id": "r2",
@@ -375,7 +375,37 @@
         "descripcion": "Una Voz de esperanza! Radio Lira es una emisora de radio sin fines de lucro adventista existiendo desde casi 40 años y ubicada en Alajuela, Costa Rica. Se puede escuchar Radio Lira con su radio en la frecuencia 88.7 FM, o por internet. Historia: Todo inició como un proyecto de algunos estudiantes y profesores de la escuela de teología del entonces conocido Centro Adventista de Estudios Superiores (CADES) ahora llamado Universidad Adventista de Centroamérica (UNADECA) en el año 1981. El proyecto se llamaba «Club Radio» y su slogan era «Una luz en las tinieblas», bajo la dirección del Pr. Rubén García Toc y su cobertura era de tan solo 10 kilómetros a la redonda, en la frecuencia 1540 Amplitud Modulada (A.M.). En un gesto de filantropía misionera, los esposos Boskind patrocinaron la adquisición de una emisora completa, llamada «Radio Lira», para que desde ese centro se irradiara un mensaje continuo de amor y redención cristiana. Pero no fue sino hasta mediados del año 1983, cuando iniciaron los trámites para legalizar la radio. Fue el lunes 19 de septiembre de 1983 cuando por primera vez se puso al aire la señal de Radio Lira de manera legal, ese día y los siguientes hubo muchas felicitaciones, lo más importante es que numerosas personas alabaron el nombre del Señor por el resto del mes. Hubo lágrimas de gozo y felicidad. El primer viernes a la puesta de sol, Radio Lira recibió el santo día del Señor con centenares de familiares residentes en el valle central y sus alrededores.",
         "fecha": "1981 | 1983-09-19",
         "pais": "Costa Rica",
-        "calidad": "3"
+        "calidad": ""
+      },
+      {
+        "id": "r3",
+        "seguidores": "",
+        "miniatura": "perfilCanal/radio-esperanza-norte-mexico.png",
+        "poster": "poster/radio-esperanza-norte-mexico.jpg",
+        "url": "https://cloudstream2036.conectarhosting.com/8048/stream.aac",
+        "titulo": "Radio Esperanza Norte México en vivo 🔴",
+        "perfilCanal": "perfilCanal/radio-esperanza-norte-mexico.png",
+        "nombreCanal": "Radio Esperanza Norte México",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "En Esperanza Norte Mx encontrarás programas que te ayuden a fortalecer tu fe; descubrirás cómo mejorar tus relaciones familiares, consejos para mejorar tu calidad de vida y música cristiana. Somos parte de la red mundial de Hope Channel.",
+        "fecha": "2017",
+        "pais": "México",
+        "calidad": ""
+      },
+      {
+        "id": "r4",
+        "seguidores": "",
+        "miniatura": "perfilCanal/radio-la-gran-esperanza.png",
+        "poster": "poster/radio-la-gran-esperanza.jpg",
+        "url": "https://sp5.servidorrprivado.com:10988/sid=1/stream.mp3",
+        "titulo": "Radio La Gran Esperanza en vivo 🔴",
+        "perfilCanal": "perfilCanal/radio-la-gran-esperanza.png",
+        "nombreCanal": "Radio La Gran Esperanza",
+        "checkVerificado": "iconos/check-verificado.png",
+        "descripcion": "Emisora de radio que suena cada día en el dial 91.1 FM y en línea, tanto para la audiencia mexicana como internacional, con contenidos variados que nos acercan tanto a la fe cristiana como a la comunidad de Río Grande.",
+        "fecha": "2020",
+        "pais": "México",
+        "calidad": ""
       }
     ]
   }
