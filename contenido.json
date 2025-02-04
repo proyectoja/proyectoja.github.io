@@ -407,5 +407,67 @@
       "pais": "México",
       "calidad": ""
     }
+  ],
+  "peliculas": [
+    {
+      "id": "p1",
+      "seguidores": "",
+      "miniatura": "perfilCanal/",
+      "poster": "poster/",
+      "url": "https://hugh.cdn.rumble.cloud/video/s8/2/W/M/v/v/WMvvo.gaa.mp4?u=0&b=0",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/",
+      "nombreCanal": "",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "pais": "",
+      "calidad": ""
+    },
+    {
+      "id": "p2",
+      "seguidores": "",
+      "miniatura": "perfilCanal/",
+      "poster": "poster/",
+      "url": "https://hugh.cdn.rumble.cloud/video/s8/2/4/n/x/v/4nxvo.gaa.mp4?u=0&b=0",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/",
+      "nombreCanal": "",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "pais": "",
+      "calidad": ""
+    },
+    {
+      "id": "p3",
+      "seguidores": "",
+      "miniatura": "perfilCanal/",
+      "poster": "poster/",
+      "url": "https://hugh.cdn.rumble.cloud/video/s8/2/v/d/x/v/vdxvo.gaa.mp4?u=0&b=0",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/",
+      "nombreCanal": "",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "pais": "",
+      "calidad": ""
+    },
+    {
+      "id": "p4",
+      "seguidores": "",
+      "miniatura": "perfilCanal/",
+      "poster": "poster/",
+      "url": "https://hugh.cdn.rumble.cloud/video/s8/2/N/3/w/v/N3wvo.gaa.mp4?u=0&b=0",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/",
+      "nombreCanal": "",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "pais": "",
+      "calidad": ""
+    }
   ]
 }
