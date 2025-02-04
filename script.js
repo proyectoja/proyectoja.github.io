@@ -43,6 +43,10 @@ function mostrarMensajeDelDia(mensajes, dia) {
     // Insertar los datos en el contenedor
     const container = document.getElementById("contenedor-publicaciones");
 
+    const publicacionImage = document.createElement("div");
+    publicacionImage.id = 'publicacionImage';
+    publicacionImage.className = 'publicacionImage';
+
     const publicacionElem = document.createElement("div");
     publicacionElem.className = "publicacion";
     if (contAux % 2 === 0) {
@@ -90,7 +94,11 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     const subContenidoElem = document.createElement("div");
     subContenidoElem.className = "subcontenido";
-    subContenidoElem.textContent = mensajeDelDia.tema;
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0"); // +1 porque los meses empiezan desde 0
+    const dia = String(hoy.getDate()).padStart(2, "0");
+    subContenidoElem.textContent = `© 2013-${anio} PROYECTO JA`;
 
     const redesSocialesElem = document.createElement("div");
     redesSocialesElem.className = "redes-sociales";
@@ -149,21 +157,27 @@ function mostrarMensajeDelDia(mensajes, dia) {
     const descargarBtn = document.createElement("button");
     descargarBtn.className = "descargar";
     descargarBtn.textContent = "Descargar jpg";
-    descargarBtn.onclick = () => descargarImagen(publicacionElem);
+    descargarBtn.onclick = () => descargarImagen(publicacionImage);
 
     const copiarBtn = document.createElement("button");
     copiarBtn.className = "copiar";
     copiarBtn.textContent = "Copiar png";
-    copiarBtn.onclick = () => copiarImagen(publicacionElem);
+    copiarBtn.onclick = () => copiarImagen(publicacionImage);
 
     const copiarTxt = document.createElement("button");
     copiarTxt.className = "copiar-texto";
     copiarTxt.textContent = "Copiar texto";
-    copiarTxt.onclick = () => copiarTexto(publicacionElem);
+    copiarTxt.onclick = () => copiarTexto(publicacionImage);
+
+    const imagenAleatoria = document.createElement("button");
+    imagenAleatoria.className = "imagen-aleatoria";
+    imagenAleatoria.textContent = "Generar Imagen";
+    imagenAleatoria.onclick = () => imagenAleatoria(publicacionImage);
 
     botonesAccionElem.appendChild(descargarBtn);
     botonesAccionElem.appendChild(copiarBtn);
-    botonesAccionElem.appendChild(copiarTxt);
+    //botonesAccionElem.appendChild(copiarTxt);
+    botonesAccionElem.appendChild(imagenAleatoria);
 
     fusionPubCheckElem.appendChild(publicadorElem);
     fusionPubCheckElem.appendChild(checkElem);
@@ -216,6 +230,8 @@ function mostrarMensajeDelDia(mensajes, dia) {
     }
     cabeceraElem.appendChild(perfilElem);
     cabeceraElem.appendChild(infoElem);
+    //Importante
+    publicacionImage.appendChild(publicacionElem);
     publicacionElem.appendChild(cabeceraElem);
     if (mensajeDelDia.imagen) {
       const imagenElem = document.createElement("img");
@@ -272,11 +288,15 @@ function mostrarMensajeDelDia(mensajes, dia) {
       ventanaFlotante.style.display = "none";
     });
 
-    container.appendChild(publicacionElem);
+    container.appendChild(publicacionImage);
   } else {
     document.getElementById("mensajeContainer").innerHTML =
       "<p>No hay mensaje para hoy.</p>";
   }
+}
+
+function imagenAleatoria(contenedor){
+  contenedor.style.backgroundImage = `url("logo3.png")`
 }
 
 // Cargar el archivo JSON y mostrar el mensaje correspondiente al día actual
@@ -438,9 +458,14 @@ function copiarImagen(elemento) {
   copiaElem.style.top = "0";
   copiaElem.style.left = "0";
   copiaElem.style.width = "500px"; // Ancho deseado
-  copiaElem.style.height = "auto"; // Ajustar alto automáticamente
+  copiaElem.style.height = "100%"; // Ajustar alto automáticamente
+  copiaElem.style.minHeight = "500px";
+  copiaElem.stylejustifyContent = 'center';
+  copiaElem.style.alignItems = 'center';
   copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
   copiaElem.style.zIndex = "-1";
+  copiaElem.style.borderRadius = '0rem';
+
 
   // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
@@ -534,26 +559,30 @@ document.addEventListener("DOMContentLoaded", function () {
   fragmento.appendChild(divLogo);
 
   function crearEnlace(href, id, imgSrc, texto) {
-      const enlace = document.createElement("a");
-      enlace.href = href;
-      enlace.className = "contenedor-categoria";
-      enlace.id = id;
+    const enlace = document.createElement("a");
+    enlace.href = href;
+    enlace.className = "contenedor-categoria";
+    enlace.id = id;
 
-      const img = document.createElement("img");
-      img.src = imgSrc;
-      img.alt = texto.toLowerCase();
+    const img = document.createElement("img");
+    img.src = imgSrc;
+    img.alt = texto.toLowerCase();
 
-      const span = document.createElement("span");
-      span.textContent = texto;
+    const span = document.createElement("span");
+    span.textContent = texto;
 
-      enlace.appendChild(img);
-      enlace.appendChild(span);
-      return enlace;
+    enlace.appendChild(img);
+    enlace.appendChild(span);
+    return enlace;
   }
 
   // Agregar enlaces |               href     id        imgSrc        texto
-  fragmento.appendChild(crearEnlace("//proyectoja.github.io", "inicio", "inicio.png", "Inicio"));
-  fragmento.appendChild(crearEnlace("television", "television", "television.png", "Televisión"));
+  fragmento.appendChild(
+    crearEnlace("//proyectoja.github.io", "inicio", "inicio.png", "Inicio")
+  );
+  fragmento.appendChild(
+    crearEnlace("television", "television", "television.png", "Televisión")
+  );
   fragmento.appendChild(crearEnlace("radio", "radio", "radio.png", "Radio"));
 
   // Agregar todo al contenedor sin perder datos previos
@@ -606,9 +635,9 @@ function crearCarteles(cartel) {
   videoItem.appendChild(title);
 
   //Modificar y validar según se agregen categorías del menú
-  if(videoContainer){
+  if (videoContainer) {
     videoContainer.appendChild(videoItem);
-  }else if(radiosContainer){
+  } else if (radiosContainer) {
     radiosContainer.appendChild(videoItem);
   }
 }
@@ -631,7 +660,9 @@ fetch("contenido.json")
   .then((response) => response.json())
   .then((data) => {
     // Buscar el video por ID
-    const videoEncontrado = Object.values(data).flat().find((video) => video.id === idVideo);
+    const videoEncontrado = Object.values(data)
+      .flat()
+      .find((video) => video.id === idVideo);
 
     if (videoEncontrado) {
       // Construir la URL del reproductor con los parámetros
@@ -641,7 +672,9 @@ fetch("contenido.json")
         videoEncontrado.poster
       )}&perfilCanal=${encodeURIComponent(
         videoEncontrado.perfilCanal
-      )}&nombreCanal=${encodeURIComponent(videoEncontrado.nombreCanal)}&id=${videoEncontrado.id}`;
+      )}&nombreCanal=${encodeURIComponent(videoEncontrado.nombreCanal)}&id=${
+        videoEncontrado.id
+      }`;
 
       // Crear el elemento iframe
       const iframe = document.createElement("iframe");
