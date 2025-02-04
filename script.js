@@ -296,7 +296,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
 }
 
 function imagenAleatoria(contenedor){
-  contenedor.style.backgroundImage = `url("logo3.png")`
+  contenedor.style.backgroundImage = `url("logo3.png")`;
 }
 
 // Cargar el archivo JSON y mostrar el mensaje correspondiente al día actual
