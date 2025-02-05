@@ -44,11 +44,12 @@ function mostrarMensajeDelDia(mensajes, dia) {
     const container = document.getElementById("contenedor-publicaciones");
 
     const publicacionImage = document.createElement("div");
-    publicacionImage.id = 'publicacionImage';
-    publicacionImage.className = 'publicacionImage';
+    publicacionImage.id = "publicacionImage";
+    publicacionImage.className = "publicacionImage";
 
     const publicacionElem = document.createElement("div");
     publicacionElem.className = "publicacion";
+    publicacionElem.id = "publicacion";
     if (contAux % 2 === 0) {
       publicacionElem.style.animation = "izquierda 2s ease-out forwards";
     } else {
@@ -157,12 +158,12 @@ function mostrarMensajeDelDia(mensajes, dia) {
     const descargarBtn = document.createElement("button");
     descargarBtn.className = "descargar";
     descargarBtn.textContent = "Descargar jpg";
-    descargarBtn.onclick = () => descargarImagen(publicacionImage);
+    descargarBtn.onclick = () => descargarImagen(publicacionImage,publicacionElem);
 
     const copiarBtn = document.createElement("button");
     copiarBtn.className = "copiar";
     copiarBtn.textContent = "Copiar png";
-    copiarBtn.onclick = () => copiarImagen(publicacionImage);
+    copiarBtn.onclick = () => copiarImagen(publicacionImage,publicacionElem);
 
     const copiarTxt = document.createElement("button");
     copiarTxt.className = "copiar-texto";
@@ -171,7 +172,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     const imagenAleatoria = document.createElement("button");
     imagenAleatoria.className = "imagen-aleatoria";
-    imagenAleatoria.id = 'imagen-aleatoria';
+    imagenAleatoria.id = "imagen-aleatoria";
     imagenAleatoria.textContent = "Generar Imagen";
     imagenAleatoria.onclick = () => imagenAleatoriaFuncion(publicacionImage);
 
@@ -377,13 +378,13 @@ verificarProyectoJaEstado(username).then(function () {
   cargarNotaOraciones();
 });
 
-function imagenAleatoriaFuncion(elemento){
-  let imageAux = `https://picsum.photos/id/${Math.floor(Math.random()*1000)}/1080`;
+function imagenAleatoriaFuncion(elemento) {
+  let imageAux = `https://picsum.photos/id/${Math.floor(
+    Math.random() * 1000
+  )}/1080`;
   elemento.style.backgroundImage = `url("${imageAux}")`;
   console.log(imageAux);
 }
-
-
 
 function copiarTexto(elemento) {
   const titulo = elemento.querySelector(".titulo").textContent;
@@ -403,7 +404,7 @@ function copiarTexto(elemento) {
     });
 }
 
-function descargarImagen(elemento) {
+function descargarImagen(elemento, pub) {
   // Encuentra la imagen dentro del elemento
   const imagenElem = elemento.querySelector(".imagen-publicacion");
   if (imagenElem) {
@@ -418,11 +419,11 @@ function descargarImagen(elemento) {
   copiaElem.style.width = "500px"; // Ancho deseado
   copiaElem.style.height = "100%"; // Ajustar alto automáticamente
   copiaElem.style.minHeight = "500px";
-  copiaElem.stylejustifyContent = 'center';
-  copiaElem.style.alignItems = 'center';
+  copiaElem.stylejustifyContent = "center";
+  copiaElem.style.alignItems = "center";
   copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
   copiaElem.style.zIndex = "1";
-  copiaElem.style.borderRadius = '0rem';
+  copiaElem.style.borderRadius = "0rem";
 
   // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
@@ -453,27 +454,37 @@ function descargarImagen(elemento) {
   });
 }
 
-function copiarImagen(elemento) {
+function copiarImagen(elemento,pub) {
   // Encuentra la imagen dentro del elemento
   const imagenElem = elemento.querySelector(".imagen-publicacion");
   if (imagenElem) {
     imagenElem.style.maxWidth = "100%";
   }
-
-  // Crear una copia del contenedor de la publicación
   const copiaElem = elemento.cloneNode(true);
+  
+  if (pub.offsetHeight > 490) {
   copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
   copiaElem.style.top = "0";
   copiaElem.style.left = "0";
-  copiaElem.style.width = "500px"; // Ancho deseado
-  copiaElem.style.height = "100%"; // Ajustar alto automáticamente
-  copiaElem.style.minHeight = "500px";
-  copiaElem.stylejustifyContent = 'center';
-  copiaElem.style.alignItems = 'center';
-  copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
+  copiaElem.style.width = "500px"; 
+  copiaElem.style.height = "100%"; 
+  copiaElem.style.minHeight = "1200px";
+  copiaElem.style.overflow = "hidden"; 
   copiaElem.style.zIndex = "1";
-  copiaElem.style.borderRadius = '0rem';
+  copiaElem.style.borderRadius = "0rem";
+}else{
+  copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+  copiaElem.style.top = "0";
+  copiaElem.style.left = "0";
+  copiaElem.style.width = "500px"; 
+  copiaElem.style.height = "100%"; 
+  copiaElem.style.minHeight = "500px";
+  copiaElem.style.overflow = "hidden"; 
+  copiaElem.style.zIndex = "1";
+  copiaElem.style.borderRadius = "0rem";
+}
 
+  
 
   // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
@@ -587,7 +598,9 @@ document.addEventListener("DOMContentLoaded", function () {
   fragmento.appendChild(
     crearEnlace("//proyectoja.github.io", "inicio", "inicio.png", "Inicio")
   );
-  fragmento.appendChild(crearEnlace("devocional", "devocional", "devocional.png", "Devocional"));
+  fragmento.appendChild(
+    crearEnlace("devocional", "devocional", "devocional.png", "Devocional")
+  );
   fragmento.appendChild(
     crearEnlace("television", "television", "television.png", "Televisión")
   );
@@ -811,10 +824,4 @@ verAhora.addEventListener("click", function () {
 });
 
 //Carga rápida y primaria con el Dow
-document.addEventListener("DOMContentLoaded", function() {
-  
-});
-
-
-
-
+document.addEventListener("DOMContentLoaded", function () {});
