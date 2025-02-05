@@ -8,6 +8,12 @@ html {
   padding: 0%;
   background-color: black;
 }
+*{
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 .contenedorBody {
   display: flex;
   position: absolute;
@@ -35,6 +41,10 @@ html {
   box-sizing: border-box;
 }
 .welcome-container {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  width: 100%;
+  max-width: 90%;
+  margin: auto;
   text-align: center;
   animation: bajar 1s ease-in-out forwards;
 }
@@ -398,10 +408,12 @@ html {
 .publicacionImage {
   display: flex;
   position: relative;
+  background-image: url("poster/proyecto-ja.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   margin-bottom: 25px;
-  border: 1px solid #ccc;
   border-radius: 1rem;
-  background: rgb(255, 255, 255, 0.1);
   overflow: hidden;
   padding: 30px;
 }
@@ -412,7 +424,7 @@ html {
   flex-direction: column;
   padding: 15px;
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
   width: 100%;
   height: auto;
@@ -436,16 +448,16 @@ html {
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 10px;
-  color: #fff;
+  color: rgba(0, 0, 0);
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .contenido {
-  font-size: 18px;
+  font-size: 20px;
   font-style: italic;
   font-family: Arial, Helvetica, sans-serif;
-  margin-bottom: 10px;
-  color: #fff;
+  margin-bottom: 20px;
+  color: rgba(0, 0, 0, 1);
 }
 
 .subcontenido {
@@ -453,7 +465,7 @@ html {
   font-style: normal;
   font-family: "Courier New", Courier, monospace;
   margin-bottom: 10px;
-  color: #fff;
+  color: rgba(0, 0, 0);
 }
 
 .perfil {
@@ -463,12 +475,15 @@ html {
   margin-right: 10px;
   object-fit: cover;
   position: relative;
+  border: 0px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px black;
 }
 
 .fecha-hora {
   clear: both;
   font-size: 14px;
-  color: gray;
+  font-style: normal;
+  color: rgba(0, 0, 0);
   margin-bottom: 10px;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -503,7 +518,8 @@ html {
   align-items: center;
   font-size: 24px;
   font-weight: bold;
-  color: #fff;
+  color: black;
+  letter-spacing: 0px;
   margin-bottom: 5px;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -580,11 +596,13 @@ html {
   border: none;
   cursor: pointer;
   font-size: 14px;
+  box-shadow: 0 0 5px black;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .descargar:hover {
   background-color: #ccc;
+  box-shadow: 0 0 5px  black, inset 0 0 5px white;
 }
 
 .copiar {
@@ -596,11 +614,13 @@ html {
   border: none;
   cursor: pointer;
   font-size: 14px;
+  box-shadow: 0 0 5px  black;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .copiar:hover {
   background-color: #ccc;
+  box-shadow: 0 0 5px  black, inset 0 0 5px white;
 }
 
 .copiar-texto {
@@ -612,16 +632,33 @@ html {
   border: none;
   cursor: pointer;
   font-size: 14px;
+  box-shadow: 0 0 5px  black;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .copiar-texto:hover {
   background-color: #ccc;
+  box-shadow: 0 0 5px  black, inset 0 0 5px white;
 }
 
-.welcome-container {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+.imagen-aleatoria {
+  color: #000;
+  border-radius: 1rem;
+  padding: 5px 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 0 5px  black;
+  font-family: Arial, Helvetica, sans-serif;
 }
+
+.imagen-aleatoria:hover {
+  background-color: #ccc;
+  box-shadow: 0 0 5px  black, inset 0 0 5px white;
+}
+
 h1 {
   font-size: 28px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;

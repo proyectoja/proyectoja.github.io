@@ -171,8 +171,9 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     const imagenAleatoria = document.createElement("button");
     imagenAleatoria.className = "imagen-aleatoria";
+    imagenAleatoria.id = 'imagen-aleatoria';
     imagenAleatoria.textContent = "Generar Imagen";
-    imagenAleatoria.onclick = () => imagenAleatoria(publicacionImage);
+    imagenAleatoria.onclick = () => imagenAleatoriaFuncion(publicacionImage);
 
     botonesAccionElem.appendChild(descargarBtn);
     botonesAccionElem.appendChild(copiarBtn);
@@ -295,11 +296,6 @@ function mostrarMensajeDelDia(mensajes, dia) {
   }
 }
 
-function imagenAleatoria(contenedor){
-  contenedor.style.backgroundImage = `url("poster/proyecto-ja.jpg")`;
-  alert("Prueba de que sí pasó la función");
-}
-
 // Cargar el archivo JSON y mostrar el mensaje correspondiente al día actual
 // URL del archivo JSON
 const jsonUrlPROYECTOJA =
@@ -381,6 +377,14 @@ verificarProyectoJaEstado(username).then(function () {
   cargarNotaOraciones();
 });
 
+function imagenAleatoriaFuncion(elemento){
+  let imageAux = `https://picsum.photos/id/${Math.floor(Math.random()*1000)}/1080`;
+  elemento.style.backgroundImage = `url("${imageAux}")`;
+  console.log(imageAux);
+}
+
+
+
 function copiarTexto(elemento) {
   const titulo = elemento.querySelector(".titulo").textContent;
   const contenido = elemento.querySelector(".contenido").textContent;
@@ -412,9 +416,13 @@ function descargarImagen(elemento) {
   copiaElem.style.top = "0";
   copiaElem.style.left = "0";
   copiaElem.style.width = "500px"; // Ancho deseado
-  copiaElem.style.height = "auto"; // Ajustar alto automáticamente
+  copiaElem.style.height = "100%"; // Ajustar alto automáticamente
+  copiaElem.style.minHeight = "500px";
+  copiaElem.stylejustifyContent = 'center';
+  copiaElem.style.alignItems = 'center';
   copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
-  copiaElem.style.zIndex = "-1";
+  copiaElem.style.zIndex = "1";
+  copiaElem.style.borderRadius = '1rem';
 
   // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
@@ -423,7 +431,6 @@ function descargarImagen(elemento) {
   document.body.appendChild(copiaElem);
 
   html2canvas(copiaElem, {
-    backgroundColor: "#080c1c",
     scale: 3,
     useCORS: true,
   }).then((canvas) => {
@@ -464,8 +471,8 @@ function copiarImagen(elemento) {
   copiaElem.stylejustifyContent = 'center';
   copiaElem.style.alignItems = 'center';
   copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
-  copiaElem.style.zIndex = "-1";
-  copiaElem.style.borderRadius = '0rem';
+  copiaElem.style.zIndex = "1";
+  copiaElem.style.borderRadius = '1rem';
 
 
   // Ocultar botones antes de la captura
@@ -475,7 +482,6 @@ function copiarImagen(elemento) {
   document.body.appendChild(copiaElem);
 
   html2canvas(copiaElem, {
-    backgroundColor: "#080c1c",
     scale: 3,
     useCORS: true,
   }).then((canvas) => {
@@ -581,6 +587,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fragmento.appendChild(
     crearEnlace("//proyectoja.github.io", "inicio", "inicio.png", "Inicio")
   );
+  fragmento.appendChild(crearEnlace("devocional", "devocional", "devocional.png", "Devocional"));
   fragmento.appendChild(
     crearEnlace("television", "television", "television.png", "Televisión")
   );
@@ -804,4 +811,10 @@ verAhora.addEventListener("click", function () {
 });
 
 //Carga rápida y primaria con el Dow
-document.addEventListener("DOMContentLoaded", function () {});
+document.addEventListener("DOMContentLoaded", function() {
+  
+});
+
+
+
+
