@@ -158,12 +158,13 @@ function mostrarMensajeDelDia(mensajes, dia) {
     const descargarBtn = document.createElement("button");
     descargarBtn.className = "descargar";
     descargarBtn.textContent = "Descargar jpg";
-    descargarBtn.onclick = () => descargarImagen(publicacionImage,publicacionElem);
+    descargarBtn.onclick = () =>
+      descargarImagen(publicacionImage, publicacionElem);
 
     const copiarBtn = document.createElement("button");
     copiarBtn.className = "copiar";
     copiarBtn.textContent = "Copiar png";
-    copiarBtn.onclick = () => copiarImagen(publicacionImage,publicacionElem);
+    copiarBtn.onclick = () => copiarImagen(publicacionImage, publicacionElem);
 
     const copiarTxt = document.createElement("button");
     copiarTxt.className = "copiar-texto";
@@ -411,19 +412,29 @@ function descargarImagen(elemento, pub) {
     imagenElem.style.maxWidth = "100%";
   }
 
-  // Crear una copia del contenedor de la publicación
   const copiaElem = elemento.cloneNode(true);
-  copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
-  copiaElem.style.top = "0";
-  copiaElem.style.left = "0";
-  copiaElem.style.width = "500px"; // Ancho deseado
-  copiaElem.style.height = "100%"; // Ajustar alto automáticamente
-  copiaElem.style.minHeight = "500px";
-  copiaElem.stylejustifyContent = "center";
-  copiaElem.style.alignItems = "center";
-  copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
-  copiaElem.style.zIndex = "1";
-  copiaElem.style.borderRadius = "0rem";
+
+  if (pub.offsetHeight > 490) {
+    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.top = "0";
+    copiaElem.style.left = "0";
+    copiaElem.style.width = "500px";
+    copiaElem.style.height = "100%";
+    copiaElem.style.minHeight = "1200px";
+    copiaElem.style.overflow = "hidden";
+    copiaElem.style.zIndex = "1";
+    copiaElem.style.borderRadius = "0rem";
+  } else {
+    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.top = "0";
+    copiaElem.style.left = "0";
+    copiaElem.style.width = "500px";
+    copiaElem.style.height = "100%";
+    copiaElem.style.minHeight = "500px";
+    copiaElem.style.overflow = "hidden";
+    copiaElem.style.zIndex = "1";
+    copiaElem.style.borderRadius = "0rem";
+  }
 
   // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
@@ -454,37 +465,35 @@ function descargarImagen(elemento, pub) {
   });
 }
 
-function copiarImagen(elemento,pub) {
+function copiarImagen(elemento, pub) {
   // Encuentra la imagen dentro del elemento
   const imagenElem = elemento.querySelector(".imagen-publicacion");
   if (imagenElem) {
     imagenElem.style.maxWidth = "100%";
   }
   const copiaElem = elemento.cloneNode(true);
-  
-  if (pub.offsetHeight > 490) {
-  copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
-  copiaElem.style.top = "0";
-  copiaElem.style.left = "0";
-  copiaElem.style.width = "500px"; 
-  copiaElem.style.height = "100%"; 
-  copiaElem.style.minHeight = "1200px";
-  copiaElem.style.overflow = "hidden"; 
-  copiaElem.style.zIndex = "1";
-  copiaElem.style.borderRadius = "0rem";
-}else{
-  copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
-  copiaElem.style.top = "0";
-  copiaElem.style.left = "0";
-  copiaElem.style.width = "500px"; 
-  copiaElem.style.height = "100%"; 
-  copiaElem.style.minHeight = "500px";
-  copiaElem.style.overflow = "hidden"; 
-  copiaElem.style.zIndex = "1";
-  copiaElem.style.borderRadius = "0rem";
-}
 
-  
+  if (pub.offsetHeight > 490) {
+    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.top = "0";
+    copiaElem.style.left = "0";
+    copiaElem.style.width = "500px";
+    copiaElem.style.height = "100%";
+    copiaElem.style.minHeight = "1200px";
+    copiaElem.style.overflow = "hidden";
+    copiaElem.style.zIndex = "1";
+    copiaElem.style.borderRadius = "0rem";
+  } else {
+    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.top = "0";
+    copiaElem.style.left = "0";
+    copiaElem.style.width = "500px";
+    copiaElem.style.height = "100%";
+    copiaElem.style.minHeight = "500px";
+    copiaElem.style.overflow = "hidden";
+    copiaElem.style.zIndex = "1";
+    copiaElem.style.borderRadius = "0rem";
+  }
 
   // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
