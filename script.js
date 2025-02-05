@@ -422,7 +422,7 @@ function descargarImagen(elemento) {
   copiaElem.style.alignItems = 'center';
   copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
   copiaElem.style.zIndex = "1";
-  copiaElem.style.borderRadius = '1rem';
+  copiaElem.style.borderRadius = '0rem';
 
   // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
@@ -472,7 +472,7 @@ function copiarImagen(elemento) {
   copiaElem.style.alignItems = 'center';
   copiaElem.style.overflow = "hidden"; // Evitar desbordamiento
   copiaElem.style.zIndex = "1";
-  copiaElem.style.borderRadius = '1rem';
+  copiaElem.style.borderRadius = '0rem';
 
 
   // Ocultar botones antes de la captura
