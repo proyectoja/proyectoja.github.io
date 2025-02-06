@@ -38,13 +38,7 @@
   <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
 
   <style>
-    html{
-      width: 100%;
-      height: 100%;
-      padding: 0;
-      margin: 0;
-    }
-    body {
+    html,body{
       margin: 0%;
       padding: 0%;
       box-sizing: border-box;
@@ -218,21 +212,22 @@
 
 <body>
   <!-- Contenedor del reproductor -->
-  <div id="player"></div>
+  <div id="lunaradio" style="display: none;"></div>
+  <div id="player" style="display: none;"></div>
   <div id="player-container-youtube" style='
     align-items:center; 
     width: 100%; 
     height: 100%;
     background-color: gray;
-    background-color: black;
+    background-color: transparent;
     justify-content:center; 
-    display:flex;
+    display:none;
     position:relative;
     margin:auto;
     overflow:hidden;'>
     <div id="player-youtube"></div>
   </div>
-  <div id="lunaradio"></div>
+  
   <div id="lunaradio-pantalla"><img id="maximizar-pantalla" src="maximizar.png" alt=""></div>
   <div class="container-cont-principal" id="container-cont-principal">
     <img src="logo3.png"></img>
@@ -660,24 +655,31 @@
       if (url) {
         // Si es un archivo MP4
         if (url.endsWith('.mp4') || url.includes('.mp4')) {
+          document.getElementById('player').style.display = 'flex';
           initializeMp4Player(url, posterUrl);
         }
         // Si es una transmisión en vivo en formato HLS (.m3u8)
         else if (url.includes('.m3u8') && url.includes('XSTUDIOCODE')) {
+          document.getElementById('player').style.display = 'flex';
           initializeLivePlayer(url, posterUrl);
           executeChatbroScript();
         } else if (url.includes('.m3u8')) {
+          document.getElementById('player').style.display = 'flex';
           initializeLivePlayer(url, posterUrl);
           onlineDiv.innerHTML = "👁️";
           onlineDiv.style.backgroundColor = '#003399';
         } else if (url.includes('.mpd')) {
+          document.getElementById('player').style.display = 'flex';
           initializeLivePlayer(url, posterUrl);
           onlineDiv.innerHTML = "👁️";
           onlineDiv.style.backgroundColor = '#003399';
         } else if (/\.(mp3|aac|ogg|m3u|pls)(\?|#|&|\/|$)/i.test(url)) {
-          lunaRadio();
           document.getElementById('lunaradio-pantalla').style.display = 'flex';
+          lunaRadio();
+          
         } else {
+          document.getElementById('player-container-youtube').style.display = 'flex';
+          ajustarZoom();
           //Embed para youtube y listas de youtube
           if (url.length >= 12) {
             auxUrlDoce = url;
@@ -749,7 +751,7 @@
         });
       }
 
-      document.body.style.backgroundImage = `url("${posterUrl}")`;
+      document.body.style.backgroundColor = 'black';
       //Eventos muy importante
       var playerElement = document.getElementById("player");
 
