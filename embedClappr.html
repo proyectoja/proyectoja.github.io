@@ -264,6 +264,7 @@
     const idCanal = getUrlParameter('id');
 
 
+
     //Hacemos la validación para el id del json
     async function cargarDatosPrimero() {
       if (idCanal) {
@@ -677,7 +678,21 @@
           document.getElementById('lunaradio-pantalla').style.display = 'flex';
           lunaRadio();
           
-        } else {
+        }else if(url.includes('youtube.com')){
+          let youtubeUrl = new URL(url);
+          let youtubeIdV = youtubeUrl.searchParams.get('v');
+          url = youtubeIdV;
+          document.getElementById('player-container-youtube').style.display = 'flex';
+          ajustarZoom();
+          //Embed para youtube y listas de youtube
+          if (url.length >= 12) {
+            auxUrlDoce = url;
+          } else {
+            auxUrlOnce = url;
+          }
+          youtubeClappr(auxUrlOnce, auxUrlDoce);
+        }
+        else {
           document.getElementById('player-container-youtube').style.display = 'flex';
           ajustarZoom();
           //Embed para youtube y listas de youtube
