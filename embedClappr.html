@@ -38,6 +38,12 @@
   <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
 
   <style>
+    html{
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
     body {
       margin: 0%;
       padding: 0%;
@@ -56,12 +62,13 @@
       -webkit-user-select: none;
     }
 
-    *{
+    * {
       -moz-user-select: none;
       -webkit-user-drag: none;
       user-select: none;
       -webkit-user-select: none;
     }
+
     .container-cont-principal {
       display: none;
     }
@@ -192,7 +199,8 @@
       z-index: 2 !important;
       -webkit-user-drag: none;
     }
-    #lunaradio-pantalla:hover{
+
+    #lunaradio-pantalla:hover {
       background-color: rgba(255, 255, 255, 0.5);
       box-shadow: inset 0 0 10px black;
     }
@@ -211,6 +219,22 @@
 <body>
   <!-- Contenedor del reproductor -->
   <div id="player"></div>
+  <div id="player-container-youtube" style='
+    align-items:center; 
+    width: 100%; 
+    height: 100%;
+    background-color: gray;
+    background-image: url("poster/proyecto-ja.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    justify-content:center; 
+    display:flex;
+    position:relative;
+    margin:auto;
+    overflow:hidden;'>
+    <div id="player-youtube"></div>
+  </div>
   <div id="lunaradio"></div>
   <div id="lunaradio-pantalla"><img id="maximizar-pantalla" src="maximizar.png" alt=""></div>
   <div class="container-cont-principal" id="container-cont-principal">
@@ -464,6 +488,9 @@
       player.on(Clappr.Events.PLAYER_ERROR, function () {
         if (idCanal === 't1') {
           auxUrlDoce = 'PLPVicAS85pXJtwNCGdnpNr5PBm_5VCPup';
+          youtubeClappr(auxUrlOnce, auxUrlDoce);
+        } else if (idCanal === 't1000') {
+          auxUrlOnce = '4xDzrJKXOOY';
           youtubeClappr(auxUrlOnce, auxUrlDoce);
         }
       });
@@ -735,43 +762,64 @@
 
     function youtubeClappr(auxUrlOnce, auxUrlDoce) {
       if (player) {
-        player.destroy(); // Destruye el reproductor si ya está activo
+        player.destroy();
       }
+
       player = new Clappr.Player({
         source: auxUrlOnce,
-        height: "100vh",
-        width: "100%",
+        height: "360px",
+        width: "640px",
         youtubeShowRelated: true,
         youtubePlaylist: auxUrlDoce,
         plugins: [YoutubePlayback, LevelSelector],
-        parentId: "#player"
+        parentId: "#player-youtube"
       });
     }
 
+    function ajustarZoom() {
+    let container = document.getElementById("player-container-youtube");
+    let playerElement = document.getElementById("player-youtube");
+
+    let contenedorAncho = container.clientWidth;
+    let contenedorAlto = container.clientHeight;
+
+    let escalaAncho = contenedorAncho / 640; // Escala basada en el ancho
+    let escalaAlto = contenedorAlto / 360; // Escala basada en la altura
+
+    let escalaFinal = Math.min(escalaAncho, escalaAlto); // Mantener proporción
+
+    playerElement.style.transform = `scale(${escalaFinal})`;
+    //playerElement.style.transformOrigin = "top left"; // Evitar desajustes
+  }
+
+  window.addEventListener("resize", ajustarZoom);
+  ajustarZoom(); // Ajustar al cargar
+
     const pantallaAux = document.getElementById('lunaradio-pantalla');
-      const lunaAux = document.getElementById('lunaradio');
-      pantallaAux.addEventListener('click', function () {
-        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
-          let docEl = document.documentElement;
-          if (docEl.requestFullscreen) {
-            lunaAux.requestFullscreen();
-          } else if (docEl.mozRequestFullScreen) {
-            lunaAux.mozRequestFullScreen();
-          } else if (docEl.webkitRequestFullscreen) {
-            lunaAux.webkitRequestFullscreen();
-          }
-          
-        } else {
-          if (document.exitFullscreen) {
-            lunaAux.exitFullscreen();
-          } else if (document.mozCancelFullScreen) {
-            lunaAux.mozCancelFullScreen();
-          } else if (document.webkitExitFullscreen) {
-            lunaAux.webkitExitFullscreen();
-          }
-          
+    const lunaAux = document.getElementById('lunaradio');
+    pantallaAux.addEventListener('click', function () {
+      if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+        let docEl = document.documentElement;
+        if (docEl.requestFullscreen) {
+          lunaAux.requestFullscreen();
+        } else if (docEl.mozRequestFullScreen) {
+          lunaAux.mozRequestFullScreen();
+        } else if (docEl.webkitRequestFullscreen) {
+          lunaAux.webkitRequestFullscreen();
         }
-      });
+
+      } else {
+        if (document.exitFullscreen) {
+          lunaAux.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          lunaAux.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+          lunaAux.webkitExitFullscreen();
+        }
+
+      }
+    });
+
 
   </script>
 </body>
