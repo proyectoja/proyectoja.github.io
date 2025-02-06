@@ -167,20 +167,26 @@
       border-bottom-right-radius: 0px;
       border-bottom-left-radius: 0px;
       border: none;
+      z-index: 1;
     }
 
     #lunaradio-pantalla {
-      display: flex;
+      display: none;
       position: absolute;
       right: 20px;
       bottom: 20px;
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
       padding: 5px;
       background-color: rgba(0, 0, 0, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: 1rem;
       cursor: pointer;
+      z-index: 2 !important;
+    }
+    #lunaradio-pantalla:hover{
+      background-color: rgba(255, 255, 255, 0.5);
+      box-shadow: inset 0 0 10px black;
     }
 
     #maximixar-pantalla {
@@ -635,6 +641,7 @@
           onlineDiv.style.backgroundColor = '#003399';
         } else if (/\.(mp3|aac|ogg|m3u|pls)(\?|#|&|\/|$)/i.test(url)) {
           lunaRadio();
+          document.getElementById('lunaradio-pantalla').style.display = 'flex';
         } else {
           //Embed para youtube y listas de youtube
           if (url.length >= 12) {
@@ -727,16 +734,35 @@
         width: "100%",
         youtubeShowRelated: true,
         youtubePlaylist: auxUrlDoce,
-        plugins: [YoutubePlayback],
+        plugins: [YoutubePlayback, LevelSelector],
         parentId: "#player"
       });
     }
 
     const pantallaAux = document.getElementById('maximizar-pantalla');
-    const lunaAux = document.getElementById('lunaradio');
-    pantallaAux.addEventListener('click', function(){
-      lunaAux.style.display = 'none';
-    });
+      const lunaAux = document.getElementById('lunaradio');
+      pantallaAux.addEventListener('click', function () {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+          let docEl = document.documentElement;
+          if (docEl.requestFullscreen) {
+            lunaAux.requestFullscreen();
+          } else if (docEl.mozRequestFullScreen) {
+            lunaAux.mozRequestFullScreen();
+          } else if (docEl.webkitRequestFullscreen) {
+            lunaAux.webkitRequestFullscreen();
+          }
+          
+        } else {
+          if (document.exitFullscreen) {
+            lunaAux.exitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            lunaAux.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            lunaAux.webkitExitFullscreen();
+          }
+          
+        }
+      });
 
   </script>
 </body>
