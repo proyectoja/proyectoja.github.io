@@ -482,9 +482,13 @@
       });
       player.on(Clappr.Events.PLAYER_ERROR, function () {
         if (idCanal === 't1') {
+          document.getElementById('player-container-youtube').style.display = 'flex';
+          ajustarZoom();
           auxUrlDoce = 'PLPVicAS85pXJtwNCGdnpNr5PBm_5VCPup';
           youtubeClappr(auxUrlOnce, auxUrlDoce);
         } else if (idCanal === 't1000') {
+          document.getElementById('player-container-youtube').style.display = 'flex';
+          ajustarZoom();
           auxUrlOnce = '4xDzrJKXOOY';
           youtubeClappr(auxUrlOnce, auxUrlDoce);
         }
