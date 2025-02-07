@@ -1052,3 +1052,31 @@ h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+/*Contenedor anuncio barra inferior*/
+.contenedor-barra-inferior
+#contenedorAnuncio1{
+  display: flex;
+  position: fixed;
+  bottom: 35px;
+  padding: 0;
+  background-color: transparent;
+  pointer-events: none;
+  width: 100%;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+.contenedor-barra-inferior
+#anuncio-container1,
+#anuncio-container11,
+#anuncio-container111{
+  display: flex;
+  position: relative;
+  width: auto;
+  height: 60px;
+  gap: 10px;
+  background-color: transparent;
+  transform: scale(0.7);
+}
+

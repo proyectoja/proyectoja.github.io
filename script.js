@@ -234,8 +234,8 @@ function mostrarMensajeDelDia(mensajes, dia) {
     cabeceraElem.appendChild(perfilElem);
     cabeceraElem.appendChild(infoElem);
     //Importante
-    publicacionImage.appendChild(publicacionElem);
     publicacionElem.appendChild(cabeceraElem);
+
     if (mensajeDelDia.imagen) {
       const imagenElem = document.createElement("img");
       imagenElem.className = "imagen-publicacion";
@@ -291,6 +291,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
       ventanaFlotante.style.display = "none";
     });
 
+    publicacionImage.appendChild(publicacionElem);
     container.appendChild(publicacionImage);
   } else {
     document.getElementById("mensajeContainer").innerHTML =
@@ -617,6 +618,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Agregar todo al contenedor sin perder datos previos
   contenedor.appendChild(fragmento);
+
+  ///////////////////////////////////
+  //Creacción anuncio encima para la barra inferior para todas las páginas
+  const contenedorBarraAnuncio = document.querySelector(
+    ".contenedor-barra-inferior"
+  );
+  const contenedorAnuncio1 = document.createElement('div')
+  contenedorAnuncio1.id = 'contenedorAnuncio1';
+  contenedorBarraAnuncio.appendChild(contenedorAnuncio1);
+  const anuncioElem1 = document.createElement("div");
+  anuncioElem1.id = "anuncio-container1";
+  contenedorAnuncio1.appendChild(anuncioElem1);
+  const anuncioElem11 = document.createElement("div");
+  anuncioElem11.id = "anuncio-container11";
+  contenedorAnuncio1.appendChild(anuncioElem11);
+  const anuncioElem111 = document.createElement("div");
+  anuncioElem111.id = "anuncio-container111";
+  contenedorAnuncio1.appendChild(anuncioElem111);
+
+
+  const anuncioElem2 = document.createElement("div");
+  anuncioElem2.id = "anuncio-container2";
+  
+  const anuncioElem3 = document.createElement("div");
+  anuncioElem3.id = "anuncio-container3";
+  
+  anunciosAdsterra();
 });
 
 //////////////////////////////////////////////
@@ -834,3 +862,168 @@ verAhora.addEventListener("click", function () {
 
 //Carga rápida y primaria con el Dow
 document.addEventListener("DOMContentLoaded", function () {});
+
+///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//MANEJADOR AUTOMÁTICO DE ANUNCIOS PUBLICITARIOS
+
+function anunciosAdsterra() {
+  let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
+  const limite = 10; // Número de veces que los anuncios se mostrarán antes de la pausa
+  const pausa = 5 * 60 * 1000; // 5 minutos en milisegundos
+  let intervaloID; // Variable para almacenar el ID del intervalo
+
+  // Función para actualizar los anuncios
+  function actualizarAnuncios() {
+    if (contador < limite) {
+      // Actualizar los tres anuncios
+      actualizarAnuncio1();
+      setTimeout(actualizarAnuncio2, 500);
+      setTimeout(actualizarAnuncio3, 1000);
+      contador++;
+    } else {
+      // Pausa de 5 minutos
+      console.log("Pausa de 5 minutos...");
+      setTimeout(() => {
+        contador = 0; // Reiniciar el contador después de la pausa
+        console.log("Reiniciando presentación de anuncios...");
+        actualizarAnuncios(); // Volver a mostrar los anuncios después de la pausa
+      }, pausa);
+    }
+  }
+
+  // Funciones para actualizar cada uno de los anuncios
+  function actualizarAnuncio1() {
+    const anuncioContainer = document.getElementById("anuncio-container1");
+    anuncioContainer.innerHTML = "";
+
+    const scriptElem = document.createElement("script");
+    scriptElem.type = "text/javascript";
+    window.atOptions = {
+      key: "5f392f22d133fff7ad6704df675beeb2",
+      format: "iframe",
+      height: 60,
+      width: 468,
+      params: {},
+    };
+    scriptElem.src =
+      "//www.profitablecreativeformat.com/5f392f22d133fff7ad6704df675beeb2/invoke.js";
+    anuncioContainer.appendChild(scriptElem);
+
+
+
+    const anuncioContainer11 = document.getElementById("anuncio-container11");
+    anuncioContainer11.innerHTML = "";
+
+    setTimeout(() => {
+      const scriptElem11 = document.createElement("script");
+    scriptElem11.type = "text/javascript";
+    window.atOptions = {
+      key: "5f392f22d133fff7ad6704df675beeb2",
+      format: "iframe",
+      height: 60,
+      width: 468,
+      params: {},
+    };
+    scriptElem11.src =
+      "//www.profitablecreativeformat.com/5f392f22d133fff7ad6704df675beeb2/invoke.js";
+    anuncioContainer11.appendChild(scriptElem11);
+    }, 500);
+
+
+
+    const anuncioContainer111 = document.getElementById("anuncio-container111");
+    anuncioContainer111.innerHTML = "";
+
+    setTimeout(() => {
+      const scriptElem111 = document.createElement("script");
+    scriptElem111.type = "text/javascript";
+    window.atOptions = {
+      key: "5f392f22d133fff7ad6704df675beeb2",
+      format: "iframe",
+      height: 60,
+      width: 468,
+      params: {},
+    };
+    scriptElem111.src =
+      "//www.profitablecreativeformat.com/5f392f22d133fff7ad6704df675beeb2/invoke.js";
+    anuncioContainer111.appendChild(scriptElem111);
+    }, 1000);
+  }
+
+  function actualizarAnuncio2() {
+    const anuncioContainer = document.getElementById("anuncio-container2");
+    anuncioContainer.innerHTML = "";
+
+    const scriptElem = document.createElement("script");
+    scriptElem.type = "text/javascript";
+    window.atOptions = {
+      key: "5087bca611db89252f1fe5a993e26a54",
+      format: "iframe",
+      height: 90,
+      width: 728,
+      params: {},
+    };
+    scriptElem.src =
+      "//www.topcreativeformat.com/5087bca611db89252f1fe5a993e26a54/invoke.js";
+    anuncioContainer.appendChild(scriptElem);
+  }
+
+  function actualizarAnuncio3() {
+    const anuncioContainer = document.getElementById("anuncio-container3");
+    anuncioContainer.innerHTML = "";
+
+    const scriptElem = document.createElement("script");
+    scriptElem.type = "text/javascript";
+    window.atOptions = {
+      key: "1d1ae1152780bd736b475f226c17a8a6",
+      format: "iframe",
+      height: 600,
+      width: 160,
+      params: {},
+    };
+    scriptElem.src =
+      "//www.topcreativeformat.com/1d1ae1152780bd736b475f226c17a8a6/invoke.js";
+    anuncioContainer.appendChild(scriptElem);
+  }
+
+  // Función para iniciar la actualización de anuncios
+  function iniciarActualizacion() {
+    if (!intervaloID) {
+      console.log("Iniciando actualización de anuncios...");
+      intervaloID = setInterval(actualizarAnuncios, 20000);
+    }
+  }
+
+  // Función para detener la actualización de anuncios
+  function detenerActualizacion() {
+    if (intervaloID) {
+      clearInterval(intervaloID);
+      intervaloID = null;
+      console.log("Actualización de anuncios detenida.");
+    }
+  }
+
+  // Detectar cuando la pestaña está visible o el mouse está en la pestaña
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      iniciarActualizacion();
+    } else {
+      detenerActualizacion();
+    }
+  });
+
+  window.addEventListener("mousemove", () => {
+    if (document.visibilityState === "visible") {
+      iniciarActualizacion();
+    }
+  });
+
+  // Inicia la actualización si la página está visible al cargar
+  if (document.visibilityState === "visible") {
+    iniciarActualizacion();
+  }
+}
