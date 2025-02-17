@@ -262,6 +262,7 @@
     let nombreCanal = getUrlParameter('nombreCanal') || 'PROYECTO JA';
     let perfilCanal = getUrlParameter('perfilCanal') || 'perfilCanal/proyecto-ja.png';
     const idCanal = getUrlParameter('id');
+    let retornoUrl = getUrlParameter('rU');
 
 
 
@@ -657,7 +658,7 @@
     let tipoVentana = 'big';
     function funcionInicial() {
       // Comprobamos si el parámetro 'video' existe
-      if (url) {
+      if (url && !retornoUrl) {
         // Si es un archivo MP4
         if (url.endsWith('.mp4') || url.includes('.mp4')) {
           document.getElementById('player').style.display = 'flex';
@@ -707,6 +708,9 @@
           }
           youtubeClappr(auxUrlOnce, auxUrlDoce);
         }
+      } else if(retornoUrl === "1"){
+        //Devuelve la URL
+        window.location.href = url;
       } else {
         const fondoPlayer = document.getElementById('player');
         fondoPlayer.style.backgroundImage = `url("error-404.jpg")`;
