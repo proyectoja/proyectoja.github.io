@@ -96,6 +96,18 @@
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             letter-spacing: 1px;
         }
+        .contenedor-cont-pelis{
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: auto;
+            color: white;
+            font-size: 16px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-style: italic;
+            justify-content: center;
+            align-items: center;
+        }
 
         /* Para pantallas grandes (computadoras y laptops) */
         @media (min-width: 1024px) {
@@ -140,13 +152,15 @@
 </head>
 
 <body>
+    <div class="contenedor-cont-pelis">Total: 0 películas</div>
     <div class="contenedor-principal">
-        <div class="contenedor-lista">
-        </div>
+        <div class="contenedor-lista"></div>
     </div>
 </body>
 <script>
     const contenedorLista = document.querySelector('.contenedor-lista');
+    const contenedorContPelis = document.querySelector('.contenedor-cont-pelis');
+    let contPelis = 0;
 
     // Función para cargar los datos desde el archivo JSON
     fetch("https://proyectoja.github.io/contenido.json")
@@ -156,8 +170,11 @@
             data.peliculas.forEach((video) => {
                 if(video.titulo){
                     crearCarteles(video);
+                    contPelis += 1;
+                    contenedorContPelis.textContent = `Total: ${contPelis} películas.`;
                 }
             })
+            
                 .catch((error) => {
                     console.error("Error al cargar el archivo JSON:", error);
                 });
