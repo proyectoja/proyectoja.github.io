@@ -28,9 +28,10 @@
         .contenedor-principal {
             display: flex;
             position: relative;
+            flex-direction: column;
             width: 100%;
             height: 100%;
-            background-color: blue;
+            background-color: transparent;
             z-index: 1;
         }
 
@@ -60,7 +61,8 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             text-align: center;
         }
-        .contenedor-lista .contenedor-video:hover{
+
+        .contenedor-lista .contenedor-video:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
 
@@ -82,8 +84,8 @@
             word-wrap: break-word;
             color: white;
         }
-        .contenedor-video
-        .contenedor-calidad{
+
+        .contenedor-video .contenedor-calidad {
             display: flex;
             position: absolute;
             right: 0;
@@ -101,7 +103,8 @@
             text-align: center;
             text-shadow: 0 0 10px rgb(255, 255, 255);
         }
-        .contenedor-cont-pelis{
+
+        .contenedor-cont-pelis {
             display: flex;
             position: relative;
             width: 100%;
@@ -112,6 +115,24 @@
             font-style: italic;
             justify-content: center;
             align-items: center;
+        }
+
+        .contenedor-lateral-derecho {
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            top: 0;
+            right: 0;
+            width: 0px;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            overflow-y: auto;
+            background-color: black;
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+
+            z-index: 4;
         }
 
         /* Para pantallas grandes (computadoras y laptops) */
@@ -145,41 +166,70 @@
                 /* 1 columna */
             }
         }
-        
+
         @media (max-width: 250px) {
             .contenedor-lista {
                 grid-template-columns: repeat(1, 1fr);
                 /* 1 columna */
             }
         }
-        
     </style>
 </head>
 
 <body>
-    <div class="contenedor-cont-pelis">Total: 0 películas</div>
+
     <div class="contenedor-principal">
+        <div class="contenedor-cont-pelis">Total: 0 películas</div>
         <div class="contenedor-lista"></div>
+    </div>
+    <div class="contenedor-lateral-derecho">
+        <h3>Contadores</h3>
+        <!-- BEGIN: Powered by Supercounters.com -->
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script>
+            <script type="text/javascript">sc_online_i(1709265, "ffffff", "000000");</script><br><noscript><a
+                    href="https://www.supercounters.com/">free online counter</a></noscript>
+        </center>
+        <!-- END: Powered by Supercounters.com -->
+        <!-- BEGIN: Powered by Supercounters.com -->
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/vt.js"></script>
+            <script
+                type="text/javascript">var sc_visitor_var = sc_visitor_var || []; sc_vt(1709266, "000000", "ffffff", "ffffff", 10)</script>
+            <br><noscript><a href="http://www.supercounters.com/">free online counter</a></noscript>
+        </center>
+        <!-- END: Powered by Supercounters.com -->
+        <!-- BEGIN: Powered by Supercounters.com -->
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/flag.js"></script>
+            <script type="text/javascript">sc_flag(1709261, "000000", "FFFFFF", "FFFFFF", 2, 100, 0, 0)</script>
+            <br><noscript><a href="http://www.supercounters.com/">Flag Counter</a></noscript>
+        </center>
+        <!-- END: Powered by Supercounters.com -->
     </div>
 </body>
 <script>
     const contenedorLista = document.querySelector('.contenedor-lista');
     const contenedorContPelis = document.querySelector('.contenedor-cont-pelis');
+    contenedorContPelis.style.cursor = 'pointer';
     let contPelis = 0;
 
+    contenedorContPelis.addEventListener('click', function () {
+        document.querySelector('.contenedor-lateral-derecho').style.width = document.querySelector('.contenedor-lateral-derecho').style.width === '0px' ? '250px' : '0px';
+    });
     // Función para cargar los datos desde el archivo JSON
     fetch("contenido.json")
         .then((response) => response.json()) // Convierte la respuesta en JSON
         .then((data) => {
             //Modificar y validar según se agregen categorías del menú
             data.peliculas.forEach((video) => {
-                if(video.titulo){
+                if (video.titulo) {
                     crearCarteles(video);
                     contPelis += 1;
                     contenedorContPelis.textContent = `Total: ${contPelis} películas.`;
                 }
             })
-            
+
                 .catch((error) => {
                     console.error("Error al cargar el archivo JSON:", error);
                 });
@@ -194,13 +244,13 @@
 
                 const calidadAux = document.createElement('div');
                 calidadAux.className = 'contenedor-calidad';
-                if(cartel.calidad === '1'){
+                if (cartel.calidad === '1') {
                     calidadAux.textContent = 'SD';
-                }else if(cartel.calidad === '2'){
+                } else if (cartel.calidad === '2') {
                     calidadAux.textContent = 'HD';
-                }else if(cartel.calidad === '3'){
+                } else if (cartel.calidad === '3') {
                     calidadAux.textContent = 'FULLHD';
-                }else if(cartel.calidad === '4'){
+                } else if (cartel.calidad === '4') {
                     calidadAux.textContent = '60FPS';
                 }
                 videoItem.appendChild(calidadAux);
