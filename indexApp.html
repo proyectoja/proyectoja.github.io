@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APP</title>
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        * {
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .contenedor-principal {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: blue;
+            z-index: 1;
+        }
+
+        .contenedor-principal .contenedor-lista {
+            display: grid;
+            gap: 5px;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            overflow-y: auto;
+            z-index: 2;
+            background-color: rgb(0, 0, 0);
+            padding-top: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .contenedor-principal .contenedor-lista .contenedor-video {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            background-color: rgb(0, 0, 0);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .contenedor-lista .contenedor-video:hover{
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .contenedor-video img {
+            width: 100%;
+            height: auto;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            object-fit: contain;
+            background-color: white;
+        }
+
+        .contenedor-video h3 {
+            font-size: 18px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: normal;
+            white-space: normal;
+            word-wrap: break-word;
+            color: white;
+        }
+        .contenedor-video
+        .contenedor-calidad{
+            display: flex;
+            position: absolute;
+            right: 0;
+            padding: 2px;
+            margin-top: 3px;
+            margin-right: 3px;
+            border: 1px solid rgb(255, 255, 0);
+            background-color: black;
+            color: white;
+            font-size: 10px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Para pantallas grandes (computadoras y laptops) */
+        @media (min-width: 1024px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(9, 1fr);
+                /* 4 columnas */
+            }
+        }
+
+        /* Para tablets */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(6, 1fr);
+                /* 3 columnas */
+            }
+        }
+
+        /* Para celulares */
+        @media (max-width: 767px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(3, 1fr);
+                /* 2 columnas */
+            }
+        }
+
+        /* Para celulares muy pequeños */
+        @media (max-width: 480px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(1, 1fr);
+                /* 1 columna */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor-principal">
+        <div class="contenedor-lista">
+        </div>
+    </div>
+</body>
+<script>
+    const contenedorLista = document.querySelector('.contenedor-lista');
+
+    // Función para cargar los datos desde el archivo JSON
+    fetch("contenido.json")
+        .then((response) => response.json()) // Convierte la respuesta en JSON
+        .then((data) => {
+            //Modificar y validar según se agregen categorías del menú
+            data.peliculas.forEach((video) => {
+                crearCarteles(video);
+            })
+                .catch((error) => {
+                    console.error("Error al cargar el archivo JSON:", error);
+                });
+
+            function crearCarteles(cartel) {
+                const videoItem = document.createElement("div");
+                videoItem.classList.add("contenedor-video");
+                videoItem.onclick = function () {
+                    window.open("embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
+                };
+                videoItem.style.cursor = "pointer";
+
+                const calidadAux = document.createElement('div');
+                calidadAux.className = 'contenedor-calidad';
+                if(cartel.calidad === '1'){
+                    calidadAux.textContent = 'SD';
+                }else if(cartel.calidad === '2'){
+                    calidadAux.textContent = 'HD';
+                }else if(cartel.calidad === '3'){
+                    calidadAux.textContent = 'FULLHD';
+                }else if(cartel.calidad === '4'){
+                    calidadAux.textContent = '60FPS';
+                }
+                videoItem.appendChild(calidadAux);
+
+                const poster = document.createElement("img");
+                poster.src = cartel.miniatura;
+                poster.alt = cartel.nombreCanal;
+
+                const title = document.createElement("h3");
+                title.textContent = cartel.titulo;
+
+                videoItem.appendChild(poster);
+                videoItem.appendChild(title);
+
+                //Modificar y validar según se agregen categorías del menú
+                contenedorLista.appendChild(videoItem);
+            }
+
+        });
+</script>
+
+</html>
