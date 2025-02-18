@@ -124,10 +124,18 @@
         /* Para celulares muy pequeños */
         @media (max-width: 480px) {
             .contenedor-lista {
+                grid-template-columns: repeat(2, 1fr);
+                /* 1 columna */
+            }
+        }
+        
+        @media (max-width: 250px) {
+            .contenedor-lista {
                 grid-template-columns: repeat(1, 1fr);
                 /* 1 columna */
             }
         }
+        
     </style>
 </head>
 
@@ -158,7 +166,7 @@
                 const videoItem = document.createElement("div");
                 videoItem.classList.add("contenedor-video");
                 videoItem.onclick = function () {
-                    window.open("embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
+                    window.open("https://proyectoja.github.io/embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
                 };
                 videoItem.style.cursor = "pointer";
 
