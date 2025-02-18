@@ -168,7 +168,7 @@
     let contPelis = 0;
 
     // Función para cargar los datos desde el archivo JSON
-    fetch("https://proyectoja.github.io/contenido.json")
+    fetch("contenido.json")
         .then((response) => response.json()) // Convierte la respuesta en JSON
         .then((data) => {
             //Modificar y validar según se agregen categorías del menú
@@ -188,7 +188,7 @@
                 const videoItem = document.createElement("div");
                 videoItem.classList.add("contenedor-video");
                 videoItem.onclick = function () {
-                    window.open("https://proyectoja.github.io/embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
+                    window.open("embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
                 };
                 videoItem.style.cursor = "pointer";
 
