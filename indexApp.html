@@ -79,8 +79,19 @@
         }
 
         .contenedor-video h3 {
-            bottom: 0;
+            margin: 10px;
+            padding: 0;
             font-size: 18px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: normal;
+            white-space: normal;
+            word-wrap: break-word;
+            color: white;
+        }
+        .contenedor-video h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-weight: normal;
             white-space: normal;
@@ -263,8 +274,12 @@
                 const title = document.createElement("h3");
                 title.textContent = cartel.titulo;
 
+                const h3Fecha = document.createElement("h2");
+                h3Fecha.textContent = cartel.fecha + " | " + cartel.duracion;
+
                 videoItem.appendChild(poster);
                 videoItem.appendChild(title);
+                videoItem.appendChild(h3Fecha);
 
                 //Modificar y validar según se agregen categorías del menú
                 contenedorLista.appendChild(videoItem);
