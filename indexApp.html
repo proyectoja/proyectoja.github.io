@@ -37,6 +37,7 @@
 
         .contenedor-principal .contenedor-lista {
             display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
             gap: 5px;
             position: relative;
             width: 100%;
@@ -55,6 +56,7 @@
             position: relative;
             flex-direction: column;
             width: 100%;
+            min-width: 192px;
             height: 100%;
             z-index: 3;
             background-color: rgb(0, 0, 0);
@@ -77,6 +79,7 @@
         }
 
         .contenedor-video h3 {
+            bottom: 0;
             font-size: 18px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-weight: normal;
@@ -135,43 +138,24 @@
             z-index: 4;
         }
 
-        /* Para pantallas grandes (computadoras y laptops) */
-        @media (min-width: 1024px) {
-            .contenedor-lista {
-                grid-template-columns: repeat(9, 1fr);
-                /* 4 columnas */
-            }
-        }
-
-        /* Para tablets */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .contenedor-lista {
-                grid-template-columns: repeat(6, 1fr);
-                /* 3 columnas */
-            }
-        }
-
-        /* Para celulares */
-        @media (max-width: 767px) {
-            .contenedor-lista {
-                grid-template-columns: repeat(3, 1fr);
-                /* 2 columnas */
-            }
-        }
-
-        /* Para celulares muy pequeños */
-        @media (max-width: 480px) {
-            .contenedor-lista {
-                grid-template-columns: repeat(2, 1fr);
-                /* 1 columna */
-            }
-        }
-
-        @media (max-width: 250px) {
-            .contenedor-lista {
-                grid-template-columns: repeat(1, 1fr);
-                /* 1 columna */
-            }
+        .contenedor-estreno {
+            display: flex;
+            position: absolute;
+            top: 25px;
+            right: 0;
+            padding: 2px;
+            margin-top: 3px;
+            margin-right: 3px;
+            border: 1px solid red;
+            background-color: black;
+            color: white;
+            font-size: 12px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            letter-spacing: 1px;
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 10px white;
         }
     </style>
 </head>
@@ -221,6 +205,7 @@
     fetch("contenido.json")
         .then((response) => response.json()) // Convierte la respuesta en JSON
         .then((data) => {
+            data.peliculas.sort((a, b) => b.fecha - a.fecha);
             //Modificar y validar según se agregen categorías del menú
             data.peliculas.forEach((video) => {
                 if (video.titulo) {
@@ -233,6 +218,11 @@
                 .catch((error) => {
                     console.error("Error al cargar el archivo JSON:", error);
                 });
+
+            function esEstreno(anioPelicula) {
+                const anioActual = new Date().getFullYear(); // Obtiene el año actual
+                return anioPelicula === anioActual;
+            }
 
             function crearCarteles(cartel) {
                 const videoItem = document.createElement("div");
@@ -254,6 +244,17 @@
                     calidadAux.textContent = '60FPS';
                 }
                 videoItem.appendChild(calidadAux);
+
+                const estrenoAux = document.createElement('div');
+                estrenoAux.className = 'contenedor-estreno';
+                estrenoAux.textContent = "Estreno";
+                let fechaAux = typeof cartel.fecha === 'string' && cartel.fecha.includes('-')
+                    ? new Date(cartel.fecha).getFullYear()
+                    : Number(cartel.fecha);
+
+                if (esEstreno(fechaAux)) {
+                    videoItem.appendChild(estrenoAux);
+                }
 
                 const poster = document.createElement("img");
                 poster.src = cartel.miniatura;
