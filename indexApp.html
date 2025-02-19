@@ -157,6 +157,45 @@
             text-align: center;
             text-shadow: 0 0 10px white;
         }
+
+        /* Para pantallas grandes (computadoras y laptops) */
+        @media (min-width: 1024px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(9, 1fr);
+                /* 4 columnas */
+            }
+        }
+
+        /* Para tablets */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(6, 1fr);
+                /* 3 columnas */
+            }
+        }
+
+        /* Para celulares */
+        @media (max-width: 767px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(3, 1fr);
+                /* 2 columnas */
+            }
+        }
+
+        /* Para celulares muy pequeños */
+        @media (max-width: 480px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(2, 1fr);
+                /* 1 columna */
+            }
+        }
+
+        @media (max-width: 250px) {
+            .contenedor-lista {
+                grid-template-columns: repeat(1, 1fr);
+                /* 1 columna */
+            }
+        }
     </style>
 </head>
 
