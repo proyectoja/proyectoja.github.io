@@ -168,6 +168,30 @@
             text-align: center;
             text-shadow: 0 0 10px white;
         }
+        .contenedor-buscador{
+            display: flex;
+            position: absolute;
+            overflow: hidden;
+            bottom: 10px;
+            width: 100%;
+            height: auto;
+            justify-content: center;
+            background-color: transparent;
+            z-index: 5;
+        }
+        #buscar{
+            display: flex;
+            position: relative;
+            background-color: black;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1rem;
+            padding: 10px;
+            font-size: 24px;
+            width: auto;
+            color: white;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+        }
     </style>
 </head>
 
@@ -176,6 +200,9 @@
     <div class="contenedor-principal">
         <div class="contenedor-cont-pelis">Total: 0 películas</div>
         <div class="contenedor-lista"></div>
+    </div>
+    <div class="contenedor-buscador">
+        <input type="search" id="buscar" placeholder="Buscar...">
     </div>
     <div class="contenedor-lateral-derecho">
         <h3>Contadores</h3>
