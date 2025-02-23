@@ -50,12 +50,12 @@ function mostrarMensajeDelDia(mensajes, dia) {
     const publicacionElem = document.createElement("div");
     publicacionElem.className = "publicacion";
     publicacionElem.id = "publicacion";
-    if (contAux % 2 === 0) {
+    /*if (contAux % 2 === 0) {
       publicacionElem.style.animation = "izquierda 2s ease-out forwards";
     } else {
       publicacionElem.style.animation = "derecha 2s ease-out forwards";
     }
-    contAux += 1;
+    contAux += 1;*/
 
     const cabeceraElem = document.createElement("div");
     cabeceraElem.className = "cabecera-publicacion";
