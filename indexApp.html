@@ -37,7 +37,7 @@
 
         .contenedor-principal .contenedor-lista {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+            grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
             gap: 5px;
             position: relative;
             width: 100%;
@@ -88,6 +88,7 @@
             word-wrap: break-word;
             color: white;
         }
+
         .contenedor-video h2 {
             margin: 0;
             padding: 0;
@@ -146,7 +147,7 @@
             background-color: black;
             border-left: 1px solid rgba(255, 255, 255, 0.5);
 
-            z-index: 4;
+            z-index: 9999;
         }
 
         .contenedor-estreno {
@@ -168,27 +169,33 @@
             text-align: center;
             text-shadow: 0 0 10px white;
         }
-        .contenedor-buscador{
+
+        .contenedor-buscador {
             display: flex;
             position: absolute;
             overflow: hidden;
             bottom: 10px;
             width: 100%;
-            height: auto;
+            height: 35px;
             justify-content: center;
             background-color: transparent;
-            z-index: 5;
+            z-index: 4;
         }
-        #buscar{
+
+        #buscar {
             display: flex;
             position: relative;
             background-color: black;
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 1rem;
             padding: 10px;
-            font-size: 24px;
-            width: auto;
+            font-size: 20px;
+            margin: auto;
+            width: 100%;
+            max-width: 90%;
+            height: 100%;
             color: white;
+            text-align: center;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
 
         }
@@ -202,7 +209,7 @@
         <div class="contenedor-lista"></div>
     </div>
     <div class="contenedor-buscador">
-        <input type="search" id="buscar" placeholder="Buscar...">
+        <input type="search" id="buscar" placeholder="...Buscar película...">
     </div>
     <div class="contenedor-lateral-derecho">
         <h3>Contadores</h3>
@@ -235,12 +242,13 @@
     const contenedorContPelis = document.querySelector('.contenedor-cont-pelis');
     contenedorContPelis.style.cursor = 'pointer';
     let contPelis = 0;
+    const jsonUrl = "contenido.json";
 
     contenedorContPelis.addEventListener('click', function () {
         document.querySelector('.contenedor-lateral-derecho').style.width = document.querySelector('.contenedor-lateral-derecho').style.width === '0px' ? '250px' : '0px';
     });
     // Función para cargar los datos desde el archivo JSON
-    fetch("contenido.json")
+    fetch(jsonUrl)
         .then((response) => response.json()) // Convierte la respuesta en JSON
         .then((data) => {
             data.peliculas.sort((a, b) => b.fecha - a.fecha);
@@ -250,69 +258,99 @@
                     crearCarteles(video);
                     contPelis += 1;
                     contenedorContPelis.textContent = `Total: ${contPelis} películas.`;
+                    peliculasArreglo = data.peliculas;
                 }
             })
 
                 .catch((error) => {
                     console.error("Error al cargar el archivo JSON:", error);
                 });
-
-            function esEstreno(anioPelicula) {
-                const anioActual = new Date().getFullYear(); // Obtiene el año actual
-                return anioPelicula === anioActual;
-            }
-
-            function crearCarteles(cartel) {
-                const videoItem = document.createElement("div");
-                videoItem.classList.add("contenedor-video");
-                videoItem.onclick = function () {
-                    window.open("embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
-                };
-                videoItem.style.cursor = "pointer";
-
-                const calidadAux = document.createElement('div');
-                calidadAux.className = 'contenedor-calidad';
-                if (cartel.calidad === '1') {
-                    calidadAux.textContent = 'SD';
-                } else if (cartel.calidad === '2') {
-                    calidadAux.textContent = 'HD';
-                } else if (cartel.calidad === '3') {
-                    calidadAux.textContent = 'FULLHD';
-                } else if (cartel.calidad === '4') {
-                    calidadAux.textContent = '60FPS';
-                }
-                videoItem.appendChild(calidadAux);
-
-                const estrenoAux = document.createElement('div');
-                estrenoAux.className = 'contenedor-estreno';
-                estrenoAux.textContent = "Estreno";
-                let fechaAux = typeof cartel.fecha === 'string' && cartel.fecha.includes('-')
-                    ? new Date(cartel.fecha).getFullYear()
-                    : Number(cartel.fecha);
-
-                if (esEstreno(fechaAux)) {
-                    videoItem.appendChild(estrenoAux);
-                }
-
-                const poster = document.createElement("img");
-                poster.src = cartel.miniatura;
-                poster.alt = cartel.nombreCanal;
-
-                const title = document.createElement("h3");
-                title.textContent = cartel.titulo;
-
-                const h3Fecha = document.createElement("h2");
-                h3Fecha.textContent = cartel.fecha + " | " + cartel.duracion;
-
-                videoItem.appendChild(poster);
-                videoItem.appendChild(title);
-                videoItem.appendChild(h3Fecha);
-
-                //Modificar y validar según se agregen categorías del menú
-                contenedorLista.appendChild(videoItem);
-            }
-
         });
+
+    function esEstreno(anioPelicula) {
+        const anioActual = new Date().getFullYear(); // Obtiene el año actual
+        return anioPelicula === anioActual;
+    }
+
+    function crearCarteles(cartel) {
+        const videoItem = document.createElement("div");
+        videoItem.classList.add("contenedor-video");
+        videoItem.onclick = function () {
+            window.open("embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
+        };
+        videoItem.style.cursor = "pointer";
+
+        const calidadAux = document.createElement('div');
+        calidadAux.className = 'contenedor-calidad';
+        if (cartel.calidad === '1') {
+            calidadAux.textContent = 'SD';
+        } else if (cartel.calidad === '2') {
+            calidadAux.textContent = 'HD';
+        } else if (cartel.calidad === '3') {
+            calidadAux.textContent = 'FULLHD';
+        } else if (cartel.calidad === '4') {
+            calidadAux.textContent = '60FPS';
+        }
+        videoItem.appendChild(calidadAux);
+
+        const estrenoAux = document.createElement('div');
+        estrenoAux.className = 'contenedor-estreno';
+        estrenoAux.textContent = "Estreno";
+        let fechaAux = typeof cartel.fecha === 'string' && cartel.fecha.includes('-')
+            ? new Date(cartel.fecha).getFullYear()
+            : Number(cartel.fecha);
+
+        if (esEstreno(fechaAux)) {
+            videoItem.appendChild(estrenoAux);
+        }
+
+        const poster = document.createElement("img");
+        poster.src = cartel.miniatura;
+        poster.loading = "lazy";
+        poster.alt = cartel.nombreCanal;
+
+        const title = document.createElement("h3");
+        title.textContent = cartel.titulo;
+
+        const h3Fecha = document.createElement("h2");
+        h3Fecha.textContent = cartel.fecha + " | " + cartel.duracion;
+
+        videoItem.appendChild(poster);
+        videoItem.appendChild(title);
+        videoItem.appendChild(h3Fecha);
+
+        //Modificar y validar según se agregen categorías del menú
+        contenedorLista.appendChild(videoItem);
+    }
+
+    const inputBuscar = document.getElementById("buscar");
+let peliculasArreglo = [];
+
+function filtrarPeliculas() {
+    const consulta = inputBuscar.value.trim().toLowerCase();
+
+    // Limpiar el contenedor antes de agregar nuevos resultados
+    contenedorLista.innerHTML = "";
+
+    // Si no hay consulta, mostrar todas las películas
+    if (consulta === "") {
+        peliculasArreglo.forEach(pelicula => {
+            if (pelicula.titulo) {
+                crearCarteles(pelicula);
+            }
+        });
+    } else if (consulta.length > 3) {
+        const resultados = peliculasArreglo.filter(pelicula =>
+            pelicula.titulo.toLowerCase().includes(consulta)
+        );
+        resultados.forEach(crearCarteles);
+    }
+}
+
+// Evento para la búsqueda en tiempo real
+inputBuscar.addEventListener("input", filtrarPeliculas);
+
+
 </script>
 
 </html>
