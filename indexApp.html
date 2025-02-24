@@ -31,6 +31,7 @@
             flex-direction: column;
             width: 100%;
             height: 100%;
+            box-sizing: border-box;
             background-color: transparent;
             z-index: 1;
         }
@@ -46,9 +47,6 @@
             overflow-y: auto;
             z-index: 2;
             background-color: rgb(0, 0, 0);
-            padding-top: 5px;
-            padding-left: 5px;
-            padding-right: 5px;
         }
 
         .contenedor-principal .contenedor-lista .contenedor-video {
@@ -68,6 +66,48 @@
             background-color: rgba(255, 255, 255, 0.3);
         }
 
+
+/*        /* 📌 Para pantallas grandes (Full HD y superiores) 
+@media (min-width: 1920px) {
+    .contenedor-principal .contenedor-lista {
+        grid-template-columns: repeat(auto-fill, minmax(60%, 1fr));
+    }
+}
+
+/* 📌 Para pantallas de laptop (1366px - 1600px) 
+@media (max-width: 1600px) {
+    .contenedor-principal .contenedor-lista {
+        grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+    }
+}
+
+/* 📌 Para tablets (768px - 1024px) 
+@media (max-width: 1024px) {
+    .contenedor-principal .contenedor-lista {
+        grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+    }
+}
+
+/* 📌 Para teléfonos grandes (480px - 768px) 
+@media (max-width: 768px) {
+    .contenedor-principal .contenedor-lista {
+        grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+    }
+}
+
+/* 📌 Para teléfonos pequeños (menos de 480px) 
+@media (max-width: 480px) {
+    .contenedor-principal .contenedor-lista {
+        grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+    }
+}
+
+@media (max-width: 100px) {
+    .contenedor-principal .contenedor-lista {
+        grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+    }
+}
+*/
         .contenedor-video img {
             width: 100%;
             height: auto;
