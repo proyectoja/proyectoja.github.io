@@ -67,47 +67,37 @@
         }
 
 
-/*        /* 📌 Para pantallas grandes (Full HD y superiores) 
-@media (min-width: 1920px) {
-    .contenedor-principal .contenedor-lista {
-        grid-template-columns: repeat(auto-fill, minmax(60%, 1fr));
-    }
-}
+        /* 📌 Para pantallas grandes (Full HD y superiores) */
+        @media (min-width: 1920px) {
+            .contenedor-principal .contenedor-lista {}
+        }
 
-/* 📌 Para pantallas de laptop (1366px - 1600px) 
-@media (max-width: 1600px) {
-    .contenedor-principal .contenedor-lista {
-        grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
-    }
-}
+        /* 📌 Para pantallas de laptop (1366px - 1600px) */
+        @media (max-width: 1600px) {
+            .contenedor-principal .contenedor-lista {}
+        }
 
-/* 📌 Para tablets (768px - 1024px) 
-@media (max-width: 1024px) {
-    .contenedor-principal .contenedor-lista {
-        grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
-    }
-}
+        /* 📌 Para tablets (768px - 1024px) */
+        @media (min-width: 1024px) {
+            .contenedor-principal .contenedor-lista {}
+        }
 
-/* 📌 Para teléfonos grandes (480px - 768px) 
-@media (max-width: 768px) {
-    .contenedor-principal .contenedor-lista {
-        grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-    }
-}
+        /* 📌 Para teléfonos grandes (480px - 768px) */
+        @media (min-width: 768px) {
+            .contenedor-principal .contenedor-lista {}
+        }
 
-/* 📌 Para teléfonos pequeños (menos de 480px) 
-@media (max-width: 480px) {
-    .contenedor-principal .contenedor-lista {
-        grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
-    }
-}
+        /* 📌 Para teléfonos pequeños (menos de 480px) */
+        @media (min-width: 480px) {
+            .contenedor-principal .contenedor-lista {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
 
-@media (max-width: 100px) {
-    .contenedor-principal .contenedor-lista {
-        grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-    }
-}
-*/
+        @media (max-width: 100px) {
+            .contenedor-principal .contenedor-lista {}
+        }
+
         .contenedor-video img {
             width: 100%;
             height: auto;
@@ -365,31 +355,31 @@
     }
 
     const inputBuscar = document.getElementById("buscar");
-let peliculasArreglo = [];
+    let peliculasArreglo = [];
 
-function filtrarPeliculas() {
-    const consulta = inputBuscar.value.trim().toLowerCase();
+    function filtrarPeliculas() {
+        const consulta = inputBuscar.value.trim().toLowerCase();
 
-    // Limpiar el contenedor antes de agregar nuevos resultados
-    contenedorLista.innerHTML = "";
+        // Limpiar el contenedor antes de agregar nuevos resultados
+        contenedorLista.innerHTML = "";
 
-    // Si no hay consulta, mostrar todas las películas
-    if (consulta === "") {
-        peliculasArreglo.forEach(pelicula => {
-            if (pelicula.titulo) {
-                crearCarteles(pelicula);
-            }
-        });
-    } else if (consulta.length > 3) {
-        const resultados = peliculasArreglo.filter(pelicula =>
-            pelicula.titulo.toLowerCase().includes(consulta)
-        );
-        resultados.forEach(crearCarteles);
+        // Si no hay consulta, mostrar todas las películas
+        if (consulta === "") {
+            peliculasArreglo.forEach(pelicula => {
+                if (pelicula.titulo) {
+                    crearCarteles(pelicula);
+                }
+            });
+        } else if (consulta.length > 3) {
+            const resultados = peliculasArreglo.filter(pelicula =>
+                pelicula.titulo.toLowerCase().includes(consulta)
+            );
+            resultados.forEach(crearCarteles);
+        }
     }
-}
 
-// Evento para la búsqueda en tiempo real
-inputBuscar.addEventListener("input", filtrarPeliculas);
+    // Evento para la búsqueda en tiempo real
+    inputBuscar.addEventListener("input", filtrarPeliculas);
 
 </script>
 
