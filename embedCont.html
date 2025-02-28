@@ -163,8 +163,8 @@
       fetch("https://rumble.com/-livestream-api/get-data?key=xadw01AnoiPEksHWNPj5gmsn_OzFw7cRdNexAN_4R997QIwCzrOoiRoC6e3VWA_Y1kRa71MDNBc3VD9HuREJFQ")
         .then(response => response.json())
         .then(data => {
-          if (data.is_live) {
-            const viewers = data.watching_now; // Obtiene el número de espectadores actuales
+          if (data.livestreams.is_live) {
+            const viewers = data.livestreams.watching_now; // Obtiene el número de espectadores actuales
             viewerCount.innerText = `👁️ ${viewers}`;
           } else {
             viewerCount.innerText = ``;
