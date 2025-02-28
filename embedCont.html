@@ -161,28 +161,17 @@
     function fetchViewerCount() {
       //fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`)
       fetch("https://rumble.com/-livestream-api/get-data?key=xadw01AnoiPEksHWNPj5gmsn_OzFw7cRdNexAN_4R997QIwCzrOoiRoC6e3VWA_Y1kRa71MDNBc3VD9HuREJFQ")
-        .then(response => response.json())
-        .then(data => {
-          console.log("Respuesta de la API:", data); // 👀 Ver la respuesta en consola
+  .then(response => {
+    console.log("Estado de la respuesta:", response.status); // Ver el código de estado
+    return response.json();
+  })
+  .then(data => {
+    console.log("Datos recibidos:", data); // Ver qué datos llegan
+  })
+  .catch(error => {
+    console.error("❌ Error en fetch:", error);
+  });
 
-          if (data.livestreams && Array.isArray(data.livestreams) && data.livestreams.length > 0) {
-            const liveStream = data.livestreams[0]; // Tomar el primer stream
-
-            if (liveStream.is_live) {
-              const viewers = liveStream.watching_now;
-              document.getElementById("viewerCount").innerText = `👁️ ${viewers}`;
-            } else {
-              document.getElementById("viewerCount").innerText = `👁️ 0`;
-            }
-          } else {
-            console.warn("No hay transmisiones en vivo o la estructura de la API ha cambiado.");
-            document.getElementById("viewerCount").innerText = `👁️ 0`;
-          }
-        })
-        .catch(error => {
-          console.error("❌ Error al obtener el contador de espectadores:", error);
-          document.getElementById("viewerCount").innerText = `👁️ 0`;
-        });
 
     }
   </script>
