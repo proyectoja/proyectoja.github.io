@@ -18,7 +18,7 @@
 
   <title>PROYECTO JA</title>
   <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
-  
+
   <style>
     body {
       margin: 0%;
@@ -163,12 +163,11 @@
       fetch("https://rumble.com/-livestream-api/get-data?key=xadw01AnoiPEksHWNPj5gmsn_OzFw7cRdNexAN_4R997QIwCzrOoiRoC6e3VWA_Y1kRa71MDNBc3VD9HuREJFQ")
         .then(response => response.json())
         .then(data => {
-          if (data.livestreams.is_live) {
-            const viewers = data.livestreams.watching_now; // Obtiene el número de espectadores actuales
-            viewerCount.innerText = `👁️ ${viewers}`;
+          if (data.livestreams.length > 0 && data.livestreams[0].is_live) {
+            const viewers = data.livestreams[0].watching_now; // Accede al primer stream
+            document.getElementById("viewerCount").innerText = `👁️ ${viewers}`;
           } else {
-            viewerCount.innerText = ``;
-            viewerCount.innerText = `👁️ 0`;
+            document.getElementById("viewerCount").innerText = `👁️ 0`;
           }
         })
         .catch(error => {
