@@ -164,8 +164,8 @@
         .then(response => response.json())
         .then(data => {
           if (data.is_live) {
-            const watching_now = data.watching_now; // Obtiene el número de espectadores actuales
-            viewerCount.innerText = `👁️ ${watching_now}`;
+            const viewers = data.watching_now; // Obtiene el número de espectadores actuales
+            viewerCount.innerText = `👁️ ${viewers}`;
           } else {
             viewerCount.innerText = ``;
             viewerCount.innerText = `👁️ 0`;
