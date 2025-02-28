@@ -159,12 +159,13 @@
 
     // Función para obtener el contador de espectadores
     function fetchViewerCount() {
-      fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`)
+      //fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`)
+      fetch("https://rumble.com/-livestream-api/get-data?key=xadw01AnoiPEksHWNPj5gmsn_OzFw7cRdNexAN_4R997QIwCzrOoiRoC6e3VWA_Y1kRa71MDNBc3VD9HuREJFQ")
         .then(response => response.json())
         .then(data => {
-          if (data.online) {
-            const viewers = data.viewers; // Obtiene el número de espectadores actuales
-            viewerCount.innerText = `👁️ ${viewers}`;
+          if (data.is_live) {
+            const watching_now = data.watching_now; // Obtiene el número de espectadores actuales
+            viewerCount.innerText = `👁️ ${watching_now}`;
           } else {
             viewerCount.innerText = ``;
             viewerCount.innerText = `👁️ 0`;
