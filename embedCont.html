@@ -18,7 +18,7 @@
 
   <title>PROYECTO JA</title>
   <link rel="icon" href="https://i.imgur.com/VpYkRpa.png" type="image/png">
-
+  
   <style>
     body {
       margin: 0%;
@@ -155,34 +155,26 @@
     liveButton.classList.add('live');
 
     // Verifica el contador de espectadores cada 60 segundos
-    //setInterval(fetchViewerCount, 5000); // Cambia el intervalo según sea necesario
+    setInterval(fetchViewerCount, 5000); // Cambia el intervalo según sea necesario
 
     // Función para obtener el contador de espectadores
-    async function fetchViewerCount() {
-            const apiUrl = "https://cors-anywhere.herokuapp.com/https://rumble.com/-livestream-api/get-data?key=xadw01AnoiPEksHWNPj5gmsn_OzFw7cRdNexAN_4R997QIwCzrOoiRoC6e3VWA_Y1kRa71MDNBc3VD9HuREJFQ";
-            
-            try {
-                const response = await fetch(apiUrl, { mode: "cors" });
-                if (!response.ok) throw new Error("Error en la solicitud");
-
-                const data = await response.json();
-
-                if (data.livestreams && data.livestreams.length > 0) {
-                    const viewers = data.livestreams[0].watching_now || 0;
-                    document.getElementById("viewerCount").innerText = `👁️ ${viewers}`;
-                } else {
-                    document.getElementById("viewerCount").innerText = "🚫 No hay transmisión en vivo";
-                }
-
-            } catch (error) {
-                console.error("❌ Error al obtener el contador de espectadores:", error);
-                document.getElementById("viewerCount").innerText = "⚠️ Error al obtener datos";
-            }
-        }
-
-        // Llamar a la función cada 30 segundos
-        fetchViewerCount();
-        setInterval(fetchViewerCount, 5000);
+    function fetchViewerCount() {
+      fetch(`https://api.picarto.tv/api/v1/channel/name/${username}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.online) {
+            const viewers = data.viewers; // Obtiene el número de espectadores actuales
+            viewerCount.innerText = `👁️ ${viewers}`;
+          } else {
+            viewerCount.innerText = ``;
+            viewerCount.innerText = `👁️ 0`;
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener el contador de espectadores:', error);
+          viewerCount.innerText = `👁️ 0`;
+        });
+    }
   </script>
 </body>
 
