@@ -3033,5 +3033,482 @@
       "pais": "",
       "calidad": "3"
     }
+  ],
+  "series": [
+    {
+      "id": "s1",
+      "seguidores": "11.8 k",
+      "miniatura": "https://images.justwatch.com/poster/310398708/s592/the-chosen.jpg",
+      "poster": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+      "titulo": "The Chosen",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "Dramatiza la vida de Jesús en Judá del primer siglo bajo el dominio romano, retratando sus enseñanzas y relaciones revolucionarias.",
+      "fecha": "2017",
+      "duracion": "58m",
+      "pais": "",
+      "calidad": "3",
+      "lista": [
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/X/R/m/T/XRmTq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 1 | Te he llamado por tu nombre"
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/w/x/q/T/wxqTq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 2 | El sábado"
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/p/9/t/T/p9tTq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 3 | esús ama a los niños"
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/K/n/O/T/KnOTq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 4 | La roca sobre la que está construida"
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/P/G/R/T/PGRTq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 5 | El regalo de bodas"
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/0/E/U/T/0EUTq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 6 | Compasión indescriptible"
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/N/3/X/T/N3XTq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 7 | Invitaciones"
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/d/6/0/T/d60Tq.haa.mp4?u=0&b=0",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: 8 | Yo soy Él"
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 1 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 2 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 3 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 4 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 5 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 6 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 7 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 8 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 3 | Episodio: 1 | "
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "calidad": "3",
+      "lista": [
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "calidad": "3",
+      "lista": [
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "calidad": "3",
+      "lista": [
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "calidad": "3",
+      "lista": [
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": ""
+        }
+      ]
+    }
   ]
 }
