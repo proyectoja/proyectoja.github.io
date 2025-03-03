@@ -1,0 +1,45 @@
+#EXTM3U
+#EXTINF:-1,Señal en vivo
+https://edge1-us-newyork.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8
+#EXTINF:-1,Señal en vivo Radio Lira
+https://streamlov.alsolnet.com/radiolira/live/playlist.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel
+https://jstre.am/live/jsl:0sUSK6VA7GT.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel International
+https://jstre.am/live/jsl:cZXINbwrFj6.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Italia
+https://avventisti.tv:1935/AvventistiUICCA/LiveHLS_source/playlist.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Southeast Asia
+https://jstre.am/live/jsl:jl2Tix8X0Un.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Philippines
+https://jstre.am/live/jsl:7A1swL7Fhlh.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Tanzania
+https://jstre.am/live/jsl:oVTOBy6W2en.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Kenya
+https://jstre.am/live/jsl:krAjUc5w5bw.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Ghana
+https://jstre.am/live/jsl:KEsxhxIQjUj.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Africa
+https://jstre.am/live/jsl:i1onRBELcGV.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Polska
+https://stream.hopechannel.pl/livetv/colombo/hope.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Ukraine
+https://jstre.am/live/jsl:uKe2xEgS5IL.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Norwegian
+https://jstre.am/live/jsl:mWqnLrC4qc7.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel India
+https://jstre.am/live/jsl:bRf7tet2nDb.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Chinese (希望電視台)
+https://jstre.am/live/jsl:nGL7123If9H.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Deutsch
+https://jstre.am/live/jsl:AQfP7b5HoTM.m3u8
+#EXTINF:-1,Señal en vivo Esperanza Tv Nuevo Tiempo (Sur América)
+https://stream.live.novotempo.com/tv/smil:tvnuevotiempo.smil/playlist.m3u8
+#EXTINF:-1,Señal en vivo Rede Novo Tempo de Comunicação (TV Novo Tempo)
+https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Inter-America: Español
+https://jstre.am/live/jsl:EC0Mq0i6HJU.m3u8
+#EXTINF:-1,Señal en vivo Hope Channel Speranta Tv
+https://jstre.am/live/jsl:2gNjpghXRLE.m3u8
+#EXTINF:-1,Study 24/7
+https://hugh.cdn.rumble.cloud/live/nd3n15l5/slot-46/9erd-mia5/chunklist.m3u8
