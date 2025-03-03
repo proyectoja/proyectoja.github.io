@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Reproducción M3U8</title>
+</head>
+<body>
+    <h1>Lista de Reproducción</h1>
+    <ul id="playlist"></ul>
+    <button id="downloadM3U8">Descargar M3U8</button>
+    
+    <script>
+        fetch('//proyectoja.github.io/contenido.json') // Cambia la ruta por la URL correcta
+            .then(response => response.json())
+            .then(jsonData => {
+                function generarM3U8(json) {
+                    let m3u8 = "#EXTM3U\n";
+                    json.television.forEach(canal => {
+                        m3u8 += `#EXTINF:-1, ${canal.titulo}\n${canal.url}\n`;
+                    });
+                    return m3u8;
+                }
+                
+                function mostrarLista(json) {
+                    const lista = document.getElementById("playlist");
+                    json.television.forEach(canal => {
+                        let item = document.createElement("li");
+                        item.innerHTML = `<a href="${canal.url}" target="_blank">${canal.titulo}</a>`;
+                        lista.appendChild(item);
+                    });
+                }
+                
+                function descargarM3U8(contenido) {
+                    const blob = new Blob([contenido], { type: 'audio/x-mpegurl' });
+                    const enlace = document.createElement("a");
+                    enlace.href = URL.createObjectURL(blob);
+                    enlace.download = "playlist.m3u8";
+                    document.body.appendChild(enlace);
+                    enlace.click();
+                    document.body.removeChild(enlace);
+                }
+                
+                mostrarLista(jsonData);
+                const listaM3U8 = generarM3U8(jsonData);
+                
+                document.getElementById("downloadM3U8").addEventListener("click", () => {
+                    descargarM3U8(listaM3U8);
+                });
+            })
+            .catch(error => console.error('Error al cargar el JSON:', error));
+    </script>
+</body>
+</html>
