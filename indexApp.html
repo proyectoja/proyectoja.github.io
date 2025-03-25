@@ -25,6 +25,10 @@
             -webkit-user-drag: none;
         }
 
+        .jw-rightclick.jw-reset {
+            display: none !important;
+        }
+
         .contenedor-principal {
             display: flex;
             position: relative;
@@ -120,7 +124,7 @@
             color: white;
 
             display: -webkit-box;
-            -webkit-line-clamp: 2; 
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -147,7 +151,7 @@
             border: 1px solid rgb(255, 255, 0);
             background-color: black;
             color: white;
-            font-size: 12px;
+            font-size: 10px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             letter-spacing: 1px;
             color: yellow;
@@ -177,7 +181,7 @@
             right: 0;
             width: 0px;
             height: 100%;
-            justify-content: center;
+            justify-content: start;
             align-items: center;
             overflow: hidden;
             overflow-y: auto;
@@ -198,7 +202,7 @@
             border: 1px solid red;
             background-color: black;
             color: white;
-            font-size: 12px;
+            font-size: 8px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             letter-spacing: 1px;
             color: red;
@@ -236,6 +240,127 @@
             font-family: Verdana, Geneva, Tahoma, sans-serif;
 
         }
+
+        #contenedorJWPLAYER img {
+            width: auto;
+            height: 170px;
+            margin-top: -60px;
+            margin-bottom: -45px;
+        }
+
+        #contenedorJWPLAYER {
+            display: none;
+            position: absolute;
+            flex-direction: column;
+            z-index: 5;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            overflow-y: auto;
+            top: 0;
+            left: 0;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 16px;
+            text-shadow: 0 0 10px black;
+        }
+
+        #jw-player {
+            min-height: 200px;
+        }
+
+        .jw-icon-pip {
+            display: none !important;
+        }
+
+
+        #titulo-pop {
+            display: flex;
+            position: relative;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        #descripcion-pop {
+            display: flex;
+            position: relative;
+            font-style: italic;
+            padding: 10px;
+        }
+
+        #metadata-pop {
+            display: flex;
+            position: relative;
+            padding: 20px;
+        }
+
+        #cerrar-pop {
+            display: flex;
+            position: relative;
+            margin: 10px;
+            padding: 10px;
+            background-color: #0066ff;
+            border-radius: 1rem;
+            border: 1px solid rgb(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 20px;
+            text-shadow: 0 0 10px black;
+            box-shadow: inset 0 0 10px black;
+        }
+
+        #anuncio-container1 {
+            display: flex;
+            position: absolute;
+            z-index: 4;
+            pointer-events: none;
+            width: 100%;
+            min-width: 320px;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            bottom: 50px;
+            left: 0;
+            overflow: hidden;
+        }
+
+        #anuncio-container2 {
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            min-width: 468px;
+            height: 100%;
+            min-height: 60px;
+            max-height: 60px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #audios-pop {
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            width: 100%;
+            min-height: 75px;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+        }
+
+        #audios-pop img {
+            width: 70px;
+            height: 70px;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -245,6 +370,7 @@
         <div class="contenedor-cont-pelis">Total: 0 películas</div>
         <div class="contenedor-lista"></div>
     </div>
+    <div id="anuncio-container1"></div>
     <div class="contenedor-buscador">
         <input type="search" id="buscar" placeholder="...Buscar película...">
     </div>
@@ -275,28 +401,64 @@
         <a href="https://www.andyhoppe.com/" title="Contador"><img 
             src="//c.andyhoppe.com/1740971181" style="border:none" alt="Contador" /></a>
     </div>
+    <div id="contenedorJWPLAYER">
+        <img id="logoMovie24">
+        <div id="jw-player"></div>
+        <div id="audios-pop"></div>
+        <div id="titulo-pop"></div>
+        <div id="descripcion-pop"></div>
+        <div id="metadata-pop"></div>
+        <div id="anuncio-container2"></div>
+        <div id="cerrar-pop" onclick="closePopJW()">Cerrar</div>
+    </div>
 </body>
 <script>
+    var BASE_URL = "https://proyectoja.github.io/";
+    var script = document.createElement("script");
+    script.src = BASE_URL + "jwPlayer.js";
+    script.async = true;
+    document.head.appendChild(script);
+
+    var script = document.createElement("script");
+    script.src = BASE_URL + "script.js";
+    script.async = true;
+    document.head.appendChild(script);
+
     const contenedorLista = document.querySelector('.contenedor-lista');
     const contenedorContPelis = document.querySelector('.contenedor-cont-pelis');
     contenedorContPelis.style.cursor = 'pointer';
     let contPelis = 0;
-    const jsonUrl = "contenido.json";
+
+    const jsonUrl = BASE_URL + "contenido.json";
+    const contenedorJWPLAYER = document.getElementById('contenedorJWPLAYER');
 
     contenedorContPelis.addEventListener('click', function () {
-        document.querySelector('.contenedor-lateral-derecho').style.width = document.querySelector('.contenedor-lateral-derecho').style.width === '0px' ? '250px' : '0px';
+        document.querySelector('.contenedor-lateral-derecho').style.width = document.querySelector('.contenedor-lateral-derecho').style.width === '0px' ? 'auto' : '0px';
     });
     // Función para cargar los datos desde el archivo JSON
-    fetch(jsonUrl)
+    //fetch("contenido.json") //DESARROLLO
+    fetch(jsonUrl) //PRODUCCIÓN
         .then((response) => response.json()) // Convierte la respuesta en JSON
         .then((data) => {
-            data.peliculas.sort((a, b) => b.fecha - a.fecha);
+            data.peliculas.sort((a, b) => b.fecha - a.fecha); //PRODUCCIÓN
+            //data.peliculas.reverse(); //DESARROLLO
+            const fragment = document.createDocumentFragment();
             //Modificar y validar según se agregen categorías del menú
             data.peliculas.forEach((video) => {
-                if (video.titulo) {
-                    crearCarteles(video);
+                if (video.titulo
+                    && !video.titulo.includes("rumble")
+                    && !video.titulo.includes(".mp4")
+                    && !video.descripcion.includes("rumble")
+                    && !video.descripcion.includes(".mp4")
+                    && !video.fecha.includes("rumble")
+                    && !video.fecha.includes(".mp4")
+                    && !video.duracion.includes("rumble")
+                    && !video.duracion.includes(".mp4")
+                ) {
+                    crearCarteles(video, fragment);
                     contPelis += 1;
-                    contenedorContPelis.textContent = `Total: ${contPelis} películas.`;
+                    contenedorLista.appendChild(fragment);
+                    contenedorContPelis.textContent = `Total: ${contPelis} películas. | Subiendo todos los días!!`;
                     peliculasArreglo = data.peliculas;
                 }
             })
@@ -311,42 +473,91 @@
         return anioPelicula === anioActual;
     }
 
+    function debeMostrarAnuncio(idPelicula) {
+        const ultimaPelicula = localStorage.getItem("ultimaPeliculaVista");
+        const ultimaFecha = localStorage.getItem("ultimaFechaVista");
+        const fechaActual = new Date().toISOString().split("T")[0];
+
+        // Mostrar anuncio si la película es diferente o si ha pasado un día
+        return ultimaPelicula !== idPelicula || ultimaFecha !== fechaActual;
+    }
+
     function crearCarteles(cartel) {
         const videoItem = document.createElement("div");
         videoItem.classList.add("contenedor-video");
-        videoItem.onclick = function () {
-            window.open("embedClappr?id=" + encodeURIComponent(cartel.id), "_self");
-        };
+        videoItem.addEventListener('click', function () {
+            const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
+
+            if (debeMostrarAnuncio(idPelicula)) {
+                // Mostrar anuncio y luego continuar con la reproducción
+                window.location.href = "go:anuncio";
+
+                // Guardar la película y la fecha para futuras validaciones
+                localStorage.setItem("ultimaPeliculaVista", idPelicula);
+                localStorage.setItem("ultimaFechaVista", new Date().toISOString().split("T")[0]);
+
+                // Esperar a que el usuario regrese para continuar con la película
+                setTimeout(() => {
+                    contenedorJWPLAYER.style.display = 'flex';
+                    openPopJW(cartel);
+                }, 1000); // Puedes ajustar el tiempo si lo deseas
+            } else {
+                // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
+                contenedorJWPLAYER.style.display = 'flex';
+                openPopJW(cartel);
+            }
+        });
         videoItem.style.cursor = "pointer";
 
+        let proxiAux = false;
         const calidadAux = document.createElement('div');
         calidadAux.className = 'contenedor-calidad';
-        if (cartel.calidad === '1') {
+        if (cartel.url.includes('.caa.mp4')) {
             calidadAux.textContent = 'SD';
-        } else if (cartel.calidad === '2') {
+        } else if (cartel.url.includes('.gaa.mp4')) {
             calidadAux.textContent = 'HD';
-        } else if (cartel.calidad === '3') {
+        } else if (cartel.url.includes('.haa.mp4') || cartel.url.includes('.aaa.mp4')) {
             calidadAux.textContent = 'FULLHD';
         } else if (cartel.calidad === '4') {
             calidadAux.textContent = '60FPS';
+        } else if (cartel.url.includes("")) {
+            calidadAux.textContent = 'No Disponible';
+            proxiAux = true;
         }
         videoItem.appendChild(calidadAux);
 
         const estrenoAux = document.createElement('div');
         estrenoAux.className = 'contenedor-estreno';
-        estrenoAux.textContent = "Estreno";
+
         let fechaAux = typeof cartel.fecha === 'string' && cartel.fecha.includes('-')
             ? new Date(cartel.fecha).getFullYear()
             : Number(cartel.fecha);
 
         if (esEstreno(fechaAux)) {
+            estrenoAux.textContent = "Estreno";
             videoItem.appendChild(estrenoAux);
         }
+        if (proxiAux) {
+            estrenoAux.textContent = "Próxima..";
+            estrenoAux.style.color = 'white';
+            estrenoAux.style.fontSize = '12px';
+            estrenoAux.style.border = '1px solid green';
+            estrenoAux.style.boxShadow = '0 0 1px white,0 0 1px white,';
+            videoItem.appendChild(estrenoAux);
+        } else {
+            proxiAux = false;
+        }
 
+        // Crear imágenes con carga diferida
         const poster = document.createElement("img");
-        poster.src = cartel.miniatura;
-        poster.loading = "lazy";
+        poster.dataset.src = cartel.miniatura; // Guardamos la URL en data-src
         poster.alt = cartel.nombreCanal;
+        poster.classList.add("lazy"); // Agregamos una clase para identificarlas 
+        poster.style.opacity = '0';
+        poster.style.transition = 'opacity 0.2s ease-in-out';
+
+        // Agregar la imagen al DOM
+        //document.body.appendChild(poster);
 
         const title = document.createElement("h3");
         title.textContent = cartel.titulo;
@@ -355,12 +566,31 @@
         h3Fecha.textContent = cartel.fecha + " | " + cartel.duracion;
 
         videoItem.appendChild(poster);
+        // Observa la imagen recién creada
+        observer.observe(poster);
         videoItem.appendChild(title);
         videoItem.appendChild(h3Fecha);
 
         //Modificar y validar según se agregen categorías del menú
         contenedorLista.appendChild(videoItem);
     }
+
+    // Usamos IntersectionObserver para cargar solo cuando la imagen sea visible
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src; // Cargar la imagen
+                img.removeAttribute("data-src"); // Eliminar el atributo una vez cargado
+                img.onload = () => { // Esperar a que la imagen se cargue completamente
+                    img.style.opacity = "1"; // Aparecer suavemente
+                };
+                observer.unobserve(img); // Dejar de observarla
+            }
+        });
+    }, {
+        rootMargin: "100px" // Carga imágenes antes de que entren en pantalla
+    });
 
     const inputBuscar = document.getElementById("buscar");
     let peliculasArreglo = [];
@@ -389,6 +619,493 @@
     // Evento para la búsqueda en tiempo real
     inputBuscar.addEventListener("input", filtrarPeliculas);
 
+    const contenedorTituloPop = document.getElementById('titulo-pop');
+    const contenedorDescripcionPop = document.getElementById('descripcion-pop');
+    const contenedorMetadataPop = document.getElementById('metadata-pop');
+    const contenedorCerrarPop = document.getElementById('cerrar-pop');
+    var jw = null;
+    const vast = "";
+
+    function openPopJW(cartel) {
+        let listaCalidadesLat = [];
+        let listaCalidadesCas = [];
+        let listaCalidadesSub = [];
+
+        //Audio Latino Lista Calidades
+        if (cartel.url.includes(".aaa.mp4")) {
+            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".aaa.mp4"), label: "1080p | 4.5 mbps", default: true });
+            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".haa.mp4"), label: "1080p | 4.0 mbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".gaa.mp4"), label: "720p  | 2.1 mbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
+        } else if (cartel.url.includes(".haa.mp4")) {
+            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".haa.mp4"), label: "1080p | 4.0 mbps", default: true });
+            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".gaa.mp4"), label: "720p  | 2.1 mbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
+        } else if (cartel.url.includes(".gaa.mp4")) {
+            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".gaa.mp4"), label: "720p  | 2.1 mbps", default: true });
+            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
+        } else if (cartel.url.includes(".caa.mp4")) {
+            listaCalidadesLat.push({ file: cartel.url.replace(".caa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps", default: true });
+            listaCalidadesLat.push({ file: cartel.url.replace(".caa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
+            listaCalidadesLat.push({ file: cartel.url.replace(".caa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
+        } else if (cartel.url.includes(".baa.mp4")) {
+            listaCalidadesLat.push({ file: cartel.url.replace(".baa.mp4", ".baa.mp4"), label: "360p  | 640 kbps", default: true });
+            listaCalidadesLat.push({ file: cartel.url.replace(".baa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
+        } else if (cartel.url.includes(".oaa.mp4")) {
+            listaCalidadesLat.push({ file: cartel.url.replace(".oaa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps", default: true });
+        }
+
+        closePopJW();
+
+        const contenedorBotonesAudio = document.getElementById('audios-pop');
+        
+        // Eliminar iconos de audio anteriores antes de agregar los nuevos
+        document.getElementById('audioLat')?.remove();
+        document.getElementById('audioCas')?.remove();
+        document.getElementById('audioSub')?.remove();
+
+        // Icono Latino
+        if (cartel.url) { // Verifica si el URL de audio existe
+            const iconoLat = document.createElement('img');
+            iconoLat.id = 'audioLat';
+            iconoLat.src = BASE_URL + 'lat.png';
+            iconoLat.addEventListener('click', function () {
+                jw.remove();
+                jw = null;
+                reproductorJWAudios(cartel, vast, cartel.url);
+            });
+            contenedorBotonesAudio.appendChild(iconoLat);
+        }
+
+        // Icono Castellano
+        if (cartel.urlCas) { // Verifica si el URL de audio existe
+            const iconoCas = document.createElement('img');
+            iconoCas.id = 'audioCas';
+            iconoCas.src = BASE_URL + 'cas.png';
+            iconoCas.addEventListener('click', function () {
+                jw.remove();
+                jw = null;
+                reproductorJWAudios(cartel, vast, cartel.urlCas);
+            });
+            contenedorBotonesAudio.appendChild(iconoCas);
+        }
+
+        // Icono Subtitulado | Inglés
+        if (cartel.urlSub) { // Verifica si el URL de audio existe
+            const iconoSub = document.createElement('img');
+            iconoSub.id = 'audioSub';
+            iconoSub.src = BASE_URL + 'sub.png';
+            iconoSub.addEventListener('click', function () {
+                jw.remove();
+                jw = null;
+                reproductorJWAudios(cartel, vast, cartel.urlSub);
+            });
+            contenedorBotonesAudio.appendChild(iconoSub);
+        }
+
+        const logoMovie24 = document.getElementById('logoMovie24');
+        logoMovie24.src = BASE_URL + "logo1.png";
+        contenedorTituloPop.textContent = cartel.titulo;
+        contenedorDescripcionPop.textContent = cartel.descripcion;
+        contenedorMetadataPop.textContent = "Año: " + cartel.fecha + " | Duración: " + cartel.duracion;
+        var videoKey = "progreso_" + cartel.id; // Clave única por video
+        jw = jwplayer("jw-player").setup({
+            "debug": 1,
+            //"file": cartel.url,
+            "sources": listaCalidadesLat,
+            "image": cartel.poster,
+            "title": cartel.titulo,
+            "description": cartel.descripcion,
+            "height": "auto",
+            "width": "100%",
+            "playbackRateControls": true,
+            "logo": {
+                "file": BASE_URL + cartel.perfilCanal, //watermark image path
+                "link": "", //link url on watermark image
+                "hide": "false",
+                "position": "top-right" //position of watermark on player
+            },
+            "preload": "metadata",
+            "floating": {
+                "dismissible": true
+            },
+            "repeat": false,
+            "sharing": false,
+            //{
+            //"heading": "Compartir Video",
+            //"link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+            //"sites": [
+            //{
+            //"icon": "https://i.imgur.com/7TleNbh.png",
+            //"src": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+            //"label": "Play Store"
+            //}, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
+            //]
+            //},
+            //"tracks": [{ "file": "<?php echo $cc; ?>", "label": "Español", "kind": "captions", "default": "false" },
+            //{ "file": "<?php echo $cc; ?>", "label": "English", "kind": "captions", "default": "false" }],
+            //"captions": { "color": '#ffb800', "fontSize": 30, "backgroundOpacity": 0 },
+            "skin": {
+                "controlbar": {
+                    "background": "rgba(0,0,0,0.5)",
+                    "icons": "#b8b8b8",
+                    "iconsActive": "#0066FF",
+                    "text": "#FFFFFF"
+                },
+                "menus": {
+                    "background": "#003366",
+                    "text": "#b8b8b8",
+                    "textActive": "#FFFFFF"
+                },
+                "name": "stormtrooper",
+                "timeslider": {
+                    "progress": "#0066FF"
+                },
+                "tooltips": {
+                    "background": "#0066FF",
+                    "text": "#FFFFFF"
+                }
+            },
+            "stretching": "uniform",
+            "autostart": false,
+            "cast": {},
+            "controls": true,
+            "defaultBandwidthEstimate": 5000000,
+            "displaydescription": true,
+            "displaytitle": true,
+            "aboutlink": "",
+            "abouttext": "Movie 24",
+
+
+
+            "advertising": {
+                "client": "vast",
+                "adscheduleid": "Az87bY12",
+                "schedule": [
+                    {
+                        "offset": "pre",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "25%",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "50%",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "75%",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "post",
+                        "tag": vast
+                    }
+                ]
+            },
+
+
+
+
+            //"playlist": serieData,
+            "horizontalVolumeSlider": true,
+            "volume": 100,
+            "nextupoffset": -30,
+            "related": {
+                "autoplaytimer": 20,
+                "oncomplete": "autoplay"
+            },
+            "intl": {
+                "en": {
+                    "related": {
+                        "autoplaymessage": "__title__ se reproducirá en xx segundos.",
+                        "heading": "Más Capítulos"
+                    }
+                }
+            }
+
+        });
+
+        //Tiempos dinámicos para cada video
+        videoKey = videoKey + cartel.id;
+        //Espera que el reproductor esté listo
+        jw.on("ready", function () {
+            var lastTime = localStorage.getItem(videoKey);
+            if (lastTime) {
+                jw.seek(parseFloat(lastTime)); // Reanudar desde el último tiempo guardado
+            }
+        });
+
+        // Guardar el progreso del video cada 5 segundos
+        jw.on("time", function (event) {
+            localStorage.setItem(videoKey, event.position);
+        });
+
+        // Limpiar el progreso si el video se termina
+        jw.on("complete", function () {
+            localStorage.removeItem(videoKey);
+        });
+    }
+    function reproductorJWAudios(cartel, vast, audio) {
+        var videoKey = "progreso_" + cartel.id; // Clave única por video
+        jw = jwplayer("jw-player").setup({
+            "debug": 1,
+            "file": audio,
+            //"sources": listaCalidadesLat,
+            "image": cartel.poster,
+            "title": cartel.titulo,
+            "description": cartel.descripcion,
+            "height": "auto",
+            "width": "100%",
+            "playbackRateControls": true,
+            "logo": {
+                "file": cartel.perfilCanal, //watermark image path
+                "link": "", //link url on watermark image
+                "hide": "false",
+                "position": "top-right" //position of watermark on player
+            },
+            "preload": "metadata",
+            "floating": {
+                "dismissible": true
+            },
+            "repeat": false,
+            "sharing": false,
+            //{
+            //"heading": "Compartir Video",
+            //"link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+            //"sites": [
+            //{
+            //"icon": "https://i.imgur.com/7TleNbh.png",
+            //"src": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
+            //"label": "Play Store"
+            //}, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
+            //]
+            //},
+            //"tracks": [{ "file": "<?php echo $cc; ?>", "label": "Español", "kind": "captions", "default": "false" },
+            //{ "file": "<?php echo $cc; ?>", "label": "English", "kind": "captions", "default": "false" }],
+            //"captions": { "color": '#ffb800', "fontSize": 30, "backgroundOpacity": 0 },
+            "skin": {
+                "controlbar": {
+                    "background": "rgba(0,0,0,0.5)",
+                    "icons": "#b8b8b8",
+                    "iconsActive": "#0066FF",
+                    "text": "#FFFFFF"
+                },
+                "menus": {
+                    "background": "#003366",
+                    "text": "#b8b8b8",
+                    "textActive": "#FFFFFF"
+                },
+                "name": "stormtrooper",
+                "timeslider": {
+                    "progress": "#0066FF"
+                },
+                "tooltips": {
+                    "background": "#0066FF",
+                    "text": "#FFFFFF"
+                }
+            },
+            "stretching": "uniform",
+            "autostart": false,
+            "cast": {},
+            "controls": true,
+            "defaultBandwidthEstimate": 5000000,
+            "displaydescription": true,
+            "displaytitle": true,
+            "aboutlink": "",
+            "abouttext": "Movie 24",
+
+
+
+            "advertising": {
+                "client": "vast",
+                "adscheduleid": "Az87bY12",
+                "schedule": [
+                    {
+                        "offset": "pre",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "25%",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "50%",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "75%",
+                        "tag": vast
+                    },
+                    {
+                        "offset": "post",
+                        "tag": vast
+                    }
+                ]
+            },
+
+
+
+
+            //"playlist": serieData,
+            "horizontalVolumeSlider": true,
+            "volume": 100,
+            "nextupoffset": -30,
+            "related": {
+                "autoplaytimer": 20,
+                "oncomplete": "autoplay"
+            },
+            "intl": {
+                "en": {
+                    "related": {
+                        "autoplaymessage": "__title__ se reproducirá en xx segundos.",
+                        "heading": "Más Capítulos"
+                    }
+                }
+            }
+
+        });
+
+        //Tiempos dinámicos para cada video
+        videoKey = videoKey + cartel.id;
+        //Espera que el reproductor esté listo
+        jw.on("ready", function () {
+            var lastTime = localStorage.getItem(videoKey);
+            if (lastTime) {
+                jw.seek(parseFloat(lastTime)); // Reanudar desde el último tiempo guardado
+            }
+        });
+
+        // Guardar el progreso del video cada 5 segundos
+        jw.on("time", function (event) {
+            localStorage.setItem(videoKey, event.position);
+        });
+
+        // Limpiar el progreso si el video se termina
+        jw.on("complete", function () {
+            localStorage.removeItem(videoKey);
+        });
+    }
+    function closePopJW() {
+        if (jw) {
+            jw.remove();
+            jw = null;
+            contenedorJWPLAYER.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        anunciosAdsterra();
+    });
+    //Anucios publicitarios
+    function anunciosAdsterra() {
+        let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
+        const limite = 10; // Número de veces que los anuncios se mostrarán antes de la pausa
+        const pausa = 5 * 60 * 1000; // 5 minutos en milisegundos
+        let intervaloID; // Variable para almacenar el ID del intervalo
+
+        // Función para actualizar los anuncios
+        function actualizarAnuncios() {
+            if (contador < limite) {
+                // Actualizar los tres anuncios
+                actualizarAnuncio1();
+                setTimeout(actualizarAnuncio2, 1000);
+                contador++;
+            } else {
+                // Pausa de 5 minutos
+                console.log("Pausa de 5 minutos...");
+                setTimeout(() => {
+                    contador = 0; // Reiniciar el contador después de la pausa
+                    console.log("Reiniciando presentación de anuncios...");
+                    actualizarAnuncios(); // Volver a mostrar los anuncios después de la pausa
+                }, pausa);
+            }
+        }
+
+        // Funciones para actualizar cada uno de los anuncios
+        function actualizarAnuncio1() {
+            const anuncioContainer = document.getElementById("anuncio-container1");
+            anuncioContainer.innerHTML = "";
+
+            const scriptElem = document.createElement("script");
+            scriptElem.type = "text/javascript";
+            window.atOptions = {
+                key: "88a6bb18554c71538bb646e14b162cc5",
+                format: "iframe",
+                height: 50,
+                width: 320,
+                params: {},
+            };
+            scriptElem.src =
+                "//www.highperformanceformat.com/88a6bb18554c71538bb646e14b162cc5/invoke.js";
+            anuncioContainer.appendChild(scriptElem);
+        }
+
+        function actualizarAnuncio2() {
+            const anuncioContainer = document.getElementById("anuncio-container2");
+            anuncioContainer.innerHTML = "";
+
+            const scriptElem = document.createElement("script");
+            scriptElem.type = "text/javascript";
+            window.atOptions = {
+                key: "46e27ebf2835db11826f50ace565bd99",
+                format: "iframe",
+                height: 60,
+                width: 468,
+                params: {},
+            };
+            scriptElem.src =
+                "//www.highperformanceformat.com/46e27ebf2835db11826f50ace565bd99/invoke.js";
+            anuncioContainer.appendChild(scriptElem);
+        }
+
+        // Función para iniciar la actualización de anuncios
+        function iniciarActualizacion() {
+            if (!intervaloID) {
+                console.log("Iniciando actualización de anuncios...");
+                intervaloID = setInterval(actualizarAnuncios, 20000);
+            }
+        }
+
+        // Función para detener la actualización de anuncios
+        function detenerActualizacion() {
+            if (intervaloID) {
+                clearInterval(intervaloID);
+                intervaloID = null;
+                console.log("Actualización de anuncios detenida.");
+            }
+        }
+
+        // Detectar cuando la pestaña está visible o el mouse está en la pestaña
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") {
+                iniciarActualizacion();
+            } else {
+                detenerActualizacion();
+            }
+        });
+
+        window.addEventListener("mousemove", () => {
+            if (document.visibilityState === "visible") {
+                iniciarActualizacion();
+            }
+        });
+
+        // Inicia la actualización si la página está visible al cargar
+        if (document.visibilityState === "visible") {
+            iniciarActualizacion();
+        }
+    }
 </script>
+<script async
+    id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '98wVn' });</script>
+
 
 </html>
