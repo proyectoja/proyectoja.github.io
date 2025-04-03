@@ -851,6 +851,12 @@
         // Limpiar el progreso si el video se termina
         jw.on("complete", function () {
             localStorage.removeItem(videoKey);
+            window.location.href = "go:anuncio";
+        });
+        
+        jw.on("pause", function () {
+            // Mostrar anuncio y luego continuar con la reproducción
+            window.location.href = "go:anuncio";
         });
     }
     function reproductorJWAudios(cartel, vast, audio) {
@@ -991,6 +997,12 @@
         // Limpiar el progreso si el video se termina
         jw.on("complete", function () {
             localStorage.removeItem(videoKey);
+            window.location.href = "go:anuncio";
+        });
+        
+        jw.on("pause", function () {
+            // Mostrar anuncio y luego continuar con la reproducción
+            window.location.href = "go:anuncio";
         });
     }
     function closePopJW() {
