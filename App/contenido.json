@@ -6,6 +6,8 @@
       "miniatura": "perfilCanal/proyecto-ja.png",
       "poster": "poster/proyecto-ja.jpg",
       "url": "https://edge1-us-newyork.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -13,6 +15,7 @@
       "descripcion": "Compartiendo esperanza!",
       "fecha": "2013-01-01",
       "pais": "Costa Rica",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -21,6 +24,8 @@
       "miniatura": "perfilCanal/radio-lira.png",
       "poster": "poster/radio-lira.jpg",
       "url": "https://streamlov.alsolnet.com/radiolira/live/playlist.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Radio Lira",
       "perfilCanal": "perfilCanal/radio-lira.png",
       "nombreCanal": "Tv Radio Lira",
@@ -28,6 +33,7 @@
       "descripcion": "Radio Lira es una emisora de radio sin fines de lucro adventista existiendo desde casi 40 años y ubicada en Alajuela, Costa Rica. Se puede escuchar Radio Lira con su radio en la frecuencia 88.7 FM, o por internet. Historia: Todo inició como un proyecto de algunos estudiantes y profesores de la escuela de teología del entonces conocido Centro Adventista de Estudios Superiores (CADES) ahora llamado Universidad Adventista de Centroamérica (UNADECA) en el año 1981. El proyecto se llamaba «Club Radio» y su slogan era «Una luz en las tinieblas», bajo la dirección del Pr. Rubén García Toc y su cobertura era de tan solo 10 kilómetros a la redonda, en la frecuencia 1540 Amplitud Modulada (A.M.). En un gesto de filantropía misionera, los esposos Boskind patrocinaron la adquisición de una emisora completa, llamada «Radio Lira», para que desde ese centro se irradiara un mensaje continuo de amor y redención cristiana. Pero no fue sino hasta mediados del año 1983, cuando iniciaron los trámites para legalizar la radio. Fue el lunes 19 de septiembre de 1983 cuando por primera vez se puso al aire la señal de Radio Lira de manera legal, ese día y los siguientes hubo muchas felicitaciones, lo más importante es que numerosas personas alabaron el nombre del Señor por el resto del mes. Hubo lágrimas de gozo y felicidad. El primer viernes a la puesta de sol, Radio Lira recibió el santo día del Señor con centenares de familiares residentes en el valle central y sus alrededores.",
       "fecha": "1981 | 1983-09-19",
       "pais": "Costa Rica",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -36,6 +42,8 @@
       "miniatura": "perfilCanal/hope-channel.jpg",
       "poster": "poster/hope-channel.jpg",
       "url": "https://jstre.am/live/jsl:0sUSK6VA7GT.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel",
       "perfilCanal": "perfilCanal/hope-channel.jpg",
       "nombreCanal": "Hope Channel",
@@ -43,6 +51,7 @@
       "descripcion": "Sharing God’s good news for a better life today and for eternity! Hope Channel offers programs on wholistic Christian living and focuses on faith, health, relationships, and community.",
       "fecha": "2003",
       "pais": "Global | USA",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -51,6 +60,8 @@
       "miniatura": "perfilCanal/hope-channel-international.png",
       "poster": "poster/hope-channel-international.png",
       "url": "https://jstre.am/live/jsl:cZXINbwrFj6.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel International",
       "perfilCanal": "perfilCanal/hope-channel-international.png",
       "nombreCanal": "Hope Channel International",
@@ -58,6 +69,7 @@
       "descripcion": "Sharing God’s good news for a better life today and for eternity! Hope Channel offers programs on wholistic Christian living and focuses on faith, health, relationships, and community.",
       "fecha": "2003",
       "pais": "Global | USA",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -66,6 +78,8 @@
       "miniatura": "perfilCanal/hope-channel-italia.png",
       "poster": "poster/hope-channel-italia.png",
       "url": "https://avventisti.tv:1935/AvventistiUICCA/LiveHLS_source/playlist.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Italia",
       "perfilCanal": "perfilCanal/hope-channel-italia.png",
       "nombreCanal": "Hope Channel Italia",
@@ -73,6 +87,7 @@
       "descripcion": "La rete televisiva ufficiale della Chiesa cristiana avventista del settimo giorno, Hope Channel offre programmi sulla vita cristiana in senso olistico e si concentra su fede, salute, relazioni, e vita comunitaria. E’ la TV che cambierà la vostra vita! Produciamo più del 95 per cento dei nostri programmi che raggiungono non solo Italia, Stati Uniti e Canada, ma anche altri paesi.",
       "fecha": "2003",
       "pais": "Italia",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -81,6 +96,8 @@
       "miniatura": "perfilCanal/hope-channel-soureste-asia.jpg",
       "poster": "poster/hope-channel-soureste-asia.jpg",
       "url": "https://jstre.am/live/jsl:jl2Tix8X0Un.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Southeast Asia",
       "perfilCanal": "perfilCanal/hope-channel-soureste-asia.jpg",
       "nombreCanal": "Hope Channel Southeast Asia",
@@ -88,6 +105,7 @@
       "descripcion": "The official television network of the Seventh-day Adventist Church, Hope Channel offers programs on wholistic Christian living and focuses of faith, health, relationships, and community. It s television that will change your life!",
       "fecha": "2019",
       "pais": "Asia",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -96,6 +114,8 @@
       "miniatura": "perfilCanal/hope-channel-philippines.jpg",
       "poster": "poster/hope-channel-philippines.jpg",
       "url": "https://jstre.am/live/jsl:7A1swL7Fhlh.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Philippines",
       "perfilCanal": "perfilCanal/hope-channel-philippines.jpg",
       "nombreCanal": "Hope Channel Philippines",
@@ -103,6 +123,7 @@
       "descripcion": "Hope Channel Philippines provides TV programs all over Philippines in the main Pilipino and English languages. The broadcasts in English language are identical with the corresponding program of Hope Channel International. Programs of other dialect are produced in local studios of Luzon, Visayas, and Mindanao in order to correspond to the local lifestyle, culture and mentality.",
       "fecha": "2011",
       "pais": "Asia",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -111,6 +132,8 @@
       "miniatura": "perfilCanal/hope-channel-tanzania.jpg",
       "poster": "poster/hope-channel-tanzania.png",
       "url": "https://jstre.am/live/jsl:oVTOBy6W2en.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Tanzania",
       "perfilCanal": "perfilCanal/hope-channel-tanzania.jpg",
       "nombreCanal": "Hope Channel Tanzania",
@@ -118,6 +141,7 @@
       "descripcion": "Hope Channel Tanzania is the Media Owned by Seventh Day Adventist church of Tanzania Under TAMC (Tanzania Adventist media Channels).",
       "fecha": "2014-06-30",
       "pais": "Tanzania",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -126,6 +150,8 @@
       "miniatura": "perfilCanal/hope-channel-kenya.png",
       "poster": "poster/hope-channel-kenya.png",
       "url": "https://jstre.am/live/jsl:krAjUc5w5bw.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Kenya",
       "perfilCanal": "perfilCanal/hope-channel-kenya.png",
       "nombreCanal": "Hope Channel Kenya",
@@ -133,6 +159,7 @@
       "descripcion": "Hope Channel Kenya is a premier television station that is owned and operated by the Seventh-day Adventist Church in Kenya (East and West Kenya Union Conferences).",
       "fecha": "2013",
       "pais": "Kenya",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -141,6 +168,8 @@
       "miniatura": "perfilCanal/hope-channel-ghana.png",
       "poster": "poster/hope-channel-ghana.jpeg",
       "url": "https://jstre.am/live/jsl:KEsxhxIQjUj.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Ghana",
       "perfilCanal": "perfilCanal/hope-channel-ghana.png",
       "nombreCanal": "Hope Channel Ghana",
@@ -148,6 +177,7 @@
       "descripcion": "Hope Channel Ghana is part of the global Hope Channel Network, a network that supports the production and distribution of wholesome family programming around the world. The mission of Hope Channel is to offer God s good news for a better life today and for eternity, through the Seventh-day Adventist Church s holistic understanding of the Bible, including the three angels messages and end-time prophecies.",
       "fecha": "2003",
       "pais": "Ghana",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -156,6 +186,8 @@
       "miniatura": "perfilCanal/hope-channel-africa.jpg",
       "poster": "poster/hope-channel-africa.png",
       "url": "https://jstre.am/live/jsl:i1onRBELcGV.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Africa",
       "perfilCanal": "perfilCanal/hope-channel-africa.jpg",
       "nombreCanal": "Hope Channel Africa",
@@ -163,6 +195,7 @@
       "descripcion": "Hope Channel Africa is part of the global Hope Channel Network, a network that supports the production and distribution of wholesome family programming around the world.",
       "fecha": "2003",
       "pais": "Africa",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -171,6 +204,8 @@
       "miniatura": "perfilCanal/hope-channel-polska.png",
       "poster": "poster/hope-channel-polska.jpg",
       "url": "https://stream.hopechannel.pl/livetv/colombo/hope.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Polska",
       "perfilCanal": "perfilCanal/hope-channel-polska.png",
       "nombreCanal": "Hope Channel Polska",
@@ -178,6 +213,7 @@
       "descripcion": "Celem naszej wieloletniej działalności jest kształtowanie pozytywnych zachowań społecznych, promowanie rodzinnych wartości oraz szeregu idei wynikających z chrześcijańskiego fundamentu, za który uznajemy Pismo Święte. Hope Channel Polska to telewizja dla każdego, kto poszukuje czegoś innego, niż to co można znaleźć w mediach publicznych czy komercyjnych. Odrzucamy przemoc, moralne dwuznaczności i międzyludzki antagonizm. Poprzez nasze programy sięgamy do niezmiennych źródeł wiary, które – jak wierzymy – są jedynym rozwiązaniem oraz odpowiedzią na codzienne troski i poszukiwania duchowej stabilizacji. Dziękujemy, że odwiedziłaś/odwiedziłeś nasz serwis i będzie nam miło gdy polecisz go innym.",
       "fecha": "2012",
       "pais": "Polska",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -186,6 +222,8 @@
       "miniatura": "perfilCanal/hope-channel-ukraine.png",
       "poster": "poster/hope-channel-ukraine.jpg",
       "url": "https://jstre.am/live/jsl:uKe2xEgS5IL.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Ukraine",
       "perfilCanal": "perfilCanal/hope-channel-ukraine.png",
       "nombreCanal": "Hope Channel Ukraine",
@@ -193,6 +231,7 @@
       "descripcion": "Український телеканал «Надія» — один з 96 каналів всесвітньої мережі Hope Channel, яка мовить в таких країнах, як Англія, Німеччина, Норвегія, Іспанія, Китай, Бразилія, Португалія, США та ін.",
       "fecha": "2013",
       "pais": "Ukraine",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -201,6 +240,8 @@
       "miniatura": "perfilCanal/hope-channel-norwegian.jpg",
       "poster": "poster/hope-channel-norwegian.jpg",
       "url": "https://jstre.am/live/jsl:mWqnLrC4qc7.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Norwegian",
       "perfilCanal": "perfilCanal/hope-channel-norwegian.jpg",
       "nombreCanal": "Hope Channel Norwegian",
@@ -208,6 +249,7 @@
       "descripcion": "Christian Television",
       "fecha": "2003",
       "pais": "Norwegian",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -216,6 +258,8 @@
       "miniatura": "perfilCanal/hope-channel-india.png",
       "poster": "poster/hope-channel-india.jpg",
       "url": "https://jstre.am/live/jsl:bRf7tet2nDb.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel India",
       "perfilCanal": "perfilCanal/hope-channel-india.png",
       "nombreCanal": "Hope Channel India",
@@ -223,6 +267,7 @@
       "descripcion": "We are a Christian television network, being 1 out of 44 channels around the world. Our mission is to share God’s good news for a better life today and for eternity. Our programs focus on faith, health, relationships, and community. Programs on our channel are contextualized for the local culture and are broadcasted in Hindi, Kannada, Malayalam, Tamil and Telugu. There are many ways to watch Hope Channel!",
       "fecha": "2010",
       "pais": "India",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -231,6 +276,8 @@
       "miniatura": "perfilCanal/hope-channel-china.jpg",
       "poster": "poster/hope-channel-china.jpg",
       "url": "https://jstre.am/live/jsl:nGL7123If9H.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Chinese (希望電視台)",
       "perfilCanal": "perfilCanal/hope-channel-china.jpg",
       "nombreCanal": "Hope Channel Chinese (希望電視台)",
@@ -238,6 +285,7 @@
       "descripcion": "現代科技一日千里，每天有千萬人在網路的世界中，找尋著自己的需要和安慰。然而，網路的世界五花八門，一不小心就踏入了危險之中。對於人類來說，安全永遠是第一位。只有安全得到了保障，才能談生命的永續發展。現代大眾傳播媒體擁有非常發達的科技手腕，具有極強的延展力和滲透力，它的觸角伸向了人類社會生活的各個領域。其影響力幾乎掌控著社會生活的方方面面。大眾傳播媒體有義務、有理由、有能力成為社會的守望者。希望電視台，以網路、衛星，電視頻道向全球華人全天候播送華文節目。提供家庭、兒童、青少年成長、教育、健康、生活、心靈、音樂、福音、神學信仰等，多元化豐富的節目，關心全人均衡發展、提升家庭核心的價值、傳社會積極的面相，讓人們在這裏建造美好的品格發展。希望電視台有撼動生命的願景－全天候以網路、衛星、地方電視頻道，及時代科技媒介，播送以聖經原則為本之華語節目、建立全球華語影音資源互動平台、關心社會家庭全人的健康、提供真理多元的材料、裝備基督徒、建立健康的教會、領人歸主、預備眾人迎接耶穌基督的復臨。我們所肩負的使命是－運用上帝所賜的科技媒體，將天國的福音傳遍華人社區，完成基督所託付的使命，並催促基督早日復臨。",
       "fecha": "1997",
       "pais": "China | Chinese | 希望電視台",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -246,6 +294,8 @@
       "miniatura": "perfilCanal/hope-channel-deutsch.png",
       "poster": "poster/hope-channel-deutsch.png",
       "url": "https://jstre.am/live/jsl:AQfP7b5HoTM.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Deutsch",
       "perfilCanal": "perfilCanal/hope-channel-deutsch.png",
       "nombreCanal": "Hope Channel Deutsch",
@@ -253,6 +303,7 @@
       "descripcion": "Die Vision von Hope TV ist es, Menschen neue Perspektiven für ein erfülltes, glückliches und hoffnungsvolles Leben zu eröffnen, Persönliches Wachstum zu fördern und Christliche Werte zu vermitteln. Dabei lädt Hope TV Menschen dazu ein, die Bibel und den christlichen Glauben kennen zu lernen, und begleitet sie dabei – unabhängig von Nationalität, Kultur, Sprache, Geschlecht oder Glaubensüberzeugung.",
       "fecha": "2003",
       "pais": "Deutsch",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -261,6 +312,8 @@
       "miniatura": "perfilCanal/hope-channel-nuevo-tiempo.jpg",
       "poster": "poster/hope-channel-nuevo-tiempo.png",
       "url": "https://stream.live.novotempo.com/tv/smil:tvnuevotiempo.smil/playlist.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Esperanza Tv Nuevo Tiempo (Sur América)",
       "perfilCanal": "perfilCanal/hope-channel-nuevo-tiempo.jpg",
       "nombreCanal": "Esperanza Tv Nuevo Tiempo (Sur América)",
@@ -268,6 +321,7 @@
       "descripcion": "Canal de esperanza.",
       "fecha": "1943",
       "pais": "Brazil",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -276,6 +330,8 @@
       "miniatura": "perfilCanal/hope-channel-novo-tempo.png",
       "poster": "poster/hope-channel-novo-tempo.jpg",
       "url": "https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Rede Novo Tempo de Comunicação (TV Novo Tempo)",
       "perfilCanal": "perfilCanal/hope-channel-novo-tempo.png",
       "nombreCanal": "Rede Novo Tempo de Comunicação (TV Novo Tempo)",
@@ -283,6 +339,7 @@
       "descripcion": "A TV Novo Tempo é o canal de televisão da Igreja Adventista do Sétimo Dia.",
       "fecha": "1943",
       "pais": "Brazil",
+      "generos": "Todos",
       "calidad": "2"
     },
     {
@@ -291,6 +348,8 @@
       "miniatura": "perfilCanal/hope-channel-inter-america.jpg",
       "poster": "poster/hope-channel-inter-america.jpg",
       "url": "https://jstre.am/live/jsl:EC0Mq0i6HJU.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Inter-America: Español",
       "perfilCanal": "perfilCanal/hope-channel-inter-america.jpg",
       "nombreCanal": "Hope Channel Inter-America: Español",
@@ -298,6 +357,7 @@
       "descripcion": "Es la red de televisión oficial de la Iglesia Adventista del Séptimo Día en el territorio de Interamérica (México, Centroamérica, Colombia, Venezuela y las Islas del Caribe). Forma parte de la red global de televisión Hope Channel, con más de 40 canales que ofrecen programas contextualizados a la cultura local, con temas de fe, salud, educación y relaciones familiares. Buscamos servir a la comunidad con programas inspiradores que desafían a experimentar el gozo de descubrir el valor de la fe y de una vida balanceada. Disfruta de nuestros documentales que te llevarán de ida y vuelta al otro lado del mundo, visitando lugares históricos. Programas de viajes que te transportarán por todo el planeta mostrando gente que trabajan unidos por hacer del mundo un mejor lugar para vivir. Programas de salud que ayudan a prevenir enfermedades, y enseñan que la vida saludable sea sencilla y atractiva.",
       "fecha": "2003",
       "pais": "Global",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -306,6 +366,8 @@
       "miniatura": "perfilCanal/hope-channel-speranta.jpg",
       "poster": "poster/hope-channel-speranta.png",
       "url": "https://jstre.am/live/jsl:2gNjpghXRLE.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Speranta Tv",
       "perfilCanal": "perfilCanal/hope-channel-speranta.jpg",
       "nombreCanal": "Hope Channel Speranta Tv",
@@ -313,6 +375,7 @@
       "descripcion": "Intr-o lume derutata si instrainata, Speranta TV ofera o perspectiva crestina asupra subiectelor de actualitate si promoveaza adevaratele valori in societate. Prin tonul cald si optimist al emisiunilor si prin dragostea pentru oameni, Speranta TV este alaturi de toti cei care au nevoie de speranta, dar si de cei care au gasit-o si doresc sa o impartaseasca si altora.",
       "fecha": "2003",
       "pais": "Rumania",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -321,6 +384,8 @@
       "miniatura": "perfilCanal/hope-channel-bulgaria.jpg",
       "poster": "poster/hope-channel-bulgaria.jpg",
       "url": "https://hc2.hopetv.bg/live/hopetv_all.smil/manifest.mpd",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Señal en vivo Hope Channel Bulgaria",
       "perfilCanal": "perfilCanal/hope-channel-bulgaria.jpg",
       "nombreCanal": "Hope Channel Bulgaria",
@@ -328,6 +393,7 @@
       "descripcion": "Hope Channel Bulgaria е част от християнска телевизионна мрежа с 50 канала по целия свят, която излъчва на 39 езика. Мисията ни е да споделяме Божията блага вест за по-добър живот днес и през вечността. Нашите програми се фокусират върху вярата, здравето, взаимоотношенията и обществото. Програмите по всеки канал се създават в контекста на местната култура и се излъчват на много езици включително испански, португалски, немски, румънски, мандарин, руски, тамил, хинди, украински, арабски, фарси и телугу. Има много начини да гледате Hope Channel!",
       "fecha": "1997",
       "pais": "Bulgaria",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -336,6 +402,8 @@
       "miniatura": "perfilCanal/lofi-girl.jpg",
       "poster": "poster/lofi-girl.png",
       "url": "https://hugh.cdn.rumble.cloud/live/nd3n15l5/slot-46/9erd-mia5/chunklist.m3u8",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Study 24/7",
       "perfilCanal": "perfilCanal/lofi-girl.jpg",
       "nombreCanal": "LOFI GIRL",
@@ -343,6 +411,7 @@
       "descripcion": "Lofi Girl es un canal de YouTube y una marca popular que transmite música lo-fi hip-hop, un género caracterizado por ritmos relajantes, sonidos ambientales y un estilo inspirado en el jazz y el hip-hop. Es conocido por sus transmisiones en vivo 24/7 que proporcionan música ideal para estudiar, trabajar o relajarse. El canal ganó notoriedad gracias a su icónica animación de una chica estudiando junto a una ventana, con una estética relajante y nostálgica. Originalmente, el canal se llamaba ChilledCow, pero cambió su nombre a Lofi Girl en 2021. Además de YouTube, Lofi Girl está presente en plataformas de streaming como Spotify y Apple Music, donde ofrece listas de reproducción con temas similares.",
       "fecha": "2015-03-18",
       "pais": "Francia",
+      "generos": "Todos",
       "calidad": "3"
     }
   ],
@@ -353,6 +422,8 @@
       "miniatura": "perfilCanal/proyecto-ja.png",
       "poster": "poster/proyecto-ja.jpg",
       "url": "https://stream.zeno.fm/a536jtganoeuv.aac",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Radio PROYECTO JA en vivo 🔴",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -360,6 +431,7 @@
       "descripcion": "Compartiendo esperanza!",
       "fecha": "2020-01-01",
       "pais": "Costa Rica",
+      "generos": "Todos",
       "calidad": ""
     },
     {
@@ -368,6 +440,8 @@
       "miniatura": "perfilCanal/radio-lira.png",
       "poster": "poster/radio-lira.jpg",
       "url": "https://radiolira.ice.infomaniak.ch/radiolira.aac",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Radio Lira en vivo 🔴",
       "perfilCanal": "perfilCanal/radio-lira.png",
       "nombreCanal": "Radio Lira",
@@ -375,6 +449,7 @@
       "descripcion": "Una Voz de esperanza! Radio Lira es una emisora de radio sin fines de lucro adventista existiendo desde casi 40 años y ubicada en Alajuela, Costa Rica. Se puede escuchar Radio Lira con su radio en la frecuencia 88.7 FM, o por internet. Historia: Todo inició como un proyecto de algunos estudiantes y profesores de la escuela de teología del entonces conocido Centro Adventista de Estudios Superiores (CADES) ahora llamado Universidad Adventista de Centroamérica (UNADECA) en el año 1981. El proyecto se llamaba «Club Radio» y su slogan era «Una luz en las tinieblas», bajo la dirección del Pr. Rubén García Toc y su cobertura era de tan solo 10 kilómetros a la redonda, en la frecuencia 1540 Amplitud Modulada (A.M.). En un gesto de filantropía misionera, los esposos Boskind patrocinaron la adquisición de una emisora completa, llamada «Radio Lira», para que desde ese centro se irradiara un mensaje continuo de amor y redención cristiana. Pero no fue sino hasta mediados del año 1983, cuando iniciaron los trámites para legalizar la radio. Fue el lunes 19 de septiembre de 1983 cuando por primera vez se puso al aire la señal de Radio Lira de manera legal, ese día y los siguientes hubo muchas felicitaciones, lo más importante es que numerosas personas alabaron el nombre del Señor por el resto del mes. Hubo lágrimas de gozo y felicidad. El primer viernes a la puesta de sol, Radio Lira recibió el santo día del Señor con centenares de familiares residentes en el valle central y sus alrededores.",
       "fecha": "1981 | 1983-09-19",
       "pais": "Costa Rica",
+      "generos": "Todos",
       "calidad": ""
     },
     {
@@ -383,6 +458,8 @@
       "miniatura": "perfilCanal/radio-esperanza-norte-mexico.png",
       "poster": "poster/radio-esperanza-norte-mexico.jpg",
       "url": "https://cloudstream2036.conectarhosting.com/8048/stream.aac",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Radio Esperanza Norte México en vivo 🔴",
       "perfilCanal": "perfilCanal/radio-esperanza-norte-mexico.png",
       "nombreCanal": "Radio Esperanza Norte México",
@@ -390,6 +467,7 @@
       "descripcion": "En Esperanza Norte Mx encontrarás programas que te ayuden a fortalecer tu fe; descubrirás cómo mejorar tus relaciones familiares, consejos para mejorar tu calidad de vida y música cristiana. Somos parte de la red mundial de Hope Channel.",
       "fecha": "2017",
       "pais": "México",
+      "generos": "Todos",
       "calidad": ""
     },
     {
@@ -398,6 +476,8 @@
       "miniatura": "perfilCanal/radio-la-gran-esperanza.png",
       "poster": "poster/radio-la-gran-esperanza.jpg",
       "url": "https://sp5.servidorrprivado.com:10988/sid=1/stream.mp3",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Radio La Gran Esperanza en vivo 🔴",
       "perfilCanal": "perfilCanal/radio-la-gran-esperanza.png",
       "nombreCanal": "Radio La Gran Esperanza",
@@ -405,6 +485,7 @@
       "descripcion": "Emisora de radio que suena cada día en el dial 91.1 FM y en línea, tanto para la audiencia mexicana como internacional, con contenidos variados que nos acercan tanto a la fe cristiana como a la comunidad de Río Grande.",
       "fecha": "2020",
       "pais": "México",
+      "generos": "Todos",
       "calidad": ""
     }
   ],
@@ -415,6 +496,8 @@
       "miniatura": "https://i.imgur.com/SBloDbk.jpg",
       "poster": "https://i.imgur.com/SBloDbk.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/W/M/v/v/WMvvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "23:59 Hasta el último minuto – Parte 1",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -423,6 +506,7 @@
       "fecha": "2022",
       "duracion": "01h 17m",
       "pais": "",
+      "generos": "Todos, Drama",
       "calidad": "2"
     },
     {
@@ -431,6 +515,8 @@
       "miniatura": "https://i.imgur.com/0WftFGm.jpg",
       "poster": "https://i.imgur.com/0WftFGm.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/4/n/x/v/4nxvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Rest The Experience",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -439,6 +525,7 @@
       "fecha": "2017",
       "duracion": "01h 17m",
       "pais": "",
+      "generos": "Todos,Documental",
       "calidad": "2"
     },
     {
@@ -447,6 +534,8 @@
       "miniatura": "https://i.imgur.com/9vovTb9.jpg",
       "poster": "https://i.imgur.com/nMGfgW7.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/v/d/x/v/vdxvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Cómo Todo Comenzó",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -455,6 +544,7 @@
       "fecha": "2016",
       "duracion": "02h 33m",
       "pais": "",
+      "generos": "Todos,Drama,Histórico",
       "calidad": "2"
     },
     {
@@ -463,6 +553,8 @@
       "miniatura": "https://i.imgur.com/zXxCmj3.jpg",
       "poster": "https://i.imgur.com/zXxCmj3.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/N/3/w/v/N3wvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Proyecto fósiles",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -471,6 +563,7 @@
       "fecha": "2022",
       "duracion": "01h 16m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -479,6 +572,8 @@
       "miniatura": "https://i.imgur.com/rSokyst.jpg",
       "poster": "https://i.imgur.com/rSokyst.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/o/Y/w/v/oYwvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Aventuras en Galápagos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -487,6 +582,7 @@
       "fecha": "2022",
       "duracion": "57m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -495,6 +591,8 @@
       "miniatura": "https://i.imgur.com/9zBzcm0.jpg",
       "poster": "https://i.imgur.com/9zBzcm0.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/9/H/n/v/9Hnvo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La voz del silencio",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -503,6 +601,7 @@
       "fecha": "2022",
       "duracion": "40m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -511,6 +610,8 @@
       "miniatura": "https://i.imgur.com/caf6Zl1.jpg",
       "poster": "https://i.imgur.com/caf6Zl1.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/1/f/n/v/1fnvo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "No temas",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -519,6 +620,7 @@
       "fecha": "2022",
       "duracion": "42m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -527,6 +629,8 @@
       "miniatura": "https://i.imgur.com/WOMCbdF.jpg",
       "poster": "https://i.imgur.com/WOMCbdF.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/H/7/m/v/H7mvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Dinah",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -535,6 +639,7 @@
       "fecha": "2022",
       "duracion": "30m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -543,6 +648,8 @@
       "miniatura": "https://i.imgur.com/RTO6nML.jpg",
       "poster": "https://i.imgur.com/RTO6nML.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/0/V/l/v/0Vlvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Ya no vivo yo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -551,6 +658,7 @@
       "fecha": "2018",
       "duracion": "52m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -559,6 +667,8 @@
       "miniatura": "https://i.imgur.com/NVYfiYQ.jpg",
       "poster": "https://i.imgur.com/NVYfiYQ.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/-/k/o/v/-kovo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Becuadro",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -567,6 +677,7 @@
       "fecha": "2021",
       "duracion": "01h 23m",
       "pais": "",
+      "generos": "Todos,Drama,Musical",
       "calidad": "1"
     },
     {
@@ -575,6 +686,8 @@
       "miniatura": "https://i.imgur.com/Wzy03xH.jpg",
       "poster": "https://i.imgur.com/Wzy03xH.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/k/U/m/v/kUmvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Rico – El tenia casi todo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -583,6 +696,7 @@
       "fecha": "2021",
       "duracion": "29m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -591,6 +705,8 @@
       "miniatura": "https://i.imgur.com/HOu1zlP.jpg",
       "poster": "https://i.imgur.com/HOu1zlP.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/o/5/j/v/o5jvo.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Elegidas",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -599,6 +715,7 @@
       "fecha": "2020",
       "duracion": "28m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -607,6 +724,8 @@
       "miniatura": "https://i.imgur.com/fYAYECA.jpg",
       "poster": "https://i.imgur.com/fYAYECA.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/d/A/j/v/dAjvo.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Incertidumbre",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -615,6 +734,7 @@
       "fecha": "2020",
       "duracion": "44m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -623,6 +743,8 @@
       "miniatura": "https://i.imgur.com/NzdAceF.jpg",
       "poster": "https://i.imgur.com/NzdAceF.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/L/C/h/u/LChuo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Cuando se acaba la vida",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -631,6 +753,7 @@
       "fecha": "2019",
       "duracion": "19m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -639,6 +762,8 @@
       "miniatura": "https://i.imgur.com/qpKGL62.jpg",
       "poster": "https://i.imgur.com/qpKGL62.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/y/i/k/u/yikuo.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Paralisis",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -647,6 +772,7 @@
       "fecha": "2016",
       "duracion": "01h 26m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -655,6 +781,8 @@
       "miniatura": "https://i.imgur.com/LlrqNLK.jpg",
       "poster": "https://i.imgur.com/LlrqNLK.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/w/F/k/u/wFkuo.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "-10 La vida no es un juego – Película",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -663,6 +791,7 @@
       "fecha": "2020",
       "duracion": "01h 27m",
       "pais": "",
+      "generos": "Todos,Drama,Adolescente",
       "calidad": "3"
     },
     {
@@ -671,6 +800,8 @@
       "miniatura": "https://i.imgur.com/BbqoebM.jpg",
       "poster": "https://i.imgur.com/BbqoebM.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/e/Y/U/t/eYUto.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El silencio de Lara",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -679,6 +810,7 @@
       "fecha": "2019",
       "duracion": "26m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -687,6 +819,8 @@
       "miniatura": "https://i.imgur.com/xC5av3Z.jpg",
       "poster": "https://i.imgur.com/xC5av3Z.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/Y/B/V/t/YBVto.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El libro",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -695,6 +829,7 @@
       "fecha": "2019",
       "duracion": "29m",
       "pais": "",
+      "generos": "Todos,Drama,Historia",
       "calidad": "2"
     },
     {
@@ -703,6 +838,8 @@
       "miniatura": "https://i.imgur.com/Pnfn5As.jpg",
       "poster": "https://i.imgur.com/Pnfn5As.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/u/K/c/u/uKcuo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La nota misteriosa",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -711,6 +848,7 @@
       "fecha": "2019",
       "duracion": "01h 27m",
       "pais": "",
+      "generos": "Todos,Drama,Misterio",
       "calidad": "1"
     },
     {
@@ -719,6 +857,8 @@
       "miniatura": "https://i.imgur.com/5VEY6pz.jpg",
       "poster": "https://i.imgur.com/5VEY6pz.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/X/Y/U/t/XYUto.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El camino a la libertad",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -727,6 +867,7 @@
       "fecha": "2018",
       "duracion": "44m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -735,6 +876,8 @@
       "miniatura": "https://i.imgur.com/bl7JckO.png",
       "poster": "https://i.imgur.com/bl7JckO.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/W/r/x/t/Wrxto.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Ahora Veo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -743,6 +886,7 @@
       "fecha": "2018",
       "duracion": "28m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -751,6 +895,8 @@
       "miniatura": "https://i.imgur.com/kHJPdwB.jpg",
       "poster": "https://i.imgur.com/kHJPdwB.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/5/k/B/t/5kBto.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Libertad",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -759,6 +905,7 @@
       "fecha": "2018",
       "duracion": "01h 28m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -767,6 +914,8 @@
       "miniatura": "https://i.imgur.com/fbgbZ80.jpg",
       "poster": "https://i.imgur.com/fbgbZ80.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/C/_/y/t/C_yto.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "InvolucraDOS",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -775,6 +924,7 @@
       "fecha": "2017",
       "duracion": "01h 28m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -783,6 +933,8 @@
       "miniatura": "https://i.imgur.com/LYhsBZh.jpg",
       "poster": "https://i.imgur.com/LYhsBZh.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/l/g/N/s/lgNso.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "No todo está perdido",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -791,6 +943,7 @@
       "fecha": "2017",
       "duracion": "19m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -799,6 +952,8 @@
       "miniatura": "https://i.imgur.com/0eS1bfH.jpg",
       "poster": "https://i.imgur.com/0eS1bfH.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/T/m/P/s/TmPso.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El método de Cristo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -807,6 +962,7 @@
       "fecha": "2017",
       "duracion": "45m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -815,6 +971,8 @@
       "miniatura": "https://i.imgur.com/5MXiHKB.jpg",
       "poster": "https://i.imgur.com/5MXiHKB.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/s/l/Q/s/slQso.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El último testigo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -823,6 +981,7 @@
       "fecha": "2016",
       "duracion": "01h 41m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -831,6 +990,8 @@
       "miniatura": "https://i.imgur.com/N7uKBOR.jpg",
       "poster": "https://i.imgur.com/N7uKBOR.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/3/d/w/s/3dwso.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Nunca es tarde",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -839,6 +1000,7 @@
       "fecha": "2015",
       "duracion": "26m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -847,6 +1009,8 @@
       "miniatura": "https://i.imgur.com/z4AT3x9.jpg",
       "poster": "https://i.imgur.com/z4AT3x9.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/v/u/B/s/vuBso.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La última batalla",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -855,6 +1019,7 @@
       "fecha": "2012",
       "duracion": "01h 39m",
       "pais": "",
+      "generos": "Todos,Drama,Historia,Profecía",
       "calidad": "1"
     },
     {
@@ -863,6 +1028,8 @@
       "miniatura": "https://i.imgur.com/EwInKjN.jpg",
       "poster": "https://i.imgur.com/EwInKjN.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/R/I/y/s/RIyso.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La Creación",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -871,6 +1038,7 @@
       "fecha": "2014",
       "duracion": "26m",
       "pais": "",
+      "generos": "Todos,Drama,Historia",
       "calidad": "1"
     },
     {
@@ -879,6 +1047,8 @@
       "miniatura": "https://i.imgur.com/F7D87n5.jpg",
       "poster": "https://i.imgur.com/F7D87n5.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/S/D/I/s/SDIso.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El rescate",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -887,6 +1057,7 @@
       "fecha": "2017",
       "duracion": "55m",
       "pais": "",
+      "generos": "Todos,Drama,Suspenso",
       "calidad": "2"
     },
     {
@@ -895,6 +1066,8 @@
       "miniatura": "https://i.imgur.com/VpllFD5.jpg",
       "poster": "https://i.imgur.com/VpllFD5.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/l/8/H/s/l8Hso.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Opuestos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -903,6 +1076,7 @@
       "fecha": "2017",
       "duracion": "50m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -911,6 +1085,8 @@
       "miniatura": "https://i.imgur.com/IUNwKBo.jpg",
       "poster": "https://i.imgur.com/IUNwKBo.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/H/k/F/s/HkFso.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La elección de Leo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -919,6 +1095,7 @@
       "fecha": "2017",
       "duracion": "21m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -927,6 +1104,8 @@
       "miniatura": "https://i.imgur.com/CGl6UAS.jpg",
       "poster": "https://i.imgur.com/CGl6UAS.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/l/6/A/s/l6Aso.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Conquistadores - La mejor aventura",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -935,6 +1114,7 @@
       "fecha": "2018",
       "duracion": "01h 28m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -943,6 +1123,8 @@
       "miniatura": "https://images.justwatch.com/poster/207489977/s592/la-pasion-de-cristo",
       "poster": "https://images.justwatch.com/backdrop/8798931/s640/la-pasion-de-cristo.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/-/0/0/l/-00lo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La Pasión de Cristo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -951,6 +1133,7 @@
       "fecha": "2004",
       "duracion": "02h 06m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -959,6 +1142,8 @@
       "miniatura": "https://images.justwatch.com/poster/207489977/s592/la-pasion-de-cristo",
       "poster": "https://images.justwatch.com/backdrop/8798931/s640/la-pasion-de-cristo.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/d/P/h/V/dPhVq.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La Pasión de Cristo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -967,6 +1152,7 @@
       "fecha": "2004",
       "duracion": "02h 06m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "4"
     },
     {
@@ -975,6 +1161,8 @@
       "miniatura": "https://images.justwatch.com/poster/14473723/s592/hasta-el-ultimo-hombre",
       "poster": "https://images.justwatch.com/backdrop/8728651/s640/hasta-el-ultimo-hombre.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/9/f/T/l/9fTlo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Hasta el Último Hombre",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -983,6 +1171,7 @@
       "fecha": "2016",
       "duracion": "02h 11m",
       "pais": "",
+      "generos": "Todos,Historia, Guerra, Drama",
       "calidad": "1"
     },
     {
@@ -991,6 +1180,8 @@
       "miniatura": "https://images.justwatch.com/poster/14473723/s592/hasta-el-ultimo-hombre",
       "poster": "https://images.justwatch.com/backdrop/8728651/s640/hasta-el-ultimo-hombre.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/q/b/b/D/qbbDq.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Hasta el Último Hombre",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -999,6 +1190,7 @@
       "fecha": "2016",
       "duracion": "02h 11m",
       "pais": "",
+      "generos": "Todos,Historia, Guerra, Drama",
       "calidad": "4"
     },
     {
@@ -1007,6 +1199,8 @@
       "miniatura": "https://images.justwatch.com/poster/45955794/s592/i-can-only-imagine",
       "poster": "https://images.justwatch.com/backdrop/45955797/s640/i-can-only-imagine.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/0/i/z/n/0izno.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Si solo Pudiera Imaginar",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1015,6 +1209,7 @@
       "fecha": "2018",
       "duracion": "01h 50m",
       "pais": "",
+      "generos": "Todos,Drama, Familia, Música, Religious Drama",
       "calidad": "1"
     },
     {
@@ -1023,6 +1218,8 @@
       "miniatura": "https://images.justwatch.com/poster/244537389/s592/los-milagros-del-cielo",
       "poster": "https://images.justwatch.com/backdrop/2489604/s640/los-milagros-del-cielo.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/p/4/N/m/p4Nmo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Milagros del cielo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1031,6 +1228,7 @@
       "fecha": "2016",
       "duracion": "01h 44m",
       "pais": "",
+      "generos": "Todos,Drama, Familia",
       "calidad": "1"
     },
     {
@@ -1039,6 +1237,8 @@
       "miniatura": "https://images.justwatch.com/poster/101367196/s592/la-fuerza-del-honor",
       "poster": "https://images.justwatch.com/backdrop/184069635/s640/la-fuerza-del-honor.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/Z/k/s/n/Zksno.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La fuerza del honor",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1047,6 +1247,7 @@
       "fecha": "2011",
       "duracion": "01h 41m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -1055,6 +1256,8 @@
       "miniatura": "https://images.justwatch.com/poster/305934310/s592/hijo-de-dios",
       "poster": "https://images.justwatch.com/backdrop/240057820/s640/hijo-de-dios.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/A/F/1/l/AF1lo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Hijo de Dios",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1063,6 +1266,7 @@
       "fecha": "2014",
       "duracion": "02h 18m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Europeas",
       "calidad": "1"
     },
     {
@@ -1071,6 +1275,8 @@
       "miniatura": "https://images.justwatch.com/poster/101883642/s592/el-poder-de-la-cruz",
       "poster": "https://images.justwatch.com/backdrop/7155863/s640/el-poder-de-la-cruz/el-poder-de-la-cruz",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/o/y/F/l/oyFlo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El Poder De La Cruz",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1079,6 +1285,7 @@
       "fecha": "2015",
       "duracion": "02h 00m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -1087,6 +1294,8 @@
       "miniatura": "https://images.justwatch.com/poster/256237255/s592/gods-not-dead-we-the-people",
       "poster": "https://www.justwatch.com/images/backdrop/256237256/s640/gods-not-dead-we-the-people/gods-not-dead-we-the-people",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/p/f/U/l/pfUlo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Dios no está muerto 4: nosotros, el pueblo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1095,6 +1304,7 @@
       "fecha": "2021",
       "duracion": "01h 50m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -1103,6 +1313,8 @@
       "miniatura": "https://images.justwatch.com/poster/127910972/s592/dios-no-esta-muerto-una-luz-en-la-oscuridad",
       "poster": "https://www.justwatch.com/images/backdrop/75316341/s640/dios-no-esta-muerto-una-luz-en-la-oscuridad/dios-no-esta-muerto-una-luz-en-la-oscuridad",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/o/U/0/k/oU0ko.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Dios No Está Muerto 3",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1111,6 +1323,7 @@
       "fecha": "2018",
       "duracion": "01h 46m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -1119,6 +1332,8 @@
       "miniatura": "https://images.justwatch.com/poster/101888147/s592/gods-not-dead-2",
       "poster": "https://www.justwatch.com/images/backdrop/1338701/s640/gods-not-dead-2/gods-not-dead-2",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/5/q/T/k/5qTko.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Dios No Está Muerto 2",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1127,6 +1342,7 @@
       "fecha": "2016",
       "duracion": "02h 01m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -1135,6 +1351,8 @@
       "miniatura": "https://images.justwatch.com/poster/75714225/s592/dios-no-esta-muerto",
       "poster": "https://images.justwatch.com/backdrop/256234757/s640/dios-no-esta-muerto.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/r/u/N/k/ruNko.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Dios No Está Muerto 1",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1143,6 +1361,7 @@
       "fecha": "2014",
       "duracion": "01h 35m",
       "pais": "",
+      "generos": "Todos,Drama, Romance",
       "calidad": "1"
     },
     {
@@ -1151,6 +1370,8 @@
       "miniatura": "https://images.justwatch.com/poster/98615452/s592/desafiando-gigantes",
       "poster": "https://images.justwatch.com/backdrop/192054187/s640/desafiando-gigantes.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/A/H/G/k/AHGko.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Desafiando Gigantes",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1159,6 +1380,7 @@
       "fecha": "2006",
       "duracion": "01h 51m",
       "pais": "",
+      "generos": "Todos,Drama, Deporte",
       "calidad": "1"
     },
     {
@@ -1167,6 +1389,8 @@
       "miniatura": "https://images.justwatch.com/poster/90224276/s592/demetrius-and-the-gladiators",
       "poster": "https://www.justwatch.com/images/backdrop/304884857/s640/demetrius-y-los-gladiadores/demetrius-y-los-gladiadores",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/2/Z/y/k/2Zyko.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Demetrio y los Gladiadores",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1175,6 +1399,7 @@
       "fecha": "1954",
       "duracion": "01h 41m",
       "pais": "",
+      "generos": "Todos,Acción & Aventura, Historia, Drama, Romance",
       "calidad": "1"
     },
     {
@@ -1183,6 +1408,8 @@
       "miniatura": "https://images.justwatch.com/poster/90224276/s592/demetrius-and-the-gladiators",
       "poster": "https://www.justwatch.com/images/backdrop/304884857/s640/demetrius-y-los-gladiadores/demetrius-y-los-gladiadores",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/w/2/t/E/w2tEq.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Demetrio y los Gladiadores",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1191,6 +1418,7 @@
       "fecha": "1954",
       "duracion": "01h 41m",
       "pais": "",
+      "generos": "Todos,Acción & Aventura, Historia, Drama, Romance",
       "calidad": "2"
     },
     {
@@ -1199,6 +1427,8 @@
       "miniatura": "https://images.justwatch.com/poster/254411348/s592/the-robe",
       "poster": "https://images.justwatch.com/backdrop/9071631/s640/the-robe.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/A/p/8/k/Ap8ko.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El Manto Sagrado",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1207,6 +1437,7 @@
       "fecha": "1953",
       "duracion": "02h 15m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Romance",
       "calidad": "1"
     },
     {
@@ -1215,6 +1446,8 @@
       "miniatura": "https://images.justwatch.com/poster/254411348/s592/the-robe",
       "poster": "https://images.justwatch.com/backdrop/9071631/s640/the-robe.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/4/l/d/U/4ldUq.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El Manto Sagrado",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1223,6 +1456,7 @@
       "fecha": "1953",
       "duracion": "02h 15m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Romance",
       "calidad": "4"
     },
     {
@@ -1231,6 +1465,8 @@
       "miniatura": "https://images.justwatch.com/poster/211384139/s592/resucitado",
       "poster": "https://images.justwatch.com/backdrop/814279/s640/resucitado.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/1/l/b/m/1lbmo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Resucitado",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1239,6 +1475,7 @@
       "fecha": "2016",
       "duracion": "01h 47m",
       "pais": "",
+      "generos": "Todos,Acción & Aventura, Drama, Fantasía, Documental, Historia",
       "calidad": "1"
     },
     {
@@ -1247,6 +1484,8 @@
       "miniatura": "https://images.justwatch.com/poster/205245717/s592/war-room",
       "poster": "https://images.justwatch.com/backdrop/178290827/s640/un-lugar-donde-rezar.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/5/j/z/n/5jzno.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Cuarto de guerra",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1255,6 +1494,7 @@
       "fecha": "2015",
       "duracion": "02h 00m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -1263,6 +1503,8 @@
       "miniatura": "https://images.justwatch.com/poster/105030256/s592/prueba-de-fuego",
       "poster": "https://images.justwatch.com/backdrop/257631046/s640/prueba-de-fuego.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/h/2/9/j/h29jo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "A Prueba de Fuego",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1271,6 +1513,7 @@
       "fecha": "2008",
       "duracion": "02h 02m",
       "pais": "",
+      "generos": "Todos,Drama, Romance",
       "calidad": "1"
     },
     {
@@ -1279,6 +1522,8 @@
       "miniatura": "https://images.justwatch.com/poster/175566165/s592/jesus",
       "poster": "https://www.justwatch.com/images/backdrop/250467826/s640/jesus/jesus",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/Q/K/c/m/QKcmo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Jesús (La Vida Pública de Jesús)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1287,6 +1532,7 @@
       "fecha": "1979",
       "duracion": "01h 47m",
       "pais": "",
+      "generos": "Todos,Drama, Fantasía, Historia, Familia",
       "calidad": "1"
     },
     {
@@ -1295,6 +1541,8 @@
       "miniatura": "https://images.justwatch.com/poster/37556935/s592/una-cuestion-de-fe",
       "poster": "https://www.justwatch.com/images/backdrop/36657113/s640/una-cuestion-de-fe/una-cuestion-de-fe",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/i/e/K/o/ieKoo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Una Cuestión de Fe",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1303,6 +1551,7 @@
       "fecha": "2017",
       "duracion": "01h 34m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -1311,6 +1560,8 @@
       "miniatura": "https://images.justwatch.com/poster/240640383/s592/woodlawn",
       "poster": "https://www.justwatch.com/images/backdrop/11340659/s640/woodlawn/woodlawn",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/S/7/J/o/S7Joo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Woodlawn",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1319,6 +1570,7 @@
       "fecha": "2015",
       "duracion": "02h 03m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Deporte, Sports Drama",
       "calidad": "1"
     },
     {
@@ -1327,6 +1579,8 @@
       "miniatura": "https://images.justwatch.com/poster/50762053/s592/paul-apostle-of-christ",
       "poster": "https://www.justwatch.com/images/backdrop/43559763/s640/paul-apostle-of-christ/paul-apostle-of-christ",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/k/c/J/m/kcJmo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Pablo Apostol De Cristo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1335,6 +1589,7 @@
       "fecha": "2018",
       "duracion": "01h 46m",
       "pais": "",
+      "generos": "Todos,Drama, Historia",
       "calidad": "1"
     },
     {
@@ -1343,6 +1598,8 @@
       "miniatura": "https://images.justwatch.com/poster/175351189/s592/what-if-2010",
       "poster": "https://www.justwatch.com/images/backdrop/175351191/s640/what-if-2010.webp/what-if-2010.webp",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/y/N/t/n/yNtno.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Un Golpe Del Destino",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1351,6 +1608,7 @@
       "fecha": "2010",
       "duracion": "01h 41m",
       "pais": "",
+      "generos": "Todos,Drama, Fantasía",
       "calidad": "1"
     },
     {
@@ -1359,6 +1617,8 @@
       "miniatura": "https://images.justwatch.com/poster/207254704/s592/un-sueno-posible",
       "poster": "https://www.justwatch.com/images/backdrop/9099235/s640/un-sueno-posible/un-sueno-posible",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/N/X/J/o/NXJoo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Un Sueño Posible",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1367,6 +1627,7 @@
       "fecha": "2009",
       "duracion": "02h 10m",
       "pais": "",
+      "generos": "Todos,Drama, Deporte",
       "calidad": "1"
     },
     {
@@ -1375,6 +1636,8 @@
       "miniatura": "https://images.justwatch.com/poster/196729459/s592/rey-de-reyes",
       "poster": "https://www.justwatch.com/images/backdrop/280585280/s640/rey-de-reyes/rey-de-reyes",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/d/s/t/n/dstno.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Rey de reyes",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1383,6 +1646,7 @@
       "fecha": "1961",
       "duracion": "02h 48m",
       "pais": "",
+      "generos": "Todos,Drama, Historia",
       "calidad": "1"
     },
     {
@@ -1391,6 +1655,8 @@
       "miniatura": "https://images.justwatch.com/poster/175636315/s592/los-diez-mandamientos",
       "poster": "https://images.justwatch.com/backdrop/8670788/s640/los-diez-mandamientos.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/b/C/a/m/bCamo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Los Diez Mandamientos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1399,6 +1665,7 @@
       "fecha": "1956",
       "duracion": "03h 39m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Documental, Familia, Europeas",
       "calidad": "1"
     },
     {
@@ -1407,6 +1674,8 @@
       "miniatura": "https://images.justwatch.com/poster/175636315/s592/los-diez-mandamientos",
       "poster": "https://images.justwatch.com/backdrop/8670788/s640/los-diez-mandamientos.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/T/b/g/E/TbgEq.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Los Diez Mandamientos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1415,6 +1684,7 @@
       "fecha": "1956",
       "duracion": "03h 39m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Documental, Familia, Europeas",
       "calidad": "4"
     },
     {
@@ -1423,6 +1693,8 @@
       "miniatura": "https://images.justwatch.com/poster/164724283/s592/overcomer",
       "poster": "https://www.justwatch.com/images/backdrop/164724461/s640/vencedor/vencedor",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/i/1/J/o/i1Joo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Vencedor",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1431,6 +1703,7 @@
       "fecha": "2019",
       "duracion": "01h 59m",
       "pais": "",
+      "generos": "Todos,Drama, Comedia, Deporte, Familia",
       "calidad": "1"
     },
     {
@@ -1439,6 +1712,8 @@
       "miniatura": "https://images.justwatch.com/poster/254317049/s592/gifted-hands-the-ben-carson-story",
       "poster": "https://www.justwatch.com/images/backdrop/305328679/s640/gifted-hands-the-ben-carson-story/gifted-hands-the-ben-carson-story",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/z/5/O/m/z5Omo.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Manos Milagrosas",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1447,6 +1722,7 @@
       "fecha": "2009",
       "duracion": "01h 30m",
       "pais": "",
+      "generos": "Todos,Drama, Biopics",
       "calidad": "1"
     },
     {
@@ -1455,6 +1731,8 @@
       "miniatura": "https://i.imgur.com/uxBaZAp.png",
       "poster": "https://i.imgur.com/LhHgUaV.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/l/_/U/5/l_U5o.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Un Amor para Recordar",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1463,6 +1741,7 @@
       "fecha": "2002",
       "duracion": "01h 41m",
       "pais": "",
+      "generos": "Todos,Drama, Romance",
       "calidad": "2"
     },
     {
@@ -1471,6 +1750,8 @@
       "miniatura": "https://i.imgur.com/IdhMDuc.png",
       "poster": "https://i.imgur.com/o7Nzr1A.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/h/c/0/5/hc05o.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Dios en el camino",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1479,6 +1760,7 @@
       "fecha": "2018",
       "duracion": "01h 51m",
       "pais": "",
+      "generos": "Todos,Drama,Familia,Romance",
       "calidad": "2"
     },
     {
@@ -1487,7 +1769,9 @@
       "miniatura": "https://i.imgur.com/geRIlhy.png",
       "poster": "https://i.imgur.com/oynhUub.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/g/d/0/5/gd05o.haa.mp4?u=0&b=0",
-      "titulo": "De regreso a casa",
+      "urlSub": "",
+      "urlCas": "",
+      "titulo": "De regreso a casa | Home Run",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
@@ -1495,6 +1779,7 @@
       "fecha": "2013",
       "duracion": "01h 53m",
       "pais": "",
+      "generos": "Todos,Drama, Deporte, Europeas",
       "calidad": "3"
     },
     {
@@ -1503,6 +1788,8 @@
       "miniatura": "https://i.imgur.com/XHI7bmw.jpg",
       "poster": "https://i.imgur.com/W0fiOH3.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/_/1/X/5/_1X5o.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Ben-Hur",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1511,6 +1798,7 @@
       "fecha": "1959",
       "duracion": "03h 32m",
       "pais": "",
+      "generos": "Todos,Historia, Drama, Acción & Aventura",
       "calidad": "1"
     },
     {
@@ -1519,6 +1807,8 @@
       "miniatura": "https://images.justwatch.com/poster/307305093/s592/sound-of-freedom",
       "poster": "https://images.justwatch.com/backdrop/308572913/s640/sound-of-freedom.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/1/n/y/h/1nyhr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Sonido De Libertad",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1527,6 +1817,7 @@
       "fecha": "2023",
       "duracion": "02h 11m",
       "pais": "",
+      "generos": "Todos,Acción & Aventura, Drama, Historia, Misterio & Suspense",
       "calidad": "2"
     },
     {
@@ -1535,6 +1826,8 @@
       "miniatura": "https://i.imgur.com/Op7Z5xX.jpg",
       "poster": "https://i.imgur.com/Rsw8K1e.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/B/h/L/t/BhLtp.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Mientras Estés Conmigo",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1543,6 +1836,7 @@
       "fecha": "2020",
       "duracion": "01h 55m",
       "pais": "",
+      "generos": "Todos,Drama, Música, Romance",
       "calidad": "2"
     },
     {
@@ -1551,6 +1845,8 @@
       "miniatura": "https://i.imgur.com/b9uRj4X.jpg",
       "poster": "https://i.imgur.com/b9uRj4X.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/p/_/l/s/p_lso.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El Legado",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1559,6 +1855,7 @@
       "fecha": "2023",
       "duracion": "01h 45m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1567,6 +1864,8 @@
       "miniatura": "https://i.imgur.com/G7VtrOh.jpg",
       "poster": "https://i.imgur.com/G7VtrOh.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/3/4/o/s/34oso.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Encounters – Película",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1575,6 +1874,7 @@
       "fecha": "2023",
       "duracion": "02h 40m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1583,6 +1883,8 @@
       "miniatura": "https://i.imgur.com/aKotvxr.jpg",
       "poster": "https://i.imgur.com/aKotvxr.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/L/B/n/s/LBnso.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El regreso: Fuimos advertidos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1591,6 +1893,7 @@
       "fecha": "2023",
       "duracion": "02h 08m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -1599,6 +1902,8 @@
       "miniatura": "https://i.imgur.com/nUi8cDI.jpg",
       "poster": "https://i.imgur.com/nUi8cDI.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/4/t/8/r/4t8ro.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El gran conflicto",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1607,6 +1912,7 @@
       "fecha": "2023",
       "duracion": "55m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -1615,6 +1921,8 @@
       "miniatura": "https://i.imgur.com/SBloDbk.jpg",
       "poster": "https://i.imgur.com/SBloDbk.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/3/L/a/s/3Laso.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "23:59 Hasta el último minuto – Parte 2",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1623,6 +1931,7 @@
       "fecha": "2023",
       "duracion": "02h 41m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1631,6 +1940,8 @@
       "miniatura": "https://i.imgur.com/HqSvn0k.jpg",
       "poster": "https://i.imgur.com/HqSvn0k.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/N/X/-/r/NX-ro.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Tardes de fútbol",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1639,6 +1950,7 @@
       "fecha": "2023",
       "duracion": "01h 08m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -1647,6 +1959,8 @@
       "miniatura": "https://i.imgur.com/x7HnK7g.jpg",
       "poster": "https://i.imgur.com/Yz1ZwsN.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/L/H/b/6/LHb6o.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "LOS JORNALEROS",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1655,6 +1969,7 @@
       "fecha": "2023",
       "duracion": "43m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1663,6 +1978,8 @@
       "miniatura": "https://i.imgur.com/6trGOhd.png",
       "poster": "https://i.imgur.com/Ld4Rq8j.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/4/j/d/6/4jd6o.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "LA ULTIMA OPORTUNIDAD",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1671,6 +1988,7 @@
       "fecha": "2023",
       "duracion": "01h 49m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -1679,6 +1997,8 @@
       "miniatura": "https://i.imgur.com/kntomfc.jpg",
       "poster": "https://i.imgur.com/H2w6IlN.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/B/c/b/6/Bcb6o.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "EL PRÓXIMO REINO PELÍCULA CRISTIANA COMPLETA - DOCUMENTAL",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1687,6 +2007,7 @@
       "fecha": "2019",
       "duracion": "28m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1695,6 +2016,8 @@
       "miniatura": "https://i.imgur.com/BN8oAFH.jpg",
       "poster": "https://i.imgur.com/XRCWab3.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/5/f/b/6/5fb6o.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "EL ESCONDITE (Sub español)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1703,6 +2026,7 @@
       "fecha": "2019",
       "duracion": "15m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1711,6 +2035,8 @@
       "miniatura": "https://i.imgur.com/nGPaoeO.jpg",
       "poster": "https://i.imgur.com/B7mZTzH.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/8/e/c/6/8ec6o.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "DEFENSORES DE LA BIBLIA",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1719,6 +2045,7 @@
       "fecha": "2023",
       "duracion": "38m",
       "pais": "",
+      "generos": "Todos,Drama,Infantil",
       "calidad": "2"
     },
     {
@@ -1727,6 +2054,8 @@
       "miniatura": "https://i.imgur.com/BcgSWz1.jpg",
       "poster": "https://i.imgur.com/7LijbfH.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/u/a/b/6/uab6o.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "LUGAR SECRETO",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1735,6 +2064,7 @@
       "fecha": "2022",
       "duracion": "39m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -1743,6 +2073,8 @@
       "miniatura": "https://i.imgur.com/nY0zJiE.jpg",
       "poster": "https://i.imgur.com/2j74FYt.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/X/6/n/B/X6nBp.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Inevitablemente cerca",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1751,6 +2083,7 @@
       "fecha": "2024",
       "duracion": "35m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1759,6 +2092,8 @@
       "miniatura": "https://i.imgur.com/f4bEySO.jpg",
       "poster": "https://i.imgur.com/TXWbiHq.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/S/r/o/B/SroBp.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Donde esté tu corazón",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1767,6 +2102,7 @@
       "fecha": "2024",
       "duracion": "48m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1775,6 +2111,8 @@
       "miniatura": "https://i.imgur.com/NHfkICs.jpg",
       "poster": "https://i.imgur.com/hdz2TOl.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/1/c/k/T/1ckTp.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La Rebelión De Lucifer (Película Cristiana) Conflicto Cósmico: El Origen Del Mal.",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1783,6 +2121,7 @@
       "fecha": "2015",
       "duracion": "40m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -1791,6 +2130,8 @@
       "miniatura": "https://i.imgur.com/RZ1BtSU.jpg",
       "poster": "https://i.imgur.com/TCl9AaV.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/s/n/c/T/sncTp.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Evolución vs. Dios (Spanish Version) HD",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1799,6 +2140,7 @@
       "fecha": "2014",
       "duracion": "28m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1807,6 +2149,8 @@
       "miniatura": "https://i.imgur.com/uOGOb7B.jpg",
       "poster": "https://i.imgur.com/HoV65U0.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/6/j/h/a/6jhaq.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "En mis manos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1815,6 +2159,7 @@
       "fecha": "2024",
       "duracion": "49m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1823,6 +2168,8 @@
       "miniatura": "https://i.imgur.com/m08hPAN.jpg",
       "poster": "https://i.imgur.com/CLUlKvd.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/t/9/_/E/t9_Eq.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El regreso: Fuimos advertidos – Parte 2",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1831,6 +2178,7 @@
       "fecha": "2024",
       "duracion": "01h 18m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1839,6 +2187,8 @@
       "miniatura": "https://i.imgur.com/NWY3F8t.jpg",
       "poster": "https://i.imgur.com/uIC1Mhh.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/s/n/t/S/sntSq.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El regreso: el gran conflicto parte 3",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1847,6 +2197,7 @@
       "fecha": "2024",
       "duracion": "01h 29m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1855,6 +2206,8 @@
       "miniatura": "https://i.imgur.com/LLVVYvU.jpg",
       "poster": "https://i.imgur.com/P6VXHHF.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/7/B/F/h/7BFhr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Cristiano por accidente",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1863,6 +2216,7 @@
       "fecha": "2024",
       "duracion": "01h 44m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1871,6 +2225,8 @@
       "miniatura": "https://images.justwatch.com/poster/219903212/s592/miracle-in-east-texas",
       "poster": "https://i.imgur.com/XvSgQ5r.png",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/Q/5/g/t/Q5gtr.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Un milagro en texas (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1879,6 +2235,7 @@
       "fecha": "2024",
       "duracion": "01h 40m",
       "pais": "",
+      "generos": "Todos,Comedia, Drama, Emotional Drama",
       "calidad": "1"
     },
     {
@@ -1887,6 +2244,8 @@
       "miniatura": "https://images.justwatch.com/poster/310228610/s592/his-only-son",
       "poster": "https://images.justwatch.com/backdrop/309146554/s640/his-only-son.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/T/I/f/t/TIftr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Su único hijo (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1895,6 +2254,7 @@
       "fecha": "2023",
       "duracion": "01h 44m",
       "pais": "",
+      "generos": "Todos,Drama, Fantasía, Historia",
       "calidad": "2"
     },
     {
@@ -1903,6 +2263,8 @@
       "miniatura": "https://images.justwatch.com/poster/24633848/s592/quo-vadis",
       "poster": "https://images.justwatch.com/backdrop/186516077/s640/quo-vadis.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/K/3/_/s/K3_sr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Quo Vadis (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1911,6 +2273,7 @@
       "fecha": "1951",
       "duracion": "02h 51m",
       "pais": "",
+      "generos": "Todos,Drama, Romance, Period Drama",
       "calidad": "2"
     },
     {
@@ -1919,6 +2282,8 @@
       "miniatura": "https://images.justwatch.com/poster/127140386/s592/noe",
       "poster": "https://www.justwatch.com/images/backdrop/10673941/s640/Noah/Noah",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/6/f/9/s/6f9sr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Noé (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1927,6 +2292,7 @@
       "fecha": "2014",
       "duracion": "02h 18m",
       "pais": "",
+      "generos": "Todos,Acción & Aventura, Drama, Documental",
       "calidad": "2"
     },
     {
@@ -1935,6 +2301,8 @@
       "miniatura": "https://images.justwatch.com/poster/306957551/s592/nothing-is-impossible",
       "poster": "https://i.imgur.com/X50vezf.png",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/N/h/5/s/Nh5sr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Nada es imposible (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1943,6 +2311,7 @@
       "fecha": "2022",
       "duracion": "01h 46m",
       "pais": "",
+      "generos": "Todos,Drama, Romance, Deporte",
       "calidad": "2"
     },
     {
@@ -1951,6 +2320,8 @@
       "miniatura": "https://images.justwatch.com/poster/242218610/s592/me-enamore-de-una-chica-cristiana",
       "poster": "https://images.justwatch.com/backdrop/239584118/s640/me-enamore-de-una-chica-cristiana.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/g/5/U/s/g5Usr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Me Enamore de una Chica Cristiana",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1959,6 +2330,7 @@
       "fecha": "2013",
       "duracion": "01h 58m",
       "pais": "",
+      "generos": "Todos,Drama, Romance",
       "calidad": "2"
     },
     {
@@ -1967,6 +2339,8 @@
       "miniatura": "https://images.justwatch.com/poster/312183670/s592/lifemark",
       "poster": "https://images.justwatch.com/backdrop/302073033/s640/lifemark.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/n/p/S/s/npSsr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Marca de vida (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1975,6 +2349,7 @@
       "fecha": "2022",
       "duracion": "01h 45m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1983,6 +2358,8 @@
       "miniatura": "https://images.justwatch.com/poster/67369928/s592/llena-de-gracia",
       "poster": "https://www.justwatch.com/images/backdrop/258661656/s640/llena-de-gracia/llena-de-gracia",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/6/S/N/s/6SNsr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Llena de Gracia (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -1991,6 +2368,7 @@
       "fecha": "2017",
       "duracion": "01h 23m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -1999,6 +2377,8 @@
       "miniatura": "https://images.justwatch.com/poster/176131630/s592/la-historia-mas-grande-jamas-contada",
       "poster": "https://www.justwatch.com/images/backdrop/309858798/s640/la-historia-mas-grande-jamas-contada/la-historia-mas-grande-jamas-contada",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/n/P/K/s/nPKsr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La historia más grande jamás contada (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2007,6 +2387,7 @@
       "fecha": "1965",
       "duracion": "04h 20m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Documental",
       "calidad": "2"
     },
     {
@@ -2015,6 +2396,8 @@
       "miniatura": "https://images.justwatch.com/poster/181051513/s592/la-biblia-en-su-principio",
       "poster": "https://www.justwatch.com/images/backdrop/243770537/s640/la-biblia-en-su-principio/la-biblia-en-su-principio",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/b/a/H/s/baHsr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "La Biblia...en el principio (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2023,6 +2406,7 @@
       "fecha": "1966",
       "duracion": "02h 55m",
       "pais": "",
+      "generos": "Todos,Acción & Aventura, Historia, Drama, Familia",
       "calidad": "2"
     },
     {
@@ -2031,6 +2415,8 @@
       "miniatura": "https://i.imgur.com/MHpxevf.jpg",
       "poster": "https://i.imgur.com/J4e7Hn4.png",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/m/d/s/s/mdssr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Hijo del Hombre (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2039,6 +2425,7 @@
       "fecha": "2019",
       "duracion": "01h 55m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -2047,6 +2434,8 @@
       "miniatura": "https://images.justwatch.com/poster/189274446/s592/grace-unplugged",
       "poster": "https://www.justwatch.com/images/backdrop/252856868/s640/grace-unplugged/grace-unplugged",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/v/s/q/s/vsqsr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Grace Unplugged (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2055,6 +2444,7 @@
       "fecha": "2013",
       "duracion": "01h 42m",
       "pais": "",
+      "generos": "Todos,Drama, Música",
       "calidad": "2"
     },
     {
@@ -2063,6 +2453,8 @@
       "miniatura": "https://images.justwatch.com/poster/304082998/s592/el-principe-de-egipto",
       "poster": "https://images.justwatch.com/backdrop/304253511/s640/el-principe-de-egipto.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/v/5/k/s/v5ksr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El Principe De Egipto (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2071,6 +2463,7 @@
       "fecha": "1998",
       "duracion": "01h 39m",
       "pais": "",
+      "generos": "Todos,Drama, Familia, Acción & Aventura, Animación, Fantasía",
       "calidad": "2"
     },
     {
@@ -2079,6 +2472,8 @@
       "miniatura": "https://i.imgur.com/mlvmSCD.jpg",
       "poster": "https://i.imgur.com/bWF3wM8.png",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/P/w/j/s/Pwjsr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El poder de la fe (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2087,6 +2482,7 @@
       "fecha": "2019",
       "duracion": "01h 42m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -2095,6 +2491,8 @@
       "miniatura": "https://images.justwatch.com/poster/75760443/s592/el-mesias",
       "poster": "https://www.justwatch.com/images/backdrop/832285/s640/el-mesias/el-mesias",
       "url": "https://hugh.cdn.rumble.cloud/video/fw/s8/2/z/l/m/t/zlmtr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El Joven Mesías (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2103,6 +2501,7 @@
       "fecha": "2016",
       "duracion": "02h 00m",
       "pais": "",
+      "generos": "Todos,Drama, Fantasía",
       "calidad": "2"
     },
     {
@@ -2111,6 +2510,8 @@
       "miniatura": "https://images.justwatch.com/poster/10835102/s592/cleopatra",
       "poster": "https://images.justwatch.com/backdrop/243044896/s640/cleopatra.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/o/l/k/n/olknr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Cleopatra (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2119,6 +2520,7 @@
       "fecha": "1963",
       "duracion": "04h 11m",
       "pais": "",
+      "generos": "Todos,Drama, Europeas, Historia, Romance",
       "calidad": "2"
     },
     {
@@ -2127,6 +2529,8 @@
       "miniatura": "https://images.justwatch.com/poster/125567777/s592/barabbas-1961",
       "poster": "https://images.justwatch.com/backdrop/206724993/s640/barabbas.%7Bformat%7D",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/B/J/S/r/BJSrr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Barrabás (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2135,6 +2539,7 @@
       "fecha": "1961",
       "duracion": "02h 17m",
       "pais": "",
+      "generos": "Todos,Drama, Historia, Europeas",
       "calidad": "2"
     },
     {
@@ -2143,6 +2548,8 @@
       "miniatura": "https://images.justwatch.com/poster/125730184/s592/joseph-of-nazareth",
       "poster": "https://www.justwatch.com/images/backdrop/174428241/s640/joseph-of-nazareth/joseph-of-nazareth",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/x/2/M/r/x2Mrr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Amigos de Jesús - José de Nazaret",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2151,6 +2558,7 @@
       "fecha": "2000",
       "duracion": "01h 40m",
       "pais": "",
+      "generos": "Todos,Drama, Europeas",
       "calidad": "2"
     },
     {
@@ -2159,6 +2567,8 @@
       "miniatura": "https://images.justwatch.com/poster/307701496/s592/a-million-miles-away",
       "poster": "https://www.justwatch.com/images/backdrop/307608245/s640/a-million-miles-away/a-million-miles-away",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/F/k/H/r/FkHrr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "A millones de kilómetros (Latino)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2167,6 +2577,7 @@
       "fecha": "2023",
       "duracion": "02h 01m",
       "pais": "",
+      "generos": "Todos,Drama, Historia",
       "calidad": "2"
     },
     {
@@ -2175,6 +2586,8 @@
       "miniatura": "https://i.imgur.com/sNEfxV8.jpg",
       "poster": "https://i.imgur.com/IyuGK05.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/8/F/B/r/8FBrr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "3.Marcados para Morir (Pr. Alejandro Bullón)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2183,6 +2596,7 @@
       "fecha": "2015",
       "duracion": "01h 36m",
       "pais": "",
+      "generos": "Todos,Drama, Historia",
       "calidad": "2"
     },
     {
@@ -2191,6 +2605,8 @@
       "miniatura": "https://i.imgur.com/cmKzdT7.jpg",
       "poster": "https://i.imgur.com/SKS6WKO.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/C/n/y/r/Cnyrr.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "2.El Regreso (Pr. Alejandro Bullón)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2199,6 +2615,7 @@
       "fecha": "2012",
       "duracion": "01h 08m",
       "pais": "",
+      "generos": "Todos,Drama, Historia",
       "calidad": "1"
     },
     {
@@ -2207,6 +2624,8 @@
       "miniatura": "https://i.imgur.com/q9k1Jrh.jpg",
       "poster": "https://i.imgur.com/vI7f7Xl.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/K/s/u/r/Ksurr.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "1.La Ventana -  Compartir a Jesús es Todo (Pr. Alejandro Bullón)",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2215,6 +2634,7 @@
       "fecha": "2010",
       "duracion": "29m",
       "pais": "",
+      "generos": "Todos,Drama, Historia",
       "calidad": "2"
     },
     {
@@ -2223,6 +2643,8 @@
       "miniatura": "https://i.imgur.com/hFgdm38.jpg",
       "poster": "https://i.imgur.com/Z3HJUCM.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/h/t/0/E/ht0Er.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Apocalipsis - La Novia, la Bestia y Babilonia - doblado al español",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2231,6 +2653,7 @@
       "fecha": "2020",
       "duracion": "01h 23m",
       "pais": "",
+      "generos": "Todos,Drama, Historia",
       "calidad": "3"
     },
     {
@@ -2239,6 +2662,8 @@
       "miniatura": "https://i.imgur.com/nfGo7RS.jpg",
       "poster": "https://i.imgur.com/Ya3fvlH.png",
       "url": "https://hugh.cdn.rumble.cloud/video/s8/2/C/2/L/w/C2Lwt.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Camile",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2247,6 +2672,7 @@
       "fecha": "2024",
       "duracion": "42m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -2255,6 +2681,8 @@
       "miniatura": "https://i.imgur.com/LJ7mAVy.jpg",
       "poster": "https://i.imgur.com/AyXxsj9.png",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe2/96/s8/2/a/K/T/T/aKTTw.haa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El Circo de la Mariposa",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2263,6 +2691,7 @@
       "fecha": "2009",
       "duracion": "21m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "3"
     },
     {
@@ -2271,6 +2700,8 @@
       "miniatura": "https://i.imgur.com/GUTeoO7.jpg",
       "poster": "https://i.imgur.com/hKV17qr.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe1/cb/s8/2/0/0/Y/2/00Y2x.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "José los sueños del faraón 1995 - Español Latino",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2279,6 +2710,7 @@
       "fecha": "1995",
       "duracion": "02h 55m",
       "pais": "",
+      "generos": "Todos,Acción & Aventura, Drama",
       "calidad": "2"
     },
     {
@@ -2287,6 +2719,8 @@
       "miniatura": "https://i.imgur.com/FFC8C5c.jpg",
       "poster": "https://i.imgur.com/Q9BtEfc.png",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe2/a9/s8/2/F/V/E/6/FVE6x.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Renacidos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2295,6 +2729,7 @@
       "fecha": "2024",
       "duracion": "01h 58m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "1"
     },
     {
@@ -2303,6 +2738,8 @@
       "miniatura": "https://i.imgur.com/e3j70bl.jpg",
       "poster": "https://i.imgur.com/4O9fDHm.png",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe2/e2/s8/2/B/Q/y/6/BQy6x.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "3G´s y el misterioso señor Walter",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2311,6 +2748,7 @@
       "fecha": "2023",
       "duracion": "57m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -2319,6 +2757,8 @@
       "miniatura": "https://i.imgur.com/SBloDbk.jpg",
       "poster": "https://i.imgur.com/SBloDbk.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe1/b0/s8/2/Z/U/D/6/ZUD6x.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "23:59 Hasta el último minuto – Parte 3",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2327,6 +2767,7 @@
       "fecha": "2024",
       "duracion": "01h 41m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -2335,6 +2776,8 @@
       "miniatura": "https://i.imgur.com/94BawQA.jpg",
       "poster": "https://i.imgur.com/S69JtyG.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe2/94/s8/2/Z/O/x/6/ZOx6x.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Evidencias arqueológicas sobre la existencia de Jesús",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2343,6 +2786,7 @@
       "fecha": "2025",
       "duracion": "27m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -2351,6 +2795,8 @@
       "miniatura": "https://i.imgur.com/6bnBn5W.jpg",
       "poster": "https://i.imgur.com/tLMyyok.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe1/0e/s8/2/Z/G/z/6/ZGz6x.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "El peso del pasado",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2359,6 +2805,7 @@
       "fecha": "2025",
       "duracion": "39m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
@@ -2367,6 +2814,8 @@
       "miniatura": "https://i.imgur.com/wHk8OA4.jpg",
       "poster": "https://i.imgur.com/44GDWmD.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe1/3c/s8/2/u/r/A/6/urA6x.caa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Alejandro Bullón, el hombre.",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2375,6 +2824,7 @@
       "fecha": "2017",
       "duracion": "02h 35m",
       "pais": "",
+      "generos": "Todos,Drama,Historia",
       "calidad": "1"
     },
     {
@@ -2383,6 +2833,8 @@
       "miniatura": "https://i.imgur.com/k22vIEz.jpg",
       "poster": "https://i.imgur.com/YP9lQdN.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe2/d4/s8/2/L/R/z/6/LRz6x.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Documental: Conquistadores",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2391,6 +2843,7 @@
       "fecha": "2018",
       "duracion": "36m",
       "pais": "",
+      "generos": "Todos,Drama,Documental",
       "calidad": "2"
     },
     {
@@ -2399,6 +2852,8 @@
       "miniatura": "https://i.imgur.com/PEOpsrl.jpg",
       "poster": "https://i.imgur.com/xTibjf3.jpg",
       "url": "https://hugh.cdn.rumble.cloud/video/fwe1/76/s8/2/8/D/C/6/8DC6x.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "Tripulantes – La película",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2407,22 +2862,26 @@
       "fecha": "2025",
       "duracion": "55m",
       "pais": "",
+      "generos": "Todos,Drama",
       "calidad": "2"
     },
     {
       "id": "p126",
       "seguidores": "11.8 k",
       "miniatura": "https://images.justwatch.com/poster/326223759/s718/joseph-king-of-dreams.jpg",
-        "poster": "https://images.justwatch.com/backdrop/326223762/s640/joseph-king-of-dreams",
-        "url": "https://hugh.cdn.rumble.cloud/video/fwe2/8d/s8/2/i/p/G/q/ipGqy.gaa.mp4?u=0&b=0",
-        "titulo": "José - El Rey de los Sueños",
-        "descripcion": "Con su don de la interpretación de los sueños y su abrigo de colores brillantes, José inspira celos en sus hermanos y es vendido como esclavo. Esta narración animada de la historia del libro de Génesis de la Biblia cuenta con animación de primera clase y un trabajo de voz excelente, con Ben Affleck, Mark Hamill y Jody Benson. Sano y sin sermonear, José: Rey de los sueños hará las delicias de toda la familia.",
-        "fecha": "2002",
-        "duracion": "01h 14m",
+      "poster": "https://images.justwatch.com/backdrop/326223762/s640/joseph-king-of-dreams",
+      "url": "https://hugh.cdn.rumble.cloud/video/fwe2/8d/s8/2/i/p/G/q/ipGqy.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
+      "titulo": "José - El Rey de los Sueños",
+      "descripcion": "Con su don de la interpretación de los sueños y su abrigo de colores brillantes, José inspira celos en sus hermanos y es vendido como esclavo. Esta narración animada de la historia del libro de Génesis de la Biblia cuenta con animación de primera clase y un trabajo de voz excelente, con Ben Affleck, Mark Hamill y Jody Benson. Sano y sin sermonear, José: Rey de los sueños hará las delicias de toda la familia.",
+      "fecha": "2002",
+      "duracion": "01h 14m",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
       "pais": "",
+      "generos": "Todos,Familia, Animación",
       "calidad": "2"
     },
     {
@@ -2431,14 +2890,17 @@
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
-        "miniatura": "https://images.justwatch.com/poster/37870845/s718/keylor-navas-hombre-de-fe.jpg",
-        "poster": "https://images.justwatch.com/backdrop/131932072/s640/keylor-navas-hombre-de-fe",
-        "url": "https://hugh.cdn.rumble.cloud/video/fww1/5a/s8/2/W/Z/C/u/WZCuy.gaa.mp4?u=0&b=0",
-        "titulo": "Keylor Navas, Hombre de Fe",
-        "descripcion": "Un niño de una zona rural de Costa Rica llamada Pérez Zeledón, encuentra en el fútbol su pasión y una vía para una vida mejor. En su camino por alcanzar sus metas deportivas y profesionales, y ayudar a su familia, se enfrentará a una ciudad desconocida y a retos que pondrán a prueba su carácter, pero que le harán descubrir la verdadera fortaleza que hay detrás de sus sueños.",
-        "fecha": "2017",
-        "duracion": "01h 38m",
+      "miniatura": "https://images.justwatch.com/poster/37870845/s718/keylor-navas-hombre-de-fe.jpg",
+      "poster": "https://images.justwatch.com/backdrop/131932072/s640/keylor-navas-hombre-de-fe",
+      "url": "https://hugh.cdn.rumble.cloud/video/fww1/5a/s8/2/W/Z/C/u/WZCuy.gaa.mp4?u=0&b=0",
+      "urlSub": "",
+      "urlCas": "",
+      "titulo": "Keylor Navas, Hombre de Fe",
+      "descripcion": "Un niño de una zona rural de Costa Rica llamada Pérez Zeledón, encuentra en el fútbol su pasión y una vía para una vida mejor. En su camino por alcanzar sus metas deportivas y profesionales, y ayudar a su familia, se enfrentará a una ciudad desconocida y a retos que pondrán a prueba su carácter, pero que le harán descubrir la verdadera fortaleza que hay detrás de sus sueños.",
+      "fecha": "2017",
+      "duracion": "01h 38m",
       "pais": "",
+      "generos": "Todos,Drama, Deporte",
       "calidad": "2"
     },
     {
@@ -2447,7 +2909,9 @@
       "miniatura": "https://i.imgur.com/pQ0BkoK.png",
       "poster": "https://i.imgur.com/GQ8d7I2.png",
       "url": "",
-      "titulo": "Rey de Reyes",
+      "urlSub": "",
+      "urlCas": "",
+      "titulo": "El Rey de Reyes | The King of Kings",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
@@ -2455,6 +2919,7 @@
       "fecha": "2025",
       "duracion": "01h 40m",
       "pais": "",
+      "generos": "Todos,Animación, Familia, Drama",
       "calidad": "3"
     },
     {
@@ -2463,6 +2928,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2471,6 +2938,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2479,6 +2947,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2487,6 +2957,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2495,6 +2966,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2503,6 +2976,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2511,6 +2985,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2519,6 +2995,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2527,6 +3004,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2535,6 +3014,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2543,6 +3023,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2551,6 +3033,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2559,6 +3042,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2567,6 +3052,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2575,6 +3061,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2583,6 +3071,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2591,6 +3080,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2599,6 +3090,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2607,6 +3099,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2615,6 +3109,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2623,6 +3118,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2631,6 +3128,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2639,6 +3137,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2647,6 +3147,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2655,6 +3156,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2663,6 +3166,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2671,6 +3175,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2679,6 +3185,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2687,6 +3194,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2695,6 +3204,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2703,6 +3213,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2711,6 +3223,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2719,6 +3232,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2727,6 +3242,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2735,6 +3251,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2743,6 +3261,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2751,6 +3270,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2759,6 +3280,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2767,6 +3289,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2775,6 +3299,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2783,6 +3308,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2791,6 +3318,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2799,6 +3327,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2807,6 +3337,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2815,6 +3346,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2823,6 +3356,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2831,6 +3365,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2839,6 +3375,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2847,6 +3384,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2855,6 +3394,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2863,6 +3403,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2871,6 +3413,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2879,6 +3422,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2887,6 +3432,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2895,6 +3441,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2903,6 +3451,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2911,6 +3460,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2919,6 +3470,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2927,6 +3479,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2935,6 +3489,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2943,6 +3498,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2951,6 +3508,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2959,6 +3517,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2967,6 +3527,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2975,6 +3536,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2983,6 +3546,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -2991,6 +3555,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -2999,6 +3565,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -3007,6 +3574,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3015,6 +3584,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     },
     {
@@ -3023,6 +3593,8 @@
       "miniatura": "",
       "poster": "",
       "url": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3031,6 +3603,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3"
     }
   ],
@@ -3040,6 +3613,8 @@
       "seguidores": "11.8 k",
       "miniatura": "https://images.justwatch.com/poster/310398708/s592/the-chosen.jpg",
       "poster": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "The Chosen",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3048,6 +3623,7 @@
       "fecha": "2017",
       "duracion": "58m",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3",
       "lista": [
         {
@@ -3387,6 +3963,8 @@
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3395,6 +3973,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3",
       "lista": [
         {
@@ -3419,6 +3998,8 @@
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3427,6 +4008,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3",
       "lista": [
         {
@@ -3451,6 +4033,8 @@
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3459,6 +4043,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3",
       "lista": [
         {
@@ -3483,6 +4068,8 @@
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
+      "urlSub": "",
+      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3491,6 +4078,7 @@
       "fecha": "",
       "duracion": "",
       "pais": "",
+      "generos": "Todos",
       "calidad": "3",
       "lista": [
         {

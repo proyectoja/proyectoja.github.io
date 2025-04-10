@@ -361,6 +361,72 @@
             padding: 0;
             cursor: pointer;
         }
+
+        .contenedor-principal #contenedorFiltros {
+            display: flex;
+            position: relative;
+            flex-direction: row;
+            justify-content: start;
+            width: 100%;
+            height: auto;
+            margin: 0;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: transparent;
+            overflow: hidden;
+            overflow-x: auto;
+        }
+
+        .boton-genero {
+            display: flex;
+            position: relative;
+            width: auto;
+            height: auto;
+            cursor: pointer;
+            font-size: 22px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            border-radius: 1rem;
+            padding: 10px;
+            text-overflow: ellipsis;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            text-wrap: nowrap;
+            border: 0px;
+            background-color: #0066ff;
+            color: white;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .boton-genero:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #comentarios-pop{
+            display: flex;
+            position: relative;
+            margin: 10px;
+            padding: 10px;
+            background-color: transparent;
+            border-radius: 1rem;
+            border: 1px solid rgb(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 16px;
+            text-shadow: 0 0 10px rgb(255, 255, 255);
+            box-shadow: inset 0 0 10px black;
+        }
+        #disqus_thread{
+            margin: 30px;
+            padding: 10px;
+            width: 100%;
+            height: auto;
+            background-color: transparent;
+            border-radius: 1rem;
+            border: 1px solid rgb(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 10px black;
+        }
     </style>
 </head>
 
@@ -368,6 +434,7 @@
 
     <div class="contenedor-principal">
         <div class="contenedor-cont-pelis">Total: 0 películas</div>
+        <div id="contenedorFiltros"></div>
         <div class="contenedor-lista"></div>
     </div>
     <div id="anuncio-container1"></div>
@@ -410,6 +477,8 @@
         <div id="metadata-pop"></div>
         <div id="anuncio-container2"></div>
         <div id="cerrar-pop" onclick="closePopJW()">Cerrar</div>
+        <div id="comentarios-pop" onclick="cargarChat()">Mostrar comentarios</div>
+        <div id="disqus_thread"></div>
     </div>
 </body>
 <script>
@@ -435,38 +504,94 @@
     contenedorContPelis.addEventListener('click', function () {
         document.querySelector('.contenedor-lateral-derecho').style.width = document.querySelector('.contenedor-lateral-derecho').style.width === '0px' ? 'auto' : '0px';
     });
-    // Función para cargar los datos desde el archivo JSON
-    //fetch("contenido.json") //DESARROLLO
-    fetch(jsonUrl) //PRODUCCIÓN
-        .then((response) => response.json()) // Convierte la respuesta en JSON
-        .then((data) => {
-            data.peliculas.sort((a, b) => b.fecha - a.fecha); //PRODUCCIÓN
-            //data.peliculas.reverse(); //DESARROLLO
-            const fragment = document.createDocumentFragment();
-            //Modificar y validar según se agregen categorías del menú
-            data.peliculas.forEach((video) => {
-                if (video.titulo
-                    && !video.titulo.includes("rumble")
-                    && !video.titulo.includes(".mp4")
-                    && !video.descripcion.includes("rumble")
-                    && !video.descripcion.includes(".mp4")
-                    && !video.fecha.includes("rumble")
-                    && !video.fecha.includes(".mp4")
-                    && !video.duracion.includes("rumble")
-                    && !video.duracion.includes(".mp4")
-                ) {
-                    crearCarteles(video, fragment);
-                    contPelis += 1;
-                    contenedorLista.appendChild(fragment);
-                    contenedorContPelis.textContent = `Total: ${contPelis} películas. | Subiendo todos los días!!`;
-                    peliculasArreglo = data.peliculas;
-                }
-            })
 
-                .catch((error) => {
-                    console.error("Error al cargar el archivo JSON:", error);
-                });
+
+    // Función para cargar los datos desde el archivo JSON
+    fetch("contenido.json") // DESARROLLO
+        .then(response => response.json()) // Convertir a JSON
+        .then(data => {
+            // data.peliculas.sort((a, b) => b.fecha - a.fecha); // PRODUCCIÓN
+            data.peliculas.reverse(); // DESARROLLO
+            const fragment = document.createDocumentFragment();
+            const generosSet = new Set();
+            let peliculasValidas = [];
+
+            data.peliculas.forEach(video => {
+                // Validar que la película tenga datos correctos
+                if (video.titulo &&
+                    !video.titulo.includes("rumble") &&
+                    !video.titulo.includes(".mp4") &&
+                    !video.descripcion.includes("rumble") &&
+                    !video.descripcion.includes(".mp4") &&
+                    !video.fecha.includes("rumble") &&
+                    !video.fecha.includes(".mp4") &&
+                    !video.duracion.includes("rumble") &&
+                    !video.duracion.includes(".mp4") &&
+
+                    !video.titulo.includes(".m3u8") &&
+                    !video.descripcion.includes(".m3u8") &&
+                    !video.fecha.includes(".m3u8") &&
+                    !video.duracion.includes(".m3u8")
+                ) {
+                    peliculasValidas.push(video); // Agregar a la lista de películas válidas
+                    crearCarteles(video, fragment);
+
+                    // Extraer géneros únicos y limpiarlos
+                    if (video.generos) {
+                        video.generos.split(',').forEach(genero => generosSet.add(genero.trim()));
+                    }
+                }
+            });
+
+            // Agregar todo el fragmento al DOM en una sola operación
+            contenedorLista.appendChild(fragment);
+
+            // Actualizar contador
+            contPelis = peliculasValidas.length;
+            contenedorContPelis.textContent = `Total: ${contPelis} películas. | Subiendo todos los días!!`;
+
+            // Guardar películas en un arreglo global para filtrar
+            peliculasArreglo = peliculasValidas;
+
+            // Crear botones de géneros una vez
+            crearBotonesGenero([...generosSet]);
+        })
+        .catch(error => {
+            console.error("Error al cargar el archivo JSON:", error);
         });
+
+    // Filtrar películas por género y actualizar contador
+    function filtrarPorGenero(generoSeleccionado) {
+        contenedorLista.innerHTML = ""; // Limpiar el contenedor antes de mostrar resultados
+
+        const peliculasFiltradas = peliculasArreglo.filter(pelicula =>
+            pelicula.generos && pelicula.generos.split(',').map(g => g.trim()).includes(generoSeleccionado)
+        );
+
+        const fragment = document.createDocumentFragment();
+        peliculasFiltradas.forEach(video => crearCarteles(video, fragment));
+        contenedorLista.appendChild(fragment);
+
+        // Actualizar el contador de películas filtradas
+        contenedorContPelis.textContent = `Total: ${peliculasFiltradas.length} películas en "${generoSeleccionado}".`;
+    }
+
+    // Crear los botones de género optimizados
+    function crearBotonesGenero(generos) {
+        const contenedorFiltros = document.getElementById("contenedorFiltros");
+        contenedorFiltros.innerHTML = ""; // Limpiar antes de agregar
+
+        const fragment = document.createDocumentFragment();
+        generos.forEach(genero => {
+            const btn = document.createElement("button");
+            btn.textContent = genero;
+            btn.classList.add("boton-genero");
+            btn.addEventListener("click", () => filtrarPorGenero(genero));
+            fragment.appendChild(btn);
+        });
+
+        contenedorFiltros.appendChild(fragment);
+    }
 
     function esEstreno(anioPelicula) {
         const anioActual = new Date().getFullYear(); // Obtiene el año actual
@@ -517,6 +642,12 @@
         } else if (cartel.url.includes('.gaa.mp4')) {
             calidadAux.textContent = 'HD';
         } else if (cartel.url.includes('.haa.mp4') || cartel.url.includes('.aaa.mp4')) {
+            calidadAux.textContent = 'FULLHD';
+        } else if(cartel.calidad === '1'){
+            calidadAux.textContent = 'SD';
+        } else if(cartel.calidad === '2'){
+            calidadAux.textContent = 'HD';
+        } else if(cartel.calidad === '3'){
             calidadAux.textContent = 'FULLHD';
         } else if (cartel.calidad === '4') {
             calidadAux.textContent = '60FPS';
@@ -627,39 +758,6 @@
     const vast = "";
 
     function openPopJW(cartel) {
-        let listaCalidadesLat = [];
-        let listaCalidadesCas = [];
-        let listaCalidadesSub = [];
-
-        //Audio Latino Lista Calidades
-        if (cartel.url.includes(".aaa.mp4")) {
-            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".aaa.mp4"), label: "1080p | 4.5 mbps", default: true });
-            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".haa.mp4"), label: "1080p | 4.0 mbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".gaa.mp4"), label: "720p  | 2.1 mbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".aaa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
-        } else if (cartel.url.includes(".haa.mp4")) {
-            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".haa.mp4"), label: "1080p | 4.0 mbps", default: true });
-            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".gaa.mp4"), label: "720p  | 2.1 mbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".haa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
-        } else if (cartel.url.includes(".gaa.mp4")) {
-            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".gaa.mp4"), label: "720p  | 2.1 mbps", default: true });
-            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".gaa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
-        } else if (cartel.url.includes(".caa.mp4")) {
-            listaCalidadesLat.push({ file: cartel.url.replace(".caa.mp4", ".caa.mp4"), label: "480p  | 1.0 mbps", default: true });
-            listaCalidadesLat.push({ file: cartel.url.replace(".caa.mp4", ".baa.mp4"), label: "360p  | 640 kbps" });
-            listaCalidadesLat.push({ file: cartel.url.replace(".caa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
-        } else if (cartel.url.includes(".baa.mp4")) {
-            listaCalidadesLat.push({ file: cartel.url.replace(".baa.mp4", ".baa.mp4"), label: "360p  | 640 kbps", default: true });
-            listaCalidadesLat.push({ file: cartel.url.replace(".baa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps" });
-        } else if (cartel.url.includes(".oaa.mp4")) {
-            listaCalidadesLat.push({ file: cartel.url.replace(".oaa.mp4", ".oaa.mp4"), label: "360p  | 200 kbps", default: true });
-        }
 
         closePopJW();
 
@@ -717,8 +815,8 @@
         var videoKey = "progreso_" + cartel.id; // Clave única por video
         jw = jwplayer("jw-player").setup({
             "debug": 1,
-            //"file": cartel.url,
-            "sources": listaCalidadesLat,
+            "file": cartel.url,
+            //"sources": listaCalidadesLat,
             "image": cartel.poster,
             "title": cartel.titulo,
             "description": cartel.descripcion,
@@ -1005,10 +1103,12 @@
             window.location.href = "go:anuncio";
         });
     }
+    const contenedorDisqus = document.getElementById('disqus_thread');
     function closePopJW() {
         if (jw) {
             jw.remove();
             jw = null;
+            contenedorDisqus.textContent = '';
             contenedorJWPLAYER.style.display = 'none';
             window.location.href = "go:anuncio";
         }
@@ -1115,6 +1215,34 @@
         if (document.visibilityState === "visible") {
             iniciarActualizacion();
         }
+    }
+
+    // Función para cargar Disqus dinámicamente usando el ID como identificador
+    function cargarChat(){
+        const idAux = contenedorTituloPop.textContent.replace(/\s+/g, "_");
+        const url = `https://proyectoja.com/${idAux}`;
+        console.log(url);
+
+      if (window.DISQUS) {
+        DISQUS.reset({
+          reload: true,
+          config: function () {
+            this.page.identifier = idAux;
+            this.page.url = url;
+          }
+        });
+      } else {
+        window.disqus_config = function () {
+          this.page.identifier = idAux;
+          this.page.url = url;
+        };
+
+        const d = document, s = d.createElement('script');
+        s.src = 'https://https-proyectoja-github-io-proyectoja.disqus.com/embed.js'; // tu subdominio
+        s.setAttribute('data-timestamp', +new Date());
+        s.id = 'disqus-script';
+        (d.head || d.body).appendChild(s);
+      }
     }
 </script>
 <script async id="chatBroEmbedCode">
