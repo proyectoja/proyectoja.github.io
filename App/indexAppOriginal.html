@@ -404,7 +404,7 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
 
-        #comentarios-pop{
+        #comentarios-pop {
             display: flex;
             position: relative;
             margin: 10px;
@@ -417,7 +417,8 @@
             text-shadow: 0 0 10px rgb(255, 255, 255);
             box-shadow: inset 0 0 10px black;
         }
-        #disqus_thread{
+
+        #disqus_thread {
             margin: 30px;
             padding: 10px;
             width: 100%;
@@ -465,8 +466,8 @@
             <br><noscript><a href="http://www.supercounters.com/">Flag Counter</a></noscript>
         </center>
         <!-- END: Powered by Supercounters.com -->
-        <a href="https://www.andyhoppe.com/" title="Contador"><img 
-            src="//c.andyhoppe.com/1740971181" style="border:none" alt="Contador" /></a>
+        <a href="https://www.andyhoppe.com/" title="Contador"><img src="//c.andyhoppe.com/1740971181"
+                style="border:none" alt="Contador" /></a>
     </div>
     <div id="contenedorJWPLAYER">
         <img id="logoMovie24">
@@ -510,6 +511,7 @@
     fetch("contenido.json") // DESARROLLO
         .then(response => response.json()) // Convertir a JSON
         .then(data => {
+            limpiarTodasLasURLs(data);
             // data.peliculas.sort((a, b) => b.fecha - a.fecha); // PRODUCCIÓN
             data.peliculas.reverse(); // DESARROLLO
             const fragment = document.createDocumentFragment();
@@ -559,6 +561,39 @@
         .catch(error => {
             console.error("Error al cargar el archivo JSON:", error);
         });
+
+    function limpiarTodasLasURLs(data) {
+        // Limpiar URLs en películas
+        if (Array.isArray(data.peliculas)) {
+            data.peliculas.forEach(pelicula => {
+                ["url", "urlCas", "urlSub"].forEach(campo => {
+                    if (pelicula[campo] && pelicula[campo].includes("key=")) {
+                        const url = new URL(pelicula[campo]);
+                        url.searchParams.delete("key");
+                        pelicula[campo] = url.toString();
+                    }
+                });
+            });
+        }
+
+        // Limpiar URLs en doramas (urlLista)
+        if (Array.isArray(data.doramas)) {
+            data.doramas.forEach(dorama => {
+                if (Array.isArray(dorama.urlLista)) {
+                    dorama.urlLista.forEach(item => {
+                        if (item.file && item.file.includes("key=")) {
+                            const url = new URL(item.file);
+                            url.searchParams.delete("key");
+                            item.file = url.toString();
+                        }
+                    });
+                }
+            });
+        }
+
+        return data;
+    }
+
 
     // Filtrar películas por género y actualizar contador
     function filtrarPorGenero(generoSeleccionado) {
@@ -643,11 +678,11 @@
             calidadAux.textContent = 'HD';
         } else if (cartel.url.includes('.haa.mp4') || cartel.url.includes('.aaa.mp4')) {
             calidadAux.textContent = 'FULLHD';
-        } else if(cartel.calidad === '1'){
+        } else if (cartel.calidad === '1') {
             calidadAux.textContent = 'SD';
-        } else if(cartel.calidad === '2'){
+        } else if (cartel.calidad === '2') {
             calidadAux.textContent = 'HD';
-        } else if(cartel.calidad === '3'){
+        } else if (cartel.calidad === '3') {
             calidadAux.textContent = 'FULLHD';
         } else if (cartel.calidad === '4') {
             calidadAux.textContent = '60FPS';
@@ -762,7 +797,7 @@
         closePopJW();
 
         const contenedorBotonesAudio = document.getElementById('audios-pop');
-        
+
         // Eliminar iconos de audio anteriores antes de agregar los nuevos
         document.getElementById('audioLat')?.remove();
         document.getElementById('audioCas')?.remove();
@@ -951,7 +986,7 @@
             localStorage.removeItem(videoKey);
             window.location.href = "go:anuncio";
         });
-        
+
         jw.on("pause", function () {
             // Mostrar anuncio y luego continuar con la reproducción
             window.location.href = "go:anuncio";
@@ -1097,7 +1132,7 @@
             localStorage.removeItem(videoKey);
             window.location.href = "go:anuncio";
         });
-        
+
         jw.on("pause", function () {
             // Mostrar anuncio y luego continuar con la reproducción
             window.location.href = "go:anuncio";
@@ -1218,31 +1253,31 @@
     }
 
     // Función para cargar Disqus dinámicamente usando el ID como identificador
-    function cargarChat(){
+    function cargarChat() {
         const idAux = contenedorTituloPop.textContent.replace(/\s+/g, "_");
         const url = `https://proyectoja.com/${idAux}`;
         console.log(url);
 
-      if (window.DISQUS) {
-        DISQUS.reset({
-          reload: true,
-          config: function () {
-            this.page.identifier = idAux;
-            this.page.url = url;
-          }
-        });
-      } else {
-        window.disqus_config = function () {
-          this.page.identifier = idAux;
-          this.page.url = url;
-        };
+        if (window.DISQUS) {
+            DISQUS.reset({
+                reload: true,
+                config: function () {
+                    this.page.identifier = idAux;
+                    this.page.url = url;
+                }
+            });
+        } else {
+            window.disqus_config = function () {
+                this.page.identifier = idAux;
+                this.page.url = url;
+            };
 
-        const d = document, s = d.createElement('script');
-        s.src = 'https://https-proyectoja-github-io-proyectoja.disqus.com/embed.js'; // tu subdominio
-        s.setAttribute('data-timestamp', +new Date());
-        s.id = 'disqus-script';
-        (d.head || d.body).appendChild(s);
-      }
+            const d = document, s = d.createElement('script');
+            s.src = 'https://https-proyectoja-github-io-proyectoja.disqus.com/embed.js'; // tu subdominio
+            s.setAttribute('data-timestamp', +new Date());
+            s.id = 'disqus-script';
+            (d.head || d.body).appendChild(s);
+        }
     }
 </script>
 <script async id="chatBroEmbedCode">
@@ -1250,16 +1285,16 @@
     function ChatbroLoader(chats, async) {
         async = !1 !== async;
         var params = {
-                embedChatsParameters: chats instanceof Array ? chats : [chats],
-                lang: navigator.language || navigator.userLanguage,
-                needLoadCode: 'undefined' == typeof Chatbro,
-                embedParamsVersion: localStorage.embedParamsVersion,
-                chatbroScriptVersion: localStorage.chatbroScriptVersion
-            },
+            embedChatsParameters: chats instanceof Array ? chats : [chats],
+            lang: navigator.language || navigator.userLanguage,
+            needLoadCode: 'undefined' == typeof Chatbro,
+            embedParamsVersion: localStorage.embedParamsVersion,
+            chatbroScriptVersion: localStorage.chatbroScriptVersion
+        },
             xhr = new XMLHttpRequest;
-        xhr.withCredentials = !0, xhr.onload = function() {
+        xhr.withCredentials = !0, xhr.onload = function () {
             eval(xhr.responseText)
-        }, xhr.onerror = function() {
+        }, xhr.onerror = function () {
             console.error('Chatbro loading error')
         }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send()
     } /* Chatbro Widget Embed Code End */
