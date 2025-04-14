@@ -1097,9 +1097,24 @@
             //}, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
             //]
             //},
-            //"tracks": [{ "file": "<?php echo $cc; ?>", "label": "Español", "kind": "captions", "default": "false" },
-            //{ "file": "<?php echo $cc; ?>", "label": "English", "kind": "captions", "default": "false" }],
-            //"captions": { "color": '#ffb800', "fontSize": 30, "backgroundOpacity": 0 },
+            tracks: [
+                {
+                    file: BASE_URL + "/Subtitulos/" + cartel.id + "-lat.vtt",
+                    label: "Español",
+                    kind: "captions",
+                    default: true
+                },
+                {
+                    file: BASE_URL + "/Subtitulos/" + cartel.id + "-sub.vtt",
+                    label: "English",
+                    kind: "captions"
+                },
+                {
+                    file: BASE_URL + "/Subtitulos/" + cartel.id + "-por.vtt",
+                    label: "Portuguese",
+                    kind: "captions"
+                }
+            ],
             "skin": {
                 "controlbar": {
                     "background": "rgba(0,0,0,0.5)",
