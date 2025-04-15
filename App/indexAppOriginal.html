@@ -60,6 +60,7 @@
             width: 100%;
             min-width: 92px;
             height: 100%;
+            max-height: 400px;
             z-index: 3;
             background-color: rgb(0, 0, 0);
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -446,6 +447,56 @@
             width: 100%;
             height: 100%;
         }
+
+        .contenedor-principal #contenedorEspecial {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            width: 100%;
+            height: 400px;
+            gap: 5px;
+            background-color: transparent;
+            overflow: hidden;
+            overflow-x: auto;
+        }
+
+        .contenedor-principal #contenedorEspecial .contenedor-video-recientes {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            width: 230px;
+            height: 100%;
+            z-index: 3;
+            background-color: rgb(0, 0, 0);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+
+        }
+
+        .contenedor-video-cartel-especial .contenedor-video-recientes h3 {
+            color: white;
+            font-size: 18px;
+            font-family: Arial, Helvetica, sans-serif;
+            text-wrap: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-left: 5px;
+            padding-right: 5px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .contenedor-lista .etiquetaListaDePeliculas, .etiquetaRecienAgregadas {
+            grid-column: 1 / -1;
+            color: white;
+            text-align: center;
+            text-wrap: nowrap;
+            font-size: 24px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            padding: 0;
+
+        }
     </style>
 </head>
 
@@ -454,7 +505,9 @@
     <div class="contenedor-principal">
         <div class="contenedor-cont-pelis">Total: 0 películas</div>
         <div id="contenedorFiltros"></div>
-        <div class="contenedor-lista"></div>
+        <div class="contenedor-lista">
+            <h3 class="etiquetaRecienAgregadas">Recién agregadas:</h3>
+        </div>
     </div>
     <div id="anuncio-container1"></div>
     <div class="contenedor-buscador">
@@ -524,19 +577,40 @@
         document.querySelector('.contenedor-lateral-derecho').style.width = document.querySelector('.contenedor-lateral-derecho').style.width === '0px' ? 'auto' : '0px';
     });
 
+    let banderaCartel = false;
+    let arregloAux = [];
+    if (document.getElementById('contenedorEspecial')) {
+        const contenedorEspecial = document.getElementById('contenedorEspecial');
+    }
 
     // Función para cargar los datos desde el archivo JSON
     fetch("contenido.json") // DESARROLLO
         .then(response => response.json()) // Convertir a JSON
         .then(data => {
             limpiarTodasLasURLs(data);
-            // data.peliculas.sort((a, b) => b.fecha - a.fecha); // PRODUCCIÓN
-            data.peliculas.reverse(); // DESARROLLO
+
+            // ✅ Filtrar las que tengan url y urlSub válidas
+            const soloValidas = data.peliculas.filter(video =>
+                video.url && video.url.trim() !== "" ||
+                video.urlSub && video.urlSub.trim() !== "" ||
+                video.urlCas && video.urlCas.trim() !== ""
+            );
+
+            // ✅ Tomar los últimos 10 válidos
+            arregloAux = soloValidas.slice(-10);
+
+            data.peliculas.sort((a, b) => b.fecha - a.fecha); // PRODUCCIÓN
             const fragment = document.createDocumentFragment();
             const generosSet = new Set();
             let peliculasValidas = [];
 
             data.peliculas.forEach(video => {
+                //Creación cartel primero de construcción
+                if (!banderaCartel) {
+                    crearCartelEspecial(video, fragment);
+                    banderaCartel = true;
+                }
+
                 // Validar que la película tenga datos correctos
                 if (video.titulo &&
                     !video.titulo.includes("rumble") &&
@@ -566,6 +640,7 @@
             // Agregar todo el fragmento al DOM en una sola operación
             contenedorLista.appendChild(fragment);
 
+
             // Actualizar contador
             contPelis = peliculasValidas.length;
             contenedorContPelis.textContent = `Total: ${contPelis} películas. | Subiendo todos los días!!`;
@@ -575,6 +650,16 @@
 
             // Crear botones de géneros una vez
             crearBotonesGenero([...generosSet]);
+
+            //Películas Recientes
+            if (banderaCartel) {
+                arregloAux.reverse();
+                const fragmentRecientes = document.createDocumentFragment();
+                arregloAux.forEach(video => {
+                    crearCartelesRecientes(video, fragmentRecientes);
+                });
+                contenedorEspecial.appendChild(fragmentRecientes);
+            }
         })
         .catch(error => {
             console.error("Error al cargar el archivo JSON:", error);
@@ -658,6 +743,18 @@
 
         // Mostrar anuncio si la película es diferente o si ha pasado un día
         return ultimaPelicula !== idPelicula || ultimaFecha !== fechaActual;
+    }
+
+    function crearCartelEspecial(cartel) {
+        const videoItem = document.createElement("div");
+        videoItem.classList.add("contenedor-video-cartel-especial");
+        videoItem.id = 'contenedorEspecial';
+
+        const etiqueta = document.createElement('h3');
+        etiqueta.textContent = 'Lista de películas:';
+        etiqueta.className = 'etiquetaListaDePeliculas';
+        contenedorLista.appendChild(videoItem);
+        contenedorLista.appendChild(etiqueta);
     }
 
     function crearCarteles(cartel) {
@@ -796,6 +893,55 @@
         contenedorLista.appendChild(videoItem);
     }
 
+
+    function crearCartelesRecientes(cartel) {
+        const videoItem = document.createElement("div");
+        videoItem.classList.add("contenedor-video-recientes");
+        videoItem.addEventListener('click', function () {
+            const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
+
+            if (debeMostrarAnuncio(idPelicula)) {
+                // Mostrar anuncio y luego continuar con la reproducción
+                window.location.href = "go:anuncio";
+
+                // Guardar la película y la fecha para futuras validaciones
+                localStorage.setItem("ultimaPeliculaVista", idPelicula);
+                localStorage.setItem("ultimaFechaVista", new Date().toISOString().split("T")[0]);
+
+                // Esperar a que el usuario regrese para continuar con la película
+                setTimeout(() => {
+                    contenedorJWPLAYER.style.display = 'flex';
+                    openPopJW(cartel);
+                }, 1000); // Puedes ajustar el tiempo si lo deseas
+            } else {
+                // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
+                contenedorJWPLAYER.style.display = 'flex';
+                openPopJW(cartel);
+            }
+        });
+        videoItem.style.cursor = "pointer";
+
+        // Crear imágenes con carga diferida
+        const poster = document.createElement("img");
+        poster.dataset.src = cartel.miniatura; // Guardamos la URL en data-src
+        poster.alt = cartel.nombreCanal;
+        poster.classList.add("lazy"); // Agregamos una clase para identificarlas 
+        poster.style.opacity = '0';
+        poster.style.transition = 'opacity 0.2s ease-in-out';
+
+        const title = document.createElement("h3");
+        title.textContent = cartel.titulo;
+
+        videoItem.appendChild(poster);
+        // Observa la imagen recién creada
+        observer.observe(poster);
+
+        videoItem.appendChild(title);
+
+        //Modificar y validar según se agregen categorías del menú
+        contenedorEspecial.appendChild(videoItem);
+    }
+
     // Usamos IntersectionObserver para cargar solo cuando la imagen sea visible
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -846,10 +992,16 @@
     const contenedorCerrarPop = document.getElementById('cerrar-pop');
     var jw = null;
     const vast = "";
+    const posterPlayer = document.getElementById('jw-player');
 
     function openPopJW(cartel) {
 
-        closePopJW();
+        posterPlayer.style.backgroundImage = `url("${cartel.poster}")`;
+        posterPlayer.style.width = '100%';
+        posterPlayer.style.minHeight = '300px';
+        posterPlayer.style.backgroundPosition = 'center';
+        posterPlayer.style.backgroundRepeat = 'norepeat';
+        posterPlayer.style.backgroundSize = 'cover';
 
         const contenedorBotonesAudio = document.getElementById('audios-pop');
 
@@ -864,8 +1016,7 @@
             iconoLat.id = 'audioLat';
             iconoLat.src = BASE_URL + 'lat.png';
             iconoLat.addEventListener('click', function () {
-                jw.remove();
-                jw = null;
+
                 reproductorJWAudios(cartel, vast, cartel.url);
             });
             contenedorBotonesAudio.appendChild(iconoLat);
@@ -877,8 +1028,7 @@
             iconoCas.id = 'audioCas';
             iconoCas.src = BASE_URL + 'cas.png';
             iconoCas.addEventListener('click', function () {
-                jw.remove();
-                jw = null;
+
                 reproductorJWAudios(cartel, vast, cartel.urlCas);
             });
             contenedorBotonesAudio.appendChild(iconoCas);
@@ -890,179 +1040,24 @@
             iconoSub.id = 'audioSub';
             iconoSub.src = BASE_URL + 'sub.png';
             iconoSub.addEventListener('click', function () {
-                jw.remove();
-                jw = null;
+
                 reproductorJWAudios(cartel, vast, cartel.urlSub);
             });
             contenedorBotonesAudio.appendChild(iconoSub);
         }
 
         const logoMovie24 = document.getElementById('logoMovie24');
-        logoMovie24.src = BASE_URL + "ministerios.png";
+        logoMovie24.src = BASE_URL + "logo1.png";
         contenedorTituloPop.textContent = cartel.titulo;
         contenedorDescripcionPop.textContent = cartel.descripcion;
         contenedorMetadataPop.textContent = "Año: " + cartel.fecha + " | Duración: " + cartel.duracion;
-        var videoKey = "progreso_" + cartel.id; // Clave única por video
-        jw = jwplayer("jw-player").setup({
-            "debug": 1,
-            "file": cartel.url,
-            //"sources": listaCalidadesLat,
-            "image": cartel.poster,
-            "title": cartel.titulo,
-            "description": cartel.descripcion,
-            "height": "auto",
-            "width": "100%",
-            "playbackRateControls": true,
-            "logo": {
-                "file": BASE_URL + cartel.perfilCanal, //watermark image path
-                "link": "", //link url on watermark image
-                "hide": "false",
-                "position": "top-right" //position of watermark on player
-            },
-            "preload": "metadata",
-            "floating": {
-                "dismissible": true
-            },
-            "repeat": false,
-            "sharing": false,
-            //{
-            //"heading": "Compartir Video",
-            //"link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
-            //"sites": [
-            //{
-            //"icon": "https://i.imgur.com/7TleNbh.png",
-            //"src": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
-            //"label": "Play Store"
-            //}, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
-            //]
-            //},
-            tracks: [
-                {
-                    file: BASE_URL + "/Subtitulos/" + cartel.id + "-lat.vtt",
-                    label: "Español",
-                    kind: "captions",
-                    default: true
-                },
-                {
-                    file: BASE_URL + "/Subtitulos/" + cartel.id + "-sub.vtt",
-                    label: "English",
-                    kind: "captions"
-                },
-                {
-                    file: BASE_URL + "/Subtitulos/" + cartel.id + "-por.vtt",
-                    label: "Portuguese",
-                    kind: "captions"
-                }
-            ],
-            "skin": {
-                "controlbar": {
-                    "background": "rgba(0,0,0,0.5)",
-                    "icons": "#b8b8b8",
-                    "iconsActive": "#0066FF",
-                    "text": "#FFFFFF"
-                },
-                "menus": {
-                    "background": "#003366",
-                    "text": "#b8b8b8",
-                    "textActive": "#FFFFFF"
-                },
-                "name": "stormtrooper",
-                "timeslider": {
-                    "progress": "#0066FF"
-                },
-                "tooltips": {
-                    "background": "#0066FF",
-                    "text": "#FFFFFF"
-                }
-            },
-            "stretching": "uniform",
-            "autostart": false,
-            "cast": {},
-            "controls": true,
-            "defaultBandwidthEstimate": 5000000,
-            "displaydescription": true,
-            "displaytitle": true,
-            "aboutlink": "",
-            "abouttext": "Movie 24",
 
-
-
-            "advertising": {
-                "client": "vast",
-                "adscheduleid": "Az87bY12",
-                "schedule": [
-                    {
-                        "offset": "pre",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "25%",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "50%",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "75%",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "post",
-                        "tag": vast
-                    }
-                ]
-            },
-
-
-
-
-            //"playlist": serieData,
-            "horizontalVolumeSlider": true,
-            "volume": 100,
-            "nextupoffset": -30,
-            "related": {
-                "autoplaytimer": 20,
-                "oncomplete": "autoplay"
-            },
-            "intl": {
-                "en": {
-                    "related": {
-                        "autoplaymessage": "__title__ se reproducirá en xx segundos.",
-                        "heading": "Más Capítulos"
-                    }
-                }
-            }
-
-        });
-
-        //Tiempos dinámicos para cada video
-        videoKey = videoKey + cartel.id;
-        //Espera que el reproductor esté listo
-        jw.on("ready", function () {
-            var lastTime = localStorage.getItem(videoKey);
-            if (lastTime) {
-                jw.seek(parseFloat(lastTime)); // Reanudar desde el último tiempo guardado
-            }
-        });
-
-        // Guardar el progreso del video cada 5 segundos
-        jw.on("time", function (event) {
-            localStorage.setItem(videoKey, event.position);
-        });
-
-        // Limpiar el progreso si el video se termina
-        jw.on("complete", function () {
-            localStorage.removeItem(videoKey);
-            window.location.href = "go:anuncio";
-        });
-
-        jw.on("pause", function () {
-            // Mostrar anuncio y luego continuar con la reproducción
-            window.location.href = "go:anuncio";
-        });
     }
     function reproductorJWAudios(cartel, vast, audio) {
+        if (jw) {
+            jw.remove();
+            jw = null;
+        }
         var videoKey = "progreso_" + cartel.id; // Clave única por video
         jw = jwplayer("jw-player").setup({
             "debug": 1,
@@ -1232,6 +1227,8 @@
             contenedorJWPLAYER.style.display = 'none';
             window.location.href = "go:anuncio";
         }
+        contenedorDisqus.textContent = '';
+        contenedorJWPLAYER.style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', function () {
