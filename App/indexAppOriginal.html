@@ -60,7 +60,7 @@
             width: 100%;
             min-width: 92px;
             height: 100%;
-            max-height: 400px;
+            max-height: 500px;
             z-index: 3;
             background-color: rgb(0, 0, 0);
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -114,6 +114,7 @@
         }
 
         .contenedor-video h3 {
+            width: 100%;
             margin: 10px;
             margin-top: auto;
             padding: 0;
@@ -161,7 +162,7 @@
             text-shadow: 0 0 10px rgb(255, 255, 255);
         }
 
-        .contenedor-cont-pelis {
+        .etiqueta1 {
             display: flex;
             position: relative;
             width: 100%;
@@ -473,7 +474,7 @@
 
         }
 
-        .contenedor-video-cartel-especial .contenedor-video-recientes h3 {
+        .contenedor-principal .contenedor-video-cartel-especial .contenedor-video-recientes h3 {
             color: white;
             font-size: 18px;
             font-family: Arial, Helvetica, sans-serif;
@@ -486,7 +487,8 @@
             text-align: center;
         }
 
-        .contenedor-lista .etiquetaListaDePeliculas, .etiquetaRecienAgregadas {
+        .contenedor-principal .contenedor-lista .etiquetaListaDePeliculas,
+        .etiquetaRecienAgregadas {
             grid-column: 1 / -1;
             color: white;
             text-align: center;
@@ -503,7 +505,7 @@
 <body>
 
     <div class="contenedor-principal">
-        <div class="contenedor-cont-pelis">Total: 0 películas</div>
+        <div class="etiqueta1"><div class="contenedor-cont-pelis"></div><span id="contUsuarios"></span></div>
         <div id="contenedorFiltros"></div>
         <div class="contenedor-lista">
             <h3 class="etiquetaRecienAgregadas">Recién agregadas:</h3>
@@ -553,6 +555,10 @@
         <div id="disqus_thread"></div>
     </div>
 </body>
+<script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+</script>
+
 <script>
     var BASE_URL = "https://proyectoja.github.io/App/";
     var script = document.createElement("script");
@@ -643,7 +649,7 @@
 
             // Actualizar contador
             contPelis = peliculasValidas.length;
-            contenedorContPelis.textContent = `Total: ${contPelis} películas. | Subiendo todos los días!!`;
+            contenedorContPelis.textContent = `Total: ${contPelis} películas. `;
 
             // Guardar películas en un arreglo global para filtrar
             peliculasArreglo = peliculasValidas;
@@ -711,7 +717,7 @@
         contenedorLista.appendChild(fragment);
 
         // Actualizar el contador de películas filtradas
-        contenedorContPelis.textContent = `Total: ${peliculasFiltradas.length} películas en "${generoSeleccionado}".`;
+        contenedorContPelis.textContent = `Total: ${peliculasFiltradas.length} películas en "${generoSeleccionado}". `;
     }
 
     // Crear los botones de género optimizados
@@ -1215,7 +1221,7 @@
 
         jw.on("pause", function () {
             // Mostrar anuncio y luego continuar con la reproducción
-            window.location.href = "go:anuncio";
+            //window.location.href = "go:anuncio";
         });
     }
     const contenedorDisqus = document.getElementById('disqus_thread');
@@ -1361,6 +1367,15 @@
             (d.head || d.body).appendChild(s);
         }
     }
+
+    const contUsuarios = document.getElementById('contUsuarios');
+        document.addEventListener('chatLoaded', function () {
+            document.addEventListener('chatbroPtCountChanging', function (event) {
+                const count = event?.ptCount?.web ?? 0;
+                const onlineDiv = `👁️ ${count}`;
+                contUsuarios.textContent = `| Viendo pelis: ${onlineDiv}`;
+            });
+        });
 </script>
 <script async id="chatBroEmbedCode">
     /* Chatbro Widget Embed Code Start */
