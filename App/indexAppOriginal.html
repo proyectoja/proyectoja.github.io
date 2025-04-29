@@ -114,7 +114,6 @@
         }
 
         .contenedor-video h3 {
-            width: 100%;
             margin: 10px;
             margin-top: auto;
             padding: 0;
@@ -771,7 +770,7 @@
 
             if (debeMostrarAnuncio(idPelicula)) {
                 // Mostrar anuncio y luego continuar con la reproducción
-                window.location.href = "go:anuncio";
+                //window.location.href = "go:anuncio";
 
                 // Guardar la película y la fecha para futuras validaciones
                 localStorage.setItem("ultimaPeliculaVista", idPelicula);
@@ -908,7 +907,7 @@
 
             if (debeMostrarAnuncio(idPelicula)) {
                 // Mostrar anuncio y luego continuar con la reproducción
-                window.location.href = "go:anuncio";
+                //window.location.href = "go:anuncio";
 
                 // Guardar la película y la fecha para futuras validaciones
                 localStorage.setItem("ultimaPeliculaVista", idPelicula);
@@ -1206,6 +1205,7 @@
             if (lastTime) {
                 jw.seek(parseFloat(lastTime)); // Reanudar desde el último tiempo guardado
             }
+            window.location.href = "go:anuncio";
         });
 
         // Guardar el progreso del video cada 5 segundos
@@ -1231,7 +1231,7 @@
             jw = null;
             contenedorDisqus.textContent = '';
             contenedorJWPLAYER.style.display = 'none';
-            window.location.href = "go:anuncio";
+            //window.location.href = "go:anuncio";
         }
         contenedorDisqus.textContent = '';
         contenedorJWPLAYER.style.display = 'none';
