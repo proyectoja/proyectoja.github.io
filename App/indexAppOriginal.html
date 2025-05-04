@@ -872,7 +872,7 @@
             estrenoAux.style.border = '1px solid yellow';
             estrenoAux.style.boxShadow = '0 0 1px white,0 0 1px white,';
             videoItem.appendChild(estrenoAux);
-        }else{
+        } else {
             serieAux = false;
         }
 
@@ -1279,22 +1279,13 @@
         //Anucios en la lista JW PLAYER
         jw.on("playlistItem", function (event) {
             contenedorDisqus.textContent = '';
-            var videoIndex = event.index + 1;
-            var videoTitle = event.item.title || "Sin título"
-            var videoDescription = event.item.description || "Sin Descripción"
+            var videoTitle = event.item.title || "Sin título";
+            var videoDescription = event.item.description || "Sin Descripción";
             contenedorTituloPop.textContent = videoTitle;
             contenedorDescripcionPop.textContent = videoDescription;
-
-            jw.on("complete", function () {
-                // Mostrar anuncio y luego continuar con la reproducción
-                window.location.href = "go:anuncio";
-            });
-
-            jw.on("pause", function () {
-                // Mostrar anuncio y luego continuar con la reproducción
-                window.location.href = "go:anuncio";
-            });
+            window.location.href = "go:anuncio";
         });
+
     }
     const contenedorDisqus = document.getElementById('disqus_thread');
     function closePopJW() {
