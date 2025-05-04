@@ -3605,6 +3605,175 @@
       "pais": "",
       "generos": "Todos",
       "calidad": "3"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    {
+      "id": "s1",
+      "seguidores": "11.8 k",
+      "miniatura": "https://images.justwatch.com/poster/310398708/s592/the-chosen.jpg",
+      "poster": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+      "titulo": "The Chosen",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "Dramatiza la vida de Jesús en Judá del primer siglo bajo el dominio romano, retratando sus enseñanzas y relaciones revolucionarias.",
+      "fecha": "2026",
+      "duracion": "58m",
+      "pais": "",
+      "generos": "Todos,Documental, Drama, Historia, Religious Drama",
+      "calidad": "3",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/X/R/m/T/XRmTq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "The Chosen",
+          "description": "Dramatiza la vida de Jesús en Judá del primer siglo bajo el dominio romano, retratando sus enseñanzas y relaciones revolucionarias."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/w/x/q/T/wxqTq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 2 | El sábado",
+          "description": "Mateo valida el reclamo de Simón con el pretor Quinto. Nicodemo investiga el milagro reportado en el barrio rojo y María recibe invitados inesperados en su cena por el sabbat."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/p/9/t/T/p9tTq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 3 | Jesús ama a los niños",
+          "description": "Un grupo de niños curiosos se encuentra con Jesús a las afueras de Cafarnaúm, donde permanece retirado. Pronto se hacen amigos suyos y escuchan lo que les enseña."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/K/n/O/T/KnOTq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 4 | La roca sobre la que está construida",
+          "description": "Tras recibir una amenaza de Roma respecto de su vida y su familia; Simón sale a pescar una última noche en un intento desesperado por saldar sus deudas. Andrés observa un rostro familiar en las costas de Galilea."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/P/G/R/T/PGRTq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 5 | El regalo de bodas",
+          "description": "Nicodemo interroga a Juan, el bautista, mientras Jesús, Simón y los demás se dirigen a una boda en Caná de Galilea. Un problema con el suministro de vino lleva a María a pedir un favor a su hijo."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/0/E/U/T/0EUTq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 6 | Compasión indescriptible",
+          "description": "Tras ser testigo de la sanación de un leproso en el camino a Cafarnaúm; una mujer atraviesa la multitud con su amigo paralítico para conocer a Jesús."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/N/3/X/T/N3XTq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 7 | Invitaciones",
+          "description": "Mateo se replantea el sentido de su trabajo ante las cosas increíbles que está presenciando. Nicodemo organiza un encuentro con Jesús al caer la noche con la esperanza de hallar respuestas."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/d/6/0/T/d60Tq.haa.mp4?u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 8 | Yo soy Él",
+          "description": "Mientras la desconfianza en el sanedrín aumenta, Jesús y los suyos dejan Cafarnaúm y se dirigen a Samaria. Allí, Jesús para a beber agua de un pozo y conoce a una mujer con problemas."
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 1 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 2 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 3 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 4 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 5 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 6 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 7 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 2 | Episodio: 8 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 3 | Episodio: 1 | ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
     }
   ],
   "series": [
@@ -3613,8 +3782,6 @@
       "seguidores": "11.8 k",
       "miniatura": "https://images.justwatch.com/poster/310398708/s592/the-chosen.jpg",
       "poster": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
-      "urlSub": "",
-      "urlCas": "",
       "titulo": "The Chosen",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3625,45 +3792,46 @@
       "pais": "",
       "generos": "Todos",
       "calidad": "3",
-      "lista": [
+      "urlLista": [
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/X/R/m/T/XRmTq.haa.mp4?u=0&b=0",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: 1 | Te he llamado por tu nombre"
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "The Chosen",
+          "description": "Dramatiza la vida de Jesús en Judá del primer siglo bajo el dominio romano, retratando sus enseñanzas y relaciones revolucionarias."
         },
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/w/x/q/T/wxqTq.haa.mp4?u=0&b=0",
-          "image": "",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
           "title": "Temporada: 1 | Episodio: 2 | El sábado"
         },
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/p/9/t/T/p9tTq.haa.mp4?u=0&b=0",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: 3 | esús ama a los niños"
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
+          "title": "Temporada: 1 | Episodio: 3 | Jesús ama a los niños"
         },
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/K/n/O/T/KnOTq.haa.mp4?u=0&b=0",
-          "image": "",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
           "title": "Temporada: 1 | Episodio: 4 | La roca sobre la que está construida"
         },
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/P/G/R/T/PGRTq.haa.mp4?u=0&b=0",
-          "image": "",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
           "title": "Temporada: 1 | Episodio: 5 | El regalo de bodas"
         },
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/0/E/U/T/0EUTq.haa.mp4?u=0&b=0",
-          "image": "",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
           "title": "Temporada: 1 | Episodio: 6 | Compasión indescriptible"
         },
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/N/3/X/T/N3XTq.haa.mp4?u=0&b=0",
-          "image": "",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
           "title": "Temporada: 1 | Episodio: 7 | Invitaciones"
         },
         {
           "file": "https://hugh.cdn.rumble.cloud/video/s8/2/d/6/0/T/d60Tq.haa.mp4?u=0&b=0",
-          "image": "",
+          "image": "https://images.justwatch.com/backdrop/250255497/s640/the-chosen",
           "title": "Temporada: 1 | Episodio: 8 | Yo soy Él"
         },
         {
@@ -3963,8 +4131,6 @@
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
-      "urlSub": "",
-      "urlCas": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -3974,127 +4140,13 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
-      "calidad": "3",
-      "lista": [
+      "calidad": "",
+      "urlLista": [
         {
           "file": "",
           "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        }
-      ]
-    },
-    {
-      "id": "s3",
-      "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
-      "urlSub": "",
-      "urlCas": "",
-      "titulo": "",
-      "perfilCanal": "perfilCanal/proyecto-ja.png",
-      "nombreCanal": "PROYECTO JA",
-      "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
-      "pais": "",
-      "generos": "Todos",
-      "calidad": "3",
-      "lista": [
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        }
-      ]
-    },
-    {
-      "id": "s4",
-      "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
-      "urlSub": "",
-      "urlCas": "",
-      "titulo": "",
-      "perfilCanal": "perfilCanal/proyecto-ja.png",
-      "nombreCanal": "PROYECTO JA",
-      "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
-      "pais": "",
-      "generos": "Todos",
-      "calidad": "3",
-      "lista": [
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        }
-      ]
-    },
-    {
-      "id": "s5",
-      "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
-      "urlSub": "",
-      "urlCas": "",
-      "titulo": "",
-      "perfilCanal": "perfilCanal/proyecto-ja.png",
-      "nombreCanal": "PROYECTO JA",
-      "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
-      "pais": "",
-      "generos": "Todos",
-      "calidad": "3",
-      "lista": [
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": ""
+          "title": "",
+          "description": ""
         }
       ]
     }

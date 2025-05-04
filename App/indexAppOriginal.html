@@ -504,7 +504,9 @@
 <body>
 
     <div class="contenedor-principal">
-        <div class="etiqueta1"><div class="contenedor-cont-pelis"></div><span id="contUsuarios"></span></div>
+        <div class="etiqueta1">
+            <div class="contenedor-cont-pelis"></div><span id="contUsuarios"></span>
+        </div>
         <div id="contenedorFiltros"></div>
         <div class="contenedor-lista">
             <h3 class="etiquetaRecienAgregadas">Recién agregadas:</h3>
@@ -598,7 +600,8 @@
             const soloValidas = data.peliculas.filter(video =>
                 video.url && video.url.trim() !== "" ||
                 video.urlSub && video.urlSub.trim() !== "" ||
-                video.urlCas && video.urlCas.trim() !== ""
+                video.urlCas && video.urlCas.trim() !== "" ||
+                (Array.isArray(video.urlLista) && video.urlLista[0].file && video.urlLista[0].file.trim() !== "")
             );
 
             // ✅ Tomar los últimos 10 válidos
@@ -648,7 +651,7 @@
 
             // Actualizar contador
             contPelis = peliculasValidas.length;
-            contenedorContPelis.textContent = `Total: ${contPelis} películas. `;
+            contenedorContPelis.textContent = `Total: ${contPelis} películas y series. `;
 
             // Guardar películas en un arreglo global para filtrar
             peliculasArreglo = peliculasValidas;
@@ -661,7 +664,23 @@
                 arregloAux.reverse();
                 const fragmentRecientes = document.createDocumentFragment();
                 arregloAux.forEach(video => {
-                    crearCartelesRecientes(video, fragmentRecientes);
+                    if (video.titulo &&
+                        !video.titulo.includes("rumble") &&
+                        !video.titulo.includes(".mp4") &&
+                        !video.descripcion.includes("rumble") &&
+                        !video.descripcion.includes(".mp4") &&
+                        !video.fecha.includes("rumble") &&
+                        !video.fecha.includes(".mp4") &&
+                        !video.duracion.includes("rumble") &&
+                        !video.duracion.includes(".mp4") &&
+
+                        !video.titulo.includes(".m3u8") &&
+                        !video.descripcion.includes(".m3u8") &&
+                        !video.fecha.includes(".m3u8") &&
+                        !video.duracion.includes(".m3u8")) {
+                        crearCartelesRecientes(video, fragmentRecientes);
+                    }
+
                 });
                 contenedorEspecial.appendChild(fragmentRecientes);
             }
@@ -685,10 +704,10 @@
         }
 
         // Limpiar URLs en doramas (urlLista)
-        if (Array.isArray(data.doramas)) {
-            data.doramas.forEach(dorama => {
-                if (Array.isArray(dorama.urlLista)) {
-                    dorama.urlLista.forEach(item => {
+        if (Array.isArray(data.peliculas)) {
+            data.peliculas.forEach(serie => {
+                if (Array.isArray(serie.urlLista)) {
+                    serie.urlLista.forEach(item => {
                         if (item.file && item.file.includes("key=")) {
                             const url = new URL(item.file);
                             url.searchParams.delete("key");
@@ -716,7 +735,7 @@
         contenedorLista.appendChild(fragment);
 
         // Actualizar el contador de películas filtradas
-        contenedorContPelis.textContent = `Total: ${peliculasFiltradas.length} películas en "${generoSeleccionado}". `;
+        contenedorContPelis.textContent = `Total: ${peliculasFiltradas.length} películas y series en "${generoSeleccionado}". `;
     }
 
     // Crear los botones de género optimizados
@@ -762,6 +781,8 @@
         contenedorLista.appendChild(etiqueta);
     }
 
+
+
     function crearCarteles(cartel) {
         const videoItem = document.createElement("div");
         videoItem.classList.add("contenedor-video");
@@ -790,8 +811,10 @@
         videoItem.style.cursor = "pointer";
 
         let proxiAux = false;
+        let serieAux = false;
         const calidadAux = document.createElement('div');
         calidadAux.className = 'contenedor-calidad';
+
         if (cartel.url.includes('.caa.mp4')) {
             calidadAux.textContent = 'SD';
         } else if (cartel.url.includes('.gaa.mp4')) {
@@ -810,6 +833,13 @@
             calidadAux.textContent = 'No Disponible';
             proxiAux = true;
         }
+
+
+        if (Array.isArray(cartel.urlLista)) {
+            serieAux = true;
+        }
+
+
         videoItem.appendChild(calidadAux);
 
         const estrenoAux = document.createElement('div');
@@ -829,10 +859,24 @@
             estrenoAux.style.fontSize = '12px';
             estrenoAux.style.border = '1px solid green';
             estrenoAux.style.boxShadow = '0 0 1px white,0 0 1px white,';
+
             videoItem.appendChild(estrenoAux);
         } else {
             proxiAux = false;
         }
+
+        if (serieAux) {
+            estrenoAux.textContent = "Serie";
+            estrenoAux.style.color = 'yellow';
+            estrenoAux.style.fontSize = '12px';
+            estrenoAux.style.border = '1px solid yellow';
+            estrenoAux.style.boxShadow = '0 0 1px white,0 0 1px white,';
+            videoItem.appendChild(estrenoAux);
+        }else{
+            serieAux = false;
+        }
+
+
 
         // Crear imágenes con carga diferida
         const poster = document.createElement("img");
@@ -1051,11 +1095,18 @@
             contenedorBotonesAudio.appendChild(iconoSub);
         }
 
+        if (Array.isArray(cartel.urlLista)) {
+            reproductorJWAudios(cartel, vast, null);
+        }
+
         const logoMovie24 = document.getElementById('logoMovie24');
         logoMovie24.src = BASE_URL + "logo1.png";
         contenedorTituloPop.textContent = cartel.titulo;
         contenedorDescripcionPop.textContent = cartel.descripcion;
-        contenedorMetadataPop.textContent = "Año: " + cartel.fecha + " | Duración: " + cartel.duracion;
+        contenedorMetadataPop.textContent = "Año: " + cartel.fecha + " | Duración: " + cartel.duracion +
+            (Array.isArray(cartel.urlLista)
+                ? " | Capítulos: " + cartel.urlLista.filter(item => item.file && item.file.trim() !== "").length
+                : "")
 
     }
     function reproductorJWAudios(cartel, vast, audio) {
@@ -1178,11 +1229,12 @@
 
 
 
-            //"playlist": serieData,
+            "playlist": cartel.urlLista,
             "horizontalVolumeSlider": true,
             "volume": 100,
             "nextupoffset": -30,
             "related": {
+                "displayMode": "shelfWidget",
                 "autoplaytimer": 20,
                 "oncomplete": "autoplay"
             },
@@ -1222,6 +1274,26 @@
         jw.on("pause", function () {
             // Mostrar anuncio y luego continuar con la reproducción
             //window.location.href = "go:anuncio";
+        });
+
+        //Anucios en la lista JW PLAYER
+        jw.on("playlistItem", function (event) {
+            contenedorDisqus.textContent = '';
+            var videoIndex = event.index + 1;
+            var videoTitle = event.item.title || "Sin título"
+            var videoDescription = event.item.description || "Sin Descripción"
+            contenedorTituloPop.textContent = videoTitle;
+            contenedorDescripcionPop.textContent = videoDescription;
+
+            jw.on("complete", function () {
+                // Mostrar anuncio y luego continuar con la reproducción
+                window.location.href = "go:anuncio";
+            });
+
+            jw.on("pause", function () {
+                // Mostrar anuncio y luego continuar con la reproducción
+                window.location.href = "go:anuncio";
+            });
         });
     }
     const contenedorDisqus = document.getElementById('disqus_thread');
@@ -1369,13 +1441,13 @@
     }
 
     const contUsuarios = document.getElementById('contUsuarios');
-        document.addEventListener('chatLoaded', function () {
-            document.addEventListener('chatbroPtCountChanging', function (event) {
-                const count = event?.ptCount?.web ?? 0;
-                const onlineDiv = `👁️ ${count}`;
-                contUsuarios.textContent = `| Viendo pelis: ${onlineDiv}`;
-            });
+    document.addEventListener('chatLoaded', function () {
+        document.addEventListener('chatbroPtCountChanging', function (event) {
+            const count = event?.ptCount?.web ?? 0;
+            const onlineDiv = `👁️ ${count}`;
+            contUsuarios.textContent = `| Viendo pelis: ${onlineDiv}`;
         });
+    });
 </script>
 <script async id="chatBroEmbedCode">
     /* Chatbro Widget Embed Code Start */
