@@ -548,6 +548,7 @@
         <div id="jw-player"></div>
         <div id="audios-pop"></div>
         <div id="titulo-pop"></div>
+        <div id="vistas"></div>
         <div id="descripcion-pop"></div>
         <div id="metadata-pop"></div>
         <div id="anuncio-container2"></div>
@@ -1109,11 +1110,31 @@
                 : "")
 
     }
+
+    function contadorDeVistas(cartel) {
+        // Tu URL del Web App de Google Apps Script
+        const url = "https://script.google.com/macros/s/AKfycbzzO1wPlALoC7xRr3H_53jrcttUxllRvZS0MJjAopNd7lIUQEZYPHidWFD2yZupjVkVEA/exec?id=" + cartel.id;
+
+        // Fetch al Web App para incrementar y obtener el contador
+        
+        fetch(url)
+            .then(response => response.text())
+            .then(visitas => {
+                document.getElementById("vistas").textContent = visitas + " de vistas";
+            })
+            .catch(err => {
+                document.getElementById("vistas").textContent = "Error al cargar vistas.";
+                console.error(err);
+            });
+    }
+
     function reproductorJWAudios(cartel, vast, audio) {
         if (jw) {
             jw.remove();
             jw = null;
+            document.getElementById("vistas").textContent = "";
         }
+        contadorDeVistas(cartel);
         var videoKey = "progreso_" + cartel.id; // Clave única por video
         jw = jwplayer("jw-player").setup({
             "debug": 1,
@@ -1276,7 +1297,7 @@
             //window.location.href = "go:anuncio";
         });
 
-        //Anucios en la lista JW PLAYER
+        //Anuncios en la lista JW PLAYER
         jw.on("playlistItem", function (event) {
             contenedorDisqus.textContent = '';
             var videoTitle = event.item.title || "Sin título";
@@ -1298,6 +1319,7 @@
         }
         contenedorDisqus.textContent = '';
         contenedorJWPLAYER.style.display = 'none';
+        document.getElementById("vistas").textContent = "";
     }
 
     document.addEventListener('DOMContentLoaded', function () {
