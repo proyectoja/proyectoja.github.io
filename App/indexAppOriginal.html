@@ -549,6 +549,10 @@
         <div id="audios-pop"></div>
         <div id="titulo-pop"></div>
         <div id="vistas"></div>
+        <div id="contenedorVotar">
+            <img id="btnLike" onclick="votar('like')">
+            <img id="btnDislike" onclick="votar('dislike')">
+        </div>
         <div id="descripcion-pop"></div>
         <div id="metadata-pop"></div>
         <div id="anuncio-container2"></div>
@@ -590,6 +594,9 @@
     if (document.getElementById('contenedorEspecial')) {
         const contenedorEspecial = document.getElementById('contenedorEspecial');
     }
+
+    document.getElementById("BtnLike").src = BASE_URL + "like.png";
+    document.getElementById("BtnDislike").src = BASE_URL + "dislike.png";
 
     // Función para cargar los datos desde el archivo JSON
     fetch("contenido.json") // DESARROLLO
@@ -1111,21 +1118,70 @@
 
     }
 
+    const url = "https://script.google.com/macros/s/AKfycbzzO1wPlALoC7xRr3H_53jrcttUxllRvZS0MJjAopNd7lIUQEZYPHidWFD2yZupjVkVEA/exec";
+    const cooldown = 10 * 1000;
+    var cartelAux;
     function contadorDeVistas(cartel) {
-        // Tu URL del Web App de Google Apps Script
-        const url = "https://script.google.com/macros/s/AKfycbzzO1wPlALoC7xRr3H_53jrcttUxllRvZS0MJjAopNd7lIUQEZYPHidWFD2yZupjVkVEA/exec?id=" + cartel.id;
-
-        // Fetch al Web App para incrementar y obtener el contador
-        
-        fetch(url)
-            .then(response => response.text())
-            .then(visitas => {
-                document.getElementById("vistas").textContent = visitas + " de vistas";
-            })
+        cartelAux = cartel.id;
+        fetch(`${url}?id=${cartelAux}&action=visita`)
+            .then(res => res.json())
+            .then(data => actualizarStats(data))
             .catch(err => {
                 document.getElementById("vistas").textContent = "Error al cargar vistas.";
                 console.error(err);
             });
+    }
+    function actualizarStats(data) {
+        document.getElementById("vistas").textContent = data.visitas + " de vistas";
+        //document.getElementById("BtnLike").textContent = 
+        
+        //document.getElementById("stats").innerText =
+        //    `Visitas: ${data.visitas} | Likes: ${data.likes} | Dislikes: ${data.dislikes}`;
+    }
+
+    function puedeEnviar(accion) {
+        const clave = `${cartelAux}_${accion}_cooldown`;
+        const ultima = localStorage.getItem(clave);
+        const ahora = Date.now();
+        if (!ultima || ahora - ultima > cooldown) {
+            localStorage.setItem(clave, ahora);
+            return true;
+        }
+        return false;
+    }
+
+    function getVotoAnterior() {
+        return localStorage.getItem(`${cartelAux}_voto`);
+    }
+
+    function setVoto(voto) {
+        localStorage.setItem(`${cartelAux}_voto`, voto);
+    }
+
+    function votar(nuevoVoto) {
+        const anterior = getVotoAnterior();
+        if (anterior === nuevoVoto) {
+            alert("Ya realizaste esta acción.");
+            return;
+        }
+
+        if (!puedeEnviar(nuevoVoto)) {
+            alert("Espera 10 segundos antes de cambiar tu voto.");
+            return;
+        }
+
+        let urlFinal = `${url}?id=${cartelAux}&action=${nuevoVoto}`;
+        if (anterior) {
+            urlFinal += `&undo=${anterior}`;
+        }
+
+        fetch(urlFinal)
+            .then(res => res.json())
+            .then(data => {
+                actualizarStats(data);
+                setVoto(nuevoVoto);
+            })
+            .catch(err => console.error("Error:", err));
     }
 
     function reproductorJWAudios(cartel, vast, audio) {
