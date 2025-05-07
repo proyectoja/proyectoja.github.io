@@ -498,6 +498,78 @@
             padding: 0;
 
         }
+
+        #contenedorVotar {
+            display: none;
+            position: relative;
+            flex-direction: row;
+            width: auto;
+            padding: 10px;
+            height: auto;
+            justify-content: center;
+            align-items: center;
+            margin: 0%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgb(255, 255, 255, 0.5);
+            border-radius: 1rem;
+            background-color: black;
+        }
+
+        #contenedorLike,
+        #contenedorDislike {
+            display: flex;
+            position: relative;
+            width: auto;
+            height: auto;
+            padding: 0%;
+            margin: 0%;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+        }
+
+        #contenedorLike img,
+        #contenedorDislike img {
+            display: flex;
+            position: relative;
+            width: 50px;
+            height: auto;
+            cursor: pointer;
+            background-color: transparent;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 0%;
+            margin: 0%;
+        }
+
+        #vistas {
+            display: flex;
+            position: relative;
+            width: auto;
+            height: auto;
+            padding: 10px;
+            font-size: 20px;
+            color: white;
+            border: 1px solid rgb(255, 255, 255, 0.5);
+            border-radius: 1rem;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+        }
+
+        #linea {
+            width: 1px;
+            height: 100%;
+            background-color: rgb(255, 255, 255, 0.5);
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        #textLike,#textDislike{
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -550,8 +622,13 @@
         <div id="titulo-pop"></div>
         <div id="vistas"></div>
         <div id="contenedorVotar">
-            <img id="btnLike" onclick="votar('like')">
-            <img id="btnDislike" onclick="votar('dislike')">
+            <div id="contenedorLike"><img id="btnLike" onclick="votar('like')">
+                <h3 id="textLike">0</h3>
+            </div>
+            <div id="linea"></div>
+            <div id="contenedorDislike"><img id="btnDislike" onclick="votar('dislike')">
+                <h3 id="textDislike">0</h3>
+            </div>
         </div>
         <div id="descripcion-pop"></div>
         <div id="metadata-pop"></div>
@@ -595,8 +672,9 @@
         const contenedorEspecial = document.getElementById('contenedorEspecial');
     }
 
-    document.getElementById("BtnLike").src = BASE_URL + "like.png";
-    document.getElementById("BtnDislike").src = BASE_URL + "dislike.png";
+    document.getElementById("btnLike").src = BASE_URL + "like.png";
+    document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
+
 
     // Función para cargar los datos desde el archivo JSON
     fetch("contenido.json") // DESARROLLO
@@ -1125,7 +1203,11 @@
         cartelAux = cartel.id;
         fetch(`${url}?id=${cartelAux}&action=visita`)
             .then(res => res.json())
-            .then(data => actualizarStats(data))
+            .then(data => 
+            actualizarStats(data),
+            marcarBotonVotado(getVotoAnterior())
+        )
+            
             .catch(err => {
                 document.getElementById("vistas").textContent = "Error al cargar vistas.";
                 console.error(err);
@@ -1133,10 +1215,8 @@
     }
     function actualizarStats(data) {
         document.getElementById("vistas").textContent = data.visitas + " de vistas";
-        //document.getElementById("BtnLike").textContent = 
-        
-        //document.getElementById("stats").innerText =
-        //    `Visitas: ${data.visitas} | Likes: ${data.likes} | Dislikes: ${data.dislikes}`;
+        document.getElementById("textLike").textContent = data.likes;
+        document.getElementById("textDislike").textContent = data.dislikes;
     }
 
     function puedeEnviar(accion) {
@@ -1161,12 +1241,11 @@
     function votar(nuevoVoto) {
         const anterior = getVotoAnterior();
         if (anterior === nuevoVoto) {
-            alert("Ya realizaste esta acción.");
+            
             return;
         }
 
         if (!puedeEnviar(nuevoVoto)) {
-            alert("Espera 10 segundos antes de cambiar tu voto.");
             return;
         }
 
@@ -1180,16 +1259,36 @@
             .then(data => {
                 actualizarStats(data);
                 setVoto(nuevoVoto);
+                marcarBotonVotado(nuevoVoto);
             })
             .catch(err => console.error("Error:", err));
     }
+
+    function marcarBotonVotado(voto) {
+        const btnLike = document.getElementById("btnLike");
+        const btnDislike = document.getElementById("btnDislike");
+
+        if (voto === "like") {
+            btnLike.src = BASE_URL + "like2.png";
+            btnDislike.src = BASE_URL + "dislike.png";
+        } else if (voto === "dislike") {
+            btnLike.src = BASE_URL + "like.png";
+            btnDislike.src = BASE_URL + "dislike2.png";
+        }
+    }
+
 
     function reproductorJWAudios(cartel, vast, audio) {
         if (jw) {
             jw.remove();
             jw = null;
-            document.getElementById("vistas").textContent = "";
         }
+        document.getElementById("vistas").textContent = "";
+        document.getElementById("textLike").textContent = "0";
+        document.getElementById("textDislike").textContent = "0";
+        document.getElementById("contenedorVotar").style.display = "flex";
+        document.getElementById("btnLike").src = BASE_URL + "like.png";
+        document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
         contadorDeVistas(cartel);
         var videoKey = "progreso_" + cartel.id; // Clave única por video
         jw = jwplayer("jw-player").setup({
@@ -1376,6 +1475,11 @@
         contenedorDisqus.textContent = '';
         contenedorJWPLAYER.style.display = 'none';
         document.getElementById("vistas").textContent = "";
+        document.getElementById("textLike").textContent = "0";
+        document.getElementById("textDislike").textContent = "0";
+        document.getElementById("contenedorVotar").style.display = "none";
+        document.getElementById("btnLike").src = BASE_URL + "like.png";
+        document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
     }
 
     document.addEventListener('DOMContentLoaded', function () {
