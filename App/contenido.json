@@ -3343,79 +3343,301 @@
       ]
     },
     {
-      "id": "s",
+      "id": "s2",
       "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
-      "titulo": "",
+      "miniatura": "https://i.imgur.com/FFC8C5c.jpg",
+      "poster": "https://i.imgur.com/Q9BtEfc.png",
+      "titulo": "Renacidos",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
+      "descripcion": "La serie cuenta la historia de Sara, una mujer solitaria que intenta recomenzar su vida a lado de Tito, su hijo adolescente que padece una grave enfermedad cardiaca. Ella idealizaba una vida tranquila y feliz, sin embargo, la vida la enfrenta con su pasado, para enseñarle que la mejor forma de vivir es recomenzar y nacer de nuevo.",
+      "fecha": "2019",
+      "duracion": "14m => 23m",
       "pais": "",
-      "generos": "Todos",
-      "calidad": "",
+      "generos": "Todos,Drama",
+      "calidad": "3",
       "url": "",
       "urlLista": [
         {
-          "file": "",
-          "image": "",
-          "title": "",
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/0/G/v/S/0GvSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/Q9BtEfc.png",
+          "title": "Renacidos",
+          "description": "La serie cuenta la historia de Sara, una mujer solitaria que intenta recomenzar su vida a lado de Tito, su hijo adolescente que padece una grave enfermedad cardiaca. Ella idealizaba una vida tranquila y feliz, sin embargo, la vida la enfrenta con su pasado, para enseñarle que la mejor forma de vivir es recomenzar y nacer de nuevo."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/X/7/v/S/X7vSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/Q9BtEfc.png",
+          "title": "Temporada: 1 | Episodio: 2 | RENACIDOS POR EL ARREPENTIMIENTO",
+          "description": "Para ser una nueva persona es necesario enfrentar el pasado."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/N/q/w/S/NqwSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/Q9BtEfc.png",
+          "title": "Temporada: 1 | Episodio: 3 | RENACIDOS POR LA FE",
+          "description": "Es necesario tener fe para renacer."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/F/H/w/S/FHwSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/Q9BtEfc.png",
+          "title": "Temporada: 1 | Episodio: 4 | RENACIDOS PARA UNA NUEVA VIDA",
+          "description": "Y conoceréis la verdad y la verdad os hará libres. Así podrán tener una nueva vida."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/p/3/X/S/p3XSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/Q9BtEfc.png",
+          "title": "Temporada: 1 | Episodio: 5 | RENACIDOS POR EL PERDÓN",
+          "description": "La medicina que no tiene precio..."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/-/L/Y/S/-LYSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/Q9BtEfc.png",
+          "title": "Temporada: 1 | Episodio: 6 | NUEVO CORAZÓN",
+          "description": "A veces la mejor manera de comenzar es nacer de nuevo."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/P/k/Z/S/PkZSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/Q9BtEfc.png",
+          "title": "Temporada: 1 | Episodio: 7 | RENACIDOS PARA LA ETERNIDAD",
+          "description": "De regreso a casa..."
+        }
+      ]
+    },{
+      "id": "s3",
+      "seguidores": "11.8 k",
+      "miniatura": "https://i.imgur.com/VjTNWwN.jpg",
+      "poster": "https://i.imgur.com/ryrDGO2.png",
+      "titulo": "Amigos & Hermanos",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "“Amigos y Hermanos” es una serie (comedia) que cuenta la historia de Fabian, un joven que llega a vivir junto a dos jóvenes cristianos, Lío y Charly, quienes junto a su vecina Karlita también cristiana le van mostrando un camino para conocer mejor a Dios y a Jesucristo.",
+      "fecha": "2014",
+      "duracion": "30m",
+      "pais": "",
+      "generos": "Todos,Comedia",
+      "calidad": "2",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/o/R/e/R/oReRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Amigos & Hermanos",
+          "description": "Episodio: LA BICICLETA DE LA LUZ 💡 “Amigos y Hermanos” es una serie (comedia) que cuenta la historia de Fabian, un joven que llega a vivir junto a dos jóvenes cristianos, Lío y Charly, quienes junto a su vecina Karlita también cristiana le van mostrando un camino para conocer mejor a Dios y a Jesucristo."
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/M/B/f/R/MBfRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 2 | EL CÓDIGO HERMANO 🤝",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/c/e/g/R/cegRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 3 | LA PINTURA FRESCA 🎨",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/A/Y/j/R/AYjRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 4 | AL CÉSAR LO QUE ES DEL CÉSAR 💵",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/X/S/k/R/XSkRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 5 | EL DON DE LENGUAS 😛 😆",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/X/a/m/R/XamRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 6 | EL PASEO OBLIGADO ⛺️",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/B/c/n/R/BcnRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 7 | LOS TRÉBOLES HEDIONDOS ☘️",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/X/j/o/R/XjoRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 8 | INGREDIENTES SINCEROS 🍉🥑🥗",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/C/S/q/R/CSqRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 9 | LIMONES INTEMPERANTES🍋🍋",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/4/e/t/R/4etRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 10 | TRUCO o TRATO 🎃",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/K/L/Y/R/KLYRq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 11 | LA TORRE DE BABEL 🗼 📖",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/Z/7/1/R/Z71Rq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 12 | El JUEGO VERDADERO👾🕹️🎮",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/a/p/3/R/ap3Rq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 13 | LA FIESTA DE KARLITA 🎉🥳🎈",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/Z/X/4/R/ZX4Rq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 14 | CAMBIO DE MANDO ☝️",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/G/9/5/R/G95Rq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 15 | EL PASEO DE FABIÁN 🚙",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/9/v/7/R/9v7Rq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 16 | UNA HISTORIA DE MIEDO 😱",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/i/e/d/S/iedSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 17 | UNA HISTORIA DE MIEDO 2 😱",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/9/Q/k/S/9QkSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 18 | SÉ LO QUE HICIERON EL INVIERNO PASADO ❄️🌨️",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/a/B/l/S/aBlSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 19 | TODOS LOS DEPORTES NO SE VAN AL CIELO 🏀 🏈 🥎",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/j/l/m/S/jlmSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 20 | EL DESEQUILIBRIO DE LA FUERZA 💪",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/r/A/n/S/rAnSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 21 | EL DÍA DEL CONQUISTADOR ⛺",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/t/K/o/S/tKoSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 22 | EL AMIGO SECRETO 🤫",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/d/m/p/S/dmpSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 23 | ALIMENTO ESPIRITUAL 🍴📖",
+          "description": ""
+        },
+        {
+          "file": "https://hugh.cdn.rumble.cloud/video/s8/2/h/9/q/S/h9qSq.gaa.mp4?u=0&b=0",
+          "image": "https://i.imgur.com/ryrDGO2.png",
+          "title": "Temporada: 1 | Episodio: 24 | ALIMENTO TERRENAL 🌾🌿",
           "description": ""
         }
       ]
     },{
-      "id": "s",
+      "id": "s4",
       "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
-      "titulo": "",
+      "miniatura": "https://images.justwatch.com/poster/326052480/s718/house-of-david.jpg",
+      "poster": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+      "titulo": "La Casa de David",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
+      "descripcion": "David es un joven pastor cuyos hermanos son todos guerreros. Desesperado por luchar, el niño suplica desafiar al gigante Goliat. Su acto de valentía desafiante lo lleva por un camino que lo lleva a convertirse en rey mientras el reinado de Saúl llega a un final abrupto.",
+      "fecha": "2025",
+      "duracion": "56m",
       "pais": "",
-      "generos": "Todos",
-      "calidad": "",
+      "generos": "Todos,Drama, Historia ,  Drama Religioso",
+      "calidad": "2",
       "url": "",
       "urlLista": [
         {
+          "file": "https://rumble.com/hls-vod/6qztmd/playlist.m3u8?key=pwsy8PJqHtHbgQK0effrCt1Yo6cwvGS59sMslw5P4x7c0l6jWIPk1g&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "La Casa de David",
+          "description": "David es un joven pastor cuyos hermanos son todos guerreros. Desesperado por luchar, el niño suplica desafiar al gigante Goliat. Su acto de valentía desafiante lo lleva por un camino que lo lleva a convertirse en rey mientras el reinado de Saúl llega a un final abrupto."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qztqv/playlist.m3u8?key=7TaPZFN9IuZRFjw2oma6gncFvsawIBH3ZXrppjlzTqIOCh6JG6ANLg&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 1 | Episodio: 2 | Una sima llama a otra sima",
+          "description": "La familia de Saúl observa con preocupación como la salud mental del rey empieza a deteriorarse, pero están listos para hacer todo lo que esté en su poder para defender su reinado. David ansía una vida lejos de su hogar, pero lo que encuentra más allá de las colinas de Belén es un peligro mayor del que podría haber imaginado."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qztkv/playlist.m3u8?key=3MvvXF3viVxIXnNl2B4zxVmovHVjPdntaZIfpnAF8xypBU2IRTBY5w&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 1 | Episodio: 3 | La unción",
+          "description": "La corte debe enfrentarse a las consecuencias de la locura de Saúl, Samuel huye de un siniestro personaje, y una nefasta sombra consigue a un legendario aliado para su plan de conquistar Israel. En los campos de Belén, David tiene un encuentro que cambiará el curso de la historia para siempre."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qzti5/playlist.m3u8?key=3AeWxG_gqIpkBeRrVIslSQ1FfnlHdknVvhPrbFKbXc31e1sogeZtnw&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 1 | Episodio: 4 | El cántico de Moisés",
+          "description": "Un miembro de palacio se enfrenta a unas acusaciones muy graves y la familia real se ve obligada a actuar. Samuel sufre una dolorosa pérdida y debe enfrentarse a las consecuencias de su propia profecía. David descubre un nuevo mundo lleno de secretos y peligros, pero también de amor."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qzted/playlist.m3u8?key=pzROVd0nRDrI2ohHmGJRpVV59O6meAPV5D7C2cPqihaEQALfvsb81g&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 1 | Episodio: 5 | El lobo y el león",
+          "description": "La reina Ajinoán celebra un festín en su casa para dar la bienvenida a un importante grupo de invitados. La política de la corte está llena de engaños y todos tienen su propia misión secreta. David aprende a navegar por su nueva vida y se acerca un poco más a su destino."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qztbx/playlist.m3u8?key=eJL0dgM9erAJvclLC0fCa5ZZthkXyriyrs22pQ8BNAvCKOZ8Py8x-w&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 1 | Episodio: 6 | El despertar de los gigantes",
+          "description": "Poderes oscuros se hacen fuertes en las fronteras del reino de Saúl y los enemigos de Israel invocan a legendarios guerreros que se consideraban un mito. Una relación en la corte complica mucho la vida de los héroes y la reina Ajinoán debe tomar medidas drásticas para ayudar al rey."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qztrr/playlist.m3u8?key=DZO8CxSc54AjBtFiW8CnEWt4SKZWbhSatrHN-YTUNEeHkI-3PcsPZg&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 1 | Episodio: 7 | David y Goliat - Parte 1",
+          "description": "Reyes, héroes y villanos luchan por la corona en un enfrentamiento definitivo. La guerra es inevitable y los rivales se preparan para la colosal contienda que decidirá el destino de Israel para siempre en campos de batalla ancestrales."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qztsh/playlist.m3u8?key=2d8VQepI2d6y6HkFlHPkJPnYDWh8qVV0AaFXRSY1b9q22Bh5twkMIg&u=0&b=0",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 1 | Episodio: 8 | David y Goliat - Parte 2",
+          "description": "Un épico enfrentamiento pone a prueba la profecía. Se avecina una de las más legendarias batallas de la historia de la humanidad y los héroes deberán enfrentarse a sus enemigos más poderosos y mortales. ¿Cómo acabará la monumental historia? ¿Quién saldrá victorioso en la contienda que decidirá el destino del reino?"
+        },
+        {
           "file": "",
-          "image": "",
-          "title": "",
+          "image": "https://images.justwatch.com/backdrop/327009091/s640/house-of-david",
+          "title": "Temporada: 2 | Episodio: 1 | Próximamente...",
           "description": ""
         }
       ]
     },{
-      "id": "s",
-      "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
-      "titulo": "",
-      "perfilCanal": "perfilCanal/proyecto-ja.png",
-      "nombreCanal": "PROYECTO JA",
-      "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
-      "pais": "",
-      "generos": "Todos",
-      "calidad": "",
-      "url": "",
-      "urlLista": [
-        {
-          "file": "",
-          "image": "",
-          "title": "",
-          "description": ""
-        }
-      ]
-    },{
-      "id": "s",
+      "id": "s5",
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
