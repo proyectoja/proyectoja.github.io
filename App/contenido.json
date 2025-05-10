@@ -3639,29 +3639,59 @@
     },{
       "id": "s5",
       "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
-      "titulo": "",
+      "miniatura": "https://i.imgur.com/bRFaWQK.jpg",
+      "poster": "https://i.imgur.com/SBuXTbJ.png",
+      "titulo": "Sexo y amor",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
+      "descripcion": "¿Cómo lidiar con los celos? ¿perdonar una infidelidad? ¿qué es el amor? Existen tantas preguntas que surgen en el largo camino de amar, y es en este camino en el que Sexo y Amor surge para ayudarte a responder tus interrogantes. En cada programa conversaremos con terapeutas, psicólogos y diversos especialistas con los que desarrollaremos un caso real y abordaremos un tema en el que aprenderemos juntos. ¡Te esperamos!",
+      "fecha": "2022",
+      "duracion": "33m => 56m",
       "pais": "",
-      "generos": "Todos",
+      "generos": "Todos,Salud y Bienestar",
       "calidad": "",
-      "url": "",
+      "url": "3",
       "urlLista": [
         {
-          "file": "",
-          "image": "",
-          "title": "",
-          "description": ""
+          "file": "https://rumble.com/hls-vod/6r0045/playlist.m3u8?key=Zjmmcvh_aS74kox5ezByrJBerqdegLDjmxtDL3Rky2wGyU8lXIxUrA&u=0&b=0",
+          "image": "https://i.imgur.com/SBuXTbJ.png",
+          "title": "Sexo y amor",
+          "description": "¿Cómo lidiar con los celos? ¿perdonar una infidelidad? ¿qué es el amor? Existen tantas preguntas que surgen en el largo camino de amar, y es en este camino en el que Sexo y Amor surge para ayudarte a responder tus interrogantes. En cada programa conversaremos con terapeutas, psicólogos y diversos especialistas con los que desarrollaremos un caso real y abordaremos un tema en el que aprenderemos juntos. ¡Te esperamos!"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r001h/playlist.m3u8?key=HC-ftPcPw_DrHNijtaAfo5a8PwU-JpDRG96EpVyGww4AAQp9wQYIcw&u=0&b=0",
+          "image": "https://i.imgur.com/SBuXTbJ.png",
+          "title": "Temporada: 1 | Episodio: 2 | Celos que matan",
+          "description": "Familia, noviazgo y relaciones con invitados especialistas en el tema."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qzzkh/playlist.m3u8?key=n5dwvHDPQM3BB-a_Th11jWLTfSNLPRqslyw86o1JdJw9pBWQVrA6qw&u=0&b=0",
+          "image": "https://i.imgur.com/SBuXTbJ.png",
+          "title": "Temporada: 1 | Episodio: 3 | Lenguajes del amor",
+          "description": "Familia, noviazgo y relaciones con invitados especialistas en el tema."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6qzztx/playlist.m3u8?key=fZDOqZCJC5w1lB5eH7VjSB61pXqMVbdeHZ99FO6YB3rbyxaQra7Sww&u=0&b=0",
+          "image": "https://i.imgur.com/SBuXTbJ.png",
+          "title": "Temporada: 1 | Episodio: 4 | Perdonando la infidelidad",
+          "description": "Las infidelidades se perdonan, pero no se olvidan jamás, citó una escritora francesa, Madame de Sévigné. ¿Será cierto lo que dijo la escritora? Hoy en Sexo y Amor hablaremos del polémico tema de la infidelidad"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r0009/playlist.m3u8?key=SRz6NlLyINkVOTVrzzxJmJeawfYU7UHeA826RBf82ThIzqmrMJvKbQ&u=0&b=0",
+          "image": "https://i.imgur.com/SBuXTbJ.png",
+          "title": "Temporada: 1 | Episodio: 5 | Crianza en el siglo XXI",
+          "description": "Familia, noviazgo y relaciones con invitados especialistas en el tema."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r003f/playlist.m3u8?key=7ViUKECFl74-s6WAW54Xqnd87I4yiFWmJUj_dXuZ_0OgdC8BMEbi6Q&u=0&b=0",
+          "image": "https://i.imgur.com/SBuXTbJ.png",
+          "title": "Temporada: 1 | Episodio: 6 | Amor eterno",
+          "description": "Conoceremos una linda historia de amor en un matrimonio de más de 25 años, con quienes conversaremos sobre Amor eterno. ?"
         }
       ]
     },{
-      "id": "s",
+      "id": "s6",
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
