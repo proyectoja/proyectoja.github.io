@@ -247,7 +247,13 @@ const contenedorLista = document.querySelector('.contenedor-lista');
         const calidadAux = document.createElement('div');
         calidadAux.className = 'contenedor-calidad';
 
-        if (cartel.calidad === '1') {
+        if (cartel.url.includes('.caa.mp4')) {
+            calidadAux.textContent = 'SD';
+        } else if (cartel.url.includes('.gaa.mp4')) {
+            calidadAux.textContent = 'HD';
+        } else if (cartel.url.includes('.haa.mp4') || cartel.url.includes('.aaa.mp4')) {
+            calidadAux.textContent = 'FULLHD';
+        } else if (cartel.calidad === '1') {
             calidadAux.textContent = 'SD';
         } else if (cartel.calidad === '2') {
             calidadAux.textContent = 'HD';
@@ -284,7 +290,6 @@ const contenedorLista = document.querySelector('.contenedor-lista');
             esEstrenoAux = false;
         }
         if (proxiAux) {
-            esEstrenoAux = true;
             estrenoAux.textContent = "Próxima..";
             estrenoAux.style.color = 'white';
             estrenoAux.style.fontSize = '12px';
@@ -293,7 +298,6 @@ const contenedorLista = document.querySelector('.contenedor-lista');
 
             videoItem.appendChild(estrenoAux);
         } else {
-            esEstrenoAux = false;
             proxiAux = false;
         }
 
