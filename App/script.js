@@ -22,7 +22,8 @@ const contenedorLista = document.querySelector('.contenedor-lista');
 
 
     // Función para cargar los datos desde el archivo JSON
-    fetch(jsonUrl) // DESARROLLO
+    fetch(jsonUrl) // PRODUCCIÓN
+    //fetch("contenido.json") //DESARROLLO
         .then(response => response.json()) // Convertir a JSON
         .then(data => {
             limpiarTodasLasURLs(data);
@@ -260,7 +261,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
             calidadAux.textContent = 'FULLHD';
         } else if (cartel.calidad === '4') {
             calidadAux.textContent = '60FPS';
-        } else if (cartel.url.includes("")) {
+        } else if (cartel.url.includes("") && cartel.calidad.includes("")) {
             calidadAux.textContent = 'No Disponible';
             proxiAux = true;
         }
@@ -280,11 +281,16 @@ const contenedorLista = document.querySelector('.contenedor-lista');
             ? new Date(cartel.fecha).getFullYear()
             : Number(cartel.fecha);
 
+            let esEstrenoAux  = false;
         if (esEstreno(fechaAux)) {
             estrenoAux.textContent = "Estreno";
+            esEstrenoAux = true;
             videoItem.appendChild(estrenoAux);
+        }else{
+            esEstrenoAux = false;
         }
         if (proxiAux) {
+            esEstrenoAux = true;
             estrenoAux.textContent = "Próxima..";
             estrenoAux.style.color = 'white';
             estrenoAux.style.fontSize = '12px';
@@ -293,16 +299,30 @@ const contenedorLista = document.querySelector('.contenedor-lista');
 
             videoItem.appendChild(estrenoAux);
         } else {
+            esEstrenoAux = false;
             proxiAux = false;
         }
 
-        if (serieAux) {
-            estrenoAux.textContent = "Serie";
-            estrenoAux.style.color = 'yellow';
-            estrenoAux.style.fontSize = '12px';
-            estrenoAux.style.border = '1px solid yellow';
-            estrenoAux.style.boxShadow = '0 0 1px white,0 0 1px white,';
-            videoItem.appendChild(estrenoAux);
+        if (serieAux && !esEstrenoAux) {
+            const estrenoSerie = document.createElement('div');
+            estrenoSerie.className = 'contenedor-serie';
+            estrenoSerie.textContent = "Serie";
+            estrenoSerie.style.color = 'yellow';
+            estrenoSerie.style.fontSize = '12px';
+            estrenoSerie.style.border = '1px solid yellow';
+            estrenoSerie.style.boxShadow = '0 0 1px white,0 0 1px white,';
+            estrenoSerie.style.top = "25px";
+            videoItem.appendChild(estrenoSerie);
+        } if (serieAux && esEstrenoAux) {
+            const estrenoSerie = document.createElement('div');
+            estrenoSerie.className = 'contenedor-serie';
+            estrenoSerie.textContent = "Serie";
+            estrenoSerie.style.color = 'yellow';
+            estrenoSerie.style.fontSize = '12px';
+            estrenoSerie.style.border = '1px solid yellow';
+            estrenoSerie.style.boxShadow = '0 0 1px white,0 0 1px white,';
+            
+            videoItem.appendChild(estrenoSerie);
         } else {
             serieAux = false;
         }
@@ -401,6 +421,89 @@ const contenedorLista = document.querySelector('.contenedor-lista');
         });
         videoItem.style.cursor = "pointer";
 
+        let proxiAux = false;
+        let serieAux = false;
+        const calidadAux = document.createElement('div');
+        calidadAux.className = 'contenedor-calidad';
+
+        if (cartel.url.includes('.caa.mp4')) {
+            calidadAux.textContent = 'SD';
+        } else if (cartel.url.includes('.gaa.mp4')) {
+            calidadAux.textContent = 'HD';
+        } else if (cartel.url.includes('.haa.mp4') || cartel.url.includes('.aaa.mp4')) {
+            calidadAux.textContent = 'FULLHD';
+        } else if (cartel.calidad === '1') {
+            calidadAux.textContent = 'SD';
+        } else if (cartel.calidad === '2') {
+            calidadAux.textContent = 'HD';
+        } else if (cartel.calidad === '3') {
+            calidadAux.textContent = 'FULLHD';
+        } else if (cartel.calidad === '4') {
+            calidadAux.textContent = '60FPS';
+        } else if (cartel.url.includes("") && cartel.calidad.includes("")) {
+            calidadAux.textContent = 'No Disponible';
+            proxiAux = true;
+        }
+
+
+        if (Array.isArray(cartel.urlLista)) {
+            serieAux = true;
+        }
+
+
+        videoItem.appendChild(calidadAux);
+
+        const estrenoAux = document.createElement('div');
+        estrenoAux.className = 'contenedor-estreno';
+
+        let fechaAux = typeof cartel.fecha === 'string' && cartel.fecha.includes('-')
+            ? new Date(cartel.fecha).getFullYear()
+            : Number(cartel.fecha);
+
+            let esEstrenoAux  = false;
+        if (esEstreno(fechaAux)) {
+            estrenoAux.textContent = "Estreno";
+            esEstrenoAux = true;
+            videoItem.appendChild(estrenoAux);
+        }else{
+            esEstrenoAux = false;
+        }
+        if (proxiAux) {
+            estrenoAux.textContent = "Próxima..";
+            estrenoAux.style.color = 'white';
+            estrenoAux.style.fontSize = '12px';
+            estrenoAux.style.border = '1px solid green';
+            estrenoAux.style.boxShadow = '0 0 1px white,0 0 1px white,';
+
+            videoItem.appendChild(estrenoAux);
+        } else {
+            proxiAux = false;
+        }
+
+        if (serieAux && !esEstrenoAux) {
+            const estrenoSerie = document.createElement('div');
+            estrenoSerie.className = 'contenedor-serie';
+            estrenoSerie.textContent = "Serie";
+            estrenoSerie.style.color = 'yellow';
+            estrenoSerie.style.fontSize = '12px';
+            estrenoSerie.style.border = '1px solid yellow';
+            estrenoSerie.style.boxShadow = '0 0 1px white,0 0 1px white,';
+            estrenoSerie.style.top = "25px";
+            videoItem.appendChild(estrenoSerie);
+        } if (serieAux && esEstrenoAux) {
+            const estrenoSerie = document.createElement('div');
+            estrenoSerie.className = 'contenedor-serie';
+            estrenoSerie.textContent = "Serie";
+            estrenoSerie.style.color = 'yellow';
+            estrenoSerie.style.fontSize = '12px';
+            estrenoSerie.style.border = '1px solid yellow';
+            estrenoSerie.style.boxShadow = '0 0 1px white,0 0 1px white,';
+            
+            videoItem.appendChild(estrenoSerie);
+        } else {
+            serieAux = false;
+        }
+
         // Crear imágenes con carga diferida
         const poster = document.createElement("img");
         poster.dataset.src = cartel.miniatura; // Guardamos la URL en data-src
@@ -408,6 +511,44 @@ const contenedorLista = document.querySelector('.contenedor-lista');
         poster.classList.add("lazy"); // Agregamos una clase para identificarlas 
         poster.style.opacity = '0';
         poster.style.transition = 'opacity 0.2s ease-in-out';
+
+
+        //Crear íconos de los audios
+        const contenedorIconosAudios = document.createElement('div');
+        contenedorIconosAudios.id = "contenedorIconosAudios";
+        if (cartel.url) {
+            const iconoAudio = document.createElement('img');
+            iconoAudio.dataset.src = BASE_URL + 'lat.png';
+            iconoAudio.id = 'iconoAudio';
+            iconoAudio.classList.add("lazy");
+            iconoAudio.style.opacity = '0';
+            iconoAudio.style.transition = 'opacity 0.2s ease-in-out';
+            contenedorIconosAudios.appendChild(iconoAudio);
+            observer.observe(iconoAudio);
+        }
+        if (cartel.urlSub) {
+            const iconoAudio = document.createElement('img');
+            iconoAudio.dataset.src = BASE_URL + 'sub.png';
+            iconoAudio.id = 'iconoAudio';
+            iconoAudio.classList.add("lazy");
+            iconoAudio.style.opacity = '0';
+            iconoAudio.style.transition = 'opacity 0.2s ease-in-out';
+            contenedorIconosAudios.appendChild(iconoAudio);
+            observer.observe(iconoAudio);
+        }
+        if (cartel.urlCas) {
+            const iconoAudio = document.createElement('img');
+            iconoAudio.dataset.src = BASE_URL + 'cas.png';
+            iconoAudio.id = 'iconoAudio';
+            iconoAudio.classList.add("lazy");
+            iconoAudio.style.opacity = '0';
+            iconoAudio.style.transition = 'opacity 0.2s ease-in-out';
+            contenedorIconosAudios.appendChild(iconoAudio);
+            observer.observe(iconoAudio);
+        }
+        videoItem.appendChild(contenedorIconosAudios);
+
+
 
         const title = document.createElement("h3");
         title.textContent = cartel.titulo;

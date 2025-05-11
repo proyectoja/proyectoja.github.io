@@ -85,11 +85,13 @@
 
     var link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = BASE_URL + "style.css";
+    link.href = BASE_URL + "style.css"; //PRODUCCIÓN
+    link.href = "style.css"; //DESARROLLO
     document.head.appendChild(link);
 
     var script = document.createElement("script");
-    script.src = BASE_URL + "script.js";
+    script.src = BASE_URL + "script.js"; //PRODUCCIÓN
+    script.src = "script.js"; //DESARROLLO
     script.async = true;
     document.body.appendChild(script);
 
