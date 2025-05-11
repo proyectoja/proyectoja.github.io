@@ -290,6 +290,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
             esEstrenoAux = false;
         }
         if (proxiAux) {
+            esEstrenoAux = true;
             estrenoAux.textContent = "Próxima..";
             estrenoAux.style.color = 'white';
             estrenoAux.style.fontSize = '12px';
@@ -298,6 +299,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
 
             videoItem.appendChild(estrenoAux);
         } else {
+            esEstrenoAux = false;
             proxiAux = false;
         }
 
