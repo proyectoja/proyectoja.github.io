@@ -1152,7 +1152,7 @@
       "fecha": "2004",
       "duracion": "02h 06m",
       "pais": "",
-      "generos": "Todos,Drama",
+      "generos": "Todos,60FPS,Drama",
       "calidad": "4"
     },
     {
@@ -1190,7 +1190,7 @@
       "fecha": "2016",
       "duracion": "02h 11m",
       "pais": "",
-      "generos": "Todos,Historia, Guerra, Drama",
+      "generos": "Todos,60FPS,Historia, Guerra, Drama",
       "calidad": "4"
     },
     {
@@ -1418,8 +1418,8 @@
       "fecha": "1954",
       "duracion": "01h 41m",
       "pais": "",
-      "generos": "Todos,Acción & Aventura, Historia, Drama, Romance",
-      "calidad": "2"
+      "generos": "Todos,60FPS,Acción & Aventura, Historia, Drama, Romance",
+      "calidad": "4"
     },
     {
       "id": "p50",
@@ -1456,7 +1456,7 @@
       "fecha": "1953",
       "duracion": "02h 15m",
       "pais": "",
-      "generos": "Todos,Drama, Historia, Romance",
+      "generos": "Todos,60FPS,Drama, Historia, Romance",
       "calidad": "4"
     },
     {
@@ -1684,7 +1684,7 @@
       "fecha": "1956",
       "duracion": "03h 39m",
       "pais": "",
-      "generos": "Todos,Drama, Historia, Documental, Familia, Europeas",
+      "generos": "Todos,60FPS,Drama, Historia, Documental, Familia, Europeas",
       "calidad": "4"
     },
     {
