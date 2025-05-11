@@ -299,7 +299,6 @@ const contenedorLista = document.querySelector('.contenedor-lista');
 
             videoItem.appendChild(estrenoAux);
         } else {
-            esEstrenoAux = false;
             proxiAux = false;
         }
 
