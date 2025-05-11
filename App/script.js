@@ -37,7 +37,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
             );
 
             // ✅ Tomar los últimos 10 válidos
-            arregloAux = soloValidas.slice(-10);
+            arregloAux = soloValidas.slice(-30);
 
             data.peliculas.sort((a, b) => b.fecha - a.fecha); // PRODUCCIÓN
             const fragment = document.createDocumentFragment();
