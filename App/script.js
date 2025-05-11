@@ -206,7 +206,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
         videoItem.id = 'contenedorEspecial';
 
         const etiqueta = document.createElement('h3');
-        etiqueta.textContent = 'Lista de películas:';
+        etiqueta.textContent = 'Lista de películas y series:';
         etiqueta.className = 'etiquetaListaDePeliculas';
         contenedorLista.appendChild(videoItem);
         contenedorLista.appendChild(etiqueta);
