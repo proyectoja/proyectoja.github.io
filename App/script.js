@@ -22,7 +22,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
 
 
     // Función para cargar los datos desde el archivo JSON
-    fetch("contenido.json") // DESARROLLO
+    fetch(jsonUrl) // DESARROLLO
         .then(response => response.json()) // Convertir a JSON
         .then(data => {
             limpiarTodasLasURLs(data);
