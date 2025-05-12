@@ -71,32 +71,42 @@
         <div id="comentarios-pop" onclick="cargarChat()">Mostrar comentarios</div>
         <div id="disqus_thread"></div>
     </div>
-</body>
-<script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
-</script>
 
-<script>
-    var BASE_URL = "https://proyectoja.github.io/App/";
-    var script = document.createElement("script");
-    script.src = BASE_URL + "jwPlayer.js";
-    script.async = true;
-    document.head.appendChild(script);
 
-    var link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = BASE_URL + "style.css"; //PRODUCCIÓN
-    link.href = "style.css"; //DESARROLLO
-    document.head.appendChild(link);
-
-    var script = document.createElement("script");
-    script.src = BASE_URL + "script.js"; //PRODUCCIÓN
-    script.src = "script.js"; //DESARROLLO
-    script.async = true;
-    document.body.appendChild(script);
-
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        var BASE_URL = "https://proyectoja.github.io/App/";
+        var script = document.createElement("script");
+        script.src = BASE_URL + "jwPlayer.js";
+        script.async = true;
+        document.head.appendChild(script);
     
-</script>
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = BASE_URL + "style.css"; //PRODUCCIÓN
+        link.href = "style.css"; //DESARROLLO
+        document.head.appendChild(link);
+    
+        var script = document.createElement("script");
+        script.src = BASE_URL + "script.js"; //PRODUCCIÓN
+        script.src = "script.js"; //DESARROLLO
+        script.async = true;
+        document.body.appendChild(script);
+    
+        
+        document.addEventListener('chatLoaded', function () {
+            document.addEventListener('chatbroPtCountChanging', function (event) {
+                const count = event?.ptCount?.web ?? 0;
+                const onlineDiv = `👁️ ${count}`;
+                contUsuarios.textContent = `| Viendo pelis: ${onlineDiv}`;
+            });
+        });
+        
+    </script>
+    
+</body>
+
+
 <script async id="chatBroEmbedCode">
     /* Chatbro Widget Embed Code Start */
     function ChatbroLoader(chats, async) {

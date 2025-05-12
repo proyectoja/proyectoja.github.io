@@ -1099,10 +1099,4 @@ const contenedorLista = document.querySelector('.contenedor-lista');
     }
 
     const contUsuarios = document.getElementById('contUsuarios');
-    document.addEventListener('chatLoaded', function () {
-        document.addEventListener('chatbroPtCountChanging', function (event) {
-            const count = event?.ptCount?.web ?? 0;
-            const onlineDiv = `👁️ ${count}`;
-            contUsuarios.textContent = `| Viendo pelis: ${onlineDiv}`;
-        });
-    });
+    
