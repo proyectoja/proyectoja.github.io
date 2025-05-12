@@ -309,6 +309,7 @@ const jsonUrlDios = "https://proyectoja.github.io/Dios_001_365.json";
 const jsonUrlPsicologiaPositiva =
   "https://proyectoja.github.io/psicologia_positiva_001_365.json";
 const jsonUrlOraciones = "https://proyectoja.github.io/oraciones_001_365.json";
+const jsonUrlDeJovenAJoven = "https://proyectoja.github.io/de_joven_a_joven_001_365.json";
 
 function cargarNotaPROYECTOJA() {
   fetch(jsonUrlPROYECTOJA)
@@ -370,6 +371,18 @@ function cargarNotaOraciones() {
     });
 }
 
+function cargarNotaDeJovenAJoven() {
+  fetch(jsonUrlDeJovenAJoven)
+    .then((response) => response.json())
+    .then((mensajes) => {
+      const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
+      mostrarMensajeDelDia(mensajes, diaActual); // Mostrar el mensaje correspondiente al día
+    })
+    .catch((error) => {
+      console.error("Error al cargar el JSON:", error);
+    });
+}
+
 // Asumiendo que 'username' está definido
 const username = "XSTUDIOCODE"; //
 verificarProyectoJaEstado(username).then(function () {
@@ -378,6 +391,7 @@ verificarProyectoJaEstado(username).then(function () {
   cargarNotaDios();
   cargarNotaPsicologiaPositiva();
   cargarNotaOraciones();
+  cargarNotaDeJovenAJoven();
 });
 
 function imagenAleatoriaFuncion(elemento) {
