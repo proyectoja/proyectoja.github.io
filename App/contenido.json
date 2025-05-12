@@ -4038,25 +4038,127 @@
     {
       "id": "s10",
       "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
+      "miniatura": "https://i.imgur.com/GPJddmS.jpg",
+      "poster": "https://i.imgur.com/7Bo9gnT.png",
       "titulo": "Decodificando la Biblia",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
-      "pais": "",
-      "generos": "Todos",
-      "calidad": "",
+      "descripcion": "Serie de estudio bíblico online para jóvenes. (Unión Argentina - Departamento de jóvenes)",
+      "fecha": "2018",
+      "duracion": "02m => 08m",
+      "pais": "Argentina",
+      "generos": "Todos,Bíblico,Adolescente",
+      "calidad": "3",
       "url": "",
       "urlLista": [
         {
-          "file": "",
-          "image": "",
-          "title": "",
-          "description": ""
+          "file": "https://rumble.com/hls-vod/6r3szl/playlist.m3u8?key=tqUvVrKShggRe9HXoNIk90FVOZY8x539d8c6xk8T-lczObgQbiJGGQ&u=0&b=0",
+          "image": "https://i.imgur.com/zuiQVFj.png",
+          "title": "Decodificando la Biblia | 01. ¿DIOS EXISTE 🤔🌎",
+          "description": "¿Dios existe? ¿Hay alguna PRUEBA CIENTIFICA de la EXISTENCIA de DIOS?  ¿Hay EVIDENCIAS de que DIOS EXISTE? ¿Qué dice la Biblia? ¿Sirve de base para algo en este GRAN debate?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t03/playlist.m3u8?key=0x0JvUqrFs3Lwz00v1r-LNz4Tu1zCGp0BRs-wb7rmQNQeixlqoK57A&u=0&b=0",
+          "image": "https://i.imgur.com/WPxqBsy.png",
+          "title": "Temporada: 1 | Episodio: 2 | 02. El messenger de Dios - ¿Qué es la Biblia 💌📱",
+          "description": "La Biblia!  ¿Qué es la Biblia?  ¿Quién escribió la Biblia?  ¿Para qué sirve la Biblia?  ¿Porqué estudiar la Biblia?  ¿Qué dice la Biblia? Estas y capaz algunas preguntas más... las contestamos en este video!"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t0v/playlist.m3u8?key=ztAYyfvWub5BqrWzjJuqySqIK0pEXG7V8DH6MZXwJlkocQd0caKJYg&u=0&b=0",
+          "image": "https://i.imgur.com/8QCb3j8.png",
+          "title": "Temporada: 1 | Episodio: 3 | 03. Por Qué Me Cuesta Tanto Orar - ¡Agregué a Dios a Whatsapp! 📱🙏😇",
+          "description": "Si la oración es tan importante, ¿Por qué oramos tan poco? ¿Qué dice la Biblia sobre orar y cuál es la forma correcta de hacerlo? ¿es verdad que orar es como hablar con Dios o como ser amigo de Jesús?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t1j/playlist.m3u8?key=k7OLHzNjBel1uIB_UPW2muBzJsMicZovNKiRdG7yUfhdNw4bmjt_mQ&u=0&b=0",
+          "image": "https://i.imgur.com/qQfOFqi.png",
+          "title": "Temporada: 1 | Episodio: 4 | 04. Por qué hay tanta maldad en la Tierra - El origen del mal explicado 😈🌎",
+          "description": "¿Por qué Dios permite el mal? ¿Dios es injusto? ¿Cómo es posible que un Dios de amor permita tanta maldad?¿Cuál es el origen del mal y cuál es la importancia de acercarse a Dios?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t2d/playlist.m3u8?key=maIRyWdXmDBV5CLfHZX34LafQwVWTY4qbEJ_LPRy7OJL_ezuEbMCAA&u=0&b=0",
+          "image": "https://i.imgur.com/rf6UoYs.png",
+          "title": "Temporada: 1 | Episodio: 5 | 05. Cuál es el único requisito para salvarse 😇✅",
+          "description": "¿Qué dice la Biblia sobre la Salvación?¿Cómo puedo ser salvo según la Biblia?¿Qué hay que hacer para ser salvo?¿La Salvación se pierde?¿Hay un plan de Salvación de Dios?¿Qué es la Gracia de Dios? ¿Qué es la fe? y ¿Qué papel cumplen las buenas obras en el plan de Salvación?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t3x/playlist.m3u8?key=0H5POVuTlaTBmX9ZhhapCmC9iwnLKk-BC1kX62rj8VUUwKpA_9eQcQ&u=0&b=0",
+          "image": "https://i.imgur.com/eSBMn5T.png",
+          "title": "Temporada: 1 | Episodio: 6 | 06. Cómo Liberarse de la Culpa El Secreto del Perdón de Dios 😔🙏",
+          "description": "¿Te sentís culpable?, ¿sentís que tu falla no tiene perdón de Dios?, ¿cómo liberarse de la culpa?, ¿será que Dios me puede perdonar? ¿cómo buscar el perdón de Dios? , ¿qué dice la Biblia sobre el perdón de Dios?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t4l/playlist.m3u8?key=EdJBCBiaovO0pQ_af-xaIeunzut7ThUYN53CbP9zOlfGBP7q5qCmFA&u=0&b=0",
+          "image": "https://i.imgur.com/ognJxSL.png",
+          "title": "Temporada: 1 | Episodio: 7 | 07. Cómo será la Segunda Venida de Cristo y el Fin del Mundo ⛅👑",
+          "description": "¿Te preocupa el fin del mundo? ¿Qué dice la Biblia sobre el fin del mundo? ¿Cómo va a ser la venida de Cristo? ¿Es verdad que habrá un rapto secreto? ¿Hay forma de calcular la fecha exacta del fin? ¿Cómo prepararse para el Juicio Final? ¿Quiénes van a salvarse? ¿Los malos van al infierno? ¿Qué va a pasar con mi familia si no cree en Jesús?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t65/playlist.m3u8?key=or-BSWc0aE-o14IJBp1c7aOEFJBZOejpFY1xe_9Cg91SVUfCy1aqhQ&u=0&b=0",
+          "image": "https://i.imgur.com/KqR1SeF.png",
+          "title": "Temporada: 1 | Episodio: 8 | 08. ¿Se están cumpliendo las Señales del Fin del Mundo 🌎☄",
+          "description": "¿Cuáles son las señales del fin del mundo? ¿Qué dice la Biblia sobre las señales del fin y qué señales faltan cumplirse? Hoy vamos a ver qué dijo Jesús, en Mateo 24, sobre las señales del fin y Su venida!"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t6z/playlist.m3u8?key=hv53xAjoodJOZQhHFK5XyrKTEXyGLf_QeTOMyGZwzxQRbLQVoIJoHg&u=0&b=0",
+          "image": "https://i.imgur.com/duU0Mjv.png",
+          "title": "Temporada: 1 | Episodio: 9 | 09. Qué pasa DESPUÉS de la MUERTE ⚰☠ (según la Biblia)",
+          "description": "¿Qué pasa después de la muerte? ¿A dónde vamos después de morir? Las teorías son muchas, pero las respuestas, insuficientes e inciertas. La buena noticia es que si tenés preguntas sobre la muerte, la Biblia tiene las respuestas. Si tenés miedo a la muerte o te preguntás por qué Dios permite la muerte de un ser querido, este video te va a traer esperanza! "
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3t89/playlist.m3u8?key=9qZ6q1HubXLIul7SpJ6ZLV5QBcryJrx3YH-boHjy8Qyg1b6W6iyqUw&u=0&b=0",
+          "image": "https://i.imgur.com/GHNJh6B.png",
+          "title": "Temporada: 1 | Episodio: 10 | 10. ¿Cómo será el JUICIO de DIOS según la Biblia 🧑‍⚖️",
+          "description": "¿Cómo será el Juicio de Dios? A veces solo con pensar en el Juicio de Dios, nos genera cierto miedo, no? Pero te tengo una buena noticia, el Juez es nuestro Papá, nos ama mucho y abrió un camino para declararnos inocentes!"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3taj/playlist.m3u8?key=GXmiCCPj_LVKuLWai4O3wqebLD6mLfi5XVmktjI6rC2K3usF3vclaw&u=0&b=0",
+          "image": "https://i.imgur.com/onlVctq.png",
+          "title": "Temporada: 1 | Episodio: 11 | 11. ¿Cómo encontrar la PAZ interior Probá con la ley de Dios 😌📜",
+          "description": "¿Buscás encontrar PAZ? Hace unas semanas me sentía muy abrumado (ansiedad, estrés, cansancio), me preguntaba ¿Cómo encontrar la PAZ interior? y Papá me contestó: Para mi sorpresa la respuesta está en la LEY de Dios: Los 10 Mandamientos. ¡Mirá!"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3tdf/playlist.m3u8?key=OD7aKT4M3qbK8Jp1uUoSspW4CeSD7BBtO_-7OOACG-aQojpGQFX3lw&u=0&b=0",
+          "image": "https://i.imgur.com/ORCLgC0.png",
+          "title": "Temporada: 1 | Episodio: 12 | 12. DÍA de REPOSO - ¿Qué dice la BIBLIA de guardar el SÁBADO",
+          "description": "¿Cuál es la importancia de tener un día de reposo? ¿Dice la Biblia que el sábado es el día de reposo? ¿Por qué necesitamos el día de reposo? ¿Qué dice la Biblia sobre el día de reposo? ¿Cuál es el día de reposo según la Biblia? y ¿Qué hacer en el día de reposo? 😊🍃 "
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3tfr/playlist.m3u8?key=PaGJdhOIoBEwTg7Gvnmy7E7caMrIZ7eb-_-iY7MM8W3_FSrUtAjayA&u=0&b=0",
+          "image": "https://i.imgur.com/ZkNmkSf.png",
+          "title": "Temporada: 1 | Episodio: 13 | 13. ¿Cuál es la ÚNICA iglesia VERDADERA (según la Biblia) ⛪😯",
+          "description": "¿Es realmente necesario congregarse? ¿Por qué es tan importante ir a la iglesia? Hay tantas religiones en el mundo, ¿Qué debo buscar en una iglesia? ¿Cómo saber cuál es la iglesia verdadera?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3ti5/playlist.m3u8?key=G6WOf73WOXLkfIDJ5xtTTczBCxAe5u7wmi4NqYKr3ycT4TWJ8aKWEg&u=0&b=0",
+          "image": "https://i.imgur.com/vv4oCOx.png",
+          "title": "Temporada: 1 | Episodio: 14 | 14. ¿Qué es el DON de PROFECÍA (según la Biblia) 🔥",
+          "description": "Según la Biblia, una de las características de la iglesia verdadera es el DON de PROFECÍA, pero ¿siguen habiendo PROFETAS actualmente? ¿cómo identificar a un VERDADERO PROFETA de Dios? Jesús nos alertó que vendrían FALSOS PROFETAS ¿cómo reconocerlos?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3tjl/playlist.m3u8?key=Bl8AOVqJ2rT991oG1_DNiKwxe3dhkuvJ4eCDf5GITwjyrE0-ANucbQ&u=0&b=0",
+          "image": "https://i.imgur.com/siAKmVN.png",
+          "title": "Temporada: 1 | Episodio: 15 | 15. ¿Debe un cristiano dar EL DIEZMO ¿Qué dice la Biblia 💸",
+          "description": "El diezmo se conoce en la Biblia, como devolverle a Dios el 10% de todo lo que ganamos 💸 *tlin*. Pero, si Dios es el dueño de la plata y el oro 🤑, ¿por qué tenemos que diezmar? 🤔 ¿Es obligatorio o ya no hace falta? ¿Es pecado si no lo devuelvo? 😱 ¡Tan tan taaaan! ¿Qué se hace con el diezmo? ¿A dónde va a parar esa plata? 🧐 En vez de darlo a la iglesia ¿no puedo usarlo para ayudar a los necesitados? 🎁"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3tmb/playlist.m3u8?key=WH92W2xN3Vz8sRQ3JxB1k0fiSqc0UpVZXWF0rcuEslCt7Pue8XvWLA&u=0&b=0",
+          "image": "https://i.imgur.com/7DSmifz.png",
+          "title": "Temporada: 1 | Episodio: 16 | 16. ¡Estos ALIMENTOS pueden IMPEDIR que escuches la voz de Dios! 🚩🚩🚩",
+          "description": "¿Lo que comemos afecta nuestra espiritualidad?, ¿puede impedir que escuchemos la voz de Dios? ¿Hay alimentos que podamos comer y otros perjudiciales, que no nos convengan tanto? ¿Qué dice la Biblia sobre nuestra alimentación?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3tp3/playlist.m3u8?key=yK9uZ5kPU5emUWTQ6SAeaigiFll5B42Jsq28mKYp-rTEPXlOrzjutA&u=0&b=0",
+          "image": "https://i.imgur.com/luxwKYE.png",
+          "title": "Temporada: 1 | Episodio: 17 | 17. ¿Es necesario BAUTIZARSE para ser SALVO 🌊😇",
+          "description": "El bautismo, ¿me limpia de mis pecados? ¿Por qué tendría que bautizarme si el ladrón de la cruz no lo hizo? ¿Qué dice, realmente, la Biblia acerca del bautismo? ¿Es necesario bautizarse para ser salvo?"
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6r3tqx/playlist.m3u8?key=1oZg9qmFxNKz7KI-tFPNj_8WTja1KyXOjeVVF1o-LmKZgKjA4ZLZXg&u=0&b=0",
+          "image": "https://i.imgur.com/rTGzDrq.png",
+          "title": "Temporada: 1 | Episodio: 18 | 18. ¿Por qué necesitamos ser llenos del Espíritu Santo",
+          "description": "La Biblia contiene 88 referencias al Espíritu Santo en el Antiguo Testamento y 262 en el Nuevo, sin embargo, es ignorado por muchos. ¿Por qué necesitamos ¡URGENTE! recibir y ser llenos del Espíritu Santo? ¿Qué dice la Biblia sobre Él? y ¿Cuál es esa importancia que tiene para nuestros días?"
         }
       ]
     },
