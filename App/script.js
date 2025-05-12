@@ -859,7 +859,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
             "abouttext": "Movie 24",
 
 
-
+/*
             "advertising": {
                 "client": "vast",
                 "adscheduleid": "Az87bY12",
@@ -886,6 +886,7 @@ const contenedorLista = document.querySelector('.contenedor-lista');
                     }
                 ]
             },
+            */
 
 
 
