@@ -667,7 +667,14 @@ const contenedorLista = document.querySelector('.contenedor-lista');
         }
 
         if (Array.isArray(cartel.urlLista)) {
-            reproductorJWAudios(cartel, vast, null);
+            const iconoLat = document.createElement('img');
+            iconoLat.id = 'audioLat';
+            iconoLat.src = BASE_URL + 'lat.png';
+            iconoLat.addEventListener('click', function () {
+
+                reproductorJWAudios(cartel, vast, null);
+            });
+            contenedorBotonesAudio.appendChild(iconoLat);
         }
 
         const logoMovie24 = document.getElementById('logoMovie24');
