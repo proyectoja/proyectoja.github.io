@@ -252,13 +252,6 @@ body,
 
         }
 
-        #contenedorJWPLAYER img {
-            width: 50%;
-            height: 100%;
-            margin-top: -35px;
-            margin-bottom: -35px;
-        }
-
         #contenedorJWPLAYER {
             display: none;
             position: absolute;
@@ -600,4 +593,11 @@ body,
         }
         #textLike,#textDislike{
             margin-left: 10px;
+        }
+
+        #contenedorJWPLAYER #logoMovie24{
+            display: flex;
+            position: relative;
+            width: 50%;
+            height: 100%;
         }
