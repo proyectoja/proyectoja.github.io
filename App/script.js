@@ -655,13 +655,7 @@ function openPopJW(cartel) {
     iconoLat.id = "audioLat";
     iconoLat.src = BASE_URL + "lat.png";
     iconoLat.addEventListener("click", function () {
-        reproductorJWAudios(cartel, vast, [
-            {
-              file: cartel.url,
-              image: cartel.poster,
-              title: cartel.titulo
-            }
-          ]);
+      reproductorJWAudios(cartel, vast, cartel.url);
     });
     contenedorBotonesAudio.appendChild(iconoLat);
   }
@@ -673,13 +667,7 @@ function openPopJW(cartel) {
     iconoCas.id = "audioCas";
     iconoCas.src = BASE_URL + "cas.png";
     iconoCas.addEventListener("click", function () {
-        reproductorJWAudios(cartel, vast, [
-            {
-              file: cartel.urlCas,
-              image: cartel.poster,
-              title: cartel.titulo
-            }
-          ]);
+      reproductorJWAudios(cartel, vast, cartel.urlCas);
     });
     contenedorBotonesAudio.appendChild(iconoCas);
   }
@@ -691,13 +679,7 @@ function openPopJW(cartel) {
     iconoSub.id = "audioSub";
     iconoSub.src = BASE_URL + "sub.png";
     iconoSub.addEventListener("click", function () {
-        reproductorJWAudios(cartel, vast, [
-            {
-              file: cartel.urlSub,
-              image: cartel.poster,
-              title: cartel.titulo
-            }
-          ]);
+      reproductorJWAudios(cartel, vast, cartel.urlSub);
     });
     contenedorBotonesAudio.appendChild(iconoSub);
   }
@@ -844,7 +826,17 @@ function reproductorJWAudios(cartel, vast, audio) {
   var videoKey = "progreso_" + cartel.id; // Clave única por video
   jw = jwplayer("jw-player").setup({
     debug: 1,
-    file: audio,
+    playlist: Array.isArray(audio)
+  ? audio
+  : [
+      {
+        file: audio,
+        image: cartel.poster,
+        title: cartel.titulo,
+        description: cartel.descripcion
+      }
+    ],
+
     //"sources": listaCalidadesLat,
     image: cartel.poster,
     title: cartel.titulo,
@@ -853,7 +845,7 @@ function reproductorJWAudios(cartel, vast, audio) {
     width: "100%",
     playbackRateControls: true,
     logo: {
-      file: cartel.perfilCanal, //watermark image path
+      file: BASE_URL + "logo1.png", //watermark image path
       link: "", //link url on watermark image
       hide: "false",
       position: "top-right", //position of watermark on player
@@ -953,7 +945,7 @@ function reproductorJWAudios(cartel, vast, audio) {
             },
             */
 
-    playlist: audio,
+    
     horizontalVolumeSlider: true,
     volume: 100,
     nextupoffset: -30,
