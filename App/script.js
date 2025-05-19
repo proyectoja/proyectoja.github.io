@@ -655,7 +655,13 @@ function openPopJW(cartel) {
     iconoLat.id = "audioLat";
     iconoLat.src = BASE_URL + "lat.png";
     iconoLat.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.url);
+        reproductorJWAudios(cartel, vast, [
+            {
+              file: cartel.url,
+              image: cartel.poster,
+              title: cartel.titulo
+            }
+          ]);
     });
     contenedorBotonesAudio.appendChild(iconoLat);
   }
@@ -667,7 +673,13 @@ function openPopJW(cartel) {
     iconoCas.id = "audioCas";
     iconoCas.src = BASE_URL + "cas.png";
     iconoCas.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.urlCas);
+        reproductorJWAudios(cartel, vast, [
+            {
+              file: cartel.urlCas,
+              image: cartel.poster,
+              title: cartel.titulo
+            }
+          ]);
     });
     contenedorBotonesAudio.appendChild(iconoCas);
   }
@@ -679,7 +691,13 @@ function openPopJW(cartel) {
     iconoSub.id = "audioSub";
     iconoSub.src = BASE_URL + "sub.png";
     iconoSub.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.urlSub);
+        reproductorJWAudios(cartel, vast, [
+            {
+              file: cartel.urlSub,
+              image: cartel.poster,
+              title: cartel.titulo
+            }
+          ]);
     });
     contenedorBotonesAudio.appendChild(iconoSub);
   }
