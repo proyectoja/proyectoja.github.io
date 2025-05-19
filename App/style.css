@@ -381,10 +381,10 @@ body,
             overflow-x: auto;
         }
 
-        .boton-genero {
+        .contenedor-principal #contenedorFiltros .boton-genero {
             display: flex;
             position: relative;
-            width: auto;
+            width: 100%;
             height: auto;
             cursor: pointer;
             font-size: 22px;
