@@ -51,7 +51,10 @@
     </div>
     <div id="contenedorJWPLAYER">
         <img id="logoMovie24">
-        <div id="jw-player"></div>
+        <div id="player"></div>
+        <div id="next-message" style="display:none;"></div>
+        <h3 id="more-label" style="display:none;">Más Capítulos</h3>
+        <div class="shelf" id="shelf" style="display:none;"></div>
         <div id="audios-pop"></div>
         <div id="titulo-pop"></div>
         <div id="vistas"></div>
@@ -77,9 +80,39 @@
         document.addEventListener('contextmenu', event => event.preventDefault());
         var BASE_URL = "https://proyectoja.github.io/App/";
         var script = document.createElement("script");
-        script.src = BASE_URL + "jwPlayer.js";
-        script.src = "jwPlayer.js";
-        script.async = true;
+        script.src = BASE_URL + "clappr.js";
+        script.src = "clappr.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "level-selector.js";
+        script.src = "level-selector.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "clappr-playback-rate.js";
+        script.src = "clappr-playback-rate.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "hlsjs-playback.js";
+        script.src = "hlsjs-playback.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "clappr-youtube-playback.js";
+        script.src = "clappr-youtube-playback.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "audio-track-selector.js";
+        script.src = "audio-track-selector.js";
+        script.async = false;
         document.head.appendChild(script);
     
         var link = document.createElement("link");

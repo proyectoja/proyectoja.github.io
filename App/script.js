@@ -148,9 +148,9 @@ function limpiarTodasLasURLs(data) {
         if (Array.isArray(serie[listaNombre])) {
           serie[listaNombre].forEach((item) => {
             if (item.file && item.file.includes("key=")) {
-                const url = new URL(item.file);
-                url.searchParams.delete("key");
-                item.file = url.toString();
+              const url = new URL(item.file);
+              url.searchParams.delete("key");
+              item.file = url.toString();
             }
           });
         }
@@ -629,9 +629,9 @@ const contenedorTituloPop = document.getElementById("titulo-pop");
 const contenedorDescripcionPop = document.getElementById("descripcion-pop");
 const contenedorMetadataPop = document.getElementById("metadata-pop");
 const contenedorCerrarPop = document.getElementById("cerrar-pop");
-var jw = null;
+
 const vast = "";
-const posterPlayer = document.getElementById("jw-player");
+const posterPlayer = document.getElementById("player");
 
 function openPopJW(cartel) {
   posterPlayer.style.backgroundImage = `url("${cartel.poster}")`;
@@ -655,7 +655,7 @@ function openPopJW(cartel) {
     iconoLat.id = "audioLat";
     iconoLat.src = BASE_URL + "lat.png";
     iconoLat.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.url);
+      reproductorClapprAudios(cartel, vast, cartel.url);
     });
     contenedorBotonesAudio.appendChild(iconoLat);
   }
@@ -667,7 +667,7 @@ function openPopJW(cartel) {
     iconoCas.id = "audioCas";
     iconoCas.src = BASE_URL + "cas.png";
     iconoCas.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.urlCas);
+      reproductorClapprAudios(cartel, vast, cartel.urlCas);
     });
     contenedorBotonesAudio.appendChild(iconoCas);
   }
@@ -679,7 +679,7 @@ function openPopJW(cartel) {
     iconoSub.id = "audioSub";
     iconoSub.src = BASE_URL + "sub.png";
     iconoSub.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.urlSub);
+      reproductorClapprAudios(cartel, vast, cartel.urlSub);
     });
     contenedorBotonesAudio.appendChild(iconoSub);
   }
@@ -690,7 +690,7 @@ function openPopJW(cartel) {
     iconoLat.id = "audioLat";
     iconoLat.src = BASE_URL + "lat.png";
     iconoLat.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.urlLista);
+      reproductorClapprAudios(cartel, vast, cartel.urlLista);
     });
     contenedorBotonesAudio.appendChild(iconoLat);
   }
@@ -701,7 +701,7 @@ function openPopJW(cartel) {
     iconoCas.id = "audioCas";
     iconoCas.src = BASE_URL + "cas.png";
     iconoCas.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.urlListaCas);
+      reproductorClapprAudios(cartel, vast, cartel.urlListaCas);
     });
     contenedorBotonesAudio.appendChild(iconoCas);
   }
@@ -712,7 +712,7 @@ function openPopJW(cartel) {
     iconoSub.id = "audioSub";
     iconoSub.src = BASE_URL + "sub.png";
     iconoSub.addEventListener("click", function () {
-      reproductorJWAudios(cartel, vast, cartel.urlListaSub);
+      reproductorClapprAudios(cartel, vast, cartel.urlListaSub);
     });
     contenedorBotonesAudio.appendChild(iconoSub);
   }
@@ -811,205 +811,215 @@ function marcarBotonVotado(voto) {
   }
 }
 
-function reproductorJWAudios(cartel, vast, audio) {
-  if (jw) {
-    jw.remove();
-    jw = null;
-  }
+const playerElement = document.getElementById("player");
+const messageElement = document.getElementById("next-message");
+const shelfElement = document.getElementById("shelf");
+const labelElement = document.getElementById("more-label");
+
+let currentIndex = 0;
+let autoplayTimer = null;
+let clappr = null;
+let autoplayAux = false;
+let index = 0;
+let saveInterval = null;
+
+function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
+  messageElement.textContent = "";
+  currentIndex = index;
+  labelElement.style.display = "none";
+  messageElement.textContent = "";
+  messageElement.style.display = "none";
+  shelfElement.textContent = "";
+  shelfElement.style.display = "none";
+
+  if (clappr) clappr.destroy();
+
+  const isSingleVideo = !Array.isArray(playlist);
+  var videoKey = "progreso_" + cartel.id;
+
+  // Reiniciar votos y vistas
   document.getElementById("vistas").textContent = "";
   document.getElementById("textLike").textContent = "0";
   document.getElementById("textDislike").textContent = "0";
   document.getElementById("contenedorVotar").style.display = "flex";
   document.getElementById("btnLike").src = BASE_URL + "like.png";
   document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
+
+  // Contador de vistas
   contadorDeVistas(cartel);
-  var videoKey = "progreso_" + cartel.id; // Clave única por video
-  jw = jwplayer("jw-player").setup({
-    debug: 1,
-    playlist: Array.isArray(audio)
-  ? audio
-  : [
-      {
-        file: audio,
-        image: cartel.poster,
-        title: cartel.titulo,
-        description: cartel.descripcion
-      }
-    ],
 
-    //"sources": listaCalidadesLat,
-    image: cartel.poster,
-    title: cartel.titulo,
-    description: cartel.descripcion,
-    height: "auto",
+  //Reproductor
+  clappr = new Clappr.Player({
+    source: isSingleVideo ? playlist : playlist[index].file,
+    poster: isSingleVideo ? cartel.poster : playlist[index].image,
+    parentId: "#player",
+    autoPlay: autoplayAux,
     width: "100%",
-    playbackRateControls: true,
-    logo: {
-      file: BASE_URL + "logo1.png", //watermark image path
-      link: "", //link url on watermark image
-      hide: "false",
-      position: "top-right", //position of watermark on player
-    },
-    preload: "metadata",
-    floating: {
-      dismissible: true,
-    },
-    repeat: false,
-    sharing: false,
-    //{
-    //"heading": "Compartir Video",
-    //"link": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
-    //"sites": [
-    //{
-    //"icon": "https://i.imgur.com/7TleNbh.png",
-    //"src": "https://play.google.com/store/apps/details?id=proyecto.ja&hl=en_US",
-    //"label": "Play Store"
-    //}, "facebook", "twitter", "interest", "tumblr", "linkedin", "reddit", "email"
-    //]
-    //},
-    tracks: [
-      {
-        file: BASE_URL + "/Subtitulos/" + cartel.id + "-lat.vtt",
-        label: "Español",
-        kind: "captions",
-        default: true,
-      },
-      {
-        file: BASE_URL + "/Subtitulos/" + cartel.id + "-sub.vtt",
-        label: "English",
-        kind: "captions",
-      },
-      {
-        file: BASE_URL + "/Subtitulos/" + cartel.id + "-por.vtt",
-        label: "Portuguese",
-        kind: "captions",
-      },
+    height: "300px",
+    hideVolumeBar: false,
+    actualLiveTime: true,
+    actualLiveServerTime: "2024/09/30 00:00:00",
+    hideMediaControl: true, //Desarrollo
+    disableVideoTagContextMenu: true,
+    playbackNotSupportedMessage: "No se puede reproducir.",
+    plugins: [
+      AudioTrackSelector,
+      HlsjsPlayback,
+      LevelSelector,
+      PlaybackRatePlugin,
     ],
-    skin: {
-      controlbar: {
-        background: "rgba(0,0,0,0.5)",
-        icons: "#b8b8b8",
-        iconsActive: "#0066FF",
-        text: "#FFFFFF",
-      },
-      menus: {
-        background: "#003366",
-        text: "#b8b8b8",
-        textActive: "#FFFFFF",
-      },
-      name: "stormtrooper",
-      timeslider: {
-        progress: "#0066FF",
-      },
-      tooltips: {
-        background: "#0066FF",
-        text: "#FFFFFF",
+    hlsUseNextLevel: true, // Permite cambiar de calidad automáticamente
+    hlsMinimumDvrSize: 120, // Buffer mínimo de 2 minutos para DVR
+    hlsRecoverAttempts: 16, // Reduce los intentos de recuperación para evitar loops infinitos
+    hlsPlayback: {
+      preload: true, // Precarga el video antes de presionar "play"
+      customListeners: [], // Espacio para eventos personalizados
+    },
+    playback: {
+      crossOrigin: "anonymous",
+      extrapolatedWindowNumSegments: 2,
+      triggerFatalErrorOnResourceDenied: false,
+      hlsjsConfig: {
+        enableWebVTT: true,
+        captions: true, // Activa subtítulos en HLS
+        maxBufferLength: 30, // Mantiene un buffer de 30 segundos
+        maxBufferSize: 60 * 1000 * 1000, // Máximo de 60 MB de buffer
+        liveSyncDuration: 5, // Sincronización de 5 segundos con la transmisión en vivo
+        liveMaxLatencyDuration: 60, // Retraso máximo de 10 segundos en vivo
+        enableWorker: true, // Usa workers para mejorar el rendimiento
+        enableSoftwareAES: true, // Mejora la compatibilidad con flujos cifrados
+        capLevelToPlayerSize: true, // Ajusta la calidad según el tamaño del reproductor
+        autoStartLoad: true, // Carga automáticamente los fragmentos
+        startPosition: -1, // Inicia desde el punto más reciente en transmisión en vivo
+        maxRetries: 9999, // Intentos máximos antes de detener la reproducción
+        retryDelay: 2000, // Retraso de 2 segundos entre intentos de recuperación
+        lowLatencyMode: true, // Habilita el modo de baja latencia
       },
     },
-    stretching: "uniform",
-    autostart: false,
-    cast: {},
-    controls: true,
-    defaultBandwidthEstimate: 5000000,
-    displaydescription: true,
-    displaytitle: true,
-    aboutlink: "",
-    abouttext: "Movie 24",
+    playbackRateConfig: {
+      defaultValue: 1,
+      options: [
+        { value: 0.1, label: "0.1x" },
+        { value: 0.5, label: "0.5x" },
+        { value: 0.75, label: "0.75x" },
+        { value: 1, label: "Normal" },
+        { value: 1.5, label: "1.5x" },
+        { value: 2, label: "2x" }
+      ],
+      // rateSuffix: 'x',
+    },
+    levelSelectorConfig: {
+      title: "Calidad",
+      labels: {
+        7: "",
+        6: "",
+        5: "",
+        4: "",
+        3: "",
+        2: "", // 500kbps
+        1: "", // 240kbps
+        0: "", // 120kbps
+      },
+      labelCallback: function (playbackLevel, customLabel) {
+        return customLabel + playbackLevel.level.height + "p"; // High 720p
+      },
+      onLevelsAvailable: function (levels) {
+        return levels.reverse(); // For example, reverse levels order
+      },
+    },
 
-    /*
-            "advertising": {
-                "client": "vast",
-                "adscheduleid": "Az87bY12",
-                "schedule": [
-                    {
-                        "offset": "pre",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "25%",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "50%",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "75%",
-                        "tag": vast
-                    },
-                    {
-                        "offset": "post",
-                        "tag": vast
-                    }
-                ]
-            },
-            */
-
-    
-    horizontalVolumeSlider: true,
-    volume: 100,
-    nextupoffset: -30,
-    related: {
-      displayMode: "shelfWidget",
-      autoplaytimer: 20,
-      oncomplete: "autoplay",
-    },
-    intl: {
-      en: {
-        related: {
-          autoplaymessage: "__title__ se reproducirá en xx segundos.",
-          heading: "Más Capítulos",
-        },
-      },
-    },
+    watermark: BASE_URL + "logo1.png",
+    position: "top-right",
   });
 
-  //Tiempos dinámicos para cada video
-  videoKey = videoKey + cartel.id;
-  //Espera que el reproductor esté listo
-  jw.on("ready", function () {
-    var lastTime = localStorage.getItem(videoKey);
-    if (lastTime) {
-      jw.seek(parseFloat(lastTime)); // Reanudar desde el último tiempo guardado
+  clappr.once(Clappr.Events.PLAYER_READY, () => {
+    const lastTime = localStorage.getItem(videoKey);
+    if (lastTime) clappr.seek(parseFloat(lastTime));
+    window.location.href = "go:anuncio";
+  });
+
+  if (saveInterval) clearInterval(saveInterval);
+  saveInterval = setInterval(() => {
+    if (clappr && clappr.getCurrentTime) {
+      localStorage.setItem(videoKey, clappr.getCurrentTime());
     }
-    window.location.href = "go:anuncio";
-  });
+  }, 5000);
 
-  // Guardar el progreso del video cada 5 segundos
-  jw.on("time", function (event) {
-    localStorage.setItem(videoKey, event.position);
-  });
-
-  // Limpiar el progreso si el video se termina
-  jw.on("complete", function () {
+  clappr.on(Clappr.Events.PLAYER_ENDED, () => {
     localStorage.removeItem(videoKey);
+    clearInterval(saveInterval);
+
+    const nextIndex = index + 1;
+    autoplayAux = true;
+
+    if (!isSingleVideo && nextIndex < playlist.length) {
+      let seconds = 10;
+      messageElement.textContent = `"${playlist[nextIndex].title}" se reproducirá en ${seconds} segundos...`;
+      autoplayTimer = setInterval(() => {
+        seconds--;
+        messageElement.textContent = `"${playlist[nextIndex].title}" se reproducirá en ${seconds} segundos...`;
+        if (seconds === 0) {
+          clearInterval(autoplayTimer);
+          // Actualizar título y descripción cuando se hace clic en una miniatura
+          var videoTitle = playlist[nextIndex].title || "Sin título";
+          var videoDescription =
+            playlist[nextIndex].description || "Sin descripción";
+          contenedorTituloPop.textContent = videoTitle;
+          contenedorDescripcionPop.textContent = videoDescription;
+          reproductorClapprAudios(cartel, vast, playlist, nextIndex);
+        }
+      }, 1000);
+    } else {
+      messageElement.textContent = "Fin de la lista de reproducción.";
+    }
+
     window.location.href = "go:anuncio";
   });
 
-  jw.on("pause", function () {
-    // Mostrar anuncio y luego continuar con la reproducción
-    //window.location.href = "go:anuncio";
-  });
+  // Datos visuales
+  if (!isSingleVideo) {
+    // Cargar miniaturas
+    messageElement.style.display = "flex";
+    shelfElement.style.display = "flex";
+    labelElement.style.display = "flex";
 
-  //Anuncios en la lista JW PLAYER
-  jw.on("playlistItem", function (event) {
-    contenedorDisqus.textContent = "";
-    var videoTitle = event.item.title || "Sin título";
-    var videoDescription = event.item.description || "Sin Descripción";
-    contenedorTituloPop.textContent = videoTitle;
-    contenedorDescripcionPop.textContent = videoDescription;
-    window.location.href = "go:anuncio";
-  });
+    playlist.forEach((item, i) => {
+      const div = document.createElement("div");
+      div.className = "shelf-item";
+      div.innerHTML = `<img src="${item.image}"><div class="title">${item.title}</div>`;
+      div.addEventListener("click", () => {
+        clearInterval(autoplayTimer);
+        autoplayAux = true;
+
+        // Actualizar título y descripción cuando se hace clic en una miniatura
+        var videoTitle = item.title || "Sin título";
+        var videoDescription = item.description || "Sin descripción";
+        contenedorTituloPop.textContent = videoTitle;
+        contenedorDescripcionPop.textContent = videoDescription;
+
+        window.location.href = "go:anuncio";
+        reproductorClapprAudios(cartel, vast, playlist, i);
+      });
+
+      shelfElement.appendChild(div);
+    });
+  }
 }
+
 const contenedorDisqus = document.getElementById("disqus_thread");
 function closePopJW() {
-  if (jw) {
-    jw.remove();
-    jw = null;
+  if (clappr) {
+    clappr.destroy();
+    clappr = null;
     contenedorDisqus.textContent = "";
     contenedorJWPLAYER.style.display = "none";
     //window.location.href = "go:anuncio";
   }
+  labelElement.style.display = "none";
+  messageElement.textContent = "";
+  messageElement.style.display = "none";
+  shelfElement.textContent = "";
+  shelfElement.style.display = "none";
   contenedorDisqus.textContent = "";
   contenedorJWPLAYER.style.display = "none";
   document.getElementById("vistas").textContent = "";
