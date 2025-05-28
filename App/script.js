@@ -991,8 +991,6 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
       messageElement.textContent = "Fin de la lista de reproducción.";
     }
 
-    window.location.href = "go:anuncio";
-    window.location.href = "go:anuncio";
   });
 
   // Datos visuales
