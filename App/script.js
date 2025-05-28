@@ -905,7 +905,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
         { value: 0.75, label: "0.75x" },
         { value: 1, label: "Normal" },
         { value: 1.5, label: "1.5x" },
-        { value: 2, label: "2x" }
+        { value: 2, label: "2x" },
       ],
       // rateSuffix: 'x',
     },
@@ -935,16 +935,16 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
 
   window.location.href = "go:anuncio";
   window.location.href = "go:anuncio";
-  clappr.on(Clappr.Events.PLAYER_READY, function() {
+  clappr.on(Clappr.Events.PLAYER_READY, function () {
     console.log("Disparo ready");
-  
+
     const lastTime = localStorage.getItem(videoKey);
     if (lastTime) {
       clappr.seek(parseFloat(lastTime));
       console.log(`⏪ Reanudando desde ${lastTime} segundos`);
     }
   });
-  
+
   let lastSavedTime = 0;
   clappr.on(Clappr.Events.PLAYER_TIMEUPDATE, () => {
     const currentTime = clappr.getCurrentTime();
@@ -954,14 +954,10 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
       lastSavedTime = currentTime;
     }
   });
-  
+
   clappr.on(Clappr.Events.PLAYER_PLAY, function () {
-    
     console.log("Disparo play");
   });
-  
-
-
 
   clappr.on(Clappr.Events.PLAYER_ENDED, () => {
     localStorage.removeItem(videoKey);
@@ -990,7 +986,6 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
     } else {
       messageElement.textContent = "Fin de la lista de reproducción.";
     }
-
   });
 
   // Datos visuales
@@ -1001,23 +996,25 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
     labelElement.style.display = "flex";
 
     playlist.forEach((item, i) => {
-      const div = document.createElement("div");
-      div.className = "shelf-item";
-      div.innerHTML = `<img src="${item.image}"><div class="title">${item.title}</div>`;
-      div.addEventListener("click", () => {
-        clearInterval(autoplayTimer);
-        autoplayAux = true;
+      if (item.image && item.title && item.file) {
+        const div = document.createElement("div");
+        div.className = "shelf-item";
+        div.innerHTML = `<img src="${item.image}"><div class="title">${item.title}</div>`;
+        div.addEventListener("click", () => {
+          clearInterval(autoplayTimer);
+          autoplayAux = true;
 
-        // Actualizar título y descripción cuando se hace clic en una miniatura
-        var videoTitle = item.title || "Sin título";
-        var videoDescription = item.description || "Sin descripción";
-        contenedorTituloPop.textContent = videoTitle;
-        contenedorDescripcionPop.textContent = videoDescription;
+          // Actualizar título y descripción cuando se hace clic en una miniatura
+          var videoTitle = item.title || "Sin título";
+          var videoDescription = item.description || "Sin descripción";
+          contenedorTituloPop.textContent = videoTitle;
+          contenedorDescripcionPop.textContent = videoDescription;
 
-        reproductorClapprAudios(cartel, vast, playlist, i);
-      });
+          reproductorClapprAudios(cartel, vast, playlist, i);
+        });
 
-      shelfElement.appendChild(div);
+        shelfElement.appendChild(div);
+      }
     });
   }
 }
