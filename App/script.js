@@ -1014,7 +1014,6 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
         contenedorTituloPop.textContent = videoTitle;
         contenedorDescripcionPop.textContent = videoDescription;
 
-        window.location.href = "go:anuncio";
         reproductorClapprAudios(cartel, vast, playlist, i);
       });
 
