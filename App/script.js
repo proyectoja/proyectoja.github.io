@@ -831,6 +831,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
   messageElement.style.display = "none";
   shelfElement.textContent = "";
   shelfElement.style.display = "none";
+  posterPlayer.style.backgroundImage = 'url("")';
 
   if (clappr) clappr.destroy();
 
@@ -932,18 +933,35 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
     position: "top-right",
   });
 
-  clappr.once(Clappr.Events.PLAYER_READY, () => {
+  window.location.href = "go:anuncio";
+  window.location.href = "go:anuncio";
+  clappr.on(Clappr.Events.PLAYER_READY, function() {
+    console.log("Disparo ready");
+  
     const lastTime = localStorage.getItem(videoKey);
-    if (lastTime) clappr.seek(parseFloat(lastTime));
-    window.location.href = "go:anuncio";
-  });
-
-  if (saveInterval) clearInterval(saveInterval);
-  saveInterval = setInterval(() => {
-    if (clappr && clappr.getCurrentTime) {
-      localStorage.setItem(videoKey, clappr.getCurrentTime());
+    if (lastTime) {
+      clappr.seek(parseFloat(lastTime));
+      console.log(`⏪ Reanudando desde ${lastTime} segundos`);
     }
-  }, 5000);
+  });
+  
+  let lastSavedTime = 0;
+  clappr.on(Clappr.Events.PLAYER_TIMEUPDATE, () => {
+    const currentTime = clappr.getCurrentTime();
+    if (Math.abs(currentTime - lastSavedTime) >= 10) {
+      localStorage.setItem(videoKey, currentTime);
+      console.log(`💾 Tiempo guardado: ${currentTime.toFixed(2)} segundos`);
+      lastSavedTime = currentTime;
+    }
+  });
+  
+  clappr.on(Clappr.Events.PLAYER_PLAY, function () {
+    
+    console.log("Disparo play");
+  });
+  
+
+
 
   clappr.on(Clappr.Events.PLAYER_ENDED, () => {
     localStorage.removeItem(videoKey);
@@ -973,6 +991,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
       messageElement.textContent = "Fin de la lista de reproducción.";
     }
 
+    window.location.href = "go:anuncio";
     window.location.href = "go:anuncio";
   });
 

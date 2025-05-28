@@ -274,7 +274,7 @@ body,
         }
 
         #player {
-            min-height: 200px;
+            height: auto;
         }
 
         .jw-icon-pip {
