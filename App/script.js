@@ -1043,9 +1043,7 @@ function closePopJW() {
   document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  anunciosAdsterra();
-});
+anunciosAdsterra();
 //Anucios publicitarios
 function anunciosAdsterra() {
   let contador = 0; // Contador para llevar el seguimiento del número de veces que se han mostrado los anuncios
