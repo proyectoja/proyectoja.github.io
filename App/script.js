@@ -857,7 +857,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
     autoPlay: autoplayAux,
     width: "100%",
     height: "300px",
-    hideVolumeBar: true,
+    hideVolumeBar: true, //DESARROLLO
     actualLiveTime: true,
     actualLiveServerTime: "2024/09/30 00:00:00",
     hideMediaControl: true, //Desarrollo
