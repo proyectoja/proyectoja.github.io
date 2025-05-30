@@ -857,7 +857,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
     autoPlay: autoplayAux,
     width: "100%",
     height: "300px",
-    hideVolumeBar: false,
+    hideVolumeBar: true,
     actualLiveTime: true,
     actualLiveServerTime: "2024/09/30 00:00:00",
     hideMediaControl: true, //Desarrollo
@@ -867,7 +867,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
       AudioTrackSelector,
       HlsjsPlayback,
       LevelSelector,
-      PlaybackRatePlugin,
+      //PlaybackRatePlugin,
     ],
     hlsUseNextLevel: true, // Permite cambiar de calidad automáticamente
     hlsMinimumDvrSize: 120, // Buffer mínimo de 2 minutos para DVR
@@ -897,7 +897,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
         lowLatencyMode: true, // Habilita el modo de baja latencia
       },
     },
-    playbackRateConfig: {
+    /*playbackRateConfig: {
       defaultValue: 1,
       options: [
         { value: 0.1, label: "0.1x" },
@@ -908,7 +908,7 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
         { value: 2, label: "2x" },
       ],
       // rateSuffix: 'x',
-    },
+    },*/
     levelSelectorConfig: {
       title: "Calidad",
       labels: {
