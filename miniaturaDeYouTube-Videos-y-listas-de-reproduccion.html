@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Miniaturas YouTube HD</title>
+  <title>Miniaturas HD de YouTube</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     input, button { width: 100%; padding: 10px; margin-bottom: 10px; font-size: 16px; }
@@ -25,7 +25,7 @@
 
       return {
         playlistId: listMatch ? listMatch[1] : null,
-        videoId: !listMatch && videoMatch ? videoMatch[1] : null // Solo usar si NO hay lista
+        videoId: !listMatch && videoMatch ? videoMatch[1] : null
       };
     }
 
@@ -36,32 +36,9 @@
       resultados.innerHTML = "";
 
       if (playlistId) {
-        resultados.innerHTML = "<p>🔄 Cargando miniaturas desde lista...</p>";
+        resultados.innerHTML = "<p>🔄 Cargando miniaturas desde la lista completa...</p>";
         try {
-          const apiUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${apiKey}`;
-          const res = await fetch(apiUrl);
-          const data = await res.json();
-
-          if (data.items && data.items.length > 0) {
-            resultados.innerHTML = `<h3>Miniaturas de la lista (${data.items.length} videos):</h3>`;
-            data.items.forEach(item => {
-              const snippet = item.snippet;
-              const title = snippet.title;
-              const videoId = snippet.resourceId?.videoId;
-
-              if (!videoId || title === "Private video" || title === "Deleted video") return;
-
-              const thumbURL = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-
-              resultados.innerHTML += `
-                <div class="thumbnail">
-                  <img src="${thumbURL}" alt="${title}" onerror="this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg'">
-                  <p>${title}</p>
-                </div>`;
-            });
-          } else {
-            resultados.innerHTML = "<p>❌ No se encontraron videos en la lista o está configurada como privada.</p>";
-          }
+          await cargarListaCompleta(playlistId, resultados);
         } catch (e) {
           resultados.innerHTML = `<p>🚫 Error al consultar la lista: ${e.message}</p>`;
         }
@@ -78,6 +55,40 @@
       } else {
         resultados.innerHTML = "<p>⚠️ URL inválida. Asegúrate de que sea una URL de YouTube válida.</p>";
       }
+    }
+
+    async function cargarListaCompleta(playlistId, contenedor) {
+      let nextPageToken = "";
+      let totalVideos = 0;
+      contenedor.innerHTML = "<h3>Miniaturas encontradas:</h3>";
+
+      do {
+        const apiUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${apiKey}&pageToken=${nextPageToken}`;
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (!data.items) throw new Error(data.error?.message || "Error desconocido");
+
+        data.items.forEach(item => {
+          const snippet = item.snippet;
+          const title = snippet.title;
+          const videoId = snippet.resourceId?.videoId;
+
+          if (!videoId || title === "Private video" || title === "Deleted video") return;
+
+          const thumbURL = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+          contenedor.innerHTML += `
+            <div class="thumbnail">
+              <img src="${thumbURL}" alt="${title}" onerror="this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg'">
+              <p>${title}</p>
+            </div>`;
+          totalVideos++;
+        });
+
+        nextPageToken = data.nextPageToken || "";
+      } while (nextPageToken);
+      
+      contenedor.innerHTML = `<p>✅ Se encontraron ${totalVideos} videos en la lista.</p>` + contenedor.innerHTML;
     }
   </script>
 </body>

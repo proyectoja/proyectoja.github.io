@@ -4812,7 +4812,7 @@
       "duracion": "01m => 05m",
       "pais": "Argentina",
       "generos": "Todos,Youtubers,Drama,Adolescentes,Religión",
-      "calidad": "2",
+      "calidad": "3",
       "url": "",
       "urlLista": [
         {
@@ -5096,18 +5096,468 @@
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
-      "pais": "",
-      "generos": "Todos",
+      "descripcion": "¿Quieres hablar de temas difíciles, controversiales o polémicos y no sabes dónde? Mira ahora esta nueva serie web producida por la Radio Nuevo Tiempo.",
+      "fecha": "2017",
+      "duracion": "07m = > 12m",
+      "pais": "Perú",
+      "generos": "Todos,Comedia,Adolescentes",
       "calidad": "",
       "url": "",
       "urlLista": [
         {
           "file": "",
           "image": "",
-          "title": "",
+          "title": "Sin Filtro",
+          "description": "¿Quieres hablar de temas difíciles, controversiales o polémicos y no sabes dónde? Mira ahora esta nueva serie web producida por la Radio Nuevo Tiempo."
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
+          "description": ""
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "Temporada: 1 | Episodio: ",
           "description": ""
         }
       ]
