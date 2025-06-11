@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Miniaturas YouTube HD</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { width: 100%; padding: 10px; margin-bottom: 10px; font-size: 16px; }
+    .thumbnail { display: inline-block; margin: 10px; text-align: center; }
+    .thumbnail img { width: 320px; max-width: 100%; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+  </style>
+</head>
+<body>
+  <h2>🎞️ Extraer Miniaturas en Alta Calidad de YouTube</h2>
+  <input type="text" id="youtubeUrl" placeholder="Pega la URL del video o lista de reproducción">
+  <button onclick="obtenerMiniaturas()">Obtener Miniaturas HD</button>
+  <div id="resultados"></div>
+
+  <script>
+    const apiKey = "AIzaSyC2eFYvvRH3pXkCOM7gPFndGYavon-8jwU";
+
+    function extraerIDs(url) {
+      const listMatch = url.match(/[?&]list=([^&]+)/);
+      const videoMatch = url.match(/[?&]v=([^&]+)/);
+
+      return {
+        playlistId: listMatch ? listMatch[1] : null,
+        videoId: !listMatch && videoMatch ? videoMatch[1] : null // Solo usar si NO hay lista
+      };
+    }
+
+    async function obtenerMiniaturas() {
+      const url = document.getElementById("youtubeUrl").value.trim();
+      const { playlistId, videoId } = extraerIDs(url);
+      const resultados = document.getElementById("resultados");
+      resultados.innerHTML = "";
+
+      if (playlistId) {
+        resultados.innerHTML = "<p>🔄 Cargando miniaturas desde lista...</p>";
+        try {
+          const apiUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${apiKey}`;
+          const res = await fetch(apiUrl);
+          const data = await res.json();
+
+          if (data.items && data.items.length > 0) {
+            resultados.innerHTML = `<h3>Miniaturas de la lista (${data.items.length} videos):</h3>`;
+            data.items.forEach(item => {
+              const snippet = item.snippet;
+              const title = snippet.title;
+              const videoId = snippet.resourceId?.videoId;
+
+              if (!videoId || title === "Private video" || title === "Deleted video") return;
+
+              const thumbURL = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+              resultados.innerHTML += `
+                <div class="thumbnail">
+                  <img src="${thumbURL}" alt="${title}" onerror="this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg'">
+                  <p>${title}</p>
+                </div>`;
+            });
+          } else {
+            resultados.innerHTML = "<p>❌ No se encontraron videos en la lista o está configurada como privada.</p>";
+          }
+        } catch (e) {
+          resultados.innerHTML = `<p>🚫 Error al consultar la lista: ${e.message}</p>`;
+        }
+
+      } else if (videoId) {
+        const thumbURL = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+        resultados.innerHTML = `
+          <h3>Miniatura del video:</h3>
+          <div class="thumbnail">
+            <img src="${thumbURL}" alt="Miniatura" onerror="this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg'">
+            <p>ID del video: ${videoId}</p>
+          </div>
+        `;
+      } else {
+        resultados.innerHTML = "<p>⚠️ URL inválida. Asegúrate de que sea una URL de YouTube válida.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
