@@ -5090,8 +5090,8 @@
     {
       "id": "s12",
       "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
+      "miniatura": "https://i.imgur.com/cVCHkx9.jpg",
+      "poster": "https://i.imgur.com/cVCHkx9.jpg",
       "titulo": "Sin Filtro",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -5101,13 +5101,13 @@
       "duracion": "07m = > 12m",
       "pais": "Perú",
       "generos": "Todos,Comedia,Adolescentes",
-      "calidad": "",
+      "calidad": "3",
       "url": "",
       "urlLista": [
         {
           "file": "",
           "image": "",
-          "title": "Sin Filtro",
+          "title": "Sin Filtro | ",
           "description": "¿Quieres hablar de temas difíciles, controversiales o polémicos y no sabes dónde? Mira ahora esta nueva serie web producida por la Radio Nuevo Tiempo."
         },
         {

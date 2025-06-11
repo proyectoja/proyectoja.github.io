@@ -260,16 +260,7 @@ function crearCarteles(cartel) {
   const calidadAux = document.createElement("div");
   calidadAux.className = "contenedor-calidad";
 
-  if (cartel.url.includes(".caa.mp4")) {
-    calidadAux.textContent = "SD";
-  } else if (cartel.url.includes(".gaa.mp4")) {
-    calidadAux.textContent = "HD";
-  } else if (
-    cartel.url.includes(".haa.mp4") ||
-    cartel.url.includes(".aaa.mp4")
-  ) {
-    calidadAux.textContent = "FULLHD";
-  } else if (cartel.calidad === "1") {
+  if (cartel.calidad === "1") {
     calidadAux.textContent = "SD";
   } else if (cartel.calidad === "2") {
     calidadAux.textContent = "HD";
@@ -353,7 +344,7 @@ function crearCarteles(cartel) {
   //Crear íconos de los audios
   const contenedorIconosAudios = document.createElement("div");
   contenedorIconosAudios.id = "contenedorIconosAudios";
-  if (cartel.url) {
+  if (cartel.url || cartel.urlLista) {
     const iconoAudio = document.createElement("img");
     iconoAudio.dataset.src = BASE_URL + "lat.png";
     iconoAudio.id = "iconoAudio";
@@ -363,7 +354,7 @@ function crearCarteles(cartel) {
     contenedorIconosAudios.appendChild(iconoAudio);
     observer.observe(iconoAudio);
   }
-  if (cartel.urlSub) {
+  if (cartel.urlSub || cartel.urlListaSub) {
     const iconoAudio = document.createElement("img");
     iconoAudio.dataset.src = BASE_URL + "sub.png";
     iconoAudio.id = "iconoAudio";
@@ -373,7 +364,7 @@ function crearCarteles(cartel) {
     contenedorIconosAudios.appendChild(iconoAudio);
     observer.observe(iconoAudio);
   }
-  if (cartel.urlCas) {
+  if (cartel.urlCas || cartel.urlListaCas) {
     const iconoAudio = document.createElement("img");
     iconoAudio.dataset.src = BASE_URL + "cas.png";
     iconoAudio.id = "iconoAudio";
@@ -440,16 +431,7 @@ function crearCartelesRecientes(cartel) {
   const calidadAux = document.createElement("div");
   calidadAux.className = "contenedor-calidad";
 
-  if (cartel.url.includes(".caa.mp4")) {
-    calidadAux.textContent = "SD";
-  } else if (cartel.url.includes(".gaa.mp4")) {
-    calidadAux.textContent = "HD";
-  } else if (
-    cartel.url.includes(".haa.mp4") ||
-    cartel.url.includes(".aaa.mp4")
-  ) {
-    calidadAux.textContent = "FULLHD";
-  } else if (cartel.calidad === "1") {
+  if (cartel.calidad === "1") {
     calidadAux.textContent = "SD";
   } else if (cartel.calidad === "2") {
     calidadAux.textContent = "HD";
@@ -532,7 +514,7 @@ function crearCartelesRecientes(cartel) {
   //Crear íconos de los audios
   const contenedorIconosAudios = document.createElement("div");
   contenedorIconosAudios.id = "contenedorIconosAudios";
-  if (cartel.url) {
+  if (cartel.url || cartel.urlLista) {
     const iconoAudio = document.createElement("img");
     iconoAudio.dataset.src = BASE_URL + "lat.png";
     iconoAudio.id = "iconoAudio";
@@ -542,7 +524,7 @@ function crearCartelesRecientes(cartel) {
     contenedorIconosAudios.appendChild(iconoAudio);
     observer.observe(iconoAudio);
   }
-  if (cartel.urlSub) {
+  if (cartel.urlSub || cartel.urlListaSub) {
     const iconoAudio = document.createElement("img");
     iconoAudio.dataset.src = BASE_URL + "sub.png";
     iconoAudio.id = "iconoAudio";
@@ -552,7 +534,7 @@ function crearCartelesRecientes(cartel) {
     contenedorIconosAudios.appendChild(iconoAudio);
     observer.observe(iconoAudio);
   }
-  if (cartel.urlCas) {
+  if (cartel.urlCas || cartel.urlListaCas) {
     const iconoAudio = document.createElement("img");
     iconoAudio.dataset.src = BASE_URL + "cas.png";
     iconoAudio.id = "iconoAudio";
