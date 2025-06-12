@@ -1,3 +1,6 @@
+document.body.style.backgroundColor = "black";
+document.documentElement.style.backgroundColor = "black";
+
 var BASE_URL = "https://proyectoja.github.io/App/";
 const contenedorLista = document.querySelector(".contenedor-lista");
 const contenedorContPelis = document.querySelector(".contenedor-cont-pelis");
