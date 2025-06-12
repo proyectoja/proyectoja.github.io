@@ -1,5 +1,5 @@
 Para las películas:
-{
+    {
       "id": "p",
       "seguidores": "11.8 k",
       "miniatura": "",
@@ -20,7 +20,7 @@ Para las películas:
     }
 
 Para las series:
-{
+    {
       "id": "s",
       "seguidores": "11.8 k",
       "miniatura": "",

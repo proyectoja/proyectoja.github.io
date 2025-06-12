@@ -820,6 +820,9 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
   const isSingleVideo = !Array.isArray(playlist);
   var videoKey = "progreso_" + cartel.id;
 
+  //Nombre en la meta del video o de la lista
+  document.title = isSingleVideo ? cartel.titulo : playlist[index].title;
+console.log(document.title);
   // Reiniciar votos y vistas
   document.getElementById("vistas").textContent = "";
   document.getElementById("textLike").textContent = "0";
