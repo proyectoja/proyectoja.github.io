@@ -6,6 +6,7 @@ html,body {
   box-sizing: border-box;
   background-color: black;
   overflow: hidden;
+  color: white;
 }
 
 * {
