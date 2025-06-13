@@ -612,6 +612,7 @@ inputBuscar.addEventListener("input", filtrarPeliculas);
 
 const contenedorTituloPop = document.getElementById("titulo-pop");
 const contenedorDescripcionPop = document.getElementById("descripcion-pop");
+const contenedorGenerosPop = document.getElementById("generos-pop");
 const contenedorMetadataPop = document.getElementById("metadata-pop");
 const contenedorCerrarPop = document.getElementById("cerrar-pop");
 
@@ -705,6 +706,7 @@ function openPopJW(cartel) {
   const logoMovie24 = document.getElementById("logoMovie24");
   logoMovie24.src = BASE_URL + "logo1.png";
   contenedorTituloPop.textContent = cartel.titulo;
+  contenedorGenerosPop.textContent = cartel.generos.replace(/^\s*todos\s*,?\s*/i, '');
   contenedorDescripcionPop.textContent = cartel.descripcion;
   contenedorMetadataPop.textContent =
     "Año: " +
