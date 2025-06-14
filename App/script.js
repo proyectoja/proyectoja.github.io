@@ -1018,6 +1018,10 @@ function closePopJW() {
     contenedorJWPLAYER.style.display = "none";
     //window.location.href = "go:anuncio";
   }
+  if (autoplayTimer) {
+    clearInterval(autoplayTimer);
+    autoplayTimer = null;
+  }
   labelElement.style.display = "none";
   messageElement.textContent = "";
   messageElement.style.display = "none";
