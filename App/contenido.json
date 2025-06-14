@@ -5756,6 +5756,7 @@
       "url": "",
       "urlSub": "",
       "urlCas": "",
+      "urlCor": "https://rumble.com/hls-vod/6slipd/playlist.m3u8?key=sVWRRB8sW-Cgt33h1U7zmIS-COZgB62UM1GVaCpYYEta-b85q4UTng&u=0&b=0",
       "titulo": "EL DESIERTO | MUSICAL COREANO CRISTIANO",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
@@ -5765,14 +5766,14 @@
       "duracion": "01h 33m",
       "pais": "Corea del Sur",
       "generos": "Todos,Musicales,Música,Teatro",
-      "calidad": ""
+      "calidad": "6"
     },
     {
       "id": "p135",
       "seguidores": "11.8 k",
       "miniatura": "https://i.imgur.com/ckLZmJb.jpg",
       "poster": "https://i.imgur.com/LNhh2Na.png",
-      "url": "",
+      "url": "https://rumble.com/hls-vod/6slj9v/playlist.m3u8?key=g8IHcY-Z8XQEBSwZVQy0Ibjmq7GsDQOl4klDWfvkGG2g2dCbXVhjZA&u=0&b=0",
       "urlSub": "",
       "urlCas": "",
       "titulo": "MILO | PELÍCULA COMPLETA EN ESPAÑOL",
@@ -5784,7 +5785,7 @@
       "duracion": "50m",
       "pais": "",
       "generos": "Todos,Familia,Drama",
-      "calidad": ""
+      "calidad": "5"
     },
     {
       "id": "p",

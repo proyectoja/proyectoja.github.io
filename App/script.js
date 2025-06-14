@@ -28,7 +28,7 @@ document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
 
 // Función para cargar los datos desde el archivo JSON
 fetch(jsonUrl) // PRODUCCIÓN
-  //fetch("contenido.json") //DESARROLLO
+  fetch("contenido.json") //DESARROLLO
   .then((response) => response.json()) // Convertir a JSON
   .then((data) => {
     limpiarTodasLasURLs(data);
@@ -39,6 +39,8 @@ fetch(jsonUrl) // PRODUCCIÓN
         (video.url && video.url.trim() !== "") ||
         (video.urlSub && video.urlSub.trim() !== "") ||
         (video.urlCas && video.urlCas.trim() !== "") ||
+        (video.urlCor && video.urlCor.trim() !== "") ||
+        (video.urlChi && video.urlChi.trim() !== "") ||
         (Array.isArray(video.urlLista) &&
           video.urlLista[0].file &&
           video.urlLista[0].file.trim() !== "")
@@ -134,7 +136,7 @@ function limpiarTodasLasURLs(data) {
   // Limpiar URLs en películas
   if (Array.isArray(data.peliculas)) {
     data.peliculas.forEach((pelicula) => {
-      ["url", "urlCas", "urlSub"].forEach((campo) => {
+      ["url", "urlCas", "urlSub","urlCor","urlChi"].forEach((campo) => {
         if (pelicula[campo] && pelicula[campo].includes("key=")) {
           const url = new URL(pelicula[campo]);
           url.searchParams.delete("key");
@@ -147,7 +149,7 @@ function limpiarTodasLasURLs(data) {
   // Limpiar URLs (Listas)
   if (Array.isArray(data.peliculas)) {
     data.peliculas.forEach((serie) => {
-      ["urlLista", "urlListaSub", "urlListaCas"].forEach((listaNombre) => {
+      ["urlLista", "urlListaSub", "urlListaCas","urlListaCor","urlListaChi"].forEach((listaNombre) => {
         if (Array.isArray(serie[listaNombre])) {
           serie[listaNombre].forEach((item) => {
             if (item.file && item.file.includes("key=")) {
@@ -249,7 +251,7 @@ function crearCarteles(cartel) {
       setTimeout(() => {
         contenedorJWPLAYER.style.display = "flex";
         openPopJW(cartel);
-      }, 1000); // Puedes ajustar el tiempo si lo deseas
+      }, 100); 
     } else {
       // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
       contenedorJWPLAYER.style.display = "flex";
@@ -272,6 +274,8 @@ function crearCarteles(cartel) {
   } else if (cartel.calidad === "4") {
     calidadAux.textContent = "60FPS";
   } else if (cartel.calidad === "5") {
+    calidadAux.textContent = "2K";
+  } else if (cartel.calidad === "6") {
     calidadAux.textContent = "4K";
   } else if (cartel.url.includes("") && cartel.calidad.includes("")) {
     calidadAux.textContent = "No Disponible";
@@ -379,6 +383,26 @@ function crearCarteles(cartel) {
     contenedorIconosAudios.appendChild(iconoAudio);
     observer.observe(iconoAudio);
   }
+  if (cartel.urlCor || cartel.urlListaCor) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "cor.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  if (cartel.urlChi || cartel.urlListaChi) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "chi.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
   videoItem.appendChild(contenedorIconosAudios);
 
   // Agregar la imagen al DOM
@@ -422,7 +446,7 @@ function crearCartelesRecientes(cartel) {
       setTimeout(() => {
         contenedorJWPLAYER.style.display = "flex";
         openPopJW(cartel);
-      }, 1000); // Puedes ajustar el tiempo si lo deseas
+      }, 100); // Puedes ajustar el tiempo si lo deseas
     } else {
       // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
       contenedorJWPLAYER.style.display = "flex";
@@ -445,6 +469,8 @@ function crearCartelesRecientes(cartel) {
   } else if (cartel.calidad === "4") {
     calidadAux.textContent = "60FPS";
   } else if (cartel.calidad === "5") {
+    calidadAux.textContent = "2K";
+  } else if (cartel.calidad === "6") {
     calidadAux.textContent = "4K";
   } else if (cartel.url.includes("") && cartel.calidad.includes("")) {
     calidadAux.textContent = "No Disponible";
@@ -542,6 +568,26 @@ function crearCartelesRecientes(cartel) {
     observer.observe(iconoAudio);
   }
   if (cartel.urlCas || cartel.urlListaCas) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "cas.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  if (cartel.urlCor || cartel.urlListaCor) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "cor.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  if (cartel.urlChi || cartel.urlListaChi) {
     const iconoAudio = document.createElement("img");
     iconoAudio.dataset.src = BASE_URL + "cas.png";
     iconoAudio.id = "iconoAudio";
