@@ -706,7 +706,7 @@ function openPopJW(cartel) {
   const logoMovie24 = document.getElementById("logoMovie24");
   logoMovie24.src = BASE_URL + "logo1.png";
   contenedorTituloPop.textContent = cartel.titulo;
-  contenedorGenerosPop.textContent = cartel.generos.replace(/^\s*todos\s*,?\s*/i, '');
+  contenedorGenerosPop.textContent = "Genero: " + cartel.generos.replace(/^\s*todos\s*,?\s*/i, '');
   contenedorDescripcionPop.textContent = cartel.descripcion;
   contenedorMetadataPop.textContent =
     "Año: " +
