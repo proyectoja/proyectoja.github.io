@@ -271,6 +271,8 @@ function crearCarteles(cartel) {
     calidadAux.textContent = "FULLHD";
   } else if (cartel.calidad === "4") {
     calidadAux.textContent = "60FPS";
+  } else if (cartel.calidad === "5") {
+    calidadAux.textContent = "4K";
   } else if (cartel.url.includes("") && cartel.calidad.includes("")) {
     calidadAux.textContent = "No Disponible";
     proxiAux = true;
@@ -442,6 +444,8 @@ function crearCartelesRecientes(cartel) {
     calidadAux.textContent = "FULLHD";
   } else if (cartel.calidad === "4") {
     calidadAux.textContent = "60FPS";
+  } else if (cartel.calidad === "5") {
+    calidadAux.textContent = "4K";
   } else if (cartel.url.includes("") && cartel.calidad.includes("")) {
     calidadAux.textContent = "No Disponible";
     proxiAux = true;
