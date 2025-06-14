@@ -720,6 +720,30 @@ function openPopJW(cartel) {
     contenedorBotonesAudio.appendChild(iconoSub);
   }
 
+  // Icono Coreano | Subtitulado
+  if (cartel.urlCor) {
+    // Verifica si el URL de audio existe
+    const iconoCor = document.createElement("img");
+    iconoCor.id = "audioCor";
+    iconoCor.src = BASE_URL + "cor.png";
+    iconoCor.addEventListener("click", function () {
+      reproductorClapprAudios(cartel, vast, cartel.urlCor);
+    });
+    contenedorBotonesAudio.appendChild(iconoCor);
+  }
+
+  // Icono China | Subtitulado
+  if (cartel.urlChi) {
+    // Verifica si el URL de audio existe
+    const iconoChi = document.createElement("img");
+    iconoChi.id = "audioChi";
+    iconoChi.src = BASE_URL + "chi.png";
+    iconoChi.addEventListener("click", function () {
+      reproductorClapprAudios(cartel, vast, cartel.urlChi);
+    });
+    contenedorBotonesAudio.appendChild(iconoChi);
+  }
+
   // Icono Latino Lista
   if (Array.isArray(cartel.urlLista)) {
     const iconoLat = document.createElement("img");
@@ -751,6 +775,28 @@ function openPopJW(cartel) {
       reproductorClapprAudios(cartel, vast, cartel.urlListaSub);
     });
     contenedorBotonesAudio.appendChild(iconoSub);
+  }
+
+  // Icono Coreano | Subtitulado
+  if (Array.isArray(cartel.urlListaCor)) {
+    const iconoCor = document.createElement("img");
+    iconoCor.id = "audioCor";
+    iconoCor.src = BASE_URL + "cor.png";
+    iconoCor.addEventListener("click", function () {
+      reproductorClapprAudios(cartel, vast, cartel.urlListaCor);
+    });
+    contenedorBotonesAudio.appendChild(iconoCor);
+  }
+
+  // Icono China | Subtitulado
+  if (Array.isArray(cartel.urlListaChi)) {
+    const iconoChi = document.createElement("img");
+    iconoChi.id = "audioChi";
+    iconoChi.src = BASE_URL + "chi.png";
+    iconoChi.addEventListener("click", function () {
+      reproductorClapprAudios(cartel, vast, cartel.urlListaChi);
+    });
+    contenedorBotonesAudio.appendChild(iconoChi);
   }
 
   const logoMovie24 = document.getElementById("logoMovie24");
