@@ -5574,21 +5574,99 @@
       "descripcion": "Esperamos que este proyecto despierte en ti la curiosidad. No pretendemos saber “toda la Verdad”, pero sí acercarnos a ella, por eso te invitamos a compartir tus descubrimientos sobre el libro más fascinante.",
       "fecha": "2017",
       "duracion": "03m => ",
-      "pais": "",
+      "pais": "España",
       "generos": "Todos,Bíblico",
-      "calidad": "",
+      "calidad": "3",
       "url": "",
       "urlLista": [
         {
-          "file": "",
-          "image": "",
-          "title": "La verdad en 2 minutos | ",
+          "file": "https://rumble.com/hls-vod/6sk6kr/playlist.m3u8?key=CVEVDQgFw-CIIik7GevJRi7q5GjXeTBlh10lmAZ567jLTpWiJvBDLQ&u=0&b=0",
+          "image": "https://i.imgur.com/heu3o1I.jpg",
+          "title": "La verdad en 2 minutos | 01. Toda la verdad en 2 minutos",
           "description": "Esperamos que este proyecto despierte en ti la curiosidad. No pretendemos saber “toda la Verdad”, pero sí acercarnos a ella, por eso te invitamos a compartir tus descubrimientos sobre el libro más fascinante."
         },
         {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
+          "file": "https://rumble.com/hls-vod/6sk6m5/playlist.m3u8?key=zjS0GkrwUi-ycQTNjcm33E4tHqr4w3dWMoKe3jkGbQAgWTXD3lisVw&u=0&b=0",
+          "image": "https://i.imgur.com/KtZd3fd.jpg",
+          "title": "Temporada: 1 | Episodio: 02. El infierno",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk6n3/playlist.m3u8?key=bGx_XI7JIpCDQVz1BReCD7zSKbfmooNgpEA7R7IGRoww17FtRmPhYA&u=0&b=0",
+          "image": "https://i.imgur.com/SQDj50S.jpg",
+          "title": "Temporada: 1 | Episodio: 03. El Sábado",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk6xb/playlist.m3u8?key=9RGWTigwws-zMTRCw59Wkm-qUELTy-DM5j6WnxkS-olTuX8jAp1DPg&u=0&b=0",
+          "image": "https://i.imgur.com/SsEJmjy.jpg",
+          "title": "Temporada: 1 | Episodio: 04. La muerte",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk70x/playlist.m3u8?key=81pT7qV_8iGNPcIVt27cbJpNZz9SWsrbUO81r7X9_zS93vV0iy7UYQ&u=0&b=0",
+          "image": "https://i.imgur.com/fhefSsu.jpg",
+          "title": "Temporada: 1 | Episodio: 05. La salvación",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk72p/playlist.m3u8?key=HYRefi18f4pQvnjLdBfPma_QJ08RO1eW33yrhhL9Gp6kNcFzPYFBbA&u=0&b=0",
+          "image": "https://i.imgur.com/XmdfjOa.jpg",
+          "title": "Temporada: 1 | Episodio: 06. El rapto",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk747/playlist.m3u8?key=tm3VJeiyW9p46sui7rzMZ8j89JQLVxYbKRkWIXm5mQ-8Bev9oTxCIA&u=0&b=0",
+          "image": "https://i.imgur.com/npbVJah.jpg",
+          "title": "Temporada: 1 | Episodio: 07. El don de lenguas",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk75d/playlist.m3u8?key=rvdE7y9eneu4Xgn1VZe4yzIqoCXVpaC_-eEKkCBwTAzCTKY4BV5l6g&u=0&b=0",
+          "image": "https://i.imgur.com/puVsqWi.jpg",
+          "title": "Temporada: 1 | Episodio: 08. La alimentación",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk75z/playlist.m3u8?key=_jfsH1niMAQpJ0mUjlkQJEqKttHvXncSvtZXEp9Cz2DIMX9vy51C-w&u=0&b=0",
+          "image": "https://i.imgur.com/T1ZtmN0.jpg",
+          "title": "Temporada: 1 | Episodio: 09. La Biblia",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk775/playlist.m3u8?key=xweP-iPC0L8zSi6iEBR1eAClGpAvV2QChQPl6ATrotGVxk9bvsO1kg&u=0&b=0",
+          "image": "https://i.imgur.com/njYU66v.jpg",
+          "title": "Temporada: 1 | Episodio: 10. Diseño inteligente",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk78x/playlist.m3u8?key=v-LzWsuty9laJh738vcbUN3pjeBo0tPcdZkfzR81yEKb4R1XDqo9Iw&u=0&b=0",
+          "image": "https://i.imgur.com/NX6suqL.jpg",
+          "title": "Temporada: 1 | Episodio: 11. El pecado",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk7b3/playlist.m3u8?key=ManEb46RyvRdwLNxKQHBjQttGoEK__rhkAzqMoWD4rKuPk8cbWANUg&u=0&b=0",
+          "image": "https://i.imgur.com/eHRjs2f.jpg",
+          "title": "Temporada: 1 | Episodio: 12. La Ley",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk7d3/playlist.m3u8?key=wpYHXRgGS6d913Bzx4iKZXsWuhL_RICZHHfQYdg8zhx2VrBgHymWCQ&u=0&b=0",
+          "image": "https://i.imgur.com/9Dlf17p.jpg",
+          "title": "Temporada: 1 | Episodio: 13. El Santuario",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk7o5/playlist.m3u8?key=hoTOM9jF5JAYR2nunnWCllzvbzR7aBQ8aWsbJ-mDNqt9a6ln67ByyQ&u=0&b=0",
+          "image": "https://i.imgur.com/aiWArA0.jpg",
+          "title": "Temporada: 1 | Episodio: 14. El Espíritu Santo",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sk7tp/playlist.m3u8?key=qzF5jEPjmXCOLKaOSC86W1Ti9e8LEMqMvC3iaevNVCkPt8-Z27DmSA&u=0&b=0",
+          "image": "https://i.imgur.com/9swiHCL.jpg",
+          "title": "Temporada: 1 | Episodio: 15. Jesús",
           "description": ""
         },
         {
@@ -5597,54 +5675,6 @@
           "title": "Temporada: 1 | Episodio: ",
           "description": ""
         },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "Temporada: 1 | Episodio: ",
-          "description": ""
-        }
       ]
     },
     {
