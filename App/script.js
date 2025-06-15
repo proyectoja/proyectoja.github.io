@@ -683,6 +683,8 @@ function openPopJW(cartel) {
   document.getElementById("audioLat")?.remove();
   document.getElementById("audioCas")?.remove();
   document.getElementById("audioSub")?.remove();
+  document.getElementById("audioCor")?.remove();
+  document.getElementById("audioChi")?.remove();
 
   // Icono Latino
   if (cartel.url) {
@@ -804,7 +806,8 @@ function openPopJW(cartel) {
   contenedorTituloPop.textContent = cartel.titulo;
   contenedorGenerosPop.textContent = "Genero: " + cartel.generos.replace(/^\s*todos\s*,?\s*/i, '');
   contenedorDescripcionPop.textContent = cartel.descripcion;
-  contenedorMetadataPop.textContent =
+  
+    contenedorMetadataPop.textContent =
     "Año: " +
     cartel.fecha +
     " | Duración: " +
@@ -814,6 +817,19 @@ function openPopJW(cartel) {
         cartel.urlLista.filter((item) => item.file && item.file.trim() !== "")
           .length
       : "");
+
+      if(cartel.urlLista[0].title.includes("Temporada Completa")){
+        contenedorMetadataPop.textContent =
+        "Año: " +
+        cartel.fecha +
+        " | Duración: " +
+        cartel.duracion +
+        (Array.isArray(cartel.urlLista)
+          ? " | Temporadas Completas: " +
+            cartel.urlLista.filter((item) => item.file && item.file.trim() !== "")
+              .length
+          : "");
+      }
 }
 
 const url =

@@ -6094,6 +6094,68 @@
         }
       ]
     },
+    {
+      "id": "s15",
+      "seguidores": "11.8 k",
+      "miniatura": "https://i.imgur.com/0HHIB5i.jpg",
+      "poster": "https://i.imgur.com/0N0UjMU.png",
+      "titulo": "Regalo de Nick",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños.",
+      "fecha": "2018",
+      "duracion": "01h 00m",
+      "pais": "",
+      "generos": "Todos,Animación, Familia, Drama",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "https://i.imgur.com/A1pRwS7.jpg",
+          "title": "Regalo de Nick | Temporada Completa",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "",
+          "image": "https://i.imgur.com/AxTMseb.jpg",
+          "title": "Temporada Completa: 2",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "",
+          "image": "https://i.imgur.com/HtIdwIe.jpg",
+          "title": "Temporada Completa: 3",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "",
+          "image": "https://i.imgur.com/xKrpESh.jpg",
+          "title": "Temporada Completa: 4",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "",
+          "image": "https://i.imgur.com/pl8rIOk.jpg",
+          "title": "Temporada Completa: 5",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "",
+          "image": "https://i.imgur.com/1tMsUai.jpg",
+          "title": "Temporada Completa: 6",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+
 
     {
       "id": "p134",
