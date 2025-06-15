@@ -6094,67 +6094,7 @@
         }
       ]
     },
-    {
-      "id": "s15",
-      "seguidores": "11.8 k",
-      "miniatura": "https://i.imgur.com/0HHIB5i.jpg",
-      "poster": "https://i.imgur.com/0N0UjMU.png",
-      "titulo": "Regalo de Nick",
-      "perfilCanal": "perfilCanal/proyecto-ja.png",
-      "nombreCanal": "PROYECTO JA",
-      "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños.",
-      "fecha": "2018",
-      "duracion": "01h 00m",
-      "pais": "",
-      "generos": "Todos,Animación, Familia, Drama",
-      "calidad": "",
-      "url": "",
-      "urlLista": [
-        {
-          "file": "",
-          "image": "https://i.imgur.com/A1pRwS7.jpg",
-          "title": "Regalo de Nick | Temporada Completa",
-          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
-        },
-        {
-          "file": "",
-          "image": "https://i.imgur.com/AxTMseb.jpg",
-          "title": "Temporada Completa: 2",
-          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
-        },
-        {
-          "file": "",
-          "image": "https://i.imgur.com/HtIdwIe.jpg",
-          "title": "Temporada Completa: 3",
-          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
-        },
-        {
-          "file": "",
-          "image": "https://i.imgur.com/xKrpESh.jpg",
-          "title": "Temporada Completa: 4",
-          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
-        },
-        {
-          "file": "",
-          "image": "https://i.imgur.com/pl8rIOk.jpg",
-          "title": "Temporada Completa: 5",
-          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
-        },
-        {
-          "file": "",
-          "image": "https://i.imgur.com/1tMsUai.jpg",
-          "title": "Temporada Completa: 6",
-          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
-        },
-        {
-          "file": "",
-          "image": "",
-          "title": "",
-          "description": ""
-        }
-      ]
-    },
+    
 
 
     {
@@ -6198,6 +6138,67 @@
       "pais": "",
       "generos": "Todos,Familia,Drama,2K",
       "calidad": "5"
+    },
+    {
+      "id": "s15",
+      "seguidores": "11.8 k",
+      "miniatura": "https://i.imgur.com/0HHIB5i.jpg",
+      "poster": "https://i.imgur.com/0N0UjMU.png",
+      "titulo": "Regalo de Nick",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños.",
+      "fecha": "2018",
+      "duracion": "01h 00m",
+      "pais": "",
+      "generos": "Todos,Animación, Familia, Drama",
+      "calidad": "3",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "https://rumble.com/hls-vod/6slxu3/playlist.m3u8?key=D9sJdkOkZjEYfWtBKpuXRyo_NL-Axu2OmiGXNtAfA6qKeJa_xq_ktw&u=0&b=0",
+          "image": "https://i.imgur.com/A1pRwS7.jpg",
+          "title": "Regalo de Nick | Temporada Completa",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6slz29/playlist.m3u8?key=xwVNyj829uvCVepcVPB7DOaMVyIsJDulaV2Gh11hjbzl5-1CnoJ4BA&u=0&b=0",
+          "image": "https://i.imgur.com/AxTMseb.jpg",
+          "title": "Temporada Completa: 2",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6slzsb/playlist.m3u8?key=-pdy_-YST36ULdnG3wAwsn1mXcqSTxewxgVm0s79QLkc7NCrnQO9iw&u=0&b=0",
+          "image": "https://i.imgur.com/HtIdwIe.jpg",
+          "title": "Temporada Completa: 3",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sm3mr/playlist.m3u8?key=sX5Qi1UHZSIuvVutlhLyI2gRf0_CPf61wUciaEQJ1ZNqONGJrPvEjQ&u=0&b=0",
+          "image": "https://i.imgur.com/xKrpESh.jpg",
+          "title": "Temporada Completa: 4",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sm49t/playlist.m3u8?key=t4DYYc36gZu6sK95V_jBzXlJN6MqlhiVbtnEbDYBFieJ7cKTJj9JgQ&u=0&b=0",
+          "image": "https://i.imgur.com/pl8rIOk.jpg",
+          "title": "Temporada Completa: 5",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6sm4lr/playlist.m3u8?key=rMf7R0Pr53J3HCWSvrwnMdW3MiJFet3qh1WDhl4r1xL0ICP97Z5GhQ&u=0&b=0",
+          "image": "https://i.imgur.com/1tMsUai.jpg",
+          "title": "Temporada Completa: 6",
+          "description": "La historia de Elena G. White, escritora y pionera de la iglesia Adventista, contada para niños."
+        },
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
     },
     {
       "id": "p",

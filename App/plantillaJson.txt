@@ -7,6 +7,8 @@ Para las películas:
       "url": "",
       "urlSub": "",
       "urlCas": "",
+      "urlCor": "",
+      "urlChi": "",
       "titulo": "",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
