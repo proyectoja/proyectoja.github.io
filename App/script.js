@@ -934,6 +934,45 @@ let autoplayAux = false;
 let index = 0;
 let saveInterval = null;
 
+function extraerIdYoutube(url) {
+  const regex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/))([^?&]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
+function reproductorClapprTrailer(cartel, vast, playlist){
+  messageElement.textContent = "";
+  currentIndex = index;
+  labelElement.style.display = "none";
+  messageElement.textContent = "";
+  messageElement.style.display = "none";
+  shelfElement.textContent = "";
+  shelfElement.style.display = "none";
+  posterPlayer.style.backgroundImage = 'url("")';
+
+  const isSingleVideo = !Array.isArray(playlist);
+
+  playlist = extraerIdYoutube(playlist);
+
+  if (clappr) clappr.destroy();
+  clappr = new Clappr.Player({
+    source: isSingleVideo ? playlist : playlist[index].file,
+    poster: isSingleVideo ? cartel.poster : playlist[index].image,
+    height: "300px",
+        width: "100%",
+        disableVideoTagContextMenu: true,
+        youtubeShowRelated: false,
+        //youtubePlaylist: auxUrlDoce,
+        plugins: [YoutubePlayback,LevelSelector],
+    hideVolumeBar: true, //DESARROLLO
+    actualLiveTime: true,
+    actualLiveServerTime: "2024/09/30 00:00:00",
+    hideMediaControl: true, //Desarrollo
+    playbackNotSupportedMessage: "No se puede reproducir.",
+    parentId: "#player"
+  })
+}
+
 function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
   messageElement.textContent = "";
   currentIndex = index;
