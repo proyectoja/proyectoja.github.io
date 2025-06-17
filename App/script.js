@@ -236,7 +236,7 @@ function crearCarteles(cartel) {
   videoItem.addEventListener("click", function () {
     const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
 
-    if (debeMostrarAnuncio(idPelicula)) {
+    /*if (debeMostrarAnuncio(idPelicula)) {
       // Mostrar anuncio y luego continuar con la reproducción
       //window.location.href = "go:anuncio";
 
@@ -256,7 +256,9 @@ function crearCarteles(cartel) {
       // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
       contenedorJWPLAYER.style.display = "flex";
       openPopJW(cartel);
-    }
+    }*/
+      contenedorJWPLAYER.style.display = "flex";
+      openPopJW(cartel);
   });
   videoItem.style.cursor = "pointer";
 
@@ -431,7 +433,7 @@ function crearCartelesRecientes(cartel) {
   videoItem.addEventListener("click", function () {
     const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
 
-    if (debeMostrarAnuncio(idPelicula)) {
+    /*if (debeMostrarAnuncio(idPelicula)) {
       // Mostrar anuncio y luego continuar con la reproducción
       //window.location.href = "go:anuncio";
 
@@ -451,7 +453,9 @@ function crearCartelesRecientes(cartel) {
       // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
       contenedorJWPLAYER.style.display = "flex";
       openPopJW(cartel);
-    }
+    }*/
+      contenedorJWPLAYER.style.display = "flex";
+      openPopJW(cartel);
   });
   videoItem.style.cursor = "pointer";
 
@@ -830,7 +834,7 @@ function openPopJW(cartel) {
           .length
       : "");
 
-      if(cartel.urlLista[0].title.includes("Temporada Completa")){
+      if(cartel.urlLista[0] && cartel.urlLista[0].title.includes("Temporada Completa")){
         contenedorMetadataPop.textContent =
         "Año: " +
         cartel.fecha +
@@ -941,20 +945,13 @@ function extraerIdYoutube(url) {
 }
 
 function reproductorClapprTrailer(cartel, vast, playlist){
-  messageElement.textContent = "";
-  currentIndex = index;
-  labelElement.style.display = "none";
-  messageElement.textContent = "";
-  messageElement.style.display = "none";
-  shelfElement.textContent = "";
-  shelfElement.style.display = "none";
   posterPlayer.style.backgroundImage = 'url("")';
 
   const isSingleVideo = !Array.isArray(playlist);
 
   playlist = extraerIdYoutube(playlist);
 
-  if (clappr) clappr.destroy();
+  if (clappr) clappr.destroy();clappr = null;
   clappr = new Clappr.Player({
     source: isSingleVideo ? playlist : playlist[index].file,
     poster: isSingleVideo ? cartel.poster : playlist[index].image,
@@ -963,14 +960,13 @@ function reproductorClapprTrailer(cartel, vast, playlist){
         disableVideoTagContextMenu: true,
         youtubeShowRelated: false,
         //youtubePlaylist: auxUrlDoce,
-        plugins: [YoutubePlayback,LevelSelector],
+        plugins: [YoutubePlayback],
     hideVolumeBar: true, //DESARROLLO
-    actualLiveTime: true,
-    actualLiveServerTime: "2024/09/30 00:00:00",
     hideMediaControl: true, //Desarrollo
     playbackNotSupportedMessage: "No se puede reproducir.",
     parentId: "#player"
   })
+  console.log(playlist);
 }
 
 function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
