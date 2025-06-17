@@ -685,6 +685,18 @@ function openPopJW(cartel) {
   document.getElementById("audioSub")?.remove();
   document.getElementById("audioCor")?.remove();
   document.getElementById("audioChi")?.remove();
+  document.getElementById("trailerYouTube")?.remove();
+
+  //Icono Trailer de You Tube
+  if (cartel.urlYouTube){
+    const iconoTrailer = document.createElement("img");
+    iconoTrailer.id = "trailerYouTube";
+    iconoTrailer.src = BASE_URL + "youtube.png";
+    iconoTrailer.addEventListener("click", function () {
+      reproductorClapprTrailer(cartel, vast, cartel.urlYouTube);
+    });
+    contenedorBotonesAudio.appendChild(iconoTrailer);
+  }
 
   // Icono Latino
   if (cartel.url) {
