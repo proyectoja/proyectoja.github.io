@@ -692,7 +692,7 @@ function openPopJW(cartel) {
   document.getElementById("trailerYouTube")?.remove();
 
   //Icono Trailer de You Tube
-  if (cartel.urlYouTube){
+  if (cartel.urlYouTube && cartel.urlYouTube.trim() != ""){
     const iconoTrailer = document.createElement("img");
     iconoTrailer.id = "trailerYouTube";
     iconoTrailer.src = BASE_URL + "youtube.png";
@@ -938,23 +938,16 @@ let autoplayAux = false;
 let index = 0;
 let saveInterval = null;
 
-function extraerIdYoutube(url) {
-  const regex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/))([^?&]+)/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
-
-function reproductorClapprTrailer(cartel, vast, playlist){
+function reproductorClapprTrailer(cartel, vast, trailer){
   posterPlayer.style.backgroundImage = 'url("")';
 
-  const isSingleVideo = !Array.isArray(playlist);
+  let v = extraerIdYoutube(trailer);
 
-  playlist = extraerIdYoutube(playlist);
-
-  if (clappr) clappr.destroy();clappr = null;
+  if (clappr) clappr.destroy();
+  
   clappr = new Clappr.Player({
-    source: isSingleVideo ? playlist : playlist[index].file,
-    poster: isSingleVideo ? cartel.poster : playlist[index].image,
+    source: v,
+    poster: cartel.poster,
     height: "300px",
         width: "100%",
         disableVideoTagContextMenu: true,
@@ -966,7 +959,19 @@ function reproductorClapprTrailer(cartel, vast, playlist){
     playbackNotSupportedMessage: "No se puede reproducir.",
     parentId: "#player"
   })
-  console.log(playlist);
+  console.log(v);
+}
+
+function extraerIdYoutubeUrl(url){
+  let youtubeUrl = new URL(url);
+  let id = youtubeUrl.searchParams.get("v");
+  return id;
+}
+
+function extraerIdYoutube(url) {
+  const regex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/))([^?&]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
 }
 
 function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
