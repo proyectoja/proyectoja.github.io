@@ -18,7 +18,7 @@ Para las películas:
       "duracion": "",
       "pais": "",
       "generos": "Todos",
-      "calidad": "3"
+      "calidad": ""
     }
 
 Para las series:
