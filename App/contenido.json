@@ -4962,34 +4962,7 @@
         }
       ]
     },
-    {
-      "id": "s7",
-      "seguidores": "11.8 k",
-      "miniatura": "https://i.imgur.com/YNt9zWm.jpg",
-      "poster": "https://i.imgur.com/zx1fE5Q.jpg",
-      "urlCor": "",
-      "urlChi": "",
-      "urlYouTube": "",
-      "titulo": "Génesis",
-      "perfilCanal": "perfilCanal/proyecto-ja.png",
-      "nombreCanal": "PROYECTO JA",
-      "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "Adán fue el primer ser humano creado por Dios, seguido de Eva. Dios les hizo un jardín con frutas frescas, pero les advirtió que no comieran de un solo árbol. Ese árbol era hermoso, pero si Adán comía de él, cometería un gran pecado.",
-      "fecha": "2021",
-      "duracion": "01h 00m",
-      "pais": "Brasil",
-      "generos": "Todos, Drama",
-      "calidad": "",
-      "url": "",
-      "urlLista": [
-        {
-          "file": "",
-          "image": "https://i.imgur.com/zx1fE5Q.jpg",
-          "title": "",
-          "description": ""
-        }
-      ]
-    },
+    
     {
       "id": "s8",
       "seguidores": "11.8 k",
@@ -6374,17 +6347,18 @@
         }
       ]
     },
+    
     {
       "id": "p136",
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
-      "url": "",
-      "urlSub": "",
+      "url": "https://rumble.com/hls-vod/6tcoct/playlist.m3u8?key=xx2arE6HjDPw8lHXZF36haD8IJQRCX68uoBKCHfMNgEMnJk_ZvpFpw&u=0&b=0",
+      "urlSub": "https://rumble.com/hls-vod/6tcoy7/playlist.m3u8?key=VU52PUPt5ItoXXGIC6FK6ZUF_KrWiAH8S0rGHBuLbIi4vVnGtExoBQ&u=0&b=0",
       "urlCas": "",
       "urlCor": "",
       "urlChi": "",
-      "titulo": "",
+      "titulo": "La Estrella de Belén",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
@@ -6393,7 +6367,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
-      "calidad": ""
+      "calidad": "2"
     },
     {
       "id": "p137",
@@ -6405,7 +6379,7 @@
       "urlCas": "",
       "urlCor": "",
       "urlChi": "",
-      "titulo": "",
+      "titulo": "La Historia de Ruth 1960",
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
@@ -6415,6 +6389,469 @@
       "pais": "",
       "generos": "Todos",
       "calidad": ""
+    },
+    {
+      "id": "p138",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "url": "",
+      "urlSub": "",
+      "urlCas": "",
+      "urlCor": "",
+      "urlChi": "",
+      "titulo": "Sansón y Dalila",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "1949",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": ""
+    },
+    {
+      "id": "p139",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "url": "",
+      "urlSub": "",
+      "urlCas": "",
+      "urlCor": "",
+      "urlChi": "",
+      "titulo": "Saul: El viaje a Damasco",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": ""
+    },
+    {
+      "id": "p140",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "url": "",
+      "urlSub": "",
+      "urlCas": "",
+      "urlCor": "",
+      "urlChi": "",
+      "titulo": "Jesús, el nacimiento",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "2006",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": ""
+    },
+    {
+      "id": "p141",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "url": "",
+      "urlSub": "",
+      "urlCas": "",
+      "urlCor": "",
+      "urlChi": "",
+      "titulo": "Los últimos días en el desierto",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "2016",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": ""
+    },
+
+    {
+      "id": "s7",
+      "seguidores": "11.8 k",
+      "miniatura": "https://i.imgur.com/YNt9zWm.jpg",
+      "poster": "https://i.imgur.com/zx1fE5Q.jpg",
+      "urlCor": "",
+      "urlChi": "",
+      "urlYouTube": "",
+      "titulo": "Génesis",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "Adán fue el primer ser humano creado por Dios, seguido de Eva. Dios les hizo un jardín con frutas frescas, pero les advirtió que no comieran de un solo árbol. Ese árbol era hermoso, pero si Adán comía de él, cometería un gran pecado.",
+      "fecha": "2021",
+      "duracion": "01h 00m",
+      "pais": "Brasil",
+      "generos": "Todos, Drama",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "https://i.imgur.com/zx1fE5Q.jpg",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s16",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Sansón y Dalila",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s17",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Reyes",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s18",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Relatos Animados de la Biblia",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s19",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Moisés y los Diez Mandamientos",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s20",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Lea",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s21",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "La Reina Ester",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s22",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "La Reina de Persia",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s23",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Josué y la Tierra Prometida",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s24",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "José de Egipto",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s25",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Jezabel",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s26",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Jesús",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "2018",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s27",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "El Rico y Lázaro",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s28",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "El Rey David",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "2013",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": "s29",
+      "seguidores": "11.8 k",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "Apocalipsis",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "2017",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
     }
   ]
 }
