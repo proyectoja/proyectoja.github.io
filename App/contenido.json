@@ -6347,12 +6347,14 @@
         }
       ]
     },
+
+
     
     {
       "id": "p136",
       "seguidores": "11.8 k",
-      "miniatura": "",
-      "poster": "",
+      "miniatura": "https://images.justwatch.com/poster/99697650/s718/the-star-2017.jpg",
+      "poster": "https://images.justwatch.com/backdrop/26765857/s640/the-star-2017",
       "url": "https://rumble.com/hls-vod/6tcoct/playlist.m3u8?key=xx2arE6HjDPw8lHXZF36haD8IJQRCX68uoBKCHfMNgEMnJk_ZvpFpw&u=0&b=0",
       "urlSub": "https://rumble.com/hls-vod/6tcoy7/playlist.m3u8?key=VU52PUPt5ItoXXGIC6FK6ZUF_KrWiAH8S0rGHBuLbIi4vVnGtExoBQ&u=0&b=0",
       "urlCas": "",
@@ -6362,11 +6364,11 @@
       "perfilCanal": "perfilCanal/proyecto-ja.png",
       "nombreCanal": "PROYECTO JA",
       "checkVerificado": "iconos/check-verificado.png",
-      "descripcion": "",
-      "fecha": "",
-      "duracion": "",
-      "pais": "",
-      "generos": "Todos",
+      "descripcion": "Bo es un burrito pequeño, pero valiente, que anhela una vida más allá de su rutina diaria en el molino del pueblo. Un día reúne el coraje necesario para cumplir la aventura de sus sueños. En su viaje conocerá a Ruth, una adorable oveja que ha perdido su rebaño, y a Dave, una paloma con grandes aspiraciones. Durante su camino, en el que siguen una Estrella muy especial, encontrarán además a tres camellos y a otros excéntricos animales. Todos ellos se convertirán en los héroes no reconocidos de la primera Navidad.",
+      "fecha": "2017",
+      "duracion": "01h 26m",
+      "pais": "Estados Unidos",
+      "generos": "Todos,Acción & Aventura, Animación, Familia, Fantasía, Comedia, Europeas",
       "calidad": "2"
     },
     {
