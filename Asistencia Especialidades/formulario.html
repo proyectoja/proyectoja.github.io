@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Especialidad</title>
+</head>
+<body>
+  <h2 id="tituloFormulario">Cargando...</h2>
+  <form id="formulario" style="display:none">
+    <input type="text" id="nombre" placeholder="Nombre" required><br><br>
+    <input type="email" id="correo" placeholder="Correo" required><br><br>
+    <input type="number" id="edad" placeholder="Edad" required><br><br>
+    <input type="text" id="telefono" placeholder="Teléfono" required><br><br>
+    <input type="text" id="asociacion" placeholder="Asociación o Campo" required><br><br>
+    <button type="submit">Enviar</button>
+  </form>
+  <p id="mensaje"></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const formId = params.get("id");
+    fetch("/api/obtenerFormulario?id=" + formId)
+      .then(res => res.json())
+      .then(data => {
+        if (data.estado === "cerrado") {
+          document.getElementById("tituloFormulario").textContent = "⛔ Este formulario está cerrado.";
+        } else {
+          document.getElementById("tituloFormulario").textContent = data.titulo;
+          document.getElementById("formulario").style.display = "block";
+        }
+      });
+
+    document.getElementById("formulario").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const datos = {
+        id: formId,
+        nombre: document.getElementById("nombre").value,
+        correo: document.getElementById("correo").value,
+        edad: document.getElementById("edad").value,
+        telefono: document.getElementById("telefono").value,
+        asociacion: document.getElementById("asociacion").value
+      };
+
+      const res = await fetch("/api/guardar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+      });
+      const mensaje = await res.text();
+      document.getElementById("mensaje").textContent = mensaje;
+    });
+  </script>
+</body>
+</html>

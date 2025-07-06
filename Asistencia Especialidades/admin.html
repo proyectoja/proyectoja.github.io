@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Administración</title>
+</head>
+<body>
+  <h2>Crear nuevo formulario</h2>
+  <form id="crearFormulario">
+    <label>ID del formulario (ej. flores):</label><br>
+    <input type="text" id="formId" required><br><br>
+    <label>Título:</label><br>
+    <input type="text" id="titulo" required><br><br>
+    <label>Fecha de cierre (YYYY-MM-DD):</label><br>
+    <input type="date" id="fechaCierre" required><br><br>
+    <button type="submit">Crear Formulario</button>
+  </form>
+  <p id="mensaje"></p>
+
+  <script>
+    document.getElementById("crearFormulario").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = document.getElementById("formId").value;
+      const titulo = document.getElementById("titulo").value;
+      const fecha = document.getElementById("fechaCierre").value;
+
+      fetch("data/formularios.json")
+        .then(res => res.json())
+        .then(data => {
+          data[id] = { titulo, fechaCierre: fecha };
+          return fetch("data/formularios.json", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data, null, 2)
+          });
+        })
+        .then(() => {
+          document.getElementById("mensaje").textContent = "✅ Formulario creado con éxito.";
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("mensaje").textContent = "❌ Error al guardar.";
+        });
+    });
+  </script>
+</body>
+</html>
