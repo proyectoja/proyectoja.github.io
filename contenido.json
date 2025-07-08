@@ -1,5 +1,12 @@
 {
   "television": [
+    {"id": "tuto1",
+      "url":"https://rumble.com/hls-vod/6tphyg/playlist.m3u8?u=0&b=0",
+      "nombreCanal":"PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "poster": "poster/proyecto-ja.jpg",
+      "miniatura": "perfilCanal/proyecto-ja.png"
+    },
     {
       "id": "t1",
       "seguidores": "11.8 k",
