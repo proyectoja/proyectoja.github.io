@@ -179,7 +179,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     botonesAccionElem.appendChild(descargarBtn);
     botonesAccionElem.appendChild(copiarBtn);
-    //botonesAccionElem.appendChild(copiarTxt);
+    botonesAccionElem.appendChild(copiarTxt);
     botonesAccionElem.appendChild(imagenAleatoria);
 
     fusionPubCheckElem.appendChild(publicadorElem);

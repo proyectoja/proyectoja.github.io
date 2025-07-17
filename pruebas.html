@@ -1,25 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+  <head>
+  <title>Clappr Youtube Plugin Demo</title>
+    
+    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://ewwink.github.io/clappr-youtube-plugin/clappr-youtube-plugin.js"></script>
+  
+  </head>
+  <body>
+  <div id="player-container-youtube" style='
+                    align-items:center; 
+                    width: 100%; 
+                    height: 100%;
+                    background-color: black;
+                    justify-content:center; 
+                    display:none;
+                    position:absolute;
+                    z-index: 6;
+                    margin:auto;
+                    overflow:hidden;'>
+                    <div id="player-youtube"></div>
+                </div>
+    <script>
+    //Clappr.Log.setLevel(0);
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbro Counter</title>
-  <script
-    id="chatBroEmbedCode">/* Chatbro Widget Embed Code Start */function ChatbroLoader(chats, async) { async = !1 !== async; var params = { embedChatsParameters: chats instanceof Array ? chats : [chats], lang: navigator.language || navigator.userLanguage, needLoadCode: 'undefined' == typeof Chatbro, embedParamsVersion: localStorage.embedParamsVersion, chatbroScriptVersion: localStorage.chatbroScriptVersion }, xhr = new XMLHttpRequest; xhr.withCredentials = !0, xhr.onload = function () { eval(xhr.responseText) }, xhr.onerror = function () { console.error('Chatbro loading error') }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send() }/* Chatbro Widget Embed Code End */ChatbroLoader({ encodedChatId: '2916T' });
-  </script>
-</head>
+var ytid = 'C9Qfcjf7L-I'; // with CC 
+//var ytid = '9ZXTBHqG6CA'; // no CC
+		
+        document.getElementById("player-container-youtube").style.display = "flex";
+var player = new Clappr.Player({
+  source: ytid,
+  poster: 'https://i.ytimg.com/vi/'+ytid+'/hqdefault.jpg',
+  height: 360,
+  width: 640,
+  plugins: [YoutubePlugin,YoutubePluginControl],
+  YoutubeVars : {"languageCode":"en"},
+  parentId: "#player-youtube"
+});
 
-<body>
-  <span class="online"></span>
-  <script>
-    var onlineDiv = document.getElementsByClassName('online')[0];
-    document.addEventListener('chatLoaded', function () {
-      document.addEventListener('chatbroPtCountChanging', function (event) {
-        onlineDiv.innerHTML = JSON.stringify(event.ptCount.web);
-      });
-    }); 
-  </script>
-</body>
 
+
+    </script>
+  </body>
 </html>
