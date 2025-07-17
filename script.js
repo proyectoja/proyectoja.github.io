@@ -408,7 +408,7 @@ function copiarTexto(elemento) {
   const subcontenido = elemento.querySelector(".subcontenido").textContent;
   const publicador = elemento.querySelector(".publicador").textContent;
 
-  const texto = `*${titulo} | ${publicador}*\n\n_${contenido}_\n\n*${subcontenido}*\n${"https://proyectoja.github.io/"}`;
+  const texto = `*${titulo} | ${publicador}*\n\n_${contenido}_\n\n*${subcontenido}*\n*No olvides seguirnos en nuestro canal oficial de WhatsApp:*\n${"https://whatsapp.com/channel/0029VaDMfYK5fM5bmqhsxk0h"}`;
 
   navigator.clipboard
     .writeText(texto)
