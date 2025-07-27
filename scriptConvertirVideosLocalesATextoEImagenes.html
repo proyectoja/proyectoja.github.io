@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Portadas de Himnos</title>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    #lista, #portadas {
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .himno {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    img.thumb {
+      width: 200px;
+      margin: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #1976d2;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #125ca1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Selecciona tus videos de himnos</h1>
+  <button onclick="document.getElementById('fileInput').click()">Seleccionar videos</button>
+  <input type="file" id="fileInput" accept="video/*" multiple style="display:none" />
+
+  <div id="lista"></div>
+  <div id="portadas"></div>
+
+  <button id="btnZip" style="display:none;">Descargar ZIP</button>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const lista = document.getElementById('lista');
+    const portadas = document.getElementById('portadas');
+    const btnZip = document.getElementById('btnZip');
+    const imagenesGeneradas = [];
+
+    function limpiarTitulo(titulo) {
+  // Elimina lo que está dentro de paréntesis y después
+  let limpio = titulo.replace(/\(.*?\)/g, '').trim();
+
+  // Quita múltiples guiones seguidos o espacios alrededor
+  limpio = limpio.replace(/\s*-\s*/g, ' - '); // normaliza los guiones
+  limpio = limpio.replace(/^-|-$/g, '').trim(); // quita guión inicial o final
+  limpio = limpio.replace(/\s{2,}/g, ' '); // elimina espacios dobles
+
+  return limpio;
+}
+
+
+    fileInput.addEventListener('change', async () => {
+      lista.innerHTML = '';
+      portadas.innerHTML = '';
+      btnZip.style.display = 'none';
+      imagenesGeneradas.length = 0;
+
+      const files = Array.from(fileInput.files);
+      const himnos = [];
+
+      for (const file of files) {
+        const match = file.name.match(/^(\d{1,3})\s+(.+?)\.[a-zA-Z0-9]+$/);
+        if (!match) {
+          lista.innerHTML += `<div class="himno">⚠️ Formato inválido: ${file.name}</div>`;
+          continue;
+        }
+
+        const numero = match[1].padStart(3, '0');
+        const tituloLimpio = limpiarTitulo(match[2]);
+        himnos.push({ file, numero, titulo: tituloLimpio });
+      }
+
+      himnos.sort((a, b) => parseInt(a.numero) - parseInt(b.numero));
+
+      // Detectar himnos faltantes
+      let himnoEsperado = 1;
+
+      for (const { file, numero, titulo } of himnos) {
+        const numActual = parseInt(numero);
+        let texto = titulo.includes('-') 
+  ? `Himno ${numero} ${titulo}` 
+  : `Himno ${numero} - ${titulo}`;
+
+
+        while (himnoEsperado < numActual) {
+          lista.innerHTML += `<div class="himno">⚠️ Falta el himno ${himnoEsperado.toString().padStart(3, '0')}</div>`;
+          himnoEsperado++;
+        }
+
+        lista.innerHTML += `<div class="himno">${texto}</div>`;
+        himnoEsperado++;
+
+        const video = document.createElement('video');
+        video.src = URL.createObjectURL(file);
+        video.preload = 'metadata';
+        video.muted = true;
+        video.crossOrigin = "anonymous";
+        video.style.display = "none";
+        document.body.appendChild(video);
+
+        await new Promise((resolve) => {
+          video.addEventListener('loadeddata', () => {
+            video.currentTime = 1;
+          });
+          video.addEventListener('seeked', () => resolve());
+        });
+
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imgData = canvas.toDataURL('image/jpeg');
+
+        const img = document.createElement('img');
+        img.src = imgData;
+        img.className = 'thumb';
+        img.alt = `Himno ${numero}`;
+        portadas.appendChild(img);
+
+        imagenesGeneradas.push({ nombre: `${numero}.jpg`, dataURL: imgData });
+
+        video.remove();
+      }
+
+      if (imagenesGeneradas.length > 0) {
+        btnZip.style.display = 'inline-block';
+      }
+    });
+
+    btnZip.addEventListener('click', async () => {
+      if (imagenesGeneradas.length === 0) return;
+
+      const zip = new JSZip();
+
+      imagenesGeneradas.forEach(({ nombre, dataURL }) => {
+        const arr = dataURL.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) u8arr[n] = bstr.charCodeAt(n);
+
+        zip.file(nombre, u8arr, { type: mime });
+      });
+
+      const content = await zip.generateAsync({ type: 'blob' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(content);
+      link.download = 'portadas.zip';
+      link.click();
+    });
+  </script>
+
+</body>
+</html>
