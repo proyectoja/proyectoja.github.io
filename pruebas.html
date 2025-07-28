@@ -1,51 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Reproductor Local con Clappr</title>
-  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-  <style>
-    body {
-      background: #111;
-      color: white;
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    #videoPlayer {
-      width: 100%;
-      max-width: 800px;
-      height: 450px;
-      margin-bottom: 10px;
-    }
-    #errorMsg {
-      color: red;
-      font-weight: bold;
-      display: none;
-      margin-top: 10px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Comprimir varios MP4 a 1MB</title>
 </head>
 <body>
+  <h2>Selecciona uno o varios videos MP4</h2>
+  <input type="file" id="inputVideo" accept="video/mp4" multiple>
+  <button id="comprimirBtn">Comprimir a 1MB cada uno</button>
+  <p id="estado">Esperando selección...</p>
+  <div id="descargas"></div>
 
-  <h2>🎬 Reproductor de Video Local (Clappr)</h2>
-  <input type="file" id="fileInput" accept="video/*">
-<video id="videoTag" controls width="600"></video>
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.9/dist/ffmpeg.min.js';
 
-<script>
-  document.getElementById("fileInput").addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    const videoURL = URL.createObjectURL(file);
-    console.log("Blob URL:", videoURL);
-    const video = document.getElementById("videoTag");
-    video.src = videoURL;
-    video.load();
-    video.play();
-  });
-</script>
+    const ffmpeg = createFFmpeg({ log: true });
+    const inputVideo = document.getElementById("inputVideo");
+    const estado = document.getElementById("estado");
+    const comprimirBtn = document.getElementById("comprimirBtn");
+    const descargas = document.getElementById("descargas");
 
+    let archivos = [];
+
+    inputVideo.addEventListener("change", (e) => {
+      archivos = Array.from(e.target.files);
+      estado.textContent = `Seleccionados ${archivos.length} archivo(s).`;
+    });
+
+    comprimirBtn.addEventListener("click", async () => {
+      if (!archivos.length) {
+        estado.textContent = "Por favor selecciona al menos un video.";
+        return;
+      }
+
+      estado.textContent = "Cargando FFmpeg...";
+      await ffmpeg.load();
+
+      descargas.innerHTML = "";
+      for (const archivo of archivos) {
+        estado.textContent = `Procesando: ${archivo.name}`;
+
+        ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(archivo));
+
+        // Comprimir a 1MB (aproximado)
+        await ffmpeg.run(
+          '-i', 'input.mp4',
+          '-b:v', '200k',
+          '-b:a', '32k',
+          '-preset', 'veryfast',
+          '-fs', '1M',
+          'output.mp4'
+        );
+
+        const data = ffmpeg.FS('readFile', 'output.mp4');
+        const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+        const enlace = document.createElement("a");
+        enlace.href = url;
+        enlace.download = archivo.name.replace(".mp4", "_1MB.mp4");
+        enlace.textContent = `⬇ Descargar ${archivo.name}`;
+        enlace.style.display = "block";
+        descargas.appendChild(enlace);
+
+        ffmpeg.FS('unlink', 'input.mp4');
+        ffmpeg.FS('unlink', 'output.mp4');
+      }
+
+      estado.textContent = "¡Todos los videos fueron comprimidos!";
+    });
+  </script>
 </body>
 </html>
