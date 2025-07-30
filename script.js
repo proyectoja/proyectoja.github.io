@@ -658,7 +658,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const anuncioElem3 = document.createElement("div");
   anuncioElem3.id = "anuncio-container3";
   
-  anunciosAdsterra();
+  //anunciosAdsterra();
 });
 
 //////////////////////////////////////////////

@@ -1079,3 +1079,16 @@ h1 {
   transform: scale(0.5);
 }
 
+.contenedor-aplicaciones{
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.contenedor-aplicaciones h2{
+  margin: 5px;
+  padding: 0%;
+  color: white;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;  
+  text-align: left;  
+}
