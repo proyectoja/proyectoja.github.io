@@ -1092,3 +1092,18 @@ h1 {
   font-weight: bold;  
   text-align: left;  
 }
+
+.contenedor-aplicacion{
+  gap: 10px;
+}
+.contenedor-aplicacion button{
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+.contenedor-aplicacion img{
+  width: 100px;
+  height: auto;
+  margin: 20px;
+}
