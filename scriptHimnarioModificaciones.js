@@ -163,4 +163,4 @@ ventana.appendChild(boton);
 setTimeout(() => {
   document.body.appendChild(ventana);
   mostrarModalDonacion();
-}, 10000);
+}, 15000);
