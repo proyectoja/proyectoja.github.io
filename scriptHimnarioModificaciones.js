@@ -12,7 +12,7 @@ function mostrarModalDonacion() {
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      z-index: 9999;
+      z-index: 99999;
     `;
   
     // Crear caja de contenido
@@ -104,7 +104,7 @@ ventana.style.top = "20px";
 ventana.style.right = "20px";
 ventana.style.borderRadius = "1rem";
 ventana.style.padding = "20px";
-ventana.style.zIndex = "9998";
+ventana.style.zIndex = "99998";
 ventana.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
 
 // Botón cerrar
