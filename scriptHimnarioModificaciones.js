@@ -160,7 +160,7 @@ boton.onmouseover = () => boton.style.backgroundColor = "#1da851";
 boton.onmouseout = () => boton.style.backgroundColor = "#25D366";
 ventana.appendChild(boton);
 
-// Insertar modal en el documento
-document.body.appendChild(ventana);
-// Mostrar modal automáticamente al cargar
+setTimeout(() => {
+  document.body.appendChild(ventana);
 window.onload = mostrarModalDonacion;
+}, 10000);
