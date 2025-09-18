@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Convertir Himnario PDF a JSON Final</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+</head>
+<body style="font-family: Arial; padding: 20px;">
+  <h2>Convertir Himnario PDF a JSON Final</h2>
+  <input type="file" id="fileInput" accept="application/pdf">
+  <button id="procesar">Procesar PDF</button>
+  <button id="descargar" disabled>Descargar JSON</button>
+  <pre id="preview" style="background:#f0f0f0; padding:10px; max-height:300px; overflow:auto;"></pre>
+
+  <script>
+    // --- Extraer texto de todas las páginas del PDF ---
+    async function extraerTexto(pdf) {
+      let textoTotal = "";
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        let linea = "";
+        content.items.forEach(item => {
+          linea += item.str;
+        });
+        textoTotal += linea + "\n";
+      }
+      return textoTotal;
+    }
+
+    // --- Función para dividir estrofas largas ---
+    function dividirEstrofa(estrofa, maxPalabras = 40) {
+      const palabras = estrofa.split(/\s+/);
+      if (palabras.length <= maxPalabras) return [estrofa];
+
+      const partes = [];
+      let actual = [];
+
+      for (let palabra of palabras) {
+        actual.push(palabra);
+        if (actual.length >= maxPalabras) {
+          partes.push(actual.join(" "));
+          actual = [];
+        }
+      }
+      if (actual.length > 0) partes.push(actual.join(" "));
+
+      return partes;
+    }
+
+    // --- Parseo final mejorado ---
+    function parsearHimnosFinal(texto) {
+      const himnos = [];
+      const regexHimno = /^(\d+)\.\s*(.+)$/m;       // Detecta inicio de himno
+      const regexEstrofa = /(\d+)\.\s*([^0-9]+)/g;  // Detecta estrofas numeradas
+      const regexCoro = /(Coro[:\-]?\s*[^0-9]+)/;   // Detecta coro (solo mayúscula)
+
+      // Eliminar copyright
+      texto = texto.replace(/Copyright\s*-\s*Iglesia Adventista de Olivos.*?Argentina/gs, "").trim();
+
+      // Separar himnos por número al inicio de línea
+      let bloques = texto.split(/\n(?=\d+\.)/);
+
+      for (let bloque of bloques) {
+        let matchHimno = bloque.match(regexHimno);
+        if (!matchHimno) continue;
+
+        const numero = parseInt(matchHimno[1], 10);
+        let resto = matchHimno[2].trim();
+
+        const himno = {
+          numero: numero,
+          titulo: "",
+          estrofas: [],
+          coro: null
+        };
+
+        // Extraer título
+        let primerEstrofa = resto.search(/\d+\./);
+        if (primerEstrofa !== -1) {
+          himno.titulo = resto.slice(0, primerEstrofa).trim();
+          resto = resto.slice(primerEstrofa).trim();
+        } else {
+          // 👉 Caso sin estrofas numeradas
+          let lineas = resto.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+          himno.titulo = lineas.shift();   // primera línea = título
+          resto = lineas.join("\n").trim();
+        }
+
+        // Extraer coro (solo si es "Coro" con mayúscula)
+        let matchCoro = resto.match(regexCoro);
+        if (matchCoro) {
+          himno.coro = matchCoro[1].replace(/^Coro[:\-]?\s*/, "").trim();
+          resto = resto.replace(matchCoro[0], ""); // quitar coro del texto
+        }
+
+        // Extraer estrofas numeradas
+        let m;
+        while ((m = regexEstrofa.exec(resto)) !== null) {
+          let estrofaLimpia = m[2].trim();
+          let partes = dividirEstrofa(estrofaLimpia); // dividir si es larga
+          himno.estrofas.push(...partes);
+        }
+
+        // Caso especial: si no hay estrofas numeradas pero sí texto
+        if (himno.estrofas.length === 0 && resto.length > 0) {
+          // separar por párrafos
+          let posibles = resto.split(/\n\s*\n/).map(e => e.trim()).filter(e => e.length > 0);
+          if (posibles.length === 0) posibles = [resto]; // si no había dobles saltos
+
+          for (let est of posibles) {
+            let partes = dividirEstrofa(est);
+            himno.estrofas.push(...partes);
+          }
+        }
+
+        himnos.push(himno);
+      }
+
+      return himnos;
+    }
+
+    // --- Función para arreglar himnos sin estrofas ---
+    // --- Función para limpiar títulos y pasar texto sobrante a estrofas ---
+// --- Función para arreglar himnos sin estrofas y detectar coro en el título ---
+// --- Función para arreglar himnos sin estrofas y detectar Coro en el título ---
+// --- Función para arreglar himnos sin estrofas y detectar Coro en el título ---
+function arreglarHimnosSinEstrofas(himnos) {
+  return himnos.map(himno => {
+    let texto = himno.titulo.trim();
+
+    // --- Caso especial: detectar "Coro" en mayúscula dentro del título ---
+    let matchCoro = texto.match(/Coro[:\-]?\s*(.+)$/s);
+    if (matchCoro) {
+      himno.coro = matchCoro[1].trim();               // Extrae el coro
+      texto = texto.replace(matchCoro[0], "").trim(); // ❌ Elimina "Coro ..." del título
+    }
+
+    // --- Separar título de la primera estrofa si no hay estrofas ---
+    if (!himno.estrofas || himno.estrofas.length === 0) {
+      let matchTitulo = texto.match(/^(.+?)\s{2,}(.*)$/s); // título + resto
+      if (matchTitulo) {
+        himno.titulo = matchTitulo[1].trim();
+        himno.estrofas = [matchTitulo[2].trim()];
+      } else {
+        // Si no hay separador, todo el texto pasa a estrofas
+        himno.titulo = texto;
+        himno.estrofas = [texto];
+      }
+    } else {
+      // Si ya hay estrofas, solo actualizamos el título limpio
+      himno.titulo = texto;
+    }
+
+    return himno;
+  });
+}
+
+
+
+
+// --- Ejemplo de uso ---
+// himnos = JSON.parse(tuJSON);
+// himnos = arreglarHimnosSinEstrofas(himnos);
+// console.log(JSON.stringify(himnos, null, 2));
+
+
+
+
+    // --- Evento procesar ---
+    document.getElementById("procesar").addEventListener("click", async () => {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) {
+        alert("Selecciona un PDF primero");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async function() {
+        const typedarray = new Uint8Array(this.result);
+        const pdf = await pdfjsLib.getDocument(typedarray).promise;
+        const texto = await extraerTexto(pdf);
+        let himnos = parsearHimnosFinal(texto);
+
+        // --- Arreglar himnos sin estrofas ---
+        himnos = arreglarHimnosSinEstrofas(himnos);
+
+        document.getElementById("preview").textContent = JSON.stringify(himnos.slice(0, 70), null, 2);
+        document.getElementById("descargar").disabled = false;
+
+        document.getElementById("descargar").onclick = () => {
+          const blob = new Blob([JSON.stringify(himnos, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "himnos.json";
+          a.click();
+          URL.revokeObjectURL(url);
+        };
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  </script>
+</body>
+</html>

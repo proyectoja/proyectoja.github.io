@@ -6627,6 +6627,80 @@
       "generos": "Todos,Drama, Familia, Historia, Deporte, Biopics",
       "calidad": "2"
     },
+    {
+      "id": "s29",
+      "seguidores": "11.8 k",
+      "miniatura": "https://i.imgur.com/bGaCEOn.jpg",
+      "poster": "https://i.imgur.com/Wxb1nDY.jpg",
+      "titulo": "Decide Vivir Feliz | Campaña Nacional México",
+      "perfilCanal": "perfilCanal/proyecto-ja.png",
+      "nombreCanal": "PROYECTO JA",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "Durante 8 noches, la Iglesia Adventista del Séptimo Día (IASD) presentará la serie “Decide Vivir Feliz”, una iniciativa que busca promover un mensaje de esperanza y transformación personal.",
+      "fecha": "2025",
+      "duracion": "01h 10m",
+      "pais": "México",
+      "generos": "Todos, Drama, Familia, Historia",
+      "calidad": "3",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "https://rumble.com/hls-vod/6ww88k/playlist.m3u8?key=8dd4EKFG91A7Qj2xUG0x9XVhXaSUVD0PoRqh0x_qy_-nx2jwN9nnqQ&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "Decide Vivir Feliz | Culto de consagración | Día 1",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwc96/playlist.m3u8?key=Qiws5cRJ9cYCFL94suXbCTtzdnrlXcTAIEsxEwU6M6PUkH43_XUr6Q&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "Felicidad en la derrota | Día 2",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwdhu/playlist.m3u8?key=CzPRJwnvjrXzf1cPbNlo6-VckIGBZXhhrfPL2m6DXMjUxxUezOJS_A&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "En busca de la felicidad | Día 3",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwequ/playlist.m3u8?key=LYH5OTfLgZoP-Z0aPeV6mdRfIKiuFq67jp3OlT9s1gPuMK27ZxW5Cg&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "El mito de la felicidad instantánea | Día 4",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwfls/playlist.m3u8?key=IKRoXyVqq3PgOSlEkAzPm3iBkLEd2xc52x_OSMaWWERpgsTnHK2tng&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "¿Y si la felicidad comienza con una decisión? | Día 5",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwgfc/playlist.m3u8?key=KB3z3cxPTtMJrRlmNObdtpd3F9fhj_EcK1hM7qXpsBYhM8519dUTMQ&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "Amor más allá de filtros y likes | Día 6",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwjsk/playlist.m3u8?key=ZqjBgYjsyhK5pa_ccjKg5P7UNYQK09Cnu0eqEuJc9AZXUCJ51MGhCQ&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "Dormir tranquilo en tiempos de tormenta | Día 7",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwk9k/playlist.m3u8?key=D-OD7yDn13-1CftTGrhGmqFNUuRCrCqlXEPvpxTJDjj2RhdfaCn3RQ&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "Cuando todo se rompe | Día 8",
+          "description": ""
+        },
+        {
+          "file": "https://rumble.com/hls-vod/6wwn88/playlist.m3u8?key=2DQNPaZMl9_aVzfh-4tzybfHTeppyqAyhOiChxPXk0XTWWlZ0Ov2IQ&u=0&b=0",
+          "image": "https://i.imgur.com/Wxb1nDY.jpg",
+          "title": "Rompe la burbuja, vive para algo más grande | Día 9",
+          "description": ""
+        }
+      ]
+    },
+    
 
     {
       "id": "s7",
@@ -6982,7 +7056,7 @@
       ]
     },
     {
-      "id": "s29",
+      "id": "s30",
       "seguidores": "11.8 k",
       "miniatura": "",
       "poster": "",
