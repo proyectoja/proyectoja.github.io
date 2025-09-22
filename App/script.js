@@ -974,6 +974,7 @@ function extraerIdYoutube(url) {
   return match ? match[1] : null;
 }
 
+let bloquesAnuncios = 0;
 function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
   messageElement.textContent = "";
   currentIndex = index;
@@ -1089,6 +1090,7 @@ console.log(document.title);
 
   window.location.href = "go:anuncio";
   window.location.href = "go:anuncio";
+
   clappr.on(Clappr.Events.PLAYER_READY, function () {
     console.log("Disparo ready");
 
@@ -1109,8 +1111,15 @@ console.log(document.title);
     }
   });
 
+  
   clappr.on(Clappr.Events.PLAYER_PLAY, function () {
     console.log("Disparo play");
+    
+    if(bloquesAnuncios == 0){
+      window.location.href = "go:anuncio";
+      window.location.href = "go:anuncio";
+    }
+    bloquesAnuncios = 1;
   });
 
   clappr.on(Clappr.Events.PLAYER_ENDED, () => {
@@ -1181,7 +1190,9 @@ function closePopJW() {
     contenedorDisqus.textContent = "";
     contenedorJWPLAYER.style.display = "none";
     //window.location.href = "go:anuncio";
+    
   }
+  bloquesAnuncios = 0;
   if (autoplayTimer) {
     clearInterval(autoplayTimer);
     autoplayTimer = null;
