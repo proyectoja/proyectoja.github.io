@@ -1128,6 +1128,7 @@ console.log(document.title);
 
     const nextIndex = index + 1;
     autoplayAux = true;
+    bloquesAnuncios = 0;
 
     if (!isSingleVideo && nextIndex < playlist.length) {
       let seconds = 10;
