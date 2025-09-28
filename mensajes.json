@@ -1,5 +1,6 @@
 [
   { "hora": "10:00", "texto": "Buenos días, que tengas un día bendecido" },
   { "hora": "15:00", "texto": "Recuerda leer tu himno del día" },
-  { "hora": "20:00", "texto": "Hora de oración y reflexión" }
+  { "hora": "20:00", "texto": "Hora de oración y reflexión" },
+  { "hora": "21:00", "texto": "KENDALL" }
 ]
