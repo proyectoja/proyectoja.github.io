@@ -1107,3 +1107,97 @@ h1 {
   height: auto;
   margin: 20px;
 }
+
+
+
+/*CONTENEDOR DE APLICACIONES*/
+.descarga-himnario {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1a1f36, #2c3e50);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.descarga-himnario h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #f1c40f;
+}
+
+.descarga-himnario h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.descarga-himnario .intro {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.caracteristicas {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+
+.caracteristicas li {
+  background: rgba(255,255,255,0.1);
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.botones-descarga {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.btn-descarga {
+  flex: 1 1 250px; /* ✅ ancho flexible pero mínimo de 250px */
+  max-width: 300px; /* ✅ evita que crezcan demasiado */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.btn-descarga:hover {
+  transform: translateY(-3px);
+  opacity: 0.9;
+}
+
+.btn-descarga img {
+  width: 25px;
+  height: 25px;
+}
+
+.yandex { background: #e67e22; }
+.drive { background: #27ae60; }
+.onedrive { background: #2980b9; }
+
+.contenedor-videos iframe {
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
