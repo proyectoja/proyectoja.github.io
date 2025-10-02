@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba API de Yandex Disk</title>
+</head>
+<body>
+<div id="player"></div>
+<script src="https://xpxpxpqwevfdvcpijpwdrftaqfdfidw8vf879we.github.io/xpxpxpqwevfdvcpijpwdrftaqfdfidw8vf879we-xpxpxpqwevfdvcpijpwdrftaqfdfidw8vf879we.github.io/jwPlayer.js"></script>
+<script>
+    async function iniciarReproductor() {
+        
+            var jw = jwplayer("player").setup({
+                file: "https://downloader.disk.yandex.ru/disk/39830d6f1616f8eb407d1c7af76d7f5da1ed277943286f1bcdaaa312f6d7c9c2/67cbed3d/vyKLpvO3MOhtarOtBt5Xy-tt4KfGaAFvXK1XsbtLWmCacrPhTnhGiVVlnikhV4wLKF2MdgkQswGQLr7L4YSNLQ%3D%3D?uid=1766903589&filename=Hasta%20El%20Ultimo%20Hombre%2060fps%20LAT%209%2C28%20GB.mp4&disposition=attachment&hash=&limit=0&content_type=video%2Fmp4&owner_uid=1766903589&fsize=9969180018&hid=e0f1c900a6d4581f7321e9004a683907&media_type=video&tknv=v2&etag=c64abc534e302c1ba565ac846c4f6277",
+                
+                width: "100%",
+                height: "300px"
+            });
+        
+    }
+    iniciarReproductor();
+</script>
+    <h2>Prueba de API de Yandex Disk</h2>
+    <button onclick="fetchYandexDisk()">Hacer Petición</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function fetchYandexDisk() {
+            const url = "https://cloud-api.yandex.net/v1/disk/resources?limit=1000000&path=disk:/PC DESKTOP-OMRJFOS/";
+            const apiKey = "y0__xClnsPKBhjblgMgvvzMuxKoFVjrK2XJOD_AvTXfiZq_anBLHg"; 
+
+            try {
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `OAuth ${apiKey}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const data = await response.json();
+                document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error("Error al hacer la petición:", error);
+            }
+        }
+    </script>
+
+</body>
+</html>
