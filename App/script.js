@@ -1088,8 +1088,8 @@ console.log(document.title);
     position: "top-right",
   });
 
-  //window.location.href = "go:anuncio"; //////////////////////////////////////////////////////////////////////
-  //window.location.href = "go:anuncio"; /////////////////////////////////////////////////////////////////////
+  window.location.href = "go:anuncio";
+  window.location.href = "go:anuncio";
 
   clappr.on(Clappr.Events.PLAYER_READY, function () {
     console.log("Disparo ready");
@@ -1116,8 +1116,8 @@ console.log(document.title);
     console.log("Disparo play");
     
     if(bloquesAnuncios == 0){
-      //window.location.href = "go:anuncio";//////////////////////////////////////////////////////////
-      //window.location.href = "go:anuncio";/////////////////////////////////////////////////////////
+      window.location.href = "go:anuncio";
+      window.location.href = "go:anuncio";
     }
     bloquesAnuncios = 1;
   });
