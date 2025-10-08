@@ -275,10 +275,10 @@ html,body {
   font-size: 16px;
   text-shadow: 0 0 10px black;
 }
-
+/*
 #player {
   height: auto;
-}
+}*/
 
 .jw-icon-pip {
   display: none !important;

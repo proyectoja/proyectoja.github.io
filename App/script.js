@@ -1011,7 +1011,7 @@ console.log(document.title);
     parentId: "#player",
     autoPlay: autoplayAux,
     width: "100%",
-    height: "300px",
+    height: "100%",
     hideVolumeBar: true, //DESARROLLO
     actualLiveTime: true,
     actualLiveServerTime: "2024/09/30 00:00:00",
@@ -1087,6 +1087,192 @@ console.log(document.title);
     watermark: BASE_URL + "logo1.png",
     position: "top-right",
   });
+
+  /////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////
+  //IMPORTANTE
+  const styleSheet = document.createElement("style");
+    styleSheet.textContent = `
+    #player { width:100%; height:100%; aspect-ratio:16/9; margin:auto; background:#000; border-radius:8px; overflow:hidden; position:relative; }
+    .media-control-button.aspect-btn { background:none; border:none; color:#ddd !important; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; padding:6px; }
+    .media-control-button.aspect-btn:hover { color:#25d366 !important; transform:scale(1.12); }
+    .aspect-btn-important { color:#ddd !important; }
+    `;
+    document.head.appendChild(styleSheet);
+    /*
+    const player = new Clappr.Player({
+      source: 'https://proyectoja.github.io/music.mp4',
+      parent: document.getElementById('player'),
+      autoPlay: false,
+      width: '100%',
+      height: '100%',
+      hideMediaControl: true
+    });*/
+    
+    /* --- Modos y estado --- */
+    const MODES = [
+      { fit: 'contain', icon: '🖼', label: 'Ajustar' },
+      { fit: 'cover',   icon: '🔲', label: 'Rellenar' },
+      { fit: 'fill',    icon: '🧩', label: 'Estirar' },
+      { fit: 'scale-down', icon: '🔍', label: 'Reducir' }
+    ];
+    let currentMode = 0;
+    
+    /* --- Helpers para localizar el panel derecho de controles de Clappr --- */
+    function getRightPanel() {
+      try {
+        // 1) intentar vía core.mediaControl.$el (jQuery-like)
+        if (clappr.core && clappr.core.mediaControl && clappr.core.mediaControl.$el) {
+          const arr = clappr.core.mediaControl.$el.find('.media-control-right-panel');
+          if (arr && arr.length) return arr[0];
+        }
+      } catch(e){ /* ignore */ }
+    
+      // 2) fallback: buscar dentro del container
+      try {
+        if (clappr.container && clappr.container.el) {
+          const panel = clappr.container.el.querySelector('.media-control-right-panel');
+          if (panel) return panel;
+        }
+      } catch(e){ /* ignore */ }
+    
+      // 3) fallback extra: buscar en todo el documento (por si Clappr movió controles en fullscreen)
+      const globalPanel = document.querySelector('.media-control-right-panel');
+      if (globalPanel) return globalPanel;
+    
+      return null;
+    }
+    
+    /* --- Función que crea el botón (si no existe) e inyecta listeners --- */
+    function createAndAttachButton(panel) {
+      if (!panel) return false;
+      if (panel.querySelector('.aspect-btn')) {
+        // ya existe
+        return true;
+      }
+    
+      const btn = document.createElement('button');
+      btn.className = 'media-control-button media-control-icon aspect-btn aspect-btn-important';
+      btn.setAttribute('type', 'button');
+      btn.title = 'Cambiar relación de aspecto';
+      btn.innerText = MODES[currentMode].icon;
+    
+      btn.onclick = () => {
+        // pulsado: cambiar modo
+        currentMode = (currentMode + 1) % MODES.length;
+        const mode = MODES[currentMode];
+        const video = findVideoElement();
+        if (video) {
+          video.style.objectFit = mode.fit;
+          video.style.width = '100%';
+          video.style.height = '100%';
+        }
+        btn.innerText = mode.icon;
+        btn.title = `Modo: ${mode.label}`;
+        console.log(`Aspect button clicked -> ${mode.label} (${mode.fit})`);
+      };
+    
+      // intentar insertar antes del botón fullscreen si existe
+      const fsBtn = panel.querySelector('[data-fullscreen]') || panel.querySelector('.media-control-button[data-fullscreen]') || panel.querySelector('button');
+      if (fsBtn) panel.insertBefore(btn, fsBtn);
+      else panel.appendChild(btn);
+    
+      console.log('✅ Aspect button injected into media-control-right-panel');
+      return true;
+    }
+    
+    /* --- Buscar <video> dentro del player/core --- */
+    function findVideoElement() {
+      try {
+        // intentar en core.el
+        if (clappr.core && clappr.core.el) {
+          const v = clappr.core.el.querySelector('video');
+          if (v) return v;
+        }
+      } catch(e){}
+    
+      // fallback global
+      return document.querySelector('#player video') || document.querySelector('video');
+    }
+    
+    /* --- Intento repetido y observadores para robustez --- */
+    let attempts = 0;
+    const maxAttempts = 20;
+    
+    function tryInjectLoop() {
+      attempts++;
+      const panel = getRightPanel();
+      if (panel) {
+        const ok = createAndAttachButton(panel);
+        if (ok) {
+          // si se insertó correctamente, conectar observer para reinserciones futuras
+          attachObservers();
+          return;
+        }
+      }
+      if (attempts < maxAttempts) {
+        // reintentar pronto
+        setTimeout(tryInjectLoop, 350);
+      } else {
+        console.warn('❗ Aspect inject: no se pudo encontrar media-control-right-panel (verificar clases de Clappr).');
+      }
+    }
+    
+    /* Observadores: si la barra se re-renderiza (fullscreen, layout changes), volvemos a intentar inyectar */
+    let localObserver = null;
+    let globalObserver = null;
+    function attachObservers() {
+      try {
+        // Observador sobre el container del player (subtree) para cambios internos
+        const containerEl = (clappr.container && clappr.container.el) ? clappr.container.el : document.getElementById('player');
+        if (containerEl && !localObserver) {
+          localObserver = new MutationObserver(() => {
+            // reinserta si fue removido por Clappr
+            setTimeout(tryInjectLoop, 80);
+          });
+          localObserver.observe(containerEl, { childList: true, subtree: true });
+        }
+      } catch(e){}
+    
+      try {
+        // Observador global por si Clappr mueve controles en fullscreen a otro nodo
+        if (!globalObserver) {
+          globalObserver = new MutationObserver(() => {
+            setTimeout(tryInjectLoop, 120);
+          });
+          globalObserver.observe(document.body, { childList: true, subtree: true });
+        }
+      } catch(e){}
+    }
+    
+    /* --- Inicialización: esperar eventos de Clappr y arrancar el loop de inyección --- */
+    clappr.on(Clappr.Events.PLAYER_READY, () => {
+      console.log('PLAYER_READY - intentando inyectar botón...');
+      tryInjectLoop();
+    });
+    
+    // También intentar si cambia el contenedor activo (en algunos casos Clappr recrea todo)
+    clappr.on(Clappr.Events.CORE_ACTIVE_CONTAINER_CHANGED, () => {
+      console.log('CORE_ACTIVE_CONTAINER_CHANGED - reintentando inyectar botón...');
+      setTimeout(tryInjectLoop, 200);
+    });
+    
+    // Fullscreen change: reintentar
+    document.addEventListener('fullscreenchange', () => {
+      console.log('fullscreenchange - reinyectando botón...');
+      setTimeout(tryInjectLoop, 200);
+    });
+    
+    // Safety: intentar a los pocos segundos por si PLAYER_READY ya pasó
+    setTimeout(() => {
+      if (!document.querySelector('.aspect-btn')) {
+        console.log('Timeout injection attempt...');
+        tryInjectLoop();
+      }
+    }, 1200);
+    //////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
+
 
   window.location.href = "go:anuncio"; //////////////////////////////////////////////////////////////////////
   window.location.href = "go:anuncio"; /////////////////////////////////////////////////////////////////////
