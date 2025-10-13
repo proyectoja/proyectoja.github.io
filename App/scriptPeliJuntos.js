@@ -853,7 +853,7 @@ const url =
 const cooldown = 10 * 1000;
 var cartelAux;
 function contadorDeVistas(cartel) {
-  cartelAux = "proyectoja_" + cartel.id;
+  cartelAux = "pelisJuntos_" + cartel.id;
   fetch(`${url}?id=${cartelAux}&action=visita`)
     .then((res) => res.json())
     .then((data) => actualizarStats(data), marcarBotonVotado(getVotoAnterior()))

@@ -47,3 +47,32 @@ Para las series:
         }
       ]
     }
+
+
+
+    Para las series Kdramas:
+    {
+      "id": "d",
+      "seguidores": "",
+      "miniatura": "",
+      "poster": "",
+      "titulo": "",
+      "perfilCanal": "",
+      "nombreCanal": "KDramas: Momentos doramas",
+      "checkVerificado": "iconos/check-verificado.png",
+      "descripcion": "",
+      "fecha": "",
+      "duracion": "",
+      "pais": "",
+      "generos": "Todos",
+      "calidad": "",
+      "url": "",
+      "urlLista": [
+        {
+          "file": "",
+          "image": "",
+          "title": "",
+          "description": ""
+        }
+      ]
+    }
