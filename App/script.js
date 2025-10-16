@@ -22,6 +22,9 @@ let arregloAux = [];
 if (document.getElementById("contenedorEspecial")) {
   const contenedorEspecial = document.getElementById("contenedorEspecial");
 }
+if (document.getElementById("contenedorEspecialSeries")) {
+  const contenedorEspecialSeries = document.getElementById("contenedorEspecialSeries");
+}
 
 document.getElementById("btnLike").src = BASE_URL + "like.png";
 document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
@@ -46,7 +49,27 @@ fetch(jsonUrl) // PRODUCCIÓN
           video.urlLista[0].file.trim() !== "")
     );
 
-    // ✅ Tomar los últimos 10 válidos
+    // ✅ Filtrar las que tengan urlLista válidas
+    const soloValidasSeries = data.peliculas.filter(
+      (video) =>
+        (Array.isArray(video.urlLista) &&
+          video.urlLista[0].file &&
+          video.urlLista[0].file.trim() !== "") ||
+
+          (Array.isArray(video.urlListaSub) &&
+          video.urlListaSub[0].file &&
+          video.urlListaSub[0].file.trim() !== "") ||
+
+          (Array.isArray(video.urlListaCor) &&
+          video.urlListaCor[0].file &&
+          video.urlListaCor[0].file.trim() !== "") ||
+
+          (Array.isArray(video.urlListaChi) &&
+          video.urlListaChi[0].file &&
+          video.urlListaChi[0].file.trim() !== "")
+    );
+
+    // ✅ Tomar los últimos 30 válido
     arregloAux = soloValidas.slice(-30);
 
     data.peliculas.sort((a, b) => b.fecha - a.fecha); // PRODUCCIÓN
@@ -106,6 +129,7 @@ fetch(jsonUrl) // PRODUCCIÓN
     if (banderaCartel) {
       arregloAux.reverse();
       const fragmentRecientes = document.createDocumentFragment();
+      const fragmentSeries = document.createDocumentFragment();
       arregloAux.forEach((video) => {
         if (
           video.titulo &&
@@ -126,6 +150,29 @@ fetch(jsonUrl) // PRODUCCIÓN
         }
       });
       contenedorEspecial.appendChild(fragmentRecientes);
+
+      //Creación de los carteles de todas las series
+      soloValidasSeries.reverse();
+      soloValidasSeries.forEach((video) => {
+        if (
+          video.titulo &&
+          !video.titulo.includes("rumble") &&
+          !video.titulo.includes(".mp4") &&
+          !video.descripcion.includes("rumble") &&
+          !video.descripcion.includes(".mp4") &&
+          !video.fecha.includes("rumble") &&
+          !video.fecha.includes(".mp4") &&
+          !video.duracion.includes("rumble") &&
+          !video.duracion.includes(".mp4") &&
+          !video.titulo.includes(".m3u8") &&
+          !video.descripcion.includes(".m3u8") &&
+          !video.fecha.includes(".m3u8") &&
+          !video.duracion.includes(".m3u8")
+        ) {
+          crearCartelesSeries(video, fragmentSeries);
+        }
+      });
+      contenedorEspecialSeries.appendChild(fragmentSeries);
     }
   })
   .catch((error) => {
@@ -223,10 +270,20 @@ function crearCartelEspecial(cartel) {
   videoItem.classList.add("contenedor-video-cartel-especial");
   videoItem.id = "contenedorEspecial";
 
+  const etiquetaSeries = document.createElement("h3");
+  etiquetaSeries.textContent = "Series:";
+  etiquetaSeries.className = "etiquetaListaDeSeries";
+
+  const videoItemSeries = document.createElement("div");
+  videoItemSeries.classList.add("contenedor-video-cartel-especial-series");
+  videoItemSeries.id = "contenedorEspecialSeries";
+
   const etiqueta = document.createElement("h3");
   etiqueta.textContent = "Lista de películas y series:";
   etiqueta.className = "etiquetaListaDePeliculas";
   contenedorLista.appendChild(videoItem);
+  contenedorLista.appendChild(etiquetaSeries);
+  contenedorLista.appendChild(videoItemSeries)
   contenedorLista.appendChild(etiqueta);
 }
 
@@ -614,6 +671,195 @@ function crearCartelesRecientes(cartel) {
 
   //Modificar y validar según se agregen categorías del menú
   contenedorEspecial.appendChild(videoItem);
+}
+
+function crearCartelesSeries(cartel) {
+  const videoItem = document.createElement("div");
+  videoItem.classList.add("contenedor-video-series");
+  videoItem.addEventListener("click", function () {
+    const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
+
+    /*if (debeMostrarAnuncio(idPelicula)) {
+      // Mostrar anuncio y luego continuar con la reproducción
+      //window.location.href = "go:anuncio";
+
+      // Guardar la película y la fecha para futuras validaciones
+      localStorage.setItem("ultimaPeliculaVista", idPelicula);
+      localStorage.setItem(
+        "ultimaFechaVista",
+        new Date().toISOString().split("T")[0]
+      );
+
+      // Esperar a que el usuario regrese para continuar con la película
+      setTimeout(() => {
+        contenedorJWPLAYER.style.display = "flex";
+        openPopJW(cartel);
+      }, 100); // Puedes ajustar el tiempo si lo deseas
+    } else {
+      // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
+      contenedorJWPLAYER.style.display = "flex";
+      openPopJW(cartel);
+    }*/
+      contenedorJWPLAYER.style.display = "flex";
+      openPopJW(cartel);
+  });
+  videoItem.style.cursor = "pointer";
+
+  let proxiAux = false;
+  let serieAux = false;
+  const calidadAux = document.createElement("div");
+  calidadAux.className = "contenedor-calidad";
+
+  if (cartel.calidad === "1") {
+    calidadAux.textContent = "SD";
+  } else if (cartel.calidad === "2") {
+    calidadAux.textContent = "HD";
+  } else if (cartel.calidad === "3") {
+    calidadAux.textContent = "FULLHD";
+  } else if (cartel.calidad === "4") {
+    calidadAux.textContent = "60FPS";
+  } else if (cartel.calidad === "5") {
+    calidadAux.textContent = "2K";
+  } else if (cartel.calidad === "6") {
+    calidadAux.textContent = "4K";
+  } else if (cartel.url.includes("") && cartel.calidad.includes("")) {
+    calidadAux.textContent = "No Disponible";
+    proxiAux = true;
+  }
+
+  if (Array.isArray(cartel.urlLista)) {
+    serieAux = true;
+  }
+
+  videoItem.appendChild(calidadAux);
+
+  const estrenoAux = document.createElement("div");
+  estrenoAux.className = "contenedor-estreno";
+
+  let fechaAux =
+    typeof cartel.fecha === "string" && cartel.fecha.includes("-")
+      ? new Date(cartel.fecha).getFullYear()
+      : Number(cartel.fecha);
+
+  let esEstrenoAux = false;
+  if (esEstreno(fechaAux)) {
+    estrenoAux.textContent = "Estreno";
+    esEstrenoAux = true;
+    videoItem.appendChild(estrenoAux);
+  } else {
+    esEstrenoAux = false;
+  }
+  if (proxiAux) {
+    estrenoAux.textContent = "Próxima..";
+    estrenoAux.style.color = "white";
+    estrenoAux.style.fontSize = "12px";
+    estrenoAux.style.border = "1px solid green";
+    estrenoAux.style.boxShadow = "0 0 1px white,0 0 1px white,";
+
+    videoItem.appendChild(estrenoAux);
+  } else {
+    proxiAux = false;
+  }
+
+  if (serieAux && !esEstrenoAux) {
+    const estrenoSerie = document.createElement("div");
+    estrenoSerie.className = "contenedor-serie";
+    estrenoSerie.textContent = "Serie";
+    estrenoSerie.style.color = "yellow";
+    estrenoSerie.style.fontSize = "12px";
+    estrenoSerie.style.border = "1px solid yellow";
+    estrenoSerie.style.boxShadow = "0 0 1px white,0 0 1px white,";
+    estrenoSerie.style.top = "25px";
+    videoItem.appendChild(estrenoSerie);
+  }
+  if (serieAux && esEstrenoAux) {
+    const estrenoSerie = document.createElement("div");
+    estrenoSerie.className = "contenedor-serie";
+    estrenoSerie.textContent = "Serie";
+    estrenoSerie.style.color = "yellow";
+    estrenoSerie.style.fontSize = "12px";
+    estrenoSerie.style.border = "1px solid yellow";
+    estrenoSerie.style.boxShadow = "0 0 1px white,0 0 1px white,";
+
+    videoItem.appendChild(estrenoSerie);
+  } else {
+    serieAux = false;
+  }
+
+  // Crear imágenes con carga diferida
+  const poster = document.createElement("img");
+  poster.dataset.src = cartel.miniatura; // Guardamos la URL en data-src
+  poster.alt = cartel.nombreCanal;
+  poster.classList.add("lazy"); // Agregamos una clase para identificarlas
+  poster.style.opacity = "0";
+  poster.style.transition = "opacity 0.2s ease-in-out";
+
+  //Crear íconos de los audios
+  const contenedorIconosAudios = document.createElement("div");
+  contenedorIconosAudios.id = "contenedorIconosAudios";
+  if (cartel.url || cartel.urlLista) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "lat.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  if (cartel.urlSub || cartel.urlListaSub) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "sub.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  if (cartel.urlCas || cartel.urlListaCas) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "cas.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  if (cartel.urlCor || cartel.urlListaCor) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "cor.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  if (cartel.urlChi || cartel.urlListaChi) {
+    const iconoAudio = document.createElement("img");
+    iconoAudio.dataset.src = BASE_URL + "cas.png";
+    iconoAudio.id = "iconoAudio";
+    iconoAudio.classList.add("lazy");
+    iconoAudio.style.opacity = "0";
+    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
+    contenedorIconosAudios.appendChild(iconoAudio);
+    observer.observe(iconoAudio);
+  }
+  videoItem.appendChild(contenedorIconosAudios);
+
+  const title = document.createElement("h3");
+  title.textContent = cartel.titulo;
+
+  videoItem.appendChild(poster);
+  // Observa la imagen recién creada
+  observer.observe(poster);
+
+  videoItem.appendChild(title);
+
+  //Modificar y validar según se agregen categorías del menú
+  contenedorEspecialSeries.appendChild(videoItem);
 }
 
 // Usamos IntersectionObserver para cargar solo cuando la imagen sea visible
