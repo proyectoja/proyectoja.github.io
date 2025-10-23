@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APP</title>
+</head>
+
+<body>
+
+    <div class="contenedor-principal">
+        <div class="etiqueta1">
+            <div class="contenedor-cont-pelis"></div><span id="contUsuarios"></span>
+        </div>
+        <div id="contenedorFiltros"></div>
+        <div class="contenedor-lista">
+            <h3 class="etiquetaRecienAgregadas">Recién agregadas:</h3>
+        </div>
+    </div>
+    <div id="anuncio-container1"></div>
+    <div class="contenedor-buscador">
+        <input type="search" id="buscar" placeholder="...Buscar película...">
+    </div>
+    <div class="contenedor-lateral-derecho">
+        <h3>Contadores</h3>
+        <!-- BEGIN: Powered by Supercounters.com -->
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script>
+            <script type="text/javascript">sc_online_i(1709265, "ffffff", "000000");</script><br><noscript><a
+                    href="https://www.supercounters.com/">free online counter</a></noscript>
+        </center>
+        <!-- END: Powered by Supercounters.com -->
+        <!-- BEGIN: Powered by Supercounters.com -->
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/vt.js"></script>
+            <script
+                type="text/javascript">var sc_visitor_var = sc_visitor_var || []; sc_vt(1709266, "000000", "ffffff", "ffffff", 10)</script>
+            <br><noscript><a href="http://www.supercounters.com/">free online counter</a></noscript>
+        </center>
+        <!-- END: Powered by Supercounters.com -->
+        <!-- BEGIN: Powered by Supercounters.com -->
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/flag.js"></script>
+            <script type="text/javascript">sc_flag(1709261, "000000", "FFFFFF", "FFFFFF", 2, 100, 0, 0)</script>
+            <br><noscript><a href="http://www.supercounters.com/">Flag Counter</a></noscript>
+        </center>
+        <!-- END: Powered by Supercounters.com -->
+        <a href="https://www.andyhoppe.com/" title="Contador"><img src="//c.andyhoppe.com/1740971181"
+                style="border:none" alt="Contador" /></a>
+    </div>
+    <div id="contenedorJWPLAYER">
+        <img id="logoMovie24">
+        <div id="player"></div>
+        <div id="next-message" style="display:none;"></div>
+        <h3 id="more-label" style="display:none;">Más Capítulos</h3>
+        <div class="shelf" id="shelf" style="display:none;"></div>
+        <div id="audios-pop"></div>
+        <div id="titulo-pop"></div>
+        <div id="vistas"></div>
+        <div id="contenedorVotar">
+            <div id="contenedorLike"><img id="btnLike" onclick="votar('like')">
+                <h3 id="textLike">0</h3>
+            </div>
+            <div id="linea"></div>
+            <div id="contenedorDislike"><img id="btnDislike" onclick="votar('dislike')">
+                <h3 id="textDislike">0</h3>
+            </div>
+        </div>
+        <div id="descripcion-pop"></div>
+        <div id="metadata-pop"></div>
+        <div id="generos-pop"></div>
+        <div id="anuncio-container2"></div>
+        <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6829228334766526"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6829228334766526"
+     data-ad-slot="8922409419"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>-->
+        <div id="cerrar-pop" onclick="closePopJW()">Cerrar</div>
+        <div id="comentarios-pop" onclick="cargarChat()">Mostrar comentarios</div>
+        <div id="disqus_thread"></div>
+    </div>
+
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        var BASE_URL = "https://proyectoja.github.io/App/";
+        var script = document.createElement("script");
+        script.src = BASE_URL + "clappr.js";
+        //script.src = "clappr.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "level-selector.js";
+        //script.src = "level-selector.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "clappr-playback-rate.js";
+        //script.src = "clappr-playback-rate.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "hlsjs-playback.js";
+        //script.src = "hlsjs-playback.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "clappr-youtube-playback.js";
+        //script.src = "clappr-youtube-playback.js";
+        script.async = false;
+        document.head.appendChild(script);
+
+        var script = document.createElement("script");
+        script.src = BASE_URL + "audio-track-selector.js";
+        //script.src = "audio-track-selector.js";
+        script.async = false;
+        document.head.appendChild(script);
+    
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = BASE_URL + "style.css"; //PRODUCCIÓN
+        //link.href = "style.css"; //DESARROLLO
+        document.head.appendChild(link);
+    
+        var script = document.createElement("script");
+        script.src = BASE_URL + "scriptPeliJuntos.js"; //PRODUCCIÓN
+        //script.src = "scriptPeliJuntos.js"; //DESARROLLO
+        script.async = true;
+        document.body.appendChild(script);
+    
+        
+        document.addEventListener('chatLoaded', function () {
+            document.addEventListener('chatbroPtCountChanging', function (event) {
+                const count = event?.ptCount?.web ?? 0;
+                const onlineDiv = `👁️ ${count}`;
+                contUsuarios.textContent = `| Viendo pelis: ${onlineDiv}`;
+            });
+        });
+        
+    </script>
+    
+</body>
+
+
+<script async id="chatBroEmbedCode">
+    /* Chatbro Widget Embed Code Start */
+    function ChatbroLoader(chats, async) {
+        async = !1 !== async;
+        var params = {
+            embedChatsParameters: chats instanceof Array ? chats : [chats],
+            lang: navigator.language || navigator.userLanguage,
+            needLoadCode: 'undefined' == typeof Chatbro,
+            embedParamsVersion: localStorage.embedParamsVersion,
+            chatbroScriptVersion: localStorage.chatbroScriptVersion
+        },
+            xhr = new XMLHttpRequest;
+        xhr.withCredentials = !0, xhr.onload = function () {
+            eval(xhr.responseText)
+        }, xhr.onerror = function () {
+            console.error('Chatbro loading error')
+        }, xhr.open('GET', 'https://www.chatbro.com/embed.js?' + btoa(unescape(encodeURIComponent(JSON.stringify(params)))), async), xhr.send()
+    } /* Chatbro Widget Embed Code End */
+    ChatbroLoader({
+        encodedChatId: '98wVn'
+    });
+</script>
+
+</html>
