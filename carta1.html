@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💌 Carta para Ti 💖</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #fcb7af, #f7a7c5, #fbd3e9);
+    background-size: 300% 300%;
+    animation: gradientMove 12s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+  }
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .envelope {
+    position: relative;
+    width: 320px;
+    height: 220px;
+    background: #ffcad4;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .envelope.open { transform: rotateX(180deg); }
+  .flap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ffb6c1;
+    clip-path: polygon(0 0, 100% 0, 50% 70%);
+    transform-origin: top;
+    transition: transform 1s;
+    border-radius: 10px 10px 0 0;
+  }
+  .envelope.open .flap { transform: rotateX(180deg); }
+  .letter {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    transform: rotateX(180deg);
+    backface-visibility: hidden;
+    overflow-y: auto;
+  }
+  .text { font-size: 1.1em; color: #444; white-space: pre-wrap; font-style: italic; }
+  #signature { margin-top: 20px; font-style: italic; color: #e75480; text-align: right; opacity: 0; transition: opacity 2s; }
+  .heart { position: fixed; font-size: 20px; color: #fff; opacity: 0.8; animation: float 8s linear infinite; z-index: 100; }
+  @keyframes float { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(1.5); opacity: 0; } }
+  #hint { position: absolute; bottom: 50px; color: #fff; font-size: 1.1em; text-shadow: 0 0 5px rgba(0,0,0,0.3); animation: fadeHint 2s infinite alternate; }
+  @keyframes fadeHint { from { opacity: 0.6; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<div class="envelope" id="envelope">
+  <div class="flap"></div>
+  <div class="letter" id="letter">
+    <div class="text" id="text"></div>
+    <div id="signature">Con todo mi amor, siempre tuyo, 💕<br>— Kendall Torres</div>
+  </div>
+</div>
+
+<div id="hint">💌 Toca la carta para abrirla 💞</div>
+
+<audio id="music" loop>
+  <source src="https://proyectoja.github.io/audioCarta1.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const texto = `
+29/10/2025
+
+Mi amor Luna, Rebeca Luna...
+
+A veces las palabras se quedan cortas,
+pero aun así quiero intentar decirte lo que siento.
+
+Desde que llegaste a mi vida,
+todo tiene sentido, color y esperanza. 🌷
+
+Tu voz calma mi alma,
+tu sonrisa ilumina mis días
+y tu amor me enseña lo que significa vivir de verdad. ✨
+
+No hay distancia ni tiempo que apague lo que siento.
+Eres mi razón, mi refugio y mi sueño más bonito. ❤️
+
+TE AMO MI BOMBONCITO 🥰😘
+
+Quiero que sepas que cada momento contigo
+se convierte en un recuerdo eterno que guardo en mi corazón.
+
+Me encanta cómo tus ojos brillan cuando sonríes,
+cómo tu risa contagia alegría y hace que todo a mi alrededor sea más bonito. 🌸
+
+Si pudiera, detendría el tiempo cada vez que estamos juntos,
+porque cada segundo a tu lado es un tesoro invaluable.
+
+Gracias por cada gesto, cada palabra y cada abrazo,
+porque me recuerdan lo afortunado que soy de tenerte en mi vida. 💞
+
+Sueño con nuestro futuro, con todos los planes y aventuras
+que aún nos esperan, y me emociona saber que
+los recorreremos juntos, siempre apoyándonos y creciendo. 🌈
+
+Quiero ser tu paz en los días difíciles,
+tu compañía en los momentos alegres,
+y tu amor incondicional en cada paso que demos. ✨
+
+Eres mi todo, mi inspiración y mi hogar.
+Mi corazón late por ti y solo por ti, ahora y siempre. 💖
+
+Cada día a tu lado me enseña lo que significa amar de verdad,
+y no hay momento que no desee que dure para siempre. 🌹
+
+Me enamoro más de ti con cada risa, cada mirada y cada abrazo.
+Eres la melodía que da sentido a mis días y la calma en mis noches. 🎶💖
+
+
+A veces cierro los ojos y siento tu mano entre la mía,
+y en esos segundos el mundo desaparece,
+solo existimos tú y yo, conectados por algo que va más allá de las palabras. 💞
+
+Gracias por enseñarme que el amor no solo se siente,
+sino que se vive en cada gesto, en cada detalle,
+y por elegirme todos los días, como yo te elijo a ti. 🌈
+
+Prometo seguir construyendo sueños contigo,
+apoyarte en cada meta, celebrar tus victorias
+y ser tu refugio en los días grises. 🌸
+
+Gracias por ser tú, por existir y por amarme de la manera más hermosa. 🌹
+
+Prometo cuidarte, escucharte y amarte cada día de mi vida,
+porque tú eres el regalo más precioso que jamás podría pedir. 💝
+
+Te amo con todo mi ser, Luna, y siempre lo haré. 😘🥰`;
+
+const envelope = document.getElementById("envelope");
+const textBox = document.getElementById("text");
+const signature = document.getElementById("signature");
+const music = document.getElementById("music");
+let abierto = false;
+
+// Dividimos el texto en párrafos
+const parrafos = texto.split('\n\n');
+let parrafoIndex = 0;
+let charIndex = 0;
+let pausaActiva = false;
+let escrituraEnCurso = false; // Control para evitar velocidad rápida
+
+// Definimos las pausas por tiempo de audio en segundos
+const pausas = [
+  {start: 0, end: 14, parrafo: 2},  // pausa después del primer párrafo
+  {start: 70, end: 83, parrafo: 10} // pausa después del párrafo 10
+];
+
+function escribirTexto() {
+  if (parrafoIndex >= parrafos.length) {
+    signature.style.opacity = 1;
+    return;
+  }
+
+  // Pausa según audio
+  const currentTime = music.currentTime;
+  for (let p of pausas) {
+    if (currentTime >= p.start && currentTime < p.end && parrafoIndex >= p.parrafo) {
+      pausaActiva = true;
+      escrituraEnCurso = false;
+      return;
+    }
+  }
+
+  escrituraEnCurso = true; // Bucle activo
+
+  const parrafo = parrafos[parrafoIndex];
+  if (charIndex < parrafo.length) {
+    textBox.textContent += parrafo.charAt(charIndex);
+    charIndex++;
+    setTimeout(escribirTexto, 70);
+  } else {
+    textBox.textContent += '\n\n';
+    charIndex = 0;
+    parrafoIndex++;
+    setTimeout(escribirTexto, 70);
+  }
+}
+
+// Reanuda automáticamente cuando se pasa la pausa
+music.addEventListener("timeupdate", () => {
+  if (pausaActiva) {
+    const currentTime = music.currentTime;
+    for (let p of pausas) {
+      if (currentTime >= p.end) {
+        pausaActiva = false;
+        if (!escrituraEnCurso) escribirTexto(); // Evita duplicar velocidad
+      }
+    }
+  }
+});
+
+// Función de corazones flotantes
+function crearCorazones() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.textContent = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 40 + "px";
+  heart.style.animationDuration = (10 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 10000);
+}
+
+setInterval(crearCorazones, 400);
+
+// Abrir sobre y comenzar música/escritura
+envelope.addEventListener("click", () => {
+  if (!abierto) {
+    envelope.classList.add("open");
+    document.getElementById("hint").style.display = "none";
+    music.play().catch(() => {
+      document.body.addEventListener("click", () => music.play(), { once: true });
+    });
+    setTimeout(escribirTexto, 500);
+    abierto = true;
+  }
+});
+</script>
+
+</body>
+</html>
