@@ -104,7 +104,8 @@ setTimeout(() => {
   const btn = document.getElementById("btnActualizarHimnario");
   if (btn) {
     btn.onclick = () => {
-      window.location.href = "https://proyectoja.github.io/";
+      //window.location.href = "https://proyectoja.github.io/";
+      window.open("https://proyectoja.github.io/", "_blank");
     };
   }
 }, 100);
