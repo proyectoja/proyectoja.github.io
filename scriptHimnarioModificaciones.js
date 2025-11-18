@@ -1,4 +1,7 @@
 (async function () {
+
+  let intervaloVerificacion = null; // ⬅️ Guardamos el intervalo para poder detenerlo
+
   // ============================
   // 🛡️ OVERLAY DE BLOQUEO
   // ============================
@@ -55,7 +58,7 @@
       return data.version || null;
     } catch (err) {
       console.warn("Sin conexión o error obteniendo versión remota");
-      return "SIN_INTERNET"; // 👈 clave
+      return "SIN_INTERNET"; 
     }
   }
 
@@ -74,13 +77,16 @@
     const principal = document.querySelector(".contenedor-principal");
     if (principal) principal.style.display = "none";
     overlay.style.display = "flex";
+
+    // 🛑 Detener verificaciones cuando se bloquea
+    clearInterval(intervaloVerificacion);
   }
 
   async function verificarVersion() {
     const local = obtenerVersionLocal();
     const remota = await obtenerVersionRemota();
 
-    // 🚫 Si no hay internet → NO BLOQUEAR
+    // 🚫 Si no hay internet → NO BLOQUEAR y seguir verificando
     if (remota === "SIN_INTERNET") {
       console.log("No hay conexión — continuar normal");
       return;
@@ -89,20 +95,32 @@
     // ✔ Si la versión remota es mayor → bloquear
     if (esMayorVersion(local, remota)) {
       bloquearApp();
+      return;
     }
+
+    // ✔ Si la versión está bien → detener verificaciones
+    console.log("Versión correcta — detener verificaciones");
+    clearInterval(intervaloVerificacion);
   }
 
-  // Al crear el overlay, EN EL MISMO MOMENTO conectamos el botón
+  // 🔘 Activar el botón
   setTimeout(() => {
     const btn = document.getElementById("btnActualizarHimnario");
     if (btn) {
       btn.onclick = () => {
-        window.location.href = "https://proyectoja.github.io/";
+        window.open("https://proyectoja.github.io/", "_blank");
       };
     }
   }, 100);
 
-  // Primera verificación + intervalo
-  verificarVersion();
-  setInterval(verificarVersion, 30000);
+  // ============================
+  // 🕐 Esperar 1 minuto antes de comenzar
+  // ============================
+  console.log("Esperando 1 minuto antes de verificar versiones...");
+
+  setTimeout(() => {
+    verificarVersion(); // Primera verificación
+    intervaloVerificacion = setInterval(verificarVersion, 30000); // Luego cada 30s
+  }, 60000); // 1 minuto (60000 ms)
+
 })();
