@@ -171,7 +171,7 @@
       }
   
       // Descargar directamente
-      window.open(asset.browser_download_url);
+      window.location.href = asset.browser_download_url;
   
     } catch (err) {
       console.error(err);
@@ -185,7 +185,7 @@
   setTimeout(() => {
     verificarVersion();
     intervaloVerificacion = setInterval(verificarVersion, 10000);
-  }, 30000);
+  }, 60000);
 
 })();
 
