@@ -99,15 +99,16 @@
   }
 
 
-  // Botón de actualización
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("btnActualizarHimnario");
-    if (btn) {
-      btn.addEventListener("click", () => {
-        window.location.href = "https://proyectoja.github.io/";
-      });
-    }
-  });
+  // Al crear el overlay, EN EL MISMO MOMENTO conectamos el botón
+setTimeout(() => {
+  const btn = document.getElementById("btnActualizarHimnario");
+  if (btn) {
+    btn.onclick = () => {
+      window.location.href = "https://proyectoja.github.io/";
+    };
+  }
+}, 100);
+
 
 
   // Primera verificación + intervalo
