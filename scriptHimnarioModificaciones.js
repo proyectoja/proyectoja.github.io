@@ -141,10 +141,44 @@
     const btn = document.getElementById("btnActualizarHimnario");
     if (btn) {
       btn.onclick = () => {
-        window.open("https://github.com/proyectoja/HimnarioApp/releases/latest", "_blank");
+        descargarInstalador();
       };
     }
   }, 100);
+
+  async function descargarInstalador() {
+    try {
+      // Obtener release más reciente
+      const res = await fetch(
+        "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
+        { cache: "no-store" }
+      );
+  
+      if (!res.ok) throw new Error("No se pudo leer el release");
+  
+      const data = await res.json();
+  
+      // Buscar el instalador (EXE, MSI, ZIP, etc.)
+      const asset = data.assets?.find(a =>
+        a.name.endsWith(".exe") ||
+        a.name.endsWith(".msi") ||
+        a.name.endsWith(".zip")
+      );
+  
+      if (!asset) {
+        alert("No se encontró ningún instalador en el release.");
+        return;
+      }
+  
+      // Descargar directamente
+      window.open(asset.browser_download_url, "_blank");
+  
+    } catch (err) {
+      console.error(err);
+      alert("Error al intentar descargar el instalador.");
+    }
+  }
+  
 
   console.log("⏳ Esperando 30 segundos antes de verificar versiones...");
 
