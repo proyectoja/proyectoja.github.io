@@ -1,4 +1,5 @@
 (async function () {
+
   // ============================
   // 🛡️ OVERLAY DE BLOQUEO
   // ============================
@@ -37,43 +38,32 @@
   `;
   document.body.appendChild(overlay);
 
-  // ============================
-  // 📌 OBTENER VERSIÓN LOCAL DESDE EL TÍTULO
-  // ============================
+
   function obtenerVersionLocal() {
     const titulo = document.title;
     const match = titulo.match(/v(\d+\.\d+\.\d+)/);
     return match ? match[1] : "0.0.0";
   }
 
-  // ============================
-  // 📌 OBTENER VERSIÓN REMOTA DESDE version.json (RAW)
-  // ============================
+
   async function obtenerVersionRemota() {
     try {
-      const url =
-        "https://proyectoja.github.io/version.json&cache=" + Date.now();
+      const url = "https://proyectoja.github.io/version.json?cache=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
 
-      const res = await fetch(url, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
+      if (!res.ok) throw new Error("No se pudo obtener JSON remoto");
 
       const data = await res.json();
       return data.version || null;
+
     } catch (err) {
-      console.warn("Error al obtener versión remota:", err);
-      return null;
+      console.warn("Sin conexión o error obteniendo versión remota");
+      return "SIN_INTERNET"; // 👈 clave
     }
   }
 
-  // ============================
-  //- 🔍 COMPARAR VERSIONES
-  // ============================
-  function debeBloquear(local, remota) {
-    if (!local || !remota) return true;
 
+  function esMayorVersion(local, remota) {
     const a = local.split(".").map(Number);
     const b = remota.split(".").map(Number);
 
@@ -84,37 +74,43 @@
     return false;
   }
 
-  // ============================
-  // 🔒 BLOQUEAR APP
-  // ============================
+
   function bloquearApp() {
     const principal = document.querySelector(".contenedor-principal");
     if (principal) principal.style.display = "none";
     overlay.style.display = "flex";
   }
 
-  // ============================
-  // 🔄 VERIFICACIÓN CADA 10s
-  // ============================
+
   async function verificarVersion() {
     const local = obtenerVersionLocal();
     const remota = await obtenerVersionRemota();
 
-    if (debeBloquear(local, remota)) {
+    // 🚫 Si no hay internet → NO BLOQUEAR
+    if (remota === "SIN_INTERNET") {
+      console.log("No hay conexión — continuar normal");
+      return;
+    }
+
+    // ✔ Si la versión remota es mayor → bloquear
+    if (esMayorVersion(local, remota)) {
       bloquearApp();
     }
   }
 
+
+  // Botón de actualización
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("btnActualizarHimnario");
     if (btn) {
-        btn.addEventListener("click", () => {
-            window.location.href = "https://proyectoja.github.io/"; 
-        });
+      btn.addEventListener("click", () => {
+        window.location.href = "https://proyectoja.github.io/";
+      });
     }
-});
+  });
 
 
+  // Primera verificación + intervalo
   verificarVersion();
   setInterval(verificarVersion, 30000);
 })();
