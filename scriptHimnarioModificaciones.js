@@ -1,5 +1,4 @@
 (async function () {
-
   // ============================
   // 🛡️ OVERLAY DE BLOQUEO
   // ============================
@@ -38,30 +37,27 @@
   `;
   document.body.appendChild(overlay);
 
-
   function obtenerVersionLocal() {
     const titulo = document.title;
     const match = titulo.match(/v(\d+\.\d+\.\d+)/);
     return match ? match[1] : "0.0.0";
   }
 
-
   async function obtenerVersionRemota() {
     try {
-      const url = "https://proyectoja.github.io/version.json?cache=" + Date.now();
+      const url =
+        "https://proyectoja.github.io/version.json?cache=" + Date.now();
       const res = await fetch(url, { cache: "no-store" });
 
       if (!res.ok) throw new Error("No se pudo obtener JSON remoto");
 
       const data = await res.json();
       return data.version || null;
-
     } catch (err) {
       console.warn("Sin conexión o error obteniendo versión remota");
       return "SIN_INTERNET"; // 👈 clave
     }
   }
-
 
   function esMayorVersion(local, remota) {
     const a = local.split(".").map(Number);
@@ -74,13 +70,11 @@
     return false;
   }
 
-
   function bloquearApp() {
     const principal = document.querySelector(".contenedor-principal");
     if (principal) principal.style.display = "none";
     overlay.style.display = "flex";
   }
-
 
   async function verificarVersion() {
     const local = obtenerVersionLocal();
@@ -98,19 +92,15 @@
     }
   }
 
-
   // Al crear el overlay, EN EL MISMO MOMENTO conectamos el botón
-setTimeout(() => {
-  const btn = document.getElementById("btnActualizarHimnario");
-  if (btn) {
-    btn.onclick = () => {
-      //window.location.href = "https://proyectoja.github.io/";
-      window.open("https://proyectoja.github.io/", "_blank");
-    };
-  }
-}, 100);
-
-
+  setTimeout(() => {
+    const btn = document.getElementById("btnActualizarHimnario");
+    if (btn) {
+      btn.onclick = () => {
+        window.location.href = "https://proyectoja.github.io/";
+      };
+    }
+  }, 100);
 
   // Primera verificación + intervalo
   verificarVersion();
