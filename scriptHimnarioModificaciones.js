@@ -49,10 +49,10 @@
       return window.__APP_VERSION__;
     }
 
-    // 🚨 Método viejo (solo para compatibilidad con versiones antiguas)
+    // Método viejo de compatibilidad
     const titulo = document.title;
     const match = titulo.match(/v(\d+\.\d+\.\d+)/);
-    return match ? match[1] : "0.0.0";
+    return match ? match[1] : undefined;
   }
 
   async function obtenerVersionRemota() {
@@ -86,8 +86,6 @@
     const principal = document.querySelector(".contenedor-principal");
     if (principal) principal.style.display = "none";
     overlay.style.display = "flex";
-
-    clearInterval(intervaloVerificacion);
   }
 
   async function verificarVersion() {
@@ -102,17 +100,27 @@
       "Versión remota leída: " + remota
     );
 
+    // 🟡 CASO 1 → Local undefined o vacía → NO PERMITIR USAR LA APP
+    if (!local || local === "0.0.0") {
+      console.log("⏳ Esperando que Electron exponga la versión (undefined)...");
+      bloquearApp(); // SE BLOQUEA hasta tener versión válida
+      return;
+    }
+
+    // 🚫 Si no hay internet NO bloquear
     if (remota === "SIN_INTERNET") {
       console.log("🌐 Sin conexión — no bloquear");
       return;
     }
 
+    // ✔ Versión remota mayor → bloquear
     if (esMayorVersion(local, remota)) {
       bloquearApp();
       return;
     }
 
-    console.log("✔ Versión actual correcta. Deteniendo verificaciones.");
+    // ✔ Todo correcto → detener verificaciones
+    console.log("✔ Versión correcta — deteniendo verificaciones");
     clearInterval(intervaloVerificacion);
   }
 
@@ -135,7 +143,7 @@
 
   setTimeout(() => {
     verificarVersion();
-    intervaloVerificacion = setInterval(verificarVersion, 5000);
-  }, 120000);
+    intervaloVerificacion = setInterval(verificarVersion, 30000);
+  }, 30000);
 
 })();
