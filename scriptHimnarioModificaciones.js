@@ -112,6 +112,6 @@
   }
 
   verificarVersion();
-  setInterval(verificarVersion, 10000);
+  setInterval(verificarVersion, 30000);
 
 })();
