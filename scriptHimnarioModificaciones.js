@@ -185,7 +185,7 @@
   setTimeout(() => {
     verificarVersion();
     intervaloVerificacion = setInterval(verificarVersion, 10000);
-  }, 60000);
+  }, 120000);
 
 })();
 
