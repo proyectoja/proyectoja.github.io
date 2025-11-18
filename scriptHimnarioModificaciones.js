@@ -85,23 +85,32 @@
   async function verificarVersion() {
     const local = obtenerVersionLocal();
     const remota = await obtenerVersionRemota();
-
+  
+    // 🔍 DEPURACIÓN
+    alert(
+      "📌 DEPURACIÓN DE VERSIÓN\n\n" +
+      "Título detectado: " + document.title + "\n" +
+      "Versión local detectada: " + local + "\n" +
+      "Versión remota leída: " + remota
+    );
+  
     // 🚫 Si no hay internet → NO BLOQUEAR y seguir verificando
     if (remota === "SIN_INTERNET") {
       console.log("No hay conexión — continuar normal");
       return;
     }
-
+  
     // ✔ Si la versión remota es mayor → bloquear
     if (esMayorVersion(local, remota)) {
       bloquearApp();
       return;
     }
-
+  
     // ✔ Si la versión está bien → detener verificaciones
     console.log("Versión correcta — detener verificaciones");
     clearInterval(intervaloVerificacion);
   }
+  
 
   // 🔘 Activar el botón
   setTimeout(() => {
