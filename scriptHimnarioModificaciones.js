@@ -92,18 +92,19 @@
     const local = obtenerVersionLocal();
     const remota = await obtenerVersionRemota();
 
-    // 🔍 DEPURACIÓN
-    alert(
-      "📌 DEPURACIÓN DE VERSIÓN\n\n" +
-      "Título detectado: " + document.title + "\n" +
-      "Versión local detectada: " + local + "\n" +
-      "Versión remota leída: " + remota
-    );
+    
 
     // 🟡 CASO 1 → Local undefined o vacía → NO PERMITIR USAR LA APP
     if (!local || local === "0.0.0") {
       console.log("⏳ Esperando que Electron exponga la versión (undefined)...");
       bloquearApp(); // SE BLOQUEA hasta tener versión válida
+      // 🔍 DEPURACIÓN
+    alert(
+      "DEPURACIÓN DE VERSIÓN\n\n" +
+      "Título detectado: " + document.title + "\n" +
+      "Versión local detectada: " + local + "\n" +
+      "Versión remota detectada: " + remota
+    );
       return;
     }
 
@@ -116,6 +117,13 @@
     // ✔ Versión remota mayor → bloquear
     if (esMayorVersion(local, remota)) {
       bloquearApp();
+      // 🔍 DEPURACIÓN
+    alert(
+      "DEPURACIÓN DE VERSIÓN\n\n" +
+      "Título detectado: " + document.title + "\n" +
+      "Versión local detectada: " + local + "\n" +
+      "Versión remota detectada: " + remota
+    );
       return;
     }
 
