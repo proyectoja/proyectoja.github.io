@@ -171,7 +171,7 @@
       }
   
       // Descargar directamente
-      window.open(asset.browser_download_url, "_blank");
+      window.open(asset.browser_download_url);
   
     } catch (err) {
       console.error(err);
