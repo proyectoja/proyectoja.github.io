@@ -44,29 +44,40 @@
   // 🟦 OBTENER VERSIÓN LOCAL REAL
   // ============================
   function obtenerVersionLocal() {
-    // Nuevo método → versión inyectada desde Electron
     if (window.__APP_VERSION__) {
       return window.__APP_VERSION__;
     }
 
-    // Método viejo de compatibilidad
     const titulo = document.title;
     const match = titulo.match(/v(\d+\.\d+\.\d+)/);
     return match ? match[1] : undefined;
   }
 
+  // ============================
+  // 🟩 OBTENER VERSIÓN REMOTA DESDE GITHUB
+  // ============================
   async function obtenerVersionRemota() {
     try {
-      const url =
-        "https://proyectoja.github.io/version.json?cache=" + Date.now();
-      const res = await fetch(url, { cache: "no-store" });
+      const res = await fetch(
+        "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
+        { cache: "no-store" }
+      );
 
-      if (!res.ok) throw new Error("No se pudo obtener JSON remoto");
+      if (!res.ok) throw new Error("❌ No se pudo leer el release de GitHub");
 
       const data = await res.json();
-      return data.version || null;
+
+      // GitHub usa:  tag_name: "v1.0.28"
+      let ver = data.tag_name;
+
+      if (!ver) return null;
+
+      // limpiar formato: "v1.0.28" → "1.0.28"
+      ver = ver.replace(/^v/i, "");
+
+      return ver;
     } catch (err) {
-      console.warn("❌ Sin conexión o error obteniendo versión remota");
+      console.warn("❌ Error obteniendo versión remota desde GitHub:", err);
       return "SIN_INTERNET";
     }
   }
@@ -92,42 +103,33 @@
     const local = obtenerVersionLocal();
     const remota = await obtenerVersionRemota();
 
-    
-
-    // 🟡 CASO 1 → Local undefined o vacía → NO PERMITIR USAR LA APP
     if (!local || local === "0.0.0") {
-      console.log("⏳ Esperando que Electron exponga la versión (undefined)...");
-      bloquearApp(); // SE BLOQUEA hasta tener versión válida
-      // 🔍 DEPURACIÓN
-    alert(
-      "DEPURACIÓN DE VERSIÓN\n\n" +
-      "Título detectado: " + document.title + "\n" +
-      "Versión local detectada: " + local + "\n" +
-      "Versión remota detectada: " + remota
-    );
+      bloquearApp();
+      alert(
+        "DEPURACIÓN DE VERSIÓN\n\n" +
+        "Título detectado: " + document.title + "\n" +
+        "Versión local detectada: " + local + "\n" +
+        "Versión remota detectada: " + remota
+      );
       return;
     }
 
-    // 🚫 Si no hay internet NO bloquear
     if (remota === "SIN_INTERNET") {
       console.log("🌐 Sin conexión — no bloquear");
       return;
     }
 
-    // ✔ Versión remota mayor → bloquear
     if (esMayorVersion(local, remota)) {
       bloquearApp();
-      // 🔍 DEPURACIÓN
-    alert(
-      "DEPURACIÓN DE VERSIÓN\n\n" +
-      "Título detectado: " + document.title + "\n" +
-      "Versión local detectada: " + local + "\n" +
-      "Versión remota detectada: " + remota
-    );
+      alert(
+        "DEPURACIÓN DE VERSIÓN\n\n" +
+        "Título detectado: " + document.title + "\n" +
+        "Versión local detectada: " + local + "\n" +
+        "Versión remota detectada: " + remota
+      );
       return;
     }
 
-    // ✔ Todo correcto → detener verificaciones
     console.log("✔ Versión correcta — deteniendo verificaciones");
     clearInterval(intervaloVerificacion);
   }
@@ -139,19 +141,16 @@
     const btn = document.getElementById("btnActualizarHimnario");
     if (btn) {
       btn.onclick = () => {
-        window.open("https://proyectoja.github.io/", "_blank");
+        window.open("https://github.com/proyectoja/HimnarioApp/releases/latest", "_blank");
       };
     }
   }, 100);
 
-  // ============================
-  // 🕐 INICIO DEL SISTEMA
-  // ============================
   console.log("⏳ Esperando 30 segundos antes de verificar versiones...");
 
   setTimeout(() => {
     verificarVersion();
     intervaloVerificacion = setInterval(verificarVersion, 10000);
-  }, 120000);
+  }, 30000);
 
 })();
