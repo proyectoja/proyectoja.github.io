@@ -1,5 +1,4 @@
 (async function () {
-
   let intervaloVerificacion = null;
 
   // ============================
@@ -37,6 +36,13 @@
       ">
           Actualizar ahora
       </button>
+      <progress id="barraDescarga" value="0" max="100" style="
+  width: 80%;
+  height: 25px;
+  margin-top: 20px;
+  display:none;
+"></progress>
+
   `;
   document.body.appendChild(overlay);
 
@@ -107,9 +113,14 @@
       bloquearApp();
       alert(
         "DEPURACIÓN DE VERSIÓN\n\n" +
-        "Título detectado: " + document.title + "\n" +
-        "Versión local detectada: " + local + "\n" +
-        "Versión remota detectada: " + remota
+          "Título detectado: " +
+          document.title +
+          "\n" +
+          "Versión local detectada: " +
+          local +
+          "\n" +
+          "Versión remota detectada: " +
+          remota
       );
       return;
     }
@@ -123,9 +134,14 @@
       bloquearApp();
       alert(
         "DEPURACIÓN DE VERSIÓN\n\n" +
-        "Título detectado: " + document.title + "\n" +
-        "Versión local detectada: " + local + "\n" +
-        "Versión remota detectada: " + remota
+          "Título detectado: " +
+          document.title +
+          "\n" +
+          "Versión local detectada: " +
+          local +
+          "\n" +
+          "Versión remota detectada: " +
+          remota
       );
       return;
     }
@@ -148,7 +164,6 @@
 
   async function descargarInstalador() {
     try {
-      // Obtener release más reciente
       const res = await fetch(
         "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
         { cache: "no-store" }
@@ -158,7 +173,6 @@
   
       const data = await res.json();
   
-      // Buscar el instalador (EXE, MSI, ZIP, etc.)
       const asset = data.assets?.find(a =>
         a.name.endsWith(".exe") ||
         a.name.endsWith(".msi") ||
@@ -166,16 +180,53 @@
       );
   
       if (!asset) {
-        alert("No se encontró ningún instalador en el release.");
+        alert("No se encontró instalador en el release.");
         return;
       }
   
-      // Descargar directamente
-      window.location.href = asset.browser_download_url;
+      // Mostrar barra
+      const barra = document.getElementById("barraDescarga");
+      barra.style.display = "block";
+      barra.value = 0;
+  
+      // Descargar archivo como stream
+      const descarga = await fetch(asset.browser_download_url);
+  
+      if (!descarga.ok) throw new Error("No se pudo descargar el archivo");
+  
+      const reader = descarga.body.getReader();
+      const contentLength = Number(descarga.headers.get("Content-Length")) || 0;
+  
+      let recibido = 0;
+      const chunks = [];
+  
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+  
+        chunks.push(value);
+        recibido += value.length;
+  
+        if (contentLength > 0) {
+          let porcentaje = Math.round((recibido / contentLength) * 100);
+          barra.value = porcentaje;
+        }
+      }
+  
+      // Crear archivo descargable
+      const blob = new Blob(chunks);
+      const url = URL.createObjectURL(blob);
+  
+      const tempLink = document.createElement("a");
+      tempLink.href = url;
+      tempLink.download = asset.name;
+      tempLink.click();
+  
+      URL.revokeObjectURL(url);
   
     } catch (err) {
       console.error(err);
-      alert("Error al intentar descargar el instalador.");
+      alert("Error al descargar el instalador.");
     }
   }
   
@@ -186,6 +237,4 @@
     verificarVersion();
     intervaloVerificacion = setInterval(verificarVersion, 10000);
   }, 120000);
-
 })();
-
