@@ -81,12 +81,8 @@
                     </ul>
 
                     <div class="botones-descarga">
-                        <a href="https://drive.google.com/drive/folders/1haI0yjcs14DXgVS6wqej8an6APwIkRxM?usp=sharing"
-                            target="_blank" class="btn-descarga drive">
-                            <img src="drive.png" alt="Drive"> Drive (Ultra Velocidad)
-                        </a>
-                        <a href="https://disk.yandex.ru/d/JLanFankv3qEDg" target="_blank" class="btn-descarga yandex">
-                            <img src="yandex.png" alt="Yandex"> Yandex (Ultra Velocidad)
+                        <a href="#" id="btnGithubHimnario" class="btn-descarga github">
+                            Descargar Aquí
                         </a>
                     </div>
                 </div>
@@ -209,6 +205,47 @@
     });
   });
 </script>
+
+<script>
+    async function descargarDesdeGithub() {
+        try {
+            const res = await fetch(
+                "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
+                { cache: "no-store" }
+            );
+    
+            if (!res.ok) throw new Error("No se pudo leer el release");
+    
+            const data = await res.json();
+    
+            // Buscar instalador
+            const asset = data.assets?.find(a =>
+                a.name.endsWith(".exe") ||
+                a.name.endsWith(".msi") ||
+                a.name.endsWith(".zip")
+            );
+    
+            if (!asset) {
+                alert("No se encontró un instalador en el servidor.");
+                return;
+            }
+    
+            // Descargar directamente
+            window.location.href = asset.browser_download_url;
+    
+        } catch (err) {
+            console.error(err);
+            alert("Error al intentar descargar desde el servidor.");
+        }
+    }
+    
+    // Activar el botón
+    document.getElementById("btnGithubHimnario").addEventListener("click", function (e) {
+        e.preventDefault();
+        descargarDesdeGithub();
+    });
+    </script>
+    
 </body>
 
 </html>
