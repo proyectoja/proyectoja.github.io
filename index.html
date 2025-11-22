@@ -218,24 +218,40 @@
     
             const data = await res.json();
     
-            // Buscar instalador
-            const asset = data.assets?.find(a =>
-                a.name.endsWith(".exe") ||
-                a.name.endsWith(".msi") ||
-                a.name.endsWith(".zip")
-            );
+            // ============================
+            // Detectar plataforma del usuario
+            // ============================
+            const plataforma = navigator.userAgent.toLowerCase();
     
-            if (!asset) {
-                alert("No se encontró un instalador en el servidor.");
+            let extensionBuscada = "";
+    
+            if (plataforma.includes("win")) {
+                extensionBuscada = ".exe"; // puedes agregar .msi si quieres
+            } else if (plataforma.includes("mac") || plataforma.includes("os x")) {
+                extensionBuscada = ".dmg"; // instalador para Mac
+            } else if (plataforma.includes("linux")) {
+                extensionBuscada = ".AppImage"; // estándar en electron
+            } else {
+                alert("No se pudo detectar tu sistema operativo.");
                 return;
             }
     
-            // Descargar directamente
+            // =========================================
+            // Buscar asset para la plataforma detectada
+            // =========================================
+            const asset = data.assets?.find(a => a.name.endsWith(extensionBuscada));
+    
+            if (!asset) {
+                alert("No existe instalador para tu sistema operativo (" + extensionBuscada + ").");
+                return;
+            }
+    
+            // Descargar
             window.location.href = asset.browser_download_url;
     
         } catch (err) {
             console.error(err);
-            alert("Error al intentar descargar desde el servidor.");
+            alert("Error al intentar descargar desde GitHub.");
         }
     }
     
@@ -245,6 +261,7 @@
         descargarDesdeGithub();
     });
     </script>
+    
     
 </body>
 
