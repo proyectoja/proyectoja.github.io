@@ -148,36 +148,56 @@
 
   async function descargarInstalador() {
     try {
-      // Obtener release más reciente
-      const res = await fetch(
-        "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
-        { cache: "no-store" }
-      );
+        // Obtener release más reciente
+        const res = await fetch(
+            "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
+            { cache: "no-store" }
+        );
   
-      if (!res.ok) throw new Error("No se pudo leer el release");
+        if (!res.ok) throw new Error("No se pudo leer el release");
   
-      const data = await res.json();
+        const data = await res.json();
   
-      // Buscar el instalador (EXE, MSI, ZIP, etc.)
-      const asset = data.assets?.find(a =>
-        a.name.endsWith(".exe") ||
-        a.name.endsWith(".msi") ||
-        a.name.endsWith(".zip")
-      );
+        // ============================
+        // Detectar plataforma del usuario
+        // ============================
+        const plataforma = navigator.userAgent.toLowerCase();
   
-      if (!asset) {
-        alert("No se encontró ningún instalador en el release.");
-        return;
-      }
+        let extensionBuscada = "";
   
-      // Descargar directamente
-      window.location.href = asset.browser_download_url;
+        if (plataforma.includes("win")) {
+            extensionBuscada = ".exe"; // o .msi
+        } else if (plataforma.includes("mac") || plataforma.includes("os x")) {
+            extensionBuscada = ".dmg"; // instalador macOS
+        } else if (plataforma.includes("linux")) {
+            extensionBuscada = ".AppImage"; // estándar electron linux
+        } else {
+            alert("No se pudo detectar tu sistema operativo.");
+            return;
+        }
+  
+        // =========================================
+        // Buscar asset para la plataforma detectada
+        // =========================================
+        const asset = data.assets?.find(a => a.name.endsWith(extensionBuscada));
+  
+        if (!asset) {
+            alert(
+                "No existe un instalador para tu sistema operativo.\n" +
+                "Buscado: " + extensionBuscada
+            );
+            return;
+        }
+  
+        // Descargar directamente
+        window.location.href = asset.browser_download_url;
   
     } catch (err) {
-      console.error(err);
-      alert("Error al intentar descargar el instalador.");
+        console.error(err);
+        alert("Error al intentar descargar el instalador.");
     }
   }
+  
   
 
   console.log("⏳ Esperando 30 segundos antes de verificar versiones...");
