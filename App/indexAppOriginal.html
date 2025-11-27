@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APP</title>
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <!-- Video.js HLS plugin -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls@5.15.0/dist/videojs-contrib-hls.min.js"></script>
+    
 </head>
 
 <body>
@@ -80,41 +86,6 @@
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
         var BASE_URL = "https://proyectoja.github.io/App/";
-        var script = document.createElement("script");
-        //script.src = BASE_URL + "clappr.js";
-        script.src = "clappr.js";
-        script.async = false;
-        document.head.appendChild(script);
-
-        var script = document.createElement("script");
-        //script.src = BASE_URL + "level-selector.js";
-        script.src = "level-selector.js";
-        script.async = false;
-        document.head.appendChild(script);
-
-        var script = document.createElement("script");
-        //script.src = BASE_URL + "clappr-playback-rate.js";
-        script.src = "clappr-playback-rate.js";
-        script.async = false;
-        document.head.appendChild(script);
-
-        var script = document.createElement("script");
-        //script.src = BASE_URL + "hlsjs-playback.js";
-        script.src = "hlsjs-playback.js";
-        script.async = false;
-        document.head.appendChild(script);
-
-        var script = document.createElement("script");
-        //script.src = BASE_URL + "clappr-youtube-playback.js";
-        script.src = "clappr-youtube-playback.js";
-        script.async = false;
-        document.head.appendChild(script);
-
-        var script = document.createElement("script");
-        //script.src = BASE_URL + "audio-track-selector.js";
-        script.src = "audio-track-selector.js";
-        script.async = false;
-        document.head.appendChild(script);
     
         var link = document.createElement("link");
         link.rel = "stylesheet";

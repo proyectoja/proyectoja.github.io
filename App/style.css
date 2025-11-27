@@ -748,3 +748,11 @@ html,body {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+#player{
+  display: flex;
+  position: relative;
+  margin: auto;
+  overflow: hidden;
+  min-height: 400px;
+}

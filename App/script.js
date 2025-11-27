@@ -29,6 +29,9 @@ if (document.getElementById("contenedorEspecialSeries")) {
 document.getElementById("btnLike").src = BASE_URL + "like.png";
 document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
 
+// Video.js player instance
+let videoPlayer = null;
+
 // Función para cargar los datos desde el archivo JSON
 fetch(jsonUrl) // PRODUCCIÓN
   //fetch("contenido.json") //DESARROLLO
@@ -292,30 +295,8 @@ function crearCarteles(cartel) {
   videoItem.classList.add("contenedor-video");
   videoItem.addEventListener("click", function () {
     const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
-
-    /*if (debeMostrarAnuncio(idPelicula)) {
-      // Mostrar anuncio y luego continuar con la reproducción
-      //window.location.href = "go:anuncio";
-
-      // Guardar la película y la fecha para futuras validaciones
-      localStorage.setItem("ultimaPeliculaVista", idPelicula);
-      localStorage.setItem(
-        "ultimaFechaVista",
-        new Date().toISOString().split("T")[0]
-      );
-
-      // Esperar a que el usuario regrese para continuar con la película
-      setTimeout(() => {
-        contenedorJWPLAYER.style.display = "flex";
-        openPopJW(cartel);
-      }, 100); 
-    } else {
-      // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
-      contenedorJWPLAYER.style.display = "flex";
-      openPopJW(cartel);
-    }*/
-      contenedorJWPLAYER.style.display = "flex";
-      openPopJW(cartel);
+    contenedorJWPLAYER.style.display = "flex";
+    openPopJW(cartel);
   });
   videoItem.style.cursor = "pointer";
 
@@ -489,30 +470,8 @@ function crearCartelesRecientes(cartel) {
   videoItem.classList.add("contenedor-video-recientes");
   videoItem.addEventListener("click", function () {
     const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
-
-    /*if (debeMostrarAnuncio(idPelicula)) {
-      // Mostrar anuncio y luego continuar con la reproducción
-      //window.location.href = "go:anuncio";
-
-      // Guardar la película y la fecha para futuras validaciones
-      localStorage.setItem("ultimaPeliculaVista", idPelicula);
-      localStorage.setItem(
-        "ultimaFechaVista",
-        new Date().toISOString().split("T")[0]
-      );
-
-      // Esperar a que el usuario regrese para continuar con la película
-      setTimeout(() => {
-        contenedorJWPLAYER.style.display = "flex";
-        openPopJW(cartel);
-      }, 100); // Puedes ajustar el tiempo si lo deseas
-    } else {
-      // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
-      contenedorJWPLAYER.style.display = "flex";
-      openPopJW(cartel);
-    }*/
-      contenedorJWPLAYER.style.display = "flex";
-      openPopJW(cartel);
+    contenedorJWPLAYER.style.display = "flex";
+    openPopJW(cartel);
   });
   videoItem.style.cursor = "pointer";
 
@@ -678,30 +637,8 @@ function crearCartelesSeries(cartel) {
   videoItem.classList.add("contenedor-video-series");
   videoItem.addEventListener("click", function () {
     const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
-
-    /*if (debeMostrarAnuncio(idPelicula)) {
-      // Mostrar anuncio y luego continuar con la reproducción
-      //window.location.href = "go:anuncio";
-
-      // Guardar la película y la fecha para futuras validaciones
-      localStorage.setItem("ultimaPeliculaVista", idPelicula);
-      localStorage.setItem(
-        "ultimaFechaVista",
-        new Date().toISOString().split("T")[0]
-      );
-
-      // Esperar a que el usuario regrese para continuar con la película
-      setTimeout(() => {
-        contenedorJWPLAYER.style.display = "flex";
-        openPopJW(cartel);
-      }, 100); // Puedes ajustar el tiempo si lo deseas
-    } else {
-      // Si no se debe mostrar el anuncio, continuar con la reproducción directamente
-      contenedorJWPLAYER.style.display = "flex";
-      openPopJW(cartel);
-    }*/
-      contenedorJWPLAYER.style.display = "flex";
-      openPopJW(cartel);
+    contenedorJWPLAYER.style.display = "flex";
+    openPopJW(cartel);
   });
   videoItem.style.cursor = "pointer";
 
@@ -943,7 +880,7 @@ function openPopJW(cartel) {
     iconoTrailer.id = "trailerYouTube";
     iconoTrailer.src = BASE_URL + "youtube.png";
     iconoTrailer.addEventListener("click", function () {
-      reproductorClapprTrailer(cartel, vast, cartel.urlYouTube);
+      reproductorVideoJSTrailer(cartel, vast, cartel.urlYouTube);
     });
     contenedorBotonesAudio.appendChild(iconoTrailer);
   }
@@ -955,7 +892,7 @@ function openPopJW(cartel) {
     iconoLat.id = "audioLat";
     iconoLat.src = BASE_URL + "lat.png";
     iconoLat.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.url);
+      reproductorVideoJSAudios(cartel, vast, cartel.url);
     });
     contenedorBotonesAudio.appendChild(iconoLat);
   }
@@ -967,7 +904,7 @@ function openPopJW(cartel) {
     iconoCas.id = "audioCas";
     iconoCas.src = BASE_URL + "cas.png";
     iconoCas.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlCas);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlCas);
     });
     contenedorBotonesAudio.appendChild(iconoCas);
   }
@@ -979,7 +916,7 @@ function openPopJW(cartel) {
     iconoSub.id = "audioSub";
     iconoSub.src = BASE_URL + "sub.png";
     iconoSub.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlSub);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlSub);
     });
     contenedorBotonesAudio.appendChild(iconoSub);
   }
@@ -991,7 +928,7 @@ function openPopJW(cartel) {
     iconoCor.id = "audioCor";
     iconoCor.src = BASE_URL + "cor.png";
     iconoCor.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlCor);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlCor);
     });
     contenedorBotonesAudio.appendChild(iconoCor);
   }
@@ -1003,7 +940,7 @@ function openPopJW(cartel) {
     iconoChi.id = "audioChi";
     iconoChi.src = BASE_URL + "chi.png";
     iconoChi.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlChi);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlChi);
     });
     contenedorBotonesAudio.appendChild(iconoChi);
   }
@@ -1014,7 +951,7 @@ function openPopJW(cartel) {
     iconoLat.id = "audioLat";
     iconoLat.src = BASE_URL + "lat.png";
     iconoLat.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlLista);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlLista);
     });
     contenedorBotonesAudio.appendChild(iconoLat);
   }
@@ -1025,7 +962,7 @@ function openPopJW(cartel) {
     iconoCas.id = "audioCas";
     iconoCas.src = BASE_URL + "cas.png";
     iconoCas.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlListaCas);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlListaCas);
     });
     contenedorBotonesAudio.appendChild(iconoCas);
   }
@@ -1036,7 +973,7 @@ function openPopJW(cartel) {
     iconoSub.id = "audioSub";
     iconoSub.src = BASE_URL + "sub.png";
     iconoSub.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlListaSub);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlListaSub);
     });
     contenedorBotonesAudio.appendChild(iconoSub);
   }
@@ -1047,7 +984,7 @@ function openPopJW(cartel) {
     iconoCor.id = "audioCor";
     iconoCor.src = BASE_URL + "cor.png";
     iconoCor.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlListaCor);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlListaCor);
     });
     contenedorBotonesAudio.appendChild(iconoCor);
   }
@@ -1058,13 +995,14 @@ function openPopJW(cartel) {
     iconoChi.id = "audioChi";
     iconoChi.src = BASE_URL + "chi.png";
     iconoChi.addEventListener("click", function () {
-      reproductorClapprAudios(cartel, vast, cartel.urlListaChi);
+      reproductorVideoJSAudios(cartel, vast, cartel.urlListaChi);
     });
     contenedorBotonesAudio.appendChild(iconoChi);
   }
 
   const logoMovie24 = document.getElementById("logoMovie24");
-  logoMovie24.src = BASE_URL + "logo1.png";
+  logoMovie24.style.display = "none";
+  //logoMovie24.src = BASE_URL + "logo1.png";
   contenedorTituloPop.textContent = cartel.titulo;
   contenedorGenerosPop.textContent = "Genero: " + cartel.generos.replace(/^\s*todos\s*,?\s*/i, '');
   contenedorDescripcionPop.textContent = cartel.descripcion;
@@ -1179,33 +1117,34 @@ const labelElement = document.getElementById("more-label");
 
 let currentIndex = 0;
 let autoplayTimer = null;
-let clappr = null;
 let autoplayAux = false;
 let index = 0;
 let saveInterval = null;
 
-function reproductorClapprTrailer(cartel, vast, trailer){
+function reproductorVideoJSTrailer(cartel, vast, trailer){
   posterPlayer.style.backgroundImage = 'url("")';
 
   let v = extraerIdYoutube(trailer);
 
-  if (clappr) clappr.destroy();
+  if (videoPlayer) {
+    videoPlayer.dispose();
+    videoPlayer = null;
+  }
   
-  clappr = new Clappr.Player({
-    source: v,
-    poster: cartel.poster,
-    height: "300px",
-        width: "100%",
-        disableVideoTagContextMenu: true,
-        youtubeShowRelated: false,
-        //youtubePlaylist: auxUrlDoce,
-        plugins: [YoutubePlayback],
-    hideVolumeBar: true, //DESARROLLO
-    hideMediaControl: true, //Desarrollo
-    playbackNotSupportedMessage: "No se puede reproducir.",
-    parentId: "#player"
-  })
-  console.log(v);
+  // Para YouTube, usamos un iframe embebido
+  const playerContainer = document.getElementById('player');
+  playerContainer.innerHTML = `
+    <iframe 
+      width="100%" 
+      height="100%" 
+      src="https://www.youtube.com/embed/${v}?autoplay=1" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  `;
+  
+  console.log("Reproduciendo trailer de YouTube: " + v);
 }
 
 function extraerIdYoutubeUrl(url){
@@ -1221,7 +1160,8 @@ function extraerIdYoutube(url) {
 }
 
 let bloquesAnuncios = 0;
-function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
+
+function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   messageElement.textContent = "";
   currentIndex = index;
   labelElement.style.display = "none";
@@ -1231,14 +1171,19 @@ function reproductorClapprAudios(cartel, vast, playlist, index = 0) {
   shelfElement.style.display = "none";
   posterPlayer.style.backgroundImage = 'url("")';
 
-  if (clappr) clappr.destroy();
+  // Destruir el reproductor anterior si existe
+  if (videoPlayer) {
+    videoPlayer.dispose();
+    videoPlayer = null;
+  }
 
   const isSingleVideo = !Array.isArray(playlist);
   var videoKey = "progreso_" + cartel.id;
 
   //Nombre en la meta del video o de la lista
   document.title = isSingleVideo ? cartel.titulo : playlist[index].title;
-console.log(document.title);
+  console.log(document.title);
+  
   // Reiniciar votos y vistas
   document.getElementById("vistas").textContent = "";
   document.getElementById("textLike").textContent = "0";
@@ -1250,292 +1195,59 @@ console.log(document.title);
   // Contador de vistas
   contadorDeVistas(cartel);
 
-  //Reproductor
-  clappr = new Clappr.Player({
-    source: isSingleVideo ? playlist : playlist[index].file,
-    poster: isSingleVideo ? cartel.poster : playlist[index].image,
-    parentId: "#player",
-    autoPlay: autoplayAux,
-    width: "100%",
-    height: "100%",
-    hideVolumeBar: true, //DESARROLLO
-    actualLiveTime: true,
-    actualLiveServerTime: "2024/09/30 00:00:00",
-    hideMediaControl: true, //Desarrollo
-    disableVideoTagContextMenu: true,
-    playbackNotSupportedMessage: "No se puede reproducir.",
-    plugins: [
-      AudioTrackSelector,
-      HlsjsPlayback,
-      LevelSelector,
-      //PlaybackRatePlugin,
-    ],
-    hlsUseNextLevel: true, // Permite cambiar de calidad automáticamente
-    hlsMinimumDvrSize: 120, // Buffer mínimo de 2 minutos para DVR
-    hlsRecoverAttempts: 16, // Reduce los intentos de recuperación para evitar loops infinitos
-    hlsPlayback: {
-      preload: true, // Precarga el video antes de presionar "play"
-      customListeners: [], // Espacio para eventos personalizados
-    },
-    playback: {
-      crossOrigin: "anonymous",
-      extrapolatedWindowNumSegments: 2,
-      triggerFatalErrorOnResourceDenied: false,
-      hlsjsConfig: {
-        enableWebVTT: true,
-        captions: true, // Activa subtítulos en HLS
-        maxBufferLength: 30, // Mantiene un buffer de 30 segundos
-        maxBufferSize: 60 * 1000 * 1000, // Máximo de 60 MB de buffer
-        liveSyncDuration: 5, // Sincronización de 5 segundos con la transmisión en vivo
-        liveMaxLatencyDuration: 60, // Retraso máximo de 10 segundos en vivo
-        enableWorker: true, // Usa workers para mejorar el rendimiento
-        enableSoftwareAES: true, // Mejora la compatibilidad con flujos cifrados
-        capLevelToPlayerSize: true, // Ajusta la calidad según el tamaño del reproductor
-        autoStartLoad: true, // Carga automáticamente los fragmentos
-        startPosition: -1, // Inicia desde el punto más reciente en transmisión en vivo
-        maxRetries: 9999, // Intentos máximos antes de detener la reproducción
-        retryDelay: 2000, // Retraso de 2 segundos entre intentos de recuperación
-        lowLatencyMode: true, // Habilita el modo de baja latencia
-      },
-    },
-    /*playbackRateConfig: {
-      defaultValue: 1,
-      options: [
-        { value: 0.1, label: "0.1x" },
-        { value: 0.5, label: "0.5x" },
-        { value: 0.75, label: "0.75x" },
-        { value: 1, label: "Normal" },
-        { value: 1.5, label: "1.5x" },
-        { value: 2, label: "2x" },
-      ],
-      // rateSuffix: 'x',
-    },*/
-    levelSelectorConfig: {
-      title: "Calidad",
-      labels: {
-        7: "",
-        6: "",
-        5: "",
-        4: "",
-        3: "",
-        2: "", // 500kbps
-        1: "", // 240kbps
-        0: "", // 120kbps
-      },
-      labelCallback: function (playbackLevel, customLabel) {
-        return customLabel + playbackLevel.level.height + "p"; // High 720p
-      },
-      onLevelsAvailable: function (levels) {
-        return levels.reverse(); // For example, reverse levels order
-      },
-    },
+  // Preparar el contenedor del reproductor
+  const playerContainer = document.getElementById('player');
+  playerContainer.innerHTML = `
+    <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto">
+    </video>
+  `;
 
-    watermark: BASE_URL + "logo1.png",
-    position: "top-right",
+  // Configuración de Video.js
+  const playerOptions = {
+    controls: true,
+    autoplay: autoplayAux,
+    preload: 'auto',
+    fluid: true,
+    playbackRates: [0.5, 1, 1.25, 1.5, 2],
+    html5: {
+      vhs: {
+        overrideNative: true
+      },
+      nativeAudioTracks: false,
+      nativeVideoTracks: false
+    },
+    plugins: {
+      // Aquí puedes agregar plugins adicionales si es necesario
+    }
+  };
+
+  // Inicializar Video.js
+  videoPlayer = videojs('videoPlayer', playerOptions);
+
+  // Establecer la fuente del video
+  const sourceUrl = isSingleVideo ? playlist : playlist[index].file;
+  const posterUrl = isSingleVideo ? cartel.poster : playlist[index].image;
+  
+  videoPlayer.src({
+    src: sourceUrl,
+    type: sourceUrl.includes('.m3u8') ? 'application/x-mpegURL' : 'video/mp4'
   });
+  
+  videoPlayer.poster(posterUrl);
 
-  /////////////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////////////
-  //IMPORTANTE
-  const styleSheet = document.createElement("style");
-    styleSheet.textContent = `
-    #player { width:100%; height:100%; aspect-ratio:16/9; margin:auto; background:#000; border-radius:8px; overflow:hidden; position:relative; }
-    .media-control-button.aspect-btn { background:none; border:none; color:#ddd !important; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; padding:6px; }
-    .media-control-button.aspect-btn:hover { color:#25d366 !important; transform:scale(1.12); }
-    .aspect-btn-important { color:#ddd !important; }
-    `;
-    document.head.appendChild(styleSheet);
-    /*
-    const player = new Clappr.Player({
-      source: 'https://proyectoja.github.io/music.mp4',
-      parent: document.getElementById('player'),
-      autoPlay: false,
-      width: '100%',
-      height: '100%',
-      hideMediaControl: true
-    });*/
-    
-    /* --- Modos y estado --- */
-    const MODES = [
-      { fit: 'contain', icon: '🖼', label: 'Ajustar' },
-      { fit: 'cover',   icon: '🔲', label: 'Rellenar' },
-      { fit: 'fill',    icon: '🧩', label: 'Estirar' },
-      { fit: 'scale-down', icon: '🔍', label: 'Reducir' }
-    ];
-    let currentMode = 0;
-    
-    /* --- Helpers para localizar el panel derecho de controles de Clappr --- */
-    function getRightPanel() {
-      try {
-        // 1) intentar vía core.mediaControl.$el (jQuery-like)
-        if (clappr.core && clappr.core.mediaControl && clappr.core.mediaControl.$el) {
-          const arr = clappr.core.mediaControl.$el.find('.media-control-right-panel');
-          if (arr && arr.length) return arr[0];
-        }
-      } catch(e){ /* ignore */ }
-    
-      // 2) fallback: buscar dentro del container
-      try {
-        if (clappr.container && clappr.container.el) {
-          const panel = clappr.container.el.querySelector('.media-control-right-panel');
-          if (panel) return panel;
-        }
-      } catch(e){ /* ignore */ }
-    
-      // 3) fallback extra: buscar en todo el documento (por si Clappr movió controles en fullscreen)
-      const globalPanel = document.querySelector('.media-control-right-panel');
-      if (globalPanel) return globalPanel;
-    
-      return null;
-    }
-    
-    /* --- Función que crea el botón (si no existe) e inyecta listeners --- */
-    function createAndAttachButton(panel) {
-      if (!panel) return false;
-      if (panel.querySelector('.aspect-btn')) {
-        // ya existe
-        return true;
-      }
-    
-      const btn = document.createElement('button');
-      btn.className = 'media-control-button media-control-icon aspect-btn aspect-btn-important';
-      btn.setAttribute('type', 'button');
-      btn.title = 'Cambiar relación de aspecto';
-      btn.innerText = MODES[currentMode].icon;
-    
-      btn.onclick = () => {
-        // pulsado: cambiar modo
-        currentMode = (currentMode + 1) % MODES.length;
-        const mode = MODES[currentMode];
-        const video = findVideoElement();
-        if (video) {
-          video.style.objectFit = mode.fit;
-          video.style.width = '100%';
-          video.style.height = '100%';
-        }
-        btn.innerText = mode.icon;
-        btn.title = `Modo: ${mode.label}`;
-        console.log(`Aspect button clicked -> ${mode.label} (${mode.fit})`);
-      };
-    
-      // intentar insertar antes del botón fullscreen si existe
-      const fsBtn = panel.querySelector('[data-fullscreen]') || panel.querySelector('.media-control-button[data-fullscreen]') || panel.querySelector('button');
-      if (fsBtn) panel.insertBefore(btn, fsBtn);
-      else panel.appendChild(btn);
-    
-      console.log('✅ Aspect button injected into media-control-right-panel');
-      return true;
-    }
-    
-    /* --- Buscar <video> dentro del player/core --- */
-    function findVideoElement() {
-      try {
-        // intentar en core.el
-        if (clappr.core && clappr.core.el) {
-          const v = clappr.core.el.querySelector('video');
-          if (v) return v;
-        }
-      } catch(e){}
-    
-      // fallback global
-      return document.querySelector('#player video') || document.querySelector('video');
-    }
-    
-    /* --- Intento repetido y observadores para robustez --- */
-    let attempts = 0;
-    const maxAttempts = 20;
-    
-    function tryInjectLoop() {
-      attempts++;
-      const panel = getRightPanel();
-      if (panel) {
-        const ok = createAndAttachButton(panel);
-        if (ok) {
-          // si se insertó correctamente, conectar observer para reinserciones futuras
-          attachObservers();
-          return;
-        }
-      }
-      if (attempts < maxAttempts) {
-        // reintentar pronto
-        setTimeout(tryInjectLoop, 350);
-      } else {
-        console.warn('❗ Aspect inject: no se pudo encontrar media-control-right-panel (verificar clases de Clappr).');
-      }
-    }
-    
-    /* Observadores: si la barra se re-renderiza (fullscreen, layout changes), volvemos a intentar inyectar */
-    let localObserver = null;
-    let globalObserver = null;
-    function attachObservers() {
-      try {
-        // Observador sobre el container del player (subtree) para cambios internos
-        const containerEl = (clappr.container && clappr.container.el) ? clappr.container.el : document.getElementById('player');
-        if (containerEl && !localObserver) {
-          localObserver = new MutationObserver(() => {
-            // reinserta si fue removido por Clappr
-            setTimeout(tryInjectLoop, 80);
-          });
-          localObserver.observe(containerEl, { childList: true, subtree: true });
-        }
-      } catch(e){}
-    
-      try {
-        // Observador global por si Clappr mueve controles en fullscreen a otro nodo
-        if (!globalObserver) {
-          globalObserver = new MutationObserver(() => {
-            setTimeout(tryInjectLoop, 120);
-          });
-          globalObserver.observe(document.body, { childList: true, subtree: true });
-        }
-      } catch(e){}
-    }
-    
-    /* --- Inicialización: esperar eventos de Clappr y arrancar el loop de inyección --- */
-    clappr.on(Clappr.Events.PLAYER_READY, () => {
-      console.log('PLAYER_READY - intentando inyectar botón...');
-      tryInjectLoop();
-    });
-    
-    // También intentar si cambia el contenedor activo (en algunos casos Clappr recrea todo)
-    clappr.on(Clappr.Events.CORE_ACTIVE_CONTAINER_CHANGED, () => {
-      console.log('CORE_ACTIVE_CONTAINER_CHANGED - reintentando inyectar botón...');
-      setTimeout(tryInjectLoop, 200);
-    });
-    
-    // Fullscreen change: reintentar
-    document.addEventListener('fullscreenchange', () => {
-      console.log('fullscreenchange - reinyectando botón...');
-      setTimeout(tryInjectLoop, 200);
-    });
-    
-    // Safety: intentar a los pocos segundos por si PLAYER_READY ya pasó
-    setTimeout(() => {
-      if (!document.querySelector('.aspect-btn')) {
-        console.log('Timeout injection attempt...');
-        tryInjectLoop();
-      }
-    }, 1200);
-    //////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////
-
-
-  window.location.href = "go:anuncio"; //////////////////////////////////////////////////////////////////////
-  window.location.href = "go:anuncio"; /////////////////////////////////////////////////////////////////////
-
-  clappr.on(Clappr.Events.PLAYER_READY, function () {
-    console.log("Disparo ready");
-
-    const lastTime = localStorage.getItem(videoKey);
-    if (lastTime) {
-      clappr.seek(parseFloat(lastTime));
+  // Cargar el tiempo guardado
+  const lastTime = localStorage.getItem(videoKey);
+  if (lastTime) {
+    videoPlayer.ready(function() {
+      videoPlayer.currentTime(parseFloat(lastTime));
       console.log(`⏪ Reanudando desde ${lastTime} segundos`);
-    }
-  });
+    });
+  }
 
+  // Guardar progreso cada 10 segundos
   let lastSavedTime = 0;
-  clappr.on(Clappr.Events.PLAYER_TIMEUPDATE, () => {
-    const currentTime = clappr.getCurrentTime();
+  videoPlayer.on('timeupdate', function() {
+    const currentTime = videoPlayer.currentTime();
     if (Math.abs(currentTime - lastSavedTime) >= 10) {
       localStorage.setItem(videoKey, currentTime);
       console.log(`💾 Tiempo guardado: ${currentTime.toFixed(2)} segundos`);
@@ -1543,20 +1255,20 @@ console.log(document.title);
     }
   });
 
-  
-  clappr.on(Clappr.Events.PLAYER_PLAY, function () {
+  // Evento de reproducción
+  videoPlayer.on('play', function() {
     console.log("Disparo play");
     
     if(bloquesAnuncios == 0){
-      window.location.href = "go:anuncio";//////////////////////////////////////////////////////////
-      window.location.href = "go:anuncio";/////////////////////////////////////////////////////////
+      window.location.href = "go:anuncio";
+      window.location.href = "go:anuncio";
     }
     bloquesAnuncios = 1;
   });
 
-  clappr.on(Clappr.Events.PLAYER_ENDED, () => {
+  // Evento de finalización
+  videoPlayer.on('ended', function() {
     localStorage.removeItem(videoKey);
-    clearInterval(saveInterval);
 
     const nextIndex = index + 1;
     autoplayAux = true;
@@ -1576,7 +1288,7 @@ console.log(document.title);
             playlist[nextIndex].description || "Sin descripción";
           contenedorTituloPop.textContent = videoTitle;
           contenedorDescripcionPop.textContent = videoDescription;
-          reproductorClapprAudios(cartel, vast, playlist, nextIndex);
+          reproductorVideoJSAudios(cartel, vast, playlist, nextIndex);
         }
       }, 1000);
     } else {
@@ -1606,7 +1318,7 @@ console.log(document.title);
           contenedorTituloPop.textContent = videoTitle;
           contenedorDescripcionPop.textContent = videoDescription;
 
-          reproductorClapprAudios(cartel, vast, playlist, i);
+          reproductorVideoJSAudios(cartel, vast, playlist, i);
         });
 
         shelfElement.appendChild(div);
@@ -1617,14 +1329,18 @@ console.log(document.title);
 
 const contenedorDisqus = document.getElementById("disqus_thread");
 function closePopJW() {
-  if (clappr) {
-    clappr.destroy();
-    clappr = null;
-    contenedorDisqus.textContent = "";
-    contenedorJWPLAYER.style.display = "none";
-    //window.location.href = "go:anuncio";
-    
+  if (videoPlayer) {
+    videoPlayer.dispose();
+    videoPlayer = null;
   }
+  
+  // Limpiar el contenedor del reproductor
+  const playerContainer = document.getElementById('player');
+  playerContainer.innerHTML = '';
+  
+  contenedorDisqus.textContent = "";
+  contenedorJWPLAYER.style.display = "none";
+  
   bloquesAnuncios = 0;
   if (autoplayTimer) {
     clearInterval(autoplayTimer);
