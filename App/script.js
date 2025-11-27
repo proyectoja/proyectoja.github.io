@@ -1162,6 +1162,8 @@ function extraerIdYoutube(url) {
 let bloquesAnuncios = 0;
 
 function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
+  window.location.href = "go:anuncio";
+  window.location.href = "go:anuncio";
   messageElement.textContent = "";
   currentIndex = index;
   labelElement.style.display = "none";
