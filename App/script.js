@@ -30,8 +30,8 @@ const contenedorEspecialSeries = document.getElementById(
 let videoPlayer = null;
 
 // Función para cargar los datos desde el archivo JSON
-// fetch(jsonUrl) // PRODUCCIÓN
-fetch("contenido.json") //DESARROLLO
+fetch(jsonUrl) // PRODUCCIÓN
+  //fetch("contenido.json") //DESARROLLO
   .then((response) => response.json()) // Convertir a JSON
   .then((data) => {
     limpiarTodasLasURLs(data);
