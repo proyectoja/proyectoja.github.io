@@ -1133,7 +1133,7 @@ function openPopJW(cartel) {
 
   const btnShare = document.querySelector(".btn-share");
   if (btnShare) {
-    btnShare.onclick = () => (window.location.href = "http://action_offices");
+    btnShare.onclick = () => (window.location.href = "http://action_share");
   }
 
   // Actualizar información de la película
@@ -2011,7 +2011,7 @@ function switchView(viewId) {
 
 function openRequests() {
   // URL de pedidos (placeholder por ahora)
-  const url = "https://t.me/PelisCristianas_bot"; // Ejemplo o dejar vacío
+  const url = "http://action_offices"; // Ejemplo o dejar vacío
   window.open(url, "_blank");
 }
 
