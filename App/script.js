@@ -190,6 +190,12 @@ function mostrarPopupCalidades(cartel) {
   const lista = document.getElementById("lista-calidades");
   lista.innerHTML = "";
 
+  // Restaurar el título del popup para reproducción
+  const tituloPopup = popup.querySelector("h3");
+  if (tituloPopup) {
+    tituloPopup.textContent = "Selecciona la calidad";
+  }
+
   const opciones = [];
 
   // Agregar opciones individuales
@@ -370,55 +376,165 @@ function validarLinkMP4(url) {
 }
 
 function descargarVideo(cartel) {
-  const links = [
-    cartel.url,
-    cartel.urlSub,
-    cartel.urlCas,
-    cartel.urlCor,
-    cartel.urlChi,
-  ];
-  const nombreArchivo =
-    cartel.titulo.replace(/[^a-z0-9]/gi, "_").toLowerCase() + ".mp4";
+  // Recopilar TODAS las fuentes de video disponibles, independiente de si son .mp4
+  const fuentesDisponibles = [];
 
-  for (const link of links) {
-    if (validarLinkMP4(link)) {
-      const a = document.createElement("a");
-      a.href = link;
-      a.download = nombreArchivo;
-      a.target = "_blank";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      return;
-    }
+  // Verificar URLs individuales (sin filtrar por .mp4 primero)
+  if (cartel.url && cartel.url.trim() !== "") {
+    fuentesDisponibles.push({
+      nombre: "Audio Latino",
+      url: cartel.url,
+      icon: "lat.png",
+      esMP4: validarLinkMP4(cartel.url),
+    });
+  }
+  if (cartel.urlCas && cartel.urlCas.trim() !== "") {
+    fuentesDisponibles.push({
+      nombre: "Audio Castellano",
+      url: cartel.urlCas,
+      icon: "cas.png",
+      esMP4: validarLinkMP4(cartel.urlCas),
+    });
+  }
+  if (cartel.urlSub && cartel.urlSub.trim() !== "") {
+    fuentesDisponibles.push({
+      nombre: "Audio Subtitulado",
+      url: cartel.urlSub,
+      icon: "sub.png",
+      esMP4: validarLinkMP4(cartel.urlSub),
+    });
+  }
+  if (cartel.urlCor && cartel.urlCor.trim() !== "") {
+    fuentesDisponibles.push({
+      nombre: "Audio Coreano",
+      url: cartel.urlCor,
+      icon: "cor.png",
+      esMP4: validarLinkMP4(cartel.urlCor),
+    });
+  }
+  if (cartel.urlChi && cartel.urlChi.trim() !== "") {
+    fuentesDisponibles.push({
+      nombre: "Audio Chino",
+      url: cartel.urlChi,
+      icon: "chi.png",
+      esMP4: validarLinkMP4(cartel.urlChi),
+    });
   }
 
+  // Verificar listas de reproducción
   const listas = [
-    cartel.urlLista,
-    cartel.urlListaSub,
-    cartel.urlListaCas,
-    cartel.urlListaCor,
-    cartel.urlListaChi,
+    { lista: cartel.urlLista, nombre: "Lista Latino", icon: "lat.png" },
+    { lista: cartel.urlListaCas, nombre: "Lista Castellano", icon: "cas.png" },
+    { lista: cartel.urlListaSub, nombre: "Lista Subtitulado", icon: "sub.png" },
+    { lista: cartel.urlListaCor, nombre: "Lista Coreano", icon: "cor.png" },
+    { lista: cartel.urlListaChi, nombre: "Lista Chino", icon: "chi.png" },
   ];
 
-  for (const lista of listas) {
-    if (Array.isArray(lista)) {
-      for (const item of lista) {
-        if (validarLinkMP4(item.file)) {
-          const a = document.createElement("a");
-          a.href = item.file;
-          a.download = nombreArchivo;
-          a.target = "_blank";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          return;
+  listas.forEach((item) => {
+    if (Array.isArray(item.lista) && item.lista.length > 0) {
+      item.lista.forEach((video, index) => {
+        if (video.file && video.file.trim() !== "") {
+          fuentesDisponibles.push({
+            nombre: `${item.nombre} - ${
+              video.label || "Episodio " + (index + 1)
+            }`,
+            url: video.file,
+            icon: item.icon,
+            esMP4: validarLinkMP4(video.file),
+          });
         }
-      }
+      });
     }
+  });
+
+  // Filtrar solo las que son .mp4 descargables
+  const opcionesDescarga = fuentesDisponibles.filter((fuente) => fuente.esMP4);
+
+  console.log(
+    "🔍 Debug descarga - Fuentes totales:",
+    fuentesDisponibles.length
+  );
+  console.log("🔍 Debug descarga - Opciones .mp4:", opcionesDescarga.length);
+
+  // Si no hay opciones de descarga válidas (.mp4)
+  if (opcionesDescarga.length === 0) {
+    alert("No se encontró un enlace de descarga válido (.mp4).");
+    return;
   }
 
-  //alert("No se encontró un enlace de descarga válido (.mp4).");
+  // MODIFICACIÓN CLAVE: Si hay múltiples FUENTES (aunque solo una sea .mp4),
+  // mostrar el selector para que el usuario vea todas las opciones disponibles
+  if (fuentesDisponibles.length > 1 && opcionesDescarga.length > 0) {
+    mostrarPopupDescarga(cartel, opcionesDescarga);
+    return;
+  }
+
+  // Si solo hay UNA fuente en total, descargar directamente
+  if (opcionesDescarga.length === 1) {
+    ejecutarDescarga(opcionesDescarga[0].url, cartel.titulo);
+    return;
+  }
+
+  // Si hay múltiples opciones .mp4, mostrar popup de selección
+  mostrarPopupDescarga(cartel, opcionesDescarga);
+}
+
+// Función para ejecutar la descarga nativa del navegador
+function ejecutarDescarga(url, titulo) {
+  const nombreArchivo =
+    titulo.replace(/[^a-z0-9]/gi, "_").toLowerCase() + ".mp4";
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nombreArchivo;
+  a.target = "_blank";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// Función para mostrar el popup de selección de calidad para descarga
+function mostrarPopupDescarga(cartel, opcionesDescarga) {
+  const popup = document.getElementById("popup-calidades");
+  const lista = document.getElementById("lista-calidades");
+  lista.innerHTML = "";
+
+  // Cambiar el título del popup
+  const tituloPopup = popup.querySelector("h3");
+  if (tituloPopup) {
+    tituloPopup.textContent = "Selecciona la calidad para descargar";
+  }
+
+  opcionesDescarga.forEach((opcion) => {
+    const btn = document.createElement("button");
+    btn.className = "calidad-btn";
+
+    // Crear ícono
+    if (opcion.icon) {
+      const img = document.createElement("img");
+      img.src = BASE_URL + opcion.icon;
+      img.style.width = "24px";
+      img.style.height = "24px";
+      img.style.marginRight = "10px";
+      img.style.verticalAlign = "middle";
+      btn.appendChild(img);
+    }
+
+    // Crear texto
+    const span = document.createElement("span");
+    span.textContent = opcion.nombre;
+    span.style.verticalAlign = "middle";
+    btn.appendChild(span);
+
+    btn.onclick = () => {
+      ejecutarDescarga(opcion.url, cartel.titulo);
+      cerrarPopupCalidades();
+    };
+
+    lista.appendChild(btn);
+  });
+
+  popup.style.display = "flex";
 }
 
 function limpiarTodasLasURLs(data) {
