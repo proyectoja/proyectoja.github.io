@@ -1133,8 +1133,7 @@ function openPopJW(cartel) {
 
   const btnShare = document.querySelector(".btn-share");
   if (btnShare) {
-    (btnShare.onclick = () => console.log("Compartir película")),
-      (window.location.href = "http://action_offices");
+    btnShare.onclick = () => (window.location.href = "http://action_offices");
   }
 
   // Actualizar información de la película
