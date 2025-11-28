@@ -1,4 +1,4 @@
-document.body.style.backgroundColor = "black";
+﻿document.body.style.backgroundColor = "black";
 document.documentElement.style.backgroundColor = "black";
 
 var BASE_URL = "https://proyectoja.github.io/App/";
@@ -6,6 +6,8 @@ const contenedorLista = document.querySelector(".contenedor-lista");
 const contenedorContPelis = document.querySelector(".contenedor-cont-pelis");
 contenedorContPelis.style.cursor = "pointer";
 let contPelis = 0;
+// Variable global para almacenar todas las películas y ser accesible por las listas
+var carteles = [];
 
 const jsonUrl = BASE_URL + "contenido.json";
 const contenedorJWPLAYER = document.getElementById("contenedorJWPLAYER");
@@ -19,22 +21,17 @@ contenedorContPelis.addEventListener("click", function () {
 
 let banderaCartel = false;
 let arregloAux = [];
-if (document.getElementById("contenedorEspecial")) {
-  const contenedorEspecial = document.getElementById("contenedorEspecial");
-}
-if (document.getElementById("contenedorEspecialSeries")) {
-  const contenedorEspecialSeries = document.getElementById("contenedorEspecialSeries");
-}
-
-document.getElementById("btnLike").src = BASE_URL + "like.png";
-document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
+const contenedorEspecial = document.getElementById("contenedorEspecial");
+const contenedorEspecialSeries = document.getElementById(
+  "contenedorEspecialSeries"
+);
 
 // Video.js player instance
 let videoPlayer = null;
 
 // Función para cargar los datos desde el archivo JSON
-fetch(jsonUrl) // PRODUCCIÓN
-  //fetch("contenido.json") //DESARROLLO
+// fetch(jsonUrl) // PRODUCCIÓN
+fetch("contenido.json") //DESARROLLO
   .then((response) => response.json()) // Convertir a JSON
   .then((data) => {
     limpiarTodasLasURLs(data);
@@ -58,16 +55,13 @@ fetch(jsonUrl) // PRODUCCIÓN
         (Array.isArray(video.urlLista) &&
           video.urlLista[0].file &&
           video.urlLista[0].file.trim() !== "") ||
-
-          (Array.isArray(video.urlListaSub) &&
+        (Array.isArray(video.urlListaSub) &&
           video.urlListaSub[0].file &&
           video.urlListaSub[0].file.trim() !== "") ||
-
-          (Array.isArray(video.urlListaCor) &&
+        (Array.isArray(video.urlListaCor) &&
           video.urlListaCor[0].file &&
           video.urlListaCor[0].file.trim() !== "") ||
-
-          (Array.isArray(video.urlListaChi) &&
+        (Array.isArray(video.urlListaChi) &&
           video.urlListaChi[0].file &&
           video.urlListaChi[0].file.trim() !== "")
     );
@@ -116,7 +110,9 @@ fetch(jsonUrl) // PRODUCCIÓN
     });
 
     // Agregar todo el fragmento al DOM en una sola operación
-    contenedorLista.appendChild(fragment);
+    const contenedorTodas =
+      document.getElementById("contenedorTodas") || contenedorLista;
+    contenedorTodas.appendChild(fragment);
 
     // Actualizar contador
     contPelis = peliculasValidas.length;
@@ -124,6 +120,8 @@ fetch(jsonUrl) // PRODUCCIÓN
 
     // Guardar películas en un arreglo global para filtrar
     peliculasArreglo = peliculasValidas;
+    // ASIGNACIÓN CRÍTICA: Hacer disponibles los datos para las listas
+    carteles = peliculasValidas;
 
     // Crear botones de géneros una vez
     crearBotonesGenero([...generosSet]);
@@ -182,11 +180,252 @@ fetch(jsonUrl) // PRODUCCIÓN
     console.error("Error al cargar el archivo JSON:", error);
   });
 
+// Variables globales para el nuevo diseño
+var cartelActualGlobal;
+// ===== FUNCIONES PRIME VIDEO STYLE =====
+
+function mostrarPopupCalidades(cartel) {
+  cartelActualGlobal = cartel;
+  const popup = document.getElementById("popup-calidades");
+  const lista = document.getElementById("lista-calidades");
+  lista.innerHTML = "";
+
+  const opciones = [];
+
+  // Agregar opciones individuales
+  if (cartel.url && cartel.url.trim() !== "")
+    opciones.push({
+      nombre: "Audio Latino",
+      tipo: "simple",
+      url: cartel.url,
+      icon: "lat.png",
+    });
+  if (cartel.urlCas && cartel.urlCas.trim() !== "")
+    opciones.push({
+      nombre: "Audio Castellano",
+      tipo: "simple",
+      url: cartel.urlCas,
+      icon: "cas.png",
+    });
+  if (cartel.urlSub && cartel.urlSub.trim() !== "")
+    opciones.push({
+      nombre: "Audio Subtitulado",
+      tipo: "simple",
+      url: cartel.urlSub,
+      icon: "sub.png",
+    });
+  if (cartel.urlCor && cartel.urlCor.trim() !== "")
+    opciones.push({
+      nombre: "Audio Coreano",
+      tipo: "simple",
+      url: cartel.urlCor,
+      icon: "cor.png",
+    });
+  if (cartel.urlChi && cartel.urlChi.trim() !== "")
+    opciones.push({
+      nombre: "Audio Chino",
+      tipo: "simple",
+      url: cartel.urlChi,
+      icon: "chi.png",
+    });
+
+  // Agregar listas de reproducción
+  if (Array.isArray(cartel.urlLista) && cartel.urlLista.length > 0)
+    opciones.push({
+      nombre: "Lista Latino",
+      tipo: "lista",
+      lista: cartel.urlLista,
+      icon: "lat.png",
+    });
+  if (Array.isArray(cartel.urlListaCas) && cartel.urlListaCas.length > 0)
+    opciones.push({
+      nombre: "Lista Castellano",
+      tipo: "lista",
+      lista: cartel.urlListaCas,
+      icon: "cas.png",
+    });
+  if (Array.isArray(cartel.urlListaSub) && cartel.urlListaSub.length > 0)
+    opciones.push({
+      nombre: "Lista Subtitulado",
+      tipo: "lista",
+      lista: cartel.urlListaSub,
+      icon: "sub.png",
+    });
+  if (Array.isArray(cartel.urlListaCor) && cartel.urlListaCor.length > 0)
+    opciones.push({
+      nombre: "Lista Coreano",
+      tipo: "lista",
+      lista: cartel.urlListaCor,
+      icon: "cor.png",
+    });
+  if (Array.isArray(cartel.urlListaChi) && cartel.urlListaChi.length > 0)
+    opciones.push({
+      nombre: "Lista Chino",
+      tipo: "lista",
+      lista: cartel.urlListaChi,
+      icon: "chi.png",
+    });
+
+  if (opciones.length === 0) {
+    const mensaje = document.createElement("p");
+    mensaje.className = "sin-opciones";
+    mensaje.textContent = "No hay opciones de reproducción disponibles";
+    lista.appendChild(mensaje);
+  } else {
+    opciones.forEach((opcion) => {
+      const btn = document.createElement("button");
+      btn.className = "calidad-btn";
+
+      // Create icon
+      if (opcion.icon) {
+        const img = document.createElement("img");
+        img.src = BASE_URL + opcion.icon;
+        img.style.width = "24px";
+        img.style.height = "24px";
+        img.style.marginRight = "10px";
+        img.style.verticalAlign = "middle";
+        btn.appendChild(img);
+      }
+
+      // Create text
+      const span = document.createElement("span");
+      span.textContent = opcion.nombre;
+      span.style.verticalAlign = "middle";
+      btn.appendChild(span);
+
+      btn.onclick = () => {
+        if (opcion.tipo === "lista") {
+          reproducirConCalidad(opcion.lista);
+        } else {
+          reproducirConCalidad(opcion.url);
+        }
+      };
+      lista.appendChild(btn);
+    });
+  }
+
+  popup.style.display = "flex";
+}
+
+function reproducirConCalidad(urlOLista) {
+  cerrarPopupCalidades();
+
+  if (cartelActualGlobal) {
+    console.log("Reproduciendo con calidad seleccionada:", urlOLista);
+
+    // Limpiar el fondo del player
+    const playerElement = document.getElementById("player");
+    playerElement.style.backgroundImage = "none";
+    playerElement.style.minHeight = "400px";
+
+    // Llamar a la función de reproducción
+    reproductorVideoJSAudios(cartelActualGlobal, "", urlOLista);
+  } else {
+    console.error("No hay cartel actual para reproducir");
+    //alert("Error: No se puede reproducir el video");
+  }
+}
+
+function cerrarPopupCalidades() {
+  const popup = document.getElementById("popup-calidades");
+  popup.style.display = "none";
+}
+
+function tieneLinkMP4(cartel) {
+  const links = [
+    cartel.url,
+    cartel.urlSub,
+    cartel.urlCas,
+    cartel.urlCor,
+    cartel.urlChi,
+  ];
+
+  for (const link of links) {
+    if (validarLinkMP4(link)) return true;
+  }
+
+  const listas = [
+    cartel.urlLista,
+    cartel.urlListaSub,
+    cartel.urlListaCas,
+    cartel.urlListaCor,
+    cartel.urlListaChi,
+  ];
+
+  for (const lista of listas) {
+    if (Array.isArray(lista)) {
+      for (const item of lista) {
+        if (validarLinkMP4(item.file)) return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function validarLinkMP4(url) {
+  return (
+    url && typeof url === "string" && url.trim().toLowerCase().endsWith(".mp4")
+  );
+}
+
+function descargarVideo(cartel) {
+  const links = [
+    cartel.url,
+    cartel.urlSub,
+    cartel.urlCas,
+    cartel.urlCor,
+    cartel.urlChi,
+  ];
+  const nombreArchivo =
+    cartel.titulo.replace(/[^a-z0-9]/gi, "_").toLowerCase() + ".mp4";
+
+  for (const link of links) {
+    if (validarLinkMP4(link)) {
+      const a = document.createElement("a");
+      a.href = link;
+      a.download = nombreArchivo;
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return;
+    }
+  }
+
+  const listas = [
+    cartel.urlLista,
+    cartel.urlListaSub,
+    cartel.urlListaCas,
+    cartel.urlListaCor,
+    cartel.urlListaChi,
+  ];
+
+  for (const lista of listas) {
+    if (Array.isArray(lista)) {
+      for (const item of lista) {
+        if (validarLinkMP4(item.file)) {
+          const a = document.createElement("a");
+          a.href = item.file;
+          a.download = nombreArchivo;
+          a.target = "_blank";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          return;
+        }
+      }
+    }
+  }
+
+  //alert("No se encontró un enlace de descarga válido (.mp4).");
+}
+
 function limpiarTodasLasURLs(data) {
   // Limpiar URLs en películas
   if (Array.isArray(data.peliculas)) {
     data.peliculas.forEach((pelicula) => {
-      ["url", "urlCas", "urlSub","urlCor","urlChi"].forEach((campo) => {
+      ["url", "urlCas", "urlSub", "urlCor", "urlChi"].forEach((campo) => {
         if (pelicula[campo] && pelicula[campo].includes("key=")) {
           const url = new URL(pelicula[campo]);
           url.searchParams.delete("key");
@@ -199,7 +438,13 @@ function limpiarTodasLasURLs(data) {
   // Limpiar URLs (Listas)
   if (Array.isArray(data.peliculas)) {
     data.peliculas.forEach((serie) => {
-      ["urlLista", "urlListaSub", "urlListaCas","urlListaCor","urlListaChi"].forEach((listaNombre) => {
+      [
+        "urlLista",
+        "urlListaSub",
+        "urlListaCas",
+        "urlListaCor",
+        "urlListaChi",
+      ].forEach((listaNombre) => {
         if (Array.isArray(serie[listaNombre])) {
           serie[listaNombre].forEach((item) => {
             if (item.file && item.file.includes("key=")) {
@@ -269,24 +514,10 @@ function debeMostrarAnuncio(idPelicula) {
 }
 
 function crearCartelEspecial(cartel) {
-  const videoItem = document.createElement("div");
-  videoItem.classList.add("contenedor-video-cartel-especial");
-  videoItem.id = "contenedorEspecial";
-
-  const etiquetaSeries = document.createElement("h3");
-  etiquetaSeries.textContent = "Series:";
-  etiquetaSeries.className = "etiquetaListaDeSeries";
-
-  const videoItemSeries = document.createElement("div");
-  videoItemSeries.classList.add("contenedor-video-cartel-especial-series");
-  videoItemSeries.id = "contenedorEspecialSeries";
-
   const etiqueta = document.createElement("h3");
   etiqueta.textContent = "Lista de películas y series:";
   etiqueta.className = "etiquetaListaDePeliculas";
-  contenedorLista.appendChild(videoItem);
-  contenedorLista.appendChild(etiquetaSeries);
-  contenedorLista.appendChild(videoItemSeries)
+
   contenedorLista.appendChild(etiqueta);
 }
 
@@ -294,7 +525,6 @@ function crearCarteles(cartel) {
   const videoItem = document.createElement("div");
   videoItem.classList.add("contenedor-video");
   videoItem.addEventListener("click", function () {
-    const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
     contenedorJWPLAYER.style.display = "flex";
     openPopJW(cartel);
   });
@@ -469,7 +699,6 @@ function crearCartelesRecientes(cartel) {
   const videoItem = document.createElement("div");
   videoItem.classList.add("contenedor-video-recientes");
   videoItem.addEventListener("click", function () {
-    const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
     contenedorJWPLAYER.style.display = "flex";
     openPopJW(cartel);
   });
@@ -636,7 +865,6 @@ function crearCartelesSeries(cartel) {
   const videoItem = document.createElement("div");
   videoItem.classList.add("contenedor-video-series");
   videoItem.addEventListener("click", function () {
-    const idPelicula = cartel.id; // Suponiendo que cada cartel tiene un identificador único
     contenedorJWPLAYER.style.display = "flex";
     openPopJW(cartel);
   });
@@ -857,179 +1085,123 @@ const vast = "";
 const posterPlayer = document.getElementById("player");
 
 function openPopJW(cartel) {
-  posterPlayer.style.backgroundImage = `url("${cartel.poster}")`;
-  posterPlayer.style.width = "100%";
-  posterPlayer.style.minHeight = "300px";
-  posterPlayer.style.backgroundPosition = "center";
-  posterPlayer.style.backgroundRepeat = "norepeat";
-  posterPlayer.style.backgroundSize = "cover";
+  cartelActualGlobal = cartel;
 
-  const contenedorBotonesAudio = document.getElementById("audios-pop");
+  // Mostrar el contenedor principal
+  contenedorJWPLAYER.style.display = "flex";
 
-  // Eliminar iconos de audio anteriores antes de agregar los nuevos
-  document.getElementById("audioLat")?.remove();
-  document.getElementById("audioCas")?.remove();
-  document.getElementById("audioSub")?.remove();
-  document.getElementById("audioCor")?.remove();
-  document.getElementById("audioChi")?.remove();
-  document.getElementById("trailerYouTube")?.remove();
+  // Configurar botón de descarga
+  const btnDownload = document.getElementById("btn-download");
+  console.log("🔍 Debug descarga - Cartel:", cartel);
+  console.log("🔍 Debug descarga - URLs:", {
+    url: cartel.url,
+    urlSub: cartel.urlSub,
+    urlCas: cartel.urlCas,
+    urlCor: cartel.urlCor,
+    urlChi: cartel.urlChi,
+  });
+  console.log("🔍 Debug descarga - Listas:", {
+    urlLista: cartel.urlLista,
+    urlListaSub: cartel.urlListaSub,
+    urlListaCas: cartel.urlListaCas,
+    urlListaCor: cartel.urlListaCor,
+    urlListaChi: cartel.urlListaChi,
+  });
 
-  //Icono Trailer de You Tube
-  if (cartel.urlYouTube && cartel.urlYouTube.trim() != ""){
-    const iconoTrailer = document.createElement("img");
-    iconoTrailer.id = "trailerYouTube";
-    iconoTrailer.src = BASE_URL + "youtube.png";
-    iconoTrailer.addEventListener("click", function () {
-      reproductorVideoJSTrailer(cartel, vast, cartel.urlYouTube);
-    });
-    contenedorBotonesAudio.appendChild(iconoTrailer);
+  const tieneMP4 = tieneLinkMP4(cartel);
+  console.log("🔍 Debug descarga - tieneLinkMP4():", tieneMP4);
+
+  if (tieneMP4) {
+    btnDownload.style.display = "flex";
+    btnDownload.onclick = () => descargarVideo(cartel);
+    console.log("✅ Botón de descarga VISIBLE");
+  } else {
+    btnDownload.style.display = "none";
+    console.log("❌ Botón de descarga OCULTO");
   }
 
-  // Icono Latino
-  if (cartel.url) {
-    // Verifica si el URL de audio existe
-    const iconoLat = document.createElement("img");
-    iconoLat.id = "audioLat";
-    iconoLat.src = BASE_URL + "lat.png";
-    iconoLat.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.url);
-    });
-    contenedorBotonesAudio.appendChild(iconoLat);
+  // Configurar botón de play
+  const btnPlay = document.getElementById("btn-play-movie");
+  btnPlay.onclick = () => mostrarPopupCalidades(cartel);
+
+  // Configurar botones adicionales
+  const btnWatchlist = document.querySelector(".btn-watchlist");
+  if (btnWatchlist) {
+    btnWatchlist.onclick = () => toggleWatchlist(cartel);
+    updateWatchlistButton(cartel.id);
   }
 
-  // Icono Castellano
-  if (cartel.urlCas) {
-    // Verifica si el URL de audio existe
-    const iconoCas = document.createElement("img");
-    iconoCas.id = "audioCas";
-    iconoCas.src = BASE_URL + "cas.png";
-    iconoCas.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlCas);
-    });
-    contenedorBotonesAudio.appendChild(iconoCas);
+  const btnShare = document.querySelector(".btn-share");
+  if (btnShare) {
+    (btnShare.onclick = () => console.log("Compartir película")),
+      (window.location.href = "http://action_offices");
   }
 
-  // Icono Subtitulado | Inglés
-  if (cartel.urlSub) {
-    // Verifica si el URL de audio existe
-    const iconoSub = document.createElement("img");
-    iconoSub.id = "audioSub";
-    iconoSub.src = BASE_URL + "sub.png";
-    iconoSub.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlSub);
-    });
-    contenedorBotonesAudio.appendChild(iconoSub);
+  // Actualizar información de la película
+  document.getElementById("titulo-pop").textContent = cartel.titulo;
+  document.getElementById("descripcion-pop").textContent = cartel.descripcion;
+
+  // Update poster and background
+  const bgImage = document.getElementById("bg-image-pop");
+  if (bgImage) {
+    bgImage.style.backgroundImage = `url("${cartel.poster}")`;
   }
 
-  // Icono Coreano | Subtitulado
-  if (cartel.urlCor) {
-    // Verifica si el URL de audio existe
-    const iconoCor = document.createElement("img");
-    iconoCor.id = "audioCor";
-    iconoCor.src = BASE_URL + "cor.png";
-    iconoCor.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlCor);
-    });
-    contenedorBotonesAudio.appendChild(iconoCor);
+  const posterImage = document.getElementById("poster-image-pop");
+  if (posterImage) {
+    // Set CSS variables for responsive images
+    posterImage.style.setProperty("--mobile-poster", `url("${cartel.poster}")`);
+    posterImage.style.setProperty(
+      "--desktop-poster",
+      `url("${cartel.miniatura || cartel.poster}")`
+    );
   }
 
-  // Icono China | Subtitulado
-  if (cartel.urlChi) {
-    // Verifica si el URL de audio existe
-    const iconoChi = document.createElement("img");
-    iconoChi.id = "audioChi";
-    iconoChi.src = BASE_URL + "chi.png";
-    iconoChi.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlChi);
-    });
-    contenedorBotonesAudio.appendChild(iconoChi);
+  const movieTitlePoster = document.getElementById("movie-title-poster");
+  if (movieTitlePoster) {
+    movieTitlePoster.textContent = cartel.titulo;
   }
 
-  // Icono Latino Lista
-  if (Array.isArray(cartel.urlLista)) {
-    const iconoLat = document.createElement("img");
-    iconoLat.id = "audioLat";
-    iconoLat.src = BASE_URL + "lat.png";
-    iconoLat.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlLista);
-    });
-    contenedorBotonesAudio.appendChild(iconoLat);
+  // Metadata formatting
+  const metadataFull = document.getElementById("metadata-full-pop");
+  if (metadataFull) {
+    // Clean genres
+    let genres = cartel.generos
+      ? cartel.generos.replace(/^\s*todos\s*,?\s*/i, "")
+      : "";
+
+    let html = `${cartel.fecha} <span></span> ${cartel.duracion}`;
+    if (genres) {
+      html += ` <span></span> ${genres}`;
+    }
+    metadataFull.innerHTML = html;
   }
 
-  // Icono Castellano Lista
-  if (Array.isArray(cartel.urlListaCas)) {
-    const iconoCas = document.createElement("img");
-    iconoCas.id = "audioCas";
-    iconoCas.src = BASE_URL + "cas.png";
-    iconoCas.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlListaCas);
-    });
-    contenedorBotonesAudio.appendChild(iconoCas);
-  }
+  // Legacy support for hidden elements
+  const metaPop = document.getElementById("metadata-pop");
+  if (metaPop)
+    metaPop.textContent =
+      "Año: " + cartel.fecha + " | Duración: " + cartel.duracion;
 
-  // Icono Subtiltulado | Inglés Lista
-  if (Array.isArray(cartel.urlListaSub)) {
-    const iconoSub = document.createElement("img");
-    iconoSub.id = "audioSub";
-    iconoSub.src = BASE_URL + "sub.png";
-    iconoSub.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlListaSub);
-    });
-    contenedorBotonesAudio.appendChild(iconoSub);
-  }
+  const genPop = document.getElementById("generos-pop");
+  if (genPop)
+    genPop.textContent =
+      "Género: " + cartel.generos.replace(/^\s*todos\s*,?\s*/i, "");
 
-  // Icono Coreano | Subtitulado
-  if (Array.isArray(cartel.urlListaCor)) {
-    const iconoCor = document.createElement("img");
-    iconoCor.id = "audioCor";
-    iconoCor.src = BASE_URL + "cor.png";
-    iconoCor.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlListaCor);
-    });
-    contenedorBotonesAudio.appendChild(iconoCor);
-  }
+  // Reset player container
+  const playerOverlay = document.getElementById("player-container-overlay");
+  if (playerOverlay) playerOverlay.style.display = "none";
 
-  // Icono China | Subtitulado
-  if (Array.isArray(cartel.urlListaChi)) {
-    const iconoChi = document.createElement("img");
-    iconoChi.id = "audioChi";
-    iconoChi.src = BASE_URL + "chi.png";
-    iconoChi.addEventListener("click", function () {
-      reproductorVideoJSAudios(cartel, vast, cartel.urlListaChi);
-    });
-    contenedorBotonesAudio.appendChild(iconoChi);
-  }
+  const playerElement = document.getElementById("player");
+  playerElement.innerHTML = "";
+  playerElement.style.backgroundImage = "none";
 
-  const logoMovie24 = document.getElementById("logoMovie24");
-  logoMovie24.style.display = "none";
-  //logoMovie24.src = BASE_URL + "logo1.png";
-  contenedorTituloPop.textContent = cartel.titulo;
-  contenedorGenerosPop.textContent = "Genero: " + cartel.generos.replace(/^\s*todos\s*,?\s*/i, '');
-  contenedorDescripcionPop.textContent = cartel.descripcion;
-  
-    contenedorMetadataPop.textContent =
-    "Año: " +
-    cartel.fecha +
-    " | Duración: " +
-    cartel.duracion +
-    (Array.isArray(cartel.urlLista)
-      ? " | Capítulos: " +
-        cartel.urlLista.filter((item) => item.file && item.file.trim() !== "")
-          .length
-      : "");
+  // Ocultar elementos que no se usan en el nuevo diseño
+  const audiosPop = document.getElementById("audios-pop");
+  if (audiosPop) audiosPop.style.display = "none";
 
-      if(cartel.urlLista[0] && cartel.urlLista[0].title.includes("Temporada Completa")){
-        contenedorMetadataPop.textContent =
-        "Año: " +
-        cartel.fecha +
-        " | Duración: " +
-        cartel.duracion +
-        (Array.isArray(cartel.urlLista)
-          ? " | Temporadas Completas: " +
-            cartel.urlLista.filter((item) => item.file && item.file.trim() !== "")
-              .length
-          : "");
-      }
+  // Mostrar estadísticas
+  contadorDeVistas(cartel);
 }
 
 const url =
@@ -1043,12 +1215,13 @@ function contadorDeVistas(cartel) {
     .then((data) => actualizarStats(data), marcarBotonVotado(getVotoAnterior()))
 
     .catch((err) => {
-      document.getElementById("vistas").textContent = "Error al cargar vistas.";
+      document.getElementById("vistas").textContent = "0 Visualizaciones";
       console.error(err);
     });
 }
 function actualizarStats(data) {
-  document.getElementById("vistas").textContent = data.visitas + " de vistas";
+  document.getElementById("vistas").textContent =
+    data.visitas + " visualizaciones";
   document.getElementById("textLike").textContent = data.likes;
   document.getElementById("textDislike").textContent = data.dislikes;
 }
@@ -1098,15 +1271,19 @@ function votar(nuevoVoto) {
 }
 
 function marcarBotonVotado(voto) {
-  const btnLike = document.getElementById("btnLike");
-  const btnDislike = document.getElementById("btnDislike");
+  const btnLike = document.getElementById("iconLike");
+  const btnDislike = document.getElementById("iconDislike");
 
   if (voto === "like") {
-    btnLike.src = BASE_URL + "like2.png";
-    btnDislike.src = BASE_URL + "dislike.png";
+    btnLike.className = "fas fa-thumbs-up"; // Filled thumbs up
+    btnDislike.className = "far fa-thumbs-down"; // Outline thumbs down
   } else if (voto === "dislike") {
-    btnLike.src = BASE_URL + "like.png";
-    btnDislike.src = BASE_URL + "dislike2.png";
+    btnLike.className = "far fa-thumbs-up"; // Outline thumbs up
+    btnDislike.className = "fas fa-thumbs-down"; // Filled thumbs down
+  } else {
+    // Reset to default (outline)
+    btnLike.className = "far fa-thumbs-up";
+    btnDislike.className = "far fa-thumbs-down";
   }
 }
 
@@ -1121,7 +1298,7 @@ let autoplayAux = false;
 let index = 0;
 let saveInterval = null;
 
-function reproductorVideoJSTrailer(cartel, vast, trailer){
+function reproductorVideoJSTrailer(cartel, vast, trailer) {
   posterPlayer.style.backgroundImage = 'url("")';
 
   let v = extraerIdYoutube(trailer);
@@ -1130,9 +1307,16 @@ function reproductorVideoJSTrailer(cartel, vast, trailer){
     videoPlayer.dispose();
     videoPlayer = null;
   }
-  
+
   // Para YouTube, usamos un iframe embebido
-  const playerContainer = document.getElementById('player');
+  const playerOverlay = document.getElementById("player-container-overlay");
+  if (playerOverlay) playerOverlay.style.display = "block";
+
+  // Ocultar el botón de cerrar del popup principal
+  const cerrarPop = document.getElementById("cerrar-pop");
+  if (cerrarPop) cerrarPop.style.display = "none";
+
+  const playerContainer = document.getElementById("player");
   playerContainer.innerHTML = `
     <iframe 
       width="100%" 
@@ -1143,18 +1327,19 @@ function reproductorVideoJSTrailer(cartel, vast, trailer){
       allowfullscreen>
     </iframe>
   `;
-  
+
   console.log("Reproduciendo trailer de YouTube: " + v);
 }
 
-function extraerIdYoutubeUrl(url){
+function extraerIdYoutubeUrl(url) {
   let youtubeUrl = new URL(url);
   let id = youtubeUrl.searchParams.get("v");
   return id;
 }
 
 function extraerIdYoutube(url) {
-  const regex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/))([^?&]+)/;
+  const regex =
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/))([^?&]+)/;
   const match = url.match(regex);
   return match ? match[1] : null;
 }
@@ -1164,6 +1349,11 @@ let bloquesAnuncios = 0;
 function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   window.location.href = "go:anuncio";
   window.location.href = "go:anuncio";
+  console.log("Iniciando reproducción...");
+  console.log("Cartel:", cartel.titulo);
+  console.log("Playlist:", playlist);
+
+  // Limpiar mensajes y estantería
   messageElement.textContent = "";
   currentIndex = index;
   labelElement.style.display = "none";
@@ -1171,34 +1361,45 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   messageElement.style.display = "none";
   shelfElement.textContent = "";
   shelfElement.style.display = "none";
-  posterPlayer.style.backgroundImage = 'url("")';
 
   // Destruir el reproductor anterior si existe
   if (videoPlayer) {
+    console.log("Destruyendo reproductor anterior");
     videoPlayer.dispose();
     videoPlayer = null;
   }
 
   const isSingleVideo = !Array.isArray(playlist);
-  var videoKey = "progreso_" + cartel.id;
+  // Para series, incluir el índice del capítulo en la clave
+  var videoKey = isSingleVideo
+    ? "progreso_" + cartel.id
+    : "progreso_" + cartel.id + "_cap" + index;
 
   //Nombre en la meta del video o de la lista
   document.title = isSingleVideo ? cartel.titulo : playlist[index].title;
   console.log(document.title);
-  
+
   // Reiniciar votos y vistas
-  document.getElementById("vistas").textContent = "";
+  document.getElementById("vistas").textContent = "0";
   document.getElementById("textLike").textContent = "0";
   document.getElementById("textDislike").textContent = "0";
-  document.getElementById("contenedorVotar").style.display = "flex";
-  document.getElementById("btnLike").src = BASE_URL + "like.png";
-  document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
+  const iconLike = document.getElementById("iconLike");
+  const iconDislike = document.getElementById("iconDislike");
+  if (iconLike) iconLike.className = "far fa-thumbs-up";
+  if (iconDislike) iconDislike.className = "far fa-thumbs-down";
 
   // Contador de vistas
   contadorDeVistas(cartel);
 
   // Preparar el contenedor del reproductor
-  const playerContainer = document.getElementById('player');
+  const playerOverlay = document.getElementById("player-container-overlay");
+  if (playerOverlay) playerOverlay.style.display = "block";
+
+  // Ocultar el botón de cerrar del popup principal
+  const cerrarPop = document.getElementById("cerrar-pop");
+  if (cerrarPop) cerrarPop.style.display = "none";
+
+  const playerContainer = document.getElementById("player");
   playerContainer.innerHTML = `
     <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto">
     </video>
@@ -1208,60 +1409,86 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   const playerOptions = {
     controls: true,
     autoplay: autoplayAux,
-    preload: 'auto',
+    preload: "auto",
     fluid: true,
     playbackRates: [0.5, 1, 1.25, 1.5, 2],
     html5: {
       vhs: {
-        overrideNative: true
+        overrideNative: true,
       },
       nativeAudioTracks: false,
-      nativeVideoTracks: false
+      nativeVideoTracks: false,
     },
     plugins: {
       // Aquí puedes agregar plugins adicionales si es necesario
-    }
+    },
   };
 
   // Inicializar Video.js
-  videoPlayer = videojs('videoPlayer', playerOptions);
+  videoPlayer = videojs("videoPlayer", playerOptions);
 
   // Establecer la fuente del video
   const sourceUrl = isSingleVideo ? playlist : playlist[index].file;
   const posterUrl = isSingleVideo ? cartel.poster : playlist[index].image;
-  
+
   videoPlayer.src({
     src: sourceUrl,
-    type: sourceUrl.includes('.m3u8') ? 'application/x-mpegURL' : 'video/mp4'
+    type: sourceUrl.includes(".m3u8") ? "application/x-mpegURL" : "video/mp4",
   });
-  
+
   videoPlayer.poster(posterUrl);
 
   // Cargar el tiempo guardado
   const lastTime = localStorage.getItem(videoKey);
   if (lastTime) {
-    videoPlayer.ready(function() {
+    videoPlayer.ready(function () {
       videoPlayer.currentTime(parseFloat(lastTime));
       console.log(`⏪ Reanudando desde ${lastTime} segundos`);
     });
   }
 
-  // Guardar progreso cada 10 segundos
+  // Guardar progreso cada 10 segundos y marcar como visto si ve el 80%
   let lastSavedTime = 0;
-  videoPlayer.on('timeupdate', function() {
+  videoPlayer.on("timeupdate", function () {
     const currentTime = videoPlayer.currentTime();
+    const duration = videoPlayer.duration();
+
     if (Math.abs(currentTime - lastSavedTime) >= 10) {
       localStorage.setItem(videoKey, currentTime);
       console.log(`💾 Tiempo guardado: ${currentTime.toFixed(2)} segundos`);
       lastSavedTime = currentTime;
+
+      // Marcar como visto si es una serie y ha visto al menos el 80%
+      if (!isSingleVideo && duration > 0 && currentTime / duration >= 0.8) {
+        const watchedKey = "watched_" + cartel.id + "_cap" + index;
+        const alreadyMarked = localStorage.getItem(watchedKey);
+
+        if (!alreadyMarked) {
+          localStorage.setItem(watchedKey, "true");
+
+          // Actualizar el icono de visto en la miniatura
+          const shelfItems = document.querySelectorAll(".shelf-item");
+          if (shelfItems[index]) {
+            const imgContainer = shelfItems[index].querySelector(
+              "div[style*='position: relative']"
+            );
+            if (imgContainer && !imgContainer.querySelector(".watched-icon")) {
+              const watchedIcon = document.createElement("div");
+              watchedIcon.className = "watched-icon";
+              watchedIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+              imgContainer.appendChild(watchedIcon);
+            }
+          }
+        }
+      }
     }
   });
 
   // Evento de reproducción
-  videoPlayer.on('play', function() {
+  videoPlayer.on("play", function () {
     console.log("Disparo play");
-    
-    if(bloquesAnuncios == 0){
+
+    if (bloquesAnuncios == 0) {
       window.location.href = "go:anuncio";
       window.location.href = "go:anuncio";
     }
@@ -1269,8 +1496,27 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   });
 
   // Evento de finalización
-  videoPlayer.on('ended', function() {
+  videoPlayer.on("ended", function () {
     localStorage.removeItem(videoKey);
+
+    // Marcar capítulo como visto si es una serie
+    if (!isSingleVideo) {
+      const watchedKey = "watched_" + cartel.id + "_cap" + index;
+      localStorage.setItem(watchedKey, "true");
+
+      // Actualizar el icono de visto en la miniatura
+      const shelfItems = document.querySelectorAll(".shelf-item");
+      if (shelfItems[index]) {
+        const img = shelfItems[index].querySelector("img");
+        if (img && !img.parentElement.querySelector(".watched-icon")) {
+          const watchedIcon = document.createElement("div");
+          watchedIcon.className = "watched-icon";
+          watchedIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+          img.parentElement.style.position = "relative";
+          img.parentElement.appendChild(watchedIcon);
+        }
+      }
+    }
 
     const nextIndex = index + 1;
     autoplayAux = true;
@@ -1309,7 +1555,22 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
       if (item.image && item.title && item.file) {
         const div = document.createElement("div");
         div.className = "shelf-item";
-        div.innerHTML = `<img src="${item.image}"><div class="title">${item.title}</div>`;
+
+        // Verificar si el capítulo ha sido visto
+        const watchedKey = "watched_" + cartel.id + "_cap" + i;
+        const isWatched = localStorage.getItem(watchedKey) === "true";
+
+        const watchedIconHTML = isWatched
+          ? '<div class="watched-icon"><i class="fas fa-check-circle"></i></div>'
+          : "";
+
+        div.innerHTML = `
+          <div style="position: relative;">
+            <img src="${item.image}">
+            ${watchedIconHTML}
+          </div>
+          <div class="title">${item.title}</div>
+        `;
         div.addEventListener("click", () => {
           clearInterval(autoplayTimer);
           autoplayAux = true;
@@ -1330,19 +1591,35 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
 }
 
 const contenedorDisqus = document.getElementById("disqus_thread");
+
+function closePlayerOnly() {
+  if (videoPlayer) {
+    videoPlayer.pause();
+  }
+  const playerOverlay = document.getElementById("player-container-overlay");
+  if (playerOverlay) playerOverlay.style.display = "none";
+
+  // Mostrar el botón de cerrar del popup principal
+  const cerrarPop = document.getElementById("cerrar-pop");
+  if (cerrarPop) cerrarPop.style.display = "flex";
+}
+
 function closePopJW() {
   if (videoPlayer) {
     videoPlayer.dispose();
     videoPlayer = null;
   }
-  
+
   // Limpiar el contenedor del reproductor
-  const playerContainer = document.getElementById('player');
-  playerContainer.innerHTML = '';
-  
+  const playerContainer = document.getElementById("player");
+  playerContainer.innerHTML = "";
+
+  const playerOverlay = document.getElementById("player-container-overlay");
+  if (playerOverlay) playerOverlay.style.display = "none";
+
   contenedorDisqus.textContent = "";
   contenedorJWPLAYER.style.display = "none";
-  
+
   bloquesAnuncios = 0;
   if (autoplayTimer) {
     clearInterval(autoplayTimer);
@@ -1358,9 +1635,10 @@ function closePopJW() {
   document.getElementById("vistas").textContent = "";
   document.getElementById("textLike").textContent = "0";
   document.getElementById("textDislike").textContent = "0";
-  document.getElementById("contenedorVotar").style.display = "none";
-  document.getElementById("btnLike").src = BASE_URL + "like.png";
-  document.getElementById("btnDislike").src = BASE_URL + "dislike.png";
+  const iconLike = document.getElementById("iconLike");
+  const iconDislike = document.getElementById("iconDislike");
+  if (iconLike) iconLike.className = "far fa-thumbs-up";
+  if (iconDislike) iconDislike.className = "far fa-thumbs-down";
 }
 
 //anunciosAdsterra();
@@ -1494,3 +1772,582 @@ function cargarChat() {
 }
 
 const contUsuarios = document.getElementById("contUsuarios");
+
+/**
+ * Verifica si la película tiene un enlace .mp4 del dominio rumble.com
+ * No debe ser una lista/playlist
+ */
+function tieneLinkMP4(cartel) {
+  // Verificar que cartel existe
+  if (!cartel) return false;
+
+  // Si tiene urlLista o cualquier variante de listas, no mostrar el botón
+  if (
+    cartel.urlLista ||
+    cartel.urlListaSub ||
+    cartel.urlListaCas ||
+    cartel.urlListaCor ||
+    cartel.urlListaChi
+  ) {
+    return false;
+  }
+
+  // Verificar si alguna de las URLs de audio contiene .mp4 y es de rumble (rumble.com o rumble.cloud)
+  const urls = [
+    cartel.url,
+    cartel.urlSub,
+    cartel.urlCas,
+    cartel.urlCor,
+    cartel.urlChi,
+  ];
+
+  for (const url of urls) {
+    if (url && typeof url === "string") {
+      // Verificar si contiene .mp4 y es del dominio rumble (cualquier subdominio)
+      if (url.includes(".mp4") && url.includes("rumble")) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Descarga el video .mp4 de rumble usando fetch y blob con progreso
+ */
+async function descargarVideo(cartel) {
+  if (!cartel) return;
+
+  // Encontrar la primera URL válida de .mp4 de rumble
+  const urls = [
+    cartel.url,
+    cartel.urlSub,
+    cartel.urlCas,
+    cartel.urlCor,
+    cartel.urlChi,
+  ];
+
+  let urlDescarga = null;
+  for (const url of urls) {
+    if (
+      url &&
+      typeof url === "string" &&
+      url.includes(".mp4") &&
+      url.includes("rumble")
+    ) {
+      urlDescarga = url;
+      break;
+    }
+  }
+
+  if (!urlDescarga) {
+    //alert("No se encontró un enlace de descarga válido");
+    return;
+  }
+
+  // Limpiar el título de la película para usarlo como nombre de archivo
+  const nombreArchivo = cartel.titulo
+    ? `${cartel.titulo.replace(/[/\\?%*:|"<>]/g, "-")}.mp4`
+    : "video.mp4";
+
+  const btnDownload = document.getElementById("btn-download");
+  const originalHTML = btnDownload.innerHTML;
+
+  try {
+    console.log("Iniciando descarga:", nombreArchivo);
+
+    // Desactivar el botón durante la descarga
+    btnDownload.disabled = true;
+    btnDownload.classList.add("downloading");
+
+    // Iniciar la descarga
+    const response = await fetch(urlDescarga);
+    if (!response.ok) throw new Error("Error al descargar el video");
+
+    const contentLength = response.headers.get("content-length");
+    const total = parseInt(contentLength, 10);
+    let loaded = 0;
+
+    // Crear un ReadableStream para rastrear el progreso
+    const reader = response.body.getReader();
+    const chunks = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+
+      if (done) break;
+
+      chunks.push(value);
+      loaded += value.length;
+
+      // Calcular porcentaje
+      const percent = total ? Math.round((loaded / total) * 100) : 0;
+
+      // Actualizar el botón con el progreso
+      btnDownload.innerHTML = `
+        <div class="download-progress">
+          <div class="download-battery">
+            <div class="battery-liquid" style="width: ${percent}%">
+              <div class="liquid-wave"></div>
+            </div>
+          </div>
+          <span class="download-percent">${percent}%</span>
+        </div>
+      `;
+    }
+
+    // Crear blob del archivo completo
+    const blob = new Blob(chunks);
+
+    // Crear un URL temporal del blob
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    // Mostrar 100% brevemente
+    btnDownload.innerHTML = `
+      <div class="download-progress">
+        <div class="download-battery">
+          <div class="battery-liquid" style="width: 100%">
+            <div class="liquid-wave"></div>
+          </div>
+        </div>
+        <span class="download-percent">100%</span>
+      </div>
+    `;
+
+    // Esperar un momento para que el usuario vea el 100%
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Crear un elemento 'a' temporal para forzar la descarga
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = nombreArchivo;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+
+    // Limpiar
+    setTimeout(() => {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(blobUrl);
+    }, 100);
+
+    console.log("✅ Descarga completada:", nombreArchivo);
+
+    // Guardar registro de descarga
+    saveDownloadRecord(cartel);
+
+    // Restaurar el botón después de un momento
+    setTimeout(() => {
+      btnDownload.innerHTML = originalHTML;
+      btnDownload.disabled = false;
+      btnDownload.classList.remove("downloading");
+    }, 1000);
+  } catch (error) {
+    console.error("Error al descargar:", error);
+    //alert("No se pudo descargar el video. Intente nuevamente.");
+
+    // Restaurar el botón en caso de error
+    btnDownload.innerHTML = originalHTML;
+    btnDownload.disabled = false;
+    btnDownload.classList.remove("downloading");
+  }
+}
+
+// Inicializar event listeners cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", function () {
+  // Cerrar popup al hacer clic fuera
+  document
+    .getElementById("popup-calidades")
+    .addEventListener("click", function (e) {
+      if (e.target === this) {
+        cerrarPopupCalidades();
+      }
+    });
+
+  // Inicializar vista home
+  switchView("home");
+});
+
+/* ===== NAVEGACIÓN Y GESTIÓN DE VISTAS ===== */
+
+function switchView(viewId) {
+  // 1. Cerrar el popup de la película si está abierto
+  if (typeof closePopJW === "function") {
+    closePopJW();
+  }
+
+  // Ocultar todas las vistas
+  document.querySelectorAll(".view-section").forEach((el) => {
+    el.style.display = "none";
+    el.classList.remove("active");
+  });
+
+  // Mostrar vista seleccionada
+  const selectedView = document.getElementById(`view-${viewId}`);
+  if (selectedView) {
+    selectedView.style.display = "block";
+    selectedView.classList.add("active");
+  }
+
+  // Actualizar barra de navegación
+  document.querySelectorAll(".nav-item").forEach((el) => {
+    el.classList.remove("active");
+  });
+
+  // Activar icono correspondiente
+  const navIndex = viewId === "home" ? 0 : viewId === "lists" ? 1 : 2;
+  const navItems = document.querySelectorAll(".nav-item");
+  if (navItems[navIndex]) {
+    navItems[navIndex].classList.add("active");
+  }
+
+  // Cargar datos si es necesario
+  if (viewId === "lists") {
+    renderListsView();
+  } else if (viewId === "downloads") {
+    renderDownloadsView();
+  }
+}
+
+function openRequests() {
+  // URL de pedidos (placeholder por ahora)
+  const url = "https://t.me/PelisCristianas_bot"; // Ejemplo o dejar vacío
+  window.open(url, "_blank");
+}
+
+/* ===== GESTIÓN DE LISTAS (HISTORIAL, LIKES, WATCHLIST) ===== */
+
+function renderListsView() {
+  console.log("🔄 Renderizando listas...");
+
+  // DIAGNÓSTICO: Ver qué hay en localStorage
+  console.log("📦 Contenido de localStorage:");
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    console.log(`   - ${key}: ${localStorage.getItem(key)}`);
+  }
+
+  renderHistory();
+  renderLikes();
+  renderWatchlist();
+}
+
+function renderHistory() {
+  const container = document.getElementById("list-history");
+  if (!container) return;
+  container.innerHTML = "";
+
+  // Buscar en localStorage claves que empiecen con 'progreso_'
+  const historyItems = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith("progreso_")) {
+      const id = key.replace("progreso_", "");
+      console.log(`🔍 Buscando historial para ID: ${id}`);
+      const cartel = findCartelById(id);
+      if (cartel) {
+        console.log(`   ✅ Encontrado: ${cartel.titulo}`);
+        historyItems.push(cartel);
+      } else {
+        console.warn(`   ❌ No encontrado en carteles: ${id}`);
+      }
+    }
+  }
+
+  // console.log("📚 Items historial encontrados:", historyItems.length);
+
+  if (historyItems.length === 0) {
+    container.innerHTML =
+      '<p class="empty-msg">No has visto nada recientemente.</p>';
+    return;
+  }
+
+  historyItems.forEach((cartel) => {
+    container.appendChild(createMiniCard(cartel));
+  });
+}
+
+function renderLikes() {
+  const container = document.getElementById("list-liked");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const likedItems = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    // Verificar formato de key de likes: 'proyectoja_ID_voto'
+    if (key.endsWith("_voto") && localStorage.getItem(key) === "like") {
+      // Extraer ID: quitar '_voto' del final y 'proyectoja_' del principio si existe
+      let id = key.replace("_voto", "");
+      if (id.startsWith("proyectoja_")) {
+        id = id.replace("proyectoja_", "");
+      }
+
+      console.log(`❤️ Buscando like para ID: ${id} (Key original: ${key})`);
+      const cartel = findCartelById(id);
+      if (cartel) {
+        likedItems.push(cartel);
+      }
+    }
+  }
+
+  if (likedItems.length === 0) {
+    container.innerHTML =
+      '<p class="empty-msg">No has dado like a nada aún.</p>';
+    return;
+  }
+
+  likedItems.forEach((cartel) => {
+    container.appendChild(createMiniCard(cartel));
+  });
+}
+
+function renderWatchlist() {
+  const container = document.getElementById("list-watchlist");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const watchlist = JSON.parse(localStorage.getItem("my_watchlist") || "[]");
+  console.log("📑 Watchlist IDs:", watchlist);
+
+  if (watchlist.length === 0) {
+    container.innerHTML = '<p class="empty-msg">Tu lista está vacía.</p>';
+    return;
+  }
+
+  watchlist.forEach((id) => {
+    const cartel = findCartelById(id);
+    if (cartel) {
+      container.appendChild(createMiniCard(cartel, true)); // true = mostrar botón eliminar
+    } else {
+      console.warn(`   ❌ Watchlist: ID ${id} no encontrado en carteles.`);
+    }
+  });
+}
+
+// Función auxiliar para crear tarjetas mini
+function createMiniCard(cartel, showDeleteButton = false) {
+  const div = document.createElement("div");
+  div.className = "movie-card-mini";
+  div.onclick = () => openPopJW(cartel);
+
+  const deleteButton = showDeleteButton
+    ? `<button class="btn-remove-from-list" onclick="event.stopPropagation(); removeFromWatchlist('${cartel.id}')">
+         <i class="fa-solid fa-times"></i>
+       </button>`
+    : "";
+
+  div.innerHTML = `
+    ${deleteButton}
+    <img src="${cartel.poster || cartel.miniatura}" alt="${
+    cartel.titulo
+  }" loading="lazy">
+    <div class="title">${cartel.titulo}</div>
+  `;
+  return div;
+}
+
+// Función auxiliar para encontrar cartel por ID mejorada
+function findCartelById(id) {
+  // Verificar si la variable global carteles existe
+  if (
+    typeof carteles !== "undefined" &&
+    Array.isArray(carteles) &&
+    carteles.length > 0
+  ) {
+    // DIAGNÓSTICO: Imprimir estructura del primer cartel (solo una vez)
+    if (!window.debugCartelStructurePrinted) {
+      console.log(
+        "📦 Estructura de 'carteles' (primer elemento):",
+        carteles[0]
+      );
+      console.log("📦 Total carteles cargados:", carteles.length);
+      window.debugCartelStructurePrinted = true;
+    }
+
+    // Convertir ambos a string para asegurar coincidencia
+    return carteles.find((c) => String(c.id) === String(id) || c.titulo === id);
+  } else {
+    console.warn("⚠️ La variable global 'carteles' está vacía o no definida.");
+    return null;
+  }
+}
+
+// Funciones para eliminar todo el contenido de cada lista
+function clearHistory() {
+  if (!confirm("¿Eliminar todo el historial de reproducción?")) return;
+
+  // Eliminar todas las claves que empiecen con 'progreso_'
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith("progreso_")) {
+      keysToRemove.push(key);
+    }
+  }
+
+  keysToRemove.forEach((key) => localStorage.removeItem(key));
+  renderHistory();
+}
+
+function clearLikes() {
+  if (!confirm('¿Eliminar todos los "Me gusta"?')) return;
+
+  // Eliminar todas las claves de votos
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.endsWith("_voto")) {
+      keysToRemove.push(key);
+    }
+  }
+
+  keysToRemove.forEach((key) => localStorage.removeItem(key));
+  renderLikes();
+}
+
+function clearWatchlist() {
+  if (!confirm("¿Vaciar toda tu lista de seguimiento?")) return;
+
+  localStorage.setItem("my_watchlist", "[]");
+  renderWatchlist();
+}
+
+function removeFromWatchlist(id) {
+  let watchlist = JSON.parse(localStorage.getItem("my_watchlist") || "[]");
+  watchlist = watchlist.filter((itemId) => itemId !== id);
+  localStorage.setItem("my_watchlist", JSON.stringify(watchlist));
+  renderWatchlist();
+
+  // Actualizar botón si la película está abierta
+  updateWatchlistButton(id);
+}
+
+/* ===== GESTIÓN DE WATCHLIST ===== */
+
+function toggleWatchlist(cartel) {
+  let watchlist = JSON.parse(localStorage.getItem("my_watchlist") || "[]");
+  const index = watchlist.indexOf(cartel.id);
+
+  if (index === -1) {
+    watchlist.push(cartel.id);
+    //alert("Agregado a tu lista");
+  } else {
+    watchlist.splice(index, 1);
+    //alert("Eliminado de tu lista");
+  }
+
+  localStorage.setItem("my_watchlist", JSON.stringify(watchlist));
+
+  // Actualizar botón si está visible
+  updateWatchlistButton(cartel.id);
+}
+
+function updateWatchlistButton(id) {
+  const btn = document.querySelector(".btn-watchlist");
+  if (!btn) return;
+
+  const watchlist = JSON.parse(localStorage.getItem("my_watchlist") || "[]");
+  if (watchlist.includes(id)) {
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> En tu lista';
+    btn.style.color = "#00d9ff";
+  } else {
+    btn.innerHTML = '<i class="fa-regular fa-bookmark"></i> Watchlist';
+    btn.style.color = "white";
+  }
+}
+
+/* ===== GESTIÓN DE DESCARGAS ===== */
+
+function saveDownloadRecord(cartel) {
+  const downloads = JSON.parse(localStorage.getItem("my_downloads") || "[]");
+
+  // Asegurar que tenemos una imagen válida
+  let posterUrl = cartel.poster || cartel.miniatura;
+  if (!posterUrl) {
+    posterUrl = "img/logo.png";
+  }
+
+  // Evitar duplicados
+  if (!downloads.some((d) => d.id === cartel.id)) {
+    downloads.unshift({
+      id: cartel.id,
+      titulo: cartel.titulo,
+      poster: posterUrl,
+      date: new Date().toISOString(),
+    });
+    localStorage.setItem("my_downloads", JSON.stringify(downloads));
+  }
+}
+
+function renderDownloadsView() {
+  const container = document.getElementById("list-downloads");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const downloads = JSON.parse(localStorage.getItem("my_downloads") || "[]");
+
+  if (downloads.length === 0) {
+    container.innerHTML =
+      '<p class="empty-msg">No hay descargas recientes.</p>';
+    return;
+  }
+
+  downloads.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "download-item";
+
+    const date = new Date(item.date).toLocaleDateString();
+
+    div.innerHTML = `
+      <img src="${item.poster}" alt="${item.titulo}" onerror="this.src='https://via.placeholder.com/60x90?text=No+Img'">
+      <div class="download-info">
+        <h4>${item.titulo}</h4>
+        <div class="download-status">
+          <i class="fa-solid fa-check-circle"></i> Completado • ${date}
+        </div>
+      </div>
+      <div class="download-actions">
+        <button class="btn-icon btn-delete" onclick="deleteDownload('${item.id}')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function playDownloaded(id) {
+  const cartel = findCartelById(id);
+  if (cartel) {
+    openPopJW(cartel);
+  }
+}
+
+function deleteDownload(id) {
+  if (!confirm("¿Eliminar del historial de descargas?")) return;
+
+  let downloads = JSON.parse(localStorage.getItem("my_downloads") || "[]");
+  downloads = downloads.filter((d) => d.id !== id);
+  localStorage.setItem("my_downloads", JSON.stringify(downloads));
+  renderDownloadsView();
+}
+
+// Inicializar event listeners cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", function () {
+  // Cerrar popup al hacer clic fuera
+  const popupCalidades = document.getElementById("popup-calidades");
+  if (popupCalidades) {
+    popupCalidades.addEventListener("click", function (e) {
+      if (e.target === this) {
+        cerrarPopupCalidades();
+      }
+    });
+  }
+
+  // Inicializar vista home
+  if (typeof switchView === "function") {
+    switchView("home");
+  } else {
+    console.error("switchView no está definida");
+  }
+});
