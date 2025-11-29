@@ -1286,9 +1286,12 @@ body {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 60px;
+  left: 0; /* Changed to cover full width/height if needed, or adjust width logic */
+  width: 100%; /* Ensure it covers width if it's a full overlay, or keep as side gradient but ensure height matches */
+  height: 100%; /* Explicitly set height */
   background: linear-gradient(to right, transparent, rgba(10, 14, 20, 0.9));
   z-index: 1;
+  pointer-events: none; /* Prevent blocking interactions */
 }
 
 .poster-image::after {
@@ -1756,6 +1759,8 @@ body {
   min-height: 200px;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative; /* Ensure z-index works */
+  z-index: 10; /* Bring above other content */
 }
 
 /* More episodes label */
@@ -1877,9 +1882,11 @@ body {
     overflow-y: auto;
   }
   .content {
+    display: flex;
     flex-direction: column;
     min-height: auto;
     overflow: visible;
+    position: relative; /* Ensure stacking context */
   }
   .poster-container {
     flex: 0 0 auto; /* Allow dynamic sizing */
@@ -1936,6 +1943,8 @@ body {
   .info-container {
     padding: 24px;
     box-sizing: border-box;
+    position: relative; /* Ensure stacking context */
+    z-index: 5; /* Lower than series controls */
   }
   .action-row {
     flex-wrap: wrap;

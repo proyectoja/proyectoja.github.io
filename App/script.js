@@ -1342,21 +1342,10 @@ function obtenerStats(cartel, episodeIndex = null) {
 
 function registrarVisita(cartel, episodeIndex = null) {
   const id = getUniqueId(cartel, episodeIndex);
-
-  // Registrar visita para el ID específico (película o capítulo)
   fetch(`${url}?id=${id}&action=visita`)
     .then((res) => res.json())
     .then((data) => actualizarStats(data))
     .catch((err) => console.error(err));
-
-  // Si es un capítulo (tiene episodeIndex), registrar TAMBIÉN para la serie principal
-  if (episodeIndex !== null && episodeIndex !== undefined) {
-    const mainSeriesId = getUniqueId(cartel, null); // ID sin capítulo
-    // Hacemos la llamada en "segundo plano", no necesitamos actualizar la UI con esto
-    fetch(`${url}?id=${mainSeriesId}&action=visita`).catch((err) =>
-      console.error("Error contando visita serie principal:", err)
-    );
-  }
 }
 
 function actualizarStats(data) {
