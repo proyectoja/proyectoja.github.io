@@ -40,6 +40,17 @@
   document.body.appendChild(overlay);
 
   // ============================
+  // 🧩 SISTEMA DE VERIFICACIÓN LOCAL
+  // ============================
+  function marcarVerificado() {
+    localStorage.setItem("HIMNARIO_VERIFICADO", "true");
+  }
+
+  function estaVerificadoAntes() {
+    return localStorage.getItem("HIMNARIO_VERIFICADO") === "true";
+  }
+
+  // ============================
   // 🟦 OBTENER VERSIÓN LOCAL REAL
   // ============================
   function obtenerVersionLocal() {
@@ -66,14 +77,10 @@
 
       const data = await res.json();
 
-      // GitHub usa:  tag_name: "v1.0.28"
       let ver = data.tag_name;
-
       if (!ver) return null;
 
-      // limpiar formato: "v1.0.28" → "1.0.28"
       ver = ver.replace(/^v/i, "");
-
       return ver;
     } catch (err) {
       console.warn("❌ Error obteniendo versión remota desde GitHub:", err);
@@ -81,6 +88,9 @@
     }
   }
 
+  // ============================
+  // 🧮 COMPARADOR DE VERSIONES
+  // ============================
   function esMayorVersion(local, remota) {
     const a = local.split(".").map(Number);
     const b = remota.split(".").map(Number);
@@ -92,69 +102,90 @@
     return false;
   }
 
+  // ============================
+  // 🔒 BLOQUEAR APLICACIÓN
+  // ============================
   function bloquearApp() {
     const principal = document.querySelector(".contenedor-principal");
     if (principal) principal.style.display = "none";
     overlay.style.display = "flex";
   }
 
+  // ============================
+  // 🔍 VERIFICAR VERSIÓN
+  // ============================
   async function verificarVersion() {
     const local = obtenerVersionLocal();
     const remota = await obtenerVersionRemota();
+
     // ============================================
-    // 🚫 BLOQUEAR SI ES MENOR QUE 1.0.69 (mínima)
+    // 🚫 BLOQUEAR SI ES MENOR QUE 1.0.69
     // ============================================
     const versionMinima = "1.0.69";
     if (esMayorVersion(local, versionMinima)) {
-      // local < 1.0.69 → bloquear
       bloquearApp();
       console.warn("Versión local inferior a la mínima permitida:", local);
       return;
     }
 
+    // ============================================
+    // 🌐 SIN INTERNET
+    // ============================================
+    if (remota === "SIN_INTERNET") {
+      if (estaVerificadoAntes()) {
+        // Ya verificó antes → ahora requiere internet
+        bloquearApp();
+        console.warn("Bloqueado: Usuario quitó el internet después de validar.");
+      } else {
+        console.log("Primera ejecución sin internet — permitido.");
+      }
+      return;
+    }
+
+    // ============================================
+    // ❗ VERSIÓN LOCAL INVÁLIDA
+    // ============================================
     if (!local || local === "0.0.0") {
       bloquearApp();
       alert(
         "DEPURACIÓN DE VERSIÓN\n\n" +
           "Título detectado: " +
           document.title +
-          "\n" +
-          "Versión local detectada: " +
+          "\nVersión local: " +
           local +
-          "\n" +
-          "Versión remota detectada: " +
+          "\nVersión remota: " +
           remota
       );
       return;
     }
 
-    if (remota === "SIN_INTERNET") {
-      console.log("🌐 Sin conexión — no bloquear");
-      return;
-    }
-
+    // ============================================
+    // ❌ REMOTA ES MAYOR — bloquear
+    // ============================================
     if (esMayorVersion(local, remota)) {
       bloquearApp();
       alert(
         "DEPURACIÓN DE VERSIÓN\n\n" +
           "Título detectado: " +
           document.title +
-          "\n" +
-          "Versión local detectada: " +
+          "\nVersión local: " +
           local +
-          "\n" +
-          "Versión remota detectada: " +
+          "\nVersión remota: " +
           remota
       );
       return;
     }
 
+    // ============================================
+    // 🌟 VERIFICACIÓN EXITOSA
+    // ============================================
+    marcarVerificado();
     console.log("✔ Versión correcta — deteniendo verificaciones");
     clearInterval(intervaloVerificacion);
   }
 
   // ============================
-  // 🎯 BOTÓN ACTUALIZAR
+  // 🎯 BOTÓN DESCARGAR UPDATE
   // ============================
   setTimeout(() => {
     const btn = document.getElementById("btnActualizarHimnario");
@@ -167,7 +198,6 @@
 
   async function descargarInstalador() {
     try {
-      // Obtener release más reciente
       const res = await fetch(
         "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
         { cache: "no-store" }
@@ -176,28 +206,21 @@
       if (!res.ok) throw new Error("No se pudo leer el release");
 
       const data = await res.json();
-
-      // ============================
-      // Detectar plataforma del usuario
-      // ============================
       const plataforma = navigator.userAgent.toLowerCase();
 
       let extensionBuscada = "";
 
       if (plataforma.includes("win")) {
-        extensionBuscada = ".exe"; // o .msi
+        extensionBuscada = ".exe";
       } else if (plataforma.includes("mac") || plataforma.includes("os x")) {
-        extensionBuscada = ".dmg"; // instalador macOS
+        extensionBuscada = ".dmg";
       } else if (plataforma.includes("linux")) {
-        extensionBuscada = ".AppImage"; // estándar electron linux
+        extensionBuscada = ".AppImage";
       } else {
         alert("No se pudo detectar tu sistema operativo.");
         return;
       }
 
-      // =========================================
-      // Buscar asset para la plataforma detectada
-      // =========================================
       const asset = data.assets?.find((a) => a.name.endsWith(extensionBuscada));
 
       if (!asset) {
@@ -209,7 +232,6 @@
         return;
       }
 
-      // Descargar directamente
       window.location.href = asset.browser_download_url;
     } catch (err) {
       console.error(err);
@@ -217,10 +239,13 @@
     }
   }
 
+  // ============================
+  // ⏳ INICIO
+  // ============================
   console.log("⏳ Esperando 30 segundos antes de verificar versiones...");
 
   setTimeout(() => {
     verificarVersion();
-    intervaloVerificacion = setInterval(verificarVersion, 600000);
-  }, 300000);
+    intervaloVerificacion = setInterval(verificarVersion, 10000);
+  }, 120000);
 })();
