@@ -1299,41 +1299,55 @@ function openPopJW(cartel) {
       "Año: " + cartel.fecha + " | Duración: " + cartel.duracion;
 
   const genPop = document.getElementById("generos-pop");
-  if (genPop)
-    genPop.textContent =
-      "Género: " + cartel.generos.replace(/^\s*todos\s*,?\s*/i, "");
-
-  // Reset player container
-  const playerOverlay = document.getElementById("player-container-overlay");
-  if (playerOverlay) playerOverlay.style.display = "none";
-
-  const playerElement = document.getElementById("player");
-  playerElement.innerHTML = "";
-  playerElement.style.backgroundImage = "none";
+  if (genPop) playerElement.style.backgroundImage = "none";
 
   // Ocultar elementos que no se usan en el nuevo diseño
   const audiosPop = document.getElementById("audios-pop");
   if (audiosPop) audiosPop.style.display = "none";
 
-  // Mostrar estadísticas
-  contadorDeVistas(cartel);
+  // Mostrar estadísticas (Solo leer, no contar visita aún)
+  obtenerStats(cartel);
 }
 
 const url =
-  "https://script.google.com/macros/s/AKfycbzzO1wPlALoC7xRr3H_53jrcttUxllRvZS0MJjAopNd7lIUQEZYPHidWFD2yZupjVkVEA/exec";
+  "https://script.google.com/macros/s/AKfycbxnBmUZwmoU64bPKnyhmeaDcOiHnDP-L4nMVK7YUGB8zg6C4ds0RJwb1srHK4B8SDBv4Q/exec";
 const cooldown = 10 * 1000;
 var cartelAux;
-function contadorDeVistas(cartel) {
-  cartelAux = "proyectoja_" + cartel.id;
-  fetch(`${url}?id=${cartelAux}&action=visita`)
-    .then((res) => res.json())
-    .then((data) => actualizarStats(data), marcarBotonVotado(getVotoAnterior()))
+function getUniqueId(cartel, episodeIndex) {
+  if (
+    episodeIndex !== null &&
+    episodeIndex !== undefined &&
+    episodeIndex >= 0
+  ) {
+    return "proyectoja_" + cartel.id + "_cap_" + episodeIndex;
+  }
+  return "proyectoja_" + cartel.id;
+}
 
+function obtenerStats(cartel, episodeIndex = null) {
+  cartelAux = getUniqueId(cartel, episodeIndex);
+
+  // Leer voto del localStorage y actualizar UI inmediatamente
+  const votoGuardado = getVotoAnterior();
+  marcarBotonVotado(votoGuardado);
+
+  fetch(`${url}?id=${cartelAux}&action=get`)
+    .then((res) => res.json())
+    .then((data) => actualizarStats(data))
     .catch((err) => {
-      document.getElementById("vistas").textContent = "0 Visualizaciones";
+      // Si falla, al menos mostramos 0 o lo que haya
       console.error(err);
     });
 }
+
+function registrarVisita(cartel, episodeIndex = null) {
+  const id = getUniqueId(cartel, episodeIndex);
+  fetch(`${url}?id=${id}&action=visita`)
+    .then((res) => res.json())
+    .then((data) => actualizarStats(data))
+    .catch((err) => console.error(err));
+}
+
 function actualizarStats(data) {
   document.getElementById("vistas").textContent =
     data.visitas + " visualizaciones";
@@ -1362,13 +1376,33 @@ function setVoto(voto) {
 
 function votar(nuevoVoto) {
   const anterior = getVotoAnterior();
+
+  // Lógica de Toggle (Deshacer voto si es el mismo)
   if (anterior === nuevoVoto) {
+    // Optimistic update: quitar voto
+    marcarBotonVotado(null);
+    setVoto(""); // Limpiar localStorage
+    updateCountUI(nuevoVoto, -1);
+
+    fetch(`${url}?id=${cartelAux}&undo=${nuevoVoto}`)
+      .then((res) => res.json())
+      .then((data) => actualizarStats(data))
+      .catch((err) => console.error(err));
     return;
   }
 
+  // Si es un voto nuevo o cambio de voto
   if (!puedeEnviar(nuevoVoto)) {
+    // Opcional: mostrar mensaje de cooldown
     return;
   }
+
+  // Optimistic update
+  marcarBotonVotado(nuevoVoto);
+  setVoto(nuevoVoto);
+
+  if (anterior) updateCountUI(anterior, -1); // Restar el anterior
+  updateCountUI(nuevoVoto, 1); // Sumar el nuevo
 
   let urlFinal = `${url}?id=${cartelAux}&action=${nuevoVoto}`;
   if (anterior) {
@@ -1379,10 +1413,19 @@ function votar(nuevoVoto) {
     .then((res) => res.json())
     .then((data) => {
       actualizarStats(data);
-      setVoto(nuevoVoto);
-      marcarBotonVotado(nuevoVoto);
     })
     .catch((err) => console.error("Error:", err));
+}
+
+function updateCountUI(type, delta) {
+  const el =
+    type === "like"
+      ? document.getElementById("textLike")
+      : document.getElementById("textDislike");
+  if (el) {
+    let val = parseInt(el.textContent) || 0;
+    el.textContent = Math.max(0, val + delta);
+  }
 }
 
 function marcarBotonVotado(voto) {
@@ -1416,6 +1459,9 @@ let saveInterval = null;
 function reproductorVideoJSTrailer(cartel, vast, trailer) {
   posterPlayer.style.backgroundImage = 'url("")';
 
+  const seriesControls = document.getElementById("series-controls");
+  if (seriesControls) seriesControls.style.display = "none";
+
   let v = extraerIdYoutube(trailer);
 
   if (videoPlayer) {
@@ -1424,8 +1470,11 @@ function reproductorVideoJSTrailer(cartel, vast, trailer) {
   }
 
   // Para YouTube, usamos un iframe embebido
-  const playerOverlay = document.getElementById("player-container-overlay");
-  if (playerOverlay) playerOverlay.style.display = "block";
+  const playerWrapper = document.getElementById("player-wrapper");
+  const posterImage = document.getElementById("poster-image-pop");
+
+  if (playerWrapper) playerWrapper.style.display = "flex";
+  if (posterImage) posterImage.style.display = "none";
 
   // Ocultar el botón de cerrar del popup principal
   const cerrarPop = document.getElementById("cerrar-pop");
@@ -1476,6 +1525,8 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   messageElement.style.display = "none";
   shelfElement.textContent = "";
   shelfElement.style.display = "none";
+  const seriesControls = document.getElementById("series-controls");
+  if (seriesControls) seriesControls.style.display = "none";
 
   // Destruir el reproductor anterior si existe
   if (videoPlayer) {
@@ -1503,12 +1554,15 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   if (iconLike) iconLike.className = "far fa-thumbs-up";
   if (iconDislike) iconDislike.className = "far fa-thumbs-down";
 
-  // Contador de vistas
-  contadorDeVistas(cartel);
+  // Cargar estadísticas del episodio/película actual (Likes/Dislikes/Vistas)
+  obtenerStats(cartel, isSingleVideo ? null : index);
 
   // Preparar el contenedor del reproductor
-  const playerOverlay = document.getElementById("player-container-overlay");
-  if (playerOverlay) playerOverlay.style.display = "block";
+  const playerWrapper = document.getElementById("player-wrapper");
+  const posterImage = document.getElementById("poster-image-pop");
+
+  if (playerWrapper) playerWrapper.style.display = "flex";
+  if (posterImage) posterImage.style.display = "none";
 
   // Ocultar el botón de cerrar del popup principal
   const cerrarPop = document.getElementById("cerrar-pop");
@@ -1600,8 +1654,15 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
   });
 
   // Evento de reproducción
+  let viewCounted = false;
   videoPlayer.on("play", function () {
     console.log("Disparo play");
+
+    // Contar visita solo una vez por sesión de reproducción
+    if (!viewCounted) {
+      registrarVisita(cartel, isSingleVideo ? null : index);
+      viewCounted = true;
+    }
 
     if (bloquesAnuncios == 0) {
       window.location.href = "go:anuncio";
@@ -1665,6 +1726,8 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
     messageElement.style.display = "flex";
     shelfElement.style.display = "flex";
     labelElement.style.display = "flex";
+    const seriesControls = document.getElementById("series-controls");
+    if (seriesControls) seriesControls.style.display = "flex";
 
     playlist.forEach((item, i) => {
       if (item.image && item.title && item.file) {
@@ -1711,8 +1774,11 @@ function closePlayerOnly() {
   if (videoPlayer) {
     videoPlayer.pause();
   }
-  const playerOverlay = document.getElementById("player-container-overlay");
-  if (playerOverlay) playerOverlay.style.display = "none";
+  const playerWrapper = document.getElementById("player-wrapper");
+  const posterImage = document.getElementById("poster-image-pop");
+
+  if (playerWrapper) playerWrapper.style.display = "none";
+  if (posterImage) posterImage.style.display = "flex";
 
   // Mostrar el botón de cerrar del popup principal
   const cerrarPop = document.getElementById("cerrar-pop");
@@ -1729,8 +1795,11 @@ function closePopJW() {
   const playerContainer = document.getElementById("player");
   playerContainer.innerHTML = "";
 
-  const playerOverlay = document.getElementById("player-container-overlay");
-  if (playerOverlay) playerOverlay.style.display = "none";
+  const playerWrapper = document.getElementById("player-wrapper");
+  const posterImage = document.getElementById("poster-image-pop");
+
+  if (playerWrapper) playerWrapper.style.display = "none";
+  if (posterImage) posterImage.style.display = "flex";
 
   contenedorDisqus.textContent = "";
   contenedorJWPLAYER.style.display = "none";

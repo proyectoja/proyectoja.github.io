@@ -1189,6 +1189,14 @@ body {
   padding: 20px; /* Add padding for small screens */
   box-sizing: border-box;
   overflow: hidden !important; /* Prevent scroll on the overlay itself */
+
+  /* Modal Overlay Styles */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
 }
 
 .prime-popup {
@@ -1718,6 +1726,135 @@ body {
   }
 }
 
+/* ===== ESTILOS PARA PLAYER-WRAPPER Y SERIES CONTROLS ===== */
+
+/* Player wrapper - embedded in poster container */
+#player-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: black;
+  position: relative;
+}
+
+/* Video player container */
+#player {
+  width: 100%;
+  flex: 1;
+  position: relative;
+  min-height: 0; /* Important for flex */
+  background: black;
+}
+
+/* Series controls container */
+#series-controls {
+  display: none;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  min-height: 200px;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* More episodes label */
+#more-label {
+  margin: 10px 15px 5px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  display: none;
+}
+
+/* Shelf - horizontal scroll container for episodes */
+.shelf,
+#shelf {
+  display: none;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 15px;
+  gap: 12px;
+  flex-direction: row;
+  align-items: flex-start;
+
+  /* Scrollbar styles */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-a) rgba(255, 255, 255, 0.1);
+}
+
+.shelf::-webkit-scrollbar,
+#shelf::-webkit-scrollbar {
+  height: 8px;
+}
+
+.shelf::-webkit-scrollbar-track,
+#shelf::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.shelf::-webkit-scrollbar-thumb,
+#shelf::-webkit-scrollbar-thumb {
+  background: var(--accent-a);
+  border-radius: 4px;
+}
+
+.shelf::-webkit-scrollbar-thumb:hover,
+#shelf::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-b);
+}
+
+/* Episode items in shelf */
+.shelf > div,
+#shelf > div {
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.shelf > div:hover,
+#shelf > div:hover {
+  transform: scale(1.05);
+}
+
+/* Next episode message */
+#next-message {
+  display: none;
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  z-index: 15;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  max-width: 300px;
+  backdrop-filter: blur(10px);
+}
+
+/* Close player button */
+#close-player {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+#close-player:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 /* Responsive */
 @media (max-width: 980px) {
   :root {
@@ -1736,18 +1873,64 @@ body {
   .prime-popup {
     width: 100%;
     margin: 15px auto;
+    max-height: 95vh;
+    overflow-y: auto;
   }
   .content {
     flex-direction: column;
     min-height: auto;
+    overflow: visible;
   }
   .poster-container {
-    flex: 0 0 300px;
+    flex: 0 0 auto; /* Allow dynamic sizing */
+    min-height: 300px;
+    max-height: 50vh; /* Limit height on mobile */
+    width: 100%;
   }
   .poster-image {
     background-position: center 25%;
     background-image: var(--mobile-poster); /* Switch to mobile poster */
   }
+
+  /* Player wrapper mobile adjustments */
+  #player-wrapper {
+    min-height: 300px;
+    max-height: 50vh;
+  }
+
+  /* Ensure player fits properly */
+  #player {
+    min-height: 200px;
+  }
+
+  #more-label {
+    font-size: 14px;
+    margin: 8px 10px 4px 10px;
+  }
+
+  .shelf,
+  #shelf {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  /* Next message positioning */
+  #next-message {
+    bottom: 60px;
+    left: 10px;
+    font-size: 12px;
+    padding: 8px 12px;
+    max-width: 200px;
+  }
+
+  /* Close button mobile */
+  #close-player {
+    top: 8px;
+    right: 8px;
+    font-size: 18px;
+    padding: 6px 10px;
+  }
+
   .info-container {
     padding: 24px;
     box-sizing: border-box;
@@ -1787,10 +1970,51 @@ body {
 @media (max-width: 480px) {
   .prime-popup {
     border-radius: 16px;
+    margin: 10px;
+    max-height: 97vh;
   }
   .poster-container {
-    flex: 0 0 250px;
+    flex: 0 0 auto;
+    min-height: 250px;
+    max-height: 45vh;
   }
+
+  /* Player adjustments for small screens */
+  #player-wrapper {
+    min-height: 250px;
+    max-height: 45vh;
+  }
+
+  #player {
+    min-height: 180px;
+  }
+
+  #more-label {
+    font-size: 13px;
+    margin: 6px 8px 3px 8px;
+  }
+
+  .shelf,
+  #shelf {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  #next-message {
+    bottom: 50px;
+    left: 8px;
+    font-size: 11px;
+    padding: 6px 10px;
+    max-width: 180px;
+  }
+
+  #close-player {
+    top: 6px;
+    right: 6px;
+    font-size: 16px;
+    padding: 5px 8px;
+  }
+
   .movie-title {
     font-size: 32px;
     bottom: 15px;

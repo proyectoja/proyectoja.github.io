@@ -1,5 +1,4 @@
 (async function () {
-
   let intervaloVerificacion = null;
 
   // ============================
@@ -102,14 +101,29 @@
   async function verificarVersion() {
     const local = obtenerVersionLocal();
     const remota = await obtenerVersionRemota();
+    // ============================================
+    // 🚫 BLOQUEAR SI ES MENOR QUE 1.0.69 (mínima)
+    // ============================================
+    const versionMinima = "1.0.69";
+    if (esMayorVersion(local, versionMinima)) {
+      // local < 1.0.69 → bloquear
+      bloquearApp();
+      console.warn("Versión local inferior a la mínima permitida:", local);
+      return;
+    }
 
     if (!local || local === "0.0.0") {
       bloquearApp();
       alert(
         "DEPURACIÓN DE VERSIÓN\n\n" +
-        "Título detectado: " + document.title + "\n" +
-        "Versión local detectada: " + local + "\n" +
-        "Versión remota detectada: " + remota
+          "Título detectado: " +
+          document.title +
+          "\n" +
+          "Versión local detectada: " +
+          local +
+          "\n" +
+          "Versión remota detectada: " +
+          remota
       );
       return;
     }
@@ -123,9 +137,14 @@
       bloquearApp();
       alert(
         "DEPURACIÓN DE VERSIÓN\n\n" +
-        "Título detectado: " + document.title + "\n" +
-        "Versión local detectada: " + local + "\n" +
-        "Versión remota detectada: " + remota
+          "Título detectado: " +
+          document.title +
+          "\n" +
+          "Versión local detectada: " +
+          local +
+          "\n" +
+          "Versión remota detectada: " +
+          remota
       );
       return;
     }
@@ -148,57 +167,55 @@
 
   async function descargarInstalador() {
     try {
-        // Obtener release más reciente
-        const res = await fetch(
-            "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
-            { cache: "no-store" }
+      // Obtener release más reciente
+      const res = await fetch(
+        "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
+        { cache: "no-store" }
+      );
+
+      if (!res.ok) throw new Error("No se pudo leer el release");
+
+      const data = await res.json();
+
+      // ============================
+      // Detectar plataforma del usuario
+      // ============================
+      const plataforma = navigator.userAgent.toLowerCase();
+
+      let extensionBuscada = "";
+
+      if (plataforma.includes("win")) {
+        extensionBuscada = ".exe"; // o .msi
+      } else if (plataforma.includes("mac") || plataforma.includes("os x")) {
+        extensionBuscada = ".dmg"; // instalador macOS
+      } else if (plataforma.includes("linux")) {
+        extensionBuscada = ".AppImage"; // estándar electron linux
+      } else {
+        alert("No se pudo detectar tu sistema operativo.");
+        return;
+      }
+
+      // =========================================
+      // Buscar asset para la plataforma detectada
+      // =========================================
+      const asset = data.assets?.find((a) => a.name.endsWith(extensionBuscada));
+
+      if (!asset) {
+        alert(
+          "No existe un instalador para tu sistema operativo.\n" +
+            "Buscado: " +
+            extensionBuscada
         );
-  
-        if (!res.ok) throw new Error("No se pudo leer el release");
-  
-        const data = await res.json();
-  
-        // ============================
-        // Detectar plataforma del usuario
-        // ============================
-        const plataforma = navigator.userAgent.toLowerCase();
-  
-        let extensionBuscada = "";
-  
-        if (plataforma.includes("win")) {
-            extensionBuscada = ".exe"; // o .msi
-        } else if (plataforma.includes("mac") || plataforma.includes("os x")) {
-            extensionBuscada = ".dmg"; // instalador macOS
-        } else if (plataforma.includes("linux")) {
-            extensionBuscada = ".AppImage"; // estándar electron linux
-        } else {
-            alert("No se pudo detectar tu sistema operativo.");
-            return;
-        }
-  
-        // =========================================
-        // Buscar asset para la plataforma detectada
-        // =========================================
-        const asset = data.assets?.find(a => a.name.endsWith(extensionBuscada));
-  
-        if (!asset) {
-            alert(
-                "No existe un instalador para tu sistema operativo.\n" +
-                "Buscado: " + extensionBuscada
-            );
-            return;
-        }
-  
-        // Descargar directamente
-        window.location.href = asset.browser_download_url;
-  
+        return;
+      }
+
+      // Descargar directamente
+      window.location.href = asset.browser_download_url;
     } catch (err) {
-        console.error(err);
-        alert("Error al intentar descargar el instalador.");
+      console.error(err);
+      alert("Error al intentar descargar el instalador.");
     }
   }
-  
-  
 
   console.log("⏳ Esperando 30 segundos antes de verificar versiones...");
 
@@ -206,6 +223,4 @@
     verificarVersion();
     intervaloVerificacion = setInterval(verificarVersion, 600000);
   }, 300000);
-
 })();
-
