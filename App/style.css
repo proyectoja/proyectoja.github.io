@@ -1884,18 +1884,20 @@ body {
   .poster-container {
     flex: 0 0 auto; /* Allow dynamic sizing */
     min-height: 300px;
-    max-height: 50vh; /* Limit height on mobile */
+    height: auto; /* Allow growth */
     width: 100%;
+    overflow: visible; /* Ensure content isn't clipped */
   }
   .poster-image {
     background-position: center 25%;
     background-image: var(--mobile-poster); /* Switch to mobile poster */
+    min-height: 300px; /* Ensure poster has height when visible */
   }
 
   /* Player wrapper mobile adjustments */
   #player-wrapper {
     min-height: 300px;
-    max-height: 50vh;
+    height: auto; /* Allow growth */
   }
 
   /* Ensure player fits properly */
@@ -1976,17 +1978,23 @@ body {
   .poster-container {
     flex: 0 0 auto;
     min-height: 250px;
-    max-height: 45vh;
+    height: auto;
+    overflow: visible;
   }
 
   /* Player adjustments for small screens */
   #player-wrapper {
     min-height: 250px;
-    max-height: 45vh;
+    height: auto;
   }
 
   #player {
     min-height: 180px;
+  }
+
+  /* Series controls compact view */
+  #series-controls {
+    max-height: 180px;
   }
 
   #more-label {
