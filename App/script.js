@@ -29,6 +29,31 @@ const contenedorEspecialSeries = document.getElementById(
 // Video.js player instance
 let videoPlayer = null;
 
+// ✅ SOLUCIÓN #1: Crear el IntersectionObserver UNA SOLA VEZ al inicio
+// Esto evita que se acumulen múltiples observers cada vez que se abre un cartel
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        // Verificar que aún tenga data-src (prevenir carga duplicada)
+        if (img.dataset.src && !img.src) {
+          img.src = img.dataset.src; // Cargar la imagen
+          img.removeAttribute("data-src"); // Eliminar el atributo una vez cargado
+          img.onload = () => {
+            img.style.opacity = "1"; // Aparecer suavemente
+            observer.unobserve(img); // Dejar de observarla inmediatamente
+          };
+        }
+      }
+    });
+  },
+  {
+    rootMargin: "50px", // Reducido de 100px para menos trabajo
+    threshold: 0.1, // Solo necesita 10% de visibilidad para cargar
+  }
+);
+
 // Función para cargar los datos desde el archivo JSON
 fetch(jsonUrl) // PRODUCCIÓN
   //fetch("contenido.json") //DESARROLLO
@@ -736,58 +761,39 @@ function crearCarteles(cartel) {
   poster.style.opacity = "0";
   poster.style.transition = "opacity 0.2s ease-in-out";
 
-  //Crear íconos de los audios
+  // ✅ OPTIMIZACIÓN CRÍTICA: Íconos de audio SIN lazy loading
+  // Los íconos son muy pequeños (~5KB cada uno) y observarlos causa más overhead que beneficio
   const contenedorIconosAudios = document.createElement("div");
   contenedorIconosAudios.id = "contenedorIconosAudios";
   if (cartel.url || cartel.urlLista) {
     const iconoAudio = document.createElement("img");
-    iconoAudio.dataset.src = BASE_URL + "lat.png";
+    iconoAudio.src = BASE_URL + "lat.png"; // ✅ Carga directa (sin data-src)
     iconoAudio.id = "iconoAudio";
-    iconoAudio.classList.add("lazy");
-    iconoAudio.style.opacity = "0";
-    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
     contenedorIconosAudios.appendChild(iconoAudio);
-    observer.observe(iconoAudio);
   }
   if (cartel.urlSub || cartel.urlListaSub) {
     const iconoAudio = document.createElement("img");
-    iconoAudio.dataset.src = BASE_URL + "sub.png";
+    iconoAudio.src = BASE_URL + "sub.png"; // ✅ Carga directa
     iconoAudio.id = "iconoAudio";
-    iconoAudio.classList.add("lazy");
-    iconoAudio.style.opacity = "0";
-    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
     contenedorIconosAudios.appendChild(iconoAudio);
-    observer.observe(iconoAudio);
   }
   if (cartel.urlCas || cartel.urlListaCas) {
     const iconoAudio = document.createElement("img");
-    iconoAudio.dataset.src = BASE_URL + "cas.png";
+    iconoAudio.src = BASE_URL + "cas.png"; // ✅ Carga directa
     iconoAudio.id = "iconoAudio";
-    iconoAudio.classList.add("lazy");
-    iconoAudio.style.opacity = "0";
-    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
     contenedorIconosAudios.appendChild(iconoAudio);
-    observer.observe(iconoAudio);
   }
   if (cartel.urlCor || cartel.urlListaCor) {
     const iconoAudio = document.createElement("img");
-    iconoAudio.dataset.src = BASE_URL + "cor.png";
+    iconoAudio.src = BASE_URL + "cor.png"; // ✅ Carga directa
     iconoAudio.id = "iconoAudio";
-    iconoAudio.classList.add("lazy");
-    iconoAudio.style.opacity = "0";
-    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
     contenedorIconosAudios.appendChild(iconoAudio);
-    observer.observe(iconoAudio);
   }
   if (cartel.urlChi || cartel.urlListaChi) {
     const iconoAudio = document.createElement("img");
-    iconoAudio.dataset.src = BASE_URL + "chi.png";
+    iconoAudio.src = BASE_URL + "chi.png"; // ✅ Carga directa
     iconoAudio.id = "iconoAudio";
-    iconoAudio.classList.add("lazy");
-    iconoAudio.style.opacity = "0";
-    iconoAudio.style.transition = "opacity 0.2s ease-in-out";
     contenedorIconosAudios.appendChild(iconoAudio);
-    observer.observe(iconoAudio);
   }
   videoItem.appendChild(contenedorIconosAudios);
 
@@ -1143,53 +1149,48 @@ function crearCartelesSeries(cartel) {
   contenedorEspecialSeries.appendChild(videoItem);
 }
 
-// Usamos IntersectionObserver para cargar solo cuando la imagen sea visible
-const observer = new IntersectionObserver(
-  (entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src; // Cargar la imagen
-        img.removeAttribute("data-src"); // Eliminar el atributo una vez cargado
-        img.onload = () => {
-          // Esperar a que la imagen se cargue completamente
-          img.style.opacity = "1"; // Aparecer suavemente
-        };
-        observer.unobserve(img); // Dejar de observarla
-      }
-    });
-  },
-  {
-    rootMargin: "100px", // Carga imágenes antes de que entren en pantalla
-  }
-);
-
 const inputBuscar = document.getElementById("buscar");
 let peliculasArreglo = [];
+let searchTimeout; // Variable para el debouncing
 
 function filtrarPeliculas() {
   const consulta = inputBuscar.value.trim().toLowerCase();
 
-  // Limpiar el contenedor antes de agregar nuevos resultados
-  contenedorLista.innerHTML = "";
-
-  // Si no hay consulta, mostrar todas las películas
-  if (consulta === "") {
-    peliculasArreglo.forEach((pelicula) => {
-      if (pelicula.titulo) {
-        crearCarteles(pelicula);
-      }
-    });
-  } else if (consulta.length > 3) {
-    const resultados = peliculasArreglo.filter((pelicula) =>
-      pelicula.titulo.toLowerCase().includes(consulta)
-    );
-    resultados.forEach(crearCarteles);
+  // ✅ OPTIMIZACIÓN: No hacer nada si es muy corto
+  if (consulta.length > 0 && consulta.length < 3) {
+    return;
   }
+
+  // ✅ OPTIMIZACIÓN: Usar requestAnimationFrame para mejor rendimiento
+  requestAnimationFrame(() => {
+    // Limpiar el contenedor antes de agregar nuevos resultados
+    contenedorLista.innerHTML = "";
+
+    // Si no hay consulta, mostrar todas las películas (limitadas a 100)
+    if (consulta === "") {
+      const limitedPelis = peliculasArreglo.slice(0, 100);
+      limitedPelis.forEach((pelicula) => {
+        if (pelicula.titulo) {
+          crearCarteles(pelicula);
+        }
+      });
+    } else if (consulta.length >= 3) {
+      const resultados = peliculasArreglo
+        .filter((pelicula) => pelicula.titulo.toLowerCase().includes(consulta))
+        .slice(0, 50); // Limitar resultados a 50
+      resultados.forEach(crearCarteles);
+    }
+  });
 }
 
-// Evento para la búsqueda en tiempo real
-inputBuscar.addEventListener("input", filtrarPeliculas);
+// ✅ SOLUCIÓN #4: Debouncing - Esperar 300ms antes de ejecutar la búsqueda
+function debouncedFilter() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(filtrarPeliculas, 300);
+}
+
+// Evento para la búsqueda en tiempo real (con debouncing)
+inputBuscar.addEventListener("input", debouncedFilter);
 
 const contenedorTituloPop = document.getElementById("titulo-pop");
 const contenedorDescripcionPop = document.getElementById("descripcion-pop");
@@ -1346,6 +1347,20 @@ function registrarVisita(cartel, episodeIndex = null) {
     .then((res) => res.json())
     .then((data) => actualizarStats(data))
     .catch((err) => console.error(err));
+
+  // Si es un capítulo (episodeIndex válido), también contar visita para la serie principal
+  if (
+    episodeIndex !== null &&
+    episodeIndex !== undefined &&
+    episodeIndex >= 0
+  ) {
+    const seriesId = getUniqueId(cartel, null);
+    // Hacemos la petición para la serie pero NO actualizamos la UI (actualizarStats)
+    // porque el usuario está viendo el capítulo
+    fetch(`${url}?id=${seriesId}&action=visita`).catch((err) =>
+      console.error("Error al registrar visita de serie:", err)
+    );
+  }
 }
 
 function actualizarStats(data) {
@@ -1786,14 +1801,19 @@ function closePlayerOnly() {
 }
 
 function closePopJW() {
+  // ✅ SOLUCIÓN #2: Destruir Video.js correctamente antes de cerrar
   if (videoPlayer) {
+    console.log("🧹 Limpiando Video.js player");
     videoPlayer.dispose();
     videoPlayer = null;
   }
 
-  // Limpiar el contenedor del reproductor
+  // ✅ SOLUCIÓN #3: Limpiar completamente el DOM para liberar memoria
   const playerContainer = document.getElementById("player");
-  playerContainer.innerHTML = "";
+  if (playerContainer) playerContainer.innerHTML = "";
+
+  // Limpiar el shelf (miniaturas de episodios)
+  if (shelfElement) shelfElement.innerHTML = "";
 
   const playerWrapper = document.getElementById("player-wrapper");
   const posterImage = document.getElementById("poster-image-pop");
@@ -1812,10 +1832,9 @@ function closePopJW() {
   labelElement.style.display = "none";
   messageElement.textContent = "";
   messageElement.style.display = "none";
-  shelfElement.textContent = "";
   shelfElement.style.display = "none";
-  contenedorDisqus.textContent = "";
-  contenedorJWPLAYER.style.display = "none";
+
+  // Resetear estadísticas
   document.getElementById("vistas").textContent = "";
   document.getElementById("textLike").textContent = "0";
   document.getElementById("textDislike").textContent = "0";
@@ -1823,6 +1842,8 @@ function closePopJW() {
   const iconDislike = document.getElementById("iconDislike");
   if (iconLike) iconLike.className = "far fa-thumbs-up";
   if (iconDislike) iconDislike.className = "far fa-thumbs-down";
+
+  console.log("✅ Popup cerrado y recursos liberados");
 }
 
 //anunciosAdsterra();

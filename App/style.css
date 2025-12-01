@@ -1456,7 +1456,6 @@ body {
     rgba(255, 255, 255, 0.4),
     transparent
   );
-  animation: horizontalLight 5s infinite;
 }
 
 @keyframes horizontalLight {
@@ -1497,7 +1496,6 @@ body {
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: borderRotate 4s linear infinite;
 }
 
 .btn-play i {
@@ -1536,7 +1534,7 @@ body {
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: borderRotate 4s linear infinite;
+
   opacity: 0.7;
 }
 
@@ -1606,21 +1604,6 @@ body {
     transparent
   );
   opacity: 0;
-  animation: circularLight 12s infinite;
-}
-
-/* Diferentes delays para cada botón */
-.interaction-btn:nth-child(1)::before {
-  animation-delay: 0s;
-}
-.interaction-btn:nth-child(2)::before {
-  animation-delay: 3s;
-}
-.interaction-btn:nth-child(3)::before {
-  animation-delay: 6s;
-}
-.interaction-btn:nth-child(4)::before {
-  animation-delay: 9s;
 }
 
 .interaction-btn:hover {
@@ -1705,7 +1688,6 @@ body {
     rgba(63, 124, 255, 0.1) 0%,
     transparent 70%
   );
-  animation-duration: 20s;
 }
 
 .light-effect:nth-child(2) {
@@ -1716,8 +1698,6 @@ body {
     rgba(0, 209, 255, 0.1) 0%,
     transparent 70%
   );
-  animation-duration: 25s;
-  animation-direction: reverse;
 }
 
 @keyframes rotateLight {
