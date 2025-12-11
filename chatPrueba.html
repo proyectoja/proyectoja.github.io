@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat Supabase Avanzado</title>
+
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+  body.light { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #000; }
+  body.dark { background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); color: #fff; }
+
+  /* LOGIN STYLES */
+  #loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  #loginBox {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 420px;
+    animation: slideIn 0.4s ease-out;
+  }
+
+  body.dark #loginBox {
+    background: rgba(30, 30, 30, 0.95);
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  #loginBox h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #667eea;
+    font-size: 28px;
+  }
+
+  body.dark #loginBox h2 {
+    color: #8b9bff;
+  }
+
+  #loginBox p {
+    text-align: center;
+    margin-bottom: 30px;
+    opacity: 0.8;
+    font-size: 14px;
+  }
+
+  .inputGroup {
+    margin-bottom: 20px;
+  }
+
+  .inputGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .inputGroup input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s;
+  }
+
+  body.dark .inputGroup input {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+
+  .inputGroup input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .passwordWrapper {
+    position: relative;
+  }
+
+  .passwordWrapper input {
+    padding-right: 45px;
+  }
+
+  .togglePassword {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+  }
+
+  .passwordRequirements {
+    margin-top: 8px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  body.dark .passwordRequirements {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .requirement {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+
+  .requirement.valid {
+    color: #10b981;
+  }
+
+  .requirement.invalid {
+    color: #ef4444;
+    opacity: 0.6;
+  }
+
+  .checkboxGroup {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .checkboxGroup input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .checkboxGroup label {
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .loginButton {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .loginButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  }
+
+  .loginButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .errorMessage {
+    background: #fee;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: none;
+  }
+
+  body.dark .errorMessage {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+  }
+
+  #container { display: flex; height: 100vh; }
+
+  #sidebar {
+    width: 230px; background: rgba(0,0,0,0.05);
+    padding: 15px; overflow-y: auto;
+  }
+  body.dark #sidebar { background: rgba(255,255,255,0.08); }
+
+  .userItem {
+    display: flex; align-items: center;
+    margin-bottom: 12px; padding: 6px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.1);
+  }
+  body.dark .userItem { background: rgba(255,255,255,0.1); }
+
+  .avatar {
+    width: 35px; height: 35px; border-radius: 50%;
+    background: steelblue; display: flex;
+    align-items: center; justify-content: center;
+    color: #fff; font-weight: bold; margin-right: 10px;
+  }
+
+  #chatArea { flex: 1; display: flex; flex-direction: column; }
+
+  #topBar {
+    padding: 10px; border-bottom: 1px solid #ccc;
+    display: flex; justify-content: space-between;
+  }
+
+  #chat { padding: 15px; flex: 1; overflow-y: auto; }
+
+  .msg {
+    margin-bottom: 15px; padding: 10px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.1);
+  }
+  body.dark .msg { background: rgba(255,255,255,0.1); }
+
+  #typing { padding: 5px 15px; font-style: italic; opacity: 0.7; }
+
+  #inputArea {
+    display: flex; padding: 10px; border-top: 1px solid #ccc;
+  }
+
+  input {
+    flex: 1; padding: 10px; border-radius: 8px;
+  }
+
+  button {
+    margin-left: 10px; padding: 10px 16px;
+    border: none; background: steelblue; color: white;
+    border-radius: 8px; cursor: pointer;
+  }
+</style>
+</head>
+<body class="light">
+
+<!-- LOGIN SCREEN -->
+<div id="loginContainer">
+  <div id="loginBox">
+    <h2>🔐 Iniciar Sesión</h2>
+    <p>Bienvenido al Chat</p>
+    
+    <div id="errorMessage" class="errorMessage"></div>
+    
+    <div class="inputGroup">
+      <label for="loginUsername">Usuario</label>
+      <input type="text" id="loginUsername" placeholder="@usuario" autocomplete="username">
+    </div>
+    
+    <div class="inputGroup">
+      <label for="loginPassword">Contraseña</label>
+      <div class="passwordWrapper">
+        <input type="password" id="loginPassword" placeholder="Contraseña segura" autocomplete="current-password">
+        <span class="togglePassword" onclick="togglePasswordVisibility()">👁️</span>
+      </div>
+      <div class="passwordRequirements" id="passwordRequirements" style="display: none;">
+        <div class="requirement" id="req-uppercase">
+          <span>✗</span> <span style="margin-left: 8px;">Al menos una mayúscula</span>
+        </div>
+        <div class="requirement" id="req-lowercase">
+          <span>✗</span> <span style="margin-left: 8px;">Al menos una minúscula</span>
+        </div>
+        <div class="requirement" id="req-number">
+          <span>✗</span> <span style="margin-left: 8px;">Al menos un número</span>
+        </div>
+        <div class="requirement" id="req-special">
+          <span>✗</span> <span style="margin-left: 8px;">Al menos un carácter especial (!@#$%^&*)</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="inputGroup" id="displayNameGroup">
+      <label for="loginDisplayName">Nombre para mostrar</label>
+      <input type="text" id="loginDisplayName" placeholder="Tu nombre" autocomplete="name">
+    </div>
+    
+    <div class="checkboxGroup">
+      <input type="checkbox" id="rememberMe">
+      <label for="rememberMe">Recordar inicio de sesión</label>
+    </div>
+    
+    <button class="loginButton" onclick="handleLogin()">Iniciar Sesión</button>
+  </div>
+</div>
+
+<!-- CHAT SCREEN -->
+<div id="container" style="display: none;">
+  <div id="sidebar">
+    <h3>Conectados</h3>
+    <div id="usersList"></div>
+  </div>
+
+  <div id="chatArea">
+    <div id="topBar">
+      <span id="usernameDisplay"></span>
+            <div>
+        <button onclick="toggleTheme()">☀️/🌙</button>
+        <button onclick="changeName()">Cambiar nombre</button>
+        <button onclick="logout()" style="background: #ef4444;">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div id="chat"></div>
+    <div id="typing"></div>
+
+    <div id="inputArea">
+      <input id="messageInput" placeholder="Escribe un mensaje..." oninput="sendTyping()">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* ============================================================
+   SUPABASE CONFIG
+============================================================ */
+const SUPABASE_URL = "https://hgangxlyytnxdndwjvgf.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnYW5neGx5eXRueGRuZHdqdmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzNDgyNTksImV4cCI6MjA4MDkyNDI1OX0.VL5GgpkfV102lJc_NEi0Ga15gDiNSV92jSIRMuH-5hI";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* ============================================================
+   VALIDACIÓN DE CONTRASEÑA SEGURA
+============================================================ */
+function validatePassword(password) {
+  const requirements = {
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  };
+  
+  return {
+    valid: requirements.uppercase && requirements.lowercase && requirements.number && requirements.special,
+    requirements
+  };
+}
+
+function updatePasswordRequirements(password) {
+  const validation = validatePassword(password);
+  const reqDiv = document.getElementById('passwordRequirements');
+  
+  if (password.length > 0) {
+    reqDiv.style.display = 'block';
+    
+    document.getElementById('req-uppercase').className = validation.requirements.uppercase ? 'requirement valid' : 'requirement invalid';
+    document.getElementById('req-lowercase').className = validation.requirements.lowercase ? 'requirement valid' : 'requirement invalid';
+    document.getElementById('req-number').className = validation.requirements.number ? 'requirement valid' : 'requirement invalid';
+    document.getElementById('req-special').className = validation.requirements.special ? 'requirement valid' : 'requirement invalid';
+    
+    document.getElementById('req-uppercase').querySelector('span').textContent = validation.requirements.uppercase ? '✓' : '✗';
+    document.getElementById('req-lowercase').querySelector('span').textContent = validation.requirements.lowercase ? '✓' : '✗';
+    document.getElementById('req-number').querySelector('span').textContent = validation.requirements.number ? '✓' : '✗';
+    document.getElementById('req-special').querySelector('span').textContent = validation.requirements.special ? '✓' : '✗';
+  } else {
+    reqDiv.style.display = 'none';
+  }
+}
+
+function togglePasswordVisibility() {
+  const input = document.getElementById('loginPassword');
+  const toggle = document.querySelector('.togglePassword');
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    toggle.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    toggle.textContent = '👁️';
+  }
+}
+
+// Event listener para validación en tiempo real
+document.addEventListener('DOMContentLoaded', () => {
+  const passwordInput = document.getElementById('loginPassword');
+  if (passwordInput) {
+    // Este event listener se manejará en la lógica principal
+    // para diferenciar entre usuarios nuevos y existentes
+  }
+});
+
+/* ============================================================
+   SISTEMA DE LOGIN
+============================================================ */
+let userid = null;
+let displayName = null;
+let userPassword = null;
+
+function showError(message) {
+  const errorDiv = document.getElementById('errorMessage');
+  errorDiv.textContent = message;
+  errorDiv.style.display = 'block';
+  setTimeout(() => {
+    errorDiv.style.display = 'none';
+  }, 5000);
+}
+
+async function handleLogin() {
+  const usernameInput = document.getElementById('loginUsername').value.trim();
+  const passwordInput = document.getElementById('loginPassword').value;
+  const displayNameInput = document.getElementById('loginDisplayName').value.trim();
+  const rememberMe = document.getElementById('rememberMe').checked;
+  
+  // Validaciones básicas
+  if (!usernameInput) {
+    showError('Por favor ingresa un usuario');
+    return;
+  }
+  
+  if (!passwordInput) {
+    showError('Por favor ingresa una contraseña');
+    return;
+  }
+  
+  // Validar formato de usuario
+  let formattedUsername = usernameInput.toLowerCase().replace(/\s+/g, '');
+  if (!formattedUsername.startsWith('@')) {
+    formattedUsername = '@' + formattedUsername;
+  }
+  
+  try {
+    // Verificar si el usuario existe en la base de datos
+    const { data: existingUser } = await db
+      .from('users')
+      .select('*')
+      .eq('username', formattedUsername)
+      .maybeSingle();
+    
+    if (existingUser) {
+      // USUARIO EXISTENTE: validar contraseña contra la BD
+      if (existingUser.password !== passwordInput) {
+        showError('Contraseña incorrecta');
+        return;
+      }
+      
+      // Usar el nombre de la BD si no se proporcionó uno nuevo
+      userid = formattedUsername;
+      userPassword = passwordInput;
+      
+      if (displayNameInput && displayNameInput !== existingUser.display_name) {
+        // Si el usuario escribió un nombre diferente, usarlo y actualizar BD
+        displayName = displayNameInput;
+        await db
+          .from('users')
+          .update({ display_name: displayName })
+          .eq('username', formattedUsername);
+      } else {
+        // Usar el nombre almacenado en la BD
+        displayName = existingUser.display_name;
+      }
+      
+    } else {
+      // NUEVO USUARIO: validar contraseña segura y pedir nombre
+      const passwordValidation = validatePassword(passwordInput);
+      if (!passwordValidation.valid) {
+        showError('La contraseña no cumple con los requisitos de seguridad');
+        return;
+      }
+      
+      if (!displayNameInput) {
+        showError('Por favor ingresa tu nombre para mostrar');
+        return;
+      }
+      
+      // Crear nuevo usuario
+      userid = formattedUsername;
+      displayName = displayNameInput;
+      userPassword = passwordInput;
+      
+      // Guardar en la base de datos
+      await db.from('users').insert({
+        username: userid,
+        display_name: displayName,
+        password: userPassword
+      });
+    }
+    
+    // Guardar credenciales según "Recordar inicio de sesión"
+    if (rememberMe) {
+      localStorage.setItem('userid', userid);
+      localStorage.setItem('display_name', displayName);
+      localStorage.setItem('user_password', btoa(userPassword));
+      localStorage.setItem('remember_session', 'true');
+    } else {
+      sessionStorage.setItem('userid', userid);
+      sessionStorage.setItem('display_name', displayName);
+    }
+    
+    // Mostrar chat y ocultar login
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('container').style.display = 'flex';
+    
+    // Inicializar chat
+    initChat();
+    
+  } catch (error) {
+    console.error('Error en el login:', error);
+    showError('Error al procesar el login. Intenta nuevamente.');
+  }
+}
+
+// Verificar sesión guardada al cargar
+async function checkSavedSession() {
+  const rememberSession = localStorage.getItem('remember_session');
+  
+  if (rememberSession === 'true') {
+    const savedUserid = localStorage.getItem('userid');
+    const savedDisplayName = localStorage.getItem('display_name');
+    const savedPassword = localStorage.getItem('user_password');
+    
+    if (savedUserid && savedDisplayName && savedPassword) {
+      try {
+        // Verificar en base de datos
+        const { data: existingUser } = await db
+          .from('users')
+          .select('*')
+          .eq('username', savedUserid)
+          .maybeSingle();
+        
+        if (existingUser) {
+          const decryptedPassword = atob(savedPassword);
+          // Validar contraseña contra la base de datos
+          if (existingUser.password === decryptedPassword) {
+            userid = savedUserid;
+            displayName = savedDisplayName;
+            userPassword = decryptedPassword;
+            
+            // Auto-login exitoso - NO mostrar pantalla de login
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('container').style.display = 'flex';
+            initChat();
+            return true;
+          } else {
+            // Contraseña incorrecta - limpiar datos inválidos
+            localStorage.removeItem('userid');
+            localStorage.removeItem('display_name');
+            localStorage.removeItem('user_password');
+            localStorage.removeItem('remember_session');
+          }
+        } else {
+          // Usuario no existe en BD - limpiar datos
+          localStorage.removeItem('userid');
+          localStorage.removeItem('display_name');
+          localStorage.removeItem('user_password');
+          localStorage.removeItem('remember_session');
+        }
+      } catch (error) {
+        console.error('Error al verificar sesión:', error);
+        // Limpiar datos inválidos
+        localStorage.removeItem('userid');
+        localStorage.removeItem('display_name');
+        localStorage.removeItem('user_password');
+        localStorage.removeItem('remember_session');
+      }
+    }
+  }
+  return false;
+}
+
+function initChat() {
+  console.log('=== INICIANDO CHAT ===');
+  console.log('Usuario:', userid);
+  console.log('Nombre:', displayName);
+  
+  document.getElementById('usernameDisplay').innerHTML =
+    `${displayName}<br><small style="opacity:0.7">${userid}</small>`;
+  
+  connectUser();
+  loadMessages();
+  loadOnlineUsers();
+  
+  // Enfocar input de mensaje
+  document.getElementById('messageInput').focus();
+}
+
+// Configurar lógica para mostrar/ocultar campo de nombre
+document.addEventListener('DOMContentLoaded', async () => {
+  const usernameInput = document.getElementById('loginUsername');
+  const displayNameGroup = document.getElementById('displayNameGroup');
+  const passwordInput = document.getElementById('loginPassword');
+  
+  // Función para verificar si el usuario existe
+  async function checkUserExists(username) {
+    if (!username) return null;
+    
+    let formattedUsername = username.toLowerCase().replace(/\s+/g, '');
+    if (!formattedUsername.startsWith('@')) {
+      formattedUsername = '@' + formattedUsername;
+    }
+    
+    try {
+      const { data: existingUser } = await db
+        .from('users')
+        .select('display_name, password')
+        .eq('username', formattedUsername)
+        .maybeSingle();
+      
+      return existingUser;
+    } catch (error) {
+      console.error('Error al verificar usuario:', error);
+      return null;
+    }
+  }
+  
+  // Evento cuando el usuario escribe en el campo de username
+  usernameInput.addEventListener('input', async () => {
+    const username = usernameInput.value.trim();
+    
+    if (!username) {
+      // Si no hay username, mostrar campo de nombre
+      displayNameGroup.style.display = 'block';
+      document.getElementById('loginDisplayName').value = '';
+      document.getElementById('passwordRequirements').style.display = 'none';
+      return;
+    }
+    
+    // Esperar un momento para no hacer muchas consultas
+    setTimeout(async () => {
+      const existingUser = await checkUserExists(username);
+      
+      if (existingUser) {
+        // Usuario existe - usar nombre almacenado, NO pedirlo
+        displayNameGroup.style.display = 'none';
+        document.getElementById('loginDisplayName').value = existingUser.display_name || '';
+        
+        // Para usuarios existentes, NO mostrar requisitos de contraseña
+        document.getElementById('passwordRequirements').style.display = 'none';
+      } else {
+        // Usuario NO existe - mostrar campo de nombre (obligatorio para nuevo usuario)
+        displayNameGroup.style.display = 'block';
+        document.getElementById('loginDisplayName').value = '';
+        
+        // Para nuevos usuarios, mostrar requisitos si hay contraseña
+        if (passwordInput.value.length > 0) {
+          updatePasswordRequirements(passwordInput.value);
+        }
+      }
+    }, 300);
+  });
+  
+  // Evento para contraseña
+  passwordInput.addEventListener('input', async (e) => {
+    const username = usernameInput.value.trim();
+    
+    if (!username) {
+      // Si no hay username, mostrar requisitos (asumimos nuevo usuario)
+      updatePasswordRequirements(e.target.value);
+      return;
+    }
+    
+    const existingUser = await checkUserExists(username);
+    
+    if (!existingUser) {
+      // Solo mostrar requisitos para NUEVOS usuarios
+      updatePasswordRequirements(e.target.value);
+    } else {
+      // Ocultar requisitos para usuarios EXISTENTES
+      document.getElementById('passwordRequirements').style.display = 'none';
+    }
+  });
+  
+  // Verificar sesión guardada al cargar
+  if (!(await checkSavedSession())) {
+    // NO hay sesión válida - mostrar pantalla de login
+    document.getElementById('loginContainer').style.display = 'flex';
+    document.getElementById('container').style.display = 'none';
+  }
+});
+
+/* ============================================================
+   TEMA CLARO/OSCURO
+============================================================ */
+if (!localStorage.getItem("theme")) localStorage.setItem("theme", "light");
+document.body.className = localStorage.getItem("theme");
+
+function toggleTheme() {
+  const t = localStorage.getItem("theme") === "light" ? "dark" : "light";
+  localStorage.setItem("theme", t);
+  document.body.className = t;
+}
+
+/* ============================================================
+   CAMBIAR NOMBRE Y CERRAR SESIÓN
+============================================================ */
+function changeName() {
+  const nuevo = prompt("Nuevo nombre:");
+  if (!nuevo) return;
+
+  displayName = nuevo.trim();
+  
+  // Actualizar en la base de datos
+  db.from('users')
+    .update({ display_name: displayName })
+    .eq('username', userid)
+    .then(() => {
+      console.log('Nombre actualizado en la base de datos');
+    })
+    .catch(error => {
+      console.error('Error al actualizar nombre:', error);
+    });
+  
+  // Actualizar según el tipo de sesión
+  if (localStorage.getItem('remember_session') === 'true') {
+    localStorage.setItem('display_name', displayName);
+  } else {
+    sessionStorage.setItem('display_name', displayName);
+  }
+
+  document.getElementById('usernameDisplay').innerHTML =
+    `${displayName}<br><small style="opacity:0.7">${userid}</small>`;
+
+  connectUser();
+}
+
+function logout() {
+  if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+    // Limpiar localStorage y sessionStorage
+    localStorage.removeItem('userid');
+    localStorage.removeItem('display_name');
+    localStorage.removeItem('user_password');
+    localStorage.removeItem('remember_session');
+    sessionStorage.clear();
+    
+    // Desconectar usuario
+    if (userid) {
+      db.from('online_users').delete().eq('userid', userid);
+    }
+    
+    // Mostrar solo usuario y contraseña (limpiar nombre y ocultar campo)
+    document.getElementById('loginUsername').value = userid || '';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginDisplayName').value = '';
+    document.getElementById('displayNameGroup').style.display = 'block';
+    document.getElementById('rememberMe').checked = false;
+    document.getElementById('passwordRequirements').style.display = 'none';
+    
+    // Mostrar login y ocultar chat
+    document.getElementById('loginContainer').style.display = 'flex';
+    document.getElementById('container').style.display = 'none';
+    
+    // Resetear variables
+    userid = null;
+    displayName = null;
+    userPassword = null;
+  }
+}
+
+/* ============================================================
+   ONLINE USERS - MEJORADO
+============================================================ */
+async function connectUser() {
+  try {
+    console.log("Conectando usuario:", { userid, displayName });
+    
+    // Primero, verificar si el usuario ya existe
+    const { data: existingUser, error: checkError } = await db
+      .from("online_users")
+      .select("*")
+      .eq("userid", userid)
+      .maybeSingle();
+    
+    if (checkError) {
+      console.error("Error al verificar usuario existente:", checkError);
+    }
+    
+    console.log("Usuario existente:", existingUser);
+    
+    if (existingUser) {
+      // Actualizar usuario existente
+      const updateData = {
+        username: userid,
+        display_name: displayName,
+        last_seen: new Date().toISOString()
+      };
+      console.log("Actualizando usuario con:", updateData);
+      
+      const { error: updateError } = await db
+        .from("online_users")
+        .update(updateData)
+        .eq("userid", userid);
+        
+      if (updateError) {
+        console.error("Error al actualizar usuario:", updateError);
+      } else {
+        console.log("Usuario actualizado correctamente");
+      }
+    } else {
+      // Insertar nuevo usuario
+      const insertData = {
+        userid,
+        username: userid,
+        display_name: displayName,
+        last_seen: new Date().toISOString(),
+        connected_at: new Date().toISOString()
+      };
+      console.log("Insertando nuevo usuario con:", insertData);
+      
+      const { error: insertError } = await db
+        .from("online_users")
+        .insert(insertData);
+        
+      if (insertError) {
+        console.error("Error al insertar usuario:", insertError);
+      } else {
+        console.log("Usuario insertado correctamente");
+      }
+    }
+  } catch (error) {
+    console.error("Error al conectar usuario:", error);
+  }
+}
+
+// actualizar cada 10s
+setInterval(connectUser, 10000);
+
+function renderAvatar(name) {
+  return name ? name.charAt(0).toUpperCase() : "?";
+}
+
+async function loadOnlineUsers() {
+  try {
+    console.log("Cargando usuarios conectados...");
+    const now = Date.now();
+    
+    // Intentar cargar usuarios, pero continuar incluso si hay error
+    let data = [];
+    let error = null;
+    
+    try {
+      const result = await db.from("online_users").select("*");
+      data = result.data || [];
+      error = result.error;
+    } catch (fetchError) {
+      console.warn("No se pudo cargar usuarios (tabla puede no existir):", fetchError.message);
+      data = [];
+    }
+    
+    if (error) {
+      console.warn("Error al cargar usuarios (continuando):", error.message);
+    }
+    
+    console.log("Usuarios en la base de datos:", data);
+
+        // Intentar borrar inactivos (más de 30 segundos)
+    try {
+      const expired = data.filter(u => u.last_seen && (now - new Date(u.last_seen)) > 30000);
+      for (const u of expired) {
+        if (u.userid) {
+          await db.from("online_users").delete().eq("userid", u.userid);
+        }
+      }
+    } catch (deleteError) {
+      console.warn("No se pudieron eliminar usuarios inactivos:", deleteError.message);
+    }
+
+    const active = data.filter(u => (now - new Date(u.last_seen)) <= 30000);
+    const list = document.getElementById("usersList");
+    list.innerHTML = "";
+
+    // Mostrar mensaje si no hay usuarios
+    if (active.length === 0) {
+      list.innerHTML = '<div style="padding: 10px; text-align: center; opacity: 0.7;">No hay usuarios conectados</div>';
+      return;
+    }
+
+    // Ordenar alfabéticamente por display_name
+    active.sort((a, b) => a.display_name?.localeCompare(b.display_name || ""));
+
+    // Mostrar contador
+    const title = document.querySelector("#sidebar h3");
+    if (title) {
+      title.textContent = `Conectados (${active.length})`;
+    }
+
+    active.forEach(u => {
+      const div = document.createElement("div");
+      div.className = "userItem";
+
+      // Resaltar al usuario actual
+      if (u.userid === userid) {
+        div.style.backgroundColor = "rgba(70, 130, 180, 0.3)";
+        div.style.borderLeft = "3px solid steelblue";
+      }
+
+      div.innerHTML = `
+        <div class="avatar" style="background: ${u.userid === userid ? '#4682b4' : '#5f9ea0'};">
+          ${renderAvatar(u.display_name)}
+        </div>
+        <div>
+          <b>${u.display_name || "Sin nombre"}</b>
+          ${u.userid === userid ? ' <small style="color: steelblue;">(Tú)</small>' : ''}<br>
+          <small style="opacity:.7">${u.userid}</small>
+        </div>
+      `;
+
+      list.appendChild(div);
+    });
+  } catch (error) {
+    console.error("Error en loadOnlineUsers:", error);
+  }
+}
+
+// Cargar usuarios al inicio y cada 5 segundos
+loadOnlineUsers();
+setInterval(loadOnlineUsers, 5000);
+
+// Suscribirse a cambios en tiempo real
+try {
+  db.channel("online_users_changes")
+    .on(
+      "postgres_changes",
+      { 
+        event: "*", 
+        schema: "public", 
+        table: "online_users" 
+      },
+      () => {
+        loadOnlineUsers();
+      }
+    )
+    .subscribe();
+} catch (error) {
+  console.error("Error al suscribirse a online_users:", error);
+}
+
+/* ============================================================
+   CHAT
+============================================================ */
+function formatTime(t) {
+  return new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function addMessage(msg) {
+  const div = document.createElement("div");
+  div.className = "msg";
+
+  div.innerHTML = `
+    <b>${msg.username}</b> <small>[${formatTime(msg.created_at)}]</small><br>
+    ${msg.content}
+  `;
+
+  document.getElementById("chat").appendChild(div);
+  document.getElementById("chat").scrollTo({
+    top: document.getElementById("chat").scrollHeight,
+    behavior: "smooth"
+  });
+}
+
+async function loadMessages() {
+  const { data } = await db.from("messages").select("*").order("id");
+  if (data) {
+    data.forEach(addMessage);
+  }
+}
+
+// loadMessages() se llama desde initChat()
+
+db.channel("realtime_messages")
+  .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, p => addMessage(p.new))
+  .subscribe();
+
+async function sendMessage() {
+  const inp = document.getElementById("messageInput");
+  const text = inp.value.trim();
+  if (!text) return;
+
+  try {
+    await db.from("messages").insert({
+      username: displayName,
+      content: text,
+      created_at: new Date().toISOString()
+    });
+
+    inp.value = "";
+    sendTyping(false);
+    
+    // Enfocar el input después de enviar
+    inp.focus();
+  } catch (error) {
+    console.error("Error al enviar mensaje:", error);
+    alert("Error al enviar el mensaje. Intenta nuevamente.");
+  }
+}
+
+// Permitir enviar con Enter
+document.getElementById("messageInput").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});
+
+/* ============================================================
+   TYPING - MEJORADO
+============================================================ */
+let typingTimeout;
+
+async function sendTyping(state = true) {
+  try {
+    clearTimeout(typingTimeout);
+
+    // Usar userid para consistencia
+    await db.from("typing").upsert(
+      { 
+        userid: userid,
+        username: userid,
+        typing: state 
+      },
+      { onConflict: "userid" }
+    );
+
+    typingTimeout = setTimeout(() => {
+      db.from("typing").upsert(
+        { 
+          userid: userid,
+          username: userid,
+          typing: false 
+        },
+        { onConflict: "userid" }
+      );
+    }, 1500);
+  } catch (error) {
+    console.error("Error en sendTyping:", error);
+  }
+}
+
+// Suscribirse a cambios en tiempo real de typing
+try {
+  db.channel("realtime_typing")
+    .on(
+      "postgres_changes",
+      { 
+        event: "*", 
+        schema: "public", 
+        table: "typing" 
+      },
+      (payload) => {
+        // Ignorar nuestros propios eventos
+        if (payload.new.userid === userid) return;
+        
+        // Mostrar quién está escribiendo
+        if (payload.new.typing) {
+          // Buscar el display_name del usuario
+          db.from("online_users")
+            .select("display_name")
+            .eq("userid", payload.new.userid)
+            .single()
+            .then(({ data }) => {
+              const nombre = data?.display_name || payload.new.userid;
+              document.getElementById("typing").textContent = 
+                `${nombre} está escribiendo…`;
+              
+              // Limpiar después de 2 segundos
+              setTimeout(() => {
+                document.getElementById("typing").textContent = "";
+              }, 2000);
+            });
+        } else {
+          document.getElementById("typing").textContent = "";
+        }
+      }
+    )
+    .subscribe();
+} catch (error) {
+  console.error("Error al suscribirse a typing:", error);
+}
+
+</script>
+</body>
+</html>
