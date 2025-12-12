@@ -4,12 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chat Supabase Avanzado</title>
-
 <style>
-  * { box-sizing: border-box; }
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-  body.light { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #000; }
-  body.dark { background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%); color: #fff; }
+
+        * { box-sizing: border-box; }
+    body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); 
+    color: #333; 
+    overflow: hidden; /* Prevenir scroll en toda la página */
+    height: 100vh;
+  }
 
   /* LOGIN STYLES */
   #loginContainer {
@@ -30,9 +36,7 @@
     animation: slideIn 0.4s ease-out;
   }
 
-  body.dark #loginBox {
-    background: rgba(30, 30, 30, 0.95);
-  }
+  
 
   @keyframes slideIn {
     from {
@@ -45,10 +49,10 @@
     }
   }
 
-  #loginBox h2 {
+    #loginBox h2 {
     text-align: center;
     margin-bottom: 10px;
-    color: #667eea;
+    color: #8B4513;
     font-size: 28px;
   }
 
@@ -83,11 +87,7 @@
     transition: all 0.3s;
   }
 
-  body.dark .inputGroup input {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-  }
+  
 
   .inputGroup input:focus {
     outline: none;
@@ -121,9 +121,7 @@
     font-size: 12px;
   }
 
-  body.dark .passwordRequirements {
-    background: rgba(255, 255, 255, 0.05);
-  }
+  
 
   .requirement {
     display: flex;
@@ -159,10 +157,10 @@
     margin: 0;
   }
 
-  .loginButton {
+    .loginButton {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
     color: white;
     border: none;
     border-radius: 10px;
@@ -170,7 +168,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.4);
   }
 
   .loginButton:hover {
@@ -194,68 +192,379 @@
     display: none;
   }
 
-  body.dark .errorMessage {
-    background: rgba(239, 68, 68, 0.2);
-    color: #fca5a5;
+  
+
+  #container { 
+    display: flex; 
+    height: 100vh;
+    overflow: hidden; /* Evitar scroll en el contenedor principal */
   }
 
-  #container { display: flex; height: 100vh; }
-
-  #sidebar {
-    width: 230px; background: rgba(0,0,0,0.05);
+            #sidebar {
+    width: 230px; background: brown;
     padding: 15px; overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    min-height: 0; /* Importante para scroll en flex container */
   }
-  body.dark #sidebar { background: rgba(255,255,255,0.08); }
 
-  .userItem {
+
+    .userItem {
     display: flex; align-items: center;
-    margin-bottom: 12px; padding: 6px;
-    border-radius: 8px;
-    background: rgba(0,0,0,0.1);
+    margin-bottom: 12px; padding: 10px;
+    border-radius: 12px;
+    background: rgba(210, 180, 140, 0.3);
+    transition: all 0.3s;
+    border: 1px solid rgba(139, 69, 19, 0.1);
   }
-  body.dark .userItem { background: rgba(255,255,255,0.1); }
+  
+  .userItem:hover {
+    background: rgba(210, 180, 140, 0.5);
+    transform: translateX(5px);
+  }
 
-  .avatar {
-    width: 35px; height: 35px; border-radius: 50%;
-    background: steelblue; display: flex;
+
+      .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+    display: flex;
     align-items: center; justify-content: center;
-    color: #fff; font-weight: bold; margin-right: 10px;
+    color: #fff; font-weight: bold; margin-right: 12px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .avatar-top {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+    display: flex;
+    align-items: center; justify-content: center;
+    color: #fff; font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
   }
 
-  #chatArea { flex: 1; display: flex; flex-direction: column; }
-
-  #topBar {
-    padding: 10px; border-bottom: 1px solid #ccc;
-    display: flex; justify-content: space-between;
+      #chatArea { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 0; /* Importante para scroll interno */
+    overflow: hidden; /* Contener el contenido */
   }
 
-  #chat { padding: 15px; flex: 1; overflow-y: auto; }
-
-  .msg {
-    margin-bottom: 15px; padding: 10px;
-    border-radius: 8px;
-    background: rgba(0,0,0,0.1);
+    #topBar {
+    padding: 15px 20px; 
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245, 222, 179, 0.3);
   }
-  body.dark .msg { background: rgba(255,255,255,0.1); }
+  
+  #usernameDisplay {
+    font-weight: 600;
+    color: white;
+    font-size: 20px;
+  }
 
-  #typing { padding: 5px 15px; font-style: italic; opacity: 0.7; }
+  #chat { 
+    padding: 20px; 
+    flex: 1; 
+    overflow-y: auto; 
+    overflow-x: hidden; /* Eliminar scroll horizontal */
+    background: rgb(100,30,30);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0; /* Importante para que el scroll funcione en flex containers */
+  }
+  
+      .msg {
+    margin-bottom: 15px;
+    padding: 14px 16px 16px 16px;
+    border-radius: 18px;
+    max-width: 70%;
+    min-width: 120px;
+    position: relative;
+    word-wrap: break-word;
+    line-height: 1.4;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+  
+    .msg.own {
+    background: transparent;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .msg.other {
+    background: transparent;
+    color: white;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .msg-time {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 8px;
+    text-align: right;
+    opacity: 0.95;
+    display: block;
+    clear: both;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  
+  .msg-user {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: white;
+  }
+  
+  /* Estilos para contenedor de mensaje con avatar */
+  .msg-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+  }
+  
+  .msg-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  
+  .msg-content-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .msg-bubble {
+    background: brown;
+    padding: 10px 14px;
+    border-radius: 18px;
+    position: relative;
+    max-width: 100%;
+    min-width: 50px;
+  }
+  
+  .msg.own .msg-bubble {
+    background: #8B4513;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .msg.other .msg-bubble {
+    background: #A0522D;
+    border-top-left-radius: 4px;
+  }
+  
+  .msg-text {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    color: white;
+  }
+  
+  .msg-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+  }
+  
+  .msg-content {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    overflow: visible;
+    line-height: 1.5;
+    margin: 4px 0;
+  }
+  
+      /* Estilos para botón de eliminar */
+  .delete-btn {
+    position: relative;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    opacity: 0.8;
+    transition: all 0.2s;
+    z-index: 10;
+    backdrop-filter: blur(2px);
+  }
+  
+    .delete-btn:hover {
+    opacity: 1;
+    background: rgba(255, 69, 0, 0.3);
+    border-color: rgba(255, 69, 0, 0.5);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Estilos especiales para botón de eliminar de administrador */
+  .admin-delete-btn {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.5);
+  }
+  
+  .admin-delete-btn:hover {
+    background: rgba(255, 69, 0, 0.4);
+    border-color: rgba(255, 69, 0, 0.7);
+  }
+  
+  /* Badge de administrador */
+  .admin-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #8B4513;
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+    cursor: help;
+  }
+  
+      /* Estilos para mensajes eliminados */
+  .msg.deleted {
+    opacity: 0.65;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.4) 0%, rgba(160, 82, 45, 0.4) 100%) !important;
+  }
+  
+  /* Estilos específicos para mensajes eliminados por administrador */
+  .msg.deleted-by-admin {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.5) 0%, rgba(160, 82, 45, 0.5) 100%) !important;
+    border-left: 3px solid rgba(255, 215, 0, 0.5);
+  }
+  
+  .msg.deleted .msg-content {
+    font-style: italic;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  .msg.deleted .msg-user {
+    opacity: 0.8;
+  }
+  
+  .msg.deleted .msg-time {
+    opacity: 0.7;
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+  
+  /* Información de eliminación por administrador */
+  .delete-info {
+    font-size: 10px !important;
+    opacity: 0.8;
+    margin-top: 2px;
+    font-style: italic;
+    color: rgba(255, 215, 0, 0.9) !important;
+  }
+  
+  
+  
+  * {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
 
-  #inputArea {
-    display: flex; padding: 10px; border-top: 1px solid #ccc;
+
+    #typing { 
+    padding: 8px 20px; 
+    font-style: italic; 
+    opacity: 0.9; 
+    color: white;
+    font-size: 13px;
+    background: rgba(139, 69, 19, 0.7);
+    border-radius: 0 0 10px 10px;
+    margin: 0 20px;
+  }
+
+      #inputArea {
+    display: flex; 
+    flex-direction: column;
+    padding: 15px; 
+    border-top: 1px solid rgba(139, 69, 19, 0.2);
+    background: rgba(245, 222, 179, 0.2);
+    gap: 8px;
+    position: relative;
+  }
+  
+  .input-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
   }
 
   input {
-    flex: 1; padding: 10px; border-radius: 8px;
+    flex: 1; 
+    padding: 12px 16px; 
+    border-radius: 20px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    font-size: 14px;
+    background: white;
+    transition: all 0.3s;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #8B4513;
+    box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+  }
+  
+  input:disabled {
+    background: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
   }
 
-  button {
+    button {
     margin-left: 10px; padding: 10px 16px;
-    border: none; background: steelblue; color: white;
+    border: none; background: #8B4513; color: white;
     border-radius: 8px; cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  button:hover {
+    background: #A0522D;
+    transform: translateY(-2px);
+  }
+  
+  button:disabled {
+    background: #D2B48C;
+    cursor: not-allowed;
+    transform: none;
   }
 </style>
 </head>
-<body class="light">
+<body>
 
 <!-- LOGIN SCREEN -->
 <div id="loginContainer">
@@ -266,9 +575,9 @@
     <div id="errorMessage" class="errorMessage"></div>
     
     <div class="inputGroup">
-      <label for="loginUsername">Usuario</label>
-      <input type="text" id="loginUsername" placeholder="@usuario" autocomplete="username">
-    </div>
+    <label for="loginUsername">Usuario (máx 12 dígitos)</label>
+    <input type="text" id="loginUsername" placeholder="@usuario" autocomplete="username" maxlength="12" oninput="validateUsernameLength()">
+  </div>
     
     <div class="inputGroup">
       <label for="loginPassword">Contraseña</label>
@@ -302,22 +611,31 @@
       <label for="rememberMe">Recordar inicio de sesión</label>
     </div>
     
-    <button class="loginButton" onclick="handleLogin()">Iniciar Sesión</button>
+        <button class="loginButton" onclick="handleLogin()">Iniciar Sesión</button>
+    <div style="margin-top: 20px; text-align: center;">
+      <button onclick="setupDatabase()" style="background: #666; padding: 8px 16px; font-size: 12px; margin: 5px;">Configurar Base de Datos</button>
+      <button onclick="testChatFunctionality()" style="background: #4CAF50; padding: 8px 16px; font-size: 12px; margin: 5px;">Probar Chat</button>
+    </div>
   </div>
 </div>
 
 <!-- CHAT SCREEN -->
 <div id="container" style="display: none;">
   <div id="sidebar">
-    <h3>Conectados</h3>
+    <h3 style="color: white;">Conectados</h3>
     <div id="usersList"></div>
   </div>
 
   <div id="chatArea">
-    <div id="topBar">
-      <span id="usernameDisplay"></span>
-            <div>
-        <button onclick="toggleTheme()">☀️/🌙</button>
+        <div id="topBar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div id="userAvatarTop" class="avatar-top"></div>
+        <div>
+          <span id="usernameDisplay"></span>
+          <div id="userStatus" style="font-size: 12px; opacity: 0.8; color: #09ff00;">Conectado</div>
+        </div>
+      </div>
+      <div>
         <button onclick="changeName()">Cambiar nombre</button>
         <button onclick="logout()" style="background: #ef4444;">Cerrar sesión</button>
       </div>
@@ -326,9 +644,12 @@
     <div id="chat"></div>
     <div id="typing"></div>
 
-    <div id="inputArea">
-      <input id="messageInput" placeholder="Escribe un mensaje..." oninput="sendTyping()">
-      <button onclick="sendMessage()">Enviar</button>
+                <div id="inputArea">
+      <div class="input-row">
+                <input id="messageInput" placeholder="Escribe un mensaje (máx 1000 caracteres)..." oninput="sendTyping(true); updateCharCounter()" onkeypress="if(event.key === 'Enter') { event.preventDefault(); sendMessage(); }" maxlength="1000">
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+      <div id="charCounter" style="font-size: 11px; color: white; text-align: right; padding: 2px 12px 0 0; display: none; font-weight: 500;">0/1000 caracteres</div>
     </div>
   </div>
 </div>
@@ -341,7 +662,100 @@
 ============================================================ */
 const SUPABASE_URL = "https://hgangxlyytnxdndwjvgf.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnYW5neGx5eXRueGRuZHdqdmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzNDgyNTksImV4cCI6MjA4MDkyNDI1OX0.VL5GgpkfV102lJc_NEi0Ga15gDiNSV92jSIRMuH-5hI";
+console.log('Configurando Supabase...');
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+console.log('Supabase configurado:', db ? 'OK' : 'ERROR');
+// Probar conexión a Supabase y verificar estructura
+async function testSupabaseConnection() {
+  try {
+    console.log('🔌 Probando conexión a Supabase...');
+    console.log('URL:', SUPABASE_URL);
+    
+    // Probar conexión básica
+    const { data, error, count } = await db.from('messages').select('*', { count: 'exact' }).limit(1);
+    
+    if (error) {
+      console.error('❌ Error de conexión a Supabase:', error);
+      console.error('Detalles:', error.message);
+      
+      // Mostrar instrucciones si la tabla no existe
+      if (error.message.includes('does not exist') || error.message.includes('no existe') || error.message.includes('relation')) {
+        console.warn('⚠️ La tabla messages no existe. Se necesita configurar la base de datos.');
+        
+        // Mostrar alerta
+        setTimeout(() => {
+          alert('⚠️ ATENCIÓN: La tabla messages no existe en Supabase.\n\nPara solucionar:\n1. Ve a tu proyecto Supabase\n2. Abre el Editor SQL\n3. Ejecuta el archivo configurar_bd.sql o crear_tabla_messages_completa.sql');
+        }, 1000);
+      } else {
+        // Otro tipo de error
+        setTimeout(() => {
+          alert('⚠️ Error de conexión a Supabase:\n' + error.message);
+        }, 1000);
+      }
+    } else {
+      console.log('✅ Conexión a Supabase exitosa');
+      console.log('Total de mensajes:', count || 0);
+      
+      // Verificar si la tabla tiene las columnas necesarias
+      if (data && data.length > 0) {
+        const firstMessage = data[0];
+        console.log('Primer mensaje:', firstMessage);
+        
+        const hasDeletedField = 'deleted' in firstMessage;
+        const hasIdField = 'id' in firstMessage;
+        
+        console.log('Tiene campo deleted:', hasDeletedField);
+        console.log('Tiene campo id:', hasIdField);
+        
+        if (!hasDeletedField) {
+          console.warn('⚠️ La tabla messages no tiene la columna "deleted".');
+          
+          setTimeout(() => {
+            alert('⚠️ La tabla messages necesita actualización.\n\nEjecuta configurar_bd.sql en Supabase para agregar las columnas faltantes.');
+          }, 1500);
+        } else {
+          console.log('✅ Estructura de la base de datos correcta');
+        }
+      } else {
+        console.log('ℹ️ No hay mensajes en la base de datos');
+      }
+    }
+  } catch (error) {
+    console.error('❌ Error en test de conexión:', error);
+    console.error('Stack:', error.stack);
+    
+    setTimeout(() => {
+      alert('❌ Error crítico al conectar con Supabase:\n' + error.message);
+    }, 1000);
+  }
+}
+
+// Ejecutar test cuando se cargue la página
+window.addEventListener('load', () => {
+  console.log('🚀 Página cargada, iniciando diagnóstico...');
+  
+  // Ejecutar diagnóstico completo
+  setTimeout(async () => {
+    await testSupabaseConnection();
+    
+    // Verificar también otros componentes
+    console.log('🔍 Verificando componentes de la página...');
+    console.log('Elemento #chat:', document.getElementById('chat') ? '✅ Existe' : '❌ No existe');
+    console.log('Elemento #messageInput:', document.getElementById('messageInput') ? '✅ Existe' : '❌ No existe');
+    console.log('Elemento #loginContainer:', document.getElementById('loginContainer') ? '✅ Existe' : '❌ No existe');
+    
+    // Verificar variables globales
+    console.log('🌐 Variables globales:');
+    console.log('- Supabase URL:', SUPABASE_URL ? '✅ Configurada' : '❌ No configurada');
+    console.log('- Supabase Client:', db ? '✅ Inicializado' : '❌ No inicializado');
+    
+    // Si estamos en el chat, probar carga de mensajes
+    if (document.getElementById('container').style.display !== 'none') {
+      console.log('💬 Chat visible, probando carga de mensajes...');
+      await loadMessages();
+    }
+  }, 1000);
+});
 
 /* ============================================================
    VALIDACIÓN DE CONTRASEÑA SEGURA
@@ -358,6 +772,49 @@ function validatePassword(password) {
     valid: requirements.uppercase && requirements.lowercase && requirements.number && requirements.special,
     requirements
   };
+}
+
+/* ============================================================
+   VALIDACIÓN DE USERNAME (MÁX 12 DÍGITOS)
+============================================================ */
+function validateUsernameLength() {
+  const usernameInput = document.getElementById('loginUsername');
+  const username = usernameInput.value.trim();
+  
+  if (username.length > 12) {
+    usernameInput.value = username.substring(0, 12);
+    showError('El usuario no puede tener más de 12 dígitos');
+  }
+}
+
+/* ============================================================
+   CONTADOR DE CARACTERES PARA MENSAJES
+============================================================ */
+function updateCharCounter() {
+  const input = document.getElementById('messageInput');
+  const text = input.value;
+  const counter = document.getElementById('charCounter');
+  
+  if (counter) {
+    const remaining = 1000 - text.length;
+    counter.textContent = `${text.length}/1000 caracteres`;
+    
+    // Mostrar/ocultar contador
+    if (text.length > 0) {
+      counter.style.display = 'block';
+    } else {
+      counter.style.display = 'none';
+    }
+    
+    // Cambiar color según el límite
+    if (remaining < 100) {
+      counter.style.color = '#f59e0b';
+    } else if (remaining < 50) {
+      counter.style.color = '#ef4444';
+    } else {
+      counter.style.color = '#666';
+    }
+  }
 }
 
 function updatePasswordRequirements(password) {
@@ -410,6 +867,26 @@ let userid = null;
 let displayName = null;
 let userPassword = null;
 
+/* ============================================================
+   VARIABLES DEL SISTEMA ANTI-SPAM Y TYPING
+   (Declaradas aquí para que estén disponibles antes de que
+    se llamen las funciones que las usan)
+============================================================ */
+// Variables del sistema anti-spam
+let messageCount = 0;
+let messageTimer = null;
+let spamBlocked = false;
+let spamTimer = null;
+const MAX_MESSAGES_PER_SECOND = 5;
+const SPAM_BLOCK_TIME = 60; // 60 segundos de bloqueo
+
+// Variables del sistema de typing
+let typingTimeout;
+let typingDebounceTimer;
+let lastTypingSent = 0;
+const TYPING_DEBOUNCE_TIME = 1000; // 1 segundo entre actualizaciones
+const TYPING_STOP_TIME = 2000; // 2 segundos para marcar como dejó de escribir
+
 function showError(message) {
   const errorDiv = document.getElementById('errorMessage');
   errorDiv.textContent = message;
@@ -417,6 +894,73 @@ function showError(message) {
   setTimeout(() => {
     errorDiv.style.display = 'none';
   }, 5000);
+}
+
+// Nueva función para mostrar notificaciones en el chat
+function showChatNotification(message, isError = false) {
+  console.log('📢 Notificación en chat:', message, 'Error:', isError);
+  
+  // Crear o reutilizar un elemento de notificación en el chat
+  let notification = document.getElementById('chatNotification');
+  
+  if (!notification) {
+    notification = document.createElement('div');
+    notification.id = 'chatNotification';
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-width: 300px;
+      text-align: center;
+      animation: slideInRight 0.3s ease-out;
+      display: none;
+    `;
+    document.body.appendChild(notification);
+    
+    // Agregar la animación CSS si no existe
+    if (!document.getElementById('chatNotificationStyle')) {
+      const style = document.createElement('style');
+      style.id = 'chatNotificationStyle';
+      style.textContent = `
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  // Estilos según el tipo de mensaje
+  if (isError) {
+    notification.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+    notification.style.color = 'white';
+    notification.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+  } else {
+    notification.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    notification.style.color = 'white';
+    notification.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+  }
+  
+  notification.textContent = message;
+  notification.style.display = 'block';
+  
+  // Ocultar después de 3 segundos
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 3000);
 }
 
 async function handleLogin() {
@@ -552,7 +1096,11 @@ async function checkSavedSession() {
             // Auto-login exitoso - NO mostrar pantalla de login
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('container').style.display = 'flex';
-            initChat();
+            
+            // Asegurar que el chat esté completamente inicializado
+            setTimeout(() => {
+              initChat();
+            }, 100);
             return true;
           } else {
             // Contraseña incorrecta - limpiar datos inválidos
@@ -585,16 +1133,246 @@ function initChat() {
   console.log('=== INICIANDO CHAT ===');
   console.log('Usuario:', userid);
   console.log('Nombre:', displayName);
+  console.log('Elemento #chat existe:', document.getElementById('chat') ? 'Sí' : 'No');
   
-  document.getElementById('usernameDisplay').innerHTML =
-    `${displayName}<br><small style="opacity:0.7">${userid}</small>`;
+  // Verificar si es administrador
+  const isAdmin = userid === '@proyectoja';
   
-  connectUser();
+  // Mostrar nombre de usuario con indicador de administrador si corresponde
+  let usernameHTML = `${displayName}`;
+  if (isAdmin) {
+    usernameHTML += ' <span style="color: gold; font-size: 14px;" title="Administrador">Admin</span>';
+  }
+  usernameHTML += `<br><small style="opacity:0.7">${userid}</small>`;
+  
+  document.getElementById('usernameDisplay').innerHTML = usernameHTML;
+  
+  // Mostrar avatar en el top bar con indicador de administrador
+  const avatarTop = document.getElementById('userAvatarTop');
+  if (avatarTop && displayName) {
+    avatarTop.textContent = displayName.charAt(0).toUpperCase();
+    
+    // Agregar estilo especial para administrador
+    if (isAdmin) {
+      avatarTop.style.background = 'linear-gradient(135deg, #DAA520 0%, #FFD700 100%)';
+      avatarTop.style.boxShadow = '0 3px 6px rgba(218, 165, 32, 0.4)';
+      
+      // Agregar badge de administrador
+      const adminBadge = document.createElement('div');
+      adminBadge.style.cssText = 'position: absolute; bottom: -3px; right: -3px; background: gold; color: #8B4513; width: 14px; height: 14px; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid #8B4513;';
+      adminBadge.textContent = 'A';
+      adminBadge.title = 'Administrador';
+      avatarTop.style.position = 'relative';
+      avatarTop.appendChild(adminBadge);
+    }
+  }
+  
+    connectUser();
   loadMessages();
   loadOnlineUsers();
   
+  // Inicializar suscripción a typing
+  initTypingSubscription();
+  
+  // Inicializar suscripción a mensajes en tiempo real
+  initMessagesSubscription();
+  
+  // Inicializar sistema anti-spam
+  if (messageTimer) {
+    clearInterval(messageTimer);
+  }
+  messageTimer = setInterval(() => {
+    messageCount = 0;
+    updateSpamCounter();
+  }, 1000);
+  
+    // Crear contador de spam si no existe
+  let counter = document.getElementById('spamCounter');
+  if (!counter) {
+    counter = document.createElement('div');
+    counter.id = 'spamCounter';
+    counter.style.cssText = 'padding: 10px 15px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.25) 100%); border-radius: 10px; font-size: 14px; font-weight: bold; margin-bottom: 12px; text-align: center; display: none; border: 1px solid rgba(239, 68, 68, 0.3);';
+    document.getElementById('inputArea').insertBefore(counter, document.getElementById('inputArea').firstChild);
+  }
+    updateSpamCounter();
+  
+  // Inicializar contador de caracteres
+  updateCharCounter();
+  
+  // Inicializar sistema anti-spam
+  if (messageTimer) {
+    clearInterval(messageTimer);
+  }
+  messageTimer = setInterval(() => {
+    messageCount = 0;
+    updateSpamCounter();
+  }, 1000);
+  
+    // Agregar mensaje de prueba para verificar estilos
+  setTimeout(() => {
+    const testMessage = {
+      username: 'Sistema',
+      content: '¡Bienvenido al chat! Los mensajes se mostrarán aquí.',
+      created_at: new Date().toISOString()
+    };
+    addMessage(testMessage);
+  }, 500);
+  
   // Enfocar input de mensaje
   document.getElementById('messageInput').focus();
+}
+
+// Función para inicializar la suscripción a typing
+function initTypingSubscription() {
+  console.log('Inicializando suscripción a typing...');
+  
+  try {
+    // Cancelar suscripción anterior si existe
+    if (window.typingChannel) {
+      db.removeChannel(window.typingChannel);
+    }
+    
+    // Crear nueva suscripción
+    window.typingChannel = db.channel('typing_updates_' + userid);
+    
+    window.typingChannel
+      .on(
+        'postgres_changes',
+        { 
+          event: '*', 
+          schema: 'public', 
+          table: 'typing' 
+        },
+        (payload) => {
+          console.log('📢 EVENTO TYPING RECIBIDO:', payload);
+          
+          // Ignorar nuestros propios eventos
+          if (payload.new && payload.new.userid === userid) {
+            console.log('Ignorando evento propio');
+            return;
+          }
+          
+          // Mostrar quién está escribiendo
+          if (payload.new && payload.new.typing) {
+            const nombre = payload.new.username || payload.new.userid || 'Alguien';
+            console.log(`${nombre} está escribiendo…`);
+            document.getElementById('typing').textContent = 
+              `${nombre} está escribiendo…`;
+            
+            // Limpiar después de 3 segundos
+            setTimeout(() => {
+              document.getElementById('typing').textContent = '';
+            }, 3000);
+          } else {
+            console.log('Typing detenido');
+            document.getElementById('typing').textContent = '';
+          }
+        }
+      )
+      .subscribe((status) => {
+        console.log('Estado de suscripción typing:', status);
+      });
+      
+    console.log('✅ Suscripción a typing inicializada');
+  } catch (error) {
+    console.error('❌ Error al inicializar suscripción a typing:', error);
+    }
+}
+
+// Función para inicializar la suscripción a mensajes en tiempo real
+function initMessagesSubscription() {
+  console.log('🔔 Inicializando suscripción a mensajes en tiempo real...');
+  
+  try {
+    // Cancelar suscripción anterior si existe
+    if (window.messageSubscription) {
+      db.removeChannel(window.messageSubscription);
+    }
+    
+    // Crear nuevo canal
+    window.messageSubscription = db.channel('realtime_messages_' + userid + '_' + Date.now());
+    
+    window.messageSubscription
+      .on("postgres_changes", { 
+        event: "INSERT", 
+        schema: "public", 
+        table: "messages" 
+      }, (payload) => {
+        console.log('📨 NUEVO MENSAJE RECIBIDO (INSERT):', payload);
+        console.log('Contenido:', payload.new.content);
+        console.log('Usuario:', payload.new.username);
+        
+        // Verificar que no sea nuestro propio mensaje recién enviado
+        const isOwnMessage = displayName && payload.new.username === displayName;
+        console.log('¿Es nuestro mensaje?', isOwnMessage);
+        
+        // Siempre agregar el mensaje
+        addMessage(payload.new);
+      })
+      .on("postgres_changes", { 
+        event: "UPDATE", 
+        schema: "public", 
+        table: "messages" 
+      }, (payload) => {
+        console.log('Mensaje actualizado:', payload);
+        // Actualizar el mensaje en la interfaz si existe
+        const messageElement = document.querySelector(`.msg[data-message-id="${payload.new.id}"]`);
+        if (messageElement) {
+                // Si el mensaje fue eliminado, actualizar la interfaz
+      if (payload.new.deleted || payload.new.content === '[Mensaje eliminado]') {
+        const textElement = messageElement.querySelector('.msg-text');
+        if (textElement) {
+          textElement.textContent = '[Mensaje eliminado]';
+        }
+        
+        // Agregar información de eliminación por administrador si corresponde
+        if (payload.new.deleted_by_admin && payload.new.deleted_by === '@proyectoja') {
+          // Verificar si ya existe la información de eliminación
+          let deleteInfo = messageElement.querySelector('.delete-info');
+          if (!deleteInfo) {
+            deleteInfo = document.createElement('div');
+            deleteInfo.className = 'delete-info';
+            deleteInfo.style.cssText = 'font-size: 10px; opacity: 0.8; margin-top: 2px; font-style: italic; color: rgba(255, 215, 0, 0.9);';
+            deleteInfo.textContent = 'Eliminado por administrador';
+            
+            // Insertar en el msg-bubble
+            const msgBubble = messageElement.querySelector('.msg-bubble');
+            if (msgBubble) {
+              msgBubble.appendChild(deleteInfo);
+            }
+          }
+          
+          // Agregar clase especial para mensajes eliminados por administrador
+          messageElement.classList.add('deleted-by-admin');
+        }
+        
+        // Remover el botón de eliminar
+        const deleteBtn = messageElement.querySelector('.delete-btn');
+        if (deleteBtn) {
+          deleteBtn.remove();
+        }
+        
+        // Agregar clase para estilo de mensaje eliminado
+        messageElement.classList.add('deleted');
+      }
+        } else {
+          // Si el elemento no existe, agregarlo (podría ser un mensaje antiguo que se actualizó)
+          addMessage(payload.new);
+        }
+      })
+      .subscribe((status) => {
+        console.log('Estado de suscripción a mensajes:', status);
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Suscrito correctamente a mensajes en tiempo real');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.error('❌ Error en la suscripción a mensajes');
+        }
+      });
+      
+    console.log('✅ Suscripción a mensajes inicializada');
+  } catch (error) {
+    console.error('❌ Error al inicializar suscripción a mensajes:', error);
+  }
 }
 
 // Configurar lógica para mostrar/ocultar campo de nombre
@@ -683,25 +1461,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
   
-  // Verificar sesión guardada al cargar
-  if (!(await checkSavedSession())) {
+            // Verificar sesión guardada al cargar
+  const hasValidSession = await checkSavedSession();
+  if (!hasValidSession) {
     // NO hay sesión válida - mostrar pantalla de login
     document.getElementById('loginContainer').style.display = 'flex';
     document.getElementById('container').style.display = 'none';
+  } else {
+    // Hay sesión válida - asegurar que el chat esté visible
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('container').style.display = 'flex';
+    // Inicializar el chat (checkSavedSession ya llamó a initChat dentro del setTimeout)
+    // Pero llamamos de nuevo para asegurar que todo se inicialice correctamente
+    setTimeout(() => {
+      if (userid && displayName) {
+        initChat();
+      }
+    }, 200);
   }
 });
 
 /* ============================================================
-   TEMA CLARO/OSCURO
+   NOTA: Sistema de tema claro/oscuro removido según solicitud
 ============================================================ */
-if (!localStorage.getItem("theme")) localStorage.setItem("theme", "light");
-document.body.className = localStorage.getItem("theme");
-
-function toggleTheme() {
-  const t = localStorage.getItem("theme") === "light" ? "dark" : "light";
-  localStorage.setItem("theme", t);
-  document.body.className = t;
-}
 
 /* ============================================================
    CAMBIAR NOMBRE Y CERRAR SESIÓN
@@ -732,6 +1514,12 @@ function changeName() {
 
   document.getElementById('usernameDisplay').innerHTML =
     `${displayName}<br><small style="opacity:0.7">${userid}</small>`;
+  
+  // Actualizar avatar en el top bar
+  const avatarTop = document.getElementById('userAvatarTop');
+  if (avatarTop && displayName) {
+    avatarTop.textContent = displayName.charAt(0).toUpperCase();
+  }
 
   connectUser();
 }
@@ -906,14 +1694,28 @@ async function loadOnlineUsers() {
         div.style.borderLeft = "3px solid steelblue";
       }
 
+            // Determinar si es administrador
+      const isAdminUser = u.userid === '@proyectoja';
+      const isCurrentUserAdmin = userid === '@proyectoja';
+      
+      // Color de fondo diferente para administrador
+      let avatarBackground = '#5f9ea0';
+      if (u.userid === userid) {
+        avatarBackground = '#4682b4';
+      } else if (isAdminUser) {
+        avatarBackground = '#DAA520';
+      }
+      
       div.innerHTML = `
-        <div class="avatar" style="background: ${u.userid === userid ? '#4682b4' : '#5f9ea0'};">
+        <div class="avatar" style="background: ${avatarBackground};">
           ${renderAvatar(u.display_name)}
+          ${isAdminUser ? '<div style="position: absolute; bottom: -2px; right: -2px; background: gold; color: #8B4513; width: 12px; height: 12px; border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center;">A</div>' : ''}
         </div>
         <div>
-          <b>${u.display_name || "Sin nombre"}</b>
+          <b style="color:white";>${u.display_name || "Sin nombre"}</b>
+          ${isAdminUser ? ' <span style="color: gold; font-size: 10px;">Admin</span>' : ''}
           ${u.userid === userid ? ' <small style="color: steelblue;">(Tú)</small>' : ''}<br>
-          <small style="opacity:.7">${u.userid}</small>
+          <small style="opacity: 0.7; color: white;">${u.userid}</small>
         </div>
       `;
 
@@ -948,146 +1750,911 @@ try {
 }
 
 /* ============================================================
-   CHAT
+   CHAT CON LÍMITE DE MENSAJES
 ============================================================ */
+// VARIABLE CONFIGURABLE: Número máximo de mensajes a mostrar/guardar
+const MAX_MESSAGES = 20;
+
 function formatTime(t) {
   return new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-function addMessage(msg) {
-  const div = document.createElement("div");
-  div.className = "msg";
-
-  div.innerHTML = `
-    <b>${msg.username}</b> <small>[${formatTime(msg.created_at)}]</small><br>
-    ${msg.content}
-  `;
-
-  document.getElementById("chat").appendChild(div);
-  document.getElementById("chat").scrollTo({
-    top: document.getElementById("chat").scrollHeight,
-    behavior: "smooth"
-  });
+function formatTimeAMPM(t) {
+  const date = new Date(t);
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  
+  hours = hours % 12;
+  hours = hours ? hours : 12; // La hora 0 debe ser 12
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  
+  return `${hours}:${minutes} ${ampm}`;
 }
 
-async function loadMessages() {
-  const { data } = await db.from("messages").select("*").order("id");
-  if (data) {
-    data.forEach(addMessage);
+function addMessage(msg) {
+  console.log('Añadiendo mensaje:', msg);
+  
+  // Validar que el mensaje tenga los datos necesarios
+  if (!msg || !msg.username) {
+    console.error('Mensaje inválido:', msg);
+    return;
+  }
+  
+  const div = document.createElement("div");
+  
+  // Determinar si es nuestro mensaje o de otro usuario
+  const isOwnMessage = displayName && msg.username === displayName;
+  div.className = isOwnMessage ? "msg own" : "msg other";
+  
+  // Verificar si el usuario actual es administrador
+  const isAdmin = userid === '@proyectoja';
+  // Verificar si el autor del mensaje es administrador
+  const isMessageAuthorAdmin = msg.username === 'proyectoja' || msg.username === '@proyectoja' || msg.userid === '@proyectoja';
+  
+  // Agregar ID del mensaje como atributo data
+  if (msg.id) {
+    div.dataset.messageId = msg.id;
+  }
+  
+  // Verificar si el mensaje está eliminado
+  const isDeleted = msg.deleted || msg.content === '[Mensaje eliminado]';
+  
+  // Verificar si fue eliminado por administrador
+  const deletedByAdmin = msg.deleted_by_admin || false;
+  const deletedBy = msg.deleted_by || '';
+  
+  let messageContent = msg.content || '';
+  let deleteInfo = '';
+  
+  if (isDeleted) {
+    messageContent = '[Mensaje eliminado]';
+    div.classList.add('deleted');
+    
+    // Agregar información adicional si fue eliminado por administrador
+    if (deletedByAdmin && deletedBy === '@proyectoja') {
+      deleteInfo = '<div class="delete-info" style="font-size: 10px; opacity: 0.8; margin-top: 2px; font-style: italic;">Eliminado por administrador</div>';
+      div.classList.add('deleted-by-admin');
+    }
+  }
+
+  // Determinar si mostrar botón de eliminar:
+  // - Para mensajes propios no eliminados
+  // - Para administrador en cualquier mensaje no eliminado
+  const showDeleteButton = !isDeleted && msg.id && (isOwnMessage || isAdmin);
+  
+  // Estilo especial para botón de administrador
+  const deleteButtonClass = isAdmin && !isOwnMessage ? 'delete-btn admin-delete-btn' : 'delete-btn';
+  
+    // Obtener inicial para el avatar (evitar 'P' de 'proyectoja')
+  let userInitial = '?';
+  if (msg.username) {
+    // Si el username comienza con '@', tomar el segundo carácter
+    if (msg.username.startsWith('@')) {
+      userInitial = msg.username.length > 1 ? msg.username.charAt(1).toUpperCase() : '?';
+    } else {
+      userInitial = msg.username.charAt(0).toUpperCase();
+    }
+    // Si es 'P' de 'proyectoja', usar 'A' para administrador
+    if (userInitial === 'P' && (msg.username.toLowerCase().includes('proyecto') || isMessageAuthorAdmin)) {
+      userInitial = 'A';
+    }
+  }
+  
+  // Crear HTML con avatar estilo WhatsApp (SOLO para mensajes de otros)
+  div.innerHTML = `
+    <div class="msg-container">
+      ${!isOwnMessage ? `<div class="msg-avatar">${userInitial}</div>` : '<div class="msg-avatar" style="visibility: hidden;"></div>'}
+      <div class="msg-content-wrapper">
+        ${!isOwnMessage ? `<div class="msg-user">${msg.username || 'Usuario desconocido'}
+          ${isMessageAuthorAdmin ? ' <span class="admin-badge" title="Administrador">👑</span>' : ''}
+        </div>` : ''}
+        <div class="msg-bubble">
+          <div class="msg-text">${messageContent}</div>
+          ${deleteInfo}
+          <div class="msg-footer">
+            <div class="msg-time">${msg.created_at ? formatTimeAMPM(msg.created_at) : '--:-- --'}</div>
+          </div>
+        </div>
+      </div>
+      ${showDeleteButton ? '<button class="' + deleteButtonClass + '" onclick="deleteMessage(' + msg.id + ', this, ' + isAdmin + ')">🗑️</button>' : ''}
+    </div>
+  `;
+
+  const chatDiv = document.getElementById("chat");
+  if (chatDiv) {
+    chatDiv.appendChild(div);
+    
+    // Mantener solo los últimos MAX_MESSAGES mensajes en la interfaz
+    const allMessages = chatDiv.querySelectorAll('.msg');
+    if (allMessages.length > MAX_MESSAGES) {
+      // Eliminar el mensaje más antiguo (el primero)
+      allMessages[0].remove();
+    }
+    
+    chatDiv.scrollTo({
+      top: chatDiv.scrollHeight,
+      behavior: "smooth"
+    });
+    
+    console.log('Mensaje añadido correctamente');
+  } else {
+    console.error('No se encontró el elemento #chat');
   }
 }
 
-// loadMessages() se llama desde initChat()
+// Función para eliminar un mensaje
+async function deleteMessage(messageId, buttonElement, isAdmin = false) {
+  if (!messageId) {
+    console.error('ID de mensaje no válido');
+    return;
+  }
+  
+  let confirmMessage = '¿Estás seguro de que quieres eliminar este mensaje?';
+  if (isAdmin && userid === '@proyectoja') {
+    confirmMessage = '¿Estás seguro de que quieres eliminar este mensaje como administrador?\n\n⚠️ Esta acción eliminará el mensaje para todos los usuarios.';
+  }
+  
+  if (!confirm(confirmMessage)) {
+    return;
+  }
+  
+    try {
+    // Preparar datos de actualización
+    const updateData = { 
+      content: '[Mensaje eliminado]',
+      deleted: true,
+      deleted_at: new Date().toISOString()
+    };
+    
+    // Si es administrador, agregar información adicional
+    if (isAdmin && userid === '@proyectoja') {
+      updateData.deleted_by_admin = true;
+      updateData.deleted_by = userid;
+    }
+    
+    // Actualizar el mensaje en la base de datos
+    const { error } = await db
+      .from('messages')
+      .update(updateData)
+      .eq('id', messageId);
+    
+    if (error) {
+      console.error('Error al eliminar mensaje:', error);
+      showError('Error al eliminar el mensaje');
+      return;
+    }
+    
+        // Encontrar el elemento del mensaje y actualizarlo localmente
+    const messageElement = buttonElement.closest('.msg');
+    if (messageElement) {
+      // Actualizar el contenido del mensaje
+      const textElement = messageElement.querySelector('.msg-text');
+      if (textElement) {
+        textElement.textContent = '[Mensaje eliminado]';
+      }
+      
+      // Agregar información de eliminación por administrador si corresponde
+      if (isAdmin && userid === '@proyectoja') {
+        const deleteInfo = document.createElement('div');
+        deleteInfo.className = 'delete-info';
+        deleteInfo.style.cssText = 'font-size: 10px; opacity: 0.8; margin-top: 2px; font-style: italic; color: rgba(255, 215, 0, 0.9);';
+        deleteInfo.textContent = 'Eliminado por administrador';
+        
+        const msgBubble = messageElement.querySelector('.msg-bubble');
+        if (msgBubble) {
+          msgBubble.appendChild(deleteInfo);
+        }
+        
+        messageElement.classList.add('deleted-by-admin');
+      }
+      
+      // Remover el botón de eliminar
+      const deleteBtn = messageElement.querySelector('.delete-btn');
+      if (deleteBtn) {
+        deleteBtn.remove();
+      }
+      
+      // Agregar clase para estilo de mensaje eliminado
+      messageElement.classList.add('deleted');
+      
+      console.log('Mensaje eliminado localmente');
+        }
+    
+    // Mostrar mensaje de éxito diferente para administrador
+    if (isAdmin && userid === '@proyectoja') {
+      showError('✅ Mensaje eliminado por administrador');
+    } else {
+      showError('Mensaje eliminado correctamente');
+    }
+  } catch (error) {
+    console.error('Error en deleteMessage:', error);
+    
+    // Mensaje de error más específico
+    if (error.message && error.message.includes('column')) {
+      showError('Error: La base de datos no está configurada correctamente. Ejecuta configurar_bd.sql en Supabase.');
+    } else {
+      showError('Error al eliminar el mensaje');
+    }
+  }
+}
 
-db.channel("realtime_messages")
-  .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, p => addMessage(p.new))
-  .subscribe();
+async function loadMessages() {
+  console.log('📥 Cargando mensajes...');
+  
+  try {
+    // Cargar solo los últimos MAX_MESSAGES mensajes
+    console.log('Consultando mensajes...');
+    const { data, error } = await db
+      .from("messages")
+      .select("*")
+      .order("id", { ascending: false })
+      .limit(MAX_MESSAGES);
+      
+    if (error) {
+      console.error('❌ Error al cargar mensajes:', error);
+      console.error('Detalles:', error.message);
+      showError('Error al cargar mensajes: ' + error.message);
+      return;
+    }
+    
+    console.log(`✅ ${data ? data.length : 0} mensajes cargados`);
+    if (data && data.length > 0) {
+      console.log('Ejemplo de mensaje:', data[0]);
+    }
+    
+    if (data && data.length > 0) {
+      // Mostrar en orden inverso (más recientes primero) o en orden normal
+      const chatDiv = document.getElementById("chat");
+      if (chatDiv) {
+        console.log('Elemento #chat encontrado, limpiando...');
+        chatDiv.innerHTML = ''; // Limpiar antes de cargar
+        
+        // Ordenar por ID ascendente para mostrar del más antiguo al más nuevo
+        data.sort((a, b) => a.id - b.id).forEach(addMessage);
+        console.log('Mensajes mostrados en el chat');
+      } else {
+        console.error('No se encontró el elemento #chat');
+      }
+    } else {
+      console.log('No hay mensajes para mostrar');
+      const chatDiv = document.getElementById("chat");
+      if (chatDiv) {
+        chatDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666; font-style: italic;">No hay mensajes aún. ¡Sé el primero en escribir!</div>';
+      }
+    }
+  } catch (error) {
+    console.error('Error en loadMessages:', error);
+  }
+}
+
+// Función para limpiar mensajes antiguos de la base de datos
+async function cleanOldMessages() {
+  try {
+    // Obtener todos los mensajes ordenados por ID descendente
+    const { data: allMessages } = await db
+      .from("messages")
+      .select("id")
+      .order("id", { ascending: false });
+      
+    if (allMessages && allMessages.length > MAX_MESSAGES) {
+      // Encontrar el ID que está en la posición MAX_MESSAGES
+      const lastIdToKeep = allMessages[MAX_MESSAGES - 1].id;
+      
+      // Eliminar todos los mensajes con ID menor al que queremos mantener
+      const { error } = await db
+        .from("messages")
+        .delete()
+        .lt("id", lastIdToKeep);
+        
+      if (error) {
+        console.error("Error al eliminar mensajes antiguos:", error);
+      } else {
+        console.log(`Mensajes antiguos limpiados (manteniendo últimos ${MAX_MESSAGES})`);
+      }
+    }
+  } catch (error) {
+    console.error("Error en cleanOldMessages:", error);
+  }
+}
+
+// Cancelar suscripción anterior si existe
+if (window.messageSubscription) {
+  db.removeChannel(window.messageSubscription);
+}
+
+// Crear nuevo canal
+// window.messageSubscription = db.channel('realtime_messages_' + Date.now()); // COMENTADO: Suscripción duplicada
+
+window.messageSubscription
+  .on("postgres_changes", { 
+    event: "INSERT", 
+    schema: "public", 
+    table: "messages" 
+  }, (payload) => {
+    console.log('📨 NUEVO MENSAJE RECIBIDO (INSERT):', payload);
+    console.log('Contenido:', payload.new.content);
+    console.log('Usuario:', payload.new.username);
+    
+    // Verificar que no sea nuestro propio mensaje recién enviado
+    const isOwnMessage = displayName && payload.new.username === displayName;
+    console.log('¿Es nuestro mensaje?', isOwnMessage);
+    
+    // Siempre agregar el mensaje
+    addMessage(payload.new);
+  })
+    .on("postgres_changes", { 
+    event: "UPDATE", 
+    schema: "public", 
+    table: "messages" 
+  }, (payload) => {
+    console.log('Mensaje actualizado:', payload);
+    // Actualizar el mensaje en la interfaz si existe
+    const messageElement = document.querySelector(`.msg[data-message-id="${payload.new.id}"]`);
+    if (messageElement) {
+            // Si el mensaje fue eliminado, actualizar la interfaz
+      if (payload.new.deleted || payload.new.content === '[Mensaje eliminado]') {
+        const textElement = messageElement.querySelector('.msg-text');
+        if (textElement) {
+          textElement.textContent = '[Mensaje eliminado]';
+        }
+        
+        // Agregar información de eliminación por administrador si corresponde
+        if (payload.new.deleted_by_admin && payload.new.deleted_by === '@proyectoja') {
+          // Verificar si ya existe la información de eliminación
+          let deleteInfo = messageElement.querySelector('.delete-info');
+          if (!deleteInfo) {
+            deleteInfo = document.createElement('div');
+            deleteInfo.className = 'delete-info';
+            deleteInfo.style.cssText = 'font-size: 10px; opacity: 0.8; margin-top: 2px; font-style: italic; color: rgba(255, 215, 0, 0.9);';
+            deleteInfo.textContent = 'Eliminado por administrador';
+            
+            // Insertar en el msg-bubble
+            const msgBubble = messageElement.querySelector('.msg-bubble');
+            if (msgBubble) {
+              msgBubble.appendChild(deleteInfo);
+            }
+          }
+          
+          // Agregar clase especial para mensajes eliminados por administrador
+          messageElement.classList.add('deleted-by-admin');
+        }
+        
+        // Remover el botón de eliminar
+        const deleteBtn = messageElement.querySelector('.delete-btn');
+        if (deleteBtn) {
+          deleteBtn.remove();
+        }
+        
+        // Agregar clase para estilo de mensaje eliminado
+        messageElement.classList.add('deleted');
+      }
+    } else {
+      // Si el elemento no existe, agregarlo (podría ser un mensaje antiguo que se actualizó)
+      addMessage(payload.new);
+    }
+  })
+  .subscribe((status) => {
+    console.log('Estado de suscripción a mensajes:', status);
+    if (status === 'SUBSCRIBED') {
+      console.log('✅ Suscrito correctamente a mensajes en tiempo real');
+    }
+  });
+
+/* ============================================================
+   SISTEMA ANTI-SPAM
+============================================================ */
+// NOTA: Las variables ya están declaradas al principio del script
+// para evitar errores de referencia
+
+function updateSpamCounter() {
+  const counter = document.getElementById('spamCounter');
+  if (counter) {
+    if (spamBlocked) {
+      const timeLeft = Math.ceil((spamTimer - Date.now()) / 1000);
+      counter.textContent = `Bloqueado por spam: ${timeLeft}s`;
+      counter.style.color = '#ef4444';
+      
+      if (timeLeft <= 0) {
+        spamBlocked = false;
+        counter.style.display = 'none';
+        document.getElementById('messageInput').disabled = false;
+        document.querySelector('#inputArea button').disabled = false;
+        clearInterval(window.spamInterval);
+      }
+    } else {
+      counter.textContent = `Mensajes: ${messageCount}/${MAX_MESSAGES_PER_SECOND}`;
+      counter.style.color = messageCount >= MAX_MESSAGES_PER_SECOND ? '#f59e0b' : '#10b981';
+    }
+  }
+}
+
+function checkSpam() {
+  messageCount++;
+  
+  if (messageCount >= MAX_MESSAGES_PER_SECOND && !spamBlocked) {
+    // Bloquear por spam
+    spamBlocked = true;
+    spamTimer = Date.now() + (SPAM_BLOCK_TIME * 1000);
+    
+    // Crear contador si no existe
+    let counter = document.getElementById('spamCounter');
+    if (!counter) {
+      counter = document.createElement('div');
+      counter.id = 'spamCounter';
+      counter.style.cssText = 'padding: 8px 15px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-align: center;';
+      document.getElementById('inputArea').insertBefore(counter, document.getElementById('inputArea').firstChild);
+    }
+    
+    // Deshabilitar input y botón
+    document.getElementById('messageInput').disabled = true;
+    document.querySelector('#inputArea button').disabled = true;
+    
+    // Iniciar contador regresivo
+    updateSpamCounter();
+    window.spamInterval = setInterval(updateSpamCounter, 1000);
+    
+    // Mostrar alerta
+    showError(`¡Demasiados mensajes! Bloqueado por ${SPAM_BLOCK_TIME} segundos.`);
+    return true;
+  }
+  
+  updateSpamCounter();
+  return false;
+}
 
 async function sendMessage() {
-  const inp = document.getElementById("messageInput");
-  const text = inp.value.trim();
-  if (!text) return;
+    console.log('🚀 Función sendMessage() llamada');
+    console.log('Variables globales:', { userid, displayName, userPassword });
+    
+    if (spamBlocked) {
+      console.log('❌ Bloqueado por spam');
+      showChatNotification('Espera a que termine el bloqueo por spam', true);
+      return;
+    }
+    
+    const inp = document.getElementById("messageInput");
+    console.log('Input encontrado:', inp ? 'Sí' : 'No');
+    if (!inp) {
+      console.error('❌ No se encontró el input de mensaje');
+      showChatNotification('Error: No se encontró el campo de mensaje', true);
+      return;
+    }
+    
+    const text = inp.value.trim();
+    console.log('Texto a enviar:', text);
+    if (!text) {
+      console.log('⚠️ Texto vacío, no se envía');
+      return;
+    }
 
-  try {
-    await db.from("messages").insert({
+    // Verificar límite de caracteres
+    if (text.length > 1000) {
+      console.log('❌ Texto demasiado largo:', text.length);
+      showChatNotification('El mensaje no puede tener más de 1000 caracteres', true);
+      inp.value = text.substring(0, 1000);
+      return;
+    }
+    
+    // Eliminar enlaces del texto
+    const cleanText = text.replace(/https?:\/\/[^\s]+/g, '[enlace eliminado]').replace(/www\.[^\s]+/g, '[enlace eliminado]');
+    console.log('Texto limpio:', cleanText);
+    
+    // Verificar spam
+    if (checkSpam()) {
+      console.log('❌ Bloqueado por sistema anti-spam');
+      return;
+    }
+
+    try {
+    console.log('📤 Intentando enviar mensaje a Supabase...');
+    console.log('Usuario (displayName):', displayName);
+    console.log('UserID:', userid);
+    
+    // Verificar que displayName no sea null o undefined
+    if (!displayName) {
+      console.error('❌ ERROR: displayName es null o undefined');
+      showChatNotification('Error: No se ha configurado el nombre de usuario', true);
+      return;
+    }
+    
+    // Intentar insertar con estructura mínima primero
+    const messageData = {
       username: displayName,
-      content: text,
+      content: cleanText,
       created_at: new Date().toISOString()
-    });
-
+    };
+    
+    console.log('Datos a insertar:', messageData);
+    
+    const { data, error } = await db.from("messages")
+      .insert(messageData)
+      .select();
+    
+    if (error) {
+      console.error('❌ Error al insertar mensaje:', error);
+      console.error('Detalles:', error.message);
+      
+      // Intentar sin el campo deleted si falla
+      if (error.message.includes('column') && error.message.includes('deleted')) {
+        console.log('⚠️ Intentando sin campo deleted...');
+        delete messageData.deleted;
+        
+        const { data: data2, error: error2 } = await db.from("messages")
+          .insert(messageData)
+          .select();
+          
+        if (error2) {
+          showChatNotification("Error al enviar: " + error2.message, true);
+          return;
+        }
+        
+        console.log('✅ Mensaje insertado (sin campo deleted):', data2);
+        showChatNotification('✅ Mensaje enviado (modo compatible)');
+      } else {
+        showChatNotification("Error al enviar: " + error.message, true);
+        return;
+      }
+    } else {
+      console.log('✅ Mensaje insertado correctamente:', data);
+      showChatNotification('✅ Mensaje enviado');
+    }
+    
     inp.value = "";
     sendTyping(false);
+    
+    // Limpiar mensajes antiguos después de enviar uno nuevo
+    setTimeout(cleanOldMessages, 500);
     
     // Enfocar el input después de enviar
     inp.focus();
   } catch (error) {
-    console.error("Error al enviar mensaje:", error);
-    alert("Error al enviar el mensaje. Intenta nuevamente.");
+    console.error("❌ Error en sendMessage:", error);
+    console.error("Stack:", error.stack);
+        showChatNotification("Error al enviar el mensaje. Intenta nuevamente.", true);
   }
 }
 
-// Permitir enviar con Enter
-document.getElementById("messageInput").addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    sendMessage();
-  }
-});
-
 /* ============================================================
-   TYPING - MEJORADO
+   TYPING - MEJORADO COMO WHATSAPP
 ============================================================ */
-let typingTimeout;
+// NOTA: Las variables ya están declaradas al principio del script
+// para evitar errores de referencia
 
 async function sendTyping(state = true) {
   try {
+    const now = Date.now();
+    
+    // Debounce: evitar enviar muchas actualizaciones en poco tiempo
+    if (state && (now - lastTypingSent) < TYPING_DEBOUNCE_TIME) {
+      clearTimeout(typingDebounceTimer);
+      typingDebounceTimer = setTimeout(() => sendTyping(true), TYPING_DEBOUNCE_TIME);
+      return;
+    }
+    
     clearTimeout(typingTimeout);
+    clearTimeout(typingDebounceTimer);
+    
+    if (!userid || !displayName) {
+      return;
+    }
 
-    // Usar userid para consistencia
-    await db.from("typing").upsert(
-      { 
-        userid: userid,
-        username: userid,
-        typing: state 
-      },
-      { onConflict: "userid" }
-    );
+    // Solo actualizar si el estado cambió
+    const typingData = {
+      userid: userid,
+      username: displayName,
+      typing: state,
+      updated_at: new Date().toISOString()
+    };
+    
+    // Upsert usando userid como primary key
+    const { error } = await db
+      .from('typing')
+      .upsert(typingData, { onConflict: 'userid' });
+      
+    if (!error) {
+      lastTypingSent = now;
+    }
 
-    typingTimeout = setTimeout(() => {
-      db.from("typing").upsert(
-        { 
+    // Configurar timeout para establecer typing a false después de dejar de escribir
+    if (state) {
+      typingTimeout = setTimeout(async () => {
+        const falseData = {
           userid: userid,
-          username: userid,
-          typing: false 
-        },
-        { onConflict: "userid" }
-      );
-    }, 1500);
+          username: displayName,
+          typing: false,
+          updated_at: new Date().toISOString()
+        };
+        
+        await db
+          .from('typing')
+          .upsert(falseData, { onConflict: 'userid' })
+          .catch(err => console.error("Error al establecer typing false:", err));
+      }, TYPING_STOP_TIME);
+    }
   } catch (error) {
     console.error("Error en sendTyping:", error);
   }
 }
 
-// Suscribirse a cambios en tiempo real de typing
-try {
-  db.channel("realtime_typing")
-    .on(
-      "postgres_changes",
-      { 
-        event: "*", 
-        schema: "public", 
-        table: "typing" 
-      },
-      (payload) => {
-        // Ignorar nuestros propios eventos
-        if (payload.new.userid === userid) return;
+// NOTA: La suscripción a typing ahora se maneja en initTypingSubscription()
+// que se llama desde initChat() cuando el usuario hace login
+
+
+/* ============================================================
+   LIMPIAR TYPING ANTIGUO
+============================================================ */
+// Función para limpiar registros de typing donde typing = false
+async function cleanOldTyping() {
+  try {
+    await db
+      .from("typing")
+      .delete()
+      .eq("typing", false);
+  } catch (error) {
+    console.error("Error al limpiar typing:", error);
+  }
+}
+
+// Limpiar cada 30 segundos
+setInterval(cleanOldTyping, 30000);
+
+// Limpiar al iniciar
+cleanOldTyping();
+
+// NOTA: Botones de depuración removidos según solicitud del usuario
+
+// Función para probar la funcionalidad del chat
+async function testChatFunctionality() {
+  console.log('🧪 Iniciando prueba de funcionalidad del chat...');
+  
+  // 1. Probar conexión a Supabase
+  console.log('1. Probando conexión a Supabase...');
+  try {
+    const { data, error } = await db.from('messages').select('count').limit(1);
+    if (error) {
+      console.error('❌ Error de conexión:', error.message);
+      alert('❌ Error de conexión a Supabase:\n' + error.message);
+      return;
+    }
+    console.log('✅ Conexión exitosa');
+  } catch (error) {
+    console.error('❌ Error:', error);
+    alert('❌ Error: ' + error.message);
+    return;
+  }
+  
+  // 2. Probar inserción de mensaje
+  console.log('2. Probando inserción de mensaje...');
+  try {
+    const testMessage = {
+      username: 'usuario_prueba',
+      content: 'Este es un mensaje de prueba ' + new Date().toLocaleTimeString(),
+      created_at: new Date().toISOString()
+    };
+    
+    const { data, error } = await db.from('messages').insert(testMessage).select();
+    
+    if (error) {
+      console.error('❌ Error al insertar:', error.message);
+      alert('❌ Error al insertar mensaje:\n' + error.message + '\n\nPosible solución: Ejecuta configurar_bd.sql en Supabase');
+      return;
+    }
+    
+    console.log('✅ Mensaje insertado:', data);
+    alert('✅ Prueba exitosa!\n\nMensaje de prueba insertado correctamente.\nID: ' + (data[0]?.id || 'N/A'));
+    
+    // 3. Probar carga de mensajes
+    console.log('3. Probando carga de mensajes...');
+    setTimeout(async () => {
+      const { data: messages, error: loadError } = await db.from('messages')
+        .select('*')
+        .order('id', { ascending: false })
+        .limit(5);
         
-        // Mostrar quién está escribiendo
-        if (payload.new.typing) {
-          // Buscar el display_name del usuario
-          db.from("online_users")
-            .select("display_name")
-            .eq("userid", payload.new.userid)
-            .single()
-            .then(({ data }) => {
-              const nombre = data?.display_name || payload.new.userid;
-              document.getElementById("typing").textContent = 
-                `${nombre} está escribiendo…`;
-              
-              // Limpiar después de 2 segundos
-              setTimeout(() => {
-                document.getElementById("typing").textContent = "";
-              }, 2000);
-            });
-        } else {
-          document.getElementById("typing").textContent = "";
+      if (loadError) {
+        console.error('❌ Error al cargar:', loadError.message);
+      } else {
+        console.log('✅ Mensajes cargados:', messages.length);
+        
+        // Limpiar mensaje de prueba
+        if (data[0]?.id) {
+          await db.from('messages').delete().eq('id', data[0].id);
+          console.log('✅ Mensaje de prueba eliminado');
         }
       }
-    )
-    .subscribe();
-} catch (error) {
-  console.error("Error al suscribirse a typing:", error);
+    }, 1000);
+    
+  } catch (error) {
+    console.error('❌ Error en prueba:', error);
+    alert('❌ Error: ' + error.message);
+  }
 }
+
+// Función para configurar la base de datos (solo para desarrollo)
+async function setupDatabase() {
+  if (!confirm('¿Estás seguro de que quieres configurar la base de datos?\n\nNOTA: Esto es solo para desarrollo.\nSi la tabla messages ya existe, solo se agregarán las columnas faltantes.')) {
+    return;
+  }
+  
+  try {
+    // Intentar agregar las columnas si no existen
+    console.log('Configurando base de datos...');
+    
+    // Nota: No podemos ejecutar SQL directo desde el cliente
+    // En su lugar, verificamos la estructura actual y mostramos instrucciones
+    const { data, error } = await db.from('messages').select('*').limit(1);
+    
+    if (error) {
+      showError('Error al conectar con la tabla messages. Verifica que exista.');
+      console.error('Error:', error);
+      
+      // Mostrar instrucciones SQL
+      const sqlInstructions = `
+Para configurar la base de datos, ejecuta este SQL en el editor SQL de Supabase:
+
+-- Agregar columnas si no existen
+ALTER TABLE messages 
+ADD COLUMN IF NOT EXISTS deleted BOOLEAN DEFAULT FALSE,
+ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMP WITH TIME ZONE;
+
+-- Crear índice
+CREATE INDEX IF NOT EXISTS idx_messages_deleted ON messages(deleted);
+      `;
+      
+      alert('Instrucciones SQL:\n' + sqlInstructions);
+      return;
+    }
+    
+    // Si llegamos aquí, la tabla existe
+    showError('✅ La tabla messages existe. Verificando estructura...');
+    
+    // Intentar insertar un mensaje de prueba con los nuevos campos
+    const testMessage = {
+      username: 'sistema',
+      content: 'Mensaje de prueba para verificar estructura',
+      created_at: new Date().toISOString(),
+      deleted: false
+    };
+    
+    const { error: insertError } = await db.from('messages').insert(testMessage);
+    
+    if (insertError && insertError.message.includes('column')) {
+      // Probablemente falta alguna columna
+      showError('❌ Falta alguna columna. Ejecuta el SQL de configuración.');
+      
+      const sqlInstructions = `
+Ejecuta este SQL en Supabase:
+
+ALTER TABLE messages 
+ADD COLUMN IF NOT EXISTS deleted BOOLEAN DEFAULT FALSE,
+ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMP WITH TIME ZONE;
+
+CREATE INDEX IF NOT EXISTS idx_messages_deleted ON messages(deleted);
+      `;
+      
+      alert('SQL necesario:\n' + sqlInstructions);
+    } else if (insertError) {
+      showError('Error inesperado: ' + insertError.message);
+    } else {
+      showError('✅ Base de datos configurada correctamente');
+      
+      // Eliminar el mensaje de prueba
+      setTimeout(async () => {
+        await db.from('messages').delete().eq('username', 'sistema');
+      }, 2000);
+    }
+    
+  } catch (error) {
+        console.error('Error en setupDatabase:', error);
+    showError('Error al configurar la base de datos');
+  }
+}
+
+/* ============================================================
+   EVENT LISTENER SIMPLE Y DIRECTO PARA ENTER
+============================================================ */
+// Solución simple y directa para enviar con Enter
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🔧 Configurando event listener SIMPLE para Enter...');
+  
+  // Función que se ejecuta cada vez que se presiona una tecla en cualquier input
+  document.addEventListener('keydown', function(e) {
+    // Solo procesar si la tecla es Enter
+    if (e.key !== 'Enter') return;
+    
+    // Verificar si el elemento activo es el input de mensaje
+    const activeElement = document.activeElement;
+    if (activeElement && activeElement.id === 'messageInput') {
+      console.log('🎯 Enter presionado en el input de mensaje');
+      e.preventDefault(); // Prevenir comportamiento por defecto
+      
+      // Pequeño delay para asegurar que el texto esté capturado
+      setTimeout(function() {
+        sendMessage();
+      }, 10);
+    }
+  });
+  
+  console.log('✅ Event listener SIMPLE configurado');
+});
+
+// También agregar event listener cuando se muestra el chat
+const originalInitChat = window.initChat;
+if (originalInitChat) {
+  window.initChat = function() {
+    originalInitChat.apply(this, arguments);
+    
+    // Agregar event listener directo al input cuando esté disponible
+    setTimeout(function() {
+      const messageInput = document.getElementById('messageInput');
+      if (messageInput) {
+        console.log('🔧 Agregando event listener directo al input');
+        
+        // Event listener para keypress
+        messageInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            console.log('Enter presionado (keypress directo)');
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+        
+        // Event listener para keydown como respaldo
+        messageInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            console.log('Enter presionado (keydown directo)');
+            e.preventDefault();
+            setTimeout(function() {
+              sendMessage();
+            }, 10);
+          }
+        });
+        
+        console.log('✅ Event listeners DIRECTOS agregados al input');
+      }
+    }, 200);
+  };
+}
+
+/* ============================================================
+   FUNCIÓN DE PRUEBA PARA VERIFICAR QUE TODO FUNCIONE
+============================================================ */
+// Esta función se puede llamar desde la consola del navegador para probar
+window.testChat = function() {
+  console.log('=== PRUEBA DEL CHAT ===');
+  console.log('1. Verificando variables globales:');
+  console.log('- userid:', userid);
+  console.log('- displayName:', displayName);
+  console.log('- userPassword:', userPassword ? 'Definida' : 'No definida');
+  
+  console.log('\n2. Verificando elementos del DOM:');
+  console.log('- #messageInput:', document.getElementById('messageInput') ? '✅ Existe' : '❌ No existe');
+  console.log('- Botón de enviar:', document.querySelector('#inputArea button') ? '✅ Existe' : '❌ No existe');
+  console.log('- #chat:', document.getElementById('chat') ? '✅ Existe' : '❌ No existe');
+  
+  console.log('\n3. Verificando funciones:');
+  console.log('- sendMessage:', typeof sendMessage === 'function' ? '✅ Existe' : '❌ No existe');
+  console.log('- showChatNotification:', typeof showChatNotification === 'function' ? '✅ Existe' : '❌ No existe');
+  console.log('- db:', db ? '✅ Inicializado' : '❌ No inicializado');
+  
+  console.log('\n4. Probando notificación:');
+  if (typeof showChatNotification === 'function') {
+    showChatNotification('✅ Prueba exitosa - El sistema de notificaciones funciona');
+  } else {
+    console.error('❌ showChatNotification no es una función');
+  }
+  
+  console.log('\n=== FIN DE LA PRUEBA ===');
+  console.log('Para probar el envío de mensajes, escribe en el input y presiona Enter o haz clic en el botón Enviar.');
+};
+
+console.log('✅ Chat configurado. Para probar, ejecuta testChat() en la consola.');
 
 </script>
 </body>
 </html>
+
+
+
+
