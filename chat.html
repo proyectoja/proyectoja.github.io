@@ -14,7 +14,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background: black;
+      background: rgba(100, 30, 30);
       color: #333;
       overflow: hidden;
       /* Prevenir scroll en toda la página */
@@ -31,6 +31,7 @@
       height: 100%;
       overflow: auto;
       box-sizing: border-box;
+      background-color: rgb(100, 30, 30);
     }
 
     #loginBox {
@@ -186,6 +187,8 @@
       transition: all 0.3s;
       box-shadow: 0 4px 15px rgba(139, 69, 19, 0.4);
       box-sizing: border-box;
+      text-align: center;
+      justify-content: center;
     }
 
     .loginButton:hover {
@@ -216,17 +219,114 @@
       height: 100vh;
       overflow: hidden;
       /* Evitar scroll en el contenedor principal */
+      position: relative;
+    }
+
+    /* Ajustar el chatArea cuando el sidebar está oculto */
+    #sidebar.sidebar-hidden~#chatArea {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    /* Ajustar el chatArea cuando el sidebar está visible */
+    #sidebar:not(.sidebar-hidden)~#chatArea {
+      margin-left: 0;
+      width: calc(100% - 230px);
     }
 
     #sidebar {
       width: 230px;
       background: brown;
       padding: 15px;
-      overflow-y: auto;
+      overflow: hidden;
       border-right: 1px solid rgba(255, 255, 255, 0.5);
       box-sizing: border-box;
       min-height: 0;
       /* Importante para scroll en flex container */
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(0);
+    }
+
+    /* Sidebar oculto */
+    #sidebar.sidebar-hidden {
+      transform: translateX(-100%);
+      width: 0;
+      padding: 0;
+      border-right: none;
+      overflow: hidden;
+    }
+
+    /* Botón/barrera para mostrar sidebar - SIEMPRE VISIBLE */
+    .sidebar-toggle {
+      position: absolute;
+      left: 230px;
+      /* Pegado al borde derecho del sidebar cuando está visible */
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 80px;
+      background: brown;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      display: flex !important;
+      /* Forzar visibilidad */
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      /* Z-index muy alto para asegurar visibilidad */
+      transition: left 0.3s ease, width 0.3s ease, opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0.7;
+    }
+
+    /* Cuando el sidebar está oculto, el botón se mueve a la izquierda */
+    /* Esta regla se maneja ahora con JavaScript */
+
+    .sidebar-toggle:hover {
+      background: rgb(255, 255, 255, 0.3);
+      width: 25px;
+      opacity: 1;
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-toggle .toggle-icon {
+      color: white;
+      font-size: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    /* Animación suave para el movimiento del botón */
+    .sidebar-toggle {
+      transition: left 0.3s ease, width 0.3s ease, opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Para pantallas pequeñas (tabletas y móviles) */
+    @media (max-width: 768px) {
+      #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 99;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      #sidebar.sidebar-hidden {
+        transform: translateX(-100%);
+        width: 230px;
+      }
+
+      .sidebar-toggle {
+        position: fixed;
+        z-index: 1000;
+      }
+    }
+
+    /* Para pantallas grandes (computadoras) */
+    @media (min-width: 769px) {
+      #container {
+        position: relative;
+      }
     }
 
 
@@ -236,13 +336,15 @@
       margin-bottom: 12px;
       padding: 10px;
       border-radius: 12px;
-      background: rgba(210, 180, 140, 0.3);
+      background: rgba(100, 30, 30, 0.3);
       transition: all 0.3s;
-      border: 1px solid rgba(139, 69, 19, 0.1);
+      border: 1px solid rgba(100, 30, 30, 0.1);
+      min-width: 0;
+      /* Importante para que flex-shrink funcione */
     }
 
     .userItem:hover {
-      background: rgba(210, 180, 140, 0.5);
+      background: rgba(100, 30, 30, 0.5);
       transform: translateX(5px);
     }
 
@@ -285,11 +387,12 @@
       overflow: hidden;
       /* Contener el contenido */
       background-color: rgb(100, 30, 30);
+      transition: width 0.3s ease-in-out;
     }
 
     #topBar {
       padding: 15px 20px;
-      border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -300,6 +403,10 @@
       font-weight: 600;
       color: white;
       font-size: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 300px;
     }
 
     #chat {
@@ -315,6 +422,26 @@
       min-height: 0;
       /* Importante para que el scroll funcione en flex containers */
     }
+
+    #chat::-webkit-scrollbar {
+      width: 15px;
+    }
+
+    #chat::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 4px;
+      margin: 5px 0;
+    }
+
+    #chat::-webkit-scrollbar-thumb {
+      background: brown;
+      border-radius: 4px;
+    }
+
+    #chat::-webkit-scrollbar-thumb:hover {
+      background: rgba(165, 42, 42, 0.7);
+    }
+
 
     .msg {
       margin-bottom: 15px;
@@ -360,6 +487,12 @@
       font-size: 14px;
       margin-bottom: 4px;
       color: white;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+      display: inline-block;
+      vertical-align: middle;
     }
 
     /* Estilos para contenedor de mensaje con avatar */
@@ -512,13 +645,13 @@
     #replyArea {
       display: none;
       padding: 10px 15px;
-      background: linear-gradient(135deg, rgba(70, 130, 180, 0.3) 0%, rgba(100, 149, 237, 0.3) 100%);
+      background: linear-gradient(135deg, rgba(100, 30, 30, 0.3) 0%, rgba(100, 30, 30, 0.3) 100%);
       /* Azul para diferenciar */
       border-radius: 10px 10px 0 0;
-      border-bottom: 2px solid rgba(70, 130, 180, 0.5);
+      border-bottom: 2px solid rgba(100, 30, 30, 0.5);
       margin-bottom: 8px;
       position: relative;
-      border-left: 4px solid #4682B4;
+      border-left: 4px solid rgb(100, 30, 30);
     }
 
     .reply-header {
@@ -562,9 +695,9 @@
       color: #2C3E50;
       /* Color más oscuro para mejor contraste */
       padding: 8px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.90);
       border-radius: 8px;
-      border-left: 3px solid #4682B4;
+      border-left: 3px solid rgb(100, 30, 30);
       max-height: 60px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -578,7 +711,7 @@
 
     .reply-author {
       font-weight: 600;
-      color: #4682B4;
+      color: rgb(100, 30, 30);
       /* Azul para el autor */
       margin-right: 5px;
     }
@@ -587,10 +720,10 @@
     .msg-reply {
       margin-top: 5px;
       padding: 8px 12px;
-      background: rgba(70, 130, 180, 0.15);
+      background: linear-gradient(135deg, rgba(100, 30, 30, 0.3) 0%, rgba(100, 30, 30, 0.3) 100%);
       /* Fondo azul claro */
       border-radius: 8px;
-      border-left: 3px solid #4682B4;
+      border-left: 3px solid rgb(100, 30, 30);
       /* Borde azul */
       font-size: 12px;
       color: #2C3E50;
@@ -602,7 +735,7 @@
 
     .msg-reply-author {
       font-weight: 600;
-      color: #4682B4;
+      color: #ccc;
       /* Azul para el autor */
       margin-right: 5px;
     }
@@ -716,7 +849,7 @@
       bottom: 70px;
       right: 15px;
       left: 15px;
-      background: white;
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       padding: 15px;
@@ -760,15 +893,15 @@
     }
 
     .emoji-title {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 600;
-      color: #8B4513;
+      color: white;
     }
 
     .emoji-close {
       background: none;
       border: none;
-      color: #8B4513;
+      color: white;
       font-size: 20px;
       cursor: pointer;
       padding: 0;
@@ -781,7 +914,7 @@
     }
 
     .emoji-close:hover {
-      background: rgba(139, 69, 19, 0.1);
+      background: rgba(255, 255, 255, 0.5)
     }
 
     /* Grid de emojis */
@@ -809,7 +942,7 @@
     }
 
     .emoji-item:hover {
-      background: rgba(139, 69, 19, 0.15);
+      background: rgba(255, 255, 255, 0.5);
       transform: scale(1.15);
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
@@ -829,37 +962,34 @@
     }
 
     .emoji-category-title {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
-      color: #A0522D;
+      color: black;
       margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       position: sticky;
       top: 0;
-      background: white;
-      padding: 5px 0;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 1rem;
+      padding-left: 20px;
       z-index: 1;
     }
 
     /* Scrollbar personalizado para el contenedor principal */
     .emoji-picker.show::-webkit-scrollbar {
-      width: 8px;
+      width: 10px;
     }
 
     .emoji-picker.show::-webkit-scrollbar-track {
-      background: rgba(139, 69, 19, 0.1);
+      background: transparent;
       border-radius: 4px;
       margin: 5px 0;
     }
 
     .emoji-picker.show::-webkit-scrollbar-thumb {
-      background: rgba(139, 69, 19, 0.3);
+      background: white;
       border-radius: 4px;
-    }
-
-    .emoji-picker.show::-webkit-scrollbar-thumb:hover {
-      background: rgba(139, 69, 19, 0.5);
     }
 
     /* Badge de administrador */
@@ -873,6 +1003,8 @@
       margin-left: 4px;
       vertical-align: middle;
       cursor: help;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
 
     /* Estilos para mensajes eliminados */
@@ -1315,7 +1447,12 @@
 
   <!-- CHAT SCREEN -->
   <div id="container" style="display: none;">
-    <div id="sidebar">
+    <!-- Botón/barrera para mostrar sidebar -->
+    <div id="sidebarToggle" class="sidebar-toggle" title="Mostrar/ocultar lista de usuarios">
+      <div class="toggle-icon">▶</div>
+    </div>
+
+    <div id="sidebar" class="sidebar-visible">
       <img src="logo-proyectoja.png" alt="">
       <h3 style="color: white;">Conectados</h3>
       <div id="usersList"></div>
@@ -1756,11 +1893,11 @@
 
         // Cambiar color según el límite
         if (remaining < 100) {
+          counter.style.color = '#ff0000';
+        } else if (remaining < 500) {
           counter.style.color = '#f59e0b';
-        } else if (remaining < 50) {
-          counter.style.color = '#ef4444';
         } else {
-          counter.style.color = '#666';
+          counter.style.color = '#00ff00';
         }
       }
     }
@@ -2049,20 +2186,23 @@
     }
 
     function initChat() {
-      console.log('=== INICIANDO CHAT ===');
+      console.log('🚀 === INICIANDO CHAT ===');
       console.log('Usuario:', userid);
       console.log('Nombre:', displayName);
       console.log('Elemento #chat existe:', document.getElementById('chat') ? 'Sí' : 'No');
+      console.log('Elemento #sidebar existe:', document.getElementById('sidebar') ? 'Sí' : 'No');
+      console.log('Elemento .sidebar-toggle existe:', document.querySelector('.sidebar-toggle') ? 'Sí' : 'No');
 
       // Verificar si es administrador
       const isAdmin = userid === '@proyectoja';
 
       // Mostrar nombre de usuario con indicador de administrador si corresponde
-      let usernameHTML = `${displayName}`;
+      let usernameHTML = `<div style="display: flex; align-items: center; white-space: nowrap; max-width: 300px;">
+        <span style="overflow: hidden; text-overflow: ellipsis;">${displayName}</span>`;
       if (isAdmin) {
-        usernameHTML += ' <span style="color: gold; font-size: 14px;" title="Administrador">Admin</span>';
+        usernameHTML += ' <span style="color: gold; font-size: 14px; flex-shrink: 0;" title="Administrador">Admin</span>';
       }
-      usernameHTML += `<br><small style="opacity:0.7">${userid}</small>`;
+      usernameHTML += `</div><small style="opacity:0.7">${userid}</small>`;
 
       document.getElementById('usernameDisplay').innerHTML = usernameHTML;
 
@@ -2127,11 +2267,14 @@
         updateSpamCounter();
       }, 1000);
 
+      // INICIALIZAR SIDEBAR - ESTO ES LO QUE FALTABA
+      initSidebar();
+
       // Agregar mensaje de prueba para verificar estilos
       setTimeout(() => {
         const testMessage = {
           username: 'Sistema',
-          content: '¡Bienvenido al chat! Los mensajes se mostrarán aquí.',
+          content: '¡Bienvenido al chat! Puedes dejar tus pedidos de oración, agradecimientos, saludos y consultas aquí.',
           created_at: new Date().toISOString()
         };
         addMessage(testMessage);
@@ -2269,6 +2412,12 @@
                 const deleteBtn = messageElement.querySelector('.delete-btn');
                 if (deleteBtn) {
                   deleteBtn.remove();
+                }
+
+                // Remover el botón de responder
+                const replyBtn = messageElement.querySelector('.reply-btn');
+                if (replyBtn) {
+                  replyBtn.remove();
                 }
 
                 // Agregar clase para estilo de mensaje eliminado
@@ -2663,8 +2812,8 @@
 
           // Resaltar al usuario actual
           if (u.userid === userid) {
-            div.style.backgroundColor = "rgba(70, 130, 180, 0.3)";
-            div.style.borderLeft = "3px solid steelblue";
+            div.style.backgroundColor = "rgba(100, 30, 30, 0.7)";
+            div.style.borderLeft = "3px solid rgba(100,30,30)";
           }
 
           // Determinar si es administrador
@@ -2683,11 +2832,11 @@
         <div class="avatar" style="background: ${avatarBackground};">
           ${renderAvatar(u.display_name)}
           ${isAdminUser ? '<div style="position: absolute; bottom: -2px; right: -2px; background: gold; color: #8B4513; width: 12px; height: 12px; border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center;">A</div>' : ''}
-        </div>
-        <div>
-          <b style="color:white";>${u.display_name || u.userid || "Usuario"}</b>
-          ${isAdminUser ? ' <span style="color: gold; font-size: 10px;">Admin</span>' : ''}
-          ${u.userid === userid ? ' <small style="color: steelblue;">(Tú)</small>' : ''}<br>
+                </div>
+        <div style="flex: 1; min-width: 0;">
+          <b style="color:white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; display: inline-block;">${u.display_name || u.userid || "Usuario"}</b>
+          ${isAdminUser ? ' <span style="color: gold; font-size: 10px; flex-shrink: 0; white-space: nowrap;">Admin</span>' : ''}
+          ${u.userid === userid ? ' <small style="color: steelblue; flex-shrink: 0; white-space: nowrap;">(Tú)</small>' : ''}<br>
           <small style="opacity: 0.7; color: white;">${u.userid}</small>
         </div>
       `;
@@ -2911,14 +3060,15 @@
     <div class="msg-container">
       ${!isOwnMessage ? `<div class="msg-avatar">${userInitial}</div>` : '<div class="msg-avatar" style="visibility: hidden;"></div>'}
       <div class="msg-content-wrapper">
-        ${!isOwnMessage ? `<div class="msg-user">${msg.username || 'Usuario desconocido'}
-          ${isMessageAuthorAdmin ? ' <span class="admin-badge" title="Administrador">👑</span>' : ''}
-        </div>` : ''}
+                ${!isOwnMessage ? `<div class="msg-user"><div style="display: flex; align-items: center; white-space: nowrap; max-width: 200px;">
+          <span style="overflow: hidden; text-overflow: ellipsis;">${msg.username || 'Usuario desconocido'}</span>
+          ${isMessageAuthorAdmin ? ' <span class="admin-badge" title="Administrador" style="flex-shrink: 0;">👑</span>' : ''}
+        </div></div>` : ''}
         <div class="msg-bubble">
-                    ${msg.reply_to && msg.reply_content && msg.reply_username ? `
+                                        ${msg.reply_to && msg.reply_content && msg.reply_username ? `
             <div class="msg-reply">
               <span class="msg-reply-author">${msg.reply_username.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}:</span>
-              <span class="msg-reply-content">${(msg.reply_content.length > 50 ? msg.reply_content.substring(0, 50) + '...' : msg.reply_content).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>
+              <span class="msg-reply-content">${msg.reply_content === '[Mensaje eliminado]' ? '[Mensaje eliminado]' : (msg.reply_content.length > 50 ? msg.reply_content.substring(0, 50) + '...' : msg.reply_content).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>
             </div>
           ` : ''}
           <div class="msg-text">${messageContent}</div>
@@ -2929,7 +3079,7 @@
         </div>
       </div>
       <div class="msg-actions">
-        ${!isDeleted && msg.id ? `<button class="reply-btn" onclick="startReply(${msg.id}, encodeURIComponent('${msg.username.replace(/'/g, "\\'").replace(/\n/g, ' ')}'), encodeURIComponent('${msg.content.replace(/'/g, "\\'").replace(/\n/g, ' ')}'))" title="Responder">↩️</button>` : ''}
+        ${!isDeleted && msg.id ? `<button class="reply-btn" onclick="startReply(${msg.id}, encodeURIComponent('${msg.username.replace(/'/g, "\\'").replace(/\n/g, ' ')}'), encodeURIComponent('${messageContent.replace(/'/g, "\\'").replace(/\n/g, ' ')}'))" title="Responder">↩️</button>` : ''}
         ${showDeleteButton ? '<button class="' + deleteButtonClass + '" onclick="deleteMessage(' + msg.id + ', this, ' + isAdmin + ')" title="Eliminar">🗑️</button>' : ''}
       </div>
     </div>
@@ -3038,6 +3188,12 @@
           const deleteBtn = messageElement.querySelector('.delete-btn');
           if (deleteBtn) {
             deleteBtn.remove();
+          }
+
+          // Remover el botón de responder
+          const replyBtn = messageElement.querySelector('.reply-btn');
+          if (replyBtn) {
+            replyBtn.remove();
           }
 
           // Agregar clase para estilo de mensaje eliminado
@@ -3211,6 +3367,12 @@
               deleteBtn.remove();
             }
 
+            // Remover el botón de responder
+            const replyBtn = messageElement.querySelector('.reply-btn');
+            if (replyBtn) {
+              replyBtn.remove();
+            }
+
             // Agregar clase para estilo de mensaje eliminado
             messageElement.classList.add('deleted');
           }
@@ -3310,7 +3472,38 @@
       const username = decodeURIComponent(encodedUsername);
       const content = decodeURIComponent(encodedContent);
 
-      console.log('Iniciando respuesta al mensaje:', messageId, 'de', username);
+      console.log('Iniciando respuesta al mensaje:', messageId, 'de', username, 'contenido:', content);
+
+      // Verificar si el mensaje está eliminado por el contenido
+      if (content === '[Mensaje eliminado]') {
+        console.log('❌ No se puede responder a un mensaje eliminado (contenido)');
+        showChatNotification('No se puede responder a un mensaje eliminado', true);
+        return;
+      }
+
+      // Verificar si el mensaje está eliminado en el DOM
+      const messageElement = document.querySelector(`.msg[data-message-id="${messageId}"]`);
+      if (messageElement) {
+        // Verificar si el mensaje está marcado como eliminado
+        if (messageElement.classList.contains('deleted')) {
+          console.log('❌ No se puede responder a un mensaje eliminado (DOM - clase deleted)');
+          showChatNotification('No se puede responder a un mensaje eliminado', true);
+          return;
+        }
+
+        // Verificar si el botón de responder todavía existe (podría haber sido removido por una actualización en tiempo real)
+        const replyBtn = messageElement.querySelector('.reply-btn');
+        if (!replyBtn) {
+          console.log('❌ No se puede responder - el botón de responder fue removido');
+          showChatNotification('No se puede responder a este mensaje', true);
+          return;
+        }
+      } else {
+        // El mensaje no existe en el DOM (podría haber sido removido)
+        console.log('❌ No se puede responder - el mensaje no existe en el DOM');
+        showChatNotification('No se puede responder a este mensaje', true);
+        return;
+      }
 
       replyingTo = messageId;
       replyMessageData = {
@@ -3634,6 +3827,14 @@
         // Si estamos respondiendo a un mensaje, agregar información de respuesta
         if (replyingTo && replyMessageData) {
           console.log('Enviando respuesta al mensaje:', replyingTo);
+
+          // Verificar si el mensaje al que se responde está eliminado
+          if (replyMessageData.content === '[Mensaje eliminado]') {
+            console.log('⚠️ El mensaje al que se responde está eliminado');
+            showChatNotification('No se puede responder a un mensaje eliminado', true);
+            return;
+          }
+
           messageData.reply_to = replyingTo;
           messageData.reply_username = replyMessageData.username;
 
@@ -3921,8 +4122,164 @@
             console.log('✅ Event listeners DIRECTOS agregados al input');
           }
         }, 200);
+
+        // Inicializar sidebar después de un breve delay
+        setTimeout(initSidebar, 100);
       };
     }
+
+    /* ============================================================
+SIDEBAR OCULTABLE - FUNCIONALIDAD CORREGIDA
+============================================================ */
+
+    // Función para alternar (mostrar/ocultar) el sidebar
+    function toggleSidebar() {
+      console.log('🔄 TOGGLE SIDEBAR llamado');
+
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.sidebar-toggle');
+
+      if (!sidebar || !toggleBtn) {
+        console.error('❌ No se encontraron elementos del sidebar');
+        return;
+      }
+
+      // Determinar el estado actual basado en las clases CSS
+      const isCurrentlyHidden = sidebar.classList.contains('sidebar-hidden');
+
+      // Alternar entre mostrar y ocultar
+      if (isCurrentlyHidden) {
+        sidebar.classList.remove('sidebar-hidden');
+        // Mover botón a la derecha (sidebar visible)
+        toggleBtn.style.left = '230px';
+        console.log('✅ Sidebar ahora VISIBLE');
+      } else {
+        sidebar.classList.add('sidebar-hidden');
+        // Mover botón a la izquierda (sidebar oculto)
+        toggleBtn.style.left = '0';
+        console.log('✅ Sidebar ahora OCULTO');
+      }
+
+      // Actualizar ícono
+      updateToggleIcon();
+      console.log('✅ Ícono actualizado');
+
+      // Mostrar información de depuración
+      console.log('📊 Estado después del toggle:');
+      console.log('- Posición botón:', getComputedStyle(toggleBtn).left);
+      console.log('- Tiene clase sidebar-hidden:', sidebar.classList.contains('sidebar-hidden'));
+    }
+
+    // Función para actualizar el ícono
+    function updateToggleIcon() {
+      const toggleIcon = document.querySelector('.toggle-icon');
+      if (toggleIcon) {
+        // Determinar el estado actual basado en las clases CSS
+        const sidebar = document.getElementById('sidebar');
+        let currentVisible = true; // Valor por defecto
+
+        if (sidebar) {
+          currentVisible = !sidebar.classList.contains('sidebar-hidden');
+        }
+
+        const newIcon = currentVisible ? '◀' : '▶';
+        console.log(`🔄 Actualizando ícono: '${toggleIcon.textContent}' → '${newIcon}' (visible: ${currentVisible})`);
+        toggleIcon.textContent = newIcon;
+      } else {
+        console.warn('⚠️ No se encontró el elemento .toggle-icon');
+      }
+    }
+
+    // Función para inicializar el sidebar
+    function initSidebar() {
+      console.log('🔧 INICIALIZANDO SIDEBAR...');
+
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.sidebar-toggle');
+
+      console.log('Elementos encontrados:');
+      console.log('- Sidebar:', sidebar ? '✅' : '❌');
+      console.log('- Botón toggle:', toggleBtn ? '✅' : '❌');
+
+      if (!sidebar || !toggleBtn) {
+        console.error('❌ No se encontraron elementos del sidebar');
+        return;
+      }
+
+      // Configurar event listener para el botón toggle (solo una vez)
+      if (!toggleBtn._sidebarListenerAdded) {
+        toggleBtn.addEventListener('click', toggleSidebar);
+        toggleBtn._sidebarListenerAdded = true;
+        console.log('✅ Event listener configurado para el botón');
+      } else {
+        console.log('ℹ️ Event listener ya estaba configurado');
+      }
+
+      // Configuración por defecto según el dispositivo
+      const isMobile = window.innerWidth <= 768;
+      console.log(`📱 Es móvil/tableta (≤768px): ${isMobile ? 'Sí' : 'No'} (ancho: ${window.innerWidth}px)`);
+
+      if (isMobile) {
+        // En móviles/tabletas: oculto por defecto
+        sidebar.classList.add('sidebar-hidden');
+        // Posicionar botón a la izquierda
+        toggleBtn.style.left = '0';
+        console.log('✅ Sidebar configurado como OCULTO (móvil/tableta)');
+      } else {
+        // En computadoras/pantallas grandes: visible por defecto
+        sidebar.classList.remove('sidebar-hidden');
+        // Posicionar botón a la derecha
+        toggleBtn.style.left = '230px';
+        console.log('✅ Sidebar configurado como VISIBLE (escritorio)');
+      }
+
+      // Actualizar ícono
+      updateToggleIcon();
+      console.log('✅ Ícono actualizado');
+
+      // Mostrar información de depuración
+      console.log('📊 Estado final:');
+      console.log('- Tiene clase sidebar-hidden:', sidebar.classList.contains('sidebar-hidden'));
+      console.log('- Posición botón:', getComputedStyle(toggleBtn).left);
+      console.log('- Display botón:', getComputedStyle(toggleBtn).display);
+
+      // Escuchar cambios de tamaño de ventana
+      let currentIsMobile = isMobile;
+      window.addEventListener('resize', function () {
+        const newIsMobile = window.innerWidth <= 768;
+
+        // Solo actualizar si cambia entre móvil/escritorio
+        if ((newIsMobile && !currentIsMobile) || (!newIsMobile && currentIsMobile)) {
+          console.log(`🔄 Cambio de dispositivo detectado: ${currentIsMobile ? 'Móvil' : 'Escritorio'} → ${newIsMobile ? 'Móvil' : 'Escritorio'}`);
+          currentIsMobile = newIsMobile;
+
+          // Actualizar dinámicamente sin recargar
+          const sidebar = document.getElementById('sidebar');
+          const toggleBtn = document.querySelector('.sidebar-toggle');
+          if (sidebar && toggleBtn) {
+            if (newIsMobile) {
+              // Cambió a móvil: ocultar sidebar
+              sidebar.classList.add('sidebar-hidden');
+              // Posicionar botón a la izquierda
+              toggleBtn.style.left = '0';
+              console.log('✅ Sidebar actualizado a OCULTO (cambio a móvil)');
+            } else {
+              // Cambió a escritorio: mostrar sidebar
+              sidebar.classList.remove('sidebar-hidden');
+              // Posicionar botón a la derecha
+              toggleBtn.style.left = '230px';
+              console.log('✅ Sidebar actualizado a VISIBLE (cambio a escritorio)');
+            }
+            // Actualizar ícono
+            updateToggleIcon();
+          }
+        }
+      });
+
+      console.log('✅ Sidebar inicializado correctamente');
+    }
+
+    // initSidebar se llamará desde la función initChat modificada
 
     /* ============================================================
        FUNCIÓN DE PRUEBA PARA VERIFICAR QUE TODO FUNCIONE
@@ -4145,6 +4502,67 @@
     };
 
     console.log('Para probar la lógica de campo de nombre, ejecuta testDisplayNameLogic() en la consola.');
+
+    /* ============================================================
+FUNCIÓN DE PRUEBA PARA EL SIDEBAR
+============================================================ */
+    window.testSidebar = function () {
+      console.log('🔍 === PRUEBA DEL SIDEBAR ===');
+
+      const sidebar = document.getElementById('sidebar');
+      const isVisible = sidebar ? !sidebar.classList.contains('sidebar-hidden') : false;
+
+      console.log('Estado actual del sidebar:', isVisible ? 'Visible' : 'Oculto');
+      console.log('Ancho de pantalla:', window.innerWidth, 'px');
+      console.log('Es móvil/tableta (≤768px):', window.innerWidth <= 768 ? 'Sí' : 'No');
+      console.log('Clase sidebar-hidden presente:', sidebar ? sidebar.classList.contains('sidebar-hidden') : 'N/A');
+
+      if (sidebar) {
+        console.log('✅ Sidebar encontrado');
+        console.log('Clases del sidebar:', sidebar.className);
+        console.log('Tiene clase sidebar-hidden:', sidebar.classList.contains('sidebar-hidden'));
+        console.log('Estilos del sidebar:');
+        console.log('- transform:', getComputedStyle(sidebar).transform);
+        console.log('- width:', getComputedStyle(sidebar).width);
+        console.log('- display:', getComputedStyle(sidebar).display);
+        console.log('- position:', getComputedStyle(sidebar).position);
+      } else {
+        console.error('❌ Sidebar NO encontrado');
+      }
+
+      const toggleBtn = document.querySelector('.sidebar-toggle');
+      if (toggleBtn) {
+        console.log('✅ Botón toggle encontrado');
+        console.log('Estilos del botón:');
+        console.log('- display:', getComputedStyle(toggleBtn).display);
+        console.log('- visibility:', getComputedStyle(toggleBtn).visibility);
+        console.log('- opacity:', getComputedStyle(toggleBtn).opacity);
+        console.log('- position:', getComputedStyle(toggleBtn).position);
+        console.log('- left:', getComputedStyle(toggleBtn).left);
+        console.log('- top:', getComputedStyle(toggleBtn).top);
+        console.log('- z-index:', getComputedStyle(toggleBtn).zIndex);
+        console.log('- width:', getComputedStyle(toggleBtn).width);
+        console.log('- height:', getComputedStyle(toggleBtn).height);
+      } else {
+        console.error('❌ Botón toggle NO encontrado');
+      }
+
+      const toggleIcon = document.querySelector('.toggle-icon');
+      if (toggleIcon) {
+        console.log('✅ Ícono encontrado:', toggleIcon.textContent);
+      } else {
+        console.error('❌ Ícono NO encontrado');
+      }
+
+      console.log('\n🔧 Comandos disponibles:');
+      console.log('- toggleSidebar(): Alternar entre mostrar/ocultar');
+      console.log('- updateToggleIcon(): Actualizar ícono del botón');
+      console.log('- initSidebar(): Reinicializar sidebar');
+      console.log('- testSidebar(): Ejecutar esta prueba');
+      console.log('=== FIN DE LA PRUEBA ===');
+    };
+
+    console.log('Para probar el sidebar, ejecuta testSidebar() en la consola.');
 
   </script>
 </body>
