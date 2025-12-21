@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Pago confirmado</title>
+</head>
+<body>
+  <h2>✅ Pago realizado correctamente</h2>
+  <p>Tu código premium es:</p>
+  <h3 id="codigo">Cargando...</h3>
+  <p>Puedes cerrar esta ventana y volver a la aplicación.</p>
+
+  <script>
+    const sessionId = new URLSearchParams(location.search).get("session_id");
+
+    fetch(
+      `https://tudominio.vercel.app/api/verificaPremium?proveedor=stripe&sessionId=${sessionId}`
+    )
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById("codigo").textContent = data.codigo;
+      });
+  </script>
+</body>
+</html>
