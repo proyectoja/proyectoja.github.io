@@ -14,7 +14,7 @@
     const sessionId = new URLSearchParams(location.search).get("session_id");
 
     fetch(
-      `https://tudominio.vercel.app/api/verificaPremium?proveedor=stripe&sessionId=${sessionId}`
+      `https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&sessionId=${sessionId}`
     )
       .then(r => r.json())
       .then(data => {
