@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suscripción Himnario Adventista PRO</title>
+    <!-- PayPal SDK -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AZ6rZOCiKsNy9KZwtpz2qC77SgxCcyxVbRh1ulaxKwUvrPpd4IoGguoi8j7M26jIH7BMbvF4QBSM9Vab&vault=true&intent=subscription&components=buttons"></script>
+    <style>
+        :root {
+            --primary: #8B4513;
+            --secondary: #A0522D;
+            --accent: #D2691E;
+            --light: #FFF8DC;
+            --bg-gradient: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--light);
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+
+        p.subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .payment-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .payment-section:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        h3 {
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+            font-size: 1.2em;
+        }
+
+        .separator {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .separator::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 0;
+        }
+
+        .separator span {
+            background: #395565;
+            /* Match approx visual bg */
+            padding: 0 10px;
+            position: relative;
+            z-index: 1;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
+
+        .btn-stripe {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: filter 0.2s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-stripe:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-mensual {
+            background-color: #6772e5;
+        }
+
+        .btn-anual {
+            background-color: #5469d4;
+        }
+
+        .loading-text {
+            text-align: center;
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        /* Success Message Styling */
+        .success-box {
+            display: none;
+            margin-top: 30px;
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: #1a5c20;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-box h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .code-display {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin: 15px 0;
+            border: 2px dashed #1a5c20;
+            word-break: break-all;
+            user-select: all;
+        }
+
+        .copy-btn {
+            background: #1a5c20;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #144418;
+        }
+
+        /* Loader */
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.8em;
+            margin-top: 20px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Himnario Adventista PRO</h1>
+        <p class="subtitle">Suscripción Premium</p>
+
+        <!-- Sección PayPal -->
+        <div class="payment-section">
+            <h3>PayPal</h3>
+            <div id="paypal-container-mensual"></div>
+
+            <div class="separator"><span>O AHORRA CON EL PLAN ANUAL</span></div>
+
+            <div id="paypal-container-anual"></div>
+        </div>
+
+        <!-- Sección Stripe -->
+        <div class="payment-section">
+            <h3>Tarjeta (Stripe)</h3>
+            <p style="font-size: 0.9em; margin-bottom: 15px; opacity: 0.8;">Pago seguro procesado por Stripe</p>
+            <a href="#" id="btn-stripe-mensual" class="btn-stripe btn-mensual">Suscripción Mensual ($1.99)</a>
+            <a href="#" id="btn-stripe-anual" class="btn-stripe btn-anual">Suscripción Anual ($23.88)</a>
+        </div>
+
+        <!-- Success Display -->
+        <div id="success-box" class="success-box">
+            <h2>🎉 ¡Pago Exitoso!</h2>
+            <p>Gracias por tu apoyo al ministerio.</p>
+            <p>Tu código de suscripción es:</p>
+            <div id="code-display" class="code-display">Cargando...</div>
+            <button class="copy-btn" onclick="copiarCodigo()">Copiar Código</button>
+            <p style="font-size: 0.85em; margin-top: 10px;">Guarda este código en un lugar seguro. Cópialo y pégalo en
+                la aplicación.</p>
+        </div>
+
+        <p class="footer-note">ProyectoJA © 2025. Todos los derechos reservados.</p>
+    </div>
+
+    <script>
+        // Configuración
+        const PLAN_ID_MENSUAL = "P-40E25374WC496032ENB62ANQ";
+        const PLAN_ID_ANUAL = "P-4P300126BF854730HNE4GATY";
+        // Modo test o live para Stripe links
+        const modoAux = "live"; // Asumiendo live para producción web
+
+        // Elementos DOM
+        const successBox = document.getElementById('success-box');
+        const codeDisplay = document.getElementById('code-display');
+
+        // Función guardar y mostrar código
+        function mostrarCodigoExitose(subscriptionId) {
+            // Guardar
+            localStorage.setItem('ultimoCodigoSuscripcion', subscriptionId);
+
+            // Mostrar UI
+            codeDisplay.textContent = subscriptionId;
+            successBox.style.display = 'block';
+
+            // Scroll al éxito
+            successBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Verificar si hay código guardado al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedCode = localStorage.getItem('ultimoCodigoSuscripcion');
+            if (savedCode) {
+                // Opcional: mostrarlo automáticamente o un botón "Ver mi último código"
+                // El usuario pidió: "por si recarga de nuevo aparezca abajo el código que compró"
+                mostrarCodigoExitose(savedCode);
+            }
+        });
+
+        // Copiar al portapapeles
+        function copiarCodigo() {
+            const codigo = codeDisplay.textContent;
+            navigator.clipboard.writeText(codigo).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = "¡Copiado!";
+                setTimeout(() => btn.textContent = originalText, 2000);
+            });
+        }
+
+        // Renderizar PayPal
+        if (window.paypal) {
+            // Mensual
+            window.paypal.Buttons({
+                style: {
+                    layout: 'vertical',
+                    color: 'gold',
+                    shape: 'rect',
+                    label: 'subscribe'
+                },
+                createSubscription: function (data, actions) {
+                    return actions.subscription.create({
+                        'plan_id': PLAN_ID_MENSUAL
+                    });
+                },
+                onApprove: function (data, actions) {
+                    console.log("Suscripción Mensual Aprobada", data);
+                    mostrarCodigoExitose(data.subscriptionID);
+                },
+                onError: function (err) {
+                    console.error('PayPal Error:', err);
+                    alert("Ocurrió un error con PayPal. Por favor intenta nuevamente.");
+                }
+            }).render('#paypal-container-mensual');
+
+            // Anual
+            window.paypal.Buttons({
+                style: {
+                    layout: 'vertical',
+                    color: 'blue',
+                    shape: 'rect',
+                    label: 'subscribe'
+                },
+                createSubscription: function (data, actions) {
+                    return actions.subscription.create({
+                        'plan_id': PLAN_ID_ANUAL
+                    });
+                },
+                onApprove: function (data, actions) {
+                    console.log("Suscripción Anual Aprobada", data);
+                    mostrarCodigoExitose(data.subscriptionID);
+                },
+                onError: function (err) {
+                    console.error('PayPal Error:', err);
+                    alert("Ocurrió un error con PayPal. Por favor intenta nuevamente.");
+                }
+            }).render('#paypal-container-anual');
+        } else {
+            document.getElementById('paypal-container-mensual').innerHTML = "No se pudo cargar SDK de PayPal";
+        }
+
+        // Links Stripe
+        document.getElementById('btn-stripe-mensual').onclick = async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=mensual&modo=${modoAux}`);
+                const data = await res.json();
+                if (data.checkoutUrl) window.location.href = data.checkoutUrl;
+            } catch (err) {
+                console.error(err);
+                alert("Error conectando con Stripe");
+            }
+        };
+
+        document.getElementById('btn-stripe-anual').onclick = async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=anual&modo=${modoAux}`);
+                const data = await res.json();
+                if (data.checkoutUrl) window.location.href = data.checkoutUrl;
+            } catch (err) {
+                console.error(err);
+                alert("Error conectando con Stripe");
+            }
+        };
+    </script>
+</body>
+
+</html>
