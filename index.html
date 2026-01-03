@@ -36,7 +36,7 @@
                     <!--<a href="#explore" class="explore-button">Explorar Más</a>-->
                 </div>
             </div>
-            
+
 
 
             <section class="descarga-himnario">
@@ -71,13 +71,8 @@
                                     <span class="text">Instalador (.exe)</span>
                                     <span class="size">313 MB</span>
                                 </a>
-                                <a href="#" class="btn-descarga windows-zip" data-extension=".zip">
-                                    <span class="icon">📦</span>
-                                    <span class="text">Portable (.zip)</span>
-                                    <span class="size">173 MB</span>
-                                </a>
                             </div>
-                            
+
                             <div class="plataforma-grupo">
                                 <h3>macOS</h3>
                                 <a href="#" class="btn-descarga mac" data-extension=".dmg">
@@ -90,8 +85,13 @@
                                     <span class="text">Paquete (.pkg)</span>
                                     <span class="size">179 MB</span>
                                 </a>
+                                <a href="#" class="btn-descarga mac-zip" data-extension=".zip">
+                                    <span class="icon">📦</span>
+                                    <span class="text">Portable (.zip)</span>
+                                    <span class="size">173 MB</span>
+                                </a>
                             </div>
-                            
+
                             <div class="plataforma-grupo">
                                 <h3>Linux</h3>
                                 <a href="#" class="btn-descarga linux" data-extension=".AppImage">
@@ -106,7 +106,8 @@
                                 </a>
                             </div>
                         </div>
-                        <p class="nota-descarga">Selecciona tu sistema operativo para descargar la versión correspondiente</p>
+                        <p class="nota-descarga">Selecciona tu sistema operativo para descargar la versión
+                            correspondiente</p>
                     </div>
                 </div>
 
@@ -124,7 +125,7 @@
                 </div>
             </section>
 
-            
+
 
 
 
@@ -220,52 +221,52 @@
     </div>
 
     <script src="script.js"></script>
-    
 
-<script>
-    async function descargarDesdeGithub(extension) {
-        try {
-            const res = await fetch(
-                "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
-                { cache: "no-store" }
-            );
-    
-            if (!res.ok) throw new Error("No se pudo leer el release");
-    
-            const data = await res.json();
-    
-            // =========================================
-            // Buscar asset para la extensión especificada
-            // =========================================
-            const asset = data.assets?.find(a => a.name.endsWith(extension));
-    
-            if (!asset) {
-                alert("No se encontró el archivo para esta plataforma (" + extension + ").");
-                return;
+
+    <script>
+        async function descargarDesdeGithub(extension) {
+            try {
+                const res = await fetch(
+                    "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
+                    { cache: "no-store" }
+                );
+
+                if (!res.ok) throw new Error("No se pudo leer el release");
+
+                const data = await res.json();
+
+                // =========================================
+                // Buscar asset para la extensión especificada
+                // =========================================
+                const asset = data.assets?.find(a => a.name.endsWith(extension));
+
+                if (!asset) {
+                    alert("No se encontró el archivo para esta plataforma (" + extension + ").");
+                    return;
+                }
+
+                // Descargar
+                window.location.href = asset.browser_download_url;
+
+            } catch (err) {
+                console.error(err);
+                alert("Error al intentar descargar desde GitHub.");
             }
-    
-            // Descargar
-            window.location.href = asset.browser_download_url;
-    
-        } catch (err) {
-            console.error(err);
-            alert("Error al intentar descargar desde GitHub.");
         }
-    }
-    
-    // Activar todos los botones de descarga
-    document.querySelectorAll('.btn-descarga').forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            const extension = this.getAttribute('data-extension');
-            if (extension) {
-                descargarDesdeGithub(extension);
-            }
+
+        // Activar todos los botones de descarga
+        document.querySelectorAll('.btn-descarga').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const extension = this.getAttribute('data-extension');
+                if (extension) {
+                    descargarDesdeGithub(extension);
+                }
+            });
         });
-    });
     </script>
-    
-    
+
+
 </body>
 
 </html>
