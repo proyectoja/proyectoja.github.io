@@ -119,6 +119,23 @@
     const remota = await obtenerVersionRemota();
 
     // ============================================
+    // ❗ VERSIÓN LOCAL INVÁLIDA (Validar esto PRIMERO para evitar crash)
+    // ============================================
+    if (!local || local === "0.0.0") {
+      bloquearApp();
+      alert(
+        "DEPURACIÓN DE VERSIÓN\n\n" +
+          "Título detectado: " +
+          document.title +
+          "\nVersión local: " +
+          local +
+          "\nVersión remota: " +
+          remota
+      );
+      return;
+    }
+
+    // ============================================
     // 🚫 BLOQUEAR SI ES MENOR QUE 1.0.69
     // ============================================
     const versionMinima = "1.0.69";
@@ -135,27 +152,12 @@
       if (estaVerificadoAntes()) {
         // Ya verificó antes → ahora requiere internet
         bloquearApp();
-        console.warn("Bloqueado: Usuario quitó el internet después de validar.");
+        console.warn(
+          "Bloqueado: Usuario quitó el internet después de validar."
+        );
       } else {
         console.log("Primera ejecución sin internet — permitido.");
       }
-      return;
-    }
-
-    // ============================================
-    // ❗ VERSIÓN LOCAL INVÁLIDA
-    // ============================================
-    if (!local || local === "0.0.0") {
-      bloquearApp();
-      alert(
-        "DEPURACIÓN DE VERSIÓN\n\n" +
-          "Título detectado: " +
-          document.title +
-          "\nVersión local: " +
-          local +
-          "\nVersión remota: " +
-          remota
-      );
       return;
     }
 
