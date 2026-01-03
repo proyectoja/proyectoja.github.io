@@ -63,9 +63,50 @@
                     </ul>
 
                     <div class="botones-descarga">
-                        <a href="#" id="btnGithubHimnario" class="btn-descarga github">
-                            Descargar Aquí
-                        </a>
+                        <div class="plataformas-grid">
+                            <div class="plataforma-grupo">
+                                <h3>Windows</h3>
+                                <a href="#" class="btn-descarga windows" data-extension=".exe">
+                                    <span class="icon">🪟</span>
+                                    <span class="text">Instalador (.exe)</span>
+                                    <span class="size">313 MB</span>
+                                </a>
+                                <a href="#" class="btn-descarga windows-zip" data-extension=".zip">
+                                    <span class="icon">📦</span>
+                                    <span class="text">Portable (.zip)</span>
+                                    <span class="size">173 MB</span>
+                                </a>
+                            </div>
+                            
+                            <div class="plataforma-grupo">
+                                <h3>macOS</h3>
+                                <a href="#" class="btn-descarga mac" data-extension=".dmg">
+                                    <span class="icon">🍎</span>
+                                    <span class="text">Instalador (.dmg)</span>
+                                    <span class="size">179 MB</span>
+                                </a>
+                                <a href="#" class="btn-descarga mac-pkg" data-extension=".pkg">
+                                    <span class="icon">📦</span>
+                                    <span class="text">Paquete (.pkg)</span>
+                                    <span class="size">179 MB</span>
+                                </a>
+                            </div>
+                            
+                            <div class="plataforma-grupo">
+                                <h3>Linux</h3>
+                                <a href="#" class="btn-descarga linux" data-extension=".AppImage">
+                                    <span class="icon">🐧</span>
+                                    <span class="text">AppImage</span>
+                                    <span class="size">178 MB</span>
+                                </a>
+                                <a href="#" class="btn-descarga linux-deb" data-extension=".deb">
+                                    <span class="icon">📦</span>
+                                    <span class="text">Debian (.deb)</span>
+                                    <span class="size">115 MB</span>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="nota-descarga">Selecciona tu sistema operativo para descargar la versión correspondiente</p>
                     </div>
                 </div>
 
@@ -182,7 +223,7 @@
     
 
 <script>
-    async function descargarDesdeGithub() {
+    async function descargarDesdeGithub(extension) {
         try {
             const res = await fetch(
                 "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
@@ -193,31 +234,13 @@
     
             const data = await res.json();
     
-            // ============================
-            // Detectar plataforma del usuario
-            // ============================
-            const plataforma = navigator.userAgent.toLowerCase();
-    
-            let extensionBuscada = "";
-    
-            if (plataforma.includes("win")) {
-                extensionBuscada = ".exe"; // puedes agregar .msi si quieres
-            } else if (plataforma.includes("mac") || plataforma.includes("os x")) {
-                extensionBuscada = ".dmg"; // instalador para Mac
-            } else if (plataforma.includes("linux")) {
-                extensionBuscada = ".AppImage"; // estándar en electron
-            } else {
-                alert("No se pudo detectar tu sistema operativo.");
-                return;
-            }
-    
             // =========================================
-            // Buscar asset para la plataforma detectada
+            // Buscar asset para la extensión especificada
             // =========================================
-            const asset = data.assets?.find(a => a.name.endsWith(extensionBuscada));
+            const asset = data.assets?.find(a => a.name.endsWith(extension));
     
             if (!asset) {
-                alert("No existe instalador para tu sistema operativo (" + extensionBuscada + ").");
+                alert("No se encontró el archivo para esta plataforma (" + extension + ").");
                 return;
             }
     
@@ -230,10 +253,15 @@
         }
     }
     
-    // Activar el botón
-    document.getElementById("btnGithubHimnario").addEventListener("click", function (e) {
-        e.preventDefault();
-        descargarDesdeGithub();
+    // Activar todos los botones de descarga
+    document.querySelectorAll('.btn-descarga').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const extension = this.getAttribute('data-extension');
+            if (extension) {
+                descargarDesdeGithub(extension);
+            }
+        });
     });
     </script>
     

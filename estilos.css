@@ -1201,3 +1201,113 @@ h1 {
   margin-bottom: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
+
+/* ESTILOS PARA LOS NUEVOS BOTONES DE PLATAFORMAS */
+.plataformas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.plataforma-grupo {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.plataforma-grupo h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #f1c40f;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.btn-descarga {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-descarga:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.btn-descarga .icon {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.btn-descarga .text {
+  flex-grow: 1;
+  text-align: left;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.btn-descarga .size {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: normal;
+  flex-shrink: 0;
+}
+
+/* Colores específicos para cada plataforma */
+.btn-descarga.windows {
+  background: linear-gradient(135deg, #0078d7, #005a9e);
+}
+
+.btn-descarga.windows-zip {
+  background: linear-gradient(135deg, #107c10, #0a5c0a);
+}
+
+.btn-descarga.mac {
+  background: linear-gradient(135deg, #555555, #333333);
+}
+
+.btn-descarga.mac-pkg {
+  background: linear-gradient(135deg, #777777, #555555);
+}
+
+.btn-descarga.linux {
+  background: linear-gradient(135deg, #f0b90b, #d4a506);
+  color: #000;
+}
+
+.btn-descarga.linux-deb {
+  background: linear-gradient(135deg, #a81c1c, #8b0000);
+}
+
+.btn-descarga.linux .size,
+.btn-descarga.linux .text {
+  color: #000;
+}
+
+.nota-descarga {
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+  font-style: italic;
+  font-family: 'Segoe UI', sans-serif;
+}
