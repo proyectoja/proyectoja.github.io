@@ -50,17 +50,27 @@
     return localStorage.getItem("HIMNARIO_VERIFICADO") === "true";
   }
 
-  // ============================
+    // ============================
   // 🟦 OBTENER VERSIÓN LOCAL REAL
   // ============================
   function obtenerVersionLocal() {
+    // Primero intentar obtener de window.__APP_VERSION__ (versiones nuevas)
     if (window.__APP_VERSION__) {
       return window.__APP_VERSION__;
     }
 
+    // Intentar extraer del título de la página (versiones intermedias)
     const titulo = document.title;
     const match = titulo.match(/v(\d+\.\d+\.\d+)/);
-    return match ? match[1] : undefined;
+    if (match) {
+      return match[1];
+    }
+
+    // Si no se encuentra en el título, es una versión MUY antigua
+    // que no tenía sistema de versiones (versiones anteriores a 1.0.0)
+    // Estas versiones serán bloqueadas automáticamente
+    console.warn("❌ Versión antigua detectada - Sin sistema de versiones");
+    return "0.0.0"; // Versión mínima para forzar bloqueo
   }
 
   // ============================
@@ -119,19 +129,26 @@
     const remota = await obtenerVersionRemota();
 
     // ============================================
-    // ❗ VERSIÓN LOCAL INVÁLIDA (Validar esto PRIMERO para evitar crash)
+    // ❗ VERSIÓN LOCAL INVÁLIDA O ANTIGUA (Validar esto PRIMERO para evitar crash)
     // ============================================
     if (!local || local === "0.0.0") {
       bloquearApp();
-      alert(
-        "DEPURACIÓN DE VERSIÓN\n\n" +
-          "Título detectado: " +
-          document.title +
-          "\nVersión local: " +
-          local +
-          "\nVersión remota: " +
-          remota
-      );
+      
+      let mensaje = "VERSIÓN ANTIGUA DETECTADA\n\n";
+      
+      if (local === "0.0.0") {
+        mensaje += "Esta es una versión MUY antigua del Himnario Adventista PRO\n";
+        mensaje += "que no tiene sistema de versiones incorporado.\n\n";
+      } else {
+        mensaje += "No se pudo detectar la versión de la aplicación.\n\n";
+      }
+      
+      mensaje += "Título de la página: " + document.title + "\n";
+      mensaje += "Versión detectada: " + (local || "NO DETECTADA") + "\n";
+      mensaje += "Versión remota disponible: " + (remota || "NO DISPONIBLE") + "\n\n";
+      mensaje += "Debes actualizar a la versión más reciente para continuar.";
+      
+      alert(mensaje);
       return;
     }
 
