@@ -1,17 +1,23 @@
 [
   {
+    "imagen": "https://proyectoja.github.io/post-himnario/IglesiaAmigosDelCampo.jpg",
+    "iglesia": "Iglesia Adventista Amigos Del Campo",
+    "pais": "Honduras",
+    "fechaPublicada": "2026-01-04",
+    "descripcion": "Saludos desde Honduras, Bendiciones 🙏🏾"
+  },
+  {
     "imagen": "https://proyectoja.github.io/post-himnario/IglesiaJaloxtoc1.jpg",
     "iglesia": "Iglesia Adventista De Jaloxtoc 1",
     "pais": "México",
     "fechaPublicada": "2025-12-13",
     "descripcion": "Saludos de la iglesia de jaloxtoc 1 desde Morelos México ❤ utilizando el himnario en la campaña de gratitud."
   },
-    {
-      "imagen": "https://proyectoja.github.io/post-himnario/IglesiaVenecia.jpg",
-      "iglesia": "Iglesia Adventista De Venecia",
-      "pais": "Costa Rica",
-      "fechaPublicada": "2025-11-15",
-      "descripcion": "Iglesia donde se probó por primera vez el software. El desarrollador y fundador de PROYECTO JA en su iglesia natal."
-    }
-  ]
-  
+  {
+    "imagen": "https://proyectoja.github.io/post-himnario/IglesiaVenecia.jpg",
+    "iglesia": "Iglesia Adventista De Venecia",
+    "pais": "Costa Rica",
+    "fechaPublicada": "2025-11-15",
+    "descripcion": "Iglesia donde se probó por primera vez el software. El desarrollador y fundador de PROYECTO JA en su iglesia natal."
+  }
+]
