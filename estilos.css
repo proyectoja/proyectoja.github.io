@@ -8,7 +8,7 @@ html {
   padding: 0%;
   background-color: black;
 }
-*{
+* {
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -401,8 +401,7 @@ html {
   border-radius: 1rem;
   box-sizing: border-box;
   border: 0px solid rgb(255, 255, 255);
-  box-shadow: 0 0 30px white,
-  inset 0 0 0px white;
+  box-shadow: 0 0 30px white, inset 0 0 0px white;
 }
 
 .publicacionImage {
@@ -602,7 +601,7 @@ html {
 
 .descargar:hover {
   background-color: #ccc;
-  box-shadow: 0 0 5px  black, inset 0 0 5px white;
+  box-shadow: 0 0 5px black, inset 0 0 5px white;
 }
 
 .copiar {
@@ -614,13 +613,13 @@ html {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  box-shadow: 0 0 5px  black;
+  box-shadow: 0 0 5px black;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .copiar:hover {
   background-color: #ccc;
-  box-shadow: 0 0 5px  black, inset 0 0 5px white;
+  box-shadow: 0 0 5px black, inset 0 0 5px white;
 }
 
 .copiar-texto {
@@ -632,13 +631,13 @@ html {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  box-shadow: 0 0 5px  black;
+  box-shadow: 0 0 5px black;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .copiar-texto:hover {
   background-color: #ccc;
-  box-shadow: 0 0 5px  black, inset 0 0 5px white;
+  box-shadow: 0 0 5px black, inset 0 0 5px white;
 }
 
 .imagen-aleatoria {
@@ -650,13 +649,13 @@ html {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  box-shadow: 0 0 5px  black;
+  box-shadow: 0 0 5px black;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .imagen-aleatoria:hover {
   background-color: #ccc;
-  box-shadow: 0 0 5px  black, inset 0 0 5px white;
+  box-shadow: 0 0 5px black, inset 0 0 5px white;
 }
 
 h1 {
@@ -1053,8 +1052,7 @@ h1 {
 }
 
 /*Contenedor anuncio barra inferior*/
-.contenedor-barra-inferior
-#contenedorAnuncio1{
+.contenedor-barra-inferior #contenedorAnuncio1 {
   display: flex;
   position: fixed;
   bottom: 35px;
@@ -1067,10 +1065,9 @@ h1 {
   align-items: center;
   overflow-x: hidden;
 }
-.contenedor-barra-inferior
-#anuncio-container1,
+.contenedor-barra-inferior #anuncio-container1,
 #anuncio-container11,
-#anuncio-container111{
+#anuncio-container111 {
   display: flex;
   position: relative;
   width: 100%;
@@ -1079,36 +1076,34 @@ h1 {
   transform: scale(0.5);
 }
 
-.contenedor-aplicaciones{
+.contenedor-aplicaciones {
   justify-content: flex-start;
   align-items: flex-start;
 }
-.contenedor-aplicaciones h2{
+.contenedor-aplicaciones h2 {
   margin: 5px;
   padding: 0%;
   color: white;
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;  
-  text-align: left;  
+  font-weight: bold;
+  text-align: left;
 }
 
-.contenedor-aplicacion{
+.contenedor-aplicacion {
   gap: 10px;
 }
-.contenedor-aplicacion button{
+.contenedor-aplicacion button {
   display: flex;
   position: relative;
   width: 100%;
   height: auto;
 }
-.contenedor-aplicacion img{
+.contenedor-aplicacion img {
   width: 100px;
   height: auto;
   margin: 20px;
 }
-
-
 
 /*CONTENEDOR DE APLICACIONES*/
 .descarga-himnario {
@@ -1118,8 +1113,8 @@ h1 {
   border-radius: 20px;
   background: linear-gradient(135deg, #1a1f36, #2c3e50);
   color: white;
-  font-family: 'Segoe UI', sans-serif;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  font-family: "Segoe UI", sans-serif;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .descarga-himnario h1 {
@@ -1149,7 +1144,7 @@ h1 {
 }
 
 .caracteristicas li {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   padding: 12px 18px;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -1192,14 +1187,20 @@ h1 {
   height: 25px;
 }
 
-.yandex { background: #e67e22; }
-.drive { background: #27ae60; }
-.onedrive { background: #2980b9; }
+.yandex {
+  background: #e67e22;
+}
+.drive {
+  background: #27ae60;
+}
+.onedrive {
+  background: #2980b9;
+}
 
 .contenedor-videos iframe {
   border-radius: 15px;
   margin-bottom: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* ESTILOS PARA LOS NUEVOS BOTONES DE PLATAFORMAS */
@@ -1224,7 +1225,7 @@ h1 {
   font-size: 1.4rem;
   color: #f1c40f;
   text-align: center;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .btn-descarga {
@@ -1248,7 +1249,7 @@ h1 {
 
 .btn-descarga:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-descarga .icon {
@@ -1260,7 +1261,7 @@ h1 {
 .btn-descarga .text {
   flex-grow: 1;
   text-align: left;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .btn-descarga .size {
@@ -1309,5 +1310,74 @@ h1 {
   color: rgba(255, 255, 255, 0.7);
   margin-top: 10px;
   font-style: italic;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ALERTA PARA USUARIOS DE MAC */
+.alerta-mac {
+  background: rgba(255, 107, 107, 0.15);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 30px;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.alerta-mac h4 {
+  color: #ff6b6b;
+  margin-top: 0;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+
+.alerta-mac p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.alerta-mac ol {
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+.alerta-mac ol li {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.codigo-terminal {
+  background: #000;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #444;
+}
+
+.codigo-terminal code {
+  color: #00ff00;
+  word-break: break-all;
+}
+
+.btn-copiar-codigo {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.btn-copiar-codigo:hover {
+  background: #666;
 }

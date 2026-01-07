@@ -42,7 +42,7 @@
             <section class="descarga-himnario">
                 <div class="contenedor-texto">
                     <h1>🎵 Descargar Nuevo Himnario Adventista PRO</h1>
-                    <h2>📍 Windows (x32/x64) | Mac | Linux | Versión Completa</h2>
+                    <h2>📍 Windows (x32/x64) | Mac (Universal) | Linux | Versión Completa</h2>
                     <p class="intro">
                         Disfruta del <strong>Himnario Adventista PRO</strong> en su máxima calidad, con funciones
                         exclusivas,
@@ -108,6 +108,26 @@
                         </div>
                         <p class="nota-descarga">Selecciona tu sistema operativo para descargar la versión
                             correspondiente</p>
+
+                        <div class="alerta-mac">
+                            <h4>⚠️ Atención usuarios de macOS</h4>
+                            <p>Si al abrir la aplicación te aparece un mensaje de <strong>"La aplicación está
+                                    dañada"</strong> o <strong>"Apple no puede verificar..."</strong>, no te preocupes,
+                                sigue estos pasos:</p>
+                            <ol>
+                                <li>Mueve el archivo descargado a tu carpeta de <strong>Aplicaciones</strong>.</li>
+                                <li>Haz <strong>Clic Derecho</strong> sobre "Himnario Adventista Pro" y selecciona
+                                    <strong>Abrir</strong>.
+                                </li>
+                                <li>Si el error persiste, abre la <strong>Terminal</strong> y pega el siguiente comando:
+                                </li>
+                            </ol>
+                            <div class="codigo-terminal">
+                                <code
+                                    id="comando-mac">sudo xattr -rd com.apple.quarantine /Applications/"Himnario Adventista Pro.app"</code>
+                                <button class="btn-copiar-codigo" onclick="copiarComando()">Copiar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -264,6 +284,23 @@
                 }
             });
         });
+
+        function copiarComando() {
+            const comando = document.getElementById('comando-mac').innerText;
+            navigator.clipboard.writeText(comando).then(() => {
+                const btn = document.querySelector('.btn-copiar-codigo');
+                const originalText = btn.innerText;
+                btn.innerText = '¡Copiado!';
+                btn.style.background = '#27ae60';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = '#444';
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+                alert('No se pudo copiar el comando. Por favor, selecciónalo manualmente.');
+            });
+        }
     </script>
 
 
