@@ -17,22 +17,28 @@
     <meta property="og:type" content="website" />
 
     <title>PROYECTO JA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
     <script src="html2canvas.js"></script>
     <link rel="icon" href="logo2.png" type="image/png">
     <link rel="stylesheet" href="estilos.css">
-
+    <script src="//unpkg.com/globe.gl"></script>
 </head>
 
 <body>
     <div class="contenedor-rey" id="contenedor-rey">
         <div class="contenedorBody"></div>
+        <div id="globeViz"></div>
         <!-- BIENVENIDA E INICIO-->
         <div class="contenedor-inicio">
             <div class="welcome-container">
                 <div class="content">
-                    <h1>BIENVENIDO A PROYECTO JA | Página en remodelación...</h1>
+                    <h1>BIENVENIDO A PROYECTO JA</h1>
                     <p>Descubre contenido increíble y sumérgete en una experiencia única. Contenido cristiano de
-                        calidad: Películas, Radios, Televisión, Música y mucho más!</p>
+                        calidad!</p>
                     <!--<a href="#explore" class="explore-button">Explorar Más</a>-->
                 </div>
             </div>
@@ -41,8 +47,8 @@
 
             <section class="descarga-himnario">
                 <div class="contenedor-texto">
-                    <h1>🎵 Descargar Nuevo Himnario Adventista PRO</h1>
-                    <h2>📍 Windows (x32/x64) | Mac (Universal) | Linux | Versión Completa</h2>
+                    <h1>Descargar Nuevo Himnario Adventista PRO</h1>
+                    <h2>Windows (x32/x64) | Mac (Universal) | Linux | Versión Completa</h2>
                     <p class="intro">
                         Disfruta del <strong>Himnario Adventista PRO</strong> en su máxima calidad, con funciones
                         exclusivas,
@@ -153,6 +159,8 @@
                         src="https://proyectoja.github.io/embedClappr.html?url=https://hugh.cdn.rumble.cloud/video/s8/2/h/t/X/x/htXxv.haa.mp4?u=0&b=0&poster=https://i.imgur.com/7x6HMVZ.png"
                         title="PROYECTO JA VIDEO PLAYER" frameborder="0" allowfullscreen></iframe>
                 </div>
+
+
                 <div>
                     <h1>Este software es libre de virus | Verificado con Virustotal.com</h1>
                     <img src="sin-virus.jpg" style="width: 100%;height: auto; max-width: 2000px; object-fit: contain;">
@@ -315,6 +323,62 @@
                 alert('No se pudo copiar el comando. Por favor, selecciónalo manualmente.');
             });
         }
+
+        // GLOBE.GL - Estilo GitHub Profesional
+        function initGlobalGlobe() {
+            const container = document.getElementById('globeViz');
+            if (!container) return;
+
+            // Datos de prueba para las "flechas" (arcos) que rebotan por el mundo
+            const arcsData = [
+                { startLat: 9.9281, startLng: -84.0907, endLat: 40.7128, endLng: -74.0060, color: ['#3498db', '#ffffff'] }, // CR a NY
+                { startLat: 40.7128, startLng: -74.0060, endLat: 48.8566, endLng: 2.3522, color: ['#ffffff', '#3498db'] }, // NY a París
+                { startLat: -34.6037, startLng: -58.3816, endLat: -15.7975, endLng: -47.8919, color: ['#3498db', '#ffffff'] }, // Arg a Brasil
+                { startLat: 19.4326, startLng: -99.1332, endLat: 35.6762, endLng: 139.6503, color: ['#ffffff', '#3498db'] },  // Mex a Japón
+                { startLat: 4.7110, startLng: -74.0721, endLat: 40.4168, endLng: -3.7038, color: ['#3498db', '#ffffff'] },
+                { startLat: -33.8688, startLng: 151.2093, endLat: 1.3521, endLng: 103.8198, color: ['#3498db', '#ffffff'] }, // Sídney a Singapur
+                { startLat: 30.0444, startLng: 31.2357, endLat: 55.2708, endLng: 25.2744, color: ['#ffffff', '#3498db'] }, // El Cairo a Riga
+                { startLat: 51.5074, startLng: -0.1278, endLat: -22.9068, endLng: -43.1729, color: ['#3498db', '#ffffff'] }, // Londres a Río
+                { startLat: 34.0522, startLng: -118.2437, endLat: 22.3193, endLng: 114.1694, color: ['#ffffff', '#3498db'] }, // LA a Hong Kong
+                { startLat: -26.2041, startLng: 28.0473, endLat: 1.2921, endLng: 36.8219, color: ['#3498db', '#ffffff'] }  // Johannesburgo a Nairobi
+            ];
+
+            const world = Globe()
+                (container)
+                .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
+                .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+                .backgroundColor('#060613')
+                .showAtmosphere(true)
+                .atmosphereColor('#3498db')
+                .atmosphereAltitude(0.3)
+                .arcsData(arcsData)
+                .arcColor('color')
+                .arcDashLength(0.4)
+                .arcDashGap(4)
+                .arcDashInitialGap(() => Math.random() * 5)
+                .arcDashAnimateTime(1500)
+                .arcAltitude(0.3)
+                .arcStroke(0.6);
+
+            // Ajustar tamaño inicial y Zoom
+            world.width(window.innerWidth);
+            world.height(window.innerHeight);
+            world.pointOfView({ altitude: 2.0 });
+
+            // Controles
+            world.controls().enableZoom = false;
+            world.controls().autoRotate = true;
+            world.controls().autoRotateSpeed = 0.8;
+
+            // Asegurar que responda al tamaño de la ventana
+            window.addEventListener('resize', () => {
+                world.width(window.innerWidth);
+                world.height(window.innerHeight);
+            });
+        }
+
+        // Usar un pequeño timeout para asegurar que el DOM y la librería estén listos
+        setTimeout(initGlobalGlobe, 500);
     </script>
 
 

@@ -1105,279 +1105,362 @@ h1 {
   margin: 20px;
 }
 
-/*CONTENEDOR DE APLICACIONES*/
-.descarga-himnario {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 30px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #1a1f36, #2c3e50);
-  color: white;
-  font-family: "Segoe UI", sans-serif;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+/* ==========================================================================
+   DISEÑO MODERNO PREMIUM (Estilo Google/GitHub/Antigravity)
+   Afecta solo al contenido de inicio, sin tocar barras
+   ========================================================================== */
+
+:root {
+  --primary-glow: conic-gradient(
+    from 180deg at 50% 50%,
+    #16abff33 0deg,
+    #0885ff33 55deg,
+    #54d6ff33 120deg,
+    #0071ff33 160deg,
+    transparent 360deg
+  );
+  --secondary-glow: radial-gradient(
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  --card-rgb: 20, 20, 30;
+  --accent-color: #3498db;
+  --accent-glow: #00d2ff;
 }
 
-.descarga-himnario h1 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #f1c40f;
+#globeViz {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; /* Por encima del fondo pero debajo del contenido */
+  pointer-events: none;
+  opacity: 1;
 }
 
-.descarga-himnario h2 {
-  text-align: center;
+.contenedor-inicio {
+  position: relative;
+  z-index: 5; /* Por encima del mundo para permitir clicks */
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(26, 31, 54, 0.2) 0%,
+    rgba(6, 6, 19, 0.3) 100%
+  );
+  font-family: "Inter", sans-serif;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Efecto de Luces de Fondo Moderno */
+.contenedor-inicio::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: var(--primary-glow);
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.welcome-container {
+  position: relative;
+  z-index: 1;
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.welcome-container h1 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 4rem);
+  background: linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0.5));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
   margin-bottom: 20px;
-  font-weight: normal;
 }
 
-.descarga-himnario .intro {
-  text-align: center;
-  font-size: 1.1rem;
-  margin-bottom: 30px;
+.welcome-container p {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 700px;
+  margin: 0 auto 40px auto;
   line-height: 1.6;
 }
 
-.caracteristicas {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 40px 0;
+/* Contenedor de Descarga Estilo Bento */
+.descarga-himnario {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto 100px auto;
+  padding: 30px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
-.caracteristicas li {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 12px 18px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  font-size: 1rem;
+.descarga-himnario h1 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #fff;
+  font-size: 2.5rem;
+  letter-spacing: -1px;
 }
 
-.botones-descarga {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
+.descarga-himnario h2 {
+  color: var(--accent-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   margin-bottom: 40px;
 }
 
-.btn-descarga {
-  flex: 1 1 250px; /* ✅ ancho flexible pero mínimo de 250px */
-  max-width: 300px; /* ✅ evita que crezcan demasiado */
+.caracteristicas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 60px;
+}
+
+.caracteristicas li {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: #3498db;
-  color: white;
-  text-decoration: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  text-align: center;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.btn-descarga:hover {
-  transform: translateY(-3px);
-  opacity: 0.9;
+.caracteristicas li:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.btn-descarga img {
-  width: 25px;
-  height: 25px;
+.caracteristicas li strong {
+  color: var(--accent-glow);
 }
 
-.yandex {
-  background: #e67e22;
-}
-.drive {
-  background: #27ae60;
-}
-.onedrive {
-  background: #2980b9;
-}
-
-.contenedor-videos iframe {
-  border-radius: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-/* ESTILOS PARA LOS NUEVOS BOTONES DE PLATAFORMAS */
+/* Grilla de Plataformas Modernizada */
 .plataformas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  width: 100%;
-  margin-bottom: 20px;
+  gap: 24px;
 }
 
 .plataforma-grupo {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(var(--card-rgb), 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 30px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.plataforma-grupo:hover {
+  border-color: rgba(var(--accent-color), 0.5);
 }
 
 .plataforma-grupo h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 1.4rem;
-  color: #f1c40f;
-  text-align: center;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #fff;
+  text-shadow: none;
+  margin-bottom: 25px;
+  text-align: left;
 }
 
+/* Botones de Descarga - Regreso al estilo colorido pero con toque Premium */
 .btn-descarga {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #3498db;
-  color: white;
   text-decoration: none;
-  padding: 12px 15px;
-  border-radius: 10px;
+  padding: 14px 18px;
+  border-radius: 12px;
   font-size: 0.95rem;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  margin-bottom: 10px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 12px;
   width: 100%;
   box-sizing: border-box;
   border: none;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .btn-descarga:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.1);
 }
 
 .btn-descarga .icon {
-  font-size: 1.2rem;
-  margin-right: 10px;
+  font-size: 1.3rem;
+  margin-right: 12px;
   flex-shrink: 0;
 }
 
 .btn-descarga .text {
   flex-grow: 1;
   text-align: left;
-  font-family: "Segoe UI", sans-serif;
+  color: white;
 }
 
 .btn-descarga .size {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 4px 8px;
-  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 5px 10px;
+  border-radius: 7px;
   font-size: 0.8rem;
-  font-weight: normal;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
   flex-shrink: 0;
 }
 
-/* Colores específicos para cada plataforma */
+/* Colores Vibrantes Originales con Toque de Gradiente */
 .btn-descarga.windows {
-  background: linear-gradient(135deg, #0078d7, #005a9e);
+  background: linear-gradient(135deg, #0078d7 0%, #005a9e 100%);
 }
-
-.btn-descarga.windows-zip {
-  background: linear-gradient(135deg, #107c10, #0a5c0a);
-}
-
 .btn-descarga.mac {
-  background: linear-gradient(135deg, #555555, #333333);
+  background: linear-gradient(135deg, #444 0%, #111 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 .btn-descarga.mac-pkg {
-  background: linear-gradient(135deg, #777777, #555555);
+  background: linear-gradient(135deg, #666 0%, #333 100%);
 }
-
 .btn-descarga.linux {
-  background: linear-gradient(135deg, #f0b90b, #d4a506);
-  color: #000;
+  background: linear-gradient(135deg, #f0b90b 0%, #d4a506 100%);
 }
-
 .btn-descarga.linux-deb {
-  background: linear-gradient(135deg, #a81c1c, #8b0000);
+  background: linear-gradient(135deg, #a81c1c 0%, #8b0000 100%);
 }
 
-.btn-descarga.linux .size,
-.btn-descarga.linux .text {
+.btn-descarga.linux .text,
+.btn-descarga.linux .size {
   color: #000;
 }
 
-.nota-descarga {
-  text-align: center;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 10px;
-  font-style: italic;
-  font-family: "Segoe UI", sans-serif;
-}
-
-/* ALERTA PARA USUARIOS DE MAC */
+/* Alerta Mac - Diseño Refinado */
 .alerta-mac {
-  background: rgba(255, 107, 107, 0.15);
-  border: 1px solid rgba(255, 107, 107, 0.4);
-  border-radius: 15px;
-  padding: 20px;
-  margin-top: 30px;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-top: 40px;
   color: #fff;
-  font-family: "Segoe UI", sans-serif;
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1);
+  text-align: left;
 }
 
 .alerta-mac h4 {
   color: #ff6b6b;
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 1.2rem;
+  gap: 12px;
+  font-size: 1.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .alerta-mac p {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .alerta-mac ol {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   padding-left: 20px;
 }
 
 .alerta-mac ol li {
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .codigo-terminal {
-  background: #000;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.85rem;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+/* Videos e Imágenes */
+.contenedor-videos iframe {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transition: transform 0.5s ease;
+}
+
+.contenedor-videos iframe:hover {
+  transform: translateY(-5px);
+}
+
+/* Footer / Disqus */
+.disqus-cont {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 50px !important;
+}
+
+/* Scrollbar Custom */
+.contenedor-inicio::-webkit-scrollbar {
+  width: 10px;
+}
+
+.contenedor-inicio::-webkit-scrollbar-track {
+  background: #060613;
+}
+
+.contenedor-inicio::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid #060613;
+}
+
+.contenedor-inicio::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* PUBLICACIONES DINÁMICAS (Devocionales) */
+.contenedor-publicaciones {
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #444;
+  flex-direction: column;
+  gap: 30px;
+  position: relative;
+  z-index: 10;
 }
 
-.codigo-terminal code {
-  color: #00ff00;
-  word-break: break-all;
+.publicacion {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  color: #333;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.btn-copiar-codigo {
-  background: #444;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: background 0.2s;
-}
-
-.btn-copiar-codigo:hover {
-  background: #666;
+.publicacion .titulo {
+  color: #1a1f36;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
 }
