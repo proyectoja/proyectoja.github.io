@@ -94,7 +94,7 @@
   // Inicializar notificaciones
   const notificaciones = cargarNotificaciones();
 
-  // Crear overlay de notificaciones
+      // Crear overlay de notificaciones
   const notificacionesOverlay = document.createElement("div");
   notificacionesOverlay.id = "notificaciones-himnario";
   notificacionesOverlay.style.cssText = `
@@ -116,7 +116,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
   `;
 
-  notificacionesOverlay.innerHTML = `
+      notificacionesOverlay.innerHTML = `
       <div style="padding: 25px 25px 15px 25px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
               <h2 style="margin: 0; font-size: 24px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
@@ -231,7 +231,7 @@
       lista.appendChild(notifElement);
     });
 
-    notificacionesOverlay.style.display = 'flex';
+            notificacionesOverlay.style.display = 'flex';
     notificacionesOverlay.style.animation = 'slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
   }
 
@@ -354,7 +354,7 @@
     }
   }, 60000);
 
-  // Crear botón flotante para abrir notificaciones manualmente
+    // Crear botón flotante para abrir notificaciones manualmente (arrastrable)
   const botonNotificaciones = document.createElement("button");
   botonNotificaciones.id = "botonAbrirNotificaciones";
   botonNotificaciones.style.cssText = `
@@ -367,7 +367,7 @@
       color: white;
       border: none;
       border-radius: 50%;
-      cursor: pointer;
+      cursor: move;
       z-index: 9999997;
       display: flex;
       align-items: center;
@@ -376,7 +376,119 @@
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
       transition: all 0.2s ease;
       padding: 0;
+      user-select: none;
+      touch-action: none;
   `;
+  
+  // Variables para funcionalidad de arrastre del botón
+  let botonDragging = false;
+  let botonDragOffsetX = 0;
+  let botonDragOffsetY = 0;
+  let botonCurrentX = 15; // Posición inicial right
+  let botonCurrentY = 15; // Posición inicial top
+  
+    // Función para iniciar arrastre del botón - Optimizada
+  function iniciarArrastreBoton(e) {
+    botonDragging = true;
+    
+    // Calcular offset una sola vez
+    const rect = botonNotificaciones.getBoundingClientRect();
+    botonDragOffsetX = e.clientX - rect.left;
+    botonDragOffsetY = e.clientY - rect.top;
+    
+    // Feedback visual inmediato
+    botonNotificaciones.style.cursor = 'grabbing';
+    botonNotificaciones.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.4)';
+    botonNotificaciones.style.transform = 'scale(1.05)';
+    
+    // Prevenir comportamientos no deseados
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Forzar un reflow para mejor rendimiento
+    botonNotificaciones.getBoundingClientRect();
+  }
+  
+    // Función para arrastrar el botón - Optimizada
+  let lastSaveTime = 0;
+  const SAVE_THROTTLE = 100; // Guardar cada 100ms máximo
+  
+  function arrastrarBoton(e) {
+    if (!botonDragging) return;
+    
+    // Calcular nueva posición directamente
+    const newX = e.clientX - botonDragOffsetX;
+    const newY = e.clientY - botonDragOffsetY;
+    
+    // Limitar a los bordes de la ventana (cálculos optimizados)
+    const boundedX = Math.max(0, Math.min(newX, window.innerWidth - 40)); // 40px = width del botón
+    const boundedY = Math.max(0, Math.min(newY, window.innerHeight - 40)); // 40px = height del botón
+    
+    // Actualizar posición inmediatamente (sin throttling para suavidad)
+    botonNotificaciones.style.left = boundedX + 'px';
+    botonNotificaciones.style.top = boundedY + 'px';
+    
+    // Actualizar posición actual
+    botonCurrentX = boundedX;
+    botonCurrentY = boundedY;
+    
+    // Throttle para guardar en localStorage (no en cada frame)
+    const now = Date.now();
+    if (now - lastSaveTime > SAVE_THROTTLE) {
+      guardarPosicionBoton();
+      lastSaveTime = now;
+    }
+  }
+  
+    // Función para detener arrastre del botón - Optimizada
+  function detenerArrastreBoton() {
+    if (botonDragging) {
+      botonDragging = false;
+      
+      // Guardar posición final inmediatamente
+      guardarPosicionBoton();
+      lastSaveTime = Date.now();
+      
+      // Restaurar estilos con transición suave
+      botonNotificaciones.style.cursor = 'move';
+      botonNotificaciones.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.2)';
+      botonNotificaciones.style.transform = 'scale(1)';
+      
+      // Forzar un reflow para mejor rendimiento
+      botonNotificaciones.getBoundingClientRect();
+    }
+  }
+  
+  // Función para guardar posición del botón en localStorage
+  function guardarPosicionBoton() {
+    try {
+      localStorage.setItem("HIMNARIO_BOTON_NOTIFICACIONES_POS", JSON.stringify({
+        x: botonCurrentX,
+        y: botonCurrentY
+      }));
+    } catch (e) {
+      console.error("Error al guardar posición del botón:", e);
+    }
+  }
+  
+  // Función para cargar posición del botón desde localStorage
+  function cargarPosicionBoton() {
+    try {
+      const posGuardada = localStorage.getItem("HIMNARIO_BOTON_NOTIFICACIONES_POS");
+      if (posGuardada) {
+        const pos = JSON.parse(posGuardada);
+        botonCurrentX = pos.x || 15;
+        botonCurrentY = pos.y || 15;
+        
+        // Aplicar posición guardada
+        botonNotificaciones.style.left = botonCurrentX + 'px';
+        botonNotificaciones.style.top = botonCurrentY + 'px';
+        botonNotificaciones.style.right = 'auto';
+      }
+    } catch (e) {
+      console.error("Error al cargar posición del botón:", e);
+    }
+  }
   
     // Actualizar el contador de notificaciones no leídas
   function actualizarContadorNotificaciones() {
@@ -393,19 +505,146 @@
     }
   }
   
-  // Inicializar contador
+    // Inicializar contador
   actualizarContadorNotificaciones();
   
-  // Eventos del botón
-  botonNotificaciones.onclick = mostrarNotificaciones;
-  botonNotificaciones.onmouseenter = () => {
-    botonNotificaciones.style.transform = 'scale(1.1)';
-    botonNotificaciones.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.4)';
-  };
-  botonNotificaciones.onmouseleave = () => {
-    botonNotificaciones.style.transform = 'none';
-    botonNotificaciones.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
-  };
+  // Cargar posición guardada del botón
+  cargarPosicionBoton();
+  
+    // Configurar eventos del botón - Sistema mejorado de arrastre
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let isPotentialDrag = false;
+  const DRAG_THRESHOLD = 5; // Píxeles de movimiento para activar arrastre
+  
+  botonNotificaciones.addEventListener('mousedown', (e) => {
+    // Guardar posición inicial
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    isPotentialDrag = true;
+    
+    // Configurar eventos globales
+    const onMouseMove = (moveEvent) => {
+      if (!isPotentialDrag) return;
+      
+      // Calcular distancia movida
+      const deltaX = Math.abs(moveEvent.clientX - dragStartX);
+      const deltaY = Math.abs(moveEvent.clientY - dragStartY);
+      
+      // Si se movió más del umbral, iniciar arrastre
+      if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
+        isPotentialDrag = false;
+        iniciarArrastreBoton(e); // Usar el evento original para el offset
+        
+        // Actualizar con la posición actual para arrastre suave
+        botonDragOffsetX = moveEvent.clientX - botonNotificaciones.getBoundingClientRect().left;
+        botonDragOffsetY = moveEvent.clientY - botonNotificaciones.getBoundingClientRect().top;
+        
+        // Remover este listener temporal
+        document.removeEventListener('mousemove', onMouseMove);
+      }
+    };
+    
+    const onMouseUp = () => {
+      if (isPotentialDrag) {
+        // Fue un clic, abrir notificaciones
+        mostrarNotificaciones();
+      }
+      isPotentialDrag = false;
+      
+      // Limpiar listeners
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+  
+  // Eventos de movimiento globales para arrastre continuo
+  document.addEventListener('mousemove', (e) => {
+    if (botonDragging) {
+      arrastrarBoton(e);
+    }
+  });
+  
+  document.addEventListener('mouseup', () => {
+    if (botonDragging) {
+      detenerArrastreBoton();
+    }
+  });
+  
+  // También soporte para touch - Sistema similar
+  botonNotificaciones.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    dragStartX = touch.clientX;
+    dragStartY = touch.clientY;
+    isPotentialDrag = true;
+    
+    const onTouchMove = (moveEvent) => {
+      if (!isPotentialDrag) return;
+      
+      const currentTouch = moveEvent.touches[0];
+      const deltaX = Math.abs(currentTouch.clientX - dragStartX);
+      const deltaY = Math.abs(currentTouch.clientY - dragStartY);
+      
+      if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
+        isPotentialDrag = false;
+        iniciarArrastreBoton(touch);
+        
+        // Actualizar offset
+        botonDragOffsetX = currentTouch.clientX - botonNotificaciones.getBoundingClientRect().left;
+        botonDragOffsetY = currentTouch.clientY - botonNotificaciones.getBoundingClientRect().top;
+        
+        document.removeEventListener('touchmove', onTouchMove);
+      }
+      
+      moveEvent.preventDefault();
+    };
+    
+    const onTouchEnd = () => {
+      if (isPotentialDrag) {
+        mostrarNotificaciones();
+      }
+      isPotentialDrag = false;
+      
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', onTouchEnd);
+    };
+    
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onTouchEnd);
+    
+    e.preventDefault();
+  }, { passive: false });
+  
+  document.addEventListener('touchmove', (e) => {
+    if (botonDragging && e.touches[0]) {
+      arrastrarBoton(e.touches[0]);
+      e.preventDefault();
+    }
+  }, { passive: false });
+  
+  document.addEventListener('touchend', () => {
+    if (botonDragging) {
+      detenerArrastreBoton();
+    }
+  });
+  
+  // Efectos de hover
+  botonNotificaciones.addEventListener('mouseenter', () => {
+    if (!botonDragging) {
+      botonNotificaciones.style.transform = 'scale(1.1)';
+      botonNotificaciones.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.4)';
+    }
+  });
+  
+  botonNotificaciones.addEventListener('mouseleave', () => {
+    if (!botonDragging) {
+      botonNotificaciones.style.transform = 'none';
+      botonNotificaciones.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.2)';
+    }
+  });
   
   document.body.appendChild(botonNotificaciones);
   
