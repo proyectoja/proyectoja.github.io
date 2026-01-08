@@ -39,10 +39,10 @@
   `;
   document.body.appendChild(overlay);
 
-  // ============================
+    // ============================
   // 📢 SISTEMA DE NOTIFICACIONES
   // ============================
-  const notificaciones = [
+  const notificacionesBase = [
     {
       id: 2,
       imagen: "promocionUno.png",
@@ -60,6 +60,39 @@
       leida: false
     }
   ];
+
+  // Cargar estado de notificaciones desde localStorage
+  function cargarNotificaciones() {
+    const notificacionesGuardadas = localStorage.getItem("HIMNARIO_NOTIFICACIONES");
+    
+    if (notificacionesGuardadas) {
+      try {
+        const parsed = JSON.parse(notificacionesGuardadas);
+        // Combinar con las notificaciones base, manteniendo el estado leído
+        return notificacionesBase.map(notifBase => {
+          const guardada = parsed.find(n => n.id === notifBase.id);
+          return guardada ? { ...notifBase, leida: guardada.leida } : notifBase;
+        });
+      } catch (e) {
+        console.error("Error al cargar notificaciones:", e);
+        return notificacionesBase;
+      }
+    }
+    
+    return notificacionesBase;
+  }
+
+  // Guardar estado de notificaciones en localStorage
+  function guardarNotificaciones() {
+    try {
+      localStorage.setItem("HIMNARIO_NOTIFICACIONES", JSON.stringify(notificaciones));
+    } catch (e) {
+      console.error("Error al guardar notificaciones:", e);
+    }
+  }
+
+  // Inicializar notificaciones
+  const notificaciones = cargarNotificaciones();
 
   // Crear overlay de notificaciones
   const notificacionesOverlay = document.createElement("div");
@@ -162,9 +195,11 @@
         notifElement.style.transform = 'none';
         notifElement.style.boxShadow = 'none';
       };
-      notifElement.onclick = () => {
+            notifElement.onclick = () => {
         notif.leida = true;
+        guardarNotificaciones(); // Guardar en localStorage
         mostrarNotificaciones();
+        actualizarContadorNotificaciones(); // Actualizar contador
       };
 
       // Construir el contenido de la notificación
@@ -208,9 +243,10 @@
     }, 280);
   }
 
-  // Función para marcar todas como leídas
+    // Función para marcar todas como leídas
   function marcarTodasLeidas() {
     notificaciones.forEach(notif => notif.leida = true);
+    guardarNotificaciones(); // Guardar en localStorage
     mostrarNotificaciones();
   }
 
@@ -310,13 +346,94 @@
   `;
   document.head.appendChild(estiloAnimaciones);
 
-  // Mostrar notificaciones automáticamente después de 5 segundos
+      // Mostrar notificaciones automáticamente después de 60 segundos (1 minuto) SOLO si hay no leídas
   setTimeout(() => {
     const hayNoLeidas = notificaciones.some(n => !n.leida);
     if (hayNoLeidas) {
       mostrarNotificaciones();
     }
-  }, 5000);
+  }, 60000);
+
+  // Crear botón flotante para abrir notificaciones manualmente
+  const botonNotificaciones = document.createElement("button");
+  botonNotificaciones.id = "botonAbrirNotificaciones";
+  botonNotificaciones.style.cssText = `
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+      background: brown;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 9999997;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+      padding: 0;
+  `;
+  
+    // Actualizar el contador de notificaciones no leídas
+  function actualizarContadorNotificaciones() {
+    const noLeidas = notificaciones.filter(n => !n.leida).length;
+    botonNotificaciones.innerHTML = noLeidas > 0 ? 
+      `<span style="position: absolute; top: -3px; right: -3px; background: #4ade80; color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold;">${noLeidas}</span>🔔` : 
+      '🔔';
+      
+    // Mostrar/ocultar badge
+    if (noLeidas > 0) {
+      botonNotificaciones.style.background = 'linear-gradient(135deg, #8B4513, brown)';
+    } else {
+      botonNotificaciones.style.background = 'brown';
+    }
+  }
+  
+  // Inicializar contador
+  actualizarContadorNotificaciones();
+  
+  // Eventos del botón
+  botonNotificaciones.onclick = mostrarNotificaciones;
+  botonNotificaciones.onmouseenter = () => {
+    botonNotificaciones.style.transform = 'scale(1.1)';
+    botonNotificaciones.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.4)';
+  };
+  botonNotificaciones.onmouseleave = () => {
+    botonNotificaciones.style.transform = 'none';
+    botonNotificaciones.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+  };
+  
+  document.body.appendChild(botonNotificaciones);
+  
+  // Actualizar contador cuando se marcan notificaciones como leídas
+  const marcarTodasLeidasOriginal = marcarTodasLeidas;
+  marcarTodasLeidas = function() {
+    marcarTodasLeidasOriginal();
+    actualizarContadorNotificaciones();
+  };
+  
+  // Modificar la función mostrarNotificaciones para actualizar contador
+  const mostrarNotificacionesOriginal = mostrarNotificaciones;
+  mostrarNotificaciones = function() {
+    mostrarNotificacionesOriginal();
+    // Ocultar botón mientras se muestran las notificaciones
+    botonNotificaciones.style.display = 'none';
+  };
+  
+  // Modificar la función ocultarNotificaciones para mostrar botón nuevamente
+  const ocultarNotificacionesOriginal = ocultarNotificaciones;
+  ocultarNotificaciones = function() {
+    ocultarNotificacionesOriginal();
+    // Mostrar botón después de ocultar notificaciones
+    setTimeout(() => {
+      botonNotificaciones.style.display = 'flex';
+      actualizarContadorNotificaciones();
+    }, 300);
+  };
 
   // ============================
   // 🧩 SISTEMA DE VERIFICACIÓN LOCAL
