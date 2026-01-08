@@ -40,6 +40,250 @@
   document.body.appendChild(overlay);
 
   // ============================
+  // 📢 SISTEMA DE NOTIFICACIONES
+  // ============================
+  const notificaciones = [
+    {
+      id: 2,
+      imagen: "promocionUno.png",
+      titulo: "PROMOCIÓN EN NUESTRAS REDES SOCIALES",
+      descripcion: "Puedes ir a nuestra página de Facebook y encontrar la información de nuestra promoción para obtener un código premium durante un año.",
+      fecha: "2026-01-01",
+      categoria: "promocion",
+      leida: false
+    },
+    {
+      id: 1,
+      titulo: "🔔 Recordatorio de actualización",
+      descripcion: "Mantén tu aplicación actualizada para disfrutar de todas las funciones y correcciones de seguridad. Este software está en constante actualización, cada semana se actualiza para mejorar la estabilización, optimización, diseño, características y funcionalidades potentes. No es un error que te llegue actualizaciones, es bueno que te lleguen, y puedas actualizar a la última versión siempre.",
+      fecha: "2026-01-01",
+      leida: false
+    }
+  ];
+
+  // Crear overlay de notificaciones
+  const notificacionesOverlay = document.createElement("div");
+  notificacionesOverlay.id = "notificaciones-himnario";
+  notificacionesOverlay.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 420px;
+      max-height: 80vh;
+      background: brown;
+      color: white;
+      z-index: 9999998;
+      display: none;
+      flex-direction: column;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+  `;
+
+  notificacionesOverlay.innerHTML = `
+      <div style="padding: 25px 25px 15px 25px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <h2 style="margin: 0; font-size: 24px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 28px;">🔔</span> Notificaciones
+              </h2>
+              <button id="cerrarNotificaciones" style="
+                  background: rgba(255, 255, 255, 0.15);
+                  border: none;
+                  color: white;
+                  width: 36px;
+                  height: 36px;
+                  border-radius: 50%;
+                  cursor: pointer;
+                  font-size: 20px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  transition: all 0.2s ease;
+              ">×</button>
+          </div>
+          <p style="margin: 0; opacity: 0.9; font-size: 14px;">Avisos:</p>
+      </div>
+      <div id="listaNotificaciones" style="
+          flex: 1;
+          overflow-y: auto;
+          padding: 15px 25px;
+          max-height: 400px;
+      ">
+          <!-- Notificaciones se cargarán aquí -->
+      </div>
+      <div style="
+          padding: 15px 25px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
+      ">
+          <button id="marcarTodasLeidas" style="
+              background: rgba(255, 255, 255, 0.2);
+              border: none;
+              color: white;
+              padding: 10px 20px;
+              border-radius: 10px;
+              cursor: pointer;
+              font-size: 14px;
+              font-weight: 500;
+              transition: all 0.2s ease;
+              width: 100%;
+          ">Marcar todas como leídas</button>
+      </div>
+  `;
+
+  document.body.appendChild(notificacionesOverlay);
+
+  // Función para mostrar notificaciones
+  function mostrarNotificaciones() {
+    const lista = document.getElementById("listaNotificaciones");
+    if (!lista) return;
+
+    lista.innerHTML = '';
+    
+    notificaciones.forEach(notif => {
+      const notifElement = document.createElement("div");
+      notifElement.style.cssText = `
+          background: ${notif.leida ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'};
+          border-radius: 12px;
+          padding: 18px;
+          margin-bottom: 12px;
+          border-left: 4px solid ${notif.leida ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255,255,255,0.8)'};
+          transition: all 0.3s ease;
+          cursor: pointer;
+      `;
+      notifElement.onmouseenter = () => {
+        notifElement.style.transform = 'translateX(-4px)';
+        notifElement.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.2)';
+      };
+      notifElement.onmouseleave = () => {
+        notifElement.style.transform = 'none';
+        notifElement.style.boxShadow = 'none';
+      };
+      notifElement.onclick = () => {
+        notif.leida = true;
+        mostrarNotificaciones();
+      };
+
+      notifElement.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <h3 style="margin: 0; font-size: 16px; font-weight: 600; line-height: 1.4;">${notif.titulo}</h3>
+              ${!notif.leida ? '<span style="background: #4ade80; color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;">NUEVO</span>' : ''}
+          </div>
+          <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; opacity: 0.9;">${notif.descripcion}</p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 12px; opacity: 0.7;">${notif.fecha}</span>
+              <span style="font-size: 12px; opacity: 0.7;">${notif.leida ? '✓ Leída' : 'Haz clic para marcar como leída'}</span>
+          </div>
+      `;
+
+      lista.appendChild(notifElement);
+    });
+
+    notificacionesOverlay.style.display = 'flex';
+    notificacionesOverlay.style.animation = 'slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+  }
+
+  // Función para ocultar notificaciones
+  function ocultarNotificaciones() {
+    notificacionesOverlay.style.animation = 'slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+    setTimeout(() => {
+      notificacionesOverlay.style.display = 'none';
+    }, 280);
+  }
+
+  // Función para marcar todas como leídas
+  function marcarTodasLeidas() {
+    notificaciones.forEach(notif => notif.leida = true);
+    mostrarNotificaciones();
+  }
+
+  // Configurar eventos
+  setTimeout(() => {
+    const btnCerrar = document.getElementById("cerrarNotificaciones");
+    const btnMarcarTodas = document.getElementById("marcarTodasLeidas");
+    
+    if (btnCerrar) {
+      btnCerrar.onclick = ocultarNotificaciones;
+      btnCerrar.onmouseenter = () => {
+        btnCerrar.style.background = 'rgba(255, 255, 255, 0.25)';
+        btnCerrar.style.transform = 'scale(1.1)';
+      };
+      btnCerrar.onmouseleave = () => {
+        btnCerrar.style.background = 'rgba(255, 255, 255, 0.15)';
+        btnCerrar.style.transform = 'none';
+      };
+    }
+    
+    if (btnMarcarTodas) {
+      btnMarcarTodas.onclick = marcarTodasLeidas;
+      btnMarcarTodas.onmouseenter = () => {
+        btnMarcarTodas.style.background = 'rgba(255, 255, 255, 0.3)';
+        btnMarcarTodas.style.transform = 'translateY(-2px)';
+      };
+      btnMarcarTodas.onmouseleave = () => {
+        btnMarcarTodas.style.background = 'rgba(255, 255, 255, 0.2)';
+        btnMarcarTodas.style.transform = 'none';
+      };
+    }
+  }, 100);
+
+  // Agregar estilos de animación
+  const estiloAnimaciones = document.createElement('style');
+  estiloAnimaciones.textContent = `
+      @keyframes slideIn {
+          from {
+              opacity: 0;
+              transform: translateX(30px) scale(0.95);
+          }
+          to {
+              opacity: 1;
+              transform: translateX(0) scale(1);
+          }
+      }
+      
+      @keyframes slideOut {
+          from {
+              opacity: 1;
+              transform: translateX(0) scale(1);
+          }
+          to {
+              opacity: 0;
+              transform: translateX(30px) scale(0.95);
+          }
+      }
+      
+      #notificaciones-himnario::-webkit-scrollbar {
+          width: 6px;
+      }
+      
+      #notificaciones-himnario::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 3px;
+      }
+      
+      #notificaciones-himnario::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 3px;
+      }
+      
+      #notificaciones-himnario::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.3);
+      }
+  `;
+  document.head.appendChild(estiloAnimaciones);
+
+  // Mostrar notificaciones automáticamente después de 5 segundos
+  setTimeout(() => {
+    const hayNoLeidas = notificaciones.some(n => !n.leida);
+    if (hayNoLeidas) {
+      mostrarNotificaciones();
+    }
+  }, 5000);
+
+  // ============================
   // 🧩 SISTEMA DE VERIFICACIÓN LOCAL
   // ============================
   function marcarVerificado() {
