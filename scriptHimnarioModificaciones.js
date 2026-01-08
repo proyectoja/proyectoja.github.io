@@ -167,7 +167,19 @@
         mostrarNotificaciones();
       };
 
-      notifElement.innerHTML = `
+      // Construir el contenido de la notificación
+      let contenidoNotificacion = '';
+      
+      // Si tiene imagen, mostrarla arriba
+      if (notif.imagen) {
+        contenidoNotificacion += `
+          <div style="margin-bottom: 15px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+            <img src="${notif.imagen}" alt="${notif.titulo}" style="width: 100%; height: 180px; object-fit: cover; display: block;">
+          </div>
+        `;
+      }
+      
+      contenidoNotificacion += `
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
               <h3 style="margin: 0; font-size: 16px; font-weight: 600; line-height: 1.4;">${notif.titulo}</h3>
               ${!notif.leida ? '<span style="background: #4ade80; color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;">NUEVO</span>' : ''}
@@ -178,6 +190,8 @@
               <span style="font-size: 12px; opacity: 0.7;">${notif.leida ? '✓ Leída' : 'Haz clic para marcar como leída'}</span>
           </div>
       `;
+      
+      notifElement.innerHTML = contenidoNotificacion;
 
       lista.appendChild(notifElement);
     });
