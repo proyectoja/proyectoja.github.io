@@ -256,21 +256,42 @@
       }
       
       #notificaciones-himnario::-webkit-scrollbar {
-          width: 6px;
+          width: 8px;
+          height: 8px;
       }
       
       #notificaciones-himnario::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 3px;
+          background: transparent;
+          border-radius: 0;
+          margin: 0;
       }
       
       #notificaciones-himnario::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 3px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 4px;
+          border: none;
+          box-shadow: none;
+          transition: background 0.2s ease;
       }
       
       #notificaciones-himnario::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.25);
+          transform: none;
+          box-shadow: none;
+      }
+      
+      #notificaciones-himnario::-webkit-scrollbar-corner {
+          background: transparent;
+      }
+      
+      /* Ocultar scrollbar cuando no está en uso (estilo de app nativa) */
+      #notificaciones-himnario {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+      }
+      
+      #notificaciones-himnario:not(:hover)::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.05);
       }
   `;
   document.head.appendChild(estiloAnimaciones);
