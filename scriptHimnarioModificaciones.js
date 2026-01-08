@@ -45,7 +45,7 @@
   const notificacionesBase = [
     {
       id: 2,
-      imagen: "promocionUno.png",
+      imagen: "//proyectoja.github.io/promocionUno.png",
       titulo: "PROMOCIÓN EN NUESTRAS REDES SOCIALES",
       descripcion:
         "Puedes ir a nuestra página de Facebook y encontrar la información de nuestra promoción para obtener un código premium durante un año.",
