@@ -44,6 +44,14 @@
   // ============================
   const notificacionesBase = [
     {
+      id: 3,
+      titulo: "Apoyo al proyecto",
+      descripcion: "Querida comunidad, queremos compartirles algo con total transparencia y respeto. Por el momento, las actualizaciones quedarán en pausa hasta alcanzar las 100 suscripciones activas. Este proyecto se mantiene gracias al apoyo real de quienes creen en él. Cada mejora, corrección y nueva función requiere tiempo, recursos y compromiso, y llegar a esa meta nos permitirá seguir avanzando con la calidad y dedicación que ustedes merecen. No es una despedida, es una pausa consciente. Una invitación a reflexionar, a valorar el trabajo detrás de cada actualización y, si este proyecto ha sido de bendición para ti, a considerar apoyarlo para que pueda seguir creciendo. Gracias por estar, por usarlo y por creer. Con su apoyo, esto no se detiene… se fortalece 🙏✨",
+      fecha: "2026-01-14",
+      categoria: "anuncio",
+      leida: false,
+    },
+    {
       id: 2,
       imagen: "//proyectoja.github.io/promocionUno.png",
       titulo: "PROMOCIÓN EN NUESTRAS REDES SOCIALES",
