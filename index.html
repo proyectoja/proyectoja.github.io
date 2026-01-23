@@ -31,13 +31,12 @@
     <script src="html2canvas.js"></script>
     <link rel="icon" href="logo2.png" type="image/png" />
     <link rel="stylesheet" href="estilos.css" />
-    <script src="//unpkg.com/globe.gl"></script>
   </head>
 
   <body>
     <div class="contenedor-rey" id="contenedor-rey">
       <div class="contenedorBody"></div>
-      <div id="globeViz"></div>
+
       <!-- BIENVENIDA E INICIO-->
       <div class="contenedor-inicio">
         <div class="welcome-container">
@@ -470,153 +469,6 @@
             );
           });
       }
-
-      // GLOBE.GL - Estilo GitHub Profesional
-      function initGlobalGlobe() {
-        const container = document.getElementById("globeViz");
-        if (!container) return;
-
-        // Datos de prueba para las "flechas" (arcos) que rebotan por el mundo
-        const arcsData = [
-          {
-            startLat: 9.9281,
-            startLng: -84.0907,
-            endLat: 40.7128,
-            endLng: -74.006,
-            color: ["#3498db", "#ffffff"],
-          }, // CR a NY
-          {
-            startLat: 40.7128,
-            startLng: -74.006,
-            endLat: 48.8566,
-            endLng: 2.3522,
-            color: ["#ffffff", "#3498db"],
-          }, // NY a París
-          {
-            startLat: -34.6037,
-            startLng: -58.3816,
-            endLat: -15.7975,
-            endLng: -47.8919,
-            color: ["#3498db", "#ffffff"],
-          }, // Arg a Brasil
-          {
-            startLat: 19.4326,
-            startLng: -99.1332,
-            endLat: 35.6762,
-            endLng: 139.6503,
-            color: ["#ffffff", "#3498db"],
-          }, // Mex a Japón
-          {
-            startLat: 4.711,
-            startLng: -74.0721,
-            endLat: 40.4168,
-            endLng: -3.7038,
-            color: ["#3498db", "#ffffff"],
-          },
-          {
-            startLat: -33.8688,
-            startLng: 151.2093,
-            endLat: 1.3521,
-            endLng: 103.8198,
-            color: ["#3498db", "#ffffff"],
-          }, // Sídney a Singapur
-          {
-            startLat: 30.0444,
-            startLng: 31.2357,
-            endLat: 55.2708,
-            endLng: 25.2744,
-            color: ["#ffffff", "#3498db"],
-          }, // El Cairo a Riga
-          {
-            startLat: 51.5074,
-            startLng: -0.1278,
-            endLat: -22.9068,
-            endLng: -43.1729,
-            color: ["#3498db", "#ffffff"],
-          }, // Londres a Río
-          {
-            startLat: 34.0522,
-            startLng: -118.2437,
-            endLat: 22.3193,
-            endLng: 114.1694,
-            color: ["#ffffff", "#3498db"],
-          }, // LA a Hong Kong
-          {
-            startLat: -26.2041,
-            startLng: 28.0473,
-            endLat: 1.2921,
-            endLng: 36.8219,
-            color: ["#3498db", "#ffffff"],
-          }, // Johannesburgo a Nairobi
-        ];
-
-        const world = Globe()(container)
-          .globeImageUrl(
-            "https://unpkg.com/three-globe/example/img/earth-night.jpg",
-          )
-          .bumpImageUrl(
-            "https://unpkg.com/three-globe/example/img/earth-topology.png",
-          )
-          .backgroundColor("#060613")
-          .showAtmosphere(true)
-          .atmosphereColor("#3498db")
-          .atmosphereAltitude(0.3)
-          .arcsData(arcsData)
-          .arcColor("color")
-          .arcDashLength(0.4)
-          .arcDashGap(4)
-          .arcDashInitialGap(() => Math.random() * 5)
-          .arcDashAnimateTime(1500)
-          .arcAltitude(0.3)
-          .arcStroke(0.6);
-
-        // OPTIMIZACIÓN DE RENDIMIENTO
-        // Intentar limitar PixelRatio para evitar sobrecarga. Se usa try/catch por si la versión de la librería cambia.
-        try {
-          if (world.renderer) {
-            const renderer = world.renderer();
-            if (renderer && typeof renderer.setPixelRatio === "function") {
-              renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-            }
-          }
-        } catch (e) {
-          console.warn("No se pudo optimizar el pixelRatio:", e);
-        }
-
-        // Ajustar tamaño inicial y Zoom
-        world.width(window.innerWidth);
-        world.height(window.innerHeight);
-        world.pointOfView({ altitude: 2.0 });
-
-        // Controles
-        const controls = world.controls();
-        if (controls) {
-          controls.enableZoom = false;
-          controls.autoRotate = true;
-          controls.autoRotateSpeed = 0.8;
-        }
-
-        // Asegurar que responda al tamaño de la ventana
-        window.addEventListener("resize", () => {
-          world.width(window.innerWidth);
-          world.height(window.innerHeight);
-        });
-
-        // Optimización: Pausar rotación/animación cuando la pestaña no es visible
-        document.addEventListener("visibilitychange", () => {
-          const controls = world.controls();
-          if (controls) {
-            if (document.hidden) {
-              controls.autoRotate = false;
-            } else {
-              controls.autoRotate = true;
-            }
-          }
-        });
-      }
-
-      // Usar un pequeño timeout para asegurar que el DOM y la librería estén listos
-      setTimeout(initGlobalGlobe, 500);
     </script>
   </body>
 </html>
