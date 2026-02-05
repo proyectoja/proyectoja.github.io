@@ -18,6 +18,7 @@ Para las películas:
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": ""
     }
 
@@ -36,6 +37,7 @@ Para las series:
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [

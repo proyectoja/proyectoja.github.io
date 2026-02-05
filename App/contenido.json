@@ -19,6 +19,7 @@
       "duracion": "01h 21m",
       "pais": "Estados Unidos",
       "generos": "Todos,Comedia, Animación, Familia, Animación familiar",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -40,6 +41,7 @@
       "duracion": "01h 31m",
       "pais": "Estados Unidos",
       "generos": "Todos,Acción & Aventura, Animación, Familia, Comedia, Animación familiar",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -61,6 +63,7 @@
       "duracion": "01h 34m",
       "pais": "Estados Unidos",
       "generos": "Todos,Acción & Aventura, Animación, Comedia, Familia, Documental, Animación familiar",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -82,6 +85,7 @@
       "duracion": "01h 34m",
       "pais": "Estados Unidos",
       "generos": "Todos,Familia, Animación, Comedia, Acción & Aventura, Animación familiar",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -103,6 +107,7 @@
       "duracion": "01h 21m",
       "pais": "Estados Unidos",
       "generos": "Todos,Comedia, Animación, Familia, Animación familiar",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -124,6 +129,7 @@
       "duracion": "01h 22m",
       "pais": "Estados Unidos, Canadá",
       "generos": "Todos,Familia, Animación",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -145,6 +151,7 @@
       "duracion": "01h 30m",
       "pais": "Estados Unidos",
       "generos": "Todos,Comedia, Acción & Aventura, Animación, Familia, Fantasía, Family Animation, Western Animation",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -166,6 +173,7 @@
       "duracion": "01h 31m",
       "pais": "Estados Unidos",
       "generos": "Todos,Animación, Familia, Comedia, Fantasía, Misterio & Suspense, Acción & Aventura, Drama, Western Animation",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -187,6 +195,7 @@
       "duracion": "01h 35m",
       "pais": "Estados Unidos, China",
       "generos": "Todos,Animación, Acción & Aventura, Comedia, Familia, Fantasía, Western Animation",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -208,6 +217,7 @@
       "duracion": "01h 34m",
       "pais": "Estados Unidos, Japón",
       "generos": "Todos,Comedia, Familia, Fantasía, Misterio & Suspense, Animación, Acción & Aventura, Family Animation",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -229,6 +239,7 @@
       "duracion": "01h 25m",
       "pais": "Estados Unidos",
       "generos": "Todos,Comedia, Animación, Familia, Family Animation",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -250,6 +261,7 @@
       "duracion": "01h 29m",
       "pais": "Estados Unidos",
       "generos": "Todos,Animación, Comedia, Familia, Drama, Acción & Aventura, Western Animation",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -271,6 +283,7 @@
       "duracion": "01h 33m",
       "pais": "Estados Unidos",
       "generos": "Todos,Acción & Aventura, Animación, Familia, Comedia, Family Animation",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -292,6 +305,7 @@
       "duracion": "01h 38m",
       "pais": "Francia, Estados Unidos, Reino Unido",
       "generos": "Todos,Familia, Fantasía, Animación, Acción & Aventura, Animación familiar",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -313,6 +327,7 @@
       "duracion": "01h 42m",
       "pais": "Estados Unidos",
       "generos": "Todos,Comedia, Familia, Fantasía, Acción & Aventura, Animación, Drama, Animación familiar",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -334,6 +349,7 @@
       "duracion": "01h 44m",
       "pais": "Estados Unidos",
       "generos": "Todos,Animación, Familia, Acción & Aventura, Fantasía, Comedia, Drama, Animación familiar, Anime western",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -355,6 +371,7 @@
       "duracion": "02h 05m",
       "pais": "Islandia, Canadá, Estados Unidos, Reino Unido, Irlanda",
       "generos": "Todos,Comedia, Drama, Familia, Fantasía, Acción & Aventura, Live Action",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -376,6 +393,7 @@
       "duracion": "01h 40m",
       "pais": "Estados Unidos",
       "generos": "Todos,Romance, Comedia, Drama, Chicas",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -397,6 +415,7 @@
       "duracion": "01h 42m",
       "pais": "Estados Unidos",
       "generos": "Todos,Romance, Comedia, Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -418,6 +437,7 @@
       "duracion": "01h 55m",
       "pais": "Estados Unidos",
       "generos": "Todos,Romance, Comedia, Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -439,6 +459,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": ""
     }
   ],
@@ -462,6 +483,7 @@
       "fecha": "2013-01-01",
       "pais": "Costa Rica",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -483,6 +505,7 @@
       "fecha": "1981 | 1983-09-19",
       "pais": "Costa Rica",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -504,6 +527,7 @@
       "fecha": "2003",
       "pais": "Global | USA",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -525,6 +549,7 @@
       "fecha": "2003",
       "pais": "Global | USA",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -546,6 +571,7 @@
       "fecha": "2003",
       "pais": "Italia",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -567,6 +593,7 @@
       "fecha": "2019",
       "pais": "Asia",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -588,6 +615,7 @@
       "fecha": "2011",
       "pais": "Asia",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -609,6 +637,7 @@
       "fecha": "2014-06-30",
       "pais": "Tanzania",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -630,6 +659,7 @@
       "fecha": "2013",
       "pais": "Kenya",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -651,6 +681,7 @@
       "fecha": "2003",
       "pais": "Ghana",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -672,6 +703,7 @@
       "fecha": "2003",
       "pais": "Africa",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -693,6 +725,7 @@
       "fecha": "2012",
       "pais": "Polska",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -714,6 +747,7 @@
       "fecha": "2013",
       "pais": "Ukraine",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -735,6 +769,7 @@
       "fecha": "2003",
       "pais": "Norwegian",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -756,6 +791,7 @@
       "fecha": "2010",
       "pais": "India",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -777,6 +813,7 @@
       "fecha": "1997",
       "pais": "China | Chinese | 希望電視台",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -798,6 +835,7 @@
       "fecha": "2003",
       "pais": "Deutsch",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -819,6 +857,7 @@
       "fecha": "1943",
       "pais": "Brazil",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -840,6 +879,7 @@
       "fecha": "1943",
       "pais": "Brazil",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -861,6 +901,7 @@
       "fecha": "2003",
       "pais": "Global",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -882,6 +923,7 @@
       "fecha": "2003",
       "pais": "Rumania",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -903,6 +945,7 @@
       "fecha": "1997",
       "pais": "Bulgaria",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -924,6 +967,7 @@
       "fecha": "2015-03-18",
       "pais": "Francia",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "3"
     }
   ],
@@ -947,6 +991,7 @@
       "fecha": "2020-01-01",
       "pais": "Costa Rica",
       "generos": "Todos",
+      "adventista": false,
       "calidad": ""
     },
     {
@@ -968,6 +1013,7 @@
       "fecha": "1981 | 1983-09-19",
       "pais": "Costa Rica",
       "generos": "Todos",
+      "adventista": false,
       "calidad": ""
     },
     {
@@ -989,6 +1035,7 @@
       "fecha": "2017",
       "pais": "México",
       "generos": "Todos",
+      "adventista": false,
       "calidad": ""
     },
     {
@@ -1010,6 +1057,7 @@
       "fecha": "2020",
       "pais": "México",
       "generos": "Todos",
+      "adventista": false,
       "calidad": ""
     }
   ],
@@ -1034,6 +1082,7 @@
       "duracion": "01h 17m",
       "pais": "",
       "generos": "Todos, Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1056,6 +1105,7 @@
       "duracion": "01h 17m",
       "pais": "",
       "generos": "Todos,Documental",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1078,6 +1128,7 @@
       "duracion": "02h 33m",
       "pais": "",
       "generos": "Todos,Drama,Histórico",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1100,6 +1151,7 @@
       "duracion": "01h 16m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1122,6 +1174,7 @@
       "duracion": "57m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1144,6 +1197,7 @@
       "duracion": "40m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1166,6 +1220,7 @@
       "duracion": "42m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1188,6 +1243,7 @@
       "duracion": "30m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1210,6 +1266,7 @@
       "duracion": "52m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1232,6 +1289,7 @@
       "duracion": "01h 23m",
       "pais": "",
       "generos": "Todos,Drama,Musical",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1254,6 +1312,7 @@
       "duracion": "29m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1276,6 +1335,7 @@
       "duracion": "28m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -1298,6 +1358,7 @@
       "duracion": "44m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1320,6 +1381,7 @@
       "duracion": "19m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1342,6 +1404,7 @@
       "duracion": "01h 26m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -1364,6 +1427,7 @@
       "duracion": "01h 27m",
       "pais": "",
       "generos": "Todos,Drama,Adolescente",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -1386,6 +1450,7 @@
       "duracion": "26m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1408,6 +1473,7 @@
       "duracion": "29m",
       "pais": "",
       "generos": "Todos,Drama,Historia",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1430,6 +1496,7 @@
       "duracion": "01h 27m",
       "pais": "",
       "generos": "Todos,Drama,Misterio",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1452,6 +1519,7 @@
       "duracion": "44m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1474,6 +1542,7 @@
       "duracion": "28m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1496,6 +1565,7 @@
       "duracion": "01h 28m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1518,6 +1588,7 @@
       "duracion": "01h 28m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1540,6 +1611,7 @@
       "duracion": "19m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -1562,6 +1634,7 @@
       "duracion": "45m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -1584,6 +1657,7 @@
       "duracion": "01h 41m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1606,6 +1680,7 @@
       "duracion": "26m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1628,6 +1703,7 @@
       "duracion": "01h 39m",
       "pais": "",
       "generos": "Todos,Drama,Historia,Profecía",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1650,6 +1726,7 @@
       "duracion": "26m",
       "pais": "",
       "generos": "Todos,Drama,Historia",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1672,6 +1749,7 @@
       "duracion": "55m",
       "pais": "",
       "generos": "Todos,Drama,Suspenso",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1694,6 +1772,7 @@
       "duracion": "50m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -1716,6 +1795,7 @@
       "duracion": "21m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -1738,6 +1818,7 @@
       "duracion": "01h 28m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -1760,6 +1841,7 @@
       "duracion": "02h 06m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1782,6 +1864,7 @@
       "duracion": "02h 06m",
       "pais": "",
       "generos": "Todos,60FPS,Drama",
+      "adventista": false,
       "calidad": "4"
     },
     {
@@ -1804,6 +1887,7 @@
       "duracion": "02h 11m",
       "pais": "",
       "generos": "Todos,Historia, Guerra, Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1826,6 +1910,7 @@
       "duracion": "02h 11m",
       "pais": "",
       "generos": "Todos,60FPS,Historia, Guerra, Drama",
+      "adventista": false,
       "calidad": "4"
     },
     {
@@ -1848,6 +1933,7 @@
       "duracion": "01h 50m",
       "pais": "",
       "generos": "Todos,Drama, Familia, Música, Religious Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1870,6 +1956,7 @@
       "duracion": "01h 44m",
       "pais": "",
       "generos": "Todos,Drama, Familia",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1892,6 +1979,7 @@
       "duracion": "01h 41m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1914,6 +2002,7 @@
       "duracion": "02h 18m",
       "pais": "",
       "generos": "Todos,Drama, Historia, Europeas",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1936,6 +2025,7 @@
       "duracion": "02h 00m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1958,6 +2048,7 @@
       "duracion": "01h 50m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -1980,6 +2071,7 @@
       "duracion": "01h 46m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2002,6 +2094,7 @@
       "duracion": "02h 01m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2024,6 +2117,7 @@
       "duracion": "01h 52m",
       "pais": "",
       "generos": "Todos,Drama, Romance",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2046,6 +2140,7 @@
       "duracion": "01h 51m",
       "pais": "",
       "generos": "Todos,Drama, Deporte",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2068,6 +2163,7 @@
       "duracion": "01h 41m",
       "pais": "",
       "generos": "Todos,Acción & Aventura, Historia, Drama, Romance",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2090,6 +2186,7 @@
       "duracion": "01h 41m",
       "pais": "",
       "generos": "Todos,60FPS,Acción & Aventura, Historia, Drama, Romance",
+      "adventista": false,
       "calidad": "4"
     },
     {
@@ -2112,6 +2209,7 @@
       "duracion": "02h 15m",
       "pais": "",
       "generos": "Todos,Drama, Historia, Romance",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2134,6 +2232,7 @@
       "duracion": "02h 15m",
       "pais": "",
       "generos": "Todos,60FPS,Drama, Historia, Romance",
+      "adventista": false,
       "calidad": "4"
     },
     {
@@ -2156,6 +2255,7 @@
       "duracion": "01h 47m",
       "pais": "",
       "generos": "Todos,Acción & Aventura, Drama, Fantasía, Documental, Historia",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2178,6 +2278,7 @@
       "duracion": "02h 00m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2200,6 +2301,7 @@
       "duracion": "02h 02m",
       "pais": "",
       "generos": "Todos,Drama, Romance",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2222,6 +2324,7 @@
       "duracion": "01h 47m",
       "pais": "",
       "generos": "Todos,Drama, Fantasía, Historia, Familia",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2244,6 +2347,7 @@
       "duracion": "01h 34m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2266,6 +2370,7 @@
       "duracion": "02h 03m",
       "pais": "",
       "generos": "Todos,Drama, Historia, Deporte, Sports Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2288,6 +2393,7 @@
       "duracion": "01h 46m",
       "pais": "",
       "generos": "Todos,Drama, Historia",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2310,6 +2416,7 @@
       "duracion": "01h 41m",
       "pais": "",
       "generos": "Todos,Drama, Fantasía",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2332,6 +2439,7 @@
       "duracion": "02h 10m",
       "pais": "",
       "generos": "Todos,Drama, Deporte",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2354,6 +2462,7 @@
       "duracion": "02h 48m",
       "pais": "",
       "generos": "Todos,Drama, Historia",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2376,6 +2485,7 @@
       "duracion": "03h 39m",
       "pais": "",
       "generos": "Todos,Drama, Historia, Documental, Familia, Europeas",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2398,6 +2508,7 @@
       "duracion": "03h 39m",
       "pais": "",
       "generos": "Todos,60FPS,Drama, Historia, Documental, Familia, Europeas",
+      "adventista": false,
       "calidad": "4"
     },
     {
@@ -2420,6 +2531,7 @@
       "duracion": "01h 59m",
       "pais": "",
       "generos": "Todos,Drama, Comedia, Deporte, Familia",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2442,6 +2554,7 @@
       "duracion": "01h 30m",
       "pais": "",
       "generos": "Todos,Drama, Biopics",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2464,6 +2577,7 @@
       "duracion": "01h 41m",
       "pais": "",
       "generos": "Todos,Drama, Romance",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -2486,6 +2600,7 @@
       "duracion": "01h 51m",
       "pais": "",
       "generos": "Todos,Drama,Familia,Romance",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -2508,6 +2623,7 @@
       "duracion": "01h 53m",
       "pais": "",
       "generos": "Todos,Drama, Deporte, Europeas",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -2530,6 +2646,7 @@
       "duracion": "03h 32m",
       "pais": "",
       "generos": "Todos,Historia, Drama, Acción & Aventura",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -2552,6 +2669,7 @@
       "duracion": "02h 11m",
       "pais": "",
       "generos": "Todos,Acción & Aventura, Drama, Historia, Misterio & Suspense",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2574,6 +2692,7 @@
       "duracion": "01h 55m",
       "pais": "",
       "generos": "Todos,Drama, Música, Romance",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -2596,6 +2715,7 @@
       "duracion": "01h 45m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2618,6 +2738,7 @@
       "duracion": "02h 40m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2640,6 +2761,7 @@
       "duracion": "02h 08m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -2662,6 +2784,7 @@
       "duracion": "55m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -2684,6 +2807,7 @@
       "duracion": "02h 41m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2706,6 +2830,7 @@
       "duracion": "01h 08m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -2728,6 +2853,7 @@
       "duracion": "43m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2750,6 +2876,7 @@
       "duracion": "01h 49m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -2772,6 +2899,7 @@
       "duracion": "28m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2794,6 +2922,7 @@
       "duracion": "15m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2816,6 +2945,7 @@
       "duracion": "38m",
       "pais": "",
       "generos": "Todos,Drama,Infantil",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2838,6 +2968,7 @@
       "duracion": "39m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -2860,6 +2991,7 @@
       "duracion": "35m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2882,6 +3014,7 @@
       "duracion": "48m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2904,6 +3037,7 @@
       "duracion": "40m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -2926,6 +3060,7 @@
       "duracion": "28m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2948,6 +3083,7 @@
       "duracion": "49m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -2970,6 +3106,7 @@
       "duracion": "01h 18m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -2992,6 +3129,7 @@
       "duracion": "01h 29m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3014,6 +3152,7 @@
       "duracion": "01h 44m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3036,6 +3175,7 @@
       "duracion": "01h 40m",
       "pais": "",
       "generos": "Todos,Comedia, Drama, Emotional Drama",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -3058,6 +3198,7 @@
       "duracion": "01h 44m",
       "pais": "",
       "generos": "Todos,Drama, Fantasía, Historia",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3080,6 +3221,7 @@
       "duracion": "02h 51m",
       "pais": "",
       "generos": "Todos,Drama, Romance, Period Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3102,6 +3244,7 @@
       "duracion": "02h 18m",
       "pais": "",
       "generos": "Todos,Acción & Aventura, Drama, Documental",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3124,6 +3267,7 @@
       "duracion": "01h 46m",
       "pais": "",
       "generos": "Todos,Drama, Romance, Deporte",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3146,6 +3290,7 @@
       "duracion": "01h 58m",
       "pais": "",
       "generos": "Todos,Drama, Romance",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3168,6 +3313,7 @@
       "duracion": "01h 45m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3190,6 +3336,7 @@
       "duracion": "01h 23m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3212,6 +3359,7 @@
       "duracion": "04h 20m",
       "pais": "",
       "generos": "Todos,Drama, Historia, Documental",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3234,6 +3382,7 @@
       "duracion": "02h 55m",
       "pais": "",
       "generos": "Todos,Acción & Aventura, Historia, Drama, Familia",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3256,6 +3405,7 @@
       "duracion": "01h 55m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3278,6 +3428,7 @@
       "duracion": "01h 42m",
       "pais": "",
       "generos": "Todos,Drama, Música",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3300,6 +3451,7 @@
       "duracion": "01h 39m",
       "pais": "",
       "generos": "Todos,Drama, Familia, Acción & Aventura, Animación, Fantasía",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3322,6 +3474,7 @@
       "duracion": "01h 42m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3344,6 +3497,7 @@
       "duracion": "02h 00m",
       "pais": "",
       "generos": "Todos,Drama, Fantasía",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3366,6 +3520,7 @@
       "duracion": "04h 11m",
       "pais": "",
       "generos": "Todos,Drama, Europeas, Historia, Romance",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3388,6 +3543,7 @@
       "duracion": "02h 17m",
       "pais": "",
       "generos": "Todos,Drama, Historia, Europeas",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3410,6 +3566,7 @@
       "duracion": "01h 40m",
       "pais": "",
       "generos": "Todos,Drama, Europeas",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3432,6 +3589,7 @@
       "duracion": "02h 01m",
       "pais": "",
       "generos": "Todos,Drama, Historia",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3454,6 +3612,7 @@
       "duracion": "01h 36m",
       "pais": "",
       "generos": "Todos,Drama, Historia",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3476,6 +3635,7 @@
       "duracion": "01h 08m",
       "pais": "",
       "generos": "Todos,Drama, Historia",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -3498,6 +3658,7 @@
       "duracion": "29m",
       "pais": "",
       "generos": "Todos,Drama, Historia",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3520,6 +3681,7 @@
       "duracion": "01h 23m",
       "pais": "",
       "generos": "Todos,Drama, Historia",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -3542,6 +3704,7 @@
       "duracion": "42m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3564,6 +3727,7 @@
       "duracion": "21m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -3586,6 +3750,7 @@
       "duracion": "02h 55m",
       "pais": "",
       "generos": "Todos,Acción & Aventura, Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3608,6 +3773,7 @@
       "duracion": "01h 58m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -3630,6 +3796,7 @@
       "duracion": "57m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3652,6 +3819,7 @@
       "duracion": "01h 41m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3674,6 +3842,7 @@
       "duracion": "27m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3696,6 +3865,7 @@
       "duracion": "39m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3718,6 +3888,7 @@
       "duracion": "02h 35m",
       "pais": "",
       "generos": "Todos,Drama,Historia",
+      "adventista": true,
       "calidad": "1"
     },
     {
@@ -3740,6 +3911,7 @@
       "duracion": "36m",
       "pais": "",
       "generos": "Todos,Drama,Documental",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3762,6 +3934,7 @@
       "duracion": "55m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -3784,6 +3957,7 @@
       "checkVerificado": "iconos/check-verificado.png",
       "pais": "",
       "generos": "Todos,Familia, Animación",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3806,6 +3980,7 @@
       "duracion": "01h 38m",
       "pais": "",
       "generos": "Todos,Drama, Deporte",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3828,6 +4003,7 @@
       "duracion": "01h 40m",
       "pais": "",
       "generos": "Todos,Animación, Familia, Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3850,6 +4026,7 @@
       "duracion": "02h 04m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Familia",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3872,6 +4049,7 @@
       "duracion": "01h 56m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Europeas, Religious Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3894,6 +4072,7 @@
       "duracion": "01h 36m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -3916,6 +4095,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": false,
       "calidad": ""
     },
     {
@@ -3938,6 +4118,7 @@
       "duracion": "02h 54m",
       "pais": "",
       "generos": "Todos,Historia, Drama",
+      "adventista": false,
       "calidad": "3"
     },
 
@@ -3958,6 +4139,7 @@
       "duracion": "58m",
       "pais": "",
       "generos": "Todos,Documental, Drama, Historia, Religious Drama",
+      "adventista": false,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -4848,6 +5030,7 @@
       "duracion": "14m => 23m",
       "pais": "",
       "generos": "Todos,Drama",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -4912,6 +5095,7 @@
       "duracion": "30m",
       "pais": "",
       "generos": "Todos,Comedia",
+      "adventista": true,
       "calidad": "2",
       "url": "",
       "urlLista": [
@@ -5078,6 +5262,7 @@
       "duracion": "56m",
       "pais": "",
       "generos": "Todos,Drama, Historia ,  Drama Religioso",
+      "adventista": false,
       "calidad": "2",
       "url": "",
       "urlLista": [
@@ -5210,6 +5395,7 @@
       "duracion": "33m => 56m",
       "pais": "",
       "generos": "Todos,Salud y Bienestar",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -5268,6 +5454,7 @@
       "duracion": "48m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Guerra, Acción & Aventura, Europeas, Religiosas",
+      "adventista": false,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -5405,7 +5592,7 @@
         }
       ]
     },
-    
+
     {
       "id": "s8",
       "seguidores": "11.8 k",
@@ -5423,6 +5610,7 @@
       "duracion": "05m => 11m",
       "pais": "",
       "generos": "Todos,Salud y Bienestar",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -5493,6 +5681,7 @@
       "duracion": "10m",
       "pais": "",
       "generos": "Todos,Bíblico",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -5611,6 +5800,7 @@
       "duracion": "02m => 08m",
       "pais": "Argentina",
       "generos": "Todos,Bíblico,Adolescente",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -5741,6 +5931,7 @@
       "duracion": "01m => 05m",
       "pais": "Argentina",
       "generos": "Todos,Youtubers,Drama,Adolescentes,Religión",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -6033,6 +6224,7 @@
       "duracion": "07m = > 12m",
       "pais": "Perú",
       "generos": "Todos,Comedia,Adolescentes",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -6511,6 +6703,7 @@
       "duracion": "03m => 07m",
       "pais": "España",
       "generos": "Todos,Bíblico",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -6629,6 +6822,7 @@
       "duracion": "06m",
       "pais": "Estados Unidos, Sudáfrica",
       "generos": "Todos,Familia, Animación, Family Animation",
+      "adventista": false,
       "calidad": "2",
       "url": "",
       "urlLista": [
@@ -6705,6 +6899,7 @@
       "duracion": "01h 33m",
       "pais": "Corea del Sur",
       "generos": "Todos,Musicales,Música,Teatro,4K",
+      "adventista": true,
       "calidad": "6"
     },
     {
@@ -6727,6 +6922,7 @@
       "duracion": "50m",
       "pais": "",
       "generos": "Todos,Familia,Drama,2K",
+      "adventista": true,
       "calidad": "5"
     },
     {
@@ -6743,6 +6939,7 @@
       "duracion": "01h 00m",
       "pais": "",
       "generos": "Todos,Animación, Familia, Drama",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -6791,8 +6988,6 @@
       ]
     },
 
-
-    
     {
       "id": "p136",
       "seguidores": "11.8 k",
@@ -6812,6 +7007,7 @@
       "duracion": "01h 26m",
       "pais": "Estados Unidos",
       "generos": "Todos,Acción & Aventura, Animación, Familia, Fantasía, Comedia, Europeas",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -6833,6 +7029,7 @@
       "duracion": "02h 12m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Romance, Historia",
+      "adventista": true,
       "calidad": "2"
     },
     {
@@ -6854,6 +7051,7 @@
       "duracion": "02h 14m",
       "pais": "Estados Unidos",
       "generos": "Todos,Acción & Aventura, Romance, Drama, Familia, Historia, Religiosas",
+      "adventista": true,
       "calidad": "3"
     },
     {
@@ -6875,6 +7073,7 @@
       "duracion": "01h 26m",
       "pais": "Canadá",
       "generos": "Todos,Drama, Europeas",
+      "adventista": false,
       "calidad": "1"
     },
     {
@@ -6896,6 +7095,7 @@
       "duracion": "01h 41m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Familia, Fantasía, Historia, Romance",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -6917,6 +7117,7 @@
       "duracion": "01h 38m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Historia, Acción & Aventura, Fantasía, Religiosas",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -6939,6 +7140,7 @@
       "duracion": "02h 17m",
       "pais": "",
       "generos": "Todos,Drama, Historia, Europeas",
+      "adventista": true,
       "calidad": "4"
     },
     {
@@ -6961,6 +7163,7 @@
       "duracion": "03h 32m",
       "pais": "",
       "generos": "Todos,Historia, Drama, Acción & Aventura",
+      "adventista": true,
       "calidad": "4"
     },
     {
@@ -6983,6 +7186,7 @@
       "duracion": "02h 05m",
       "pais": "Estados Unidos",
       "generos": "Todos,Acción & Aventura, Drama, Historia, Romance, Action Adventure",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7005,6 +7209,7 @@
       "duracion": "04h 11m",
       "pais": "",
       "generos": "Todos,Drama, Europeas, Historia, Romance",
+      "adventista": true,
       "calidad": "4"
     },
     {
@@ -7026,6 +7231,7 @@
       "duracion": "02h 16m",
       "pais": "Jordania, Palestina, Bulgaria, Lebanoni",
       "generos": "Todos,Drama, Historia, Documental, Europeas, Religiosas",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7047,6 +7253,7 @@
       "duracion": "01h 53m",
       "pais": "Malaui, Reino Unido, Estados Unidos",
       "generos": "Todos,Historia, Drama, Basado en una historia real",
+      "adventista": false,
       "calidad": "4"
     },
     {
@@ -7068,6 +7275,7 @@
       "duracion": "02h 03m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Familia, Historia, Deporte, Biopics",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7084,6 +7292,7 @@
       "duracion": "01h 10m",
       "pais": "México",
       "generos": "Todos, Drama, Familia, Historia",
+      "adventista": true,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -7156,6 +7365,7 @@
       "duracion": "02h 12m",
       "pais": "Estados Unidos, Canadá, Hong Kong",
       "generos": "Todos,Drama, Familia, Fantasía, Drama emocional",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7177,6 +7387,7 @@
       "duracion": "01h 57m",
       "pais": "Estados Unidos",
       "generos": "Todos,Fantasía, Drama, Familia, Deporte",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7198,6 +7409,7 @@
       "duracion": "02h 00m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Historia, Drama emocional, Basado en una historia real",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7219,6 +7431,7 @@
       "duracion": "02h 12m",
       "pais": "Estados Unidos",
       "generos": "Todos,Historia, Drama, Religious Drama",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7240,6 +7453,7 @@
       "duracion": "03h 00m",
       "pais": "Canadá, Reino Unido",
       "generos": "Todos,Drama, Historia, Religious Drama",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7261,6 +7475,7 @@
       "duracion": "01h 52m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Biográfico",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7282,6 +7497,7 @@
       "duracion": "01h 32m",
       "pais": "Estados Unidos",
       "generos": "Todos,Drama, Familia",
+      "adventista": false,
       "calidad": "2"
     },
     {
@@ -7303,6 +7519,7 @@
       "duracion": "02h 30m",
       "pais": "Francia, Alemania, Polonia, Reino Unido",
       "generos": "Todos,Drama, Guerra, Música, Europeas, Drama bélico",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7324,6 +7541,7 @@
       "duracion": "03h 10m",
       "pais": "",
       "generos": "Todos,Drama ,  drama religioso",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7345,6 +7563,7 @@
       "duracion": "02h 00m",
       "pais": "Estados Unidos, Marruecos, Reino Unido",
       "generos": "Todos,Drama, Documental ,  Drama Religioso",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7366,6 +7585,7 @@
       "duracion": "04h 10m",
       "pais": "Reino Unido, Estados Unidos, Marruecos",
       "generos": "Todos,Drama, Historia ,  Drama Religioso",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7387,6 +7607,7 @@
       "duracion": "02h 37m",
       "pais": "Marruecos, Reino Unido, Estados Unidos",
       "generos": "Todos,Drama, Fantasía, Religious Drama",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7408,6 +7629,7 @@
       "duracion": "01h 32m",
       "pais": "Estados Unidos",
       "generos": "Todos,Animación, Religious Drama",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7429,6 +7651,7 @@
       "duracion": "01h 55m",
       "pais": "Estados Unidos",
       "generos": "Todos,Romance, Ciencia ficción, Misterio & Suspense, Acción & Aventura, Sci-Fi Drama",
+      "adventista": false,
       "calidad": "3"
     },
     {
@@ -7450,9 +7673,9 @@
       "duracion": "01h 24m",
       "pais": "Estados Unidos, Irlanda",
       "generos": "Todos,Drama, Música, Fantasía, Animación, Familia",
+      "adventista": false,
       "calidad": "3"
     },
-    
 
     {
       "id": "s7",
@@ -7471,6 +7694,7 @@
       "duracion": "01h 00m",
       "pais": "Brasil",
       "generos": "Todos, Drama",
+      "adventista": false,
       "calidad": "3",
       "url": "",
       "urlLista": [
@@ -8630,6 +8854,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8655,6 +8880,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8680,6 +8906,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8705,6 +8932,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8730,6 +8958,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8755,6 +8984,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8780,6 +9010,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8805,6 +9036,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8830,6 +9062,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8855,6 +9088,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8880,6 +9114,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8905,6 +9140,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8930,6 +9166,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
@@ -8955,6 +9192,7 @@
       "duracion": "",
       "pais": "",
       "generos": "Todos",
+      "adventista": false,
       "calidad": "",
       "url": "",
       "urlLista": [
