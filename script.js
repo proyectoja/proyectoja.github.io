@@ -246,7 +246,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
     publicacionElem.appendChild(tituloElem);
     publicacionElem.appendChild(contenidoElem);
     publicacionElem.appendChild(subContenidoElem);
-    publicacionElem.appendChild(redesSocialesElem);
+    //publicacionElem.appendChild(redesSocialesElem);
     publicacionElem.appendChild(botonesAccionElem);
 
     const ventanaFlotante = document.createElement("div");
@@ -301,27 +301,27 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
 // Cargar el archivo JSON y mostrar el mensaje correspondiente al día actual
 // URL del archivo JSON
-const jsonUrlPROYECTOJA =
-  "https://proyectoja.github.io/proyecto_ja_001_365.json";
+//const jsonUrlPROYECTOJA =
+//"https://proyectoja.github.io/proyecto_ja_001_365.json";
 const jsonUrlELLENWHITE =
   "https://proyectoja.github.io/ellen_g_white_001_365.json";
 const jsonUrlDios = "https://proyectoja.github.io/Dios_001_365.json";
 const jsonUrlPsicologiaPositiva =
   "https://proyectoja.github.io/psicologia_positiva_001_365.json";
 const jsonUrlOraciones = "https://proyectoja.github.io/oraciones_001_365.json";
-const jsonUrlDeJovenAJoven = "https://proyectoja.github.io/de_joven_a_joven_001_365.json";
+const jsonUrlDeJovenAJoven = "https://proyectoja.github.io/proyecto_ja_001_365.json";
 
-function cargarNotaPROYECTOJA() {
-  fetch(jsonUrlPROYECTOJA)
-    .then((response) => response.json())
-    .then((mensajes) => {
-      const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
-      mostrarMensajeDelDia(mensajes, diaActual); // Mostrar el mensaje correspondiente al día
-    })
-    .catch((error) => {
-      console.error("Error al cargar el JSON:", error);
-    });
-}
+//function cargarNotaPROYECTOJA() {
+//  fetch(jsonUrlPROYECTOJA)
+//    .then((response) => response.json())
+//    .then((mensajes) => {
+//      const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
+//      mostrarMensajeDelDia(mensajes, diaActual); // Mostrar el mensaje correspondiente al día
+//    })
+//    .catch((error) => {
+//      console.error("Error al cargar el JSON:", error);
+//    });
+//}
 
 function cargarNotaELLENWHITE() {
   fetch(jsonUrlELLENWHITE)
