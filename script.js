@@ -386,7 +386,7 @@ function cargarNotaDeJovenAJoven() {
 // Asumiendo que 'username' está definido
 const username = "XSTUDIOCODE"; //
 verificarProyectoJaEstado(username).then(function () {
-  cargarNotaPROYECTOJA();
+  //cargarNotaPROYECTOJA();
   cargarNotaELLENWHITE();
   cargarNotaDios();
   cargarNotaPsicologiaPositiva();
