@@ -542,7 +542,7 @@ function formatLastSeen(isoStr) {
     const diff = now - date;
     const oneDay = 24 * 60 * 60 * 1000;
     
-    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
     
     if (diff < oneDay && now.getDate() === date.getDate()) {
         return `ult. vez hoy a las ${time}`;
@@ -671,7 +671,7 @@ function addMessage(msg) {
           ${!isOwn ? `<div class="msg-user">${msg.username}</div>` : ""}
           ${msg.reply_to ? `<div class="msg-reply" style="font-size:0.8em; opacity:0.8; border-left:2px solid; padding-left:5px; margin-bottom:5px;">Respuesta a: ${msg.reply_username || "..."}</div>` : ""}
           <div class="msg-text">${content.replace(/</g, "&lt;").replace(/\n/g, "<br>")}</div>
-          <div class="msg-time">${new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</div>
+          <div class="msg-time">${new Date(msg.created_at).toLocaleDateString()} | ${new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true })}</div>
           
           ${!isDeleted ? `
           <div class="msg-actions" style="margin-top:5px; font-size:0.8rem; opacity:0.7;">
