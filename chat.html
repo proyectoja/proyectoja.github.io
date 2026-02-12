@@ -118,6 +118,8 @@
         </div>
         <div style="display: flex; gap: 10px;">
            <button class="action-btn" onclick="changeName()" title="Cambiar Nombre">✏️</button>
+           <button class="action-btn" onclick="changeProfilePicture()" title="Cambiar Foto">📷</button>
+           <input type="file" id="profilePicInput" accept="image/*" style="display: none;" onchange="handleProfilePicUpload(this)">
         </div>
       </div>
 

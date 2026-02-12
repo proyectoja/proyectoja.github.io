@@ -214,6 +214,8 @@ body {
   height: 40px;
   border-radius: 50%;
   background: var(--secondary-bg);
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -293,6 +295,25 @@ body {
   flex-direction: column;
   gap: 1rem;
   scroll-behavior: smooth;
+}
+
+.msg-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--secondary-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: white;
+  flex-shrink: 0;
 }
 
 .msg-container {

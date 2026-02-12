@@ -130,13 +130,16 @@ function setupLoginListeners() {
         let formatted = username.toLowerCase().replace(/\s+/g, "");
         if (!formatted.startsWith("@")) formatted = "@" + formatted;
 
-        const { data } = await db.from("users").select("display_name").eq("username", formatted).maybeSingle();
+        const { data } = await db.from("users").select("display_name, avatar_url").eq("username", formatted).maybeSingle();
         if (data) {
           displayNameGroup.style.display = "none";
           document.getElementById("loginUsername").value = formatted; // Autoformat
           document.getElementById("loginDisplayName").value = data.display_name;
+          if(data.avatar_url) localStorage.setItem("avatar_url", data.avatar_url);
+          else localStorage.removeItem("avatar_url");
           document.getElementById("passwordRequirements").style.display = "none";
         } else {
+          localStorage.removeItem("avatar_url");
           displayNameGroup.style.display = "block";
           document.getElementById("loginDisplayName").value = "";
           if (passwordInput.value) updatePasswordRequirements(passwordInput.value);
@@ -319,23 +322,42 @@ function savePrivateChats() {
     localStorage.setItem("saved_private_chats", JSON.stringify(savedPrivateChats));
 }
 
-function renderSavedChatsList() {
-    // Inject list if missing
-    let list = document.getElementById("privateChatsList");
-    if (!list) {
-        const sidebar = document.getElementById("sidebar");
-        const usersTitle = document.getElementById("usersTitle");
-        if(sidebar && usersTitle) {
-            const container = document.createElement("div");
-            // Changed title to CHATS
-            container.innerHTML = `<h3 style="margin-top:20px; color:var(--accent-color);">CHATS</h3><div id="privateChatsList"></div>`;
-            sidebar.insertBefore(container, usersTitle);
-            list = document.getElementById("privateChatsList");
-        }
+async function renderSavedChatsList() {
+    const sidebar = document.getElementById("sidebar");
+    const usersTitle = document.getElementById("usersTitle");
+    
+    if (!sidebar || !usersTitle) return;
+    
+    // Remove any existing chats container to prevent duplicates
+    let existingContainer = document.getElementById("chatsContainer");
+    if (existingContainer) {
+        existingContainer.remove();
     }
     
+    // Create fresh container
+    const container = document.createElement("div");
+    container.id = "chatsContainer";
+    container.innerHTML = `<h3 style="margin-top:20px; color:var(--accent-color);">CHATS</h3><div id="privateChatsList"></div>`;
+    sidebar.insertBefore(container, usersTitle);
+    
+    // Get the list element
+    const list = document.getElementById("privateChatsList");
     if (!list) return;
-    list.innerHTML = "";
+    
+    // Fetch avatars for all users in private chats
+    const chatUserNames = Object.values(savedPrivateChats).map(chat => chat.name);
+    let avatarMap = {};
+    
+    if(chatUserNames.length > 0) {
+        try {
+            const { data: usersData } = await db.from("users").select("display_name, avatar_url").in("display_name", chatUserNames);
+            if(usersData) {
+                usersData.forEach(u => avatarMap[u.display_name] = u.avatar_url);
+            }
+        } catch(e) {
+            console.warn("Error fetching chat avatars:", e);
+        }
+    }
     
     // 1. PUBLIC ROOM ITEM
     const publicDiv = document.createElement("div");
@@ -360,8 +382,14 @@ function renderSavedChatsList() {
         div.className = "userItem"; 
         if (currentRoom === roomId) div.style.background = "rgba(14, 165, 233, 0.1)";
         
+        // Get avatar URL or use initial
+        const avatarUrl = avatarMap[data.name];
+        const initial = (data.name || "?").charAt(0).toUpperCase();
+        const avatarStyle = avatarUrl ? `background-image:url(${avatarUrl}); background-size:cover; background-position:center; color:transparent;` : '';
+        const avatarContent = avatarUrl ? '' : initial;
+        
         div.innerHTML = `
-            <div class="avatar" style="background:var(--secondary-bg); color:var(--text-secondary); font-size:0.8rem;">💬</div>
+            <div class="avatar" style="${avatarStyle || 'background:var(--secondary-bg);'}">${avatarContent}</div>
             <div style="flex:1; min-width:0; padding-left:10px;" onclick="switchRoom('${roomId}', '${data.name}')">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <span style="font-weight:600; font-size:0.9rem; color:white;">${data.name}</span>
@@ -452,12 +480,14 @@ function initGlobalPresence() {
         .subscribe(async (status) => {
             if (status === "SUBSCRIBED") {
                  const isAdmin = userid === PROYECTO_JA_ADMIN;
+                 const avatar_url = localStorage.getItem("avatar_url") || "";
                  await globalPresenceChannel.track({
                   userid: userid,
                   display_name: displayName,
+                  avatar_url: avatar_url,
                   is_admin: isAdmin,
                   online_at: new Date().toISOString(),
-                });
+                }).catch(err => console.error("Presence track error", err));
             }
         });
 }
@@ -521,8 +551,8 @@ function updateOnlineUsersList(state) {
     const initial = (u.display_name || "?").charAt(0).toUpperCase();
 
     div.innerHTML = `
-      <div class="avatar">
-        ${initial}
+      <div class="avatar" style="${u.avatar_url ? `background-image:url(${u.avatar_url}); color:transparent;` : ''}">
+        ${u.avatar_url ? '' : initial}
          ${isAdmin ? '<div style="position: absolute; bottom: -2px; right: -2px; background: gold; color: #8B4513; width: 12px; height: 12px; border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center;">A</div>' : ""}
       </div>
       <div style="flex: 1; min-width: 0;">
@@ -630,43 +660,46 @@ function startPrivateChatFromMenu() {
 
 // SENDING & LOADING
 async function loadMessages(roomId) {
-  // Intentamos filtrar. Si falla la columna, probamos fallback.
   try {
       let query = db.from("messages").select("*").order("id", { ascending: false }).limit(MAX_MESSAGES);
       
-      // FIX PARA ERROR "42703 column does not exist"
-      // Como no podemos modificar la BD del usuario, eliminamos el filtro .eq('room_id') de la query
-      // y filtramos en memoria (cliente).
       const { data, error } = await query;
       
-      // Filtrado en cliente
-      if (data) {
-         // Si el mensaje tiene room_id, comparamos. Si no tiene, asumimos Public.
-         const filtered = data.filter(m => {
-             const mRoom = m.room_id || PUBLIC_ROOM;
-             return mRoom === roomId;
-         });
-         renderMessages(filtered);
-      } else if (error) {
-         throw error;
-      }
-      
-      // const { data, error } = await query.eq('room_id', roomId); // ESTO CAUSABA EL ERROR
-
       if (error) throw error;
-      if (data) renderMessages(data);
+      
+      // Filter locally
+      const filtered = (data || []).filter(m => {
+           const r = m.room_id || PUBLIC_ROOM;
+           return r === roomId;
+      });
+      
+      // Enrich with avatars
+      // Get unique usernames involved (messages table uses 'username' not 'userid')
+      const userIds = [...new Set(filtered.map(m => m.username).filter(u => u))];
+      let avatarMap = {};
+      
+      if(userIds.length > 0) {
+          // Query by display_name since messages store display names in 'username' field
+          const { data: usersData, error: usersError } = await db.from("users").select("display_name, avatar_url").in("display_name", userIds);
+          
+          if(usersError) console.error("Avatar fetch error:", usersError);
+          
+          if(usersData) {
+              // Map by display_name to match what's in messages
+              usersData.forEach(u => avatarMap[u.display_name] = u.avatar_url);
+          }
+      }
+
+      // Assign avatar to msg object before rendering
+      filtered.forEach(msg => {
+          if(avatarMap[msg.username]) msg.avatar_url = avatarMap[msg.username]; 
+      });
+
+      renderMessages(filtered);
 
   } catch (error) {
-     console.warn("Fallo en loadMessages (posible falta de columna room_id)", error);
-     
-     // Fallback solo para sala pública para no romper todo
-     if (roomId === PUBLIC_ROOM) {
-         const { data } = await db.from("messages").select("*").order("id", { ascending: false }).limit(MAX_MESSAGES);
-         // Mostramos solo los que NO tienen room_id o es pública
-         if(data) renderMessages(data.filter(m => !m.room_id || m.room_id === PUBLIC_ROOM));
-     } else {
-         showChatNotification("Error: Base de datos no soporta chat privado (falta room_id)", true);
-     }
+     console.warn("Messages load error:", error);
+     showChatNotification("Error cargando mensajes", true);
   }
 }
 
@@ -704,9 +737,21 @@ function addMessage(msg) {
   
   const initial = (msg.username || "?").charAt(0).toUpperCase();
 
+  // Resolve Avatar URL
+  let avatarUrl = msg.avatar_url;
+  if(!avatarUrl && typeof onlineUsersState !== 'undefined' && msg.userid) {
+       const userPres = onlineUsersState[msg.userid];
+       if(userPres && userPres[0] && userPres[0].avatar_url) {
+           avatarUrl = userPres[0].avatar_url;
+       }
+  }
+
+  const avatarStyle = avatarUrl ? `background-image:url(${avatarUrl}); color:transparent;` : '';
+  const avatarContent = avatarUrl ? '' : initial;
+
   div.innerHTML = `
     <div class="msg-container">
-      ${!isOwn ? `<div class="msg-avatar">${initial}</div>` : ""}
+      ${!isOwn ? `<div class="msg-avatar" style="${avatarStyle}">${avatarContent}</div>` : ""}
       <div class="msg-bubble">
           ${!isOwn ? `<div class="msg-user">${msg.username}</div>` : ""}
           ${msg.reply_to ? `<div class="msg-reply" style="font-size:0.8em; opacity:0.8; border-left:2px solid; padding-left:5px; margin-bottom:5px;">Respuesta a: ${msg.reply_username || "..."}</div>` : ""}
@@ -823,7 +868,10 @@ function sendTyping(isTyping) {
   const now = Date.now();
   if (isTyping && now - lastTypingSent < TYPING_DEBOUNCE_TIME) return;
   lastTypingSent = now;
-  channel.send({ type: "broadcast", event: "typing", payload: { userid, display_name: displayName, isTyping } });
+  
+  channel.send({ type: "broadcast", event: "typing", payload: { userid, display_name: displayName, isTyping } })
+         .catch(err => {}); // Ignore typing errors
+         
   if (isTyping) { clearTimeout(typingDebounceTimer); typingDebounceTimer = setTimeout(() => sendTyping(false), 2000); }
 }
 
@@ -949,8 +997,20 @@ function updateUserInterface() {
   const isAdmin = userid === PROYECTO_JA_ADMIN;
   let html = `<span>${displayName}</span> <small>${userid}</small>`;
   document.getElementById("usernameDisplay").innerHTML = html;
+  
   const avatar = document.getElementById("userAvatarTop");
-  if (avatar) avatar.textContent = displayName.charAt(0).toUpperCase();
+  if (avatar) {
+      const storedAvatar = localStorage.getItem("avatar_url");
+      if (storedAvatar) {
+          avatar.style.backgroundImage = `url(${storedAvatar})`;
+          avatar.style.backgroundSize = "cover";
+          avatar.style.backgroundPosition = "center";
+          avatar.textContent = "";
+      } else {
+          avatar.style.backgroundImage = "var(--primary-gradient)"; // Reset
+          avatar.textContent = displayName.charAt(0).toUpperCase();
+      }
+  }
 }
 
 function initSidebar() {
@@ -997,6 +1057,73 @@ function logout() {
     localStorage.removeItem("remember_session");
     window.location.reload(); 
 }
+function changeProfilePicture() {
+    document.getElementById('profilePicInput').click();
+}
+
+async function handleProfilePicUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    if (file.size > 1024 * 1024) {
+        showChatNotification("La imagen supera 1MB", true);
+        return;
+    }
+    
+    // Create image to resize
+    const img = new Image();
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        img.src = e.target.result;
+    };
+    
+    img.onload = async function() {
+        // Resize to 300x300 for better quality
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const size = 300;
+        canvas.width = size;
+        canvas.height = size;
+        
+        // Draw image centered and cropped
+        const scale = Math.max(size / img.width, size / img.height);
+        const x = (size / 2) - (img.width / 2) * scale;
+        const y = (size / 2) - (img.height / 2) * scale;
+        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+        
+        // Convert to base64 with good quality
+        const base64 = canvas.toDataURL('image/jpeg', 0.9);
+        
+        // Update DB
+        let { error } = await db.from('users').update({ avatar_url: base64 }).eq('username', userid);
+        
+        if (error) {
+            console.error("Avatar DB Error:", error);
+            showChatNotification("Error al guardar foto.", true);
+        } else {
+            showChatNotification("Foto actualizada", false);
+            localStorage.setItem("avatar_url", base64); 
+            updateUserInterface();
+            
+            // Update presence immediately
+            if(globalPresenceChannel) {
+                 const isAdmin = userid === PROYECTO_JA_ADMIN;
+                 globalPresenceChannel.track({
+                  userid: userid,
+                  display_name: displayName,
+                  avatar_url: base64,
+                  is_admin: isAdmin,
+                  online_at: new Date().toISOString(),
+                }).catch(err => console.error(err));
+            }
+        }
+    };
+    
+    reader.readAsDataURL(file);
+}
+
 async function changeName() { 
     const n = await showCustomPrompt("Nuevo nombre:"); 
     if(n) { 
@@ -1116,3 +1243,5 @@ window.updateCharCounter = updateCharCounter;
 window.handleMessageUpdate = handleMessageUpdate;
 window.openUserSearch = openUserSearch;
 window.closeUserSearch = closeUserSearch;
+window.changeProfilePicture = changeProfilePicture;
+window.handleProfilePicUpload = handleProfilePicUpload;
