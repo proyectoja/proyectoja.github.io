@@ -342,15 +342,16 @@ function renderSavedChatsList() {
 }
 
 // Expose removal function
-window.removeSavedChat = function(roomId) {
-    if(confirm("¿Eliminar este chat privado?")) {
+window.removeSavedChat = async function(roomId) {
+    // Prevent event propagation if possible
+    if(window.event) window.event.stopPropagation();
+
+    if(await showCustomConfirm("¿Eliminar este chat privado?")) {
         delete savedPrivateChats[roomId];
         savePrivateChats();
         renderSavedChatsList();
         if(currentRoom === roomId) returnToGlobalChat();
     }
-    // Stop propagation of click
-    event.stopPropagation();
 };
 
 function switchRoom(newRoomId, newRoomTitle) {
