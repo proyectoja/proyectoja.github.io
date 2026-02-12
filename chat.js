@@ -606,7 +606,8 @@ function updateOnlineUsersList(state) {
     const initial = (u.display_name || "?").charAt(0).toUpperCase();
 
     div.innerHTML = `
-      <div class="avatar" style="${u.avatar_url ? `background-image:url(${u.avatar_url}); color:transparent;` : ''}">
+      <div class="avatar" style="${u.avatar_url ? `background-image:url(${u.avatar_url}); color:transparent;` : ''}"
+           ${u.avatar_url ? `onclick="event.stopPropagation(); window.previewAvatar('${u.avatar_url}', event)" onmouseenter="window.previewAvatar('${u.avatar_url}', event)" onmouseleave="window.closeAvatarPreview()"` : ''}>
         ${u.avatar_url ? '' : initial}
          ${isAdmin ? '<div style="position: absolute; bottom: -2px; right: -2px; background: gold; color: #8B4513; width: 12px; height: 12px; border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center;">A</div>' : ""}
       </div>
@@ -1573,6 +1574,71 @@ window.startPrivateChatFromSearch = async function(targetId, targetName) {
     switchRoom(roomId, `Privado: ${targetName}`);
 };
 
+/* AVATAR PREVIEW HELPERS */
+let currentPreviewUrl = null;
+
+function previewAvatar(url, e) {
+    if(e && e.stopPropagation) e.stopPropagation();
+
+    const overlay = document.getElementById('avatarPreviewOverlay');
+    const img = document.getElementById('avatarPreviewImage');
+    
+    // Toggle logic for click
+    if (e && e.type === 'click' && currentPreviewUrl === url && overlay.classList.contains('active')) {
+        closeAvatarPreview();
+        return;
+    }
+
+    currentPreviewUrl = url;
+    img.src = url;
+    
+    // Position the popup
+    if (e && e.target) {
+        const rect = e.target.getBoundingClientRect();
+        const popupSize = 220; // Match CSS width/height including border
+        const spacing = 15;
+        
+        // Default: Right of target
+        let left = rect.right + spacing;
+        let top = rect.top + (rect.height / 2) - (popupSize / 2);
+        
+        // Vertical check bounds
+        if (top < 10) top = 10;
+        if (top + popupSize > window.innerHeight - 10) top = window.innerHeight - popupSize - 10;
+        
+        // Horizontal check: if overflowing right, go left
+        if (left + popupSize > window.innerWidth - 10) {
+            left = rect.left - popupSize - spacing;
+        }
+
+        overlay.style.top = `${top}px`;
+        overlay.style.left = `${left}px`;
+        overlay.style.display = 'block';
+    } else {
+        // Fallback center if no event target
+        overlay.style.top = '50%';
+        overlay.style.left = '50%';
+        overlay.style.transform = 'translate(-50%, -50%)';
+        overlay.style.display = 'block';
+    }
+    
+    // Force reflow
+    void overlay.offsetWidth;
+    overlay.classList.add('active');
+}
+
+function closeAvatarPreview() {
+    const overlay = document.getElementById('avatarPreviewOverlay');
+    overlay.classList.remove('active');
+    currentPreviewUrl = null;
+    setTimeout(() => {
+        // Only hide if it hasn't been reopened in the meantime
+        if(!overlay.classList.contains('active')) {
+            overlay.style.display = 'none';
+        }
+    }, 200); // Match CSS transition
+}
+
 // EXPORTS
 window.handleLogin = handleLogin;
 window.logout = logout;
@@ -1599,3 +1665,5 @@ window.handleProfilePicUpload = handleProfilePicUpload;
 window.cropZoom = cropZoom;
 window.cancelCrop = cancelCrop;
 window.confirmCrop = confirmCrop;
+window.previewAvatar = previewAvatar;
+window.closeAvatarPreview = closeAvatarPreview;
