@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Auto Login Check
   if (localStorage.getItem("remember_session") === "true") {
     const savedUserid = localStorage.getItem("userid");
-    const savedDisplayName = localStorage.getItem("display_name");
-    const savedPassword = localStorage.getItem("user_password");
+    const savedDisplayName = localStorage.getItem(`display_name_${savedUserid}`);
+    const savedPassword = localStorage.getItem(`user_password_${savedUserid}`);
 
     if (savedUserid && savedDisplayName && savedPassword) {
       try {
@@ -212,9 +212,13 @@ async function handleLogin() {
 
     if (rememberMe) {
       localStorage.setItem("userid", userid);
-      localStorage.setItem("display_name", displayName);
-      localStorage.setItem("user_password", btoa(userPassword));
+      localStorage.setItem(`display_name_${userid}`, displayName);
+      localStorage.setItem(`user_password_${userid}`, btoa(userPassword));
       localStorage.setItem("remember_session", "true");
+    } else {
+       // Even if not remembering session, store name for current run if needed or use session storage
+       // But to be consistent with architecture:
+       localStorage.setItem(`display_name_${userid}`, displayName);
     }
 
     initChat();
@@ -230,7 +234,8 @@ async function handleLogin() {
    CHAT LOGIC
 ============================================================ */
 // State for saved private chats : { roomId: { name, unread: 0, lastMsg: '' } }
-let savedPrivateChats = JSON.parse(localStorage.getItem("saved_private_chats") || "{}");
+// State for saved private chats
+let savedPrivateChats = {};
 let totalUsersCache = 0;
 
 async function fetchTotalUsers() {
@@ -247,6 +252,18 @@ async function fetchTotalUsers() {
 }
 
 function initChat() {
+  // Load chats for this specific user
+  try {
+      savedPrivateChats = JSON.parse(localStorage.getItem(`saved_private_chats_${userid}`) || "{}");
+  } catch(e) { savedPrivateChats = {}; }
+
+  // Migrate global avatar to user-scoped avatar if needed
+  const globalAvatar = localStorage.getItem("avatar_url");
+  const userAvatarKey = `avatar_url_${userid}`;
+  if(globalAvatar && !localStorage.getItem(userAvatarKey)) {
+      localStorage.setItem(userAvatarKey, globalAvatar);
+  }
+
   document.getElementById("loginContainer").style.display = "none";
   document.getElementById("container").style.display = "flex";
   
@@ -291,35 +308,88 @@ async function sendHeartbeat() {
     // Optional: Update presence metadata significantly less often if needed
 }
 
-function handleIncomingPrivateMessage(msg) {
-    if (msg.room_id === currentRoom) return; // Already looking at it
-    
-    // Determine the OTHER user's name logic
+async function handleIncomingPrivateMessage(msg) {
+    // Check if chat already exists
     if (savedPrivateChats[msg.room_id]) {
-        savedPrivateChats[msg.room_id].unread = (savedPrivateChats[msg.room_id].unread || 0) + 1;
+        // Update existing chat
+        if (msg.room_id !== currentRoom) {
+            savedPrivateChats[msg.room_id].unread = (savedPrivateChats[msg.room_id].unread || 0) + 1;
+        }
         savedPrivateChats[msg.room_id].lastMsg = msg.content.substring(0, 20);
+        
+        // If avatar is missing, try to fetch it
+        if (!savedPrivateChats[msg.room_id].avatar) {
+            const parts = msg.room_id.replace("private_", "").split("_");
+            const otherId = parts.find(p => p !== userid);
+            
+            console.log("🔄 Updating missing avatar for:", otherId);
+            
+            try {
+                const { data, error } = await db.from("users").select("avatar_url, display_name").eq("username", otherId).single();
+                console.log("📊 Avatar update query:", { data, error });
+                
+                if (data) {
+                    if (data.avatar_url) {
+                        savedPrivateChats[msg.room_id].avatar = data.avatar_url;
+                        console.log("✅ Avatar updated!");
+                    }
+                    if (data.display_name) {
+                        savedPrivateChats[msg.room_id].name = data.display_name;
+                    }
+                }
+            } catch(e) {
+                console.error("❌ Could not fetch avatar:", e);
+            }
+        }
+        
         savePrivateChats();
         renderSavedChatsList();
-        showChatNotification(`Mensaje de ${msg.username}`, false);
+        
+        if (msg.room_id !== currentRoom) {
+            showChatNotification(`Mensaje de ${msg.username}`, false);
+        }
     } else {
+        // Create new chat entry
         const parts = msg.room_id.replace("private_", "").split("_");
         const otherId = parts.find(p => p !== userid);
-        const senderName = msg.username; 
+        
+        console.log("🔍 Creating chat - otherId:", otherId, "my userid:", userid);
+        
+        // Fetch the other user's display name and avatar from database
+        let senderName = msg.username; // Fallback
+        let senderAvatar = null;
+        try {
+            const { data, error } = await db.from("users").select("display_name, avatar_url").eq("username", otherId).single();
+            console.log("📊 DB Query result for", otherId, ":", { data, error });
+            if (data) {
+                if (data.display_name) senderName = data.display_name;
+                if (data.avatar_url) senderAvatar = data.avatar_url;
+                console.log("✅ Assigned:", { senderName, senderAvatar: senderAvatar ? "HAS_AVATAR" : "NO_AVATAR" });
+            }
+        } catch(e) {
+            console.error("❌ Could not fetch sender info:", e);
+        }
         
         savedPrivateChats[msg.room_id] = {
             name: senderName, 
             otherId: otherId,
-            unread: 1,
+            avatar: senderAvatar,
+            unread: msg.room_id === currentRoom ? 0 : 1,
             lastMsg: msg.content.substring(0, 20)
         };
+        console.log("💾 Saved chat:", savedPrivateChats[msg.room_id]);
         savePrivateChats();
         renderSavedChatsList();
-        showChatNotification(`Nuevo chat de ${senderName}`, false);
+        
+        if (msg.room_id !== currentRoom) {
+            showChatNotification(`Nuevo chat de ${senderName}`, false);
+        }
     }
 }
 
 function savePrivateChats() {
-    localStorage.setItem("saved_private_chats", JSON.stringify(savedPrivateChats));
+    if(!userid) return;
+    localStorage.setItem(`saved_private_chats_${userid}`, JSON.stringify(savedPrivateChats));
 }
 
 async function renderSavedChatsList() {
@@ -344,21 +414,6 @@ async function renderSavedChatsList() {
     const list = document.getElementById("privateChatsList");
     if (!list) return;
     
-    // Fetch avatars for all users in private chats
-    const chatUserNames = Object.values(savedPrivateChats).map(chat => chat.name);
-    let avatarMap = {};
-    
-    if(chatUserNames.length > 0) {
-        try {
-            const { data: usersData } = await db.from("users").select("display_name, avatar_url").in("display_name", chatUserNames);
-            if(usersData) {
-                usersData.forEach(u => avatarMap[u.display_name] = u.avatar_url);
-            }
-        } catch(e) {
-            console.warn("Error fetching chat avatars:", e);
-        }
-    }
-    
     // 1. PUBLIC ROOM ITEM
     const publicDiv = document.createElement("div");
     publicDiv.className = "userItem";
@@ -382,8 +437,8 @@ async function renderSavedChatsList() {
         div.className = "userItem"; 
         if (currentRoom === roomId) div.style.background = "rgba(14, 165, 233, 0.1)";
         
-        // Get avatar URL or use initial
-        const avatarUrl = avatarMap[data.name];
+        // Use stored avatar from the chat data
+        const avatarUrl = data.avatar;
         const initial = (data.name || "?").charAt(0).toUpperCase();
         const avatarStyle = avatarUrl ? `background-image:url(${avatarUrl}); background-size:cover; background-position:center; color:transparent;` : '';
         const avatarContent = avatarUrl ? '' : initial;
@@ -480,7 +535,7 @@ function initGlobalPresence() {
         .subscribe(async (status) => {
             if (status === "SUBSCRIBED") {
                  const isAdmin = userid === PROYECTO_JA_ADMIN;
-                 const avatar_url = localStorage.getItem("avatar_url") || "";
+                 const avatar_url = localStorage.getItem(`avatar_url_${userid}`) || "";
                  await globalPresenceChannel.track({
                   userid: userid,
                   display_name: displayName,
@@ -562,6 +617,25 @@ function updateOnlineUsersList(state) {
     `;
     list.appendChild(div);
   });
+  
+  // Update avatars in chat based on live presence
+  updateChatAvatars();
+}
+
+function updateChatAvatars() {
+    const avatars = document.getElementsByClassName('msg-avatar');
+    for(let el of avatars) {
+        const uid = el.getAttribute('data-userid');
+        // Only update if user is online and hash avatar
+        if(uid && onlineUsersState[uid] && onlineUsersState[uid][0]) {
+             const user = onlineUsersState[uid][0];
+             if(user.avatar_url) {
+                 el.style.backgroundImage = `url(${user.avatar_url})`;
+                 el.style.color = 'transparent'; // Hide initial
+                 el.textContent = ''; 
+             }
+        }
+    }
 }
 
 async function checkPrivateChatStatus() {
@@ -578,15 +652,25 @@ async function checkPrivateChatStatus() {
     
     // Check if online
     let isOnline = false;
+    let onlineAvatar = null;
+
     for (const id in onlineUsersState) {
-        // Presence state keys might be user IDs or generated IDs depending on tracking
-        // In our `track` call we sent `userid`. But presence state keys are usually random session IDs.
-        // We need to iterate values.
         const sessions = onlineUsersState[id];
-        if (sessions.some(s => s.userid === otherId)) {
+        // Check matching userid or matching display name as fallback
+        const match = sessions.find(s => s.userid === otherId || s.username === otherId);
+        if (match) {
             isOnline = true;
+            if(match.avatar_url) onlineAvatar = match.avatar_url;
             break;
         }
+    }
+
+    // Auto-update avatar in saved chats if missing or outdated (and we have a live one)
+    if (onlineAvatar && savedPrivateChats[currentRoom] && savedPrivateChats[currentRoom].avatar !== onlineAvatar) {
+        console.log("🔄 Auto-updating private chat avatar from live presence");
+        savedPrivateChats[currentRoom].avatar = onlineAvatar;
+        savePrivateChats();
+        renderSavedChatsList();
     }
 
     let statusHtml = "";
@@ -634,11 +718,12 @@ function showContextMenu(e, user) {
   menu.style.display = "block";
 }
 
-function startPrivateChatFromMenu() {
+async function startPrivateChatFromMenu() {
   if (!contextMenuTargetUser) return;
   
   const targetId = contextMenuTargetUser.userid;
   const targetName = contextMenuTargetUser.display_name;
+  let targetAvatar = contextMenuTargetUser.avatar_url || null; // Try to get from context object
   
   // ID único de sala: sort(id1, id2).join
   const ids = [userid, targetId].sort();
@@ -646,13 +731,40 @@ function startPrivateChatFromMenu() {
   
   // Guardar en la lista si no existe
   if (!savedPrivateChats[roomId]) {
+      // If we don't have avatar from context menu object, try to fetch it
+      if (!targetAvatar) {
+          try {
+              const { data } = await db.from("users").select("avatar_url").eq("username", targetId).single();
+              if (data && data.avatar_url) targetAvatar = data.avatar_url;
+          } catch(e) { console.error("Avatar fetch error:", e); }
+      }
+
       savedPrivateChats[roomId] = {
           name: targetName,
           otherId: targetId,
+          avatar: targetAvatar,
           unread: 0,
           lastMsg: "Chat iniciado"
       };
       savePrivateChats();
+      renderSavedChatsList();
+  } else if (!savedPrivateChats[roomId].avatar) {
+      // Existing chat missing avatar
+      if (targetAvatar) {
+          savedPrivateChats[roomId].avatar = targetAvatar;
+          savePrivateChats();
+          renderSavedChatsList();
+      } else {
+          // Fetch if still missing
+          try {
+              const { data } = await db.from("users").select("avatar_url").eq("username", targetId).single();
+              if (data && data.avatar_url) {
+                  savedPrivateChats[roomId].avatar = data.avatar_url;
+                  savePrivateChats();
+                  renderSavedChatsList();
+              }
+          } catch(e) { console.error("Avatar text error:", e); }
+      }
   }
   
   switchRoom(roomId, `Privado: ${targetName}`);
@@ -677,22 +789,29 @@ async function loadMessages(roomId) {
       // Get unique usernames involved (messages table uses 'username' not 'userid')
       const userIds = [...new Set(filtered.map(m => m.username).filter(u => u))];
       let avatarMap = {};
+    
       
       if(userIds.length > 0) {
           // Query by display_name since messages store display names in 'username' field
-          const { data: usersData, error: usersError } = await db.from("users").select("display_name, avatar_url").in("display_name", userIds);
+          // Also fetch 'username' (userid handle) to allow presence lookup
+          const { data: usersData, error: usersError } = await db.from("users").select("display_name, avatar_url, username").in("display_name", userIds);
           
           if(usersError) console.error("Avatar fetch error:", usersError);
           
           if(usersData) {
-              // Map by display_name to match what's in messages
-              usersData.forEach(u => avatarMap[u.display_name] = u.avatar_url);
+              // Map by display_name
+              usersData.forEach(u => {
+                  avatarMap[u.display_name] = { url: u.avatar_url, userid: u.username };
+              });
           }
       }
 
-      // Assign avatar to msg object before rendering
+      // Assign avatar and userid to msg object before rendering
       filtered.forEach(msg => {
-          if(avatarMap[msg.username]) msg.avatar_url = avatarMap[msg.username]; 
+          if(avatarMap[msg.username]) {
+              msg.avatar_url = avatarMap[msg.username].url;
+              if(!msg.userid) msg.userid = avatarMap[msg.username].userid; // Polyfill userid
+          }
       });
 
       renderMessages(filtered);
@@ -738,7 +857,22 @@ function addMessage(msg) {
   const initial = (msg.username || "?").charAt(0).toUpperCase();
 
   // Resolve Avatar URL
-  let avatarUrl = msg.avatar_url;
+  let avatarUrl = null;
+
+  // Polyfill: Resolve userid/avatar from Online Presence if missing (Fix for Realtime Public Chat)
+  if ((!msg.userid || !avatarUrl) && msg.username && typeof onlineUsersState !== 'undefined') {
+       // Search for user by display_name in onlineUsersState
+       for (const key in onlineUsersState) {
+            const sessions = onlineUsersState[key];
+            if (sessions && sessions.length > 0 && sessions[0].display_name === msg.username) {
+                if (!msg.userid) msg.userid = sessions[0].userid;
+                if (!avatarUrl) avatarUrl = sessions[0].avatar_url;
+                break;
+            }
+       }
+  }
+
+  // Priority 1: Online Presence (Direct userid match)
   if(!avatarUrl && typeof onlineUsersState !== 'undefined' && msg.userid) {
        const userPres = onlineUsersState[msg.userid];
        if(userPres && userPres[0] && userPres[0].avatar_url) {
@@ -746,12 +880,22 @@ function addMessage(msg) {
        }
   }
 
+  // Priority 2: Message/DB (Static Data)
+  if (!avatarUrl && msg.avatar_url) {
+      avatarUrl = msg.avatar_url;
+  }
+  
+  // Priority 3: Private Chat Cache
+  if (!avatarUrl && msg.room_id && savedPrivateChats[msg.room_id] && savedPrivateChats[msg.room_id].avatar) {
+      avatarUrl = savedPrivateChats[msg.room_id].avatar;
+  }
+
   const avatarStyle = avatarUrl ? `background-image:url(${avatarUrl}); color:transparent;` : '';
   const avatarContent = avatarUrl ? '' : initial;
 
   div.innerHTML = `
     <div class="msg-container">
-      ${!isOwn ? `<div class="msg-avatar" style="${avatarStyle}">${avatarContent}</div>` : ""}
+      ${!isOwn ? `<div class="msg-avatar" style="${avatarStyle}" data-userid="${msg.userid || ''}">${avatarContent}</div>` : ""}
       <div class="msg-bubble">
           ${!isOwn ? `<div class="msg-user">${msg.username}</div>` : ""}
           ${msg.reply_to ? `<div class="msg-reply" style="font-size:0.8em; opacity:0.8; border-left:2px solid; padding-left:5px; margin-bottom:5px;">Respuesta a: ${msg.reply_username || "..."}</div>` : ""}
@@ -1000,7 +1144,7 @@ function updateUserInterface() {
   
   const avatar = document.getElementById("userAvatarTop");
   if (avatar) {
-      const storedAvatar = localStorage.getItem("avatar_url");
+      const storedAvatar = localStorage.getItem(`avatar_url_${userid}`);
       if (storedAvatar) {
           avatar.style.backgroundImage = `url(${storedAvatar})`;
           avatar.style.backgroundSize = "cover";
@@ -1061,74 +1205,250 @@ function changeProfilePicture() {
     document.getElementById('profilePicInput').click();
 }
 
+// CROP MODAL VARIABLES
+let cropImage = null;
+let cropCanvas = null;
+let cropCtx = null;
+let cropScale = 1;
+let cropOffsetX = 0;
+let cropOffsetY = 0;
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+
 async function handleProfilePicUpload(input) {
+    // Close keyboard and reset scroll to prevent layout jump
+    if (document.activeElement) document.activeElement.blur();
+    window.scrollTo(0, 0);
+
     const file = input.files[0];
     if (!file) return;
     
     if (file.size > 1024 * 1024) {
         showChatNotification("La imagen supera 1MB", true);
+        input.value = ''; // Reset input
         return;
     }
     
-    // Create image to resize
-    const img = new Image();
+    // Load image into crop modal
     const reader = new FileReader();
-    
     reader.onload = function(e) {
-        img.src = e.target.result;
+        cropImage = new Image();
+        cropImage.onload = function() {
+            showCropModal();
+        };
+        cropImage.src = e.target.result;
     };
-    
-    img.onload = async function() {
-        // Resize to 300x300 for better quality
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        const size = 300;
-        canvas.width = size;
-        canvas.height = size;
-        
-        // Draw image centered and cropped
-        const scale = Math.max(size / img.width, size / img.height);
-        const x = (size / 2) - (img.width / 2) * scale;
-        const y = (size / 2) - (img.height / 2) * scale;
-        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-        
-        // Convert to base64 with good quality
-        const base64 = canvas.toDataURL('image/jpeg', 0.9);
-        
-        // Update DB
-        let { error } = await db.from('users').update({ avatar_url: base64 }).eq('username', userid);
-        
-        if (error) {
-            console.error("Avatar DB Error:", error);
-            showChatNotification("Error al guardar foto.", true);
-        } else {
-            showChatNotification("Foto actualizada", false);
-            localStorage.setItem("avatar_url", base64); 
-            updateUserInterface();
-            
-            // Update presence immediately
-            if(globalPresenceChannel) {
-                 const isAdmin = userid === PROYECTO_JA_ADMIN;
-                 globalPresenceChannel.track({
-                  userid: userid,
-                  display_name: displayName,
-                  avatar_url: base64,
-                  is_admin: isAdmin,
-                  online_at: new Date().toISOString(),
-                }).catch(err => console.error(err));
-            }
-        }
-    };
-    
     reader.readAsDataURL(file);
+}
+
+function showCropModal() {
+    const modal = document.getElementById('cropModal');
+    
+    // Show modal FIRST to get dimensions
+    modal.style.display = 'flex';
+    
+    cropCanvas = document.getElementById('cropCanvas');
+    if(!cropCanvas) return; // Safety check
+    
+    cropCtx = cropCanvas.getContext('2d');
+    
+    // Set canvas size within container (responsive)
+    // Constraint by width OR height (max 60vh to fit screen)
+    const maxWidth = container.clientWidth;
+    const maxHeight = window.innerHeight * 0.6;
+    const size = Math.min(maxWidth, maxHeight) || 300; 
+    
+    cropCanvas.width = size;
+    cropCanvas.height = size;
+    
+    // Force container height to match canvas to avoid layout shift
+    container.style.height = `${size}px`;
+    
+    // Reset state
+    cropScale = 1;
+    cropOffsetX = 0;
+    cropOffsetY = 0;
+    const zoomSlider = document.getElementById('zoomSlider');
+    if(zoomSlider) zoomSlider.value = 1;
+    
+    // Draw initial image
+    drawCropCanvas();
+    
+    // Setup event listeners if not already setup (to avoid duplicate listeners)
+    setupCropListeners();
+}
+
+function drawCropCanvas() {
+    if (!cropCanvas || !cropImage) return;
+    
+    const canvasSize = cropCanvas.width;
+    cropCtx.fillStyle = '#000';
+    cropCtx.fillRect(0, 0, canvasSize, canvasSize);
+    
+    // Calculate scaled dimensions
+    const scale = Math.min(canvasSize / cropImage.width, canvasSize / cropImage.height) * cropScale;
+    const scaledWidth = cropImage.width * scale;
+    const scaledHeight = cropImage.height * scale;
+    
+    // Center image with offset
+    const x = (canvasSize - scaledWidth) / 2 + cropOffsetX;
+    const y = (canvasSize - scaledHeight) / 2 + cropOffsetY;
+    
+    cropCtx.drawImage(cropImage, x, y, scaledWidth, scaledHeight);
+}
+
+function setupCropListeners() {
+    // Zoom slider
+    const slider = document.getElementById('zoomSlider');
+    slider.oninput = function() {
+        cropScale = parseFloat(this.value);
+        drawCropCanvas();
+    };
+    
+    // Mouse/touch drag
+    cropCanvas.addEventListener('mousedown', startDrag);
+    cropCanvas.addEventListener('mousemove', drag);
+    cropCanvas.addEventListener('mouseup', endDrag);
+    cropCanvas.addEventListener('mouseleave', endDrag);
+    
+    cropCanvas.addEventListener('touchstart', startDrag);
+    cropCanvas.addEventListener('touchmove', drag);
+    cropCanvas.addEventListener('touchend', endDrag);
+}
+
+function startDrag(e) {
+    isDragging = true;
+    const pos = getEventPosition(e);
+    dragStartX = pos.x - cropOffsetX;
+    dragStartY = pos.y - cropOffsetY;
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const pos = getEventPosition(e);
+    cropOffsetX = pos.x - dragStartX;
+    cropOffsetY = pos.y - dragStartY;
+    drawCropCanvas();
+}
+
+function endDrag() {
+    isDragging = false;
+}
+
+function getEventPosition(e) {
+    const rect = cropCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+    };
+}
+
+function cropZoom(delta) {
+    const slider = document.getElementById('zoomSlider');
+    const newValue = Math.max(1, Math.min(3, parseFloat(slider.value) + delta));
+    slider.value = newValue;
+    cropScale = newValue;
+    drawCropCanvas();
+}
+
+function cancelCrop() {
+    document.getElementById('cropModal').style.display = 'none';
+    document.getElementById('profilePicInput').value = ''; 
+    cropImage = null;
+}
+
+async function confirmCrop() {
+    // Create a new canvas for the circular crop
+    const outputSize = 300;
+    const outputCanvas = document.createElement('canvas');
+    outputCanvas.width = outputSize;
+    outputCanvas.height = outputSize;
+    const outputCtx = outputCanvas.getContext('2d');
+    
+    // Calculate crop circle (100% of canvas as defined in CSS overlay)
+    const canvasSize = cropCanvas.width;
+    const circleRadius = (canvasSize * 1.0) / 2; // 100% circle matched to UI
+    const circleX = canvasSize / 2;
+    const circleY = canvasSize / 2;
+    
+    // Get image data from the circle area
+    const sourceCanvas = document.createElement('canvas');
+    sourceCanvas.width = circleRadius * 2;
+    sourceCanvas.height = circleRadius * 2;
+    const sourceCtx = sourceCanvas.getContext('2d');
+    
+    // Draw the visible part
+    const scale = Math.min(canvasSize / cropImage.width, canvasSize / cropImage.height) * cropScale;
+    const scaledWidth = cropImage.width * scale;
+    const scaledHeight = cropImage.height * scale;
+    const x = (canvasSize - scaledWidth) / 2 + cropOffsetX;
+    const y = (canvasSize - scaledHeight) / 2 + cropOffsetY;
+    
+    // Copy circle area
+    sourceCtx.drawImage(
+        cropCanvas,
+        circleX - circleRadius,
+        circleY - circleRadius,
+        circleRadius * 2,
+        circleRadius * 2,
+        0,
+        0,
+        circleRadius * 2,
+        circleRadius * 2
+    );
+    
+    // Draw to output with circular mask
+    outputCtx.beginPath();
+    outputCtx.arc(outputSize / 2, outputSize / 2, outputSize / 2, 0, Math.PI * 2);
+    outputCtx.closePath();
+    outputCtx.clip();
+    
+    outputCtx.drawImage(sourceCanvas, 0, 0, outputSize, outputSize);
+    
+    // Convert to base64
+    const base64 = outputCanvas.toDataURL('image/jpeg', 0.9);
+    
+    // Hide modal
+    document.getElementById('cropModal').style.display = 'none';
+    
+    document.getElementById('profilePicInput').value = '';
+    
+    // Upload to database
+    let { error } = await db.from('users').update({ avatar_url: base64 }).eq('username', userid);
+    
+    if (error) {
+        console.error("Avatar DB Error:", error);
+        showChatNotification("Error al guardar foto.", true);
+    } else {
+        showChatNotification("Foto actualizada", false);
+        localStorage.setItem(`avatar_url_${userid}`, base64);  
+        updateUserInterface();
+        
+        // Update presence immediately
+        if(globalPresenceChannel) {
+             const isAdmin = userid === PROYECTO_JA_ADMIN;
+             globalPresenceChannel.track({
+              userid: userid,
+              display_name: displayName,
+              avatar_url: base64,
+              is_admin: isAdmin,
+              online_at: new Date().toISOString(),
+            }).catch(err => console.error(err));
+        }
+    }
+    
+    cropImage = null;
 }
 
 async function changeName() { 
     const n = await showCustomPrompt("Nuevo nombre:"); 
     if(n) { 
         displayName = n; 
-        localStorage.setItem("display_name", n);
+        localStorage.setItem(`display_name_${userid}`, n);
         await db.from('users').update({display_name: n}).eq('username', userid);
         updateUserInterface(); 
     } 
@@ -1204,21 +1524,52 @@ async function searchUsers(query) {
     });
 }
 
-window.startPrivateChatFromSearch = function(targetId, targetName) {
+window.startPrivateChatFromSearch = async function(targetId, targetName) {
     closeUserSearch();
     const ids = [userid, targetId].sort();
     const roomId = `private_${ids[0]}_${ids[1]}`;
     
+    console.log("🔍 Starting chat - targetId:", targetId, "targetName:", targetName);
+    
     if (!savedPrivateChats[roomId]) {
+        // Fetch the target user's avatar
+        let targetAvatar = null;
+        try {
+            const { data, error } = await db.from("users").select("avatar_url").eq("username", targetId).single();
+            console.log("📊 Avatar query for", targetId, "- data:", data, "error:", error);
+            if (data && data.avatar_url) {
+                targetAvatar = data.avatar_url;
+            }
+        } catch(e) {
+            console.error("❌ Could not fetch target avatar:", e);
+        }
+        
         savedPrivateChats[roomId] = {
             name: targetName,
             otherId: targetId,
+            avatar: targetAvatar,
             unread: 0,
             lastMsg: "Chat iniciado"
         };
+        console.log("💾 Saving chat:", savedPrivateChats[roomId]);
         savePrivateChats();
         renderSavedChatsList();
+    } else if (!savedPrivateChats[roomId].avatar) {
+        // Chat exists but avatar is missing - Try to fetch it
+        console.log("🔄 Chat exists but avatar missing for:", targetId);
+        try {
+            const { data } = await db.from("users").select("avatar_url").eq("username", targetId).single();
+            if (data && data.avatar_url) {
+                savedPrivateChats[roomId].avatar = data.avatar_url;
+                console.log("✅ Avatar fixed!");
+                savePrivateChats();
+                renderSavedChatsList();
+            }
+        } catch(e) {
+            console.error("❌ Error fetching avatar update:", e);
+        }
     }
+    
     switchRoom(roomId, `Privado: ${targetName}`);
 };
 
@@ -1245,3 +1596,6 @@ window.openUserSearch = openUserSearch;
 window.closeUserSearch = closeUserSearch;
 window.changeProfilePicture = changeProfilePicture;
 window.handleProfilePicUpload = handleProfilePicUpload;
+window.cropZoom = cropZoom;
+window.cancelCrop = cancelCrop;
+window.confirmCrop = confirmCrop;

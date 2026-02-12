@@ -13,6 +13,32 @@
   <!-- NOTIFICATIONS -->
   <div id="notificationsContainer"></div>
 
+  <!-- PROFILE PICTURE CROP MODAL (Moved here for layout stability) -->
+  <div id="cropModal" class="crop-modal" style="display: none;">
+    <div class="crop-modal-content">
+      <h3 style="color: white; margin: 0 0 20px 0; text-align: center;">Ajustar Foto de Perfil</h3>
+      
+      <div class="crop-container">
+        <canvas id="cropCanvas"></canvas>
+        <div class="crop-circle-overlay"></div>
+      </div>
+      
+      <div class="crop-controls">
+        <label style="color: white; font-size: 0.9rem;">Zoom</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="crop-btn" onclick="cropZoom(-0.1)">−</button>
+          <input type="range" id="zoomSlider" min="1" max="3" step="0.1" value="1" style="flex: 1;">
+          <button class="crop-btn" onclick="cropZoom(0.1)">+</button>
+        </div>
+      </div>
+      
+      <div class="crop-actions">
+        <button class="crop-btn-cancel" onclick="cancelCrop()">Cancelar</button>
+        <button class="crop-btn-confirm" onclick="confirmCrop()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CONTEXT MENU (Private Chat) -->
   <div id="userContextMenu" class="context-menu">
     <div class="context-menu-item" onclick="startPrivateChatFromMenu()">
@@ -200,6 +226,8 @@
       </div>
     </div>
   </div>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="chat.js"></script>

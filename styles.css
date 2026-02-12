@@ -29,8 +29,13 @@ body {
     radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
     radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
   color: var(--text-primary);
-  height: 100vh;
+  /* Fixed layout lock to prevent scroll shift on mobile */
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
   overflow: hidden;
+  overscroll-behavior: none; /* Prevent elastic bounce */
 }
 
 /* === LOGIN === */
@@ -132,6 +137,7 @@ body {
 #container {
   display: flex;
   height: 100vh;
+  height: 100dvh;
   position: relative;
 }
 
@@ -139,7 +145,9 @@ body {
 #sidebar {
   width: 280px;
   height: 100vh;
+  height: 100dvh;
   max-height: 100vh;
+  max-height: 100dvh;
   box-sizing: border-box;
   background: var(--sidebar-bg);
   backdrop-filter: blur(20px);
@@ -417,7 +425,10 @@ body {
   backdrop-filter: blur(10px);
   border-top: var(--glass-border);
   display: flex;
+  position: relative;
   gap: 1rem;
+  left: 0;
+  bottom: 0;
   align-items: flex-end;
 }
 
@@ -646,6 +657,7 @@ body {
   #sidebar {
     position: fixed;
     height: 100%;
+    height: 100dvh;
     box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
   }
   .sidebar-toggle {
@@ -662,6 +674,17 @@ body {
   }
   #sidebar:not(.sidebar-hidden) + .sidebar-toggle {
     left: 290px;
+  }
+
+  /* Removed fixed input hack - rely on flexbox with fixed body */
+  #inputArea {
+      padding: 15px; /* Comfortable touch padding */
+      padding-bottom: calc(15px + env(safe-area-inset-bottom));
+  }
+
+  /* Standard spacing */
+  #chat {
+    padding-bottom: 20px !important;
   }
 }
 
@@ -932,3 +955,147 @@ body {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* CROP MODAL STYLES */
+.crop-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  inset: 0; /* Modern full screen */
+  width: 100%;
+  height: 100%;
+  background: #000000; /* Solid black to hide layout shifts behind */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2147483647; /* Maximum z-index possible */
+  animation: fadeIn 0.2s;
+  overflow: hidden; 
+}
+
+.crop-modal-content {
+  background: var(--secondary-bg);
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 500px;
+  width: 95%;
+  max-height: 95vh; /* Ensure it fits on screen */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allow internal scroll if needed */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.crop-container {
+  position: relative;
+  width: 100%;
+  max-width: 55vh; /* Limit size relative to viewport height to ensure it fits */
+  aspect-ratio: 1 !important; /* FORCE SQUARE */
+  margin: 0 auto 20px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #000;
+  touch-action: none;
+}
+
+#cropCanvas {
+  width: 100%;
+  height: 100%;
+  cursor: move;
+  object-fit: contain;
+}
+
+.crop-circle-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at center,
+    transparent 50%, 
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.crop-circle-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: none;
+  transform: none; /* Remove centering transform, fill container directly */
+  box-sizing: border-box; /* Ensure border is inside */
+}
+
+.crop-controls {
+  margin-bottom: 20px;
+}
+
+.crop-controls label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.crop-controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent-color);
+}
+
+.crop-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.crop-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.crop-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.crop-btn-cancel {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.crop-btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.crop-btn-confirm {
+  background: var(--accent-color);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.crop-btn-confirm:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
