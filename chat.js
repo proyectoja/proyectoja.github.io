@@ -706,7 +706,7 @@ function handleMessageUpdate(newMsg) {
 }
 
 async function deleteMessage(id) {
-    if(!confirm("¿Eliminar mensaje?")) return;
+    if(!await showCustomConfirm("¿Eliminar mensaje?")) return;
     
     // Check if user is admin
     const isAdmin = userid === PROYECTO_JA_ADMIN || userid === '@proyectoja';
@@ -826,6 +826,84 @@ function cancelReply() {
   if (area) area.style.display = "none";
 }
 
+/* CUSTOM MODALS LOGIC */
+function showModal(title, body, type = 'alert', placeholder = '') {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('customModal');
+        const mTitle = document.getElementById('modalTitle');
+        const mBody = document.getElementById('modalBody');
+        const mInput = document.getElementById('modalInput');
+        const confirmBtn = document.getElementById('modalConfirmBtn');
+        const cancelBtn = document.getElementById('modalCancelBtn');
+
+        if(!modal) {
+             if(type === 'prompt') resolve(prompt(body, placeholder));
+             else if(type === 'confirm') resolve(confirm(body));
+             else { alert(body); resolve(true); }
+             return;
+        }
+
+        mTitle.textContent = title;
+        mBody.textContent = body;
+        
+        mInput.style.display = 'none';
+        mInput.value = '';
+        cancelBtn.style.display = 'block';
+        confirmBtn.textContent = 'Aceptar';
+
+        if (type === 'alert') {
+            cancelBtn.style.display = 'none';
+        } else if (type === 'prompt') {
+            mInput.style.display = 'block';
+            mInput.placeholder = placeholder;
+            setTimeout(() => mInput.focus(), 50);
+        }
+
+        const close = (val) => {
+            modal.classList.remove('show');
+            confirmBtn.onclick = null;
+            cancelBtn.onclick = null;
+            mInput.onkeydown = null;
+            resolve(val);
+        };
+
+        confirmBtn.onclick = () => {
+            if (type === 'prompt') close(mInput.value.trim());
+            else close(true);
+        };
+        
+        cancelBtn.onclick = () => {
+            if(type === 'prompt') close(null);
+            else close(false);
+        };
+        
+        mInput.onkeydown = (e) => { 
+            if(e.key === 'Enter') confirmBtn.click(); 
+            if(e.key === 'Escape') cancelBtn.click();
+        };
+
+        modal.classList.add('show');
+    });
+}
+
+async function showCustomAlert(msg, title='Aviso') {
+    await showModal(title, msg, 'alert');
+}
+
+async function showCustomConfirm(msg) {
+    return await showModal('Confirmar', msg, 'confirm');
+}
+
+async function showCustomPrompt(msg, placeholder = '') {
+    return await showModal('Ingresar dato', msg, 'prompt', placeholder);
+}
+
+// Override/Define showError
+function showError(msg) {
+    showCustomAlert(msg, "Error");
+    return false;
+}
+
 // UI HELPERS & EMOJIS
 function updateUserInterface() {
   const isAdmin = userid === PROYECTO_JA_ADMIN;
@@ -874,7 +952,7 @@ function validateUsernameLength() { const i = document.getElementById("loginUser
 function togglePasswordVisibility() { const i = document.getElementById("loginPassword"); i.type = i.type === "password" ? "text" : "password"; }
 function logout() { localStorage.clear(); window.location.reload(); }
 async function changeName() { 
-    const n = prompt("Nuevo nombre:"); 
+    const n = await showCustomPrompt("Nuevo nombre:"); 
     if(n) { 
         displayName = n; 
         localStorage.setItem("display_name", n);
