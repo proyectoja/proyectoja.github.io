@@ -305,14 +305,15 @@ function savePrivateChats() {
 }
 
 function renderSavedChatsList() {
-    // We need to inject this list into the sidebar if not exists
+    // Inject list if missing
     let list = document.getElementById("privateChatsList");
     if (!list) {
         const sidebar = document.getElementById("sidebar");
         const usersTitle = document.getElementById("usersTitle");
         if(sidebar && usersTitle) {
             const container = document.createElement("div");
-            container.innerHTML = `<h3 style="margin-top:20px; color:var(--accent-color);">CHATS PRIVADOS</h3><div id="privateChatsList"></div>`;
+            // Changed title to CHATS
+            container.innerHTML = `<h3 style="margin-top:20px; color:var(--accent-color);">CHATS</h3><div id="privateChatsList"></div>`;
             sidebar.insertBefore(container, usersTitle);
             list = document.getElementById("privateChatsList");
         }
@@ -321,6 +322,24 @@ function renderSavedChatsList() {
     if (!list) return;
     list.innerHTML = "";
     
+    // 1. PUBLIC ROOM ITEM
+    const publicDiv = document.createElement("div");
+    publicDiv.className = "userItem";
+    if (currentRoom === PUBLIC_ROOM) publicDiv.style.background = "rgba(14, 165, 233, 0.1)";
+    
+    publicDiv.innerHTML = `
+        <div class="avatar" style="background:var(--primary-gradient); color:white; font-size:1.2rem;">📢</div>
+        <div style="flex:1; min-width:0; padding-left:10px;" onclick="returnToGlobalChat()">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:600; font-size:0.9rem; color:white;">Sala Pública</span>
+                <span style="background:var(--accent-color); font-size:0.6rem; padding:2px 6px; border-radius:4px; color:white; font-weight:700;">PUBLICO</span>
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-secondary);">Chat general</div>
+        </div>
+    `;
+    list.appendChild(publicDiv);
+    
+    // 2. PRIVATE CHATS
     Object.entries(savedPrivateChats).forEach(([roomId, data]) => {
         const div = document.createElement("div");
         div.className = "userItem"; 
