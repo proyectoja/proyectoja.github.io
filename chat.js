@@ -951,7 +951,13 @@ function insertEmoji(e) {
 function validatePassword(p) { return { valid: /[A-Z]/.test(p) && /[0-9]/.test(p) && p.length >= 6 }; }
 function validateUsernameLength() { const i = document.getElementById("loginUsername"); if (i.value.length > 12) i.value = i.value.substring(0, 12); }
 function togglePasswordVisibility() { const i = document.getElementById("loginPassword"); i.type = i.type === "password" ? "text" : "password"; }
-function logout() { localStorage.clear(); window.location.reload(); }
+function logout() { 
+    localStorage.removeItem("userid");
+    localStorage.removeItem("display_name");
+    localStorage.removeItem("user_password");
+    localStorage.removeItem("remember_session");
+    window.location.reload(); 
+}
 async function changeName() { 
     const n = await showCustomPrompt("Nuevo nombre:"); 
     if(n) { 
@@ -963,6 +969,92 @@ async function changeName() {
 }
 function updatePasswordRequirements(p) { document.getElementById("passwordRequirements").style.display = "block"; }
 async function updateCharCounter() {} // Empty
+
+/* USER SEARCH LOGIC */
+let searchDebounceTimer;
+
+function openUserSearch() {
+  const modal = document.getElementById('userSearchModal');
+  if(modal) {
+      modal.classList.add('show');
+      const input = document.getElementById('userSearchInput');
+      input.value = '';
+      input.oninput = (e) => {
+          clearTimeout(searchDebounceTimer);
+          searchDebounceTimer = setTimeout(() => searchUsers(e.target.value), 300);
+      };
+      setTimeout(() => input.focus(), 50);
+      document.getElementById('userSearchResults').innerHTML = '<div style="text-align:center; color:gray; padding:20px;">Escribe para buscar...</div>';
+  }
+}
+
+function closeUserSearch() {
+  const modal = document.getElementById('userSearchModal');
+  if(modal) modal.classList.remove('show');
+}
+
+async function searchUsers(query) {
+    const resDiv = document.getElementById('userSearchResults');
+    if(!query || query.length < 2) {
+        resDiv.innerHTML = '<div style="text-align:center; color:gray; padding:20px;">Escribe al menos 2 caracteres...</div>';
+        return;
+    }
+    
+    resDiv.innerHTML = '<div style="text-align:center; color:gray; padding:20px;">Buscando...</div>';
+    
+    // Search in DB
+    const { data: users, error } = await db.from('users')
+        .select('username, display_name, last_seen')
+        .ilike('username', `%${query}%`)
+        .limit(10);
+        
+    if(error) {
+        resDiv.innerHTML = '<div style="text-align:center; color:#ef4444; padding:20px;">Error al buscar</div>';
+        return;
+    }
+    
+    if(!users || users.length === 0) {
+        resDiv.innerHTML = '<div style="text-align:center; color:gray; padding:20px;">No se encontraron usuarios</div>';
+        return;
+    }
+    
+    resDiv.innerHTML = '';
+    users.forEach(u => {
+        if(u.username === userid) return; // Don't show myself
+        
+        const div = document.createElement('div');
+        div.className = 'user-result-item';
+        // Secure display name passing
+        const safeName = u.display_name.replace(/'/g, "\\'"); 
+        div.innerHTML = `
+            <div class="avatar" style="width:32px; height:32px; font-size:0.9rem; background:rgba(255,255,255,0.1); margin-right:10px;">${u.display_name.charAt(0).toUpperCase()}</div>
+            <div style="flex:1;">
+                <div style="font-weight:600; color:white;">${u.display_name}</div>
+                <div style="font-size:0.8rem; color:var(--text-secondary);">${u.username}</div>
+            </div>
+            <button style="background:var(--primary-gradient); border:none; border-radius:6px; padding:6px 12px; color:white; cursor:pointer;" onclick="startPrivateChatFromSearch('${u.username}', '${safeName}')">Mensaje</button>
+        `;
+        resDiv.appendChild(div);
+    });
+}
+
+window.startPrivateChatFromSearch = function(targetId, targetName) {
+    closeUserSearch();
+    const ids = [userid, targetId].sort();
+    const roomId = `private_${ids[0]}_${ids[1]}`;
+    
+    if (!savedPrivateChats[roomId]) {
+        savedPrivateChats[roomId] = {
+            name: targetName,
+            otherId: targetId,
+            unread: 0,
+            lastMsg: "Chat iniciado"
+        };
+        savePrivateChats();
+        renderSavedChatsList();
+    }
+    switchRoom(roomId, `Privado: ${targetName}`);
+};
 
 // EXPORTS
 window.handleLogin = handleLogin;
@@ -983,3 +1075,5 @@ window.removeSavedChat = removeSavedChat;
 window.updatePasswordRequirements = updatePasswordRequirements;
 window.updateCharCounter = updateCharCounter;
 window.handleMessageUpdate = handleMessageUpdate;
+window.openUserSearch = openUserSearch;
+window.closeUserSearch = closeUserSearch;
