@@ -228,6 +228,20 @@ async function handleLogin() {
 ============================================================ */
 // State for saved private chats : { roomId: { name, unread: 0, lastMsg: '' } }
 let savedPrivateChats = JSON.parse(localStorage.getItem("saved_private_chats") || "{}");
+let totalUsersCache = 0;
+
+async function fetchTotalUsers() {
+    const { count, error } = await db.from("users").select('*', { count: 'exact', head: true });
+    if(!error && count !== null) {
+        totalUsersCache = count;
+        const el = document.getElementById("roomMemberCount");
+        if(el) {
+            el.textContent = `👥 ${count}`;
+            if(currentRoom === PUBLIC_ROOM) el.style.display = "inline-block";
+            else el.style.display = "none";
+        }
+    }
+}
 
 function initChat() {
   document.getElementById("loginContainer").style.display = "none";
@@ -237,6 +251,7 @@ function initChat() {
   setupChatInput();
   initSidebar();
   renderSavedChatsList();
+  fetchTotalUsers(); // Load count
   
   // Start in Public Room
   switchRoom(PUBLIC_ROOM, "Sala Pública");
@@ -392,16 +407,21 @@ function switchRoom(newRoomId, newRoomTitle) {
   const badge = document.getElementById("roomBadge");
   const isPublic = currentRoom === PUBLIC_ROOM;
   
+  const memberCountBadge = document.getElementById("roomMemberCount");
+  
   if(isPublic) {
      badge.textContent = "Global";
      badge.style.background = "rgba(16, 185, 129, 0.2)";
      badge.style.color = "#10b981";
-     document.getElementById('backToGeneralBtn').style.display = 'none';
+     if(memberCountBadge) {
+         memberCountBadge.style.display = "inline-block";
+         if(totalUsersCache) memberCountBadge.textContent = `👥 ${totalUsersCache}`;
+     }
   } else {
      badge.textContent = "Privado";
      badge.style.background = "rgba(239, 68, 68, 0.2)";
      badge.style.color = "#ef4444";
-     document.getElementById('backToGeneralBtn').style.display = 'block';
+     if(memberCountBadge) memberCountBadge.style.display = "none";
   }
   
   renderSavedChatsList(); // Update active highlight
