@@ -873,7 +873,15 @@ function validatePassword(p) { return { valid: /[A-Z]/.test(p) && /[0-9]/.test(p
 function validateUsernameLength() { const i = document.getElementById("loginUsername"); if (i.value.length > 12) i.value = i.value.substring(0, 12); }
 function togglePasswordVisibility() { const i = document.getElementById("loginPassword"); i.type = i.type === "password" ? "text" : "password"; }
 function logout() { localStorage.clear(); window.location.reload(); }
-function changeName() { const n = prompt("Nuevo nombre:"); if(n) { displayName = n; db.from('users').update({display_name: n}).eq('username', userid).then(updateUserInterface); } }
+async function changeName() { 
+    const n = prompt("Nuevo nombre:"); 
+    if(n) { 
+        displayName = n; 
+        localStorage.setItem("display_name", n);
+        await db.from('users').update({display_name: n}).eq('username', userid);
+        updateUserInterface(); 
+    } 
+}
 function updatePasswordRequirements(p) { document.getElementById("passwordRequirements").style.display = "block"; }
 async function updateCharCounter() {} // Empty
 
