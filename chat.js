@@ -894,18 +894,27 @@ function addMessage(msg) {
   const avatarStyle = avatarUrl ? `background-image:url(${avatarUrl}); color:transparent;` : '';
   const avatarContent = avatarUrl ? '' : initial;
 
+
+  // Safe encode for onclick
+  const safeUser = encodeURIComponent(msg.username).replace(/'/g, "%27");
+  const safeContent = encodeURIComponent(msg.content).replace(/'/g, "%27");
+
   div.innerHTML = `
     <div class="msg-container">
-      ${!isOwn ? `<div class="msg-avatar" style="${avatarStyle}" data-userid="${msg.userid || ''}">${avatarContent}</div>` : ""}
+      ${!isOwn ? `<div class="msg-avatar" style="${avatarStyle}" data-userid="${msg.userid || ''}" onclick="event.stopPropagation(); window.previewAvatar('${avatarUrl}', event)" onmouseenter="window.previewAvatar('${avatarUrl}', event)" onmouseleave="window.closeAvatarPreview()">${avatarContent}</div>` : ""}
       <div class="msg-bubble">
           ${!isOwn ? `<div class="msg-user">${msg.username}</div>` : ""}
-          ${msg.reply_to ? `<div class="msg-reply" style="font-size:0.8em; opacity:0.8; border-left:2px solid; padding-left:5px; margin-bottom:5px;">Respuesta a: ${msg.reply_username || "..."}</div>` : ""}
+          ${msg.reply_to ? `
+            <div class="msg-reply" style="font-size:0.8em; opacity:0.8; border-left:2px solid; padding-left:8px; margin-bottom:5px; background:rgba(0,0,0,0.1); padding-top:2px; padding-bottom:2px; border-radius:4px;">
+                <div style="font-weight:bold; margin-bottom:2px;">Respuesta a: ${msg.reply_username || "..."}</div>
+                <div style="font-style:italic; opacity:0.9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${msg.reply_content || ""}</div>
+            </div>` : ""}
           <div class="msg-text">${content.replace(/</g, "&lt;").replace(/\n/g, "<br>")}</div>
           <div class="msg-time">${new Date(msg.created_at).toLocaleDateString()} | ${new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true })}</div>
           
           ${!isDeleted ? `
           <div class="msg-actions" style="margin-top:5px; font-size:0.8rem; opacity:0.7;">
-              <span onclick="startReply(${msg.id}, '${encodeURIComponent(msg.username)}', '${encodeURIComponent(msg.content)}')" style="cursor:pointer; margin-right:10px;">↩ Responder</span>
+              <span onclick="startReply(${msg.id}, '${safeUser}', '${safeContent}')" style="cursor:pointer; margin-right:10px;">↩ Responder</span>
               ${(isOwn || isCurrentUserAdmin) ? `<span onclick="deleteMessage(${msg.id})" style="cursor:pointer; color:#ef4444;">🗑 Eliminar</span>` : ''}
           </div>
           ` : ""} 

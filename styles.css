@@ -1146,3 +1146,51 @@ body {
   box-shadow: 0 0 10px var(--accent-color);
   z-index: 10;
 }
+
+/* REPLY AREA PREVIEW */
+#replyArea {
+  display: none; /* Hidden by default */
+  background: rgba(15, 23, 42, 0.6); /* Semi-transparent background */
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 8px 20px;
+  margin-bottom: 0; /* Connected to input area */
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.reply-title {
+  font-size: 0.8rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.reply-content-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary); /* Ensure visibility */
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 8px;
+  border-left: 3px solid var(--accent-color);
+  opacity: 0.9;
+}
+
+.reply-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+}
+.reply-close:hover {
+  color: var(--danger-color);
+}
