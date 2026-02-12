@@ -192,37 +192,157 @@
                 correspondiente
               </p>
 
-              <div class="alerta-mac">
-                <h4>⚠️ Atención usuarios de macOS</h4>
-                <p>
-                  Si al abrir la aplicación te aparece un mensaje de
-                  <strong>"La aplicación está dañada"</strong> o
-                  <strong>"Apple no puede verificar..."</strong>, no te
-                  preocupes, sigue estos pasos:
-                </p>
-                <ol>
-                  <li>
-                    Mueve el archivo descargado a tu carpeta de
-                    <strong>Aplicaciones</strong>.
-                  </li>
-                  <li>
-                    Haz <strong>Clic Derecho</strong> sobre "Himnario Adventista
-                    Pro" y selecciona <strong>Abrir</strong>.
-                  </li>
-                  <li>
-                    Si el error persiste, abre la <strong>Terminal</strong> y
-                    pega el siguiente comando:
-                  </li>
-                </ol>
-                <div class="codigo-terminal">
-                  <code id="comando-mac"
-                    >sudo xattr -rd com.apple.quarantine /Applications/"Himnario
-                    Adventista Pro.app"</code
-                  >
-                  <button class="btn-copiar-codigo" onclick="copiarComando()">
-                    Copiar
-                  </button>
+              <div class="guias-instalacion" style="margin-top: 50px; display: flex; flex-direction: column; gap: 25px;">
+              
+                <!-- 🪟 WINDOWS -->
+                <div class="alerta-windows" style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(59, 130, 246, 0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.3); border-radius: 20px; padding: 25px; text-align: left;">
+                  <h4 style="color: #60a5fa; border-bottom: 1px solid rgba(59, 130, 246, 0.2); padding-bottom: 15px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+                    🪟 Guía de Instalación para Windows
+                  </h4>
+                  <p style="font-size: 0.95em; opacity: 0.9; margin-bottom: 20px; color: white;">
+                    Si al abrir el instalador visualizas una pantalla azul de <strong>Microsoft Defender SmartScreen</strong>, es completamente normal en aplicaciones nuevas.
+                  </p>
+                  <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.9);">
+                      <li style="margin-bottom: 10px;">Si ves el mensaje "Windows protegió su PC", haz clic en el enlace <strong><u>Más información</u></strong>.</li>
+                      <li>Aparecerá un nuevo botón. Haz clic en <strong>Ejecutar de todas formas</strong> para iniciar la instalación.</li>
+                    </ol>
+                  </div>
                 </div>
+
+                <!-- 🍎 MACOS (Existing) -->
+                <div class="alerta-mac" style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.3); border-radius: 20px; padding: 25px; text-align: left;">
+                  <h4 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; margin-top: 0;">
+                    🍎 Guía de Instalación para macOS
+                  </h4>
+                  
+                  <!-- macOS Recientes -->
+                  <div style="margin-bottom: 30px;">
+                      <h5 style="color: #60a5fa; font-size: 1.1rem; margin-bottom: 10px; font-weight: 700;">macOS Recientes (Ventura, Sonoma, Sequoia y similares)</h5>
+                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Interfaz moderna de Configuración del sistema.</p>
+                      
+                      <div style="display: grid; gap: 15px;">
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 1 — Clic derecho (Siempre funciona)</strong>
+                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
+                                  <li>Descarga la app y ve a <strong>Finder → Aplicaciones</strong>.</li>
+                                  <li>Haz <strong>Clic derecho</strong> sobre la app y selecciona <strong>Abrir</strong>.</li>
+                                  <li>Confirma <strong>Abrir</strong> en la advertencia.</li>
+                              </ol>
+                          </div>
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 2 — Configuración del sistema</strong>
+                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
+                                  <li>Ve a <strong>Configuración del sistema → Privacidad y seguridad</strong>.</li>
+                                  <li>Desliza hasta el final (abajo).</li>
+                                  <li>Pulsa <strong>Abrir de todos modos</strong>.</li>
+                              </ol>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- macOS Clásicos -->
+                  <div style="margin-bottom: 30px;">
+                      <h5 style="color: #60a5fa; font-size: 1.1rem; margin-bottom: 10px; font-weight: 700;">macOS Big Sur, Catalina, Mojave...</h5>
+                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Usan Preferencias del Sistema (interfaz clásica).</p>
+                      
+                      <div style="display: grid; gap: 15px;">
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 1 — Clic derecho</strong>
+                              <p style="margin: 0; font-size: 0.95em; color: rgba(255,255,255,0.8);">Finder → Aplicaciones → Clic derecho → Abrir.</p>
+                          </div>
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 2 — Seguridad y privacidad</strong>
+                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
+                                  <li>Ve a <strong>Preferencias del Sistema → Seguridad y privacidad</strong>.</li>
+                                  <li>En la pestaña <strong>General</strong>, pulsa <strong>Abrir de todos modos</strong>.</li>
+                              </ol>
+                              <div style="margin-top: 10px; font-size: 0.9em; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; color: rgba(255,255,255,0.8);">
+                                  🔒 <strong>Si está bloqueado:</strong> Haz clic en el candado e ingresa tu contraseña.
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- macOS Antiguos -->
+                  <div style="margin-bottom: 30px;">
+                      <h5 style="color: #a8a29e; font-size: 1rem; margin-bottom: 10px; font-weight: 700;">macOS Antiguos (Yosemite, Mavericks, etc.)</h5>
+                      <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                          <p style="margin-top: 0; font-size: 0.95em; color: rgba(255,255,255,0.8);">Ve a <strong>Seguridad y privacidad</strong> y selecciona:</p>
+                          <ul style="list-style: none; padding: 0; margin: 10px 0 0 0; font-size: 0.95em;">
+                              <li style="opacity: 0.5; margin-bottom: 5px; color: white;">⚪ App Store</li>
+                              <li style="opacity: 0.5; margin-bottom: 5px; color: white;">⚪ App Store y desarrolladores identificados</li>
+                              <li style="color: #4ade80;">✅ <strong>Cualquier sitio</strong> (Selecciona este)</li>
+                          </ul>
+                      </div>
+                  </div>
+
+                  <!-- Terminal / Método Universal -->
+                  <div>
+                      <h5 style="color: #c084fc; font-size: 1.1rem; margin-bottom: 10px; font-weight: 700;">🧠 Método Universal con Terminal (Avanzado)</h5>
+                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Utiliza estos comandos si los métodos anteriores no funcionan.</p>
+
+                      <!-- Opción A -->
+                      <div style="margin-bottom: 15px;">
+                          <p style="font-size: 0.9em; font-weight: 600; margin-bottom: 5px; color: #fff;">Opción A: Desactivar Gatekeeper (Recomendado)</p>
+                          <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; gap: 10px;">
+                              <code id="cmd-gatekeeper" style="font-family: 'Courier New', monospace; font-size: 0.9em; word-break: break-all; color: #e2e8f0;">sudo spctl --master-disable</code>
+                              <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-gatekeeper', this)" style="white-space: nowrap; padding: 5px 12px; font-size: 0.8rem;">Copiar</button>
+                          </div>
+                      </div>
+
+                      <!-- Opción B -->
+                      <div>
+                          <p style="font-size: 0.9em; font-weight: 600; margin-bottom: 5px; color: #fff;">Opción B: Reparar "Aplicación dañada" (Quarantine)</p>
+                          <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; gap: 10px;">
+                              <code id="cmd-quarantine" style="font-family: 'Courier New', monospace; font-size: 0.9em; word-break: break-all; color: #e2e8f0;">sudo xattr -rd com.apple.quarantine /Applications/"Himnario Adventista Pro.app"</code>
+                              <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-quarantine', this)" style="white-space: nowrap; padding: 5px 12px; font-size: 0.8rem;">Copiar</button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <!-- 🐧 LINUX -->
+                <div class="alerta-linux" style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(234, 179, 8, 0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.3); border-radius: 20px; padding: 25px; text-align: left;">
+                  <h4 style="color: #facc15; border-bottom: 1px solid rgba(234, 179, 8, 0.2); padding-bottom: 15px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+                    🐧 Guía de Instalación para Linux
+                  </h4>
+                  
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <!-- AppImage -->
+                    <div style="background: rgba(234, 179, 8, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(234, 179, 8, 0.1);">
+                      <strong style="color: #fff; display: block; margin-bottom: 8px;">Opción A: Archivo .AppImage (Portable)</strong>
+                      <p style="font-size: 0.9em; color: rgba(255,255,255,0.8); margin-bottom: 10px;">Para ejecutar el archivo portable, necesitas darle permisos:</p>
+                      <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.9);">
+                        <li>Clic derecho en el archivo descargado.</li>
+                        <li>Ve a <strong>Propiedades</strong> → Pestaña <strong>Permisos</strong>.</li>
+                        <li>Marca la casilla <strong>"Permitir ejecutar el archivo como un programa"</strong>.</li>
+                        <li>Doble clic para abrir.</li>
+                      </ol>
+                      
+                      <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                         <p style="font-size: 0.85em; color: rgba(255,255,255,0.6); margin-bottom: 5px;">O usa la terminal:</p>
+                         <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; gap: 10px; background: rgba(0,0,0,0.3);">
+                            <code id="cmd-linux-chmod" style="font-family: 'Courier New', monospace; font-size: 0.85em; color: #e2e8f0;">chmod +x *.AppImage && ./*.AppImage</code>
+                            <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-linux-chmod', this)" style="white-space: nowrap; padding: 3px 8px; font-size: 0.7rem;">Copiar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- DEB -->
+                    <div style="background: rgba(234, 179, 8, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(234, 179, 8, 0.1);">
+                      <strong style="color: #fff; display: block; margin-bottom: 8px;">Opción B: Paquete .deb (Debian/Ubuntu)</strong>
+                      <p style="font-size: 0.9em; color: rgba(255,255,255,0.8); margin-bottom: 10px;">Instala usando el gestor de software o terminal:</p>
+                      <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; gap: 10px; background: rgba(0,0,0,0.3); margin-bottom: 8px;">
+                          <code id="cmd-linux-deb" style="font-family: 'Courier New', monospace; font-size: 0.85em; color: #e2e8f0;">sudo dpkg -i *.deb</code>
+                          <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-linux-deb', this)" style="white-space: nowrap; padding: 3px 8px; font-size: 0.7rem;">Copiar</button>
+                      </div>
+                      <p style="font-size: 0.85em; color: rgba(255,255,255,0.6); margin-top: 10px;">Si hay errores de dependencias, ejecuta:</p>
+                      <code style="font-family: 'Courier New', monospace; font-size: 0.85em; color: #fbbf24; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px;">sudo apt-get install -f</code>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -448,25 +568,25 @@
         });
       });
 
-      function copiarComando() {
-        const comando = document.getElementById("comando-mac").innerText;
+      function copiarTexto(elementId, btnElement) {
+        const texto = document.getElementById(elementId).innerText;
         navigator.clipboard
-          .writeText(comando)
+          .writeText(texto)
           .then(() => {
-            const btn = document.querySelector(".btn-copiar-codigo");
-            const originalText = btn.innerText;
-            btn.innerText = "¡Copiado!";
-            btn.style.background = "#27ae60";
+            const originalText = btnElement.innerText;
+            const originalBg = btnElement.style.background;
+            
+            btnElement.innerText = "¡Copiado!";
+            btnElement.style.background = "#22c55e"; // Green 500
+            
             setTimeout(() => {
-              btn.innerText = originalText;
-              btn.style.background = "#444";
+              btnElement.innerText = originalText;
+              btnElement.style.background = originalBg || "";
             }, 2000);
           })
           .catch((err) => {
             console.error("Error al copiar: ", err);
-            alert(
-              "No se pudo copiar el comando. Por favor, selecciónalo manualmente.",
-            );
+            alert("No se pudo copiar el texto automáticamente.");
           });
       }
     </script>
