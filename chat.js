@@ -66,6 +66,10 @@ let contextMenuTargetUser = null;
 let replyingTo = null;
 let replyMessageData = null;
 
+// Attachments
+let pendingAttachment = null;
+const IMG_SEPARATOR = "||🛑IMG||";
+
 // Anti-Spam
 let spamBlocked = false;
 let messageCount = 0;
@@ -163,6 +167,22 @@ function setupChatInput() {
       };
 
       msgInput.addEventListener("input", autoResize);
+      
+      // Handle Paste
+      msgInput.addEventListener("paste", function(e) {
+          const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+          for (let item of items) {
+              if (item.type.indexOf("image") === 0) {
+                  e.preventDefault();
+                  const blob = item.getAsFile();
+                  const reader = new FileReader();
+                  reader.onload = function(event) {
+                      processImageForChat(event.target.result);
+                  };
+                  reader.readAsDataURL(blob);
+              }
+          }
+      });
       
       // Handle Enter
       msgInput.addEventListener("keydown", function(e) {
@@ -607,7 +627,9 @@ function updateOnlineUsersList(state) {
 
     div.innerHTML = `
       <div class="avatar" style="${u.avatar_url ? `background-image:url(${u.avatar_url}); color:transparent;` : ''}"
-           ${u.avatar_url ? `onclick="event.stopPropagation(); window.previewAvatar('${u.avatar_url}', event)" onmouseenter="window.previewAvatar('${u.avatar_url}', event)" onmouseleave="window.closeAvatarPreview()"` : ''}>
+           onclick="event.stopPropagation(); window.previewAvatar('${u.avatar_url || ''}', '${initial}', event)"
+           onmouseenter="window.previewAvatar('${u.avatar_url || ''}', '${initial}', event)" 
+           onmouseleave="window.closeAvatarPreview()">
         ${u.avatar_url ? '' : initial}
          ${isAdmin ? '<div style="position: absolute; bottom: -2px; right: -2px; background: gold; color: #8B4513; width: 12px; height: 12px; border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center;">A</div>' : ""}
       </div>
@@ -901,7 +923,7 @@ function addMessage(msg) {
 
   div.innerHTML = `
     <div class="msg-container">
-      ${!isOwn ? `<div class="msg-avatar" style="${avatarStyle}" data-userid="${msg.userid || ''}" onclick="event.stopPropagation(); window.previewAvatar('${avatarUrl}', event)" onmouseenter="window.previewAvatar('${avatarUrl}', event)" onmouseleave="window.closeAvatarPreview()">${avatarContent}</div>` : ""}
+      ${!isOwn ? `<div class="msg-avatar" style="${avatarStyle}" data-userid="${msg.userid || ''}" onclick="event.stopPropagation(); window.previewAvatar('${avatarUrl || ''}', '${initial}', event)" onmouseenter="window.previewAvatar('${avatarUrl || ''}', '${initial}', event)" onmouseleave="window.closeAvatarPreview()">${avatarContent}</div>` : ""}
       <div class="msg-bubble">
           ${!isOwn ? `<div class="msg-user">${msg.username}</div>` : ""}
           ${msg.reply_to ? `
@@ -909,7 +931,26 @@ function addMessage(msg) {
                 <div style="font-weight:bold; margin-bottom:2px;">Respuesta a: ${msg.reply_username || "..."}</div>
                 <div style="font-style:italic; opacity:0.9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${msg.reply_content || ""}</div>
             </div>` : ""}
-          <div class="msg-text">${content.replace(/</g, "&lt;").replace(/\n/g, "<br>")}</div>
+            
+          ${(() => {
+              // Parse Content for Image
+              let displayContent = content;
+              let displayImage = null;
+              if (content.includes(IMG_SEPARATOR)) {
+                  const parts = content.split(IMG_SEPARATOR);
+                  displayContent = parts[0].trim();
+                  displayImage = parts[1];
+              }
+              
+              let html = "";
+              if (displayContent) {
+                  html += `<div class="msg-text">${displayContent.replace(/</g, "&lt;").replace(/\n/g, "<br>")}</div>`;
+              }
+              if (displayImage) {
+                  html += `<img src="${displayImage}" class="chat-image">`;
+              }
+              return html;
+          })()}
           <div class="msg-time">${new Date(msg.created_at).toLocaleDateString()} | ${new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true })}</div>
           
           ${!isDeleted ? `
@@ -965,11 +1006,19 @@ async function sendMessage() {
   if (spamBlocked) return;
   const inp = document.getElementById("messageInput");
   const text = inp.value.trim();
-  if (!text) return;
+
+  if (!text && !pendingAttachment) return;
+
+  let finalContent = text.substring(0, 1000); // Text limit
+  
+  if (pendingAttachment) {
+      if (finalContent) finalContent += IMG_SEPARATOR + pendingAttachment;
+      else finalContent = IMG_SEPARATOR + pendingAttachment;
+  }
 
   const msgData = {
     username: displayName,
-    content: text.substring(0, 1000),
+    content: finalContent,
     created_at: new Date().toISOString(),
     room_id: currentRoom 
   };
@@ -1000,6 +1049,7 @@ async function sendMessage() {
     inp.value = "";
     inp.style.height = "44px"; // Reset to base height
     if (replyingTo) cancelReply();
+    if (pendingAttachment) cancelAttachment();
     sendTyping(false);
     inp.focus();
     
@@ -1066,6 +1116,51 @@ function cancelReply() {
   replyMessageData = null;
   const area = document.getElementById("replyArea");
   if (area) area.style.display = "none";
+}
+
+// ATTACHMENT FUNCTIONS
+function cancelAttachment() {
+    pendingAttachment = null;
+    document.getElementById("attachmentArea").style.display = "none";
+    document.getElementById("attachmentImage").src = "";
+    document.getElementById("messageInput").focus();
+}
+
+function processImageForChat(base64) {
+    const img = new Image();
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const MAX_DIMENSION = 800; 
+
+        if (width > height) {
+            if (width > MAX_DIMENSION) {
+                height *= MAX_DIMENSION / width;
+                width = MAX_DIMENSION;
+            }
+        } else {
+             if (height > MAX_DIMENSION) {
+                width *= MAX_DIMENSION / height;
+                height = MAX_DIMENSION;
+            }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        pendingAttachment = canvas.toDataURL('image/jpeg', 0.85);
+        
+        const area = document.getElementById("attachmentArea");
+        const preview = document.getElementById("attachmentImage");
+        if(area && preview) {
+            preview.src = pendingAttachment;
+            area.style.display = "block";
+        }
+    };
+    img.src = base64;
 }
 
 /* CUSTOM MODALS LOGIC */
@@ -1586,55 +1681,90 @@ window.startPrivateChatFromSearch = async function(targetId, targetName) {
 /* AVATAR PREVIEW HELPERS */
 let currentPreviewUrl = null;
 
-function previewAvatar(url, e) {
-    if(e && e.stopPropagation) e.stopPropagation();
+function previewAvatar(url, initial, e) {
+    // Determine the actual event object if arguments are shifted
+    // Legacy support not strictly needed but good for safety if we missed a call
+    let event = e;
+    if (typeof initial === 'object' && !e) {
+        event = initial;
+        initial = '?';
+    }
+
+    if(event && event.stopPropagation) event.stopPropagation();
 
     const overlay = document.getElementById('avatarPreviewOverlay');
     const img = document.getElementById('avatarPreviewImage');
+    const def = document.getElementById('avatarPreviewDefault');
     
-    // Toggle logic for click
-    if (e && e.type === 'click' && currentPreviewUrl === url && overlay.classList.contains('active')) {
+    // Normalize URL
+    const hasUrl = url && url !== "null" && url !== "undefined" && url !== "";
+    
+    // Toggle logic for click (only if clicking same thing)
+    // We use a combined key for state tracking
+    const key = hasUrl ? url : ('text_' + initial);
+    
+    if (event && event.type === 'click' && currentPreviewUrl === key && overlay.classList.contains('active')) {
         closeAvatarPreview();
         return;
     }
 
-    currentPreviewUrl = url;
-    img.src = url;
+    currentPreviewUrl = key;
     
-    // Position the popup
-    if (e && e.target) {
-        const rect = e.target.getBoundingClientRect();
-        const popupSize = 220; // Match CSS width/height including border
-        const spacing = 15;
+    // calculate position
+    // If it's hover/mouseenter, we might want it near mouse? 
+    // But current CSS says fixed top/left 0. Let's assume centered logic or follow cursor if handled elsewhere?
+    // The previous CSS just makes it visible.
+    
+    // Actually the CSS implies it pops up. Let's position it near the element if possible?
+    // For now assuming fixed center or similar based on existing CSS?
+    // Wait, CSS says: top: 0; left: 0; position: fixed. It relies on JS to position?
+    // "/* Position set by JS */" is in the CSS comment.
+    
+    const target = event ? event.target : null;
+    if(target) {
+        const rect = target.getBoundingClientRect();
+        // Center the preview near the avatar
+        // Preview size is approx 220px
+        let top = rect.top + window.scrollY - 230; 
+        let left = rect.left + window.scrollX - 90;
         
-        // Default: Right of target
-        let left = rect.right + spacing;
-        let top = rect.top + (rect.height / 2) - (popupSize / 2);
+        // Boundaries
+        if(top < 10) top = rect.bottom + 10;
+        if(left < 10) left = 10;
+        if(left + 220 > window.innerWidth) left = window.innerWidth - 230;
         
-        // Vertical check bounds
-        if (top < 10) top = 10;
-        if (top + popupSize > window.innerHeight - 10) top = window.innerHeight - popupSize - 10;
-        
-        // Horizontal check: if overflowing right, go left
-        if (left + popupSize > window.innerWidth - 10) {
-            left = rect.left - popupSize - spacing;
-        }
-
         overlay.style.top = `${top}px`;
         overlay.style.left = `${left}px`;
-        overlay.style.display = 'block';
-    } else {
-        // Fallback center if no event target
-        overlay.style.top = '50%';
-        overlay.style.left = '50%';
-        overlay.style.transform = 'translate(-50%, -50%)';
-        overlay.style.display = 'block';
     }
-    
-    // Force reflow
-    void overlay.offsetWidth;
+
+    if (hasUrl) {
+        img.src = url;
+        img.style.display = 'block';
+        if(def) def.style.display = 'none';
+        // Fallback if image fails to load
+        img.onerror = () => {
+             img.style.display = 'none';
+             if(def) {
+                 def.textContent = initial || "?";
+                 def.style.display = 'flex';
+                 def.style.background = "var(--secondary-bg)";
+             }
+        };
+    } else {
+        img.style.display = 'none';
+        if(def) {
+            def.textContent = initial || "?";
+            def.style.display = 'flex';
+            def.style.background = "var(--secondary-bg)"; // Can be improved with dynamic colors later
+        }
+    }
+
     overlay.classList.add('active');
+    overlay.style.opacity = '1';
+    overlay.style.display = 'block'; // Ensure block
 }
+
+
 
 function closeAvatarPreview() {
     const overlay = document.getElementById('avatarPreviewOverlay');

@@ -16,6 +16,7 @@
   <!-- AVATAR PREVIEW OVERLAY -->
   <div id="avatarPreviewOverlay" class="avatar-preview-overlay" onclick="closeAvatarPreview()" style="display: none;">
     <img id="avatarPreviewImage" src="" alt="Avatar Grande">
+    <div id="avatarPreviewDefault" style="display: none;"></div>
   </div>
 
   <!-- PROFILE PICTURE CROP MODAL (Moved here for layout stability) -->
@@ -167,6 +168,17 @@
            <button class="reply-close" onclick="cancelReply()">×</button>
         </div>
         <div class="reply-content-text" id="replyText"></div>
+      </div>
+
+      <!-- ATTACHMENT PREVIEW -->
+      <div id="attachmentArea">
+        <div class="attachment-header">
+           <span class="attachment-title">📎 Imagen adjunta</span>
+           <button class="attachment-close" onclick="cancelAttachment()">×</button>
+        </div>
+        <div class="attachment-preview">
+           <img id="attachmentImage" src="" alt="Adjunto">
+        </div>
       </div>
 
       <!-- INPUT AREA -->
