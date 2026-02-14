@@ -976,8 +976,28 @@ function handleMessageUpdate(newMsg) {
   
   if (newMsg.deleted) {
       el.classList.add("deleted");
+      
+      // Remove image if exists
+      const imgEl = el.querySelector(".chat-image");
+      if(imgEl) imgEl.remove();
+
       const textEl = el.querySelector(".msg-text");
-      if(textEl) textEl.textContent = "🚫 Mensaje eliminado";
+      if(textEl) {
+          textEl.textContent = "🚫 Mensaje eliminado";
+      } else {
+          // If no text element was present (image-only msg), create it
+          const bubble = el.querySelector(".msg-bubble");
+          if(bubble) {
+               const newText = document.createElement("div");
+               newText.className = "msg-text";
+               newText.textContent = "🚫 Mensaje eliminado";
+               
+               // Insert before time if exists
+               const timeEl = bubble.querySelector(".msg-time");
+               if (timeEl) bubble.insertBefore(newText, timeEl);
+               else bubble.appendChild(newText);
+          }
+      }
       
       // Hide actions if deleted
       const actions = el.querySelector(".msg-actions");
