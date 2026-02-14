@@ -327,7 +327,7 @@ body {
 .msg-container {
   display: flex;
   gap: 1rem;
-  max-width: 85%; /* Updated width */
+  width: 100%; /* Updated width */
   animation: fadeIn 0.3s ease-out;
   align-items: flex-end; /* Align avatar bottom */
 }
@@ -343,10 +343,10 @@ body {
 }
 
 .msg.own {
-  align-self: flex-end;
-  /* flex-direction: row-reverse; - Removed to simplify layout logic */
+  width: 100%;
   flex-direction: row; 
   justify-content: flex-end; /* Align content to right */
+  padding-right: 0px; /* Use padding for safer spacing inside the container */
 }
 
 .msg.own .msg-container {
@@ -358,6 +358,7 @@ body {
   color: white;
   border-radius: 20px 20px 0 20px;
   box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
+  
 }
 
 .msg-bubble {
@@ -366,12 +367,12 @@ body {
   padding: 12px 18px;
   border-radius: 20px 20px 20px 0;
   position: relative;
-  min-width: 60px;
+  min-width: 10%;
   border: var(--glass-border);
   display: flex;
   flex-direction: column;
   /* Fix overflow */
-  max-width: 100%;
+  max-width: 80%;
   word-wrap: break-word;
   overflow-wrap: anywhere; 
 }
@@ -400,7 +401,7 @@ body {
   color: var(--text-primary);
   word-wrap: break-word;
   overflow-wrap: break-word; /* Standard */
-  word-break: break-word; /* Force break */
+  word-break: normal; /* Fix: prevent aggressive breaking */
   white-space: pre-wrap; /* Preserve whitespace & wrap */
   max-width: 100%;
 }
