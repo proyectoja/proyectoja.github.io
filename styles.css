@@ -421,7 +421,10 @@ body {
 
 /* INPUT AREA */
 #inputArea {
-  padding: 1.5rem 2rem;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   background: rgba(30, 41, 59, 0.4);
   backdrop-filter: blur(10px);
   border-top: var(--glass-border);
