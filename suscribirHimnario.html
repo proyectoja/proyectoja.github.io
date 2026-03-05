@@ -254,24 +254,42 @@
 
     <div class="container">
         <h1>Himnario Adventista PRO</h1>
-        <p class="subtitle">Suscripción Premium</p>
+        <p class="subtitle">Elige tu Plan</p>
 
-        <!-- Sección PayPal -->
-        <div class="payment-section">
-            <h3>PayPal</h3>
-            <div id="paypal-container-mensual"></div>
+        <!-- SECCIÓN PLAN BÁSICO -->
+        <div class="payment-section" style="border: 1px solid rgba(192, 192, 192, 0.4); background: rgba(192, 192, 192, 0.05);">
+            <h3 style="color: #c0c0c0;">📋 Plan Básico</h3>
+            <p style="font-size: 0.9em; margin-bottom: 15px; opacity: 0.8;">Acceso a funciones esenciales</p>
+            
+            <h4 style="margin: 10px 0 5px; font-size: 0.95em;">PayPal</h4>
+            <div id="paypal-basico-mensual"></div>
 
-            <div class="separator"><span>O AHORRA CON EL PLAN ANUAL</span></div>
+            <div class="separator"><span>O ANUAL</span></div>
 
-            <div id="paypal-container-anual"></div>
+            <div id="paypal-basico-anual"></div>
+
+            <h4 style="margin: 15px 0 5px; font-size: 0.95em;">Tarjeta (Stripe)</h4>
+            <p style="font-size: 0.85em; margin-bottom: 10px; opacity: 0.7;">Pago seguro procesado por Stripe</p>
+            <a href="#" id="btn-stripe-basico-mensual" class="btn-stripe btn-mensual">Mensual ($1.99)</a>
+            <a href="#" id="btn-stripe-basico-anual" class="btn-stripe btn-anual">Anual ($23.88)</a>
         </div>
 
-        <!-- Sección Stripe -->
-        <div class="payment-section">
-            <h3>Tarjeta (Stripe)</h3>
-            <p style="font-size: 0.9em; margin-bottom: 15px; opacity: 0.8;">Pago seguro procesado por Stripe</p>
-            <a href="#" id="btn-stripe-mensual" class="btn-stripe btn-mensual">Suscripción Mensual ($8,99)</a>
-            <a href="#" id="btn-stripe-anual" class="btn-stripe btn-anual">Suscripción Anual ($107,88)</a>
+        <!-- SECCIÓN PLAN PREMIUM -->
+        <div class="payment-section" style="border: 1px solid rgba(255, 215, 0, 0.4); background: rgba(255, 215, 0, 0.05);">
+            <h3 style="color: #ffd700;">👑 Plan Premium</h3>
+            <p style="font-size: 0.9em; margin-bottom: 15px; opacity: 0.8;">Acceso completo a todas las funciones</p>
+            
+            <h4 style="margin: 10px 0 5px; font-size: 0.95em;">PayPal</h4>
+            <div id="paypal-premium-mensual"></div>
+
+            <div class="separator"><span>O ANUAL</span></div>
+
+            <div id="paypal-premium-anual"></div>
+
+            <h4 style="margin: 15px 0 5px; font-size: 0.95em;">Tarjeta (Stripe)</h4>
+            <p style="font-size: 0.85em; margin-bottom: 10px; opacity: 0.7;">Pago seguro procesado por Stripe</p>
+            <a href="#" id="btn-stripe-premium-mensual" class="btn-stripe btn-mensual">Mensual ($8.99)</a>
+            <a href="#" id="btn-stripe-premium-anual" class="btn-stripe btn-anual">Anual ($107.88)</a>
         </div>
 
         <!-- Success Display -->
@@ -285,13 +303,25 @@
                 la aplicación.</p>
         </div>
 
-        <p class="footer-note">PPROYECTO JA ©2013-Actualidad. Todos los derechos reservados.</p>
+        <p class="footer-note">PROYECTOJA © 2023-<span id="currentYear"></span>. Todos los derechos reservados.</p>
     </div>
 
     <script>
-        // Configuración
-        const PLAN_ID_MENSUAL = "P-0KY630971U339254XNFO7TMQ";
-        const PLAN_ID_ANUAL = "P-2YM91167P37929048NFO7UQI";
+        // Actualizar año dinámicamente
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Configuración de Planes
+        const PLANES = {
+            basico: {
+                mensual: "P-40E25374WC496032ENB62ANQ",
+                anual: "P-4P300126BF854730HNE4GATY"
+            },
+            premium: {
+                mensual: "P-0KY630971U339254XNFO7TMQ",
+                anual: "P-2YM91167P37929048NFO7UQI"
+            }
+        };
+        
         // Modo test o live para Stripe links
         const modoAux = "live"; // Asumiendo live para producción web
 
@@ -316,8 +346,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             const savedCode = localStorage.getItem('ultimoCodigoSuscripcion');
             if (savedCode) {
-                // Opcional: mostrarlo automáticamente o un botón "Ver mi último código"
-                // El usuario pidió: "por si recarga de nuevo aparezca abajo el código que compró"
                 mostrarCodigoExitose(savedCode);
             }
         });
@@ -333,62 +361,58 @@
             });
         }
 
-        // Renderizar PayPal
-        if (window.paypal) {
-            // Mensual
-            window.paypal.Buttons({
-                style: {
-                    layout: 'vertical',
-                    color: 'gold',
-                    shape: 'rect',
-                    label: 'subscribe'
-                },
-                createSubscription: function (data, actions) {
-                    return actions.subscription.create({
-                        'plan_id': PLAN_ID_MENSUAL
-                    });
-                },
-                onApprove: function (data, actions) {
-                    console.log("Suscripción Mensual Aprobada", data);
-                    mostrarCodigoExitose(data.subscriptionID);
-                },
-                onError: function (err) {
-                    console.error('PayPal Error:', err);
-                    alert("Ocurrió un error con PayPal. Por favor intenta nuevamente.");
-                }
-            }).render('#paypal-container-mensual');
+        // Función para crear botones PayPal
+        function crearBotonePayPal(tiPlan, periodo) {
+            if (!window.paypal) {
+                console.error("PayPal SDK no disponible");
+                return;
+            }
 
-            // Anual
+            const planId = PLANES[tiPlan][periodo];
+            const containerId = `#paypal-${tiPlan}-${periodo}`;
+            const label = tiPlan === 'basico' ? 'Plan Básico' : 'Plan Premium';
+            const color = tiPlan === 'basico' ? 'silver' : 'gold';
+
             window.paypal.Buttons({
                 style: {
                     layout: 'vertical',
-                    color: 'blue',
+                    color: color,
                     shape: 'rect',
                     label: 'subscribe'
                 },
                 createSubscription: function (data, actions) {
                     return actions.subscription.create({
-                        'plan_id': PLAN_ID_ANUAL
+                        'plan_id': planId
                     });
                 },
                 onApprove: function (data, actions) {
-                    console.log("Suscripción Anual Aprobada", data);
+                    console.log(`Suscripción ${label} ${periodo} aprobada`, data);
+                    localStorage.setItem('paypalSubscriptionId', data.subscriptionID);
+                    localStorage.setItem('planTipo', tiPlan);
+                    localStorage.setItem('premium', tiPlan === 'premium' ? 'true' : 'false');
+                    localStorage.setItem('lastValidationDate', Date.now().toString());
                     mostrarCodigoExitose(data.subscriptionID);
                 },
                 onError: function (err) {
                     console.error('PayPal Error:', err);
                     alert("Ocurrió un error con PayPal. Por favor intenta nuevamente.");
                 }
-            }).render('#paypal-container-anual');
-        } else {
-            document.getElementById('paypal-container-mensual').innerHTML = "No se pudo cargar SDK de PayPal";
+            }).render(containerId);
         }
 
-        // Links Stripe
-        document.getElementById('btn-stripe-mensual').onclick = async (e) => {
+        // Renderizar todos los botones PayPal
+        if (window.paypal) {
+            crearBotonePayPal('basico', 'mensual');
+            crearBotonePayPal('basico', 'anual');
+            crearBotonePayPal('premium', 'mensual');
+            crearBotonePayPal('premium', 'anual');
+        }
+
+        // Links Stripe - BÁSICO MENSUAL
+        document.getElementById('btn-stripe-basico-mensual').onclick = async (e) => {
             e.preventDefault();
             try {
-                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=mensual&modo=${modoAux}`);
+                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=basico&periodo=mensual&modo=${modoAux}`);
                 const data = await res.json();
                 if (data.checkoutUrl) window.location.href = data.checkoutUrl;
             } catch (err) {
@@ -397,10 +421,37 @@
             }
         };
 
-        document.getElementById('btn-stripe-anual').onclick = async (e) => {
+        // Links Stripe - BÁSICO ANUAL
+        document.getElementById('btn-stripe-basico-anual').onclick = async (e) => {
             e.preventDefault();
             try {
-                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=anual&modo=${modoAux}`);
+                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=basico&periodo=anual&modo=${modoAux}`);
+                const data = await res.json();
+                if (data.checkoutUrl) window.location.href = data.checkoutUrl;
+            } catch (err) {
+                console.error(err);
+                alert("Error conectando con Stripe");
+            }
+        };
+
+        // Links Stripe - PREMIUM MENSUAL
+        document.getElementById('btn-stripe-premium-mensual').onclick = async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=premium&periodo=mensual&modo=${modoAux}`);
+                const data = await res.json();
+                if (data.checkoutUrl) window.location.href = data.checkoutUrl;
+            } catch (err) {
+                console.error(err);
+                alert("Error conectando con Stripe");
+            }
+        };
+
+        // Links Stripe - PREMIUM ANUAL
+        document.getElementById('btn-stripe-premium-anual').onclick = async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`https://verificador-paypal.vercel.app/api/verificaPremium?proveedor=stripe&crear=checkout&plan=premium&periodo=anual&modo=${modoAux}`);
                 const data = await res.json();
                 if (data.checkoutUrl) window.location.href = data.checkoutUrl;
             } catch (err) {
