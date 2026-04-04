@@ -1525,9 +1525,16 @@ function extraerIdYoutube(url) {
 
 let bloquesAnuncios = 0;
 
+function permitirRedireccionAnuncio() {
+  const anuncioParam = new URLSearchParams(window.location.search).get("anuncio");
+  return anuncioParam !== "null";
+}
+
 function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
-  window.location.href = "go:anuncio";
-  window.location.href = "go:anuncio";
+  if (permitirRedireccionAnuncio()) {
+    window.location.href = "go:anuncio";
+    window.location.href = "go:anuncio";
+  }
   console.log("Iniciando reproducción...");
   console.log("Cartel:", cartel.titulo);
   console.log("Playlist:", playlist);
@@ -1679,7 +1686,7 @@ function reproductorVideoJSAudios(cartel, vast, playlist, index = 0) {
       viewCounted = true;
     }
 
-    if (bloquesAnuncios == 0) {
+    if (bloquesAnuncios == 0 && permitirRedireccionAnuncio()) {
       window.location.href = "go:anuncio";
       window.location.href = "go:anuncio";
     }
