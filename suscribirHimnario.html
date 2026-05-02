@@ -7,7 +7,7 @@
     <title>Suscripción Himnario Adventista PRO</title>
     <!-- PayPal SDK -->
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AZ6rZOCiKsNy9KZwtpz2qC77SgxCcyxVbRh1ulaxKwUvrPpd4IoGguoi8j7M26jIH7BMbvF4QBSM9Vab&vault=true&intent=subscription&components=buttons"></script>
+        src="https://www.paypal.com/sdk/js?client-id=AX1vi6MEqpTT8LQbmo9YESLJla3BTjbuwj2kKRRFtjaqEPiXTM6H6T_mtpFxkclCQaDmzaPBItWSpk0e&vault=true&intent=subscription&components=buttons"></script>
     <style>
         :root {
             --primary: #8B4513;
@@ -361,6 +361,20 @@
             });
         }
 
+        async function esperarPayPalDisponible(timeoutMs = 12000, intervaloMs = 250) {
+            const inicio = Date.now();
+
+            while (Date.now() - inicio < timeoutMs) {
+                if (window.paypal && typeof window.paypal.Buttons === 'function') {
+                    return true;
+                }
+
+                await new Promise((resolve) => setTimeout(resolve, intervaloMs));
+            }
+
+            return false;
+        }
+
         // Función para crear botones PayPal
         function crearBotonePayPal(tiPlan, periodo) {
             if (!window.paypal) {
@@ -400,13 +414,27 @@
             }).render(containerId);
         }
 
-        // Renderizar todos los botones PayPal
-        if (window.paypal) {
+        async function renderizarBotonesPayPal() {
+            const paypalDisponible = await esperarPayPalDisponible();
+
+            if (!paypalDisponible) {
+                console.error("PayPal SDK no disponible. Revisa el client-id público y la conexión a internet.");
+
+                const mensaje = '<p class="loading-text" style="color:#fff;">No pudimos cargar PayPal en este momento. Intenta de nuevo en unos segundos.</p>';
+                document.getElementById('paypal-basico-mensual').innerHTML = mensaje;
+                document.getElementById('paypal-basico-anual').innerHTML = mensaje;
+                document.getElementById('paypal-premium-mensual').innerHTML = mensaje;
+                document.getElementById('paypal-premium-anual').innerHTML = mensaje;
+                return;
+            }
+
             crearBotonePayPal('basico', 'mensual');
             crearBotonePayPal('basico', 'anual');
             crearBotonePayPal('premium', 'mensual');
             crearBotonePayPal('premium', 'anual');
         }
+
+        renderizarBotonesPayPal();
 
         // Links Stripe - BÁSICO MENSUAL
         document.getElementById('btn-stripe-basico-mensual').onclick = async (e) => {
