@@ -432,7 +432,36 @@ function imagenAleatoriaFuncion(elemento) {
     `https://source.unsplash.com/random/1080x1080`,
   ];
   let imageAux = fuentes[Math.floor(Math.random() * fuentes.length)];
-  elemento.style.backgroundImage = `url("${imageAux}")`;
+
+  let bgLayer = elemento.querySelector(".random-bg-layer");
+  if (!bgLayer) {
+    bgLayer = document.createElement("div");
+    bgLayer.className = "random-bg-layer";
+    bgLayer.style.cssText =
+      "position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;z-index:0;pointer-events:none;";
+    elemento.insertBefore(bgLayer, elemento.firstChild);
+  }
+
+  bgLayer.style.backgroundImage = "";
+  bgLayer.dataset.frozenBg = "";
+  elemento.style.backgroundImage = "none";
+
+  const preloader = new Image();
+  preloader.crossOrigin = "anonymous";
+  preloader.onload = function () {
+    const c = document.createElement("canvas");
+    c.width = preloader.naturalWidth;
+    c.height = preloader.naturalHeight;
+    c.getContext("2d").drawImage(preloader, 0, 0);
+    const dataUrl = c.toDataURL("image/jpeg");
+    bgLayer.style.backgroundImage = `url("${dataUrl}")`;
+    bgLayer.dataset.frozenBg = dataUrl;
+  };
+  preloader.onerror = function () {
+    bgLayer.style.backgroundImage = `url("${imageAux}")`;
+    bgLayer.dataset.frozenBg = "";
+  };
+  preloader.src = imageAux;
   console.log(imageAux);
 }
 
@@ -481,10 +510,10 @@ function descargarImagen(elemento, pub) {
     imagenElem.style.maxWidth = "100%";
   }
 
-  const bgActual = elemento.style.backgroundImage;
+  const bgLayer = elemento.querySelector(".random-bg-layer");
+  const bgFrozen = bgLayer ? bgLayer.dataset.frozenBg : null;
 
   const copiaElem = elemento.cloneNode(true);
-  copiaElem.style.backgroundImage = bgActual;
 
   if (pub.offsetHeight > 490) {
     copiaElem.style.position = "fixed";
@@ -509,21 +538,36 @@ function descargarImagen(elemento, pub) {
   }
 
   ocultarBotones(copiaElem);
-
   document.body.appendChild(copiaElem);
 
   html2canvas(copiaElem, {
     scale: 3,
     useCORS: true,
     allowTaint: true,
+    backgroundColor: null,
+    onclone: function (doc) {
+      if (bgFrozen) {
+        const cloned = doc.getElementById(elemento.id);
+        if (cloned) {
+          cloned.style.backgroundImage = `url("${bgFrozen}")`;
+          cloned.style.backgroundSize = "cover";
+          cloned.style.backgroundPosition = "center";
+        }
+        const clonedBg = cloned
+          ? cloned.querySelector(".random-bg-layer")
+          : null;
+        if (clonedBg) clonedBg.style.display = "none";
+      }
+    },
   }).then((canvas) => {
+    document.body.removeChild(copiaElem);
+
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
     const link = document.createElement("a");
     link.href = imgData;
     link.download = "publicación.jpg";
     link.click();
 
-    document.body.removeChild(copiaElem);
     mostrarBotones(elemento);
 
     if (imagenElem) {
@@ -538,10 +582,10 @@ function copiarImagen(elemento, pub) {
     imagenElem.style.maxWidth = "100%";
   }
 
-  const bgActual = elemento.style.backgroundImage;
+  const bgLayer = elemento.querySelector(".random-bg-layer");
+  const bgFrozen = bgLayer ? bgLayer.dataset.frozenBg : null;
 
   const copiaElem = elemento.cloneNode(true);
-  copiaElem.style.backgroundImage = bgActual;
 
   if (pub.offsetHeight > 490) {
     copiaElem.style.position = "fixed";
@@ -566,14 +610,30 @@ function copiarImagen(elemento, pub) {
   }
 
   ocultarBotones(copiaElem);
-
   document.body.appendChild(copiaElem);
 
   html2canvas(copiaElem, {
     scale: 3,
     useCORS: true,
     allowTaint: true,
+    backgroundColor: null,
+    onclone: function (doc) {
+      if (bgFrozen) {
+        const cloned = doc.getElementById(elemento.id);
+        if (cloned) {
+          cloned.style.backgroundImage = `url("${bgFrozen}")`;
+          cloned.style.backgroundSize = "cover";
+          cloned.style.backgroundPosition = "center";
+        }
+        const clonedBg = cloned
+          ? cloned.querySelector(".random-bg-layer")
+          : null;
+        if (clonedBg) clonedBg.style.display = "none";
+      }
+    },
   }).then((canvas) => {
+    document.body.removeChild(copiaElem);
+
     canvas.toBlob((blob) => {
       const item = new ClipboardItem({ "image/png": blob });
       navigator.clipboard
@@ -585,7 +645,6 @@ function copiarImagen(elemento, pub) {
           console.error("Error al copiar al portapapeles: ", err);
         });
 
-      document.body.removeChild(copiaElem);
       mostrarBotones(elemento);
 
       if (imagenElem) {
