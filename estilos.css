@@ -427,7 +427,7 @@ html {
   flex-direction: column;
   padding: 15px;
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
   overflow: hidden;
   width: 100%;
   height: auto;
@@ -451,7 +451,7 @@ html {
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 10px;
-  color: rgba(0, 0, 0);
+  color: rgb(0, 0, 0);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -460,7 +460,7 @@ html {
   font-style: italic;
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 20px;
-  color: rgba(0, 0, 0, 1);
+  color: rgb(0, 0, 0);
 }
 
 .subcontenido {
@@ -468,7 +468,7 @@ html {
   font-style: normal;
   font-family: "Courier New", Courier, monospace;
   margin-bottom: 10px;
-  color: rgba(0, 0, 0);
+  color: rgb(0, 0, 0);
 }
 
 .perfil {
@@ -478,15 +478,15 @@ html {
   margin-right: 10px;
   object-fit: cover;
   position: relative;
-  border: 0px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 10px black;
+  border: 0px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgb(0, 0, 0);
 }
 
 .fecha-hora {
   clear: both;
   font-size: 14px;
   font-style: normal;
-  color: rgba(0, 0, 0);
+  color: rgb(0, 0, 0);
   margin-bottom: 10px;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -521,7 +521,7 @@ html {
   align-items: center;
   font-size: 24px;
   font-weight: bold;
-  color: black;
+  color: rgb(0, 0, 0);
   letter-spacing: 0px;
   margin-bottom: 5px;
   font-family: Arial, Helvetica, sans-serif;
@@ -1485,15 +1485,13 @@ h1 {
 }
 
 .publicacion {
-  background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   padding: 30px;
-  color: #333;
+  color: #ffffff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .publicacion .titulo {
-  color: #1a1f36;
   font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 1.5rem;
   margin-bottom: 15px;
