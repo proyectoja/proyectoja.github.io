@@ -310,7 +310,7 @@ const jsonUrlPsicologiaPositiva =
   "https://proyectoja.github.io/psicologia_positiva_001_365.json";
 const jsonUrlOraciones = "https://proyectoja.github.io/oraciones_001_365.json";
 const jsonUrlDeJovenAJoven = "https://proyectoja.github.io/proyecto_ja_001_365.json";
-
+const jsonUrlAlejandroBullon = "https://proyectoja.github.io/alejandro_bullon_001.json";
 //function cargarNotaPROYECTOJA() {
 //  fetch(jsonUrlPROYECTOJA)
 //    .then((response) => response.json())
@@ -383,6 +383,18 @@ function cargarNotaDeJovenAJoven() {
     });
 }
 
+function cargarNotaDeAlejandroBullon() {
+  fetch(jsonUrlAlejandroBullon)
+    .then((response) => response.json())
+    .then((mensajes) => {
+      const diaActual = obtenerDiaDelAño(); // Obtener el día actual del año
+      mostrarMensajeDelDia(mensajes, diaActual); // Mostrar el mensaje correspondiente al día
+    })
+    .catch((error) => {
+      console.error("Error al cargar el JSON:", error);
+    });
+}
+
 // Asumiendo que 'username' está definido
 const username = "XSTUDIOCODE"; //
 verificarProyectoJaEstado(username).then(function () {
@@ -392,12 +404,19 @@ verificarProyectoJaEstado(username).then(function () {
   cargarNotaPsicologiaPositiva();
   cargarNotaOraciones();
   cargarNotaDeJovenAJoven();
+  cargarNotaDeAlejandroBullon();
 });
 
 function imagenAleatoriaFuncion(elemento) {
-  let imageAux = `https://picsum.photos/id/${Math.floor(
-    Math.random() * 1000
-  )}/1080`;
+  const fuentes = [
+    `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/1080`,
+    `https://loremflickr.com/1080/1080`,
+    `https://loremflickr.com/1080/1080/nature`,
+    `https://loremflickr.com/1080/1080/sea`,
+    `https://loremflickr.com/1080/1080/mountain`,
+    `https://source.unsplash.com/random/1080x1080`,
+  ];
+  let imageAux = fuentes[Math.floor(Math.random() * fuentes.length)];
   elemento.style.backgroundImage = `url("${imageAux}")`;
   console.log(imageAux);
 }
