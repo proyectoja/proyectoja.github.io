@@ -476,16 +476,18 @@ function copiarTexto(elemento) {
 }
 
 function descargarImagen(elemento, pub) {
-  // Encuentra la imagen dentro del elemento
   const imagenElem = elemento.querySelector(".imagen-publicacion");
   if (imagenElem) {
     imagenElem.style.maxWidth = "100%";
   }
 
+  const bgActual = elemento.style.backgroundImage;
+
   const copiaElem = elemento.cloneNode(true);
+  copiaElem.style.backgroundImage = bgActual;
 
   if (pub.offsetHeight > 490) {
-    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.position = "fixed";
     copiaElem.style.top = "0";
     copiaElem.style.left = "0";
     copiaElem.style.width = "500px";
@@ -495,7 +497,7 @@ function descargarImagen(elemento, pub) {
     copiaElem.style.zIndex = "1";
     copiaElem.style.borderRadius = "0rem";
   } else {
-    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.position = "fixed";
     copiaElem.style.top = "0";
     copiaElem.style.left = "0";
     copiaElem.style.width = "500px";
@@ -506,15 +508,14 @@ function descargarImagen(elemento, pub) {
     copiaElem.style.borderRadius = "0rem";
   }
 
-  // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
 
-  // Ajustar el estilo del contenedor para la captura
   document.body.appendChild(copiaElem);
 
   html2canvas(copiaElem, {
     scale: 3,
     useCORS: true,
+    allowTaint: true,
   }).then((canvas) => {
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
     const link = document.createElement("a");
@@ -522,13 +523,9 @@ function descargarImagen(elemento, pub) {
     link.download = "publicación.jpg";
     link.click();
 
-    // Eliminar la copia del contenedor después de la descarga
     document.body.removeChild(copiaElem);
-
-    // Mostrar botones después de la captura
     mostrarBotones(elemento);
 
-    // Restaura el max-width original
     if (imagenElem) {
       imagenElem.style.maxWidth = "300px";
     }
@@ -536,15 +533,18 @@ function descargarImagen(elemento, pub) {
 }
 
 function copiarImagen(elemento, pub) {
-  // Encuentra la imagen dentro del elemento
   const imagenElem = elemento.querySelector(".imagen-publicacion");
   if (imagenElem) {
     imagenElem.style.maxWidth = "100%";
   }
+
+  const bgActual = elemento.style.backgroundImage;
+
   const copiaElem = elemento.cloneNode(true);
+  copiaElem.style.backgroundImage = bgActual;
 
   if (pub.offsetHeight > 490) {
-    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.position = "fixed";
     copiaElem.style.top = "0";
     copiaElem.style.left = "0";
     copiaElem.style.width = "500px";
@@ -554,7 +554,7 @@ function copiarImagen(elemento, pub) {
     copiaElem.style.zIndex = "1";
     copiaElem.style.borderRadius = "0rem";
   } else {
-    copiaElem.style.position = "fixed"; // Asegurar que se posicione en el viewport
+    copiaElem.style.position = "fixed";
     copiaElem.style.top = "0";
     copiaElem.style.left = "0";
     copiaElem.style.width = "500px";
@@ -565,15 +565,14 @@ function copiarImagen(elemento, pub) {
     copiaElem.style.borderRadius = "0rem";
   }
 
-  // Ocultar botones antes de la captura
   ocultarBotones(copiaElem);
 
-  // Ajustar el estilo del contenedor para la captura
   document.body.appendChild(copiaElem);
 
   html2canvas(copiaElem, {
     scale: 3,
     useCORS: true,
+    allowTaint: true,
   }).then((canvas) => {
     canvas.toBlob((blob) => {
       const item = new ClipboardItem({ "image/png": blob });
@@ -586,13 +585,9 @@ function copiarImagen(elemento, pub) {
           console.error("Error al copiar al portapapeles: ", err);
         });
 
-      // Eliminar la copia del contenedor después de copiar
       document.body.removeChild(copiaElem);
-
-      // Mostrar botones después de la captura
       mostrarBotones(elemento);
 
-      // Restaura el max-width original
       if (imagenElem) {
         imagenElem.style.maxWidth = "300px";
       }
