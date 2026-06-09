@@ -650,6 +650,26 @@ html {
     inset 0 0 5px white;
 }
 
+.copiar-devocional {
+  color: #000;
+  border-radius: 1rem;
+  padding: 5px 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 0 5px black;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.copiar-devocional:hover {
+  background-color: #ccc;
+  box-shadow:
+    0 0 5px black,
+    inset 0 0 5px white;
+}
+
 .imagen-aleatoria {
   color: #000;
   border-radius: 1rem;

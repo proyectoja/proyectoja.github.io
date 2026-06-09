@@ -93,6 +93,11 @@ function mostrarMensajeDelDia(mensajes, dia) {
     contenidoElem.className = "contenido";
     contenidoElem.textContent = mensajeDelDia.mensaje;
 
+    const devocionalContenidoElem = document.createElement("div");
+    devocionalContenidoElem.className = "devocional-contenido";
+    devocionalContenidoElem.textContent = mensajeDelDia.devocional || "";
+    devocionalContenidoElem.style.display = "none";
+
     const subContenidoElem = document.createElement("div");
     subContenidoElem.className = "subcontenido";
     const hoy = new Date();
@@ -171,6 +176,14 @@ function mostrarMensajeDelDia(mensajes, dia) {
     copiarTxt.textContent = "Copiar texto";
     copiarTxt.onclick = () => copiarTexto(publicacionImage);
 
+    let copiarDevocionalBtn;
+    if (mensajeDelDia.devocional) {
+      copiarDevocionalBtn = document.createElement("button");
+      copiarDevocionalBtn.className = "copiar-devocional";
+      copiarDevocionalBtn.textContent = "Copiar devocional";
+      copiarDevocionalBtn.onclick = () => copiarDevocionalTexto(publicacionImage);
+    }
+
     const imagenAleatoria = document.createElement("button");
     imagenAleatoria.className = "imagen-aleatoria";
     imagenAleatoria.id = "imagen-aleatoria";
@@ -180,6 +193,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
     botonesAccionElem.appendChild(descargarBtn);
     botonesAccionElem.appendChild(copiarBtn);
     botonesAccionElem.appendChild(copiarTxt);
+    if (copiarDevocionalBtn) botonesAccionElem.appendChild(copiarDevocionalBtn);
     botonesAccionElem.appendChild(imagenAleatoria);
 
     fusionPubCheckElem.appendChild(publicadorElem);
@@ -245,6 +259,7 @@ function mostrarMensajeDelDia(mensajes, dia) {
 
     publicacionElem.appendChild(tituloElem);
     publicacionElem.appendChild(contenidoElem);
+    publicacionElem.appendChild(devocionalContenidoElem);
     publicacionElem.appendChild(subContenidoElem);
     //publicacionElem.appendChild(redesSocialesElem);
     publicacionElem.appendChild(botonesAccionElem);
@@ -419,6 +434,27 @@ function imagenAleatoriaFuncion(elemento) {
   let imageAux = fuentes[Math.floor(Math.random() * fuentes.length)];
   elemento.style.backgroundImage = `url("${imageAux}")`;
   console.log(imageAux);
+}
+
+function copiarDevocionalTexto(elemento) {
+  const titulo = elemento.querySelector(".titulo").textContent;
+  const devocional = elemento.querySelector(".devocional-contenido").textContent;
+  const subcontenido = elemento.querySelector(".subcontenido").textContent;
+  const publicador = elemento.querySelector(".publicador").textContent;
+
+  const parrafos = devocional.split(/\n{2,}/).filter(p => p.trim());
+  const devocionalFormateado = parrafos.map(p => `_${p.trim()}_`).join('\n\n');
+
+  const texto = `*${titulo} | ${publicador}*\n\n${devocionalFormateado}\n\n*${subcontenido}*\n*No olvides seguirnos en nuestro canal oficial de WhatsApp:*\n${"https://whatsapp.com/channel/0029VaDMfYK5fM5bmqhsxk0h"}`;
+
+  navigator.clipboard
+    .writeText(texto)
+    .then(() => {
+      alert("Devocional copiado al portapapeles");
+    })
+    .catch((err) => {
+      console.error("Error al copiar el devocional: ", err);
+    });
 }
 
 function copiarTexto(elemento) {
