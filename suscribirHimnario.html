@@ -18,13 +18,14 @@
     <style>
         :root {
             --bg-main: #0b0f19;
-            --card-bg: rgba(22, 30, 46, 0.75);
-            --card-border: rgba(255, 255, 255, 0.1);
+            --card-bg: #111827;
+            --card-border: rgba(255, 255, 255, 0.12);
+            --primary-blue: #3b82f6;
             --primary-emerald: #10b981;
             --accent-gold: #f59e0b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --shadow-gold-glow: 0 0 40px rgba(245, 158, 11, 0.2);
+            --text-high-contrast: #e2e8f0;
         }
 
         * {
@@ -35,60 +36,31 @@
         }
 
         body {
-            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 45%, #020617 100%);
+            background: #090d16;
+            background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #090d16 100%);
             background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 30px 15px;
+            padding: 40px 15px;
             color: var(--text-main);
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Ambient Glow Orbs */
-        .ambient-orb-1 {
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .ambient-orb-2 {
-            position: absolute;
-            bottom: -50px;
-            right: -100px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
         .main-wrapper {
             width: 100%;
-            max-width: 1040px;
+            max-width: 1000px;
             position: relative;
             z-index: 1;
-            animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Header Hero & Language Selector */
+        /* Top Nav Bar with Embedded Language Selector */
         .top-nav-bar {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .lang-selector-wrapper {
@@ -96,10 +68,10 @@
         }
 
         .lang-selector-btn {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(30, 41, 59, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #f8fafc;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 50px;
             font-size: 0.88rem;
             font-weight: 600;
@@ -107,34 +79,31 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            backdrop-filter: blur(10px);
             transition: all 0.2s ease;
         }
 
         .lang-selector-btn:hover {
-            background: rgba(255, 255, 255, 0.14);
-            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(51, 65, 85, 0.9);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .lang-dropdown-menu {
             position: absolute;
-            top: 110%;
+            top: 115%;
             right: 0;
-            background: #0f172a;
+            background: #1e293b;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            border-radius: 14px;
             padding: 6px;
-            min-width: 160px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            min-width: 150px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             display: none;
             flex-direction: column;
             z-index: 100;
-            backdrop-filter: blur(16px);
         }
 
         .lang-dropdown-menu.open {
             display: flex;
-            animation: fadeIn 0.2s ease;
         }
 
         .lang-option {
@@ -142,7 +111,7 @@
             font-size: 0.88rem;
             font-weight: 600;
             color: #cbd5e1;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -155,6 +124,7 @@
             color: #ffffff;
         }
 
+        /* Header Hero */
         .hero-header {
             text-align: center;
             margin-bottom: 40px;
@@ -164,29 +134,26 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 6px 16px;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
-            color: #cbd5e1;
+            color: #e2e8f0;
             margin-bottom: 16px;
-            backdrop-filter: blur(8px);
         }
 
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 2.4rem;
             font-weight: 800;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffffff;
             margin-bottom: 12px;
         }
 
         .hero-subtitle {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: var(--text-muted);
             max-width: 600px;
             margin: 0 auto;
@@ -203,12 +170,11 @@
 
         .billing-toggle {
             display: inline-flex;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 4px;
             border-radius: 50px;
             gap: 4px;
-            backdrop-filter: blur(10px);
         }
 
         .toggle-btn {
@@ -220,27 +186,27 @@
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
         .toggle-btn.active {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: #2563eb;
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         .save-tag {
-            background: linear-gradient(90deg, #10b981, #059669);
+            background: #059669;
             color: #ffffff;
             font-size: 0.75rem;
             font-weight: 700;
             padding: 2px 8px;
             border-radius: 20px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
         }
 
         /* Pricing Grid */
@@ -255,36 +221,25 @@
         .pricing-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 36px 30px;
             display: flex;
             flex-direction: column;
             position: relative;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
-        /* Premium Featured Card Style */
+        /* Premium Featured Card Style - Dark Luxury Solid Contrast */
         .pricing-card.featured {
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            box-shadow: var(--shadow-gold-glow);
-        }
-
-        .pricing-card.featured::before {
-            content: '';
-            position: absolute;
-            top: -2px; right: -2px; bottom: -2px; left: -2px;
-            background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%);
-            border-radius: 26px;
-            z-index: -1;
+            background: #0f172a;
+            border: 2px solid #f59e0b;
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.15);
         }
 
         .popular-badge {
@@ -292,19 +247,18 @@
             top: -14px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            background: #f59e0b;
             color: #0f172a;
             font-size: 0.78rem;
             font-weight: 800;
-            padding: 5px 16px;
+            padding: 5px 18px;
             border-radius: 50px;
-            letter-spacing: 0.05em;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            letter-spacing: 0.04em;
             white-space: nowrap;
         }
 
         .card-header {
-            margin-bottom: 24px;
+            margin-bottom: 22px;
         }
 
         .card-title {
@@ -317,41 +271,49 @@
             margin-bottom: 8px;
         }
 
+        .pricing-card.featured .card-title {
+            color: #fbbf24;
+        }
+
         .card-desc {
             font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.4;
+            color: var(--text-high-contrast);
+            line-height: 1.45;
         }
 
         .price-wrapper {
             margin-bottom: 24px;
             padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .price-amount {
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.03em;
         }
 
+        .pricing-card.featured .price-amount {
+            color: #ffffff;
+        }
+
         .price-period {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 500;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            font-weight: 600;
         }
 
         .trial-pill {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
             color: #34d399;
             font-size: 0.82rem;
             font-weight: 700;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 20px;
             margin-top: 10px;
         }
@@ -368,30 +330,35 @@
             align-items: flex-start;
             gap: 12px;
             font-size: 0.92rem;
-            color: #cbd5e1;
+            color: #f1f5f9;
             margin-bottom: 14px;
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
         .feature-icon {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
             flex-shrink: 0;
-            margin-top: 1px;
+            margin-top: 2px;
+        }
+
+        .pricing-card.featured .feature-icon {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
         }
 
         /* Payment Buttons Area */
         .payment-block {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
             padding: 18px;
         }
 
@@ -399,8 +366,8 @@
             font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #94a3b8;
+            letter-spacing: 0.05em;
+            color: #cbd5e1;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -410,39 +377,34 @@
         .btn-paddle {
             width: 100%;
             padding: 13px;
-            border-radius: 12px;
+            border-radius: 10px;
             border: none;
             font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             margin-top: 10px;
         }
 
         .btn-paddle-basico {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            background: #2563eb;
         }
 
         .btn-paddle-basico:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+            background: #1d4ed8;
         }
 
         .btn-paddle-premium {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: #059669;
         }
 
         .btn-paddle-premium:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+            background: #047857;
         }
 
         .separator-line {
@@ -459,7 +421,7 @@
         .separator-line::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .separator-line span {
@@ -470,14 +432,13 @@
         .success-box {
             display: none;
             margin-top: 30px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.2) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.4);
+            background: #064e3b;
+            border: 1px solid #10b981;
             padding: 28px;
-            border-radius: 20px;
+            border-radius: 18px;
             text-align: center;
             color: #ffffff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.5s ease-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .success-box h2 {
@@ -487,25 +448,24 @@
         }
 
         .code-display {
-            background: rgba(15, 23, 42, 0.9);
+            background: #0f172a;
             padding: 16px;
             border-radius: 12px;
-            font-family: 'Courier New', monospace;
+            font-family: monospace;
             font-size: 1.25rem;
             font-weight: 800;
             color: #fbbf24;
             margin: 18px 0;
-            border: 2px dashed rgba(251, 191, 36, 0.4);
+            border: 2px dashed #f59e0b;
             word-break: break-all;
-            user-select: all;
         }
 
         .copy-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: #059669;
             color: white;
             border: none;
             padding: 10px 24px;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.95rem;
             font-weight: 700;
@@ -513,8 +473,7 @@
         }
 
         .copy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+            background: #047857;
         }
 
         /* Modal Overlay & Card */
@@ -522,31 +481,27 @@
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(2, 6, 23, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             padding: 20px;
-            animation: fadeIn 0.3s ease-out;
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            background: #1e293b;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 36px 32px;
             max-width: 450px;
             width: 100%;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
             color: #fff;
-            animation: slideUp 0.35s ease-out;
             text-align: center;
         }
 
         .modal-content h2 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 8px;
             color: #fbbf24;
         }
@@ -554,7 +509,7 @@
         .modal-content p {
             font-size: 0.92rem;
             margin-bottom: 24px;
-            color: var(--text-muted);
+            color: #cbd5e1;
             line-height: 1.5;
         }
 
@@ -568,44 +523,40 @@
             font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 6px;
-            color: #cbd5e1;
+            color: #e2e8f0;
         }
 
         .input-group input {
             width: 100%;
-            padding: 13px 16px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(15, 23, 42, 0.6);
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #0f172a;
             color: #fff;
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.2s;
         }
 
         .input-group input:focus {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         .modal-btn {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 13px;
+            background: #059669;
             color: #fff;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 0.98rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
         }
 
         .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45);
+            background: #047857;
         }
 
         /* Footer & Badges */
@@ -613,19 +564,19 @@
             text-align: center;
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .trust-badges {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
             flex-wrap: wrap;
             margin-bottom: 16px;
-            color: var(--text-muted);
-            font-size: 0.82rem;
-            font-weight: 500;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
 
         .trust-item {
@@ -648,7 +599,7 @@
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2rem; }
+            .hero-title { font-size: 1.9rem; }
             .pricing-grid { grid-template-columns: 1fr; }
             .pricing-card { padding: 28px 20px; }
         }
@@ -656,8 +607,6 @@
 </head>
 
 <body>
-    <div class="ambient-orb-1"></div>
-    <div class="ambient-orb-2"></div>
 
     <div class="main-wrapper">
         
@@ -670,12 +619,12 @@
                     <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; opacity: 0.7;"></i>
                 </button>
                 <div id="lang-dropdown-menu" class="lang-dropdown-menu">
-                    <div class="lang-option" onclick="setWebLanguage('es')"><span>🇪🇸</span> Español</div>
-                    <div class="lang-option" onclick="setWebLanguage('en')"><span>🇺🇸</span> English</div>
-                    <div class="lang-option" onclick="setWebLanguage('pt')"><span>🇵🇹</span> Português</div>
-                    <div class="lang-option" onclick="setWebLanguage('fr')"><span>🇫🇷</span> Français</div>
-                    <div class="lang-option" onclick="setWebLanguage('de')"><span>🇩🇪</span> Deutsch</div>
-                    <div class="lang-option" onclick="setWebLanguage('ko')"><span>🇰🇷</span> 한국어</div>
+                    <div class="lang-option" onclick="setWebLanguage('es')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Español</div>
+                    <div class="lang-option" onclick="setWebLanguage('en')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> English</div>
+                    <div class="lang-option" onclick="setWebLanguage('pt')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Português</div>
+                    <div class="lang-option" onclick="setWebLanguage('fr')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Français</div>
+                    <div class="lang-option" onclick="setWebLanguage('de')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Deutsch</div>
+                    <div class="lang-option" onclick="setWebLanguage('ko')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> 한국어</div>
                 </div>
             </div>
         </div>
@@ -770,7 +719,7 @@
             <!-- PLAN PREMIUM CARD (FEATURED) -->
             <div class="pricing-card featured">
                 <div class="popular-badge" data-web-i18n="popularBadge">
-                    ✨ MÁS POPULAR · 7 DÍAS GRATIS
+                    MÁS POPULAR · 7 DÍAS GRATIS
                 </div>
 
                 <div class="card-header">
@@ -788,17 +737,17 @@
                     <span id="periodo-premium-a" class="price-period" style="display:none;" data-web-i18n="perYear">/ año</span>
                     <br>
                     <div class="trial-pill">
-                        <i class="fa-solid fa-sparkles"></i> <span data-web-i18n="trialPill">7 Días de Prueba Gratis</span>
+                        <i class="fa-solid fa-star"></i> <span data-web-i18n="trialPill">7 Días de Prueba Gratis</span>
                     </div>
                 </div>
 
                 <ul class="feature-list">
                     <li class="feature-item">
-                        <span class="feature-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;"><i class="fa-solid fa-check"></i></span>
+                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
                         <span data-web-i18n="f1Premium"><strong>Todo lo del Plan Básico</strong></span>
                     </li>
                     <li class="feature-item">
-                        <span class="feature-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;"><i class="fa-solid fa-check"></i></span>
+                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
                         <span data-web-i18n="f2Premium"><strong>Prueba Gratis por 7 días</strong> (cancela cuando quieras)</span>
                     </li>
                     <li class="feature-item">
@@ -855,13 +804,13 @@
             <p style="margin-top: 10px;" data-web-i18n="yourCodeIs">Tu código de suscripción activado es:</p>
             <div id="code-display" class="code-display" data-web-i18n="loading">Cargando...</div>
             <button class="copy-btn" onclick="copiarCodigo()"><i class="fa-regular fa-copy"></i> <span data-web-i18n="copyCode">Copiar Código</span></button>
-            <p style="font-size: 0.85rem; margin-top: 12px; color: #94a3b8;" data-web-i18n="saveCodeNote">Cópialo y pégalo en tu aplicación de Himnario Adventista PRO para comenzar a disfrutar.</p>
+            <p style="font-size: 0.85rem; margin-top: 12px; color: #cbd5e1;" data-web-i18n="saveCodeNote">Cópialo y pégalo en tu aplicación de Himnario Adventista PRO para comenzar a disfrutar.</p>
         </div>
 
         <!-- Modal Registro Post-Pago -->
         <div id="post-payment-modal" class="modal-overlay" style="display: none;">
             <div class="modal-content">
-                <h2><i class="fa-solid fa-party-horn" style="color: #fbbf24;"></i> <span data-web-i18n="modalThanks">¡Gracias por tu Pago!</span></h2>
+                <h2><i class="fa-solid fa-crown" style="color: #fbbf24;"></i> <span data-web-i18n="modalThanks">¡Gracias por tu Pago!</span></h2>
                 <p data-web-i18n="modalDesc">Ingresa tu nombre de usuario y correo para vincular tu suscripción a tu cuenta de la aplicación.</p>
                 
                 <div class="input-group">
@@ -872,7 +821,7 @@
                 <div class="input-group">
                     <label for="modal-email"><i class="fa-regular fa-envelope"></i> <span data-web-i18n="emailLabel">Correo Electrónico *</span></label>
                     <input type="email" id="modal-email" placeholder="ejemplo@correo.com" required />
-                    <small style="color: #94a3b8; font-size: 0.8rem; display: block; margin-top: 5px;" data-web-i18n="emailSub">Correo detectado o preferido para tu suscripción.</small>
+                    <small style="color: #cbd5e1; font-size: 0.8rem; display: block; margin-top: 5px;" data-web-i18n="emailSub">Correo detectado o preferido para tu suscripción.</small>
                 </div>
 
                 <div id="modal-error" style="color: #f87171; font-size: 0.88rem; display: none; margin-bottom: 12px; text-align: center;"></div>
@@ -895,7 +844,7 @@
     </div>
 
     <script>
-        // ===== SISTEMA DE TRADUCCIÓN AUTÓNOMO PARA LA WEB =====
+        // ===== SISTEMA DE TRADUCCIÓN AUTÓNOMO PARA LA WEB SIN EMOJIS =====
         const DICTIONARY = {
             es: {
                 heroTag: "Himnario Adventista PRO",
@@ -917,7 +866,7 @@
                 orCard: "O PAGO CON TARJETA",
                 btnPaddleBasicM: "Pagar Mensual ($1.99)",
                 btnPaddleBasicA: "Pagar Anual ($23.88)",
-                popularBadge: "✨ MÁS POPULAR · 7 DÍAS GRATIS",
+                popularBadge: "MÁS POPULAR · 7 DÍAS GRATIS",
                 premiumTitle: "Plan Premium",
                 premiumDesc: "Experiencia completa con videos, audios nativos y control remoto.",
                 trialPill: "7 Días de Prueba Gratis",
@@ -970,7 +919,7 @@
                 orCard: "OR CARD PAYMENT",
                 btnPaddleBasicM: "Pay Monthly ($1.99)",
                 btnPaddleBasicA: "Pay Annual ($23.88)",
-                popularBadge: "✨ MOST POPULAR · 7-DAY FREE TRIAL",
+                popularBadge: "MOST POPULAR · 7-DAY FREE TRIAL",
                 premiumTitle: "Premium Plan",
                 premiumDesc: "Complete experience with native videos, audios & remote control.",
                 trialPill: "7-Day Free Trial",
@@ -1023,7 +972,7 @@
                 orCard: "OU PAGAMENTO COM CARTÃO",
                 btnPaddleBasicM: "Pagar Mensal ($1.99)",
                 btnPaddleBasicA: "Pagar Anual ($23.88)",
-                popularBadge: "✨ MAIS POPULAR · 7 DIAS GRÁTIS",
+                popularBadge: "MAIS POPULAR · 7 DIAS GRÁTIS",
                 premiumTitle: "Plano Premium",
                 premiumDesc: "Experiência completa com vídeos, áudios nativos e controle remoto.",
                 trialPill: "7 Dias de Teste Grátis",
@@ -1076,7 +1025,7 @@
                 orCard: "OU PAIEMENT PAR CARTE",
                 btnPaddleBasicM: "Payer Mensuel ($1.99)",
                 btnPaddleBasicA: "Payer Annuel ($23.88)",
-                popularBadge: "✨ PLUS POPULAIRE · 7 JOURS GRATUITS",
+                popularBadge: "PLUS POPULAIRE · 7 JOURS GRATUITS",
                 premiumTitle: "Plan Premium",
                 premiumDesc: "Expérience complète avec vidéos, audios et contrôle à distance.",
                 trialPill: "7 Jours d'Essai Gratuit",
@@ -1129,7 +1078,7 @@
                 orCard: "ODER KARTENZAHLUNG",
                 btnPaddleBasicM: "Monatlich zahlen ($1.99)",
                 btnPaddleBasicA: "Jährlich zahlen ($23.88)",
-                popularBadge: "✨ BELIEBTESTE · 7 TAGE KOSTENLOS",
+                popularBadge: "BELIEBTESTE · 7 TAGE KOSTENLOS",
                 premiumTitle: "Premium-Plan",
                 premiumDesc: "Vollständiges Erlebnis mit Videos, Audios & Fernsteuerung.",
                 trialPill: "7 Tage kostenlos testen",
@@ -1182,7 +1131,7 @@
                 orCard: "또는 카드로 결제",
                 btnPaddleBasicM: "월간 결제 ($1.99)",
                 btnPaddleBasicA: "연간 결제 ($23.88)",
-                popularBadge: "✨ 가장 인기 · 7일 무료 체험",
+                popularBadge: "가장 인기 · 7일 무료 체험",
                 premiumTitle: "프리미엄 플랜",
                 premiumDesc: "비디오, 오디오 및 원격 제어가 포함된 완벽한 기능.",
                 trialPill: "7일 무료 체험",
