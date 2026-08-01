@@ -839,11 +839,9 @@
         crearBotonePayPal("premium", "anual");
       }
 
-      // ===== CONFIGURACIÓN Y CHECKOUT PADDLE (HÍBRIDO DINÁMICO) =====
-      const IS_SANDBOX =
-        window.location.hostname === "localhost" ||
-        window.location.protocol === "file:" ||
-        (window.electronAPI && window.electronAPI.isDev);
+      // ===== CONFIGURACIÓN Y CHECKOUT PADDLE =====
+      // 🚩 FLAG DE ENTORNO: Producción (Live)
+      const IS_SANDBOX = false;
 
       const PADDLE_CLIENT_TOKEN = IS_SANDBOX
         ? "test_28281b56b3fa330cde6caceef52"
