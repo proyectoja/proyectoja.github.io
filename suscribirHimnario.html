@@ -304,20 +304,6 @@
             font-weight: 600;
         }
 
-        .trial-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            color: #34d399;
-            font-size: 0.82rem;
-            font-weight: 700;
-            padding: 5px 14px;
-            border-radius: 20px;
-            margin-top: 10px;
-        }
-
         /* Features List */
         .feature-list {
             list-style: none;
@@ -719,7 +705,7 @@
             <!-- PLAN PREMIUM CARD (FEATURED) -->
             <div class="pricing-card featured">
                 <div class="popular-badge" data-web-i18n="popularBadge">
-                    MÁS POPULAR · 7 DÍAS GRATIS
+                    MÁS POPULAR
                 </div>
 
                 <div class="card-header">
@@ -735,10 +721,6 @@
                     <span id="precio-premium-a" class="price-amount" style="display:none;">$107.88</span>
                     <span id="periodo-premium-m" class="price-period" data-web-i18n="perMonth">/ mes</span>
                     <span id="periodo-premium-a" class="price-period" style="display:none;" data-web-i18n="perYear">/ año</span>
-                    <br>
-                    <div class="trial-pill">
-                        <i class="fa-solid fa-star"></i> <span data-web-i18n="trialPill">7 Días de Prueba Gratis</span>
-                    </div>
                 </div>
 
                 <ul class="feature-list">
@@ -748,7 +730,7 @@
                     </li>
                     <li class="feature-item">
                         <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f2Premium"><strong>Prueba Gratis por 7 días</strong> (cancela cuando quieras)</span>
+                        <span data-web-i18n="f2Premium"><strong>Acceso completo a todas las funciones premium</strong></span>
                     </li>
                     <li class="feature-item">
                         <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
@@ -784,12 +766,12 @@
                     <!-- Paddle Button -->
                     <div id="bloque-paddle-premium-m">
                         <button onclick="abrirCheckoutPaddle('premium', 'mensual')" class="btn-paddle btn-paddle-premium">
-                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddlePremiumM">Probar Gratis 7 Días ($8.99/mes)</span>
+                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddlePremiumM">Pagar con Tarjeta ($8.99/mes)</span>
                         </button>
                     </div>
                     <div id="bloque-paddle-premium-a" style="display:none;">
                         <button onclick="abrirCheckoutPaddle('premium', 'anual')" class="btn-paddle btn-paddle-premium">
-                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddlePremiumA">Probar Gratis 7 Días ($107.88/año)</span>
+                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddlePremiumA">Pagar con Tarjeta ($107.88/año)</span>
                         </button>
                     </div>
                 </div>
@@ -866,20 +848,20 @@
                 orCard: "O PAGO CON TARJETA",
                 btnPaddleBasicM: "Pagar Mensual ($1.99)",
                 btnPaddleBasicA: "Pagar Anual ($23.88)",
-                popularBadge: "MÁS POPULAR · 7 DÍAS GRATIS",
+                popularBadge: "MÁS POPULAR",
                 premiumTitle: "Plan Premium",
                 premiumDesc: "Experiencia completa con videos, audios nativos y control remoto.",
                 trialPill: "7 Días de Prueba Gratis",
                 f1Premium: "Todo lo del Plan Básico",
-                f2Premium: "Prueba Gratis por 7 días (cancela cuando quieras)",
+                f2Premium: "Acceso completo a todas las funciones premium",
                 f3Premium: "Buscador e integración de videos MP4 nativos",
                 f4Premium: "Control Remoto desde celular o tablet",
                 f5Premium: "Himnarios personalizados e importación de carpetas",
                 f6Premium: "Soporte VIP prioritario e ilimitado",
                 payPalPremiumM: "Pagar con PayPal (Mensual)",
                 payPalPremiumA: "Pagar con PayPal (Anual)",
-                btnPaddlePremiumM: "Probar Gratis 7 Días ($8.99/mes)",
-                btnPaddlePremiumA: "Probar Gratis 7 Días ($107.88/año)",
+                btnPaddlePremiumM: "Pagar con Tarjeta ($8.99/mes)",
+                btnPaddlePremiumA: "Pagar con Tarjeta ($107.88/año)",
                 paySuccess: "¡Pago Exitoso!",
                 thanksSupport: "Gracias por tu apoyo al ministerio.",
                 yourCodeIs: "Tu código de suscripción activado es:",
@@ -919,20 +901,20 @@
                 orCard: "OR CARD PAYMENT",
                 btnPaddleBasicM: "Pay Monthly ($1.99)",
                 btnPaddleBasicA: "Pay Annual ($23.88)",
-                popularBadge: "MOST POPULAR · 7-DAY FREE TRIAL",
+                popularBadge: "MOST POPULAR",
                 premiumTitle: "Premium Plan",
                 premiumDesc: "Complete experience with native videos, audios & remote control.",
                 trialPill: "7-Day Free Trial",
                 f1Premium: "Everything in Basic Plan",
-                f2Premium: "7-Day Free Trial (cancel anytime)",
+                f2Premium: "Full access to all premium features",
                 f3Premium: "Native MP4 video search & playback",
                 f4Premium: "Remote Control from phone or tablet",
                 f5Premium: "Custom hymnals & folder import",
                 f6Premium: "Priority VIP unlimited support",
                 payPalPremiumM: "Pay with PayPal (Monthly)",
                 payPalPremiumA: "Pay with PayPal (Annual)",
-                btnPaddlePremiumM: "Start 7-Day Free Trial ($8.99/mo)",
-                btnPaddlePremiumA: "Start 7-Day Free Trial ($107.88/yr)",
+                btnPaddlePremiumM: "Pay by Card ($8.99/mo)",
+                btnPaddlePremiumA: "Pay by Card ($107.88/yr)",
                 paySuccess: "Payment Successful!",
                 thanksSupport: "Thank you for supporting our ministry.",
                 yourCodeIs: "Your activated subscription code is:",
@@ -972,20 +954,20 @@
                 orCard: "OU PAGAMENTO COM CARTÃO",
                 btnPaddleBasicM: "Pagar Mensal ($1.99)",
                 btnPaddleBasicA: "Pagar Anual ($23.88)",
-                popularBadge: "MAIS POPULAR · 7 DIAS GRÁTIS",
+                popularBadge: "MAIS POPULAR",
                 premiumTitle: "Plano Premium",
                 premiumDesc: "Experiência completa com vídeos, áudios nativos e controle remoto.",
                 trialPill: "7 Dias de Teste Grátis",
                 f1Premium: "Tudo do Plano Básico",
-                f2Premium: "Teste grátis por 7 dias (cancele quando quiser)",
+                f2Premium: "Acesso completo a todos os recursos premium",
                 f3Premium: "Busca e reprodução de vídeos MP4 nativos",
                 f4Premium: "Controle Remoto via celular ou tablet",
                 f5Premium: "Hinários personalizados e importação de pastas",
                 f6Premium: "Suporte VIP prioritário",
                 payPalPremiumM: "Pagar com PayPal (Mensal)",
                 payPalPremiumA: "Pagar com PayPal (Anual)",
-                btnPaddlePremiumM: "Testar 7 Dias Grátis ($8.99/mês)",
-                btnPaddlePremiumA: "Testar 7 Dias Grátis ($107.88/ano)",
+                btnPaddlePremiumM: "Pagar com Cartão ($8.99/mês)",
+                btnPaddlePremiumA: "Pagar com Cartão ($107.88/ano)",
                 paySuccess: "Pagamento Concluído!",
                 thanksSupport: "Obrigado pelo apoio ao ministério.",
                 yourCodeIs: "Seu código de assinatura ativado é:",
@@ -1025,20 +1007,20 @@
                 orCard: "OU PAIEMENT PAR CARTE",
                 btnPaddleBasicM: "Payer Mensuel ($1.99)",
                 btnPaddleBasicA: "Payer Annuel ($23.88)",
-                popularBadge: "PLUS POPULAIRE · 7 JOURS GRATUITS",
+                popularBadge: "PLUS POPULAIRE",
                 premiumTitle: "Plan Premium",
                 premiumDesc: "Expérience complète avec vidéos, audios et contrôle à distance.",
                 trialPill: "7 Jours d'Essai Gratuit",
                 f1Premium: "Tout ce qui est dans le Plan De Base",
-                f2Premium: "Essai gratuit de 7 jours (annulez à tout moment)",
+                f2Premium: "Accès complet à toutes les fonctions premium",
                 f3Premium: "Recherche et lecture vidéo MP4 native",
                 f4Premium: "Contrôle à distance depuis smartphone ou tablette",
                 f5Premium: "Recueils personnalisés et importation de dossiers",
                 f6Premium: "Support VIP prioritaire",
                 payPalPremiumM: "Payer avec PayPal (Mensuel)",
                 payPalPremiumA: "Payer avec PayPal (Annuel)",
-                btnPaddlePremiumM: "Essayer 7 Jours Gratuits ($8.99/mois)",
-                btnPaddlePremiumA: "Essayer 7 Jours Gratuits ($107.88/an)",
+                btnPaddlePremiumM: "Payer par Carte ($8.99/mois)",
+                btnPaddlePremiumA: "Payer par Carte ($107.88/an)",
                 paySuccess: "Paiement Réussi!",
                 thanksSupport: "Merci de soutenir notre ministère.",
                 yourCodeIs: "Votre code d'abonnement activé est:",
@@ -1078,20 +1060,20 @@
                 orCard: "ODER KARTENZAHLUNG",
                 btnPaddleBasicM: "Monatlich zahlen ($1.99)",
                 btnPaddleBasicA: "Jährlich zahlen ($23.88)",
-                popularBadge: "BELIEBTESTE · 7 TAGE KOSTENLOS",
+                popularBadge: "BELIEBTESTE",
                 premiumTitle: "Premium-Plan",
                 premiumDesc: "Vollständiges Erlebnis mit Videos, Audios & Fernsteuerung.",
                 trialPill: "7 Tage kostenlos testen",
                 f1Premium: "Alles aus dem Basis-Plan",
-                f2Premium: "7 Tage kostenlos testen (jederzeit kündbar)",
+                f2Premium: "Voller Zugang zu allen Premium-Funktionen",
                 f3Premium: "Nationale MP4-Videosuche und -Wiedergabe",
                 f4Premium: "Fernsteuerung per Smartphone oder Tablet",
                 f5Premium: "Eigene Liederbücher und Ordnerimport",
                 f6Premium: "Priorisierter VIP-Support",
                 payPalPremiumM: "Mit PayPal zahlen (Monatlich)",
                 payPalPremiumA: "Mit PayPal zahlen (Jährlich)",
-                btnPaddlePremiumM: "7 Tage kostenlos testen ($8.99/Monat)",
-                btnPaddlePremiumA: "7 Tage kostenlos testen ($107.88/Jahr)",
+                btnPaddlePremiumM: "Mit Karte bezahlen ($8.99/Monat)",
+                btnPaddlePremiumA: "Mit Karte bezahlen ($107.88/Jahr)",
                 paySuccess: "Zahlung erfolgreich!",
                 thanksSupport: "Vielen Dank für Ihre Unterstützung.",
                 yourCodeIs: "Ihr aktivierter Abo-Code lautet:",
@@ -1131,20 +1113,20 @@
                 orCard: "또는 카드로 결제",
                 btnPaddleBasicM: "월간 결제 ($1.99)",
                 btnPaddleBasicA: "연간 결제 ($23.88)",
-                popularBadge: "가장 인기 · 7일 무료 체험",
+                popularBadge: "가장 인기",
                 premiumTitle: "프리미엄 플랜",
                 premiumDesc: "비디오, 오디오 및 원격 제어가 포함된 완벽한 기능.",
                 trialPill: "7일 무료 체험",
                 f1Premium: "기본 플랜의 모든 기능 포함",
-                f2Premium: "7일 무료 체험 (언제든지 취소 가능)",
+                f2Premium: "모든 프리미엄 기능 전체 액세스",
                 f3Premium: "고화질 MP4 비디오 검색 및 재생",
                 f4Premium: "스마트폰/태블릿 원격 제어",
                 f5Premium: "맞춤형 찬미가 및 폴더 가져오기",
                 f6Premium: "우선 VIP 지원",
                 payPalPremiumM: "PayPal로 결제 (월간)",
                 payPalPremiumA: "PayPal로 결제 (연간)",
-                btnPaddlePremiumM: "7일 무료 체험 시작 ($8.99/월)",
-                btnPaddlePremiumA: "7일 무료 체험 시작 ($107.88/년)",
+                btnPaddlePremiumM: "카드로 결제 ($8.99/월)",
+                btnPaddlePremiumA: "카드로 결제 ($107.88/년)",
                 paySuccess: "결제가 완료되었습니다!",
                 thanksSupport: "사역을 후원해 주셔서 감사합니다.",
                 yourCodeIs: "활성화된 구독 코드:",
