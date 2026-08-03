@@ -1,1562 +1,1903 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Suscripción - Himnario Adventista PRO</title>
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AX1vi6MEqpTT8LQbmo9YESLJla3BTjbuwj2kKRRFtjaqEPiXTM6H6T_mtpFxkclCQaDmzaPBItWSpk0e&vault=true&intent=subscription&components=buttons"></script>
     <!-- Paddle SDK v2 -->
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <style>
-        :root {
-            --bg-main: #0b0f19;
-            --card-bg: #111827;
-            --card-border: rgba(255, 255, 255, 0.12);
-            --primary-blue: #3b82f6;
-            --primary-emerald: #10b981;
-            --accent-gold: #f59e0b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --text-high-contrast: #e2e8f0;
-        }
+      :root {
+        --bg-main: #0b0f19;
+        --card-bg: #111827;
+        --card-border: rgba(255, 255, 255, 0.12);
+        --primary-blue: #3b82f6;
+        --primary-emerald: #10b981;
+        --accent-gold: #f59e0b;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --text-high-contrast: #e2e8f0;
+      }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          "Plus Jakarta Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
 
-        body {
-            background: #090d16;
-            background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #090d16 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 15px;
-            color: var(--text-main);
-            overflow-x: hidden;
-            position: relative;
-        }
+      body {
+        background: #090d16;
+        background-image: radial-gradient(
+          circle at 50% 0%,
+          #1e1b4b 0%,
+          #0f172a 50%,
+          #090d16 100%
+        );
+        background-attachment: fixed;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 15px;
+        color: var(--text-main);
+        overflow-x: hidden;
+        position: relative;
+      }
 
-        .main-wrapper {
-            width: 100%;
-            max-width: 1000px;
-            position: relative;
-            z-index: 1;
-        }
+      .main-wrapper {
+        width: 100%;
+        max-width: 1000px;
+        position: relative;
+        z-index: 1;
+      }
 
-        /* Top Nav Bar with Embedded Language Selector */
-        .top-nav-bar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 24px;
-        }
+      /* Top Nav Bar with Embedded Language Selector */
+      .top-nav-bar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 24px;
+      }
 
-        .lang-selector-wrapper {
-            position: relative;
-        }
+      .lang-selector-wrapper {
+        position: relative;
+      }
 
-        .lang-selector-btn {
-            background: rgba(30, 41, 59, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #f8fafc;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
+      .lang-selector-btn {
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #f8fafc;
+        padding: 8px 18px;
+        border-radius: 50px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+      }
 
-        .lang-selector-btn:hover {
-            background: rgba(51, 65, 85, 0.9);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
+      .lang-selector-btn:hover {
+        background: rgba(51, 65, 85, 0.9);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
 
-        .lang-dropdown-menu {
-            position: absolute;
-            top: 115%;
-            right: 0;
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 14px;
-            padding: 6px;
-            min-width: 150px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            display: none;
-            flex-direction: column;
-            z-index: 100;
-        }
+      .lang-dropdown-menu {
+        position: absolute;
+        top: 115%;
+        right: 0;
+        background: #1e293b;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 14px;
+        padding: 6px;
+        min-width: 150px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        display: none;
+        flex-direction: column;
+        z-index: 100;
+      }
 
-        .lang-dropdown-menu.open {
-            display: flex;
-        }
+      .lang-dropdown-menu.open {
+        display: flex;
+      }
 
-        .lang-option {
-            padding: 9px 14px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: #cbd5e1;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background 0.15s ease;
-        }
+      .lang-option {
+        padding: 9px 14px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #cbd5e1;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.15s ease;
+      }
 
-        .lang-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-        }
+      .lang-option:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
 
-        /* Header Hero */
-        .hero-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+      /* Header Hero */
+      .hero-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
 
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 16px;
-        }
+      .brand-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #e2e8f0;
+        margin-bottom: 16px;
+      }
 
+      .hero-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #ffffff;
+        margin-bottom: 12px;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+
+      /* Cycle Switcher */
+      .billing-toggle-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 35px;
+      }
+
+      .billing-toggle {
+        display: inline-flex;
+        background: #1e293b;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 4px;
+        border-radius: 50px;
+        gap: 4px;
+      }
+
+      .toggle-btn {
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        padding: 10px 22px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .toggle-btn.active {
+        background: #2563eb;
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+
+      .save-tag {
+        background: #059669;
+        color: #ffffff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      /* Pricing Grid */
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 28px;
+        align-items: stretch;
+        margin-bottom: 40px;
+      }
+
+      .pricing-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        padding: 36px 30px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Premium Featured Card Style - Dark Luxury Solid Contrast */
+      .pricing-card.featured {
+        background: #0f172a;
+        border: 2px solid #f59e0b;
+        box-shadow: 0 12px 35px rgba(245, 158, 11, 0.15);
+      }
+
+      .popular-badge {
+        position: absolute;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #f59e0b;
+        color: #0f172a;
+        font-size: 0.78rem;
+        font-weight: 800;
+        padding: 5px 18px;
+        border-radius: 50px;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+
+      .card-header {
+        margin-bottom: 22px;
+      }
+
+      .card-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .pricing-card.featured .card-title {
+        color: #fbbf24;
+      }
+
+      .card-desc {
+        font-size: 0.9rem;
+        color: var(--text-high-contrast);
+        line-height: 1.45;
+      }
+
+      .price-wrapper {
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .price-amount {
+        font-size: 2.6rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: -0.03em;
+      }
+
+      .pricing-card.featured .price-amount {
+        color: #ffffff;
+      }
+
+      .price-period {
+        font-size: 0.95rem;
+        color: #cbd5e1;
+        font-weight: 600;
+      }
+
+      /* Features List */
+      .feature-list {
+        list-style: none;
+        margin-bottom: 30px;
+        flex-grow: 1;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 0.92rem;
+        color: #f1f5f9;
+        margin-bottom: 14px;
+        line-height: 1.45;
+      }
+
+      .feature-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(59, 130, 246, 0.2);
+        color: #60a5fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .pricing-card.featured .feature-icon {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+      }
+
+      /* Payment Buttons Area */
+      .payment-block {
+        background: #1e293b;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 18px;
+      }
+
+      .payment-block-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #cbd5e1;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-paddle {
+        width: 100%;
+        padding: 13px;
+        border-radius: 10px;
+        border: none;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #ffffff;
+        margin-top: 10px;
+      }
+
+      .btn-paddle-basico {
+        background: #2563eb;
+      }
+
+      .btn-paddle-basico:hover {
+        background: #1d4ed8;
+      }
+
+      .btn-paddle-premium {
+        background: #059669;
+      }
+
+      .btn-paddle-premium:hover {
+        background: #047857;
+      }
+
+      .separator-line {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #64748b;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin: 14px 0;
+      }
+
+      .separator-line::before,
+      .separator-line::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .separator-line span {
+        padding: 0 10px;
+      }
+
+      /* Success Box */
+      .success-box {
+        display: none;
+        margin-top: 30px;
+        background: #064e3b;
+        border: 1px solid #10b981;
+        padding: 28px;
+        border-radius: 18px;
+        text-align: center;
+        color: #ffffff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .success-box h2 {
+        font-size: 1.6rem;
+        color: #34d399;
+        margin-bottom: 10px;
+      }
+
+      .code-display {
+        background: #0f172a;
+        padding: 16px;
+        border-radius: 12px;
+        font-family: monospace;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #fbbf24;
+        margin: 18px 0;
+        border: 2px dashed #f59e0b;
+        word-break: break-all;
+      }
+
+      .copy-btn {
+        background: #059669;
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 700;
+        transition: all 0.2s;
+      }
+
+      .copy-btn:hover {
+        background: #047857;
+      }
+
+      /* Modal Overlay & Card */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(2, 6, 23, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        padding: 20px;
+      }
+
+      .modal-content {
+        background: #1e293b;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        padding: 36px 32px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        color: #fff;
+        text-align: center;
+      }
+
+      .modal-content h2 {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+        color: #fbbf24;
+      }
+
+      .modal-content p {
+        font-size: 0.92rem;
+        margin-bottom: 24px;
+        color: #cbd5e1;
+        line-height: 1.5;
+      }
+
+      .input-group {
+        margin-bottom: 18px;
+        text-align: left;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #e2e8f0;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: #0f172a;
+        color: #fff;
+        font-size: 0.95rem;
+        outline: none;
+      }
+
+      .input-group input:focus {
+        border-color: #3b82f6;
+      }
+
+      .modal-btn {
+        width: 100%;
+        padding: 13px;
+        background: #059669;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.98rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 10px;
+      }
+
+      .modal-btn:hover {
+        background: #047857;
+      }
+
+      /* Footer & Badges */
+      .footer-trust {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .trust-badges {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+        color: #cbd5e1;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .footer-note {
+        font-size: 0.8rem;
+        color: #64748b;
+      }
+
+      .loading-text {
+        text-align: center;
+        font-style: italic;
+        font-size: 0.88rem;
+        color: #94a3b8;
+        padding: 10px 0;
+      }
+
+      @media (max-width: 768px) {
         .hero-title {
-            font-size: 2.4rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: #ffffff;
-            margin-bottom: 12px;
+          font-size: 1.9rem;
         }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
-        /* Cycle Switcher */
-        .billing-toggle-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 35px;
-        }
-
-        .billing-toggle {
-            display: inline-flex;
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 4px;
-            border-radius: 50px;
-            gap: 4px;
-        }
-
-        .toggle-btn {
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .toggle-btn.active {
-            background: #2563eb;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        }
-
-        .save-tag {
-            background: #059669;
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        /* Pricing Grid */
         .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
-            align-items: stretch;
-            margin-bottom: 40px;
+          grid-template-columns: 1fr;
         }
-
         .pricing-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 36px 30px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+          padding: 28px 20px;
         }
-
-        .pricing-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Premium Featured Card Style - Dark Luxury Solid Contrast */
-        .pricing-card.featured {
-            background: #0f172a;
-            border: 2px solid #f59e0b;
-            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.15);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #f59e0b;
-            color: #0f172a;
-            font-size: 0.78rem;
-            font-weight: 800;
-            padding: 5px 18px;
-            border-radius: 50px;
-            letter-spacing: 0.04em;
-            white-space: nowrap;
-        }
-
-        .card-header {
-            margin-bottom: 22px;
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-
-        .pricing-card.featured .card-title {
-            color: #fbbf24;
-        }
-
-        .card-desc {
-            font-size: 0.9rem;
-            color: var(--text-high-contrast);
-            line-height: 1.45;
-        }
-
-        .price-wrapper {
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .price-amount {
-            font-size: 2.6rem;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.03em;
-        }
-
-        .pricing-card.featured .price-amount {
-            color: #ffffff;
-        }
-
-        .price-period {
-            font-size: 0.95rem;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
-
-        /* Features List */
-        .feature-list {
-            list-style: none;
-            margin-bottom: 30px;
-            flex-grow: 1;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 0.92rem;
-            color: #f1f5f9;
-            margin-bottom: 14px;
-            line-height: 1.45;
-        }
-
-        .feature-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .pricing-card.featured .feature-icon {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-        }
-
-        /* Payment Buttons Area */
-        .payment-block {
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            padding: 18px;
-        }
-
-        .payment-block-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #cbd5e1;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-paddle {
-            width: 100%;
-            padding: 13px;
-            border-radius: 10px;
-            border: none;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: #ffffff;
-            margin-top: 10px;
-        }
-
-        .btn-paddle-basico {
-            background: #2563eb;
-        }
-
-        .btn-paddle-basico:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-paddle-premium {
-            background: #059669;
-        }
-
-        .btn-paddle-premium:hover {
-            background: #047857;
-        }
-
-        .separator-line {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: #64748b;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin: 14px 0;
-        }
-
-        .separator-line::before,
-        .separator-line::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .separator-line span {
-            padding: 0 10px;
-        }
-
-        /* Success Box */
-        .success-box {
-            display: none;
-            margin-top: 30px;
-            background: #064e3b;
-            border: 1px solid #10b981;
-            padding: 28px;
-            border-radius: 18px;
-            text-align: center;
-            color: #ffffff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .success-box h2 {
-            font-size: 1.6rem;
-            color: #34d399;
-            margin-bottom: 10px;
-        }
-
-        .code-display {
-            background: #0f172a;
-            padding: 16px;
-            border-radius: 12px;
-            font-family: monospace;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #fbbf24;
-            margin: 18px 0;
-            border: 2px dashed #f59e0b;
-            word-break: break-all;
-        }
-
-        .copy-btn {
-            background: #059669;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 700;
-            transition: all 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: #047857;
-        }
-
-        /* Modal Overlay & Card */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(2, 6, 23, 0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 36px 32px;
-            max-width: 450px;
-            width: 100%;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
-            color: #fff;
-            text-align: center;
-        }
-
-        .modal-content h2 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            color: #fbbf24;
-        }
-
-        .modal-content p {
-            font-size: 0.92rem;
-            margin-bottom: 24px;
-            color: #cbd5e1;
-            line-height: 1.5;
-        }
-
-        .input-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #e2e8f0;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: #0f172a;
-            color: #fff;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: #3b82f6;
-        }
-
-        .modal-btn {
-            width: 100%;
-            padding: 13px;
-            background: #059669;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.98rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
-        }
-
-        .modal-btn:hover {
-            background: #047857;
-        }
-
-        /* Footer & Badges */
-        .footer-trust {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .trust-badges {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-            color: #cbd5e1;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .footer-note {
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        .loading-text {
-            text-align: center;
-            font-style: italic;
-            font-size: 0.88rem;
-            color: #94a3b8;
-            padding: 10px 0;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title { font-size: 1.9rem; }
-            .pricing-grid { grid-template-columns: 1fr; }
-            .pricing-card { padding: 28px 20px; }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <div class="main-wrapper">
-        
-        <!-- Top Nav Bar with Embedded Language Selector -->
-        <div class="top-nav-bar">
-            <div class="lang-selector-wrapper">
-                <button class="lang-selector-btn" onclick="toggleLangDropdown()">
-                    <i class="fa-solid fa-globe" style="color: #38bdf8;"></i>
-                    <span id="current-lang-name">Español</span>
-                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; opacity: 0.7;"></i>
-                </button>
-                <div id="lang-dropdown-menu" class="lang-dropdown-menu">
-                    <div class="lang-option" onclick="setWebLanguage('es')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Español</div>
-                    <div class="lang-option" onclick="setWebLanguage('en')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> English</div>
-                    <div class="lang-option" onclick="setWebLanguage('pt')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Português</div>
-                    <div class="lang-option" onclick="setWebLanguage('fr')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Français</div>
-                    <div class="lang-option" onclick="setWebLanguage('de')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> Deutsch</div>
-                    <div class="lang-option" onclick="setWebLanguage('ko')"><i class="fa-solid fa-language" style="opacity:0.6;"></i> 한국어</div>
-                </div>
+      <!-- Top Nav Bar with Embedded Language Selector -->
+      <div class="top-nav-bar">
+        <div class="lang-selector-wrapper">
+          <button class="lang-selector-btn" onclick="toggleLangDropdown()">
+            <i class="fa-solid fa-globe" style="color: #38bdf8"></i>
+            <span id="current-lang-name">Español</span>
+            <i
+              class="fa-solid fa-chevron-down"
+              style="font-size: 0.7rem; opacity: 0.7"
+            ></i>
+          </button>
+          <div id="lang-dropdown-menu" class="lang-dropdown-menu">
+            <div class="lang-option" onclick="setWebLanguage('es')">
+              <i class="fa-solid fa-language" style="opacity: 0.6"></i> Español
             </div>
+            <div class="lang-option" onclick="setWebLanguage('en')">
+              <i class="fa-solid fa-language" style="opacity: 0.6"></i> English
+            </div>
+            <div class="lang-option" onclick="setWebLanguage('pt')">
+              <i class="fa-solid fa-language" style="opacity: 0.6"></i>
+              Português
+            </div>
+            <div class="lang-option" onclick="setWebLanguage('fr')">
+              <i class="fa-solid fa-language" style="opacity: 0.6"></i> Français
+            </div>
+            <div class="lang-option" onclick="setWebLanguage('de')">
+              <i class="fa-solid fa-language" style="opacity: 0.6"></i> Deutsch
+            </div>
+            <div class="lang-option" onclick="setWebLanguage('ko')">
+              <i class="fa-solid fa-language" style="opacity: 0.6"></i> 한국어
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Header Hero -->
-        <div class="hero-header">
-            <div class="brand-badge">
-                <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> <span data-web-i18n="heroTag">Himnario Adventista PRO</span>
-            </div>
-            <h1 class="hero-title" data-web-i18n="heroTitle">Elige el Plan Ideal para tu Ministerio</h1>
-            <p class="hero-subtitle" data-web-i18n="heroSubtitle">Potencia la música, himnodia y proyección de tu iglesia con las mejores herramientas.</p>
+      <!-- Header Hero -->
+      <div class="hero-header">
+        <div class="brand-badge">
+          <i class="fa-solid fa-crown" style="color: #f59e0b"></i>
+          <span data-web-i18n="heroTag">Himnario Adventista PRO</span>
         </div>
+        <h1 class="hero-title" data-web-i18n="heroTitle">
+          Elige el Plan Ideal para tu Ministerio
+        </h1>
+        <p class="hero-subtitle" data-web-i18n="heroSubtitle">
+          Potencia la música, himnodia y proyección de tu iglesia con las
+          mejores herramientas.
+        </p>
+      </div>
 
-        <!-- Cycle Toggle Selector -->
-        <div class="billing-toggle-wrapper">
-            <div class="billing-toggle">
-                <button id="toggle-mensual" class="toggle-btn active" onclick="cambiarCiclo('mensual')">
-                    <i class="fa-regular fa-calendar"></i> <span data-web-i18n="monthly">Mensual</span>
-                </button>
-                <button id="toggle-anual" class="toggle-btn" onclick="cambiarCiclo('anual')">
-                    <i class="fa-solid fa-bolt" style="color: #fbbf24;"></i> <span data-web-i18n="annual">Anual</span> <span class="save-tag" data-web-i18n="saveTag">Ahorra 20%</span>
-                </button>
-            </div>
+      <!-- Cycle Toggle Selector -->
+      <div class="billing-toggle-wrapper">
+        <div class="billing-toggle">
+          <button
+            id="toggle-mensual"
+            class="toggle-btn active"
+            onclick="cambiarCiclo('mensual')"
+          >
+            <i class="fa-regular fa-calendar"></i>
+            <span data-web-i18n="monthly">Mensual</span>
+          </button>
+          <button
+            id="toggle-anual"
+            class="toggle-btn"
+            onclick="cambiarCiclo('anual')"
+          >
+            <i class="fa-solid fa-bolt" style="color: #fbbf24"></i>
+            <span data-web-i18n="annual">Anual</span>
+            <span class="save-tag" data-web-i18n="saveTag">Ahorra 20%</span>
+          </button>
         </div>
+      </div>
 
-        <!-- Pricing Grid -->
-        <div class="pricing-grid">
-            
-            <!-- PLAN BÁSICO CARD -->
-            <div class="pricing-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fa-regular fa-paper-plane" style="color: #3b82f6;"></i>
-                        <span data-web-i18n="basicTitle">Plan Básico</span>
-                    </div>
-                    <p class="card-desc" data-web-i18n="basicDesc">Acceso esencial para la proyección diaria de himnos.</p>
-                </div>
-
-                <div class="price-wrapper">
-                    <span id="precio-basico-m" class="price-amount">$1.99</span>
-                    <span id="precio-basico-a" class="price-amount" style="display:none;">$23.88</span>
-                    <span id="periodo-basico-m" class="price-period" data-web-i18n="perMonth">/ mes</span>
-                    <span id="periodo-basico-a" class="price-period" style="display:none;" data-web-i18n="perYear">/ año</span>
-                </div>
-
-                <ul class="feature-list">
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f1Basic">Acceso completo a todos los himnos</span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f2Basic">Proyección en pantalla secundaria</span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f3Basic">Búsqueda rápida por número o título</span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f4Basic">Soporte para 1 equipo/dispositivo</span>
-                    </li>
-                </ul>
-
-                <div class="payment-block">
-                    <!-- Paypal Blocks -->
-                    <div id="bloque-paypal-basico-m">
-                        <div class="payment-block-title"><i class="fa-brands fa-paypal" style="color: #3b82f6;"></i> <span data-web-i18n="payPalMonthly">Pagar con PayPal (Mensual)</span></div>
-                        <div id="paypal-basico-mensual"></div>
-                    </div>
-                    <div id="bloque-paypal-basico-a" style="display:none;">
-                        <div class="payment-block-title"><i class="fa-brands fa-paypal" style="color: #3b82f6;"></i> <span data-web-i18n="payPalAnnual">Pagar con PayPal (Anual)</span></div>
-                        <div id="paypal-basico-anual"></div>
-                    </div>
-
-                    <div class="separator-line"><span data-web-i18n="orCard">O PAGO CON TARJETA</span></div>
-
-                    <!-- Paddle Button -->
-                    <div id="bloque-paddle-basico-m">
-                        <button onclick="abrirCheckoutPaddle('basico', 'mensual')" class="btn-paddle btn-paddle-basico">
-                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddleBasicM">Pagar Mensual ($1.99)</span>
-                        </button>
-                    </div>
-                    <div id="bloque-paddle-basico-a" style="display:none;">
-                        <button onclick="abrirCheckoutPaddle('basico', 'anual')" class="btn-paddle btn-paddle-basico">
-                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddleBasicA">Pagar Anual ($23.88)</span>
-                        </button>
-                    </div>
-                </div>
+      <!-- Pricing Grid -->
+      <div class="pricing-grid">
+        <!-- PLAN BÁSICO CARD -->
+        <div class="pricing-card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-regular fa-paper-plane" style="color: #3b82f6"></i>
+              <span data-web-i18n="basicTitle">Plan Básico</span>
             </div>
+            <p class="card-desc" data-web-i18n="basicDesc">
+              Acceso esencial para la proyección diaria de himnos.
+            </p>
+          </div>
 
-            <!-- PLAN PREMIUM CARD (FEATURED) -->
-            <div class="pricing-card featured">
-                <div class="popular-badge" data-web-i18n="popularBadge">
-                    MÁS POPULAR
-                </div>
+          <div class="price-wrapper">
+            <span id="precio-basico-m" class="price-amount">$1.99</span>
+            <span
+              id="precio-basico-a"
+              class="price-amount"
+              style="display: none"
+              >$23.88</span
+            >
+            <span
+              id="periodo-basico-m"
+              class="price-period"
+              data-web-i18n="perMonth"
+              >/ mes</span
+            >
+            <span
+              id="periodo-basico-a"
+              class="price-period"
+              style="display: none"
+              data-web-i18n="perYear"
+              >/ año</span
+            >
+          </div>
 
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
-                        <span data-web-i18n="premiumTitle">Plan Premium</span>
-                    </div>
-                    <p class="card-desc" data-web-i18n="premiumDesc">Experiencia completa con videos, audios nativos y control remoto.</p>
-                </div>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f1Basic"
+                >Acceso completo a todos los himnos</span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f2Basic"
+                >Proyección en pantalla secundaria</span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f3Basic"
+                >Búsqueda rápida por número o título</span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f4Basic"
+                >Soporte para 1 equipo/dispositivo</span
+              >
+            </li>
+          </ul>
 
-                <div class="price-wrapper">
-                    <span id="precio-premium-m" class="price-amount">$8.99</span>
-                    <span id="precio-premium-a" class="price-amount" style="display:none;">$107.88</span>
-                    <span id="periodo-premium-m" class="price-period" data-web-i18n="perMonth">/ mes</span>
-                    <span id="periodo-premium-a" class="price-period" style="display:none;" data-web-i18n="perYear">/ año</span>
-                </div>
-
-                <ul class="feature-list">
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f1Premium"><strong>Todo lo del Plan Básico</strong></span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f2Premium"><strong>Acceso completo a todas las funciones premium</strong></span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f3Premium">Buscador e integración de videos MP4 nativos</span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f4Premium">Control Remoto desde celular o tablet</span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f5Premium">Himnarios personalizados e importación de carpetas</span>
-                    </li>
-                    <li class="feature-item">
-                        <span class="feature-icon"><i class="fa-solid fa-check"></i></span>
-                        <span data-web-i18n="f6Premium">Soporte VIP prioritario e ilimitado</span>
-                    </li>
-                </ul>
-
-                <div class="payment-block">
-                    <!-- Paypal Blocks -->
-                    <div id="bloque-paypal-premium-m">
-                        <div class="payment-block-title"><i class="fa-brands fa-paypal" style="color: #fbbf24;"></i> <span data-web-i18n="payPalPremiumM">Pagar con PayPal (Mensual)</span></div>
-                        <div id="paypal-premium-mensual"></div>
-                    </div>
-                    <div id="bloque-paypal-premium-a" style="display:none;">
-                        <div class="payment-block-title"><i class="fa-brands fa-paypal" style="color: #fbbf24;"></i> <span data-web-i18n="payPalPremiumA">Pagar con PayPal (Anual)</span></div>
-                        <div id="paypal-premium-anual"></div>
-                    </div>
-
-                    <div class="separator-line"><span data-web-i18n="orCard">O PAGO CON TARJETA</span></div>
-
-                    <!-- Paddle Button -->
-                    <div id="bloque-paddle-premium-m">
-                        <button onclick="abrirCheckoutPaddle('premium', 'mensual')" class="btn-paddle btn-paddle-premium">
-                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddlePremiumM">Pagar con Tarjeta ($8.99/mes)</span>
-                        </button>
-                    </div>
-                    <div id="bloque-paddle-premium-a" style="display:none;">
-                        <button onclick="abrirCheckoutPaddle('premium', 'anual')" class="btn-paddle btn-paddle-premium">
-                            <i class="fa-solid fa-credit-card"></i> <span data-web-i18n="btnPaddlePremiumA">Pagar con Tarjeta ($107.88/año)</span>
-                        </button>
-                    </div>
-                </div>
+          <div class="payment-block">
+            <!-- Paypal Blocks -->
+            <div id="bloque-paypal-basico-m">
+              <div class="payment-block-title">
+                <i class="fa-brands fa-paypal" style="color: #3b82f6"></i>
+                <span data-web-i18n="payPalMonthly"
+                  >Pagar con PayPal (Mensual)</span
+                >
+              </div>
+              <div id="paypal-basico-mensual"></div>
+            </div>
+            <div id="bloque-paypal-basico-a" style="display: none">
+              <div class="payment-block-title">
+                <i class="fa-brands fa-paypal" style="color: #3b82f6"></i>
+                <span data-web-i18n="payPalAnnual"
+                  >Pagar con PayPal (Anual)</span
+                >
+              </div>
+              <div id="paypal-basico-anual"></div>
             </div>
 
-        </div>
-
-        <!-- Success Display Box -->
-        <div id="success-box" class="success-box">
-            <h2><i class="fa-solid fa-circle-check"></i> <span data-web-i18n="paySuccess">¡Pago Exitoso!</span></h2>
-            <p data-web-i18n="thanksSupport">Gracias por tu apoyo al ministerio.</p>
-            <p style="margin-top: 10px;" data-web-i18n="yourCodeIs">Tu código de suscripción activado es:</p>
-            <div id="code-display" class="code-display" data-web-i18n="loading">Cargando...</div>
-            <button class="copy-btn" onclick="copiarCodigo()"><i class="fa-regular fa-copy"></i> <span data-web-i18n="copyCode">Copiar Código</span></button>
-            <p style="font-size: 0.85rem; margin-top: 12px; color: #cbd5e1;" data-web-i18n="saveCodeNote">Cópialo y pégalo en tu aplicación de Himnario Adventista PRO para comenzar a disfrutar.</p>
-        </div>
-
-        <!-- Modal Registro Post-Pago -->
-        <div id="post-payment-modal" class="modal-overlay" style="display: none;">
-            <div class="modal-content">
-                <h2><i class="fa-solid fa-crown" style="color: #fbbf24;"></i> <span data-web-i18n="modalThanks">¡Gracias por tu Pago!</span></h2>
-                <p data-web-i18n="modalDesc">Ingresa tu nombre de usuario y correo para vincular tu suscripción a tu cuenta de la aplicación.</p>
-                
-                <div class="input-group">
-                    <label for="modal-username"><i class="fa-regular fa-user"></i> <span data-web-i18n="usernameLabel">Nombre de Usuario *</span></label>
-                    <input type="text" id="modal-username" placeholder="Ej: JuanPerez" required />
-                </div>
-                
-                <div class="input-group">
-                    <label for="modal-email"><i class="fa-regular fa-envelope"></i> <span data-web-i18n="emailLabel">Correo Electrónico *</span></label>
-                    <input type="email" id="modal-email" placeholder="ejemplo@correo.com" required />
-                    <small style="color: #cbd5e1; font-size: 0.8rem; display: block; margin-top: 5px;" data-web-i18n="emailSub">Correo detectado o preferido para tu suscripción.</small>
-                </div>
-
-                <div id="modal-error" style="color: #f87171; font-size: 0.88rem; display: none; margin-bottom: 12px; text-align: center;"></div>
-
-                <button id="modal-save-btn" onclick="guardarRegistroPostPago()" class="modal-btn">
-                    <i class="fa-solid fa-check"></i> <span data-web-i18n="saveBtn">Guardar y Activar Suscripción</span>
-                </button>
+            <div class="separator-line">
+              <span data-web-i18n="orCard">O PAGO CON TARJETA</span>
             </div>
+
+            <!-- Paddle Button -->
+            <div id="bloque-paddle-basico-m">
+              <button
+                onclick="abrirCheckoutPaddle('basico', 'mensual')"
+                class="btn-paddle btn-paddle-basico"
+              >
+                <i class="fa-solid fa-credit-card"></i>
+                <span data-web-i18n="btnPaddleBasicM"
+                  >Pagar Mensual ($1.99)</span
+                >
+              </button>
+            </div>
+            <div id="bloque-paddle-basico-a" style="display: none">
+              <button
+                onclick="abrirCheckoutPaddle('basico', 'anual')"
+                class="btn-paddle btn-paddle-basico"
+              >
+                <i class="fa-solid fa-credit-card"></i>
+                <span data-web-i18n="btnPaddleBasicA"
+                  >Pagar Anual ($23.88)</span
+                >
+              </button>
+            </div>
+          </div>
         </div>
 
-        <!-- Trust Footer -->
-        <div class="footer-trust">
-            <div class="trust-badges">
-                <div class="trust-item"><i class="fa-solid fa-shield-halved" style="color: #10b981;"></i> <span data-web-i18n="securePay">Pago 100% Seguro</span></div>
-                <div class="trust-item"><i class="fa-solid fa-bolt" style="color: #fbbf24;"></i> <span data-web-i18n="instantAct">Activación Inmediata</span></div>
-                <div class="trust-item"><i class="fa-solid fa-lock" style="color: #3b82f6;"></i> <span data-web-i18n="sslEnc">Encriptación SSL 256-bit</span></div>
+        <!-- PLAN PREMIUM CARD (FEATURED) -->
+        <div class="pricing-card featured">
+          <div class="popular-badge" data-web-i18n="popularBadge">
+            MÁS POPULAR
+          </div>
+
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-crown" style="color: #f59e0b"></i>
+              <span data-web-i18n="premiumTitle">Plan Premium</span>
             </div>
-            <p class="footer-note" id="footerNote"></p>
+            <p class="card-desc" data-web-i18n="premiumDesc">
+              Experiencia completa con videos, audios nativos y control remoto.
+            </p>
+          </div>
+
+          <div class="price-wrapper">
+            <span id="precio-premium-m" class="price-amount">$8.99</span>
+            <span
+              id="precio-premium-a"
+              class="price-amount"
+              style="display: none"
+              >$107.88</span
+            >
+            <span
+              id="periodo-premium-m"
+              class="price-period"
+              data-web-i18n="perMonth"
+              >/ mes</span
+            >
+            <span
+              id="periodo-premium-a"
+              class="price-period"
+              style="display: none"
+              data-web-i18n="perYear"
+              >/ año</span
+            >
+          </div>
+
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f1Premium"
+                ><strong>Todo lo del Plan Básico</strong></span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f2Premium"
+                ><strong
+                  >Acceso completo a todas las funciones premium</strong
+                ></span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f3Premium"
+                >Buscador e integración de videos MP4 nativos</span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f4Premium"
+                >Control Remoto desde celular o tablet</span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f5Premium"
+                >Himnarios personalizados e importación de carpetas</span
+              >
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon"
+                ><i class="fa-solid fa-check"></i
+              ></span>
+              <span data-web-i18n="f6Premium"
+                >Soporte VIP prioritario e ilimitado</span
+              >
+            </li>
+          </ul>
+
+          <div class="payment-block">
+            <!-- Paypal Blocks -->
+            <div id="bloque-paypal-premium-m">
+              <div class="payment-block-title">
+                <i class="fa-brands fa-paypal" style="color: #fbbf24"></i>
+                <span data-web-i18n="payPalPremiumM"
+                  >Pagar con PayPal (Mensual)</span
+                >
+              </div>
+              <div id="paypal-premium-mensual"></div>
+            </div>
+            <div id="bloque-paypal-premium-a" style="display: none">
+              <div class="payment-block-title">
+                <i class="fa-brands fa-paypal" style="color: #fbbf24"></i>
+                <span data-web-i18n="payPalPremiumA"
+                  >Pagar con PayPal (Anual)</span
+                >
+              </div>
+              <div id="paypal-premium-anual"></div>
+            </div>
+
+            <div class="separator-line">
+              <span data-web-i18n="orCard">O PAGO CON TARJETA</span>
+            </div>
+
+            <!-- Paddle Button -->
+            <div id="bloque-paddle-premium-m">
+              <button
+                onclick="abrirCheckoutPaddle('premium', 'mensual')"
+                class="btn-paddle btn-paddle-premium"
+              >
+                <i class="fa-solid fa-credit-card"></i>
+                <span data-web-i18n="btnPaddlePremiumM"
+                  >Pagar con Tarjeta ($8.99/mes)</span
+                >
+              </button>
+            </div>
+            <div id="bloque-paddle-premium-a" style="display: none">
+              <button
+                onclick="abrirCheckoutPaddle('premium', 'anual')"
+                class="btn-paddle btn-paddle-premium"
+              >
+                <i class="fa-solid fa-credit-card"></i>
+                <span data-web-i18n="btnPaddlePremiumA"
+                  >Pagar con Tarjeta ($107.88/año)</span
+                >
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Success Display Box -->
+      <div id="success-box" class="success-box">
+        <h2>
+          <i class="fa-solid fa-circle-check"></i>
+          <span data-web-i18n="paySuccess">¡Pago Exitoso!</span>
+        </h2>
+        <p data-web-i18n="thanksSupport">Gracias por tu apoyo al ministerio.</p>
+        <p style="margin-top: 10px" data-web-i18n="yourCodeIs">
+          Tu código de suscripción activado es:
+        </p>
+        <div id="code-display" class="code-display" data-web-i18n="loading">
+          Cargando...
+        </div>
+        <button class="copy-btn" onclick="copiarCodigo()">
+          <i class="fa-regular fa-copy"></i>
+          <span data-web-i18n="copyCode">Copiar Código</span>
+        </button>
+        <p
+          style="font-size: 0.85rem; margin-top: 12px; color: #cbd5e1"
+          data-web-i18n="saveCodeNote"
+        >
+          Cópialo y pégalo en tu aplicación de Himnario Adventista PRO para
+          comenzar a disfrutar.
+        </p>
+      </div>
+
+      <!-- Modal Registro Post-Pago -->
+      <div id="post-payment-modal" class="modal-overlay" style="display: none">
+        <div class="modal-content">
+          <h2>
+            <i class="fa-solid fa-crown" style="color: #fbbf24"></i>
+            <span data-web-i18n="modalThanks">¡Gracias por tu Pago!</span>
+          </h2>
+          <p data-web-i18n="modalDesc">
+            Ingresa tu nombre de usuario y correo para vincular tu suscripción a
+            tu cuenta de la aplicación.
+          </p>
+
+          <div class="input-group">
+            <label for="modal-username"
+              ><i class="fa-regular fa-user"></i>
+              <span data-web-i18n="usernameLabel"
+                >Nombre de Usuario *</span
+              ></label
+            >
+            <input
+              type="text"
+              id="modal-username"
+              placeholder="Ej: JuanPerez"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="modal-email"
+              ><i class="fa-regular fa-envelope"></i>
+              <span data-web-i18n="emailLabel"
+                >Correo Electrónico *</span
+              ></label
+            >
+            <input
+              type="email"
+              id="modal-email"
+              placeholder="ejemplo@correo.com"
+              required
+            />
+            <small
+              style="
+                color: #cbd5e1;
+                font-size: 0.8rem;
+                display: block;
+                margin-top: 5px;
+              "
+              data-web-i18n="emailSub"
+              >Correo detectado o preferido para tu suscripción.</small
+            >
+          </div>
+
+          <div
+            id="modal-error"
+            style="
+              color: #f87171;
+              font-size: 0.88rem;
+              display: none;
+              margin-bottom: 12px;
+              text-align: center;
+            "
+          ></div>
+
+          <button
+            id="modal-save-btn"
+            onclick="guardarRegistroPostPago()"
+            class="modal-btn"
+          >
+            <i class="fa-solid fa-check"></i>
+            <span data-web-i18n="saveBtn">Guardar y Activar Suscripción</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Trust Footer -->
+      <div class="footer-trust">
+        <div class="trust-badges">
+          <div class="trust-item">
+            <i class="fa-solid fa-shield-halved" style="color: #10b981"></i>
+            <span data-web-i18n="securePay">Pago 100% Seguro</span>
+          </div>
+          <div class="trust-item">
+            <i class="fa-solid fa-bolt" style="color: #fbbf24"></i>
+            <span data-web-i18n="instantAct">Activación Inmediata</span>
+          </div>
+          <div class="trust-item">
+            <i class="fa-solid fa-lock" style="color: #3b82f6"></i>
+            <span data-web-i18n="sslEnc">Encriptación SSL 256-bit</span>
+          </div>
+        </div>
+        <p class="footer-note" id="footerNote"></p>
+      </div>
     </div>
 
     <script>
-        // ===== SISTEMA DE TRADUCCIÓN AUTÓNOMO PARA LA WEB SIN EMOJIS =====
-        const DICTIONARY = {
-            es: {
-                heroTag: "Himnario Adventista PRO",
-                heroTitle: "Elige el Plan Ideal para tu Ministerio",
-                heroSubtitle: "Potencia la música, himnodia y proyección de tu iglesia con las mejores herramientas.",
-                monthly: "Mensual",
-                annual: "Anual",
-                saveTag: "Ahorra 20%",
-                basicTitle: "Plan Básico",
-                basicDesc: "Acceso esencial para la proyección diaria de himnos.",
-                perMonth: "/ mes",
-                perYear: "/ año",
-                f1Basic: "Acceso completo a todos los himnos",
-                f2Basic: "Proyección en pantalla secundaria",
-                f3Basic: "Búsqueda rápida por número o título",
-                f4Basic: "Soporte para 1 equipo/dispositivo",
-                payPalMonthly: "Pagar con PayPal (Mensual)",
-                payPalAnnual: "Pagar con PayPal (Anual)",
-                orCard: "O PAGO CON TARJETA",
-                btnPaddleBasicM: "Pagar Mensual ($1.99)",
-                btnPaddleBasicA: "Pagar Anual ($23.88)",
-                popularBadge: "MÁS POPULAR",
-                premiumTitle: "Plan Premium",
-                premiumDesc: "Experiencia completa con videos, audios nativos y control remoto.",
-                trialPill: "7 Días de Prueba Gratis",
-                f1Premium: "Todo lo del Plan Básico",
-                f2Premium: "Acceso completo a todas las funciones premium",
-                f3Premium: "Buscador e integración de videos MP4 nativos",
-                f4Premium: "Control Remoto desde celular o tablet",
-                f5Premium: "Himnarios personalizados e importación de carpetas",
-                f6Premium: "Soporte VIP prioritario e ilimitado",
-                payPalPremiumM: "Pagar con PayPal (Mensual)",
-                payPalPremiumA: "Pagar con PayPal (Anual)",
-                btnPaddlePremiumM: "Pagar con Tarjeta ($8.99/mes)",
-                btnPaddlePremiumA: "Pagar con Tarjeta ($107.88/año)",
-                paySuccess: "¡Pago Exitoso!",
-                thanksSupport: "Gracias por tu apoyo al ministerio.",
-                yourCodeIs: "Tu código de suscripción activado es:",
-                loading: "Cargando...",
-                copyCode: "Copiar Código",
-                copied: "¡Copiado!",
-                saveCodeNote: "Cópialo y pégalo en tu aplicación de Himnario Adventista PRO para comenzar a disfrutar.",
-                modalThanks: "¡Gracias por tu Pago!",
-                modalDesc: "Ingresa tu nombre de usuario y correo para vincular tu suscripción a tu cuenta de la aplicación.",
-                usernameLabel: "Nombre de Usuario *",
-                emailLabel: "Correo Electrónico *",
-                emailSub: "Correo detectado o preferido para tu suscripción.",
-                saveBtn: "Guardar y Activar Suscripción",
-                savingBtn: "Guardando...",
-                securePay: "Pago 100% Seguro",
-                instantAct: "Activación Inmediata",
-                sslEnc: "Encriptación SSL 256-bit",
-                rights: "PROYECTOJA © {anio}. Todos los derechos reservados."
-            },
-            en: {
-                heroTag: "Adventist Hymnal PRO",
-                heroTitle: "Choose the Ideal Plan for Your Ministry",
-                heroSubtitle: "Empower your church's music, hymnal projection and worship with professional tools.",
-                monthly: "Monthly",
-                annual: "Annual",
-                saveTag: "Save 20%",
-                basicTitle: "Basic Plan",
-                basicDesc: "Essential access for daily hymn projection.",
-                perMonth: "/ mo",
-                perYear: "/ yr",
-                f1Basic: "Full access to all hymns",
-                f2Basic: "Secondary screen projection",
-                f3Basic: "Fast search by number or title",
-                f4Basic: "Support for 1 computer/device",
-                payPalMonthly: "Pay with PayPal (Monthly)",
-                payPalAnnual: "Pay with PayPal (Annual)",
-                orCard: "OR CARD PAYMENT",
-                btnPaddleBasicM: "Pay Monthly ($1.99)",
-                btnPaddleBasicA: "Pay Annual ($23.88)",
-                popularBadge: "MOST POPULAR",
-                premiumTitle: "Premium Plan",
-                premiumDesc: "Complete experience with native videos, audios & remote control.",
-                trialPill: "7-Day Free Trial",
-                f1Premium: "Everything in Basic Plan",
-                f2Premium: "Full access to all premium features",
-                f3Premium: "Native MP4 video search & playback",
-                f4Premium: "Remote Control from phone or tablet",
-                f5Premium: "Custom hymnals & folder import",
-                f6Premium: "Priority VIP unlimited support",
-                payPalPremiumM: "Pay with PayPal (Monthly)",
-                payPalPremiumA: "Pay with PayPal (Annual)",
-                btnPaddlePremiumM: "Pay by Card ($8.99/mo)",
-                btnPaddlePremiumA: "Pay by Card ($107.88/yr)",
-                paySuccess: "Payment Successful!",
-                thanksSupport: "Thank you for supporting our ministry.",
-                yourCodeIs: "Your activated subscription code is:",
-                loading: "Loading...",
-                copyCode: "Copy Code",
-                copied: "Copied!",
-                saveCodeNote: "Copy and paste it into your Adventist Hymnal PRO application to start enjoying.",
-                modalThanks: "Thank You for Your Payment!",
-                modalDesc: "Enter your username and email to link your subscription to your app account.",
-                usernameLabel: "Username *",
-                emailLabel: "Email Address *",
-                emailSub: "Detected or preferred email for your subscription.",
-                saveBtn: "Save & Activate Subscription",
-                savingBtn: "Saving...",
-                securePay: "100% Secure Payment",
-                instantAct: "Instant Activation",
-                sslEnc: "256-bit SSL Encryption",
-                rights: "PROYECTOJA © {anio}. All rights reserved."
-            },
-            pt: {
-                heroTag: "Hinário Adventista PRO",
-                heroTitle: "Escolha o Plano Ideal para o seu Ministério",
-                heroSubtitle: "Impulsione a música, projeção de hinos e adoração da sua igreja.",
-                monthly: "Mensal",
-                annual: "Anual",
-                saveTag: "Economize 20%",
-                basicTitle: "Plano Básico",
-                basicDesc: "Acesso essencial para projeção diária de hinos.",
-                perMonth: "/ mês",
-                perYear: "/ ano",
-                f1Basic: "Acesso completo a todos os hinos",
-                f2Basic: "Projeção em tela secundária",
-                f3Basic: "Busca rápida por número ou título",
-                f4Basic: "Suporte para 1 dispositivo",
-                payPalMonthly: "Pagar com PayPal (Mensal)",
-                payPalAnnual: "Pagar com PayPal (Anual)",
-                orCard: "OU PAGAMENTO COM CARTÃO",
-                btnPaddleBasicM: "Pagar Mensal ($1.99)",
-                btnPaddleBasicA: "Pagar Anual ($23.88)",
-                popularBadge: "MAIS POPULAR",
-                premiumTitle: "Plano Premium",
-                premiumDesc: "Experiência completa com vídeos, áudios nativos e controle remoto.",
-                trialPill: "7 Dias de Teste Grátis",
-                f1Premium: "Tudo do Plano Básico",
-                f2Premium: "Acesso completo a todos os recursos premium",
-                f3Premium: "Busca e reprodução de vídeos MP4 nativos",
-                f4Premium: "Controle Remoto via celular ou tablet",
-                f5Premium: "Hinários personalizados e importação de pastas",
-                f6Premium: "Suporte VIP prioritário",
-                payPalPremiumM: "Pagar com PayPal (Mensal)",
-                payPalPremiumA: "Pagar com PayPal (Anual)",
-                btnPaddlePremiumM: "Pagar com Cartão ($8.99/mês)",
-                btnPaddlePremiumA: "Pagar com Cartão ($107.88/ano)",
-                paySuccess: "Pagamento Concluído!",
-                thanksSupport: "Obrigado pelo apoio ao ministério.",
-                yourCodeIs: "Seu código de assinatura ativado é:",
-                loading: "Carregando...",
-                copyCode: "Copiar Código",
-                copied: "Copiado!",
-                saveCodeNote: "Copie e cole em seu aplicativo Hinário Adventista PRO para começar a aproveitar.",
-                modalThanks: "Obrigado pelo seu Pagamento!",
-                modalDesc: "Informe seu usuário e e-mail para vincular a assinatura à sua conta.",
-                usernameLabel: "Nome de Usuário *",
-                emailLabel: "E-mail *",
-                emailSub: "E-mail detectado ou preferido para sua assinatura.",
-                saveBtn: "Salvar e Ativar Assinatura",
-                savingBtn: "Salvando...",
-                securePay: "Pagamento 100% Seguro",
-                instantAct: "Ativação Imediata",
-                sslEnc: "Criptografia SSL 256-bit",
-                rights: "PROYECTOJA © {anio}. Todos os direitos reservados."
-            },
-            fr: {
-                heroTag: "Hymnologie Adventiste PRO",
-                heroTitle: "Choisissez le Plan Idéal pour votre Ministère",
-                heroSubtitle: "Optimisez la musique et la projection des cantiques dans votre église.",
-                monthly: "Mensuel",
-                annual: "Annuel",
-                saveTag: "Économisez 20%",
-                basicTitle: "Plan De Base",
-                basicDesc: "Accès essentiel pour la projection quotidienne des cantiques.",
-                perMonth: "/ mois",
-                perYear: "/ an",
-                f1Basic: "Accès complet à tous les cantiques",
-                f2Basic: "Projection sur écran secondaire",
-                f3Basic: "Recherche rapide par numéro ou titre",
-                f4Basic: "Support pour 1 appareil/ordinateur",
-                payPalMonthly: "Payer avec PayPal (Mensuel)",
-                payPalAnnual: "Payer avec PayPal (Annuel)",
-                orCard: "OU PAIEMENT PAR CARTE",
-                btnPaddleBasicM: "Payer Mensuel ($1.99)",
-                btnPaddleBasicA: "Payer Annuel ($23.88)",
-                popularBadge: "PLUS POPULAIRE",
-                premiumTitle: "Plan Premium",
-                premiumDesc: "Expérience complète avec vidéos, audios et contrôle à distance.",
-                trialPill: "7 Jours d'Essai Gratuit",
-                f1Premium: "Tout ce qui est dans le Plan De Base",
-                f2Premium: "Accès complet à toutes les fonctions premium",
-                f3Premium: "Recherche et lecture vidéo MP4 native",
-                f4Premium: "Contrôle à distance depuis smartphone ou tablette",
-                f5Premium: "Recueils personnalisés et importation de dossiers",
-                f6Premium: "Support VIP prioritaire",
-                payPalPremiumM: "Payer avec PayPal (Mensuel)",
-                payPalPremiumA: "Payer avec PayPal (Annuel)",
-                btnPaddlePremiumM: "Payer par Carte ($8.99/mois)",
-                btnPaddlePremiumA: "Payer par Carte ($107.88/an)",
-                paySuccess: "Paiement Réussi!",
-                thanksSupport: "Merci de soutenir notre ministère.",
-                yourCodeIs: "Votre code d'abonnement activé est:",
-                loading: "Chargement...",
-                copyCode: "Copier le code",
-                copied: "Copié!",
-                saveCodeNote: "Copiez et collez-le dans votre application pour commencer à en profiter.",
-                modalThanks: "Merci pour votre Paiement!",
-                modalDesc: "Entrez votre nom d'utilisateur et e-mail pour lier votre abonnement.",
-                usernameLabel: "Nom d'utilisateur *",
-                emailLabel: "Adresse e-mail *",
-                emailSub: "E-mail détecté ou préféré pour votre abonnement.",
-                saveBtn: "Enregistrer et Activer L'Abonnement",
-                savingBtn: "Enregistrement...",
-                securePay: "Paiement 100% Sécurisé",
-                instantAct: "Activation Immédiate",
-                sslEnc: "Chiffrement SSL 256-bit",
-                rights: "PROYECTOJA © {anio}. Tous droits réservés."
-            },
-            de: {
-                heroTag: "Adventistisches Gesangbuch PRO",
-                heroTitle: "Wählen Sie den idealen Plan für Ihren Dienst",
-                heroSubtitle: "Stärken Sie Musik, Liedprojektion und Gottesdienst in Ihrer Gemeinde.",
-                monthly: "Monatlich",
-                annual: "Jährlich",
-                saveTag: "20% Sparen",
-                basicTitle: "Basis-Plan",
-                basicDesc: "Grundlegender Zugang für die tägliche Liedprojektion.",
-                perMonth: "/ Monat",
-                perYear: "/ Jahr",
-                f1Basic: "Vollständiger Zugriff auf alle Lieder",
-                f2Basic: "Projektion auf Zweitbildschirm",
-                f3Basic: "Schnellsuche nach Nummer oder Titel",
-                f4Basic: "Unterstützung für 1 Gerät",
-                payPalMonthly: "Mit PayPal zahlen (Monatlich)",
-                payPalAnnual: "Mit PayPal zahlen (Jährlich)",
-                orCard: "ODER KARTENZAHLUNG",
-                btnPaddleBasicM: "Monatlich zahlen ($1.99)",
-                btnPaddleBasicA: "Jährlich zahlen ($23.88)",
-                popularBadge: "BELIEBTESTE",
-                premiumTitle: "Premium-Plan",
-                premiumDesc: "Vollständiges Erlebnis mit Videos, Audios & Fernsteuerung.",
-                trialPill: "7 Tage kostenlos testen",
-                f1Premium: "Alles aus dem Basis-Plan",
-                f2Premium: "Voller Zugang zu allen Premium-Funktionen",
-                f3Premium: "Nationale MP4-Videosuche und -Wiedergabe",
-                f4Premium: "Fernsteuerung per Smartphone oder Tablet",
-                f5Premium: "Eigene Liederbücher und Ordnerimport",
-                f6Premium: "Priorisierter VIP-Support",
-                payPalPremiumM: "Mit PayPal zahlen (Monatlich)",
-                payPalPremiumA: "Mit PayPal zahlen (Jährlich)",
-                btnPaddlePremiumM: "Mit Karte bezahlen ($8.99/Monat)",
-                btnPaddlePremiumA: "Mit Karte bezahlen ($107.88/Jahr)",
-                paySuccess: "Zahlung erfolgreich!",
-                thanksSupport: "Vielen Dank für Ihre Unterstützung.",
-                yourCodeIs: "Ihr aktivierter Abo-Code lautet:",
-                loading: "Laden...",
-                copyCode: "Code kopieren",
-                copied: "Kopiert!",
-                saveCodeNote: "Kopieren und in Ihrer Anwendung aktivieren.",
-                modalThanks: "Vielen Dank für Ihre Zahlung!",
-                modalDesc: "Geben Sie Benutzernamen und E-Mail ein, um Ihr Abo zu verknüpfen.",
-                usernameLabel: "Benutzername *",
-                emailLabel: "E-Mail-Adresse *",
-                emailSub: "Erkannte oder bevorzugte E-Mail.",
-                saveBtn: "Speichern & Abo aktivieren",
-                savingBtn: "Speichern...",
-                securePay: "100% Sichere Zahlung",
-                instantAct: "Sofortige Aktivierung",
-                sslEnc: "256-Bit SSL-Verschlüsselung",
-                rights: "PROYECTOJA © {anio}. Alle Rechte vorbehalten."
-            },
-            ko: {
-                heroTag: "제칠일안식일예수재림교 찬미가 PRO",
-                heroTitle: "사역을 위한 최적의 요금제를 선택하세요",
-                heroSubtitle: "교회의 음악과 찬미가 프로젝션을 강화하세요.",
-                monthly: "월간",
-                annual: "연간",
-                saveTag: "20% 할인",
-                basicTitle: "기본 플랜",
-                basicDesc: "매일의 찬미가 프로젝션을 위한 필수 기능.",
-                perMonth: "/ 월",
-                perYear: "/ 년",
-                f1Basic: "모든 찬미가 전체 이용",
-                f2Basic: "보조 화면 프로젝션",
-                f3Basic: "장 및 제목으로 빠른 검색",
-                f4Basic: "1대 기기 지원",
-                payPalMonthly: "PayPal로 결제 (월간)",
-                payPalAnnual: "PayPal로 결제 (연간)",
-                orCard: "또는 카드로 결제",
-                btnPaddleBasicM: "월간 결제 ($1.99)",
-                btnPaddleBasicA: "연간 결제 ($23.88)",
-                popularBadge: "가장 인기",
-                premiumTitle: "프리미엄 플랜",
-                premiumDesc: "비디오, 오디오 및 원격 제어가 포함된 완벽한 기능.",
-                trialPill: "7일 무료 체험",
-                f1Premium: "기본 플랜의 모든 기능 포함",
-                f2Premium: "모든 프리미엄 기능 전체 액세스",
-                f3Premium: "고화질 MP4 비디오 검색 및 재생",
-                f4Premium: "스마트폰/태블릿 원격 제어",
-                f5Premium: "맞춤형 찬미가 및 폴더 가져오기",
-                f6Premium: "우선 VIP 지원",
-                payPalPremiumM: "PayPal로 결제 (월간)",
-                payPalPremiumA: "PayPal로 결제 (연간)",
-                btnPaddlePremiumM: "카드로 결제 ($8.99/월)",
-                btnPaddlePremiumA: "카드로 결제 ($107.88/년)",
-                paySuccess: "결제가 완료되었습니다!",
-                thanksSupport: "사역을 후원해 주셔서 감사합니다.",
-                yourCodeIs: "활성화된 구독 코드:",
-                loading: "로딩 중...",
-                copyCode: "코드 복사",
-                copied: "복사됨!",
-                saveCodeNote: "앱에 코드를 붙여넣어 즉시 사용하세요.",
-                modalThanks: "결제해 주셔서 감사합니다!",
-                modalDesc: "구독을 계정에 연결하려면 사용자 이름과 이메일을 입력하세요.",
-                usernameLabel: "사용자 이름 *",
-                emailLabel: "이메일 주소 *",
-                emailSub: "구독을 위한 이메일 주소.",
-                saveBtn: "저장 및 구독 활성화",
-                savingBtn: "저장 중...",
-                securePay: "100% 안전한 결제",
-                instantAct: "즉시 활성화",
-                sslEnc: "256비트 SSL 암호화",
-                rights: "PROYECTOJA © {anio}. 모든 권리 보유."
-            }
+      // ===== SISTEMA DE TRADUCCIÓN AUTÓNOMO PARA LA WEB SIN EMOJIS =====
+      const DICTIONARY = {
+        es: {
+          heroTag: "Himnario Adventista PRO",
+          heroTitle: "Elige el Plan Ideal para tu Ministerio",
+          heroSubtitle:
+            "Potencia la música, himnodia y proyección de tu iglesia con las mejores herramientas.",
+          monthly: "Mensual",
+          annual: "Anual",
+          saveTag: "Ahorra 20%",
+          basicTitle: "Plan Básico",
+          basicDesc: "Acceso esencial para la proyección diaria de himnos.",
+          perMonth: "/ mes",
+          perYear: "/ año",
+          f1Basic: "Acceso completo a todos los himnos",
+          f2Basic: "Proyección en pantalla secundaria",
+          f3Basic: "Búsqueda rápida por número o título",
+          f4Basic: "Soporte para 1 equipo/dispositivo",
+          payPalMonthly: "Pagar con PayPal (Mensual)",
+          payPalAnnual: "Pagar con PayPal (Anual)",
+          orCard: "O PAGO CON TARJETA",
+          btnPaddleBasicM: "Pagar Mensual ($1.99)",
+          btnPaddleBasicA: "Pagar Anual ($23.88)",
+          popularBadge: "MÁS POPULAR",
+          premiumTitle: "Plan Premium",
+          premiumDesc:
+            "Experiencia completa con videos, audios nativos y control remoto.",
+          trialPill: "7 Días de Prueba Gratis",
+          f1Premium: "Todo lo del Plan Básico",
+          f2Premium: "Acceso completo a todas las funciones premium",
+          f3Premium: "Buscador e integración de videos MP4 nativos",
+          f4Premium: "Control Remoto desde celular o tablet",
+          f5Premium: "Himnarios personalizados e importación de carpetas",
+          f6Premium: "Soporte VIP prioritario e ilimitado",
+          payPalPremiumM: "Pagar con PayPal (Mensual)",
+          payPalPremiumA: "Pagar con PayPal (Anual)",
+          btnPaddlePremiumM: "Pagar con Tarjeta ($8.99/mes)",
+          btnPaddlePremiumA: "Pagar con Tarjeta ($107.88/año)",
+          paySuccess: "¡Pago Exitoso!",
+          thanksSupport: "Gracias por tu apoyo al ministerio.",
+          yourCodeIs: "Tu código de suscripción activado es:",
+          loading: "Cargando...",
+          copyCode: "Copiar Código",
+          copied: "¡Copiado!",
+          saveCodeNote:
+            "Cópialo y pégalo en tu aplicación de Himnario Adventista PRO para comenzar a disfrutar.",
+          modalThanks: "¡Gracias por tu Pago!",
+          modalDesc:
+            "Ingresa tu nombre de usuario y correo para vincular tu suscripción a tu cuenta de la aplicación.",
+          usernameLabel: "Nombre de Usuario *",
+          emailLabel: "Correo Electrónico *",
+          emailSub: "Correo detectado o preferido para tu suscripción.",
+          saveBtn: "Guardar y Activar Suscripción",
+          savingBtn: "Guardando...",
+          securePay: "Pago 100% Seguro",
+          instantAct: "Activación Inmediata",
+          sslEnc: "Encriptación SSL 256-bit",
+          rights: "PROYECTOJA © {anio}. Todos los derechos reservados.",
+        },
+        en: {
+          heroTag: "Adventist Hymnal PRO",
+          heroTitle: "Choose the Ideal Plan for Your Ministry",
+          heroSubtitle:
+            "Empower your church's music, hymnal projection and worship with professional tools.",
+          monthly: "Monthly",
+          annual: "Annual",
+          saveTag: "Save 20%",
+          basicTitle: "Basic Plan",
+          basicDesc: "Essential access for daily hymn projection.",
+          perMonth: "/ mo",
+          perYear: "/ yr",
+          f1Basic: "Full access to all hymns",
+          f2Basic: "Secondary screen projection",
+          f3Basic: "Fast search by number or title",
+          f4Basic: "Support for 1 computer/device",
+          payPalMonthly: "Pay with PayPal (Monthly)",
+          payPalAnnual: "Pay with PayPal (Annual)",
+          orCard: "OR CARD PAYMENT",
+          btnPaddleBasicM: "Pay Monthly ($1.99)",
+          btnPaddleBasicA: "Pay Annual ($23.88)",
+          popularBadge: "MOST POPULAR",
+          premiumTitle: "Premium Plan",
+          premiumDesc:
+            "Complete experience with native videos, audios & remote control.",
+          trialPill: "7-Day Free Trial",
+          f1Premium: "Everything in Basic Plan",
+          f2Premium: "Full access to all premium features",
+          f3Premium: "Native MP4 video search & playback",
+          f4Premium: "Remote Control from phone or tablet",
+          f5Premium: "Custom hymnals & folder import",
+          f6Premium: "Priority VIP unlimited support",
+          payPalPremiumM: "Pay with PayPal (Monthly)",
+          payPalPremiumA: "Pay with PayPal (Annual)",
+          btnPaddlePremiumM: "Pay by Card ($8.99/mo)",
+          btnPaddlePremiumA: "Pay by Card ($107.88/yr)",
+          paySuccess: "Payment Successful!",
+          thanksSupport: "Thank you for supporting our ministry.",
+          yourCodeIs: "Your activated subscription code is:",
+          loading: "Loading...",
+          copyCode: "Copy Code",
+          copied: "Copied!",
+          saveCodeNote:
+            "Copy and paste it into your Adventist Hymnal PRO application to start enjoying.",
+          modalThanks: "Thank You for Your Payment!",
+          modalDesc:
+            "Enter your username and email to link your subscription to your app account.",
+          usernameLabel: "Username *",
+          emailLabel: "Email Address *",
+          emailSub: "Detected or preferred email for your subscription.",
+          saveBtn: "Save & Activate Subscription",
+          savingBtn: "Saving...",
+          securePay: "100% Secure Payment",
+          instantAct: "Instant Activation",
+          sslEnc: "256-bit SSL Encryption",
+          rights: "PROYECTOJA © {anio}. All rights reserved.",
+        },
+        pt: {
+          heroTag: "Hinário Adventista PRO",
+          heroTitle: "Escolha o Plano Ideal para o seu Ministério",
+          heroSubtitle:
+            "Impulsione a música, projeção de hinos e adoração da sua igreja.",
+          monthly: "Mensal",
+          annual: "Anual",
+          saveTag: "Economize 20%",
+          basicTitle: "Plano Básico",
+          basicDesc: "Acesso essencial para projeção diária de hinos.",
+          perMonth: "/ mês",
+          perYear: "/ ano",
+          f1Basic: "Acesso completo a todos os hinos",
+          f2Basic: "Projeção em tela secundária",
+          f3Basic: "Busca rápida por número ou título",
+          f4Basic: "Suporte para 1 dispositivo",
+          payPalMonthly: "Pagar com PayPal (Mensal)",
+          payPalAnnual: "Pagar com PayPal (Anual)",
+          orCard: "OU PAGAMENTO COM CARTÃO",
+          btnPaddleBasicM: "Pagar Mensal ($1.99)",
+          btnPaddleBasicA: "Pagar Anual ($23.88)",
+          popularBadge: "MAIS POPULAR",
+          premiumTitle: "Plano Premium",
+          premiumDesc:
+            "Experiência completa com vídeos, áudios nativos e controle remoto.",
+          trialPill: "7 Dias de Teste Grátis",
+          f1Premium: "Tudo do Plano Básico",
+          f2Premium: "Acesso completo a todos os recursos premium",
+          f3Premium: "Busca e reprodução de vídeos MP4 nativos",
+          f4Premium: "Controle Remoto via celular ou tablet",
+          f5Premium: "Hinários personalizados e importação de pastas",
+          f6Premium: "Suporte VIP prioritário",
+          payPalPremiumM: "Pagar com PayPal (Mensal)",
+          payPalPremiumA: "Pagar com PayPal (Anual)",
+          btnPaddlePremiumM: "Pagar com Cartão ($8.99/mês)",
+          btnPaddlePremiumA: "Pagar com Cartão ($107.88/ano)",
+          paySuccess: "Pagamento Concluído!",
+          thanksSupport: "Obrigado pelo apoio ao ministério.",
+          yourCodeIs: "Seu código de assinatura ativado é:",
+          loading: "Carregando...",
+          copyCode: "Copiar Código",
+          copied: "Copiado!",
+          saveCodeNote:
+            "Copie e cole em seu aplicativo Hinário Adventista PRO para começar a aproveitar.",
+          modalThanks: "Obrigado pelo seu Pagamento!",
+          modalDesc:
+            "Informe seu usuário e e-mail para vincular a assinatura à sua conta.",
+          usernameLabel: "Nome de Usuário *",
+          emailLabel: "E-mail *",
+          emailSub: "E-mail detectado ou preferido para sua assinatura.",
+          saveBtn: "Salvar e Ativar Assinatura",
+          savingBtn: "Salvando...",
+          securePay: "Pagamento 100% Seguro",
+          instantAct: "Ativação Imediata",
+          sslEnc: "Criptografia SSL 256-bit",
+          rights: "PROYECTOJA © {anio}. Todos os direitos reservados.",
+        },
+        fr: {
+          heroTag: "Hymnologie Adventiste PRO",
+          heroTitle: "Choisissez le Plan Idéal pour votre Ministère",
+          heroSubtitle:
+            "Optimisez la musique et la projection des cantiques dans votre église.",
+          monthly: "Mensuel",
+          annual: "Annuel",
+          saveTag: "Économisez 20%",
+          basicTitle: "Plan De Base",
+          basicDesc:
+            "Accès essentiel pour la projection quotidienne des cantiques.",
+          perMonth: "/ mois",
+          perYear: "/ an",
+          f1Basic: "Accès complet à tous les cantiques",
+          f2Basic: "Projection sur écran secondaire",
+          f3Basic: "Recherche rapide par numéro ou titre",
+          f4Basic: "Support pour 1 appareil/ordinateur",
+          payPalMonthly: "Payer avec PayPal (Mensuel)",
+          payPalAnnual: "Payer avec PayPal (Annuel)",
+          orCard: "OU PAIEMENT PAR CARTE",
+          btnPaddleBasicM: "Payer Mensuel ($1.99)",
+          btnPaddleBasicA: "Payer Annuel ($23.88)",
+          popularBadge: "PLUS POPULAIRE",
+          premiumTitle: "Plan Premium",
+          premiumDesc:
+            "Expérience complète avec vidéos, audios et contrôle à distance.",
+          trialPill: "7 Jours d'Essai Gratuit",
+          f1Premium: "Tout ce qui est dans le Plan De Base",
+          f2Premium: "Accès complet à toutes les fonctions premium",
+          f3Premium: "Recherche et lecture vidéo MP4 native",
+          f4Premium: "Contrôle à distance depuis smartphone ou tablette",
+          f5Premium: "Recueils personnalisés et importation de dossiers",
+          f6Premium: "Support VIP prioritaire",
+          payPalPremiumM: "Payer avec PayPal (Mensuel)",
+          payPalPremiumA: "Payer avec PayPal (Annuel)",
+          btnPaddlePremiumM: "Payer par Carte ($8.99/mois)",
+          btnPaddlePremiumA: "Payer par Carte ($107.88/an)",
+          paySuccess: "Paiement Réussi!",
+          thanksSupport: "Merci de soutenir notre ministère.",
+          yourCodeIs: "Votre code d'abonnement activé est:",
+          loading: "Chargement...",
+          copyCode: "Copier le code",
+          copied: "Copié!",
+          saveCodeNote:
+            "Copiez et collez-le dans votre application pour commencer à en profiter.",
+          modalThanks: "Merci pour votre Paiement!",
+          modalDesc:
+            "Entrez votre nom d'utilisateur et e-mail pour lier votre abonnement.",
+          usernameLabel: "Nom d'utilisateur *",
+          emailLabel: "Adresse e-mail *",
+          emailSub: "E-mail détecté ou préféré pour votre abonnement.",
+          saveBtn: "Enregistrer et Activer L'Abonnement",
+          savingBtn: "Enregistrement...",
+          securePay: "Paiement 100% Sécurisé",
+          instantAct: "Activation Immédiate",
+          sslEnc: "Chiffrement SSL 256-bit",
+          rights: "PROYECTOJA © {anio}. Tous droits réservés.",
+        },
+        de: {
+          heroTag: "Adventistisches Gesangbuch PRO",
+          heroTitle: "Wählen Sie den idealen Plan für Ihren Dienst",
+          heroSubtitle:
+            "Stärken Sie Musik, Liedprojektion und Gottesdienst in Ihrer Gemeinde.",
+          monthly: "Monatlich",
+          annual: "Jährlich",
+          saveTag: "20% Sparen",
+          basicTitle: "Basis-Plan",
+          basicDesc: "Grundlegender Zugang für die tägliche Liedprojektion.",
+          perMonth: "/ Monat",
+          perYear: "/ Jahr",
+          f1Basic: "Vollständiger Zugriff auf alle Lieder",
+          f2Basic: "Projektion auf Zweitbildschirm",
+          f3Basic: "Schnellsuche nach Nummer oder Titel",
+          f4Basic: "Unterstützung für 1 Gerät",
+          payPalMonthly: "Mit PayPal zahlen (Monatlich)",
+          payPalAnnual: "Mit PayPal zahlen (Jährlich)",
+          orCard: "ODER KARTENZAHLUNG",
+          btnPaddleBasicM: "Monatlich zahlen ($1.99)",
+          btnPaddleBasicA: "Jährlich zahlen ($23.88)",
+          popularBadge: "BELIEBTESTE",
+          premiumTitle: "Premium-Plan",
+          premiumDesc:
+            "Vollständiges Erlebnis mit Videos, Audios & Fernsteuerung.",
+          trialPill: "7 Tage kostenlos testen",
+          f1Premium: "Alles aus dem Basis-Plan",
+          f2Premium: "Voller Zugang zu allen Premium-Funktionen",
+          f3Premium: "Nationale MP4-Videosuche und -Wiedergabe",
+          f4Premium: "Fernsteuerung per Smartphone oder Tablet",
+          f5Premium: "Eigene Liederbücher und Ordnerimport",
+          f6Premium: "Priorisierter VIP-Support",
+          payPalPremiumM: "Mit PayPal zahlen (Monatlich)",
+          payPalPremiumA: "Mit PayPal zahlen (Jährlich)",
+          btnPaddlePremiumM: "Mit Karte bezahlen ($8.99/Monat)",
+          btnPaddlePremiumA: "Mit Karte bezahlen ($107.88/Jahr)",
+          paySuccess: "Zahlung erfolgreich!",
+          thanksSupport: "Vielen Dank für Ihre Unterstützung.",
+          yourCodeIs: "Ihr aktivierter Abo-Code lautet:",
+          loading: "Laden...",
+          copyCode: "Code kopieren",
+          copied: "Kopiert!",
+          saveCodeNote: "Kopieren und in Ihrer Anwendung aktivieren.",
+          modalThanks: "Vielen Dank für Ihre Zahlung!",
+          modalDesc:
+            "Geben Sie Benutzernamen und E-Mail ein, um Ihr Abo zu verknüpfen.",
+          usernameLabel: "Benutzername *",
+          emailLabel: "E-Mail-Adresse *",
+          emailSub: "Erkannte oder bevorzugte E-Mail.",
+          saveBtn: "Speichern & Abo aktivieren",
+          savingBtn: "Speichern...",
+          securePay: "100% Sichere Zahlung",
+          instantAct: "Sofortige Aktivierung",
+          sslEnc: "256-Bit SSL-Verschlüsselung",
+          rights: "PROYECTOJA © {anio}. Alle Rechte vorbehalten.",
+        },
+        ko: {
+          heroTag: "제칠일안식일예수재림교 찬미가 PRO",
+          heroTitle: "사역을 위한 최적의 요금제를 선택하세요",
+          heroSubtitle: "교회의 음악과 찬미가 프로젝션을 강화하세요.",
+          monthly: "월간",
+          annual: "연간",
+          saveTag: "20% 할인",
+          basicTitle: "기본 플랜",
+          basicDesc: "매일의 찬미가 프로젝션을 위한 필수 기능.",
+          perMonth: "/ 월",
+          perYear: "/ 년",
+          f1Basic: "모든 찬미가 전체 이용",
+          f2Basic: "보조 화면 프로젝션",
+          f3Basic: "장 및 제목으로 빠른 검색",
+          f4Basic: "1대 기기 지원",
+          payPalMonthly: "PayPal로 결제 (월간)",
+          payPalAnnual: "PayPal로 결제 (연간)",
+          orCard: "또는 카드로 결제",
+          btnPaddleBasicM: "월간 결제 ($1.99)",
+          btnPaddleBasicA: "연간 결제 ($23.88)",
+          popularBadge: "가장 인기",
+          premiumTitle: "프리미엄 플랜",
+          premiumDesc: "비디오, 오디오 및 원격 제어가 포함된 완벽한 기능.",
+          trialPill: "7일 무료 체험",
+          f1Premium: "기본 플랜의 모든 기능 포함",
+          f2Premium: "모든 프리미엄 기능 전체 액세스",
+          f3Premium: "고화질 MP4 비디오 검색 및 재생",
+          f4Premium: "스마트폰/태블릿 원격 제어",
+          f5Premium: "맞춤형 찬미가 및 폴더 가져오기",
+          f6Premium: "우선 VIP 지원",
+          payPalPremiumM: "PayPal로 결제 (월간)",
+          payPalPremiumA: "PayPal로 결제 (연간)",
+          btnPaddlePremiumM: "카드로 결제 ($8.99/월)",
+          btnPaddlePremiumA: "카드로 결제 ($107.88/년)",
+          paySuccess: "결제가 완료되었습니다!",
+          thanksSupport: "사역을 후원해 주셔서 감사합니다.",
+          yourCodeIs: "활성화된 구독 코드:",
+          loading: "로딩 중...",
+          copyCode: "코드 복사",
+          copied: "복사됨!",
+          saveCodeNote: "앱에 코드를 붙여넣어 즉시 사용하세요.",
+          modalThanks: "결제해 주셔서 감사합니다!",
+          modalDesc:
+            "구독을 계정에 연결하려면 사용자 이름과 이메일을 입력하세요.",
+          usernameLabel: "사용자 이름 *",
+          emailLabel: "이메일 주소 *",
+          emailSub: "구독을 위한 이메일 주소.",
+          saveBtn: "저장 및 구독 활성화",
+          savingBtn: "저장 중...",
+          securePay: "100% 안전한 결제",
+          instantAct: "즉시 활성화",
+          sslEnc: "256비트 SSL 암호화",
+          rights: "PROYECTOJA © {anio}. 모든 권리 보유.",
+        },
+      };
+
+      let currentWebLang = localStorage.getItem("web_lang") || "es";
+
+      function setWebLanguage(langCode) {
+        if (!DICTIONARY[langCode]) langCode = "es";
+        currentWebLang = langCode;
+        localStorage.setItem("web_lang", langCode);
+        const dict = DICTIONARY[langCode];
+
+        const langNames = {
+          es: "Español",
+          en: "English",
+          pt: "Português",
+          fr: "Français",
+          de: "Deutsch",
+          ko: "한국어",
         };
 
-        let currentWebLang = localStorage.getItem('web_lang') || 'es';
+        const nameEl = document.getElementById("current-lang-name");
+        if (nameEl) nameEl.textContent = langNames[langCode] || "Español";
 
-        function setWebLanguage(langCode) {
-            if (!DICTIONARY[langCode]) langCode = 'es';
-            currentWebLang = langCode;
-            localStorage.setItem('web_lang', langCode);
-            const dict = DICTIONARY[langCode];
-
-            const langNames = {
-                es: 'Español', en: 'English', pt: 'Português',
-                fr: 'Français', de: 'Deutsch', ko: '한국어'
-            };
-            
-            const nameEl = document.getElementById('current-lang-name');
-            if (nameEl) nameEl.textContent = langNames[langCode] || 'Español';
-
-            document.querySelectorAll('[data-web-i18n]').forEach(el => {
-                const key = el.getAttribute('data-web-i18n');
-                if (dict[key]) {
-                    if (key === 'rights') {
-                        el.textContent = dict[key].replace('{anio}', new Date().getFullYear());
-                    } else if (key.startsWith('f1') || key.startsWith('f2')) {
-                        el.innerHTML = dict[key];
-                    } else {
-                        el.textContent = dict[key];
-                    }
-                }
-            });
-
-            const footerNote = document.getElementById('footerNote');
-            if (footerNote && dict['rights']) {
-                footerNote.textContent = dict['rights'].replace('{anio}', new Date().getFullYear());
-            }
-
-            const menu = document.getElementById('lang-dropdown-menu');
-            if (menu) menu.classList.remove('open');
-        }
-
-        function toggleLangDropdown() {
-            const menu = document.getElementById('lang-dropdown-menu');
-            if (menu) menu.classList.toggle('open');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            const wrapper = document.querySelector('.lang-selector-wrapper');
-            const menu = document.getElementById('lang-dropdown-menu');
-            if (wrapper && menu && !wrapper.contains(e.target)) {
-                menu.classList.remove('open');
-            }
-        });
-
-        // Initialize language
-        document.addEventListener('DOMContentLoaded', () => {
-            setWebLanguage(currentWebLang);
-        });
-
-        // Cambiar ciclo mensual / anual
-        function cambiarCiclo(tipo) {
-            const btnM = document.getElementById('toggle-mensual');
-            const btnA = document.getElementById('toggle-anual');
-            
-            const precioBasicoM = document.getElementById('precio-basico-m');
-            const precioBasicoA = document.getElementById('precio-basico-a');
-            const periodoBasicoM = document.getElementById('periodo-basico-m');
-            const periodoBasicoA = document.getElementById('periodo-basico-a');
-
-            const precioPremiumM = document.getElementById('precio-premium-m');
-            const precioPremiumA = document.getElementById('precio-premium-a');
-            const periodoPremiumM = document.getElementById('periodo-premium-m');
-            const periodoPremiumA = document.getElementById('periodo-premium-a');
-
-            const bPaypalBasicoM = document.getElementById('bloque-paypal-basico-m');
-            const bPaypalBasicoA = document.getElementById('bloque-paypal-basico-a');
-            const bPaddleBasicoM = document.getElementById('bloque-paddle-basico-m');
-            const bPaddleBasicoA = document.getElementById('bloque-paddle-basico-a');
-
-            const bPaypalPremiumM = document.getElementById('bloque-paypal-premium-m');
-            const bPaypalPremiumA = document.getElementById('bloque-paypal-premium-a');
-            const bPaddlePremiumM = document.getElementById('bloque-paddle-premium-m');
-            const bPaddlePremiumA = document.getElementById('bloque-paddle-premium-a');
-
-            if (tipo === 'anual') {
-                btnA.classList.add('active');
-                btnM.classList.remove('active');
-
-                precioBasicoM.style.display = 'none'; periodoBasicoM.style.display = 'none';
-                precioBasicoA.style.display = 'inline'; periodoBasicoA.style.display = 'inline';
-
-                precioPremiumM.style.display = 'none'; periodoPremiumM.style.display = 'none';
-                precioPremiumA.style.display = 'inline'; periodoPremiumA.style.display = 'inline';
-
-                bPaypalBasicoM.style.display = 'none'; bPaypalBasicoA.style.display = 'block';
-                bPaddleBasicoM.style.display = 'none'; bPaddleBasicoA.style.display = 'block';
-
-                bPaypalPremiumM.style.display = 'none'; bPaypalPremiumA.style.display = 'block';
-                bPaddlePremiumM.style.display = 'none'; bPaddlePremiumA.style.display = 'block';
+        document.querySelectorAll("[data-web-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-web-i18n");
+          if (dict[key]) {
+            if (key === "rights") {
+              el.textContent = dict[key].replace(
+                "{anio}",
+                new Date().getFullYear(),
+              );
+            } else if (key.startsWith("f1") || key.startsWith("f2")) {
+              el.innerHTML = dict[key];
             } else {
-                btnM.classList.add('active');
-                btnA.classList.remove('active');
-
-                precioBasicoM.style.display = 'inline'; periodoBasicoM.style.display = 'inline';
-                precioBasicoA.style.display = 'none'; periodoBasicoA.style.display = 'none';
-
-                precioPremiumM.style.display = 'inline'; periodoPremiumM.style.display = 'inline';
-                precioPremiumA.style.display = 'none'; periodoPremiumA.style.display = 'none';
-
-                bPaypalBasicoM.style.display = 'block'; bPaypalBasicoA.style.display = 'none';
-                bPaddleBasicoM.style.display = 'block'; bPaddleBasicoA.style.display = 'none';
-
-                bPaypalPremiumM.style.display = 'block'; bPaypalPremiumA.style.display = 'none';
-                bPaddlePremiumM.style.display = 'block'; bPaddlePremiumA.style.display = 'none';
+              el.textContent = dict[key];
             }
-        }
-        
-        // Configuración de Planes PayPal
-        const PLANES = {
-            basico: {
-                mensual: "P-40E25374WC496032ENB62ANQ",
-                anual: "P-4P300126BF854730HNE4GATY"
-            },
-            premium: {
-                mensual: "P-848725743A299525YNJTPVQI",
-                anual: "P-7F582151HV569115MNJTPYQI"
-            }
-        };
-
-        // Elementos DOM
-        const successBox = document.getElementById('success-box');
-        const codeDisplay = document.getElementById('code-display');
-
-        let pendienteSubId = null;
-        let pendienteProveedor = null;
-
-        function solicitarDatosUsuarioPostPago(subId, proveedor, emailDetected = '') {
-            pendienteSubId = subId;
-            pendienteProveedor = proveedor;
-
-            const modal = document.getElementById('post-payment-modal');
-            const inputEmail = document.getElementById('modal-email');
-            const inputUser = document.getElementById('modal-username');
-            const errorDiv = document.getElementById('modal-error');
-
-            if (inputEmail) {
-                inputEmail.value = emailDetected || localStorage.getItem('emailRegistrado') || '';
-            }
-            if (inputUser) {
-                inputUser.value = localStorage.getItem('usuarioRegistrado') || '';
-            }
-            if (errorDiv) {
-                errorDiv.style.display = 'none';
-                errorDiv.textContent = '';
-            }
-
-            if (modal) {
-                modal.style.display = 'flex';
-                setTimeout(() => { if (inputUser) inputUser.focus(); }, 200);
-            } else {
-                mostrarCodigoExitose(subId);
-            }
-        }
-
-        async function guardarRegistroPostPago() {
-            const inputUser = document.getElementById('modal-username');
-            const inputEmail = document.getElementById('modal-email');
-            const errorDiv = document.getElementById('modal-error');
-            const btn = document.getElementById('modal-save-btn');
-
-            const username = (inputUser?.value || '').trim();
-            const email = (inputEmail?.value || '').trim();
-
-            if (!username) {
-                if (errorDiv) {
-                    errorDiv.textContent = 'Por favor ingresa tu nombre de usuario.';
-                    errorDiv.style.display = 'block';
-                }
-                return;
-            }
-
-            if (!email || !email.includes('@')) {
-                if (errorDiv) {
-                    errorDiv.textContent = 'Por favor ingresa un correo electrónico válido.';
-                    errorDiv.style.display = 'block';
-                }
-                return;
-            }
-
-            localStorage.setItem('usuarioRegistrado', username);
-            localStorage.setItem('emailRegistrado', email);
-
-            if (btn) {
-                btn.disabled = true;
-                const dict = DICTIONARY[currentWebLang] || DICTIONARY.es;
-                btn.textContent = dict.savingBtn || 'Guardando...';
-            }
-
-            try {
-                const url = `https://verificador-paypal.vercel.app/api/verificaPremium?subscriptionId=${encodeURIComponent(pendienteSubId)}&proveedor=${encodeURIComponent(pendienteProveedor)}&email=${encodeURIComponent(email)}&nombre=${encodeURIComponent(username)}`;
-                await fetch(url, { method: 'GET' });
-            } catch (err) {
-                console.warn('Error al guardar datos en el servidor:', err);
-            } finally {
-                if (btn) {
-                    btn.disabled = false;
-                    const dict = DICTIONARY[currentWebLang] || DICTIONARY.es;
-                    btn.textContent = dict.saveBtn || 'Guardar y Activar Suscripción';
-                }
-            }
-
-            const modal = document.getElementById('post-payment-modal');
-            if (modal) modal.style.display = 'none';
-
-            if (pendienteSubId) {
-                mostrarCodigoExitose(pendienteSubId);
-            }
-        }
-
-        // Función guardar y mostrar código
-        function mostrarCodigoExitose(subscriptionId) {
-            localStorage.setItem('ultimoCodigoSuscripcion', subscriptionId);
-
-            const savedUser = localStorage.getItem('usuarioRegistrado');
-            if (savedUser) {
-                let userGreeting = document.getElementById('user-greeting-msg');
-                if (!userGreeting) {
-                    userGreeting = document.createElement('p');
-                    userGreeting.id = 'user-greeting-msg';
-                    userGreeting.style.fontWeight = '700';
-                    userGreeting.style.marginBottom = '10px';
-                    userGreeting.style.color = '#34d399';
-                    codeDisplay.before(userGreeting);
-                }
-                userGreeting.textContent = `¡Hola, ${savedUser}! Tu suscripción se ha vinculado con éxito.`;
-            }
-
-            codeDisplay.textContent = subscriptionId;
-            successBox.style.display = 'block';
-            successBox.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Verificar si hay código guardado al cargar
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedCode = localStorage.getItem('ultimoCodigoSuscripcion');
-            if (savedCode) {
-                mostrarCodigoExitose(savedCode);
-            }
+          }
         });
 
-        // Copiar al portapapeles
-        function copiarCodigo() {
-            const codigo = codeDisplay.textContent;
-            navigator.clipboard.writeText(codigo).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.textContent;
-                const dict = DICTIONARY[currentWebLang] || DICTIONARY.es;
-                btn.textContent = dict.copied || '¡Copiado!';
-                setTimeout(() => btn.textContent = originalText, 2000);
-            });
+        const footerNote = document.getElementById("footerNote");
+        if (footerNote && dict["rights"]) {
+          footerNote.textContent = dict["rights"].replace(
+            "{anio}",
+            new Date().getFullYear(),
+          );
         }
 
-        async function esperarPayPalDisponible(timeoutMs = 12000, intervaloMs = 250) {
-            const inicio = Date.now();
-            while (Date.now() - inicio < timeoutMs) {
-                if (window.paypal && typeof window.paypal.Buttons === 'function') {
-                    return true;
-                }
-                await new Promise((resolve) => setTimeout(resolve, intervaloMs));
-            }
-            return false;
+        const menu = document.getElementById("lang-dropdown-menu");
+        if (menu) menu.classList.remove("open");
+      }
+
+      function toggleLangDropdown() {
+        const menu = document.getElementById("lang-dropdown-menu");
+        if (menu) menu.classList.toggle("open");
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        const wrapper = document.querySelector(".lang-selector-wrapper");
+        const menu = document.getElementById("lang-dropdown-menu");
+        if (wrapper && menu && !wrapper.contains(e.target)) {
+          menu.classList.remove("open");
+        }
+      });
+
+      // Initialize language
+      document.addEventListener("DOMContentLoaded", () => {
+        setWebLanguage(currentWebLang);
+      });
+
+      // Cambiar ciclo mensual / anual
+      function cambiarCiclo(tipo) {
+        const btnM = document.getElementById("toggle-mensual");
+        const btnA = document.getElementById("toggle-anual");
+
+        const precioBasicoM = document.getElementById("precio-basico-m");
+        const precioBasicoA = document.getElementById("precio-basico-a");
+        const periodoBasicoM = document.getElementById("periodo-basico-m");
+        const periodoBasicoA = document.getElementById("periodo-basico-a");
+
+        const precioPremiumM = document.getElementById("precio-premium-m");
+        const precioPremiumA = document.getElementById("precio-premium-a");
+        const periodoPremiumM = document.getElementById("periodo-premium-m");
+        const periodoPremiumA = document.getElementById("periodo-premium-a");
+
+        const bPaypalBasicoM = document.getElementById(
+          "bloque-paypal-basico-m",
+        );
+        const bPaypalBasicoA = document.getElementById(
+          "bloque-paypal-basico-a",
+        );
+        const bPaddleBasicoM = document.getElementById(
+          "bloque-paddle-basico-m",
+        );
+        const bPaddleBasicoA = document.getElementById(
+          "bloque-paddle-basico-a",
+        );
+
+        const bPaypalPremiumM = document.getElementById(
+          "bloque-paypal-premium-m",
+        );
+        const bPaypalPremiumA = document.getElementById(
+          "bloque-paypal-premium-a",
+        );
+        const bPaddlePremiumM = document.getElementById(
+          "bloque-paddle-premium-m",
+        );
+        const bPaddlePremiumA = document.getElementById(
+          "bloque-paddle-premium-a",
+        );
+
+        if (tipo === "anual") {
+          btnA.classList.add("active");
+          btnM.classList.remove("active");
+
+          precioBasicoM.style.display = "none";
+          periodoBasicoM.style.display = "none";
+          precioBasicoA.style.display = "inline";
+          periodoBasicoA.style.display = "inline";
+
+          precioPremiumM.style.display = "none";
+          periodoPremiumM.style.display = "none";
+          precioPremiumA.style.display = "inline";
+          periodoPremiumA.style.display = "inline";
+
+          bPaypalBasicoM.style.display = "none";
+          bPaypalBasicoA.style.display = "block";
+          bPaddleBasicoM.style.display = "none";
+          bPaddleBasicoA.style.display = "block";
+
+          bPaypalPremiumM.style.display = "none";
+          bPaypalPremiumA.style.display = "block";
+          bPaddlePremiumM.style.display = "none";
+          bPaddlePremiumA.style.display = "block";
+        } else {
+          btnM.classList.add("active");
+          btnA.classList.remove("active");
+
+          precioBasicoM.style.display = "inline";
+          periodoBasicoM.style.display = "inline";
+          precioBasicoA.style.display = "none";
+          periodoBasicoA.style.display = "none";
+
+          precioPremiumM.style.display = "inline";
+          periodoPremiumM.style.display = "inline";
+          precioPremiumA.style.display = "none";
+          periodoPremiumA.style.display = "none";
+
+          bPaypalBasicoM.style.display = "block";
+          bPaypalBasicoA.style.display = "none";
+          bPaddleBasicoM.style.display = "block";
+          bPaddleBasicoA.style.display = "none";
+
+          bPaypalPremiumM.style.display = "block";
+          bPaypalPremiumA.style.display = "none";
+          bPaddlePremiumM.style.display = "block";
+          bPaddlePremiumA.style.display = "none";
+        }
+      }
+
+      // Configuración de Planes PayPal
+      const PLANES = {
+        basico: {
+          mensual: "P-40E25374WC496032ENB62ANQ",
+          anual: "P-4P300126BF854730HNE4GATY",
+        },
+        premium: {
+          mensual: "P-0KY630971U339254XNFO7TMQ",
+          anual: "P-2YM91167P37929048NFO7UQI",
+        },
+      };
+
+      // Elementos DOM
+      const successBox = document.getElementById("success-box");
+      const codeDisplay = document.getElementById("code-display");
+
+      let pendienteSubId = null;
+      let pendienteProveedor = null;
+
+      function solicitarDatosUsuarioPostPago(
+        subId,
+        proveedor,
+        emailDetected = "",
+      ) {
+        pendienteSubId = subId;
+        pendienteProveedor = proveedor;
+
+        const modal = document.getElementById("post-payment-modal");
+        const inputEmail = document.getElementById("modal-email");
+        const inputUser = document.getElementById("modal-username");
+        const errorDiv = document.getElementById("modal-error");
+
+        if (inputEmail) {
+          inputEmail.value =
+            emailDetected || localStorage.getItem("emailRegistrado") || "";
+        }
+        if (inputUser) {
+          inputUser.value = localStorage.getItem("usuarioRegistrado") || "";
+        }
+        if (errorDiv) {
+          errorDiv.style.display = "none";
+          errorDiv.textContent = "";
         }
 
-        function crearBotonePayPal(tiPlan, periodo) {
-            if (!window.paypal) {
-                console.error("PayPal SDK no disponible");
-                return;
-            }
+        if (modal) {
+          modal.style.display = "flex";
+          setTimeout(() => {
+            if (inputUser) inputUser.focus();
+          }, 200);
+        } else {
+          mostrarCodigoExitose(subId);
+        }
+      }
 
-            const planId = PLANES[tiPlan][periodo];
-            const containerId = `#paypal-${tiPlan}-${periodo}`;
-            const label = tiPlan === 'basico' ? 'Plan Básico' : 'Plan Premium';
-            const color = tiPlan === 'basico' ? 'silver' : 'gold';
+      async function guardarRegistroPostPago() {
+        const inputUser = document.getElementById("modal-username");
+        const inputEmail = document.getElementById("modal-email");
+        const errorDiv = document.getElementById("modal-error");
+        const btn = document.getElementById("modal-save-btn");
 
-            window.paypal.Buttons({
-                style: {
-                    layout: 'vertical',
-                    color: color,
-                    shape: 'rect',
-                    label: 'subscribe',
-                    height: 40
-                },
-                createSubscription: function (data, actions) {
-                    return actions.subscription.create({
-                        'plan_id': planId
-                    });
-                },
-                onApprove: function (data, actions) {
-                    console.log(`Suscripción ${label} ${periodo} aprobada`, data);
-                    const subId = data.subscriptionID;
-                    const emailDetected = data.payer?.email_address || data.subscriber?.email_address || "";
-                    localStorage.setItem('paypalSubscriptionId', subId);
-                    localStorage.setItem('planTipo', tiPlan);
-                    localStorage.setItem('premium', tiPlan === 'premium' ? 'true' : 'false');
-                    localStorage.setItem('lastValidationDate', Date.now().toString());
-                    solicitarDatosUsuarioPostPago(subId, 'paypal', emailDetected);
-                },
-                onError: function (err) {
-                    console.error('PayPal Error:', err);
-                    alert("Ocurrió un error con PayPal. Intenta de nuevo.");
-                }
-            }).render(containerId);
+        const username = (inputUser?.value || "").trim();
+        const email = (inputEmail?.value || "").trim();
+
+        if (!username) {
+          if (errorDiv) {
+            errorDiv.textContent = "Por favor ingresa tu nombre de usuario.";
+            errorDiv.style.display = "block";
+          }
+          return;
         }
 
-        async function renderizarBotonesPayPal() {
-            const paypalDisponible = await esperarPayPalDisponible();
-
-            if (!paypalDisponible) {
-                console.error("PayPal SDK no disponible. Revisa el client-id público y la conexión a internet.");
-                const mensaje = '<p class="loading-text">No se pudo cargar PayPal. Intenta recargar la página.</p>';
-                document.getElementById('paypal-basico-mensual').innerHTML = mensaje;
-                document.getElementById('paypal-basico-anual').innerHTML = mensaje;
-                document.getElementById('paypal-premium-mensual').innerHTML = mensaje;
-                document.getElementById('paypal-premium-anual').innerHTML = mensaje;
-                return;
-            }
-
-            crearBotonePayPal('basico', 'mensual');
-            crearBotonePayPal('basico', 'anual');
-            crearBotonePayPal('premium', 'mensual');
-            crearBotonePayPal('premium', 'anual');
+        if (!email || !email.includes("@")) {
+          if (errorDiv) {
+            errorDiv.textContent =
+              "Por favor ingresa un correo electrónico válido.";
+            errorDiv.style.display = "block";
+          }
+          return;
         }
 
-        renderizarBotonesPayPal();
+        localStorage.setItem("usuarioRegistrado", username);
+        localStorage.setItem("emailRegistrado", email);
 
-        // ===== CONFIGURACIÓN Y CHECKOUT PADDLE =====
-        const IS_SANDBOX = false;
+        if (btn) {
+          btn.disabled = true;
+          const dict = DICTIONARY[currentWebLang] || DICTIONARY.es;
+          btn.textContent = dict.savingBtn || "Guardando...";
+        }
 
-        const PADDLE_CLIENT_TOKEN = IS_SANDBOX
-          ? "test_28281b56b3fa330cde6caceef52"
-          : "live_558f4339d7b6dab535995395dd3";
+        try {
+          const url = `https://verificador-paypal.vercel.app/api/verificaPremium?subscriptionId=${encodeURIComponent(pendienteSubId)}&proveedor=${encodeURIComponent(pendienteProveedor)}&email=${encodeURIComponent(email)}&nombre=${encodeURIComponent(username)}`;
+          await fetch(url, { method: "GET" });
+        } catch (err) {
+          console.warn("Error al guardar datos en el servidor:", err);
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            const dict = DICTIONARY[currentWebLang] || DICTIONARY.es;
+            btn.textContent = dict.saveBtn || "Guardar y Activar Suscripción";
+          }
+        }
 
-        const PADDLE_PRICES = IS_SANDBOX ? {
+        const modal = document.getElementById("post-payment-modal");
+        if (modal) modal.style.display = "none";
+
+        if (pendienteSubId) {
+          mostrarCodigoExitose(pendienteSubId);
+        }
+      }
+
+      // Función guardar y mostrar código
+      function mostrarCodigoExitose(subscriptionId) {
+        localStorage.setItem("ultimoCodigoSuscripcion", subscriptionId);
+
+        const savedUser = localStorage.getItem("usuarioRegistrado");
+        if (savedUser) {
+          let userGreeting = document.getElementById("user-greeting-msg");
+          if (!userGreeting) {
+            userGreeting = document.createElement("p");
+            userGreeting.id = "user-greeting-msg";
+            userGreeting.style.fontWeight = "700";
+            userGreeting.style.marginBottom = "10px";
+            userGreeting.style.color = "#34d399";
+            codeDisplay.before(userGreeting);
+          }
+          userGreeting.textContent = `¡Hola, ${savedUser}! Tu suscripción se ha vinculado con éxito.`;
+        }
+
+        codeDisplay.textContent = subscriptionId;
+        successBox.style.display = "block";
+        successBox.scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Verificar si hay código guardado al cargar
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedCode = localStorage.getItem("ultimoCodigoSuscripcion");
+        if (savedCode) {
+          mostrarCodigoExitose(savedCode);
+        }
+      });
+
+      // Copiar al portapapeles
+      function copiarCodigo() {
+        const codigo = codeDisplay.textContent;
+        navigator.clipboard.writeText(codigo).then(() => {
+          const btn = document.querySelector(".copy-btn");
+          const originalText = btn.textContent;
+          const dict = DICTIONARY[currentWebLang] || DICTIONARY.es;
+          btn.textContent = dict.copied || "¡Copiado!";
+          setTimeout(() => (btn.textContent = originalText), 2000);
+        });
+      }
+
+      async function esperarPayPalDisponible(
+        timeoutMs = 12000,
+        intervaloMs = 250,
+      ) {
+        const inicio = Date.now();
+        while (Date.now() - inicio < timeoutMs) {
+          if (window.paypal && typeof window.paypal.Buttons === "function") {
+            return true;
+          }
+          await new Promise((resolve) => setTimeout(resolve, intervaloMs));
+        }
+        return false;
+      }
+
+      function crearBotonePayPal(tiPlan, periodo) {
+        if (!window.paypal) {
+          console.error("PayPal SDK no disponible");
+          return;
+        }
+
+        const planId = PLANES[tiPlan][periodo];
+        const containerId = `#paypal-${tiPlan}-${periodo}`;
+        const label = tiPlan === "basico" ? "Plan Básico" : "Plan Premium";
+        const color = tiPlan === "basico" ? "silver" : "gold";
+
+        window.paypal
+          .Buttons({
+            style: {
+              layout: "vertical",
+              color: color,
+              shape: "rect",
+              label: "subscribe",
+              height: 40,
+            },
+            createSubscription: function (data, actions) {
+              return actions.subscription.create({
+                plan_id: planId,
+              });
+            },
+            onApprove: function (data, actions) {
+              console.log(`Suscripción ${label} ${periodo} aprobada`, data);
+              const subId = data.subscriptionID;
+              const emailDetected =
+                data.payer?.email_address ||
+                data.subscriber?.email_address ||
+                "";
+              localStorage.setItem("paypalSubscriptionId", subId);
+              localStorage.setItem("planTipo", tiPlan);
+              localStorage.setItem(
+                "premium",
+                tiPlan === "premium" ? "true" : "false",
+              );
+              localStorage.setItem("lastValidationDate", Date.now().toString());
+              solicitarDatosUsuarioPostPago(subId, "paypal", emailDetected);
+            },
+            onError: function (err) {
+              console.error("PayPal Error:", err);
+              alert("Ocurrió un error con PayPal. Intenta de nuevo.");
+            },
+          })
+          .render(containerId);
+      }
+
+      async function renderizarBotonesPayPal() {
+        const paypalDisponible = await esperarPayPalDisponible();
+
+        if (!paypalDisponible) {
+          console.error(
+            "PayPal SDK no disponible. Revisa el client-id público y la conexión a internet.",
+          );
+          const mensaje =
+            '<p class="loading-text">No se pudo cargar PayPal. Intenta recargar la página.</p>';
+          document.getElementById("paypal-basico-mensual").innerHTML = mensaje;
+          document.getElementById("paypal-basico-anual").innerHTML = mensaje;
+          document.getElementById("paypal-premium-mensual").innerHTML = mensaje;
+          document.getElementById("paypal-premium-anual").innerHTML = mensaje;
+          return;
+        }
+
+        crearBotonePayPal("basico", "mensual");
+        crearBotonePayPal("basico", "anual");
+        crearBotonePayPal("premium", "mensual");
+        crearBotonePayPal("premium", "anual");
+      }
+
+      renderizarBotonesPayPal();
+
+      // ===== CONFIGURACIÓN Y CHECKOUT PADDLE =====
+      const IS_SANDBOX = false;
+
+      const PADDLE_CLIENT_TOKEN = IS_SANDBOX
+        ? "test_28281b56b3fa330cde6caceef52"
+        : "live_558f4339d7b6dab535995395dd3";
+
+      const PADDLE_PRICES = IS_SANDBOX
+        ? {
             basico: {
-                mensual: "pri_01kyxgnvb7k9022frm9nq0j7ad",
-                anual: "pri_01kyxgq8s287wv6ndcnav86kaf"
+              mensual: "pri_01kyxgnvb7k9022frm9nq0j7ad",
+              anual: "pri_01kyxgq8s287wv6ndcnav86kaf",
             },
             premium: {
-                mensual: "pri_01kyxgvth60t3k24f1xrm3wjq3",
-                anual: "pri_01kyxgx6916kt3pjek6d33e210"
-            }
-        } : {
+              mensual: "pri_01kyxgvth60t3k24f1xrm3wjq3",
+              anual: "pri_01kyxgx6916kt3pjek6d33e210",
+            },
+          }
+        : {
             basico: {
-                mensual: "pri_01kyy7spmj9kqwvgnk8ykkjkq7",
-                anual: "pri_01kyy7v8azhm9ha5vxwberrwam"
+              mensual: "pri_01kyy7spmj9kqwvgnk8ykkjkq7",
+              anual: "pri_01kyy7v8azhm9ha5vxwberrwam",
             },
             premium: {
-                mensual: "pri_01kyy7x6gyt2vsnazf70f8gax9",
-                anual: "pri_01kyy7yq03jjagkan1mtktr36d"
-            }
-        };
+              mensual: "pri_01kyy7x6gyt2vsnazf70f8gax9",
+              anual: "pri_01kyy7yq03jjagkan1mtktr36d",
+            },
+          };
 
-        if (window.Paddle) {
-            if (IS_SANDBOX) {
-                Paddle.Environment.set("sandbox");
-            }
-            Paddle.Initialize({
-                token: PADDLE_CLIENT_TOKEN,
-                eventCallback: function (data) {
-                    if (data && data.name === "checkout.completed") {
-                        console.log("Paddle Checkout Completado:", data);
-                        const checkoutId = data.data?.id || "";
-                        const txnId = data.data?.transaction_id || "";
-                        const subId = txnId || checkoutId;
-                        const emailDetected = data.data?.customer?.email || data.data?.user_email || "";
-                        if (subId) {
-                            localStorage.setItem("paddleSubscriptionId", subId);
-                            localStorage.setItem("paddleCheckoutId", checkoutId);
-                            localStorage.setItem("ultimoCodigoSuscripcion", subId);
-                            localStorage.removeItem("paypalSubscriptionId");
-                            localStorage.removeItem("promoCode");
-                            solicitarDatosUsuarioPostPago(subId, 'paddle', emailDetected);
-                        }
-                    }
-                }
-            });
+      if (window.Paddle) {
+        if (IS_SANDBOX) {
+          Paddle.Environment.set("sandbox");
         }
+        Paddle.Initialize({
+          token: PADDLE_CLIENT_TOKEN,
+          eventCallback: function (data) {
+            if (data && data.name === "checkout.completed") {
+              console.log("Paddle Checkout Completado:", data);
+              const checkoutId = data.data?.id || "";
+              const txnId = data.data?.transaction_id || "";
+              const subId = txnId || checkoutId;
+              const emailDetected =
+                data.data?.customer?.email || data.data?.user_email || "";
+              if (subId) {
+                localStorage.setItem("paddleSubscriptionId", subId);
+                localStorage.setItem("paddleCheckoutId", checkoutId);
+                localStorage.setItem("ultimoCodigoSuscripcion", subId);
+                localStorage.removeItem("paypalSubscriptionId");
+                localStorage.removeItem("promoCode");
+                solicitarDatosUsuarioPostPago(subId, "paddle", emailDetected);
+              }
+            }
+          },
+        });
+      }
 
-        function abrirCheckoutPaddle(tiPlan, periodo) {
-            if (!window.Paddle) {
-                alert("Paddle se está cargando. Intenta en un momento.");
-                return;
-            }
-            const priceId = PADDLE_PRICES[tiPlan]?.[periodo];
-            if (!priceId) {
-                alert("Plan no disponible temporalmente.");
-                return;
-            }
-            Paddle.Checkout.open({
-                items: [{ priceId: priceId, quantity: 1 }],
-                customData: {
-                    planTipo: tiPlan,
-                    periodo: periodo
-                },
-                settings: {
-                    displayMode: "overlay",
-                    theme: "dark"
-                }
-            });
+      function abrirCheckoutPaddle(tiPlan, periodo) {
+        if (!window.Paddle) {
+          alert("Paddle se está cargando. Intenta en un momento.");
+          return;
         }
+        const priceId = PADDLE_PRICES[tiPlan]?.[periodo];
+        if (!priceId) {
+          alert("Plan no disponible temporalmente.");
+          return;
+        }
+        Paddle.Checkout.open({
+          items: [{ priceId: priceId, quantity: 1 }],
+          customData: {
+            planTipo: tiPlan,
+            periodo: periodo,
+          },
+          settings: {
+            displayMode: "overlay",
+            theme: "dark",
+          },
+        });
+      }
     </script>
-</body>
-
+  </body>
 </html>
