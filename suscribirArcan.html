@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suscripción - Arcan Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://www.paypal.com/sdk/js?client-id=AX1vi6MEqpTT8LQbmo9YESLJla3BTjbuwj2kKRRFtjaqEPiXTM6H6T_mtpFxkclCQaDmzaPBItWSpk0e&vault=true&intent=subscription&components=buttons"></script>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    <style>
+      :root {
+        --bg-main: #0b0f19;
+        --card-bg: #111827;
+        --card-border: rgba(255,255,255,0.12);
+        --accent: #a52a2a;
+        --accent-hover: #8b1a1a;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --text-high: #e2e8f0;
+      }
+      * { box-sizing:border-box; margin:0; padding:0; font-family:"Saira Condensed",-apple-system,BlinkMacSystemFont,sans-serif; }
+      body {
+        background:#0f0f0f;
+        background-image:radial-gradient(circle at 50% 0%, rgba(165,42,42,0.15) 0%, #0f0f0f 50%, #080808 100%);
+        background-attachment:fixed;
+        min-height:100vh;
+        display:flex; justify-content:center; align-items:center;
+        padding:40px 15px; color:var(--text-main); overflow-x:hidden; position:relative;
+      }
+      .main-wrapper { width:100%; max-width:600px; position:relative; z-index:1; }
+
+      .top-nav-bar { display:flex; justify-content:flex-end; margin-bottom:24px; }
+      .lang-selector-wrapper { position:relative; }
+      .lang-selector-btn {
+        background:rgba(30,41,59,0.9); border:1px solid rgba(255,255,255,0.15); color:#f8fafc;
+        padding:8px 18px; border-radius:50px; font-size:0.88rem; font-weight:600; cursor:pointer;
+        display:flex; align-items:center; gap:8px; transition:all 0.2s;
+      }
+      .lang-selector-btn:hover { background:rgba(51,65,85,0.9); border-color:rgba(255,255,255,0.3); }
+      .lang-dropdown-menu {
+        position:absolute; top:115%; right:0; background:#1e293b; border:1px solid rgba(255,255,255,0.15);
+        border-radius:14px; padding:6px; min-width:140px; box-shadow:0 10px 30px rgba(0,0,0,0.6);
+        display:none; flex-direction:column; z-index:100;
+      }
+      .lang-dropdown-menu.open { display:flex; }
+      .lang-option {
+        padding:9px 14px; font-size:0.88rem; font-weight:600; color:#cbd5e1;
+        border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:10px; transition:background 0.15s;
+      }
+      .lang-option:hover { background:rgba(255,255,255,0.1); color:#fff; }
+
+      .hero-header { text-align:center; margin-bottom:40px; }
+      .brand-badge {
+        display:inline-flex; align-items:center; gap:8px;
+        background:rgba(165,42,42,0.2); border:1px solid rgba(165,42,42,0.4);
+        padding:6px 16px; border-radius:50px; font-size:0.85rem; font-weight:600;
+        color:var(--accent); margin-bottom:16px;
+      }
+      .hero-title { font-size:2.2rem; font-weight:800; color:#fff; margin-bottom:12px; }
+      .hero-subtitle { font-size:1rem; color:var(--text-muted); max-width:500px; margin:0 auto; line-height:1.5; }
+
+      .pricing-card {
+        background:var(--card-bg); border:1px solid rgba(165,42,42,0.4);
+        border-radius:20px; padding:36px 30px; display:flex; flex-direction:column; position:relative;
+        box-shadow:0 10px 30px rgba(0,0,0,0.4); transition:transform 0.25s, box-shadow 0.25s;
+      }
+      .pricing-card:hover { transform:translateY(-3px); box-shadow:0 15px 35px rgba(0,0,0,0.5); }
+
+      .popular-badge {
+        position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+        background:var(--accent); color:#fff; font-size:0.78rem; font-weight:800;
+        padding:5px 18px; border-radius:50px; letter-spacing:0.04em; white-space:nowrap;
+      }
+      .card-header { margin-bottom:22px; }
+      .card-title { font-size:1.4rem; font-weight:700; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+      .card-desc { font-size:0.9rem; color:var(--text-high); line-height:1.45; }
+
+      .price-wrapper { margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); }
+      .price-amount { font-size:2.6rem; font-weight:800; color:#fff; }
+      .price-period { font-size:0.95rem; color:#cbd5e1; font-weight:600; }
+      .trial-pill {
+        display:inline-block; background:rgba(16,185,129,0.15); color:#10b981;
+        font-size:0.78rem; font-weight:700; padding:3px 12px; border-radius:20px; margin-left:8px;
+      }
+
+      .feature-list { list-style:none; margin-bottom:30px; flex-grow:1; }
+      .feature-item { display:flex; align-items:flex-start; gap:12px; font-size:0.92rem; color:#f1f5f9; margin-bottom:14px; line-height:1.45; }
+      .feature-icon {
+        width:20px; height:20px; border-radius:50%; background:rgba(165,42,42,0.2); color:var(--accent);
+        display:flex; align-items:center; justify-content:center; font-size:0.75rem; flex-shrink:0; margin-top:2px;
+      }
+
+      .payment-block { background:#1e293b; border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:18px; }
+      .payment-block-title {
+        font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+        color:#cbd5e1; margin-bottom:12px; display:flex; align-items:center; gap:6px;
+      }
+      .btn-paddle {
+        width:100%; padding:13px; border-radius:10px; border:none; font-size:0.95rem; font-weight:700;
+        cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center;
+        gap:8px; color:#fff; margin-top:10px; background:var(--accent);
+      }
+      .btn-paddle:hover { background:var(--accent-hover); }
+      .separator-line {
+        display:flex; align-items:center; text-align:center; color:#64748b;
+        font-size:0.75rem; font-weight:600; margin:14px 0;
+      }
+      .separator-line::before, .separator-line::after { content:""; flex:1; border-bottom:1px solid rgba(255,255,255,0.1); }
+      .separator-line span { padding:0 10px; }
+
+      .success-box {
+        display:none; margin-top:30px; background:#064e3b; border:1px solid #10b981;
+        padding:28px; border-radius:18px; text-align:center; color:#fff;
+        box-shadow:0 10px 30px rgba(0,0,0,0.4);
+      }
+      .success-box h2 { font-size:1.6rem; color:#34d399; margin-bottom:10px; }
+      .code-display {
+        background:#0f172a; padding:16px; border-radius:12px; font-family:monospace;
+        font-size:1.25rem; font-weight:800; color:#fbbf24; margin:18px 0;
+        border:2px dashed var(--accent); word-break:break-all;
+      }
+      .copy-btn {
+        background:var(--accent); color:white; border:none; padding:10px 24px;
+        border-radius:8px; cursor:pointer; font-size:0.95rem; font-weight:700; transition:all 0.2s;
+      }
+      .copy-btn:hover { background:var(--accent-hover); }
+
+      .modal-overlay {
+        position:fixed; top:0; left:0; right:0; bottom:0;
+        background:rgba(2,6,23,0.85); display:none; justify-content:center; align-items:center;
+        z-index:9999; padding:20px;
+      }
+      .modal-content {
+        background:#1e293b; border:1px solid rgba(255,255,255,0.15);
+        border-radius:20px; padding:36px 32px; max-width:450px; width:100%;
+        box-shadow:0 25px 60px rgba(0,0,0,0.7); color:#fff; text-align:center;
+      }
+      .modal-content h2 { font-size:1.4rem; margin-bottom:8px; color:var(--accent); }
+      .modal-content p { font-size:0.92rem; margin-bottom:24px; color:#cbd5e1; line-height:1.5; }
+      .input-group { margin-bottom:18px; text-align:left; }
+      .input-group label { display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px; color:#e2e8f0; }
+      .input-group input {
+        width:100%; padding:12px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.2);
+        background:#0f172a; color:#fff; font-size:0.95rem; outline:none;
+      }
+      .input-group input:focus { border-color:var(--accent); }
+      .modal-btn {
+        width:100%; padding:13px; background:var(--accent); color:#fff; border:none;
+        border-radius:10px; font-size:0.98rem; font-weight:700; cursor:pointer; transition:all 0.2s; margin-top:10px;
+      }
+      .modal-btn:hover { background:var(--accent-hover); }
+
+      .footer-trust { text-align:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.08); }
+      .trust-badges {
+        display:flex; justify-content:center; gap:24px; flex-wrap:wrap;
+        margin-bottom:16px; color:#cbd5e1; font-size:0.85rem; font-weight:600;
+      }
+      .trust-item { display:flex; align-items:center; gap:6px; }
+      .footer-note { font-size:0.8rem; color:#64748b; }
+
+      @media (max-width:480px) {
+        .hero-title { font-size:1.6rem; }
+        .pricing-card { padding:24px 18px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+      <div class="top-nav-bar">
+        <div class="lang-selector-wrapper">
+          <button class="lang-selector-btn" onclick="toggleLangDropdown()">
+            <i class="fa-solid fa-globe" style="color:#a52a2a"></i>
+            <span id="current-lang-name">Español</span>
+            <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;opacity:0.7"></i>
+          </button>
+          <div id="lang-dropdown-menu" class="lang-dropdown-menu">
+            <div class="lang-option" onclick="setWebLanguage('es')"><i class="fa-solid fa-language" style="opacity:0.6"></i> Español</div>
+            <div class="lang-option" onclick="setWebLanguage('en')"><i class="fa-solid fa-language" style="opacity:0.6"></i> English</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-header">
+        <div class="brand-badge">
+          <i class="fa-solid fa-play" style="color:#a52a2a"></i>
+          <span data-web-i18n="heroTag">Arcan Player</span>
+        </div>
+        <h1 class="hero-title" data-web-i18n="heroTitle">Desbloquea Arcan Player</h1>
+        <p class="hero-subtitle" data-web-i18n="heroSubtitle">
+          Disfruta YouTube ilimitado, descargas, mini player y más funciones premium.
+        </p>
+      </div>
+
+      <div class="pricing-card">
+        <div class="popular-badge" data-web-i18n="popularBadge">RECOMENDADO</div>
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa-solid fa-star"></i>
+            <span data-web-i18n="basicTitle">Plan Básico</span>
+          </div>
+          <p class="card-desc" data-web-i18n="basicDesc">
+            Todo lo que necesitas para YouTube, descargas y mini player.
+          </p>
+        </div>
+        <div class="price-wrapper">
+          <span class="price-amount">$1.99</span>
+          <span class="price-period" data-web-i18n="perMonth">/ mes</span>
+          <span class="trial-pill" data-web-i18n="trialPill">1 día de prueba</span>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-icon"><i class="fa-solid fa-check"></i></span><span data-web-i18n="f1">YouTube ilimitado</span></li>
+          <li class="feature-item"><span class="feature-icon"><i class="fa-solid fa-check"></i></span><span data-web-i18n="f2">Descargas ilimitadas</span></li>
+          <li class="feature-item"><span class="feature-icon"><i class="fa-solid fa-check"></i></span><span data-web-i18n="f3">Mini player flotante</span></li>
+          <li class="feature-item"><span class="feature-icon"><i class="fa-solid fa-check"></i></span><span data-web-i18n="f4">Sin anuncios ni marca de agua</span></li>
+        </ul>
+        <div class="payment-block">
+          <div class="payment-block-title">
+            <i class="fa-brands fa-paypal" style="color:#a52a2a"></i>
+            <span data-web-i18n="payPalMonthly">Pagar con PayPal (Mensual)</span>
+          </div>
+          <div id="paypal-basico-mensual"></div>
+          <div class="separator-line"><span data-web-i18n="orCard">O PAGO CON TARJETA</span></div>
+          <button onclick="abrirCheckoutPaddle()" class="btn-paddle">
+            <i class="fa-solid fa-credit-card"></i>
+            <span data-web-i18n="btnPaddle">Pagar Mensual ($1.99)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="success-box" id="success-box">
+        <h2 data-web-i18n="paySuccess">¡Pago Exitoso!</h2>
+        <p data-web-i18n="thanksSupport">Gracias por apoyar Arcan Player.</p>
+        <p data-web-i18n="yourCodeIs">Tu código de suscripción es:</p>
+        <div class="code-display" id="code-display">---</div>
+        <button class="copy-btn" onclick="copiarCodigo()" data-web-i18n="copyCode">Copiar Código</button>
+        <p style="margin-top:14px;font-size:0.85rem;color:#94a3b8;" data-web-i18n="saveCodeNote">
+          Cópialo y pégalo en la app de Arcan Player para activar tu suscripción.
+        </p>
+      </div>
+
+      <div class="footer-trust">
+        <div class="trust-badges">
+          <div class="trust-item"><i class="fa-solid fa-lock"></i><span data-web-i18n="securePay">Pago 100% Seguro</span></div>
+          <div class="trust-item"><i class="fa-solid fa-bolt"></i><span data-web-i18n="instantAct">Activación Inmediata</span></div>
+          <div class="trust-item"><i class="fa-solid fa-shield-halved"></i><span data-web-i18n="sslEnc">SSL 256-bit</span></div>
+        </div>
+        <p class="footer-note" data-web-i18n="rights">PROYECTOJA © 2026</p>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="post-payment-modal">
+      <div class="modal-content">
+        <h2 data-web-i18n="modalThanks">¡Gracias por tu Pago!</h2>
+        <p data-web-i18n="modalDesc">Ingresa tu nombre y correo para vincular tu suscripción.</p>
+        <div class="input-group">
+          <label data-web-i18n="usernameLabel">Nombre de Usuario *</label>
+          <input id="modal-username" type="text" />
+        </div>
+        <div class="input-group">
+          <label data-web-i18n="emailLabel">Correo Electrónico *</label>
+          <input id="modal-email" type="email" />
+        </div>
+        <p id="modal-error" style="color:#ef4444;font-size:0.85rem;margin-bottom:8px;display:none;"></p>
+        <button class="modal-btn" id="modal-save-btn" onclick="guardarRegistroPostPago()">
+          <span data-web-i18n="saveBtn">Guardar y Activar</span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      var DICTIONARY = {
+        es: {
+          heroTag:"Arcan Player", heroTitle:"Desbloquea Arcan Player",
+          heroSubtitle:"Disfruta YouTube ilimitado, descargas, mini player y más funciones premium.",
+          basicTitle:"Plan Básico", basicDesc:"Todo lo que necesitas para YouTube, descargas y mini player.",
+          perMonth:"/ mes", trialPill:"1 día de prueba",
+          f1:"YouTube ilimitado", f2:"Descargas ilimitadas", f3:"Mini player flotante",
+          f4:"Sin anuncios ni marca de agua",
+          payPalMonthly:"Pagar con PayPal (Mensual)", orCard:"O PAGO CON TARJETA",
+          btnPaddle:"Pagar Mensual ($1.99)", popularBadge:"RECOMENDADO",
+          paySuccess:"¡Pago Exitoso!", thanksSupport:"Gracias por apoyar Arcan Player.",
+          yourCodeIs:"Tu código de suscripción es:",
+          copyCode:"Copiar Código", copied:"¡Copiado!",
+          saveCodeNote:"Cópialo y pégalo en la app de Arcan Player para activar tu suscripción.",
+          modalThanks:"¡Gracias por tu Pago!",
+          modalDesc:"Ingresa tu nombre y correo para vincular tu suscripción.",
+          usernameLabel:"Nombre de Usuario *", emailLabel:"Correo Electrónico *",
+          saveBtn:"Guardar y Activar", savingBtn:"Guardando...",
+          securePay:"Pago 100% Seguro", instantAct:"Activación Inmediata",
+          sslEnc:"SSL 256-bit", rights:"PROYECTOJA © {anio}. Todos los derechos reservados."
+        },
+        en: {
+          heroTag:"Arcan Player", heroTitle:"Unlock Arcan Player",
+          heroSubtitle:"Enjoy unlimited YouTube, downloads, mini player and more premium features.",
+          basicTitle:"Basic Plan", basicDesc:"Everything you need for YouTube, downloads and mini player.",
+          perMonth:"/ mo", trialPill:"1-day trial",
+          f1:"Unlimited YouTube", f2:"Unlimited downloads", f3:"Floating mini player",
+          f4:"No ads or watermark",
+          payPalMonthly:"Pay with PayPal (Monthly)", orCard:"OR CARD PAYMENT",
+          btnPaddle:"Pay Monthly ($1.99)", popularBadge:"RECOMMENDED",
+          paySuccess:"Payment Successful!", thanksSupport:"Thank you for supporting Arcan Player.",
+          yourCodeIs:"Your subscription code is:",
+          copyCode:"Copy Code", copied:"Copied!",
+          saveCodeNote:"Copy and paste it into the Arcan Player app to activate your subscription.",
+          modalThanks:"Thank You for Your Payment!",
+          modalDesc:"Enter your username and email to link your subscription.",
+          usernameLabel:"Username *", emailLabel:"Email Address *",
+          saveBtn:"Save & Activate", savingBtn:"Saving...",
+          securePay:"100% Secure Payment", instantAct:"Instant Activation",
+          sslEnc:"256-bit SSL Encryption", rights:"PROYECTOJA © {anio}. All rights reserved."
+        }
+      };
+
+      var currentWebLang = (function(){
+        try {
+          var saved = localStorage.getItem('suscribirArcanLang');
+          if (saved && DICTIONARY[saved]) return saved;
+          var nav = (navigator.language||'').split('-')[0];
+          if (DICTIONARY[nav]) return nav;
+        } catch(_){}
+        return 'es';
+      })();
+
+      function setWebLanguage(lang) {
+        if (!DICTIONARY[lang]) return;
+        currentWebLang = lang;
+        try { localStorage.setItem('suscribirArcanLang', lang); } catch(_){}
+        var names = {es:'Español',en:'English'};
+        document.getElementById('current-lang-name').textContent = names[lang]||lang;
+        var dict = DICTIONARY[lang];
+        document.querySelectorAll('[data-web-i18n]').forEach(function(el){
+          var key = el.getAttribute('data-web-i18n');
+          if (dict[key]) el.textContent = dict[key];
+        });
+        var menu = document.getElementById('lang-dropdown-menu');
+        if (menu) menu.classList.remove('open');
+      }
+
+      function toggleLangDropdown() {
+        var menu = document.getElementById('lang-dropdown-menu');
+        if (menu) menu.classList.toggle('open');
+      }
+
+      document.addEventListener('click', function(e) {
+        var w = document.querySelector('.lang-selector-wrapper');
+        var m = document.getElementById('lang-dropdown-menu');
+        if (w && m && !w.contains(e.target)) m.classList.remove('open');
+      });
+
+      document.addEventListener('DOMContentLoaded', function(){ setWebLanguage(currentWebLang); });
+
+      var BASICO_PLAN_ID = 'P-6P227008HB3661825NJ6ECZA';
+      var PADDLE_PRICE_ID = 'pri_01kztq437vcsdp7sb3s7dq0kcd';
+      var PADDLE_CLIENT_TOKEN = 'live_558f4339d7b6dab535995395dd3';
+      var IS_SANDBOX = false;
+
+      var successBox = document.getElementById('success-box');
+      var codeDisplay = document.getElementById('code-display');
+      var pendienteSubId = null;
+      var pendienteProveedor = null;
+
+      function solicitarDatosUsuarioPostPago(subId, proveedor, emailDetected) {
+        pendienteSubId = subId;
+        pendienteProveedor = proveedor;
+        var modal = document.getElementById('post-payment-modal');
+        var inputEmail = document.getElementById('modal-email');
+        var inputUser = document.getElementById('modal-username');
+        var errorDiv = document.getElementById('modal-error');
+        if (inputEmail) inputEmail.value = emailDetected || localStorage.getItem('emailRegistrado') || '';
+        if (inputUser) inputUser.value = localStorage.getItem('usuarioRegistrado') || '';
+        if (errorDiv) { errorDiv.style.display = 'none'; errorDiv.textContent = ''; }
+        if (modal) { modal.style.display = 'flex'; setTimeout(function(){ if(inputUser)inputUser.focus(); },200); }
+        else { mostrarCodigoExitoso(subId); }
+      }
+
+      async function guardarRegistroPostPago() {
+        var inputUser = document.getElementById('modal-username');
+        var inputEmail = document.getElementById('modal-email');
+        var errorDiv = document.getElementById('modal-error');
+        var btn = document.getElementById('modal-save-btn');
+        var username = (inputUser&&inputUser.value||'').trim();
+        var email = (inputEmail&&inputEmail.value||'').trim();
+        if (!username) { if(errorDiv){errorDiv.textContent='Por favor ingresa tu nombre.';errorDiv.style.display='block';} return; }
+        if (!email||!email.includes('@')) { if(errorDiv){errorDiv.textContent='Por favor ingresa un correo válido.';errorDiv.style.display='block';} return; }
+        localStorage.setItem('usuarioRegistrado', username);
+        localStorage.setItem('emailRegistrado', email);
+        if (btn) { btn.disabled = true; btn.textContent = (DICTIONARY[currentWebLang]||DICTIONARY.es).savingBtn||'Guardando...'; }
+        try {
+          var url = 'https://verificador-paypal.vercel.app/api/verificaPremium?subscriptionId='+encodeURIComponent(pendienteSubId)+'&proveedor='+encodeURIComponent(pendienteProveedor)+'&email='+encodeURIComponent(email)+'&nombre='+encodeURIComponent(username);
+          await fetch(url, {method:'GET'});
+        } catch(_){} finally {
+          if (btn) { btn.disabled = false; btn.textContent = (DICTIONARY[currentWebLang]||DICTIONARY.es).saveBtn||'Guardar y Activar'; }
+        }
+        var modal = document.getElementById('post-payment-modal');
+        if (modal) modal.style.display = 'none';
+        if (pendienteSubId) mostrarCodigoExitoso(pendienteSubId);
+      }
+
+      function mostrarCodigoExitoso(subscriptionId) {
+        localStorage.setItem('ultimoCodigoSuscripcion', subscriptionId);
+        codeDisplay.textContent = subscriptionId;
+        successBox.style.display = 'block';
+        successBox.scrollIntoView({behavior:'smooth'});
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        var savedCode = localStorage.getItem('ultimoCodigoSuscripcion');
+        if (savedCode) mostrarCodigoExitoso(savedCode);
+      });
+
+      function copiarCodigo() {
+        navigator.clipboard.writeText(codeDisplay.textContent).then(function(){
+          var btn = document.querySelector('.copy-btn');
+          var orig = btn.textContent;
+          btn.textContent = (DICTIONARY[currentWebLang]||DICTIONARY.es).copied||'¡Copiado!';
+          setTimeout(function(){ btn.textContent = orig; }, 2000);
+        });
+      }
+
+      function esperarPayPalDisponible(ms, intervalo) {
+        ms = ms||12000; intervalo = intervalo||250;
+        var inicio = Date.now();
+        return new Promise(function(resolve){
+          function check() {
+            if (typeof paypal!=='undefined'&&typeof paypal.Buttons==='function'){resolve(true);return;}
+            if (Date.now()-inicio>ms){resolve(false);return;}
+            setTimeout(check,intervalo);
+          }
+          check();
+        });
+      }
+
+      function crearBotonPayPal() {
+        var container = document.getElementById('paypal-basico-mensual');
+        paypal.Buttons({
+          style:{shape:'pill',color:'blue',layout:'vertical',label:'subscribe'},
+          createSubscription:function(data,actions){return actions.subscription.create({plan_id:BASICO_PLAN_ID});},
+          onApprove:function(data){
+            var subId = data.subscriptionID;
+            var emailDetected = (data.payer&&data.payer.email_address)||(data.subscriber&&data.subscriber.email_address)||'';
+            localStorage.setItem('paypalSubscriptionId',subId);
+            localStorage.setItem('planTipo','basico');
+            localStorage.setItem('lastPremiumValidation',Date.now().toString());
+            solicitarDatosUsuarioPostPago(subId,'paypal',emailDetected);
+          },
+          onError:function(err){alert('Ocurrió un error con PayPal. Intenta de nuevo.');}
+        }).render('#paypal-basico-mensual');
+      }
+
+      async function renderizarPayPal() {
+        var ready = await esperarPayPalDisponible();
+        if (!ready) { document.getElementById('paypal-basico-mensual').innerHTML='<p class="loading-text">PayPal no disponible. Recarga la página.</p>'; return; }
+        crearBotonPayPal();
+      }
+      renderizarPayPal();
+
+      if (window.Paddle) {
+        if (IS_SANDBOX) Paddle.Environment.set('sandbox');
+        Paddle.Initialize({
+          token:PADDLE_CLIENT_TOKEN,
+          eventCallback:function(data){
+            if (data&&data.name==='checkout.completed') {
+              var txnId = (data.data&&data.data.transaction_id)||'';
+              var subId = txnId||(data.data&&data.data.id)||'';
+              var email = (data.data&&data.data.customer&&data.data.customer.email)||'';
+              if (subId) {
+                localStorage.setItem('paddleSubscriptionId',subId);
+                localStorage.setItem('ultimoCodigoSuscripcion',subId);
+                solicitarDatosUsuarioPostPago(subId,'paddle',email);
+              }
+            }
+          }
+        });
+      }
+
+      function abrirCheckoutPaddle() {
+        if (!window.Paddle) { alert('Paddle se está cargando. Intenta en un momento.'); return; }
+        Paddle.Checkout.open({
+          items:[{priceId:PADDLE_PRICE_ID,quantity:1}],
+          customData:{planTipo:'basico',periodo:'mensual'},
+          settings:{displayMode:'overlay',theme:'dark'}
+        });
+      }
+    </script>
+  </body>
+</html>
