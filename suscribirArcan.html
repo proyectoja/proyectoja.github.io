@@ -6,7 +6,7 @@
     <title>Suscripción - Arcan Player</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://www.paypal.com/sdk/js?client-id=AX1vi6MEqpTT8LQbmo9YESLJla3BTjbuwj2kKRRFtjaqEPiXTM6H6T_mtpFxkclCQaDmzaPBItWSpk0e&vault=true&intent=subscription&components=buttons"></script>
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
@@ -21,7 +21,7 @@
         --text-muted: #94a3b8;
         --text-high: #e2e8f0;
       }
-      * { box-sizing:border-box; margin:0; padding:0; font-family:"Saira Condensed",-apple-system,BlinkMacSystemFont,sans-serif; }
+      * { box-sizing:border-box; margin:0; padding:0; font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif; }
       body {
         background:#0f0f0f;
         background-image:radial-gradient(circle at 50% 0%, rgba(165,42,42,0.15) 0%, #0f0f0f 50%, #080808 100%);
@@ -248,7 +248,7 @@
           <div class="trust-item"><i class="fa-solid fa-bolt"></i><span data-web-i18n="instantAct">Activación Inmediata</span></div>
           <div class="trust-item"><i class="fa-solid fa-shield-halved"></i><span data-web-i18n="sslEnc">SSL 256-bit</span></div>
         </div>
-        <p class="footer-note" data-web-i18n="rights">PROYECTOJA © 2026</p>
+        <p class="footer-note" id="footerNote" data-web-i18n="rights">PROYECTOJA © 2026</p>
       </div>
     </div>
 
@@ -334,8 +334,18 @@
         var dict = DICTIONARY[lang];
         document.querySelectorAll('[data-web-i18n]').forEach(function(el){
           var key = el.getAttribute('data-web-i18n');
-          if (dict[key]) el.textContent = dict[key];
+          if (dict[key]) {
+            if (key === 'rights') {
+              el.textContent = dict[key].replace('{anio}', new Date().getFullYear());
+            } else {
+              el.textContent = dict[key];
+            }
+          }
         });
+        var footerNote = document.getElementById('footerNote');
+        if (footerNote && dict['rights']) {
+          footerNote.textContent = dict['rights'].replace('{anio}', new Date().getFullYear());
+        }
         var menu = document.getElementById('lang-dropdown-menu');
         if (menu) menu.classList.remove('open');
       }
