@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Descarga el Nuevo Himnario Adventista PRO - Windows, Mac, Linux - Versión Completa" />
+    <meta name="keywords" content="Himnario Adventista PRO, Himnario Adventista, descargar himnario, música adventista, himnos adventistas" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta property="og:title" content="Himnario Adventista PRO - PROYECTO JA" />
+    <meta property="og:description" content="Descarga el Nuevo Himnario Adventista PRO en su máxima calidad." />
+    <meta property="og:url" content="https://proyectoja.github.io/himnario.html" />
+    <meta property="og:image" content="https://i.imgur.com/ayIV94z.jpg" />
+    <meta property="og:type" content="website" />
+
+    <title>Himnario Adventista PRO - PROYECTO JA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="logo2.png" type="image/png" />
+    <link rel="stylesheet" href="estilos.css" />
+    <style>
+      :root {
+        --himnario-blue: #3b82f6;
+        --himnario-blue-glow: #60a5fa;
+        --himnario-surface: rgba(15, 23, 42, 0.6);
+      }
+
+      body {
+        background: #0a0f1e !important;
+        overflow-x: hidden;
+      }
+
+      /* Banner background */
+      .page-banner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .page-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.15;
+      }
+      .page-banner::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(10,15,30,0.2) 0%, rgba(10,15,30,0.8) 100%);
+      }
+
+      .contenedorBody {
+        background-color: transparent !important;
+        backdrop-filter: none !important;
+      }
+
+      /* Animated floating particles */
+      .particles-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(96, 165, 250, 0.3);
+        border-radius: 50%;
+        animation: particle-float linear infinite;
+      }
+
+      .particle:nth-child(1) { left: 5%; animation-duration: 18s; animation-delay: 0s; width: 2px; height: 2px; }
+      .particle:nth-child(2) { left: 15%; animation-duration: 22s; animation-delay: -3s; width: 4px; height: 4px; opacity: 0.5; }
+      .particle:nth-child(3) { left: 25%; animation-duration: 16s; animation-delay: -6s; }
+      .particle:nth-child(4) { left: 35%; animation-duration: 24s; animation-delay: -2s; width: 2px; height: 2px; }
+      .particle:nth-child(5) { left: 45%; animation-duration: 20s; animation-delay: -8s; }
+      .particle:nth-child(6) { left: 55%; animation-duration: 19s; animation-delay: -4s; width: 4px; height: 4px; opacity: 0.4; }
+      .particle:nth-child(7) { left: 65%; animation-duration: 23s; animation-delay: -10s; }
+      .particle:nth-child(8) { left: 75%; animation-duration: 17s; animation-delay: -1s; width: 2px; height: 2px; }
+      .particle:nth-child(9) { left: 85%; animation-duration: 21s; animation-delay: -5s; }
+      .particle:nth-child(10) { left: 92%; animation-duration: 25s; animation-delay: -7s; width: 4px; height: 4px; opacity: 0.3; }
+
+      @keyframes particle-float {
+        0% { transform: translateY(100vh) scale(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+      }
+
+      /* Scroll reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 { transition-delay: 0.1s; }
+      .reveal-delay-2 { transition-delay: 0.2s; }
+      .reveal-delay-3 { transition-delay: 0.3s; }
+
+      .page-header {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        padding: 20px 40px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .page-header .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: rgba(255,255,255,0.7);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+      .page-header .back-btn:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.2);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
+      .page-header .back-btn svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      .descarga-himnario h1 {
+        background: linear-gradient(135deg, #fff 0%, #60a5fa 50%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer-text 5s ease-in-out infinite;
+        background-size: 200% 200%;
+      }
+
+      @keyframes shimmer-text {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      .descarga-himnario h2 {
+        color: var(--himnario-blue-glow) !important;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.95rem;
+      }
+
+      .plataformas-grid {
+        gap: 40px;
+      }
+      .plataforma-grupo {
+        padding: 40px;
+        background: var(--himnario-surface) !important;
+        border: 1px solid rgba(59, 130, 246, 0.15) !important;
+        border-radius: 20px !important;
+        transition: all 0.3s ease !important;
+      }
+      .plataforma-grupo:hover {
+        border-color: rgba(59, 130, 246, 0.3) !important;
+        box-shadow: 0 8px 32px rgba(59, 130, 246, 0.08) !important;
+        transform: translateY(-2px);
+      }
+      .plataforma-grupo h3 {
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, #60a5fa, #93c5fd);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .guias-instalacion {
+        gap: 40px !important;
+        margin-top: 80px !important;
+      }
+      .guia-windows, .guia-mac, .guia-linux {
+        padding: 30px;
+        transition: all 0.3s ease;
+      }
+      .guia-windows:hover, .guia-mac:hover, .guia-linux:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.4) !important;
+      }
+
+      .guia-windows {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        border-radius: 20px;
+        text-align: left;
+      }
+      .guia-windows h4 {
+        color: #60a5fa;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.25rem;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .guia-windows p {
+        font-size: 0.95em;
+        opacity: 0.9;
+        margin-bottom: 20px;
+        color: white;
+      }
+      .guia-mac {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        border-radius: 20px;
+        text-align: left;
+      }
+      .guia-mac h4 {
+        color: white;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.25rem;
+        margin-top: 0;
+      }
+      .guia-mac h5 {
+        color: #60a5fa;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      .guia-linux {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(234, 179, 8, 0.3);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        border-radius: 20px;
+        text-align: left;
+      }
+      .guia-linux h4 {
+        color: #facc15;
+        border-bottom: 1px solid rgba(234, 179, 8, 0.2);
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.25rem;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .disqus-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 40px;
+        padding: 12px 24px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: rgba(255,255,255,0.7);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+      .disqus-toggle:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.2);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
+      .disqus-toggle .arrow {
+        transition: transform 0.3s ease;
+      }
+      .disqus-toggle.active .arrow {
+        transform: rotate(180deg);
+      }
+
+      .contenedor-inicio .disqus-cont,
+      .disqus-cont {
+        display: none !important;
+      }
+      .disqus-cont.active {
+        display: block !important;
+        animation: disqus-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes disqus-slide-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .contenedor-texto {
+        padding: 0 10px;
+      }
+      .contenedor-videos {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 60px;
+        padding: 0 10px;
+      }
+
+      /* Download button pulse */
+      .btn-descarga {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-descarga::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.5s ease;
+      }
+      .btn-descarga:hover::after {
+        left: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="particles-bg">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div id="icon-menu" class="boton-lateral-barra">
+      <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </div>
+    <div id="barraCentral" class="contenedor-barra-central">
+      <div id="barraCentralContenido" class="contenedor-barra-central-contenido"></div>
+    </div>
+
+    <div class="contenedor-rey">
+      <div class="contenedorBody"></div>
+      <div class="page-banner"><img src="images/himnario-banner.png" alt="" /></div>
+
+      <div class="contenedor-inicio">
+        <div class="page-header">
+          <a href="index.html" class="back-btn">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            Volver
+          </a>
+        </div>
+
+        <section class="descarga-himnario">
+          <div class="contenedor-texto">
+            <h1 class="reveal">Descargar Nuevo Himnario Adventista PRO</h1>
+            <h2 class="reveal reveal-delay-1">
+              Windows (x32/x64) | Mac (Universal) | Linux | Versión Completa
+            </h2>
+            <p class="intro reveal reveal-delay-2">
+              Disfruta del <strong>Himnario Adventista PRO</strong> en su máxima
+              calidad, con funciones exclusivas, actualizaciones automáticas y
+              contenido que bendecirá tu iglesia.
+            </p>
+
+            <ul class="caracteristicas reveal reveal-delay-3">
+              <li>
+                Audio en alta calidad:
+                <strong>195 kbps | Estéreo | 44.100 Hz</strong>
+              </li>
+              <li>
+                Himnos en diferentes versiones: cantado, instrumental,
+                antiguo, infantil, orquestado, pistas y más.
+              </li>
+              <li>
+                Resolución hasta <strong>16K</strong> con proyección
+                profesional.
+              </li>
+              <li>
+                Tamaño ligero: <strong>169 MB</strong> en formato instalador.
+              </li>
+              <li>
+                Funciones PRO: búsqueda YouTube, explorador multimedia, reloj
+                y contador.
+              </li>
+              <li>Proyección personalizada de letras e imágenes.</li>
+              <li>
+                Biblia integrada con 26 versiones, incluyendo una en hebreo
+                bíblico.
+              </li>
+              <li>
+                Auto-actualización: no necesitas descargar desde fuentes
+                externas.
+              </li>
+              <li>
+                Opción <strong>Premium</strong> para quitar marca de agua
+                (apoya al ministerio).
+              </li>
+            </ul>
+
+            <div class="botones-descarga">
+              <div class="plataformas-grid">
+                <div class="plataforma-grupo">
+                  <h3>Windows</h3>
+                  <a
+                    href="#"
+                    class="btn-descarga windows"
+                    data-extension=".exe"
+                  >
+                    <span class="text">Instalador (.exe)</span>
+                    <span class="size">284 MB</span>
+                  </a>
+                </div>
+
+                <div class="plataforma-grupo">
+                  <h3>macOS (Chip Apple M1/M2/M3)</h3>
+                  <a
+                    href="#"
+                    class="btn-descarga mac"
+                    data-extension="-arm64.dmg"
+                  >
+                    <span class="text">Instalador (.dmg)</span>
+                    <span class="size">163 MB</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="btn-descarga mac-pkg"
+                    data-extension="-arm64.pkg"
+                  >
+                    <span class="text">Paquete (.pkg)</span>
+                    <span class="size">163 MB</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="btn-descarga mac-zip"
+                    data-extension="-arm64.zip"
+                  >
+                    <span class="text">Portable (.zip)</span>
+                    <span class="size">157 MB</span>
+                  </a>
+                </div>
+
+                <div class="plataforma-grupo">
+                  <h3>macOS (Chip Intel)</h3>
+                  <a
+                    href="#"
+                    class="btn-descarga mac"
+                    data-extension="-x64.dmg"
+                  >
+                    <span class="text">Instalador (.dmg)</span>
+                    <span class="size">168 MB</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="btn-descarga mac-zip"
+                    data-extension="-x64.zip"
+                  >
+                    <span class="text">Portable (.zip)</span>
+                    <span class="size">161 MB</span>
+                  </a>
+                </div>
+
+                <div class="plataforma-grupo">
+                  <h3>Linux</h3>
+                  <a
+                    href="#"
+                    class="btn-descarga linux"
+                    data-extension=".AppImage"
+                  >
+                    <span class="text">AppImage</span>
+                    <span class="size">167 MB</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="btn-descarga linux-deb"
+                    data-extension=".deb"
+                  >
+                    <span class="text">Debian (.deb)</span>
+                    <span class="size">106 MB</span>
+                  </a>
+                </div>
+              </div>
+              <p class="nota-descarga">
+                Selecciona tu sistema operativo para descargar la versión
+                correspondiente
+              </p>
+
+              <div class="guias-instalacion" style="margin-top: 80px; display: flex; flex-direction: column; gap: 40px;">
+
+                <div class="guia-windows">
+                  <h4>
+                    Guía de Instalación para Windows
+                  </h4>
+                  <p>
+                    Si al abrir el instalador visualizas una pantalla azul de <strong>Microsoft Defender SmartScreen</strong>, es completamente normal en aplicaciones nuevas.
+                  </p>
+                  <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.9);">
+                      <li style="margin-bottom: 10px;">Si ves el mensaje "Windows protegió su PC", haz clic en el enlace <strong><u>Más información</u></strong>.</li>
+                      <li>Aparecerá un nuevo botón. Haz clic en <strong>Ejecutar de todas formas</strong> para iniciar la instalación.</li>
+                    </ol>
+                  </div>
+                </div>
+
+                <div class="guia-mac">
+                  <h4>
+                    Guía de Instalación para macOS
+                  </h4>
+
+                  <div style="margin-bottom: 30px;">
+                      <h5>macOS Recientes (Ventura, Sonoma, Sequoia y similares)</h5>
+                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Interfaz moderna de Configuración del sistema.</p>
+
+                      <div style="display: grid; gap: 15px;">
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 1 — Clic derecho (Siempre funciona)</strong>
+                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
+                                  <li>Descarga la app y ve a <strong>Finder → Aplicaciones</strong>.</li>
+                                  <li>Haz <strong>Clic derecho</strong> sobre la app y selecciona <strong>Abrir</strong>.</li>
+                                  <li>Confirma <strong>Abrir</strong> en la advertencia.</li>
+                              </ol>
+                          </div>
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 2 — Configuración del sistema</strong>
+                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
+                                  <li>Ve a <strong>Configuración del sistema → Privacidad y seguridad</strong>.</li>
+                                  <li>Desliza hasta el final (abajo).</li>
+                                  <li>Pulsa <strong>Abrir de todos modos</strong>.</li>
+                              </ol>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div style="margin-bottom: 30px;">
+                      <h5 style="color: #60a5fa;">macOS Big Sur, Catalina, Mojave...</h5>
+                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Usan Preferencias del Sistema (interfaz clásica).</p>
+
+                      <div style="display: grid; gap: 15px;">
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 1 — Clic derecho</strong>
+                              <p style="margin: 0; font-size: 0.95em; color: rgba(255,255,255,0.8);">Finder → Aplicaciones → Clic derecho → Abrir.</p>
+                          </div>
+                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 2 — Seguridad y privacidad</strong>
+                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
+                                  <li>Ve a <strong>Preferencias del Sistema → Seguridad y privacidad</strong>.</li>
+                                  <li>En la pestaña <strong>General</strong>, pulsa <strong>Abrir de todos modos</strong>.</li>
+                              </ol>
+                              <div style="margin-top: 10px; font-size: 0.9em; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; color: rgba(255,255,255,0.8);">
+                                  <strong>Si está bloqueado:</strong> Haz clic en el candado e ingresa tu contraseña.
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div style="margin-bottom: 30px;">
+                      <h5 style="color: #a8a29e; font-size: 1rem;">macOS Antiguos (Yosemite, Mavericks, etc.)</h5>
+                      <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                          <p style="margin-top: 0; font-size: 0.95em; color: rgba(255,255,255,0.8);">Ve a <strong>Seguridad y privacidad</strong> y selecciona:</p>
+                          <ul style="list-style: none; padding: 0; margin: 10px 0 0 0; font-size: 0.95em;">
+                              <li style="opacity: 0.5; margin-bottom: 5px; color: white;">App Store</li>
+                              <li style="opacity: 0.5; margin-bottom: 5px; color: white;">App Store y desarrolladores identificados</li>
+                              <li style="color: #4ade80;"><strong>Cualquier sitio</strong> (Selecciona este)</li>
+                          </ul>
+                      </div>
+                  </div>
+
+                  <div>
+                      <h5 style="color: #60a5fa; font-size: 1.1rem; margin-bottom: 10px; font-weight: 700;">Método Universal con Terminal (Avanzado)</h5>
+                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Utiliza estos comandos si los métodos anteriores no funcionan.</p>
+
+                      <div style="margin-bottom: 15px;">
+                          <p style="font-size: 0.9em; font-weight: 600; margin-bottom: 5px; color: #fff;">Opción A: Desactivar Gatekeeper (Recomendado)</p>
+                          <div class="codigo-terminal">
+                              <code id="cmd-gatekeeper">sudo spctl --master-disable</code>
+                              <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-gatekeeper', this)">Copiar</button>
+                          </div>
+                      </div>
+
+                      <div>
+                          <p style="font-size: 0.9em; font-weight: 600; margin-bottom: 5px; color: #fff;">Opción B: Reparar "Aplicación dañada" (Quarantine)</p>
+                          <div class="codigo-terminal">
+                              <code id="cmd-quarantine">sudo xattr -rd com.apple.quarantine /Applications/"Himnario Adventista Pro.app"</code>
+                              <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-quarantine', this)">Copiar</button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="guia-linux">
+                  <h4>
+                    Guía de Instalación para Linux
+                  </h4>
+
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <div style="background: rgba(234, 179, 8, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(234, 179, 8, 0.1);">
+                      <strong style="color: #fff; display: block; margin-bottom: 8px;">Opción A: Archivo .AppImage (Portable)</strong>
+                      <p style="font-size: 0.9em; color: rgba(255,255,255,0.8); margin-bottom: 10px;">Para ejecutar el archivo portable, necesitas darle permisos:</p>
+                      <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.9);">
+                        <li>Clic derecho en el archivo descargado.</li>
+                        <li>Ve a <strong>Propiedades</strong> → Pestaña <strong>Permisos</strong>.</li>
+                        <li>Marca la casilla <strong>"Permitir ejecutar el archivo como un programa"</strong>.</li>
+                        <li>Doble clic para abrir.</li>
+                      </ol>
+
+                      <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                         <p style="font-size: 0.85em; color: rgba(255,255,255,0.6); margin-bottom: 5px;">O usa la terminal:</p>
+                         <div class="codigo-terminal" style="padding: 8px; gap: 10px;">
+                            <code id="cmd-linux-chmod" style="font-size: 0.85em;">chmod +x *.AppImage && ./*.AppImage</code>
+                            <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-linux-chmod', this)" style="padding: 3px 8px; font-size: 0.7rem;">Copiar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style="background: rgba(234, 179, 8, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(234, 179, 8, 0.1);">
+                      <strong style="color: #fff; display: block; margin-bottom: 8px;">Opción B: Paquete .deb (Debian/Ubuntu)</strong>
+                      <p style="font-size: 0.9em; color: rgba(255,255,255,0.8); margin-bottom: 10px;">Instala usando el gestor de software o terminal:</p>
+                      <div class="codigo-terminal" style="padding: 8px; gap: 10px;">
+                          <code id="cmd-linux-deb" style="font-size: 0.85em;">sudo dpkg -i *.deb</code>
+                          <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-linux-deb', this)" style="padding: 3px 8px; font-size: 0.7rem;">Copiar</button>
+                      </div>
+                      <p style="font-size: 0.85em; color: rgba(255,255,255,0.6); margin-top: 10px;">Si hay errores de dependencias, ejecuta:</p>
+                      <code style="font-family: 'Courier New', monospace; font-size: 0.85em; color: #fbbf24; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px;">sudo apt-get install -f</code>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="contenedor-videos">
+            <iframe
+              src="https://www.youtube.com/embed/D-1Jlbx60fI?si=F304Ub9gDh90rUdL"
+              width="100%"
+              height="315"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+
+            <iframe
+              width="100%"
+              height="315"
+              src="https://proyectoja.github.io/embedClappr.html?url=https://hugh.cdn.rumble.cloud/video/s8/2/h/t/X/x/htXxv.haa.mp4?u=0&b=0&poster=https://i.imgur.com/7x6HMVZ.png"
+              title="PROYECTO JA VIDEO PLAYER"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <div>
+            <h1>
+              Este software es libre de virus | Verificado con Virustotal.com
+            </h1>
+            <img
+              src="sin-virus.jpg"
+              style="
+                width: 100%;
+                height: auto;
+                max-width: 2000px;
+                object-fit: contain;
+              "
+            />
+          </div>
+        </section>
+
+        <button class="disqus-toggle" onclick="toggleDisqus()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Comentarios
+          <svg class="arrow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+        </button>
+
+        <div class="disqus-cont" id="disqus-section">
+          <div id="disqus_thread"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      async function descargarDesdeGithub(extension) {
+        try {
+          const res = await fetch(
+            "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
+            { cache: "no-store" },
+          );
+
+          if (!res.ok) throw new Error("No se pudo leer el release");
+
+          const data = await res.json();
+
+          const asset = data.assets?.find((a) => a.name.endsWith(extension));
+
+          if (!asset) {
+            alert(
+              "No se encontró el archivo para esta plataforma (" +
+                extension +
+                ").",
+            );
+            return;
+          }
+
+          window.location.href = asset.browser_download_url;
+        } catch (err) {
+          console.error(err);
+          alert("Error al intentar descargar desde GitHub.");
+        }
+      }
+
+      document.querySelectorAll(".btn-descarga").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const extension = this.getAttribute("data-extension");
+          if (extension) {
+            descargarDesdeGithub(extension);
+          }
+        });
+      });
+
+      function copiarTexto(elementId, btnElement) {
+        const texto = document.getElementById(elementId).innerText;
+        navigator.clipboard
+          .writeText(texto)
+          .then(() => {
+            const originalText = btnElement.innerText;
+            btnElement.innerText = "Copiado";
+            btnElement.classList.add("copied");
+            setTimeout(() => {
+              btnElement.innerText = originalText;
+              btnElement.classList.remove("copied");
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Error al copiar: ", err);
+          });
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var barraCentral = document.getElementById("barraCentral");
+        var barraCentralContenido = document.getElementById("barraCentralContenido");
+        var iconMenu = document.getElementById("icon-menu");
+
+        iconMenu.addEventListener("mouseover", function () {
+          barraCentral.classList.add("activo");
+          barraCentralContenido.classList.add("activo");
+        });
+        barraCentralContenido.addEventListener("mouseleave", function () {
+          barraCentralContenido.classList.remove("activo");
+          setTimeout(function () {
+            barraCentral.classList.remove("activo");
+          }, 1000);
+        });
+
+        var contenedor = document.getElementById("barraCentralContenido");
+        var fragmento = document.createDocumentFragment();
+
+        var divLogo = document.createElement("div");
+        divLogo.className = "icon-logo1";
+        var imgLogo = document.createElement("img");
+        imgLogo.src = "logo1.png";
+        imgLogo.alt = "inicio";
+        divLogo.appendChild(imgLogo);
+        fragmento.appendChild(divLogo);
+
+        function crearEnlace(href, id, imgSrc, texto) {
+          var enlace = document.createElement("a");
+          enlace.href = href;
+          enlace.className = "contenedor-categoria";
+          enlace.id = id;
+          var img = document.createElement("img");
+          img.src = imgSrc;
+          img.alt = texto.toLowerCase();
+          var span = document.createElement("span");
+          span.textContent = texto;
+          enlace.appendChild(img);
+          enlace.appendChild(span);
+          return enlace;
+        }
+
+        fragmento.appendChild(crearEnlace("//proyectoja.github.io", "inicio", "inicio.png", "Inicio"));
+        fragmento.appendChild(crearEnlace("devocional", "devocional", "devocional.png", "Devocional"));
+        fragmento.appendChild(crearEnlace("television", "television", "television.png", "Televisión"));
+        fragmento.appendChild(crearEnlace("radio", "radio", "radio.png", "Radio"));
+
+        contenedor.appendChild(fragmento);
+      });
+    </script>
+
+    <script>
+      var disqusLoaded = false;
+      function toggleDisqus() {
+        var section = document.getElementById('disqus-section');
+        var btn = document.querySelector('.disqus-toggle');
+        section.classList.toggle('active');
+        btn.classList.toggle('active');
+        if (!disqusLoaded && section.classList.contains('active')) {
+          disqusLoaded = true;
+          var d = document, s = d.createElement('script');
+          s.src = 'https://https-proyectoja-github-io-proyectoja.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        }
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var reveals = document.querySelectorAll('.reveal');
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, { threshold: 0.1 });
+        reveals.forEach(function(el) { observer.observe(el); });
+      });
+    </script>
+  </body>
+</html>

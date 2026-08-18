@@ -1,23 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Compartiendo esperanza!" />
-    <meta
-      name="keywords"
-      content="Películas Online,Películas gratis,Ver Películas Online, películas adventistas, IASD, Adventista.org,Alejandro Bullón, PROYECTO JA, música cristiana, música adventista, radio adventistas, televisión adventista, tv adventista, 3abn,3abn latino, esperanza tv,esperanza tv costa rica, nuevo tiempo perú, tv nuevo tiempo perú, radio nuevo tiempo perú, películas cristianas, películas cristianas en hd gratis, películas adventistas gratis, feliz7play"
-    />
+    <meta name="description" content="PROYECTO JA - Compartiendo esperanza a través de la tecnología" />
+    <meta name="keywords" content="PROYECTO JA, Himnario Adventista PRO, Arcan Player, apps adventistas" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Para Internet Explorer -->
 
-    <!--Vista previa del enlace-->
     <meta property="og:title" content="PROYECTO JA" />
-    <meta property="og:description" content="Compartiendo esperanza!" />
-    <meta
-      property="og:url"
-      content="https://proyectoja.github.io/proyectoja/"
-    />
+    <meta property="og:description" content="Compartiendo esperanza a través de la tecnología" />
+    <meta property="og:url" content="https://proyectoja.github.io/" />
     <meta property="og:image" content="https://i.imgur.com/ayIV94z.jpg" />
     <meta property="og:type" content="website" />
 
@@ -28,566 +20,633 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
-    <script src="html2canvas.js"></script>
     <link rel="icon" href="logo2.png" type="image/png" />
-    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="styles-apps.css" />
+    <style>
+      .boton-lateral-barra {
+        display: flex !important;
+        position: fixed !important;
+        right: 24px !important;
+        bottom: 24px !important;
+        z-index: 9999 !important;
+        width: 56px !important;
+        height: 56px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        justify-content: center !important;
+        align-items: center !important;
+        cursor: pointer !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+      }
+      .boton-lateral-barra:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        transform: scale(1.08) !important;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+      }
+      .boton-lateral-barra svg {
+        width: 24px !important;
+        height: 24px !important;
+        fill: white !important;
+      }
+      .contenedor-barra-central {
+        display: flex !important;
+        position: fixed !important;
+        left: 0 !important;
+        bottom: -100% !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 9998 !important;
+        background-color: rgba(0, 0, 0, transparent) !important;
+        animation: Opacity 5s infinite !important;
+        backdrop-filter: blur(3px) !important;
+      }
+      .contenedor-barra-central.activo {
+        bottom: 0% !important;
+      }
+      @keyframes Opacity {
+        0% { background-color: rgba(0, 0, 0, 0.3); }
+        50% { background-color: rgba(0, 0, 0, 0.8); }
+        100% { background-color: rgba(0, 0, 0, 0.3); }
+      }
+      .contenedor-barra-central-contenido {
+        display: flex !important;
+        position: relative !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        width: 200px !important;
+        height: 100% !important;
+        background-color: rgb(6, 6, 19, 0.8) !important;
+        overflow: hidden !important;
+        overflow-y: auto !important;
+        color: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        top: 0 !important;
+        left: -200px !important;
+        transition: transform 1s ease-in-out !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.5) !important;
+      }
+      .contenedor-barra-central-contenido.activo {
+        transform: translateX(200px) !important;
+      }
+      .contenedor-barra-central-contenido .icon-logo1 {
+        display: flex !important;
+        position: relative !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        height: auto !important;
+        margin-bottom: 30px !important;
+      }
+      .icon-logo1 img {
+        width: 100% !important;
+        height: auto !important;
+      }
+      .contenedor-categoria {
+        display: flex !important;
+        position: relative !important;
+        flex-direction: row !important;
+        width: 100% !important;
+        max-width: 80% !important;
+        margin-top: 5px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 10px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+        padding-right: 10px !important;
+        height: auto !important;
+        background-color: transparent !important;
+        border-radius: 1rem !important;
+        overflow: hidden !important;
+        cursor: pointer !important;
+        align-items: center !important;
+        color: white !important;
+        text-decoration: none !important;
+      }
+      .contenedor-categoria img {
+        width: auto !important;
+        height: 30px !important;
+      }
+      .contenedor-categoria span {
+        font-size: 18px !important;
+        margin-left: 10px !important;
+        font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+      }
+      .contenedor-categoria:hover {
+        background-color: rgba(255, 255, 255, 0.3) !important;
+      }
+
+      .lp-disqus-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 40px;
+        padding: 12px 24px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: rgba(255,255,255,0.7);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        z-index: 10;
+      }
+      .lp-disqus-toggle:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.2);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
+      .lp-disqus-arrow {
+        transition: transform 0.3s ease;
+      }
+      .lp-disqus-toggle.active .lp-disqus-arrow {
+        transform: rotate(180deg);
+      }
+
+      .lp-disqus-section {
+        display: none;
+        width: 100%;
+        max-width: 720px;
+        margin-top: 24px;
+        padding: 40px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.05);
+        z-index: 10;
+      }
+      .lp-disqus-section.active {
+        display: block;
+        animation: lp-disqus-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes lp-disqus-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
   </head>
 
   <body>
-    <div class="contenedor-rey" id="contenedor-rey">
-      <div class="contenedorBody"></div>
+    <div class="lp-bg"></div>
+    <div class="lp-grid"></div>
+    <div class="lp-aurora"></div>
+    <canvas id="globe-canvas"></canvas>
 
-      <!-- BIENVENIDA E INICIO-->
-      <div class="contenedor-inicio">
-        <div class="welcome-container">
-          <div class="content">
-            <h1>BIENVENIDO A PROYECTO JA</h1>
-            <p>
-              Descubre contenido increíble y sumérgete en una experiencia única.
-              Contenido cristiano de calidad!
-            </p>
-            <!--<a href="#explore" class="explore-button">Explorar Más</a>-->
+    <div id="icon-menu" class="boton-lateral-barra">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="rgba(255,255,255,0.7)" style="transition:fill 0.3s ease;"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </div>
+    <div id="barraCentral" class="contenedor-barra-central">
+      <div id="barraCentralContenido" class="contenedor-barra-central-contenido"></div>
+    </div>
+
+    <div class="lp-container">
+      <img src="logo1.png" alt="PROYECTO JA" class="lp-logo" />
+
+      <h1 class="lp-title">PROYECTO JA</h1>
+      <p class="lp-subtitle">
+        Compartiendo esperanza a través de la tecnología. Explora nuestras aplicaciones.
+      </p>
+
+      <div class="lp-apps">
+        <!-- Himnario Adventista PRO -->
+        <a href="himnario.html" class="lp-card himnario">
+          <img src="images/himnario-banner.png" class="lp-card-banner" alt="" />
+          <div class="lp-card-banner-overlay"></div>
+          <div class="lp-card-name">Himnario Adventista PRO</div>
+          <div class="lp-card-desc">
+            Himnos, instrumental, proyección, biblia integrada y más. Para Windows, Mac y Linux.
           </div>
-        </div>
-
-        <section class="descarga-himnario">
-          <div class="contenedor-texto">
-            <h1>Descargar Nuevo Himnario Adventista PRO</h1>
-            <h2>
-              Windows (x32/x64) | Mac (Universal) | Linux | Versión Completa
-            </h2>
-            <p class="intro">
-              Disfruta del <strong>Himnario Adventista PRO</strong> en su máxima
-              calidad, con funciones exclusivas, actualizaciones automáticas y
-              contenido que bendecirá tu iglesia.
-            </p>
-
-            <ul class="caracteristicas">
-              <li>
-                🎧 Audio en alta calidad:
-                <strong>195 kbps | Estéreo | 44.100 Hz</strong>
-              </li>
-              <li>
-                📖 Himnos en diferentes versiones: cantado, instrumental,
-                antiguo, infantil, orquestado, pistas y más.
-              </li>
-              <li>
-                🖥️ Resolución hasta <strong>16K</strong> con proyección
-                profesional.
-              </li>
-              <li>
-                ⚡ Tamaño ligero: <strong>169 MB</strong> en formato instalador.
-              </li>
-              <li>
-                ⏰ Funciones PRO: búsqueda YouTube, explorador multimedia, reloj
-                y contador.
-              </li>
-              <li>🖼️ Proyección personalizada de letras e imágenes.</li>
-              <li>
-                📚 Biblia integrada con 26 versiones, incluyendo una en hebreo
-                bíblico.
-              </li>
-              <li>
-                🌐 Auto-actualización: no necesitas descargar desde fuentes
-                externas.
-              </li>
-              <li>
-                ⭐ Opción <strong>Premium</strong> para quitar marca de agua
-                (apoya al ministerio).
-              </li>
-            </ul>
-
-            <div class="botones-descarga">
-              <div class="plataformas-grid">
-                <div class="plataforma-grupo">
-                  <h3>Windows</h3>
-                  <a
-                    href="#"
-                    class="btn-descarga windows"
-                    data-extension=".exe"
-                  >
-                    <span class="icon">🪟</span>
-                    <span class="text">Instalador (.exe)</span>
-                    <span class="size">284 MB</span>
-                  </a>
-                </div>
-
-                <div class="plataforma-grupo">
-                  <h3>macOS (Chip Apple M1/M2/M3)</h3>
-                  <a
-                    href="#"
-                    class="btn-descarga mac"
-                    data-extension="-arm64.dmg"
-                  >
-                    <span class="icon">🍎</span>
-                    <span class="text">Instalador (.dmg)</span>
-                    <span class="size">163 MB</span>
-                  </a>
-                  <a
-                    href="#"
-                    class="btn-descarga mac-pkg"
-                    data-extension="-arm64.pkg"
-                  >
-                    <span class="icon">📦</span>
-                    <span class="text">Paquete (.pkg)</span>
-                    <span class="size">163 MB</span>
-                  </a>
-                  <a
-                    href="#"
-                    class="btn-descarga mac-zip"
-                    data-extension="-arm64.zip"
-                  >
-                    <span class="icon">📦</span>
-                    <span class="text">Portable (.zip)</span>
-                    <span class="size">157 MB</span>
-                  </a>
-                </div>
-
-                <div class="plataforma-grupo">
-                  <h3>macOS (Chip Intel)</h3>
-                  <a
-                    href="#"
-                    class="btn-descarga mac"
-                    data-extension="-x64.dmg"
-                  >
-                    <span class="icon">🍎</span>
-                    <span class="text">Instalador (.dmg)</span>
-                    <span class="size">168 MB</span>
-                  </a>
-                  <a
-                    href="#"
-                    class="btn-descarga mac-zip"
-                    data-extension="-x64.zip"
-                  >
-                    <span class="icon">📦</span>
-                    <span class="text">Portable (.zip)</span>
-                    <span class="size">161 MB</span>
-                  </a>
-                </div>
-
-                <div class="plataforma-grupo">
-                  <h3>Linux</h3>
-                  <a
-                    href="#"
-                    class="btn-descarga linux"
-                    data-extension=".AppImage"
-                  >
-                    <span class="icon">🐧</span>
-                    <span class="text">AppImage</span>
-                    <span class="size">167 MB</span>
-                  </a>
-                  <a
-                    href="#"
-                    class="btn-descarga linux-deb"
-                    data-extension=".deb"
-                  >
-                    <span class="icon">📦</span>
-                    <span class="text">Debian (.deb)</span>
-                    <span class="size">106 MB</span>
-                  </a>
-                </div>
-              </div>
-              <p class="nota-descarga">
-                Selecciona tu sistema operativo para descargar la versión
-                correspondiente
-              </p>
-
-              <div class="guias-instalacion" style="margin-top: 50px; display: flex; flex-direction: column; gap: 25px;">
-              
-                <!-- 🪟 WINDOWS -->
-                <div class="alerta-windows" style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(59, 130, 246, 0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.3); border-radius: 20px; padding: 25px; text-align: left;">
-                  <h4 style="color: #60a5fa; border-bottom: 1px solid rgba(59, 130, 246, 0.2); padding-bottom: 15px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                    🪟 Guía de Instalación para Windows
-                  </h4>
-                  <p style="font-size: 0.95em; opacity: 0.9; margin-bottom: 20px; color: white;">
-                    Si al abrir el instalador visualizas una pantalla azul de <strong>Microsoft Defender SmartScreen</strong>, es completamente normal en aplicaciones nuevas.
-                  </p>
-                  <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
-                    <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.9);">
-                      <li style="margin-bottom: 10px;">Si ves el mensaje "Windows protegió su PC", haz clic en el enlace <strong><u>Más información</u></strong>.</li>
-                      <li>Aparecerá un nuevo botón. Haz clic en <strong>Ejecutar de todas formas</strong> para iniciar la instalación.</li>
-                    </ol>
-                  </div>
-                </div>
-
-                <!-- 🍎 MACOS (Existing) -->
-                <div class="alerta-mac" style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.3); border-radius: 20px; padding: 25px; text-align: left;">
-                  <h4 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; margin-top: 0;">
-                    🍎 Guía de Instalación para macOS
-                  </h4>
-                  
-                  <!-- macOS Recientes -->
-                  <div style="margin-bottom: 30px;">
-                      <h5 style="color: #60a5fa; font-size: 1.1rem; margin-bottom: 10px; font-weight: 700;">macOS Recientes (Ventura, Sonoma, Sequoia y similares)</h5>
-                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Interfaz moderna de Configuración del sistema.</p>
-                      
-                      <div style="display: grid; gap: 15px;">
-                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 1 — Clic derecho (Siempre funciona)</strong>
-                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
-                                  <li>Descarga la app y ve a <strong>Finder → Aplicaciones</strong>.</li>
-                                  <li>Haz <strong>Clic derecho</strong> sobre la app y selecciona <strong>Abrir</strong>.</li>
-                                  <li>Confirma <strong>Abrir</strong> en la advertencia.</li>
-                              </ol>
-                          </div>
-                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 2 — Configuración del sistema</strong>
-                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
-                                  <li>Ve a <strong>Configuración del sistema → Privacidad y seguridad</strong>.</li>
-                                  <li>Desliza hasta el final (abajo).</li>
-                                  <li>Pulsa <strong>Abrir de todos modos</strong>.</li>
-                              </ol>
-                          </div>
-                      </div>
-                  </div>
-
-                  <!-- macOS Clásicos -->
-                  <div style="margin-bottom: 30px;">
-                      <h5 style="color: #60a5fa; font-size: 1.1rem; margin-bottom: 10px; font-weight: 700;">macOS Big Sur, Catalina, Mojave...</h5>
-                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Usan Preferencias del Sistema (interfaz clásica).</p>
-                      
-                      <div style="display: grid; gap: 15px;">
-                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 1 — Clic derecho</strong>
-                              <p style="margin: 0; font-size: 0.95em; color: rgba(255,255,255,0.8);">Finder → Aplicaciones → Clic derecho → Abrir.</p>
-                          </div>
-                          <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                              <strong style="color: #fff; display: block; margin-bottom: 8px;">Método 2 — Seguridad y privacidad</strong>
-                              <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.8);">
-                                  <li>Ve a <strong>Preferencias del Sistema → Seguridad y privacidad</strong>.</li>
-                                  <li>En la pestaña <strong>General</strong>, pulsa <strong>Abrir de todos modos</strong>.</li>
-                              </ol>
-                              <div style="margin-top: 10px; font-size: 0.9em; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; color: rgba(255,255,255,0.8);">
-                                  🔒 <strong>Si está bloqueado:</strong> Haz clic en el candado e ingresa tu contraseña.
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-                  <!-- macOS Antiguos -->
-                  <div style="margin-bottom: 30px;">
-                      <h5 style="color: #a8a29e; font-size: 1rem; margin-bottom: 10px; font-weight: 700;">macOS Antiguos (Yosemite, Mavericks, etc.)</h5>
-                      <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                          <p style="margin-top: 0; font-size: 0.95em; color: rgba(255,255,255,0.8);">Ve a <strong>Seguridad y privacidad</strong> y selecciona:</p>
-                          <ul style="list-style: none; padding: 0; margin: 10px 0 0 0; font-size: 0.95em;">
-                              <li style="opacity: 0.5; margin-bottom: 5px; color: white;">⚪ App Store</li>
-                              <li style="opacity: 0.5; margin-bottom: 5px; color: white;">⚪ App Store y desarrolladores identificados</li>
-                              <li style="color: #4ade80;">✅ <strong>Cualquier sitio</strong> (Selecciona este)</li>
-                          </ul>
-                      </div>
-                  </div>
-
-                  <!-- Terminal / Método Universal -->
-                  <div>
-                      <h5 style="color: #c084fc; font-size: 1.1rem; margin-bottom: 10px; font-weight: 700;">🧠 Método Universal con Terminal (Avanzado)</h5>
-                      <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 15px; color: white;">Utiliza estos comandos si los métodos anteriores no funcionan.</p>
-
-                      <!-- Opción A -->
-                      <div style="margin-bottom: 15px;">
-                          <p style="font-size: 0.9em; font-weight: 600; margin-bottom: 5px; color: #fff;">Opción A: Desactivar Gatekeeper (Recomendado)</p>
-                          <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; gap: 10px;">
-                              <code id="cmd-gatekeeper" style="font-family: 'Courier New', monospace; font-size: 0.9em; word-break: break-all; color: #e2e8f0;">sudo spctl --master-disable</code>
-                              <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-gatekeeper', this)" style="white-space: nowrap; padding: 5px 12px; font-size: 0.8rem;">Copiar</button>
-                          </div>
-                      </div>
-
-                      <!-- Opción B -->
-                      <div>
-                          <p style="font-size: 0.9em; font-weight: 600; margin-bottom: 5px; color: #fff;">Opción B: Reparar "Aplicación dañada" (Quarantine)</p>
-                          <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; gap: 10px;">
-                              <code id="cmd-quarantine" style="font-family: 'Courier New', monospace; font-size: 0.9em; word-break: break-all; color: #e2e8f0;">sudo xattr -rd com.apple.quarantine /Applications/"Himnario Adventista Pro.app"</code>
-                              <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-quarantine', this)" style="white-space: nowrap; padding: 5px 12px; font-size: 0.8rem;">Copiar</button>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-
-                <!-- 🐧 LINUX -->
-                <div class="alerta-linux" style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(234, 179, 8, 0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.3); border-radius: 20px; padding: 25px; text-align: left;">
-                  <h4 style="color: #facc15; border-bottom: 1px solid rgba(234, 179, 8, 0.2); padding-bottom: 15px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                    🐧 Guía de Instalación para Linux
-                  </h4>
-                  
-                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                    <!-- AppImage -->
-                    <div style="background: rgba(234, 179, 8, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(234, 179, 8, 0.1);">
-                      <strong style="color: #fff; display: block; margin-bottom: 8px;">Opción A: Archivo .AppImage (Portable)</strong>
-                      <p style="font-size: 0.9em; color: rgba(255,255,255,0.8); margin-bottom: 10px;">Para ejecutar el archivo portable, necesitas darle permisos:</p>
-                      <ol style="margin: 0; padding-left: 20px; font-size: 0.95em; color: rgba(255,255,255,0.9);">
-                        <li>Clic derecho en el archivo descargado.</li>
-                        <li>Ve a <strong>Propiedades</strong> → Pestaña <strong>Permisos</strong>.</li>
-                        <li>Marca la casilla <strong>"Permitir ejecutar el archivo como un programa"</strong>.</li>
-                        <li>Doble clic para abrir.</li>
-                      </ol>
-                      
-                      <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                         <p style="font-size: 0.85em; color: rgba(255,255,255,0.6); margin-bottom: 5px;">O usa la terminal:</p>
-                         <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; gap: 10px; background: rgba(0,0,0,0.3);">
-                            <code id="cmd-linux-chmod" style="font-family: 'Courier New', monospace; font-size: 0.85em; color: #e2e8f0;">chmod +x *.AppImage && ./*.AppImage</code>
-                            <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-linux-chmod', this)" style="white-space: nowrap; padding: 3px 8px; font-size: 0.7rem;">Copiar</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- DEB -->
-                    <div style="background: rgba(234, 179, 8, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(234, 179, 8, 0.1);">
-                      <strong style="color: #fff; display: block; margin-bottom: 8px;">Opción B: Paquete .deb (Debian/Ubuntu)</strong>
-                      <p style="font-size: 0.9em; color: rgba(255,255,255,0.8); margin-bottom: 10px;">Instala usando el gestor de software o terminal:</p>
-                      <div class="codigo-terminal" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; gap: 10px; background: rgba(0,0,0,0.3); margin-bottom: 8px;">
-                          <code id="cmd-linux-deb" style="font-family: 'Courier New', monospace; font-size: 0.85em; color: #e2e8f0;">sudo dpkg -i *.deb</code>
-                          <button class="btn-copiar-codigo" onclick="copiarTexto('cmd-linux-deb', this)" style="white-space: nowrap; padding: 3px 8px; font-size: 0.7rem;">Copiar</button>
-                      </div>
-                      <p style="font-size: 0.85em; color: rgba(255,255,255,0.6); margin-top: 10px;">Si hay errores de dependencias, ejecuta:</p>
-                      <code style="font-family: 'Courier New', monospace; font-size: 0.85em; color: #fbbf24; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px;">sudo apt-get install -f</code>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
+          <div class="lp-card-arrow">
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
           </div>
+        </a>
 
-          <div class="contenedor-videos">
-            <iframe
-              src="https://www.youtube.com/embed/D-1Jlbx60fI?si=F304Ub9gDh90rUdL"
-              width="100%"
-              height="315"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-
-            <iframe
-              width="100%"
-              height="315"
-              src="https://proyectoja.github.io/embedClappr.html?url=https://hugh.cdn.rumble.cloud/video/s8/2/h/t/X/x/htXxv.haa.mp4?u=0&b=0&poster=https://i.imgur.com/7x6HMVZ.png"
-              title="PROYECTO JA VIDEO PLAYER"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
+        <a href="arcan.html" class="lp-card arcan">
+          <img src="images/arcan-player-bannerUno.png" class="lp-card-banner" alt="" />
+          <div class="lp-card-banner-overlay"></div>
+          <div class="lp-card-name">Arcan Player</div>
+          <div class="lp-card-desc">
+            Reproductor multimedia moderno, multiplataforma. Audio y video en alta calidad.
           </div>
-
-          <div>
-            <h1>
-              Este software es libre de virus | Verificado con Virustotal.com
-            </h1>
-            <img
-              src="sin-virus.jpg"
-              style="
-                width: 100%;
-                height: auto;
-                max-width: 2000px;
-                object-fit: contain;
-              "
-            />
+          <div class="lp-card-arrow">
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
           </div>
-        </section>
-
-        <div class="disqus-cont">
-          <div id="disqus_thread"></div>
-          <script>
-            /**
-             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-                    var disqus_config = function () {
-                    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                    };
-                    */
-            (function () {
-              // DON'T EDIT BELOW THIS LINE
-              var d = document,
-                s = d.createElement("script");
-              s.src =
-                "https://https-proyectoja-github-io-proyectoja.disqus.com/embed.js";
-              s.setAttribute("data-timestamp", +new Date());
-              (d.head || d.body).appendChild(s);
-            })();
-          </script>
-          <noscript
-            >Please enable JavaScript to view the
-            <a href="https://disqus.com/?ref_noscript"
-              >comments powered by Disqus.</a
-            ></noscript
-          >
-          <!-- BEGIN: Powered by Supercounters.com -->
-          <center>
-            <script
-              type="text/javascript"
-              src="//widget.supercounters.com/ssl/flag.js"
-            ></script>
-            <script type="text/javascript">
-              sc_flag(1696014, "000000", "ffffff", "ffffff", 8, 100, 0, 0);
-            </script>
-            <br /><noscript
-              ><a href="http://www.supercounters.com/"
-                >Flag Counter</a
-              ></noscript
-            >
-          </center>
-          <!-- END: Powered by Supercounters.com -->
-
-          <!-- BEGIN: Powered by Supercounters.com -->
-          <center>
-            <script
-              type="text/javascript"
-              src="//widget.supercounters.com/ssl/vt.js"
-            ></script>
-            <script type="text/javascript">
-              var sc_visitor_var = sc_visitor_var || [];
-              sc_vt(1700240, "000000", "cccccc", "ffffff", 10);
-            </script>
-            <br /><noscript
-              ><a href="http://www.supercounters.com/"
-                >free online counter</a
-              ></noscript
-            >
-          </center>
-          <!-- END: Powered by Supercounters.com -->
-        </div>
+        </a>
       </div>
 
-      <div class="contenedor-barra-central" id="barraCentral">
-        <div
-          class="contenedor-barra-central-contenido"
-          id="barraCentralContenido"
-        ></div>
-      </div>
-      <div class="contenedor-barra-inferior">
-        <div class="contenedor-barra-inferior-left">
-          <div class="contenedor-icon-menu" onclick="">
-            <img
-              id="icon-menu"
-              style="height: 30px"
-              src="menu.png"
-              alt="menu"
-              onclick="toggle()"
-            />
-            <img id="icon-logo1" src="logo1.png" alt="PROYECTO JA" />
-          </div>
-        </div>
+      <button class="lp-disqus-toggle" onclick="toggleDisqus()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Comentarios
+        <svg class="lp-disqus-arrow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+      </button>
 
-        <div class="contenedor-barra-inferior-center">
-          <div class="contenedor-buscar">
-            <!-- Campo de búsqueda -->
-            <input
-              type="search"
-              id="search-input"
-              placeholder="Buscar"
-              oninput="searchMovies()"
-            />
-            <div class="contenedor-icon-buscar">
-              <img src="buscar.png" alt="" />
-            </div>
-          </div>
-        </div>
-        <!--
-                <div class="btnsFullscreenx">
-                    <button id="btnFullscreen">
-                        <img src="https://i.imgur.com/gdsF69V.png" alt="Fullscreen">
-                    </button>
-                    <button id="btnSalirFullscreen">
-                        <img src="https://i.imgur.com/Cz9wNHN.png" alt="Salir Fullscreen">
-                    </button>
-                </div>
-            -->
-        <div class="contenedor-barra-inferior-right">
-          <div class="boton-like-page">
-            <!-- LikeBtn.com BEGIN -->
-            <span
-              class="likebtn-wrapper"
-              data-theme="drop"
-              data-ef_voting="buzz"
-              data-identifier="item_1"
-              data-counter_frmt="period"
-              data-counter_zero_show="true"
-              data-counter_count="true"
-              data-popup_disabled="true"
-            ></span>
-            <script>
-              (function (d, e, s) {
-                if (d.getElementById("likebtn_wjs")) return;
-                a = d.createElement(e);
-                m = d.getElementsByTagName(e)[0];
-                a.async = 1;
-                a.id = "likebtn_wjs";
-                a.src = s;
-                m.parentNode.insertBefore(a, m);
-              })(document, "script", "//w.likebtn.com/js/w/widget.js");
-            </script>
-            <!-- LikeBtn.com END -->
-          </div>
-        </div>
+      <div class="lp-disqus-section" id="disqus-section">
+        <div id="disqus_thread"></div>
+      </div>
+
+      <div class="lp-footer">
+        &copy; 2013–2026 PROYECTO JA &middot; Compartiendo esperanza
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+    (function() {
+      // Sidebar toggle
+      var barraCentral = document.getElementById("barraCentral");
+      var barraCentralContenido = document.getElementById("barraCentralContenido");
+      var iconMenu = document.getElementById("icon-menu");
+
+      iconMenu.addEventListener("mouseover", function() {
+        barraCentral.classList.add("activo");
+        barraCentralContenido.classList.add("activo");
+      });
+      barraCentralContenido.addEventListener("mouseleave", function() {
+        barraCentralContenido.classList.remove("activo");
+        setTimeout(function() {
+          barraCentral.classList.remove("activo");
+        }, 1000);
+      });
+      barraCentral.addEventListener("click", function(e) {
+        if (e.target === barraCentral) {
+          barraCentralContenido.classList.remove("activo");
+          setTimeout(function() {
+            barraCentral.classList.remove("activo");
+          }, 1000);
+        }
+      });
+
+      // Dynamic categories
+      var contenedor = document.getElementById("barraCentralContenido");
+      var fragmento = document.createDocumentFragment();
+
+      var divLogo = document.createElement("div");
+      divLogo.className = "icon-logo1";
+      divLogo.style.cssText = "text-align:center;padding:20px 0 30px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:8px;";
+      var imgLogo = document.createElement("img");
+      imgLogo.src = "logo1.png";
+      imgLogo.alt = "PROYECTO JA";
+      imgLogo.style.cssText = "width:60px;height:60px;border-radius:14px;";
+      divLogo.appendChild(imgLogo);
+      fragmento.appendChild(divLogo);
+
+      function crearEnlace(href, id, imgSrc, texto) {
+        var enlace = document.createElement("a");
+        enlace.href = href;
+        enlace.className = "contenedor-categoria";
+        enlace.id = id;
+        enlace.style.cssText = "display:flex;align-items:center;gap:12px;padding:12px 24px;color:rgba(255,255,255,0.7);text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:600;transition:all 0.2s ease;border-radius:8px;margin:2px 8px;";
+        var img = document.createElement("img");
+        img.src = imgSrc;
+        img.alt = texto.toLowerCase();
+        img.style.cssText = "width:28px;height:28px;border-radius:6px;";
+        var span = document.createElement("span");
+        span.textContent = texto;
+        enlace.appendChild(img);
+        enlace.appendChild(span);
+        enlace.addEventListener("mouseover", function() { enlace.style.background = "rgba(255,255,255,0.06)"; enlace.style.color = "#fff"; });
+        enlace.addEventListener("mouseout", function() { enlace.style.background = "transparent"; enlace.style.color = "rgba(255,255,255,0.7)"; });
+        return enlace;
+      }
+
+      fragmento.appendChild(crearEnlace("index.html", "inicio", "inicio.png", "Inicio"));
+      fragmento.appendChild(crearEnlace("devocional.html", "devocional", "devocional.png", "Devocional"));
+      fragmento.appendChild(crearEnlace("television.html", "television", "television.png", "Televisión"));
+      fragmento.appendChild(crearEnlace("radio.html", "radio", "radio.png", "Radio"));
+
+      contenedor.appendChild(fragmento);
+    })();
+    </script>
 
     <script>
-      async function descargarDesdeGithub(extension) {
-        try {
-          const res = await fetch(
-            "https://api.github.com/repos/proyectoja/HimnarioApp/releases/latest",
-            { cache: "no-store" },
-          );
+    (function() {
+      const canvas = document.getElementById('globe-canvas');
+      const ctx = canvas.getContext('2d');
+      let w, h, cx, cy, radius;
+      let rotX = 0, rotY = 0;
+      let autoRotX = 0, autoRotY = 0;
+      let particles = [];
+      let orbitRings = [];
+      let floaters = [];
+      let meteorShower = [];
+      const GLOBE_DOTS = 220;
+      const FLOATER_COUNT = 60;
+      const ORBIT_COUNT = 4;
 
-          if (!res.ok) throw new Error("No se pudo leer el release");
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        cx = w * 0.72;
+        cy = h * 0.48;
+        radius = Math.min(w, h) * 0.32;
+        initGlobe();
+        initFloaters();
+        initOrbits();
+        initMeteors();
+      }
 
-          const data = await res.json();
-
-          // =========================================
-          // Buscar asset para la extensión especificada
-          // =========================================
-          const asset = data.assets?.find((a) => a.name.endsWith(extension));
-
-          if (!asset) {
-            alert(
-              "No se encontró el archivo para esta plataforma (" +
-                extension +
-                ").",
-            );
-            return;
-          }
-
-          // Descargar
-          window.location.href = asset.browser_download_url;
-        } catch (err) {
-          console.error(err);
-          alert("Error al intentar descargar desde GitHub.");
+      function initGlobe() {
+        particles = [];
+        for (let i = 0; i < GLOBE_DOTS; i++) {
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(2 * Math.random() - 1);
+          particles.push({
+            baseTheta: theta,
+            basePhi: phi,
+            size: Math.random() * 2.2 + 0.6,
+            brightness: Math.random() * 0.6 + 0.4,
+            pulseSpeed: Math.random() * 0.02 + 0.005,
+            pulseOffset: Math.random() * Math.PI * 2
+          });
         }
       }
 
-      // Activar todos los botones de descarga
-      document.querySelectorAll(".btn-descarga").forEach((btn) => {
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          const extension = this.getAttribute("data-extension");
-          if (extension) {
-            descargarDesdeGithub(extension);
+      function initFloaters() {
+        floaters = [];
+        for (let i = 0; i < FLOATER_COUNT; i++) {
+          floaters.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            size: Math.random() * 2.5 + 0.5,
+            brightness: Math.random() * 0.5 + 0.15,
+            pulse: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function initOrbits() {
+        orbitRings = [];
+        for (let i = 0; i < ORBIT_COUNT; i++) {
+          orbitRings.push({
+            tiltX: (Math.random() - 0.5) * 60,
+            tiltZ: (Math.random() - 0.5) * 40,
+            speed: (0.15 + Math.random() * 0.35) * (Math.random() > 0.5 ? 1 : -1),
+            dotCount: 70 + Math.floor(Math.random() * 50),
+            dotSize: Math.random() * 1.4 + 0.3,
+            opacity: Math.random() * 0.2 + 0.06,
+            radiusScale: 1.12 + Math.random() * 0.3,
+            offset: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function initMeteors() {
+        meteorShower = [];
+        for (let i = 0; i < 6; i++) {
+          meteorShower.push({
+            x: Math.random() * w,
+            y: -50,
+            speed: 1.5 + Math.random() * 2,
+            angle: 0.4 + Math.random() * 0.3,
+            length: 40 + Math.random() * 60,
+            opacity: 0.3 + Math.random() * 0.4,
+            delay: Math.random() * 400,
+            timer: Math.random() * 400
+          });
+        }
+      }
+
+      function project(theta, phi, rx, ry) {
+        const cosRx = Math.cos(rx), sinRx = Math.sin(rx);
+        const cosRy = Math.cos(ry), sinRy = Math.sin(ry);
+        let x = Math.cos(phi) * Math.cos(theta);
+        let y = Math.cos(phi) * Math.sin(theta);
+        let z = Math.sin(phi);
+        let y1 = y * cosRx - z * sinRx;
+        let z1 = y * sinRx + z * cosRx;
+        let x1 = x * cosRy - z1 * sinRy;
+        let z2 = x * sinRy + z1 * cosRy;
+        return { x: x1 * radius, y: y1 * radius, z: z2, depth: z2 };
+      }
+
+      function drawGlobe(time) {
+        const now = time * 0.001;
+
+        autoRotY += 0.003;
+        autoRotX = Math.sin(now * 0.15) * 0.12;
+        const rx = rotX + autoRotX;
+        const ry = rotY + autoRotY;
+
+        // Meteor shower
+        for (const m of meteorShower) {
+          m.timer += 1;
+          if (m.timer > m.delay + 300) {
+            m.timer = 0;
+            m.x = Math.random() * w;
+            m.y = -50;
           }
-        });
+          if (m.timer > m.delay) {
+            m.x += Math.cos(m.angle) * m.speed * 2;
+            m.y += Math.sin(m.angle) * m.speed * 2;
+            const fade = Math.min(1, (m.timer - m.delay) / 20);
+            const alpha = m.opacity * fade;
+            const grad = ctx.createLinearGradient(
+              m.x, m.y, m.x - Math.cos(m.angle) * m.length, m.y - Math.sin(m.angle) * m.length
+            );
+            grad.addColorStop(0, `rgba(140, 180, 255, ${alpha})`);
+            grad.addColorStop(1, 'transparent');
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(m.x, m.y);
+            ctx.lineTo(m.x - Math.cos(m.angle) * m.length, m.y - Math.sin(m.angle) * m.length);
+            ctx.stroke();
+          }
+        }
+
+        // Globe outer glow
+        const globeGrad = ctx.createRadialGradient(cx, cy, radius * 0.5, cx, cy, radius * 2.5);
+        globeGrad.addColorStop(0, 'rgba(30, 140, 255, 0.10)');
+        globeGrad.addColorStop(0.4, 'rgba(22, 120, 255, 0.04)');
+        globeGrad.addColorStop(1, 'transparent');
+        ctx.fillStyle = globeGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pulsing ring
+        const pulseR = radius * (1.08 + Math.sin(now * 0.8) * 0.03);
+        ctx.strokeStyle = `rgba(96, 165, 250, ${0.06 + Math.sin(now * 0.8) * 0.02})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, pulseR, pulseR * 0.3, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Globe wireframe (latitude)
+        ctx.strokeStyle = 'rgba(96, 165, 250, 0.07)';
+        ctx.lineWidth = 0.6;
+        for (let lat = -60; lat <= 60; lat += 30) {
+          const phi = (lat * Math.PI) / 180;
+          ctx.beginPath();
+          let started = false;
+          for (let i = 0; i <= 80; i++) {
+            const theta = (i / 80) * Math.PI * 2;
+            const p = project(theta, phi, rx, ry);
+            if (p.depth < 0) { started = false; continue; }
+            const px = cx + p.x;
+            const py = cy + p.y;
+            if (!started) { ctx.moveTo(px, py); started = true; }
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+        }
+
+        // Globe wireframe (longitude)
+        for (let lon = 0; lon < 180; lon += 30) {
+          const theta = (lon * Math.PI) / 180;
+          ctx.beginPath();
+          let started = false;
+          for (let i = 0; i <= 80; i++) {
+            const phi = (i / 80) * Math.PI * 2;
+            const p = project(theta, phi, rx, ry);
+            if (p.depth < 0) { started = false; continue; }
+            const px = cx + p.x;
+            const py = cy + p.y;
+            if (!started) { ctx.moveTo(px, py); started = true; }
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+        }
+
+        // Globe dots
+        const sorted = particles.map((dot, i) => {
+          const p = project(dot.baseTheta, dot.basePhi, rx, ry);
+          return { ...dot, ...p, idx: i };
+        }).filter(d => d.depth > -0.1);
+        sorted.sort((a, b) => a.depth - b.depth);
+
+        for (const dot of sorted) {
+          const depthNorm = (dot.depth + 1) / 2;
+          const alpha = depthNorm * dot.brightness * 0.9;
+          const pulse = Math.sin(now * dot.pulseSpeed + dot.pulseOffset) * 0.3 + 0.7;
+          const sz = dot.size * (0.5 + depthNorm * 0.7) * pulse;
+          const px = cx + dot.x;
+          const py = cy + dot.y;
+
+          const glow = ctx.createRadialGradient(px, py, 0, px, py, sz * 5);
+          glow.addColorStop(0, `rgba(120, 180, 255, ${alpha * 0.6})`);
+          glow.addColorStop(1, 'transparent');
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(px, py, sz * 5, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(210, 230, 255, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(px, py, sz, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Orbit rings
+        for (const ring of orbitRings) {
+          const ringRx = (ring.tiltX * Math.PI) / 180 + rx;
+          const ringRz = (ring.tiltZ * Math.PI) / 180;
+          const r = radius * ring.radiusScale;
+          for (let i = 0; i < ring.dotCount; i++) {
+            const angle = (i / ring.dotCount) * Math.PI * 2 + now * ring.speed + ring.offset;
+            let x = Math.cos(angle) * r;
+            let y = Math.sin(angle) * r;
+            let z = 0;
+            const cosA = Math.cos(ringRx), sinA = Math.sin(ringRx);
+            const y1 = y * cosA - z * sinA;
+            const z1 = y * sinA + z * cosA;
+            const cosB = Math.cos(ringRz), sinB = Math.sin(ringRz);
+            const x2 = x * cosB - z1 * sinB;
+            const z2 = x * sinB + z1 * cosB;
+            const depthNorm = (z2 + r) / (2 * r);
+            const alpha = depthNorm * ring.opacity;
+            if (alpha < 0.01) continue;
+            ctx.fillStyle = `rgba(120, 180, 255, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(cx + x2, cy + y1, ring.dotSize * depthNorm, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // Floating particles
+        for (const f of floaters) {
+          f.x += f.vx;
+          f.y += f.vy;
+          f.pulse += 0.01;
+          if (f.x < -20) f.x = w + 20;
+          if (f.x > w + 20) f.x = -20;
+          if (f.y < -20) f.y = h + 20;
+          if (f.y > h + 20) f.y = -20;
+          const pulse = Math.sin(f.pulse) * 0.3 + 0.7;
+          const alpha = f.brightness * pulse;
+          ctx.fillStyle = `rgba(120, 180, 255, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Connect nearby floaters
+        ctx.lineWidth = 0.4;
+        for (let i = 0; i < floaters.length; i++) {
+          for (let j = i + 1; j < floaters.length; j++) {
+            const dx = floaters[i].x - floaters[j].x;
+            const dy = floaters[i].y - floaters[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 130) {
+              const alpha = (1 - dist / 130) * 0.08;
+              ctx.strokeStyle = `rgba(120, 180, 255, ${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(floaters[i].x, floaters[i].y);
+              ctx.lineTo(floaters[j].x, floaters[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function animate(time) {
+        ctx.clearRect(0, 0, w, h);
+        drawGlobe(time);
+        requestAnimationFrame(animate);
+      }
+
+      document.addEventListener('mousemove', function(e) {
+        const dx = (e.clientX - cx) / w;
+        const dy = (e.clientY - cy) / h;
+        rotY = dx * 0.5;
+        rotX = dy * 0.35;
       });
 
-      function copiarTexto(elementId, btnElement) {
-        const texto = document.getElementById(elementId).innerText;
-        navigator.clipboard
-          .writeText(texto)
-          .then(() => {
-            const originalText = btnElement.innerText;
-            const originalBg = btnElement.style.background;
-            
-            btnElement.innerText = "¡Copiado!";
-            btnElement.style.background = "#22c55e"; // Green 500
-            
-            setTimeout(() => {
-              btnElement.innerText = originalText;
-              btnElement.style.background = originalBg || "";
-            }, 2000);
-          })
-          .catch((err) => {
-            console.error("Error al copiar: ", err);
-            alert("No se pudo copiar el texto automáticamente.");
-          });
+      window.addEventListener('resize', resize);
+      resize();
+      requestAnimationFrame(animate);
+    })();
+    </script>
+    <script>
+      var disqusLoaded = false;
+      function toggleDisqus() {
+        var section = document.getElementById('disqus-section');
+        var btn = document.querySelector('.lp-disqus-toggle');
+        section.classList.toggle('active');
+        btn.classList.toggle('active');
+        if (!disqusLoaded && section.classList.contains('active')) {
+          disqusLoaded = true;
+          var d = document, s = d.createElement('script');
+          s.src = 'https://https-proyectoja-github-io-proyectoja.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        }
       }
     </script>
   </body>
