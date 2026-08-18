@@ -831,17 +831,30 @@
   let chatUltimoRol = null;
 
   function chatParsearMarkdown(texto) {
-    let t = texto
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-
-    const lineas = t.split("\n");
+    const lineas = texto.split("\n");
     let html = "";
     let enLista = false;
 
     for (let i = 0; i < lineas.length; i++) {
       let l = lineas[i];
+
+      // Separar: si empieza con "> ", es blockquote
+      if (/^&gt;\s?/.test(l)) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        l = l.replace(/^&gt;\s?/, "");
+        html += '<blockquote style="border-left:3px solid #A52A2A;padding-left:10px;margin:6px 0;color:#aaa;font-style:italic;">' + l + '</blockquote>';
+        continue;
+      }
+
+      // Linea horizontal: "---" o "***"
+      if (/^[-*]{3,}$/.test(l.trim())) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += '<hr style="border:none;border-top:1px solid #333;margin:8px 0;">';
+        continue;
+      }
+
+      // Escapes HTML despues de blockquote
+      l = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
       // Lista numerada: "1. texto" o "1- texto"
       const numMatch = l.match(/^(\d+)[.\-]\s+(.+)/);
@@ -849,22 +862,22 @@
       const guionMatch = l.match(/^[-*]\s+(.+)/);
 
       if (numMatch) {
-        if (!enLista) { html += "<ol>"; enLista = true; }
+        if (enLista !== "ol") { if (enLista) html += "</ul>"; html += "<ol>"; enLista = "ol"; }
         html += "<li>" + numMatch[2] + "</li>";
       } else if (guionMatch) {
-        if (!enLista) { html += "<ul>"; enLista = true; }
+        if (enLista !== "ul") { if (enLista) html += "</ol>"; html += "<ul>"; enLista = "ul"; }
         html += "<li>" + guionMatch[1] + "</li>";
       } else {
-        if (enLista) { html += enLista === true ? "</ol>" : "</ul>"; enLista = false; }
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
         html += l + "<br>";
       }
     }
-    if (enLista) html += enLista === true ? "</ol>" : "</ul>";
+    if (enLista) html += enLista === "ol" ? "</ol>" : "</ul>";
 
-    t = html.replace(/<br>$/, "");
-    t = t.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-    t = t.replace(/\*(.+?)\*/g, "<em>$1</em>");
-    return t;
+    html = html.replace(/<br>$/, "");
+    html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    return html;
   }
 
   function chatAgregarMensaje(rol, texto) {
