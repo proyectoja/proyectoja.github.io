@@ -727,7 +727,7 @@
     return null;
   }
 
-  async function llamarGroq(mensajes) {
+  async function enviarAlServidor(mensajes) {
     try {
       const res = await fetch(CHAT_API_URL, {
         method: "POST",
@@ -759,7 +759,7 @@
 
     const mensajes = construirMensajes(chatSession, textoDetectar, sistema);
 
-    const resultado = await llamarGroq(mensajes);
+    const resultado = await enviarAlServidor(mensajes);
 
     if (typeof resultado === "object" && resultado.error) {
       return { error: resultado.error };

@@ -47,7 +47,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (!GROQ_API_KEY) {
-    return res.status(500).json({ error: "API key no configurada" });
+    return res.status(500).json({ error: "Servicio no disponible" });
   }
 
   const { messages } = req.body;
@@ -93,20 +93,20 @@ module.exports = async function handler(req, res) {
     if (!groqRes.ok) {
       const status = groqRes.status;
       const body = await groqRes.text().catch(() => "");
-      console.error("Groq HTTP " + status + ":", body.slice(0, 200));
-      return res.status(status).json({ error: "Error desde Groq: " + status });
+      console.error("Error backend:", status);
+      return res.status(status).json({ error: "Error del servicio" });
     }
 
     const data = await groqRes.json();
     const respuesta = data.choices?.[0]?.message?.content || null;
 
     if (!respuesta) {
-      return res.status(500).json({ error: "Respuesta vacia de Groq" });
+      return res.status(500).json({ error: "Sin respuesta" });
     }
 
     return res.status(200).json({ respuesta: respuesta });
   } catch (err) {
-    console.error("Error Groq:", err.message);
-    return res.status(500).json({ error: "Error del servidor" });
+    console.error("Error backend:", err.message);
+    return res.status(500).json({ error: "Error del servicio" });
   }
 };
