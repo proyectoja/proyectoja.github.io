@@ -661,7 +661,9 @@
   // ============================
   //  SISTEMA DE CHAT IA (Vercel Backend)
   // ============================
-  const CHAT_API_URL = "/api/chat";
+  const CHAT_API_URL = location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "https://proyectoja-github-io.vercel.app/api/chat"
+    : "/api/chat";
   const CONTEXTO_MAX_TOKENS = 1200;
   const CONTEXTO_MAX_MENSAJES = 30;
 
@@ -886,7 +888,10 @@
 
     chatMostrarTyping();
 
-    const resultado = await responderChat(texto);
+    const [resultado] = await Promise.all([
+      responderChat(texto),
+      new Promise(r => setTimeout(r, 3000))
+    ]);
     chatQuitarTyping();
 
     if (resultado.error) {
