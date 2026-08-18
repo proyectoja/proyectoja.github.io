@@ -110,3 +110,5 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: "Error del servicio" });
   }
 };
+
+module.exports.config = { maxDuration: 10 };
