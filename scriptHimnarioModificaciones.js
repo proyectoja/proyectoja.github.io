@@ -365,7 +365,7 @@
   botonNotificaciones.id = "botonAbrirNotificaciones";
   botonNotificaciones.style.cssText = `
       position: fixed;
-      top: 15px;
+      bottom: 15px;
       right: 15px;
       width: 32px;
       height: 32px;
@@ -387,12 +387,54 @@
       backdrop-filter: blur(10px);
   `;
 
+  // Crear botón flotante de IA
+  const botonIA = document.createElement("button");
+  botonIA.id = "botonIA";
+  botonIA.style.cssText = `
+      position: fixed;
+      bottom: 15px;
+      right: 55px;
+      width: 32px;
+      height: 32px;
+      background: rgba(30, 30, 50, 0.85);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      cursor: move;
+      z-index: 9999997;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s ease;
+      padding: 0;
+      user-select: none;
+      touch-action: none;
+      backdrop-filter: blur(10px);
+  `;
+  botonIA.innerHTML = '<img src="images/copilot-idle.svg" alt="AI" style="width: 18px; height: 18px;">';
+
+  botonIA.addEventListener("mouseenter", () => {
+    if (!botonIADragging) {
+      botonIA.style.transform = "scale(1.15)";
+      botonIA.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.4)";
+    }
+  });
+
+  botonIA.addEventListener("mouseleave", () => {
+    if (!botonIADragging) {
+      botonIA.style.transform = "none";
+      botonIA.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.3)";
+    }
+  });
+
   // Variables para funcionalidad de arrastre del botón
   let botonDragging = false;
   let botonDragOffsetX = 0;
   let botonDragOffsetY = 0;
   let botonCurrentX = 15; // Posición inicial right
-  let botonCurrentY = 15; // Posición inicial top
+  let botonCurrentY = 15; // Posición inicial bottom
 
   // Función para iniciar arrastre del botón - Optimizada
   function iniciarArrastreBoton(e) {
@@ -431,9 +473,17 @@
     const boundedX = Math.max(0, Math.min(newX, window.innerWidth - 40)); // 40px = width del botón
     const boundedY = Math.max(0, Math.min(newY, window.innerHeight - 40)); // 40px = height del botón
 
-    // Actualizar posición inmediatamente (sin throttling para suavidad)
+    // Actualizar posición inmediatamente
     botonNotificaciones.style.left = boundedX + "px";
-    botonNotificaciones.style.top = boundedY + "px";
+    botonNotificaciones.style.bottom = (window.innerHeight - boundedY - 40) + "px";
+    botonNotificaciones.style.right = "auto";
+    botonNotificaciones.style.top = "auto";
+
+    // Mover el botón IA junto con este
+    botonIA.style.left = (boundedX - 40) + "px";
+    botonIA.style.bottom = (window.innerHeight - boundedY - 40) + "px";
+    botonIA.style.right = "auto";
+    botonIA.style.top = "auto";
 
     // Actualizar posición actual
     botonCurrentX = boundedX;
@@ -494,8 +544,9 @@
 
         // Aplicar posición guardada
         botonNotificaciones.style.left = botonCurrentX + "px";
-        botonNotificaciones.style.top = botonCurrentY + "px";
+        botonNotificaciones.style.bottom = botonCurrentY + "px";
         botonNotificaciones.style.right = "auto";
+        botonNotificaciones.style.top = "auto";
       }
     } catch (e) {
       console.error("Error al cargar posición del botón:", e);
@@ -676,6 +727,112 @@
   });
 
   document.body.appendChild(botonNotificaciones);
+
+  // Arrastre del botón IA
+  let botonIADragging = false;
+  let botonIADragOffsetX = 0;
+  let botonIADragOffsetY = 0;
+
+  botonIA.addEventListener("mousedown", (e) => {
+    const onMove = (me) => {
+      const dx = Math.abs(me.clientX - (e.clientX));
+      const dy = Math.abs(me.clientY - (e.clientY));
+      if (dx > 5 || dy > 5) {
+        botonIADragging = true;
+        const r = botonIA.getBoundingClientRect();
+        botonIADragOffsetX = me.clientX - r.left;
+        botonIADragOffsetY = me.clientY - r.top;
+        botonIA.style.cursor = "grabbing";
+        botonIA.style.boxShadow = "0 6px 16px rgba(0,0,0,0.4)";
+        botonIA.style.transform = "scale(1.05)";
+        document.removeEventListener("mousemove", onMove);
+      }
+    };
+    const onUp = () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (botonIADragging) {
+      const nx = e.clientX - botonIADragOffsetX;
+      const ny = e.clientY - botonIADragOffsetY;
+      const boundedX = Math.max(0, Math.min(nx, window.innerWidth - 40));
+      const boundedY = Math.max(0, Math.min(ny, window.innerHeight - 40));
+      botonIA.style.left = boundedX + "px";
+      botonIA.style.bottom = (window.innerHeight - boundedY - 40) + "px";
+      botonIA.style.right = "auto";
+      botonIA.style.top = "auto";
+      // Mover el botón de notificaciones junto con este
+      botonNotificaciones.style.left = (boundedX + 40) + "px";
+      botonNotificaciones.style.bottom = (window.innerHeight - boundedY - 40) + "px";
+      botonNotificaciones.style.right = "auto";
+      botonNotificaciones.style.top = "auto";
+    }
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (botonIADragging) {
+      botonIADragging = false;
+      botonIA.style.cursor = "move";
+      botonIA.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
+      botonIA.style.transform = "none";
+    }
+  });
+
+  botonIA.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    const onMove = (me) => {
+      const ct = me.touches[0];
+      const dx = Math.abs(ct.clientX - t.clientX);
+      const dy = Math.abs(ct.clientY - t.clientY);
+      if (dx > 5 || dy > 5) {
+        botonIADragging = true;
+        const r = botonIA.getBoundingClientRect();
+        botonIADragOffsetX = ct.clientX - r.left;
+        botonIADragOffsetY = ct.clientY - r.top;
+        document.removeEventListener("touchmove", onMove);
+      }
+      me.preventDefault();
+    };
+    const onEnd = () => {
+      botonIADragging = false;
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("touchend", onEnd);
+    };
+    document.addEventListener("touchmove", onMove, { passive: false });
+    document.addEventListener("touchend", onEnd);
+    e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener("touchmove", (e) => {
+    if (botonIADragging && e.touches[0]) {
+      const ct = e.touches[0];
+      const nx = ct.clientX - botonIADragOffsetX;
+      const ny = ct.clientY - botonIADragOffsetY;
+      const boundedX = Math.max(0, Math.min(nx, window.innerWidth - 40));
+      const boundedY = Math.max(0, Math.min(ny, window.innerHeight - 40));
+      botonIA.style.left = boundedX + "px";
+      botonIA.style.bottom = (window.innerHeight - boundedY - 40) + "px";
+      botonIA.style.right = "auto";
+      botonIA.style.top = "auto";
+      // Mover el botón de notificaciones junto con este
+      botonNotificaciones.style.left = (boundedX + 40) + "px";
+      botonNotificaciones.style.bottom = (window.innerHeight - boundedY - 40) + "px";
+      botonNotificaciones.style.right = "auto";
+      botonNotificaciones.style.top = "auto";
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  document.addEventListener("touchend", () => {
+    if (botonIADragging) botonIADragging = false;
+  });
+
+  document.body.appendChild(botonIA);
 
   // Actualizar contador cuando se marcan notificaciones como leídas
   const marcarTodasLeidasOriginal = marcarTodasLeidas;
