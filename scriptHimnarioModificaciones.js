@@ -782,12 +782,12 @@
   chatOverlay.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
       <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:28px;height:28px;border-radius:8px;background:#c05a35;display:flex;align-items:center;justify-content:center;">
-          <svg width="16" height="16" viewBox="0 0 256 208" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M205.28,31.36 C219.376,46.24 225.296,66.56 227.792,95.04 C234.417867,95.04 240.5968,96.5093333 244.768,102.192 L252.56,112.752 C254.8,115.792 256,119.424 256,123.2 L256,151.888 C255.992,155.592267 254.1568,159.203467 251.168,161.392 C215.885333,187.222133 172.3496,208 128,208 C78.9344,208 29.8098667,179.726667 4.832,161.392 C1.84330667,159.203467 0.00722666667,155.592267 0,151.888 L0,123.2 C0,119.424 1.2,115.776 3.424,112.736 L11.216,102.192 C15.3891733,96.5349333 21.5953067,95.04 28.208,95.04 C30.704,66.56 36.608,46.24 50.72,31.36 C77.3312,3.1648 112.56728,0.06016 127.552142,0.00088672 L128,0 C142.72,0 178.4,2.88 205.28,31.36 Z M128.016,78.736 C124.976,78.736 121.472,78.912 117.744,79.28 C116.432,84.176 114.496,88.592 111.664,91.408 C100.464,102.608 86.96,104.336 79.728,104.336 C72.9258667,104.336 65.8005333,102.915733 59.984,99.248 C54.4816,101.056 49.1978667,103.6632 48.848,110.16 C48.2621333,122.440533 48.2112,134.709333 48.1602667,146.984 C48.1336,153.144533 48.1093333,159.3064 48.016,165.472 C48.04,169.050667 50.1978667,172.3752 53.456,173.856 C79.936,185.92 104.976,192 128.016,192 C151.024,192 176.064,185.92 202.528,173.856 C205.786133,172.3752 207.9432,169.050667 207.968,165.472 C208.285333,147.0536 208.029867,128.560267 207.152,110.16 C206.826133,103.625867 201.520267,101.061867 196,99.248 C190.179467,102.899733 183.072533,104.336 176.272,104.336 C169.04,104.336 155.552,102.608 144.336,91.408 C141.504,88.592 139.568,84.176 138.256,79.28 C134.853333,78.9338667 131.436,78.7525333 128.016,78.736 Z M101.074933,122.666667 C106.8232,122.666667 111.4832,127.326667 111.4832,133.074933 L111.4832,152.2584 C111.4832,158.006667 106.8232,162.666667 101.074933,162.666667 C95.3266667,162.666667 90.6666667,158.006667 90.6666667,152.2584 L90.6666667,133.074933 C90.6666667,127.326667 95.3266667,122.666667 101.074933,122.666667 Z M154.408267,122.666667 C160.156533,122.666667 164.816533,127.326667 164.816533,133.074933 L164.816533,152.2584 C164.816533,158.006667 160.156533,162.666667 154.408267,162.666667 C148.66,162.666667 144,158.006667 144,152.2584 L144,133.074933 C144,127.326667 148.66,122.666667 154.408267,122.666667 Z M81.44,28.32 C70.24,29.44 60.8,33.12 56,38.24 C45.6,49.6 47.84,78.4 53.76,84.48 C58.08,88.8 66.24,91.68 75.04,91.68 C81.76,91.68 94.56,90.24 105.12,79.52 C109.76,75.04 112.64,63.84 112.32,52.48 C112,43.36 109.44,35.84 105.6,32.64 C101.44,28.96 92,27.36 81.44,28.32 Z M150.4,32.64 C146.56,35.84 144,43.36 143.68,52.48 C143.36,63.84 146.24,75.04 150.88,79.52 C161.44,90.24 174.24,91.68 180.96,91.68 C189.76,91.68 197.92,88.8 202.24,84.48 C208.16,78.4 210.4,49.6 200,38.24 C195.2,33.12 185.76,29.44 174.56,28.32 C164,27.36 154.56,28.96 150.4,32.64 Z M128,56 C125.44,56 122.4,56.16 119.04,56.48 C119.36,58.24 119.52,60.16 119.68,62.24 C119.68,63.68 119.68,65.12 119.52,66.72 C122.72,66.4 125.44,66.4 128,66.4 C130.559733,66.4 133.28,66.4 136.48,66.72 C136.32,65.12 136.32,63.68 136.32,62.24 C136.48,60.16 136.64,58.24 136.96,56.48 C133.6,56.16 130.56,56 128,56 Z" fill="#fff"/></svg>
+        <div style="width:28px;height:28px;border-radius:8px;background:#A52A2A;display:flex;align-items:center;justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 1 5 5v1a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5z"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4.5C7 3 9.5 2 12 2s5 1 5 2.5"/></svg>
         </div>
         <div>
-          <div style="font-size:13px;font-weight:700;color:#fff;">Arcan IA</div>
-          <div style="font-size:10px;color:#666;">Asistente</div>
+          <div style="font-size:13px;font-weight:700;color:#fff;">Cortana</div>
+          <div style="font-size:10px;color:#666;">Asistente IA</div>
         </div>
       </div>
       <button id="cerrarChatIA" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
@@ -796,7 +796,7 @@
     <div style="padding:10px;border-top:1px solid #1a1a1a;background:#111;">
       <div style="display:flex;gap:8px;align-items:flex-end;">
         <textarea id="chatInput" rows="1" placeholder="Escribe tu mensaje..." style="flex:1;background:#161616;border:1px solid #222;color:#e8edf9;font-family:inherit;font-size:13px;line-height:1.5;padding:8px 12px;border-radius:8px;resize:none;max-height:100px;outline:none;transition:border-color 0.2s;"></textarea>
-        <button id="chatEnviar" style="width:36px;height:36px;border:none;border-radius:8px;background:#c05a35;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s ease;" disabled>
+        <button id="chatEnviar" style="width:36px;height:36px;border:none;border-radius:8px;background:#A52A2A;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s ease;" disabled>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
         </button>
       </div>
@@ -830,6 +830,43 @@
 
   let chatUltimoRol = null;
 
+  function chatParsearMarkdown(texto) {
+    let t = texto
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    const lineas = t.split("\n");
+    let html = "";
+    let enLista = false;
+
+    for (let i = 0; i < lineas.length; i++) {
+      let l = lineas[i];
+
+      // Lista numerada: "1. texto" o "1- texto"
+      const numMatch = l.match(/^(\d+)[.\-]\s+(.+)/);
+      // Lista con guion: "- texto"
+      const guionMatch = l.match(/^[-*]\s+(.+)/);
+
+      if (numMatch) {
+        if (!enLista) { html += "<ol>"; enLista = true; }
+        html += "<li>" + numMatch[2] + "</li>";
+      } else if (guionMatch) {
+        if (!enLista) { html += "<ul>"; enLista = true; }
+        html += "<li>" + guionMatch[1] + "</li>";
+      } else {
+        if (enLista) { html += enLista === true ? "</ol>" : "</ul>"; enLista = false; }
+        html += l + "<br>";
+      }
+    }
+    if (enLista) html += enLista === true ? "</ol>" : "</ul>";
+
+    t = html.replace(/<br>$/, "");
+    t = t.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    t = t.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    return t;
+  }
+
   function chatAgregarMensaje(rol, texto) {
     const chatMensajes = document.getElementById("chatMensajes");
     if (!chatMensajes) return;
@@ -842,9 +879,9 @@
 
     const avatarSvg = esUsuario
       ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
-      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-1.9-5.3 8.5 8.5 0 0 1 8.5-8.5 8.38 8.38 0 0 1 8.5 8.5z"/><path d="M12 8v4"/><path d="M10 10h4"/></svg>';
+      : '<svg width="16" height="16" viewBox="0 0 256 208" fill="#ddd"><path d="M205.28,31.36C219.376,46.24 225.296,66.56 227.792,95.04C234.418,95.04 240.597,96.509 244.768,102.192L252.56,112.752C254.8,115.792 256,119.424 256,123.2L256,151.888C255.992,155.592 254.157,159.203 251.168,161.392C215.885,187.222 172.35,208 128,208C78.934,208 29.81,179.727 4.832,161.392C1.843,159.203 0.007,155.592 0,151.888L0,123.2C0,119.424 1.2,115.776 3.424,112.736L11.216,102.192C15.389,96.535 21.595,95.04 28.208,95.04C30.704,66.56 36.608,46.24 50.72,31.36C77.331,3.165 112.567,0.06 127.552,0.001L128,0C142.72,0 178.4,2.88 205.28,31.36ZM128.016,78.736C124.976,78.736 121.472,78.912 117.744,79.28C116.432,84.176 114.496,88.592 111.664,91.408C100.464,102.608 86.96,104.336 79.728,104.336C72.926,104.336 65.801,102.916 59.984,99.248C54.482,101.056 49.198,103.663 48.848,110.16C48.262,122.441 48.211,134.709 48.16,146.984C48.134,153.145 48.109,159.306 48.016,165.472C48.04,169.051 50.198,172.375 53.456,173.856C79.936,185.92 104.976,192 128.016,192C151.024,192 176.064,185.92 202.528,173.856C205.786,172.375 207.943,169.051 207.968,165.472C208.285,147.054 208.03,128.56 207.152,110.16C206.826,103.626 201.52,101.062 196,99.248C190.179,102.9 183.073,104.336 176.272,104.336C169.04,104.336 155.552,102.608 144.336,91.408C141.504,88.592 139.568,84.176 138.256,79.28C134.853,78.934 131.436,78.753 128.016,78.736ZM101.075,122.667C106.823,122.667 111.483,127.327 111.483,133.075L111.483,152.258C111.483,158.007 106.823,162.667 101.075,162.667C95.327,162.667 90.667,158.007 90.667,152.258L90.667,133.075C90.667,127.327 95.327,122.667 101.075,122.667ZM154.408,122.667C160.156,122.667 164.816,127.327 164.816,133.075L164.816,152.258C164.816,158.007 160.156,162.667 154.408,162.667C148.66,162.667 144,158.007 144,152.258L144,133.075C144,127.327 148.66,122.667 154.408,122.667Z"/></svg>';
 
-    const avatarBg = esUsuario ? "background:#161620;border:1px solid #222233;" : "background:#c05a35;";
+    const avatarBg = esUsuario ? "background:#161620;border:1px solid #222233;" : "background:#A52A2A;";
     const burbujaBg = esUsuario ? "background:#1a1a2e;border:1px solid #252540;border-top-right-radius:4px;color:#ccc;" : "background:#111118;border:1px solid #1a1a24;border-top-left-radius:4px;color:#ccc;";
 
     let connector = "";
@@ -853,7 +890,9 @@
       connector = '<div style="position:absolute;' + side + 'top:-8px;width:1px;height:8px;background:#222233;"></div>';
     }
 
-    div.innerHTML = '<div style="position:relative;">' + connector + '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div></div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;word-break:break-word;white-space:pre-wrap;max-width:280px;' + burbujaBg + '">' + texto + '</div>';
+    const textoRenderizado = "<em>" + chatParsearMarkdown(texto) + "</em>";
+
+    div.innerHTML = '<div style="position:relative;">' + connector + '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div></div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;word-break:break-word;max-width:280px;' + burbujaBg + '">' + textoRenderizado + '</div>';
     chatMensajes.appendChild(div);
     chatMensajes.scrollTop = chatMensajes.scrollHeight;
   }
@@ -864,7 +903,7 @@
     const div = document.createElement("div");
     div.id = "chatTyping";
     div.style.cssText = "display:flex;gap:8px;align-self:flex-start;animation:chatEntrar 0.2s ease;";
-    div.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;background:#c05a35;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-1.9-5.3 8.5 8.5 0 0 1 8.5-8.5 8.38 8.38 0 0 1 8.5 8.5z"/><path d="M12 8v4"/><path d="M10 10h4"/></svg></div><div style="display:flex;align-items:center;gap:6px;color:#555;font-size:12px;">Escribiendo<span style="display:inline-flex;gap:3px;"><span style="width:5px;height:5px;border-radius:50%;background:#c05a35;animation:chatPulse 1.2s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#c05a35;animation:chatPulse 1.2s 0.15s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#c05a35;animation:chatPulse 1.2s 0.3s infinite ease-in-out;"></span></span></div>';
+    div.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;background:#A52A2A;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 256 208" fill="#ddd"><path d="M205.28,31.36C219.376,46.24 225.296,66.56 227.792,95.04C234.418,95.04 240.597,96.509 244.768,102.192L252.56,112.752C254.8,115.792 256,119.424 256,123.2L256,151.888C255.992,155.592 254.157,159.203 251.168,161.392C215.885,187.222 172.35,208 128,208C78.934,208 29.81,179.727 4.832,161.392C1.843,159.203 0.007,155.592 0,151.888L0,123.2C0,119.424 1.2,115.776 3.424,112.736L11.216,102.192C15.389,96.535 21.595,95.04 28.208,95.04C30.704,66.56 36.608,46.24 50.72,31.36C77.331,3.165 112.567,0.06 127.552,0.001L128,0C142.72,0 178.4,2.88 205.28,31.36ZM128.016,78.736C124.976,78.736 121.472,78.912 117.744,79.28C116.432,84.176 114.496,88.592 111.664,91.408C100.464,102.608 86.96,104.336 79.728,104.336C72.926,104.336 65.801,102.916 59.984,99.248C54.482,101.056 49.198,103.663 48.848,110.16C48.262,122.441 48.211,134.709 48.16,146.984C48.134,153.145 48.109,159.306 48.016,165.472C48.04,169.051 50.198,172.375 53.456,173.856C79.936,185.92 104.976,192 128.016,192C151.024,192 176.064,185.92 202.528,173.856C205.786,172.375 207.943,169.051 207.968,165.472C208.285,147.054 208.03,128.56 207.152,110.16C206.826,103.626 201.52,101.062 196,99.248C190.179,102.9 183.073,104.336 176.272,104.336C169.04,104.336 155.552,102.608 144.336,91.408C141.504,88.592 139.568,84.176 138.256,79.28C134.853,78.934 131.436,78.753 128.016,78.736ZM101.075,122.667C106.823,122.667 111.483,127.327 111.483,133.075L111.483,152.258C111.483,158.007 106.823,162.667 101.075,162.667C95.327,162.667 90.667,158.007 90.667,152.258L90.667,133.075C90.667,127.327 95.327,122.667 101.075,122.667ZM154.408,122.667C160.156,122.667 164.816,127.327 164.816,133.075L164.816,152.258C164.816,158.007 160.156,162.667 154.408,162.667C148.66,162.667 144,158.007 144,152.258L144,133.075C144,127.327 148.66,122.667 154.408,122.667Z"/></svg></div><div style="display:flex;align-items:center;gap:6px;color:#555;font-size:12px;">Escribiendo<span style="display:inline-flex;gap:3px;"><span style="width:5px;height:5px;border-radius:50%;background:#A52A2A;animation:chatPulse 1.2s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#A52A2A;animation:chatPulse 1.2s 0.15s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#A52A2A;animation:chatPulse 1.2s 0.3s infinite ease-in-out;"></span></span></div>';
     chatMensajes.appendChild(div);
     chatMensajes.scrollTop = chatMensajes.scrollHeight;
   }
@@ -926,7 +965,7 @@
           chatEnviar();
         }
       });
-      chatInput.onfocus = () => { chatInput.style.borderColor = "#c05a35"; };
+      chatInput.onfocus = () => { chatInput.style.borderColor = "#A52A2A"; };
       chatInput.onblur = () => { chatInput.style.borderColor = "#222"; };
     }
 
