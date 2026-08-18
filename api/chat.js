@@ -5,7 +5,7 @@ const MAX_REQUESTS = 15;
 const WINDOW_MS = 60000;
 
 function getClientIP(req) {
-  return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket?.remoteAddress || "unknown";
+  return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || "unknown";
 }
 
 function isRateLimited(ip) {
@@ -18,61 +18,35 @@ function isRateLimited(ip) {
   return RATE_LIMIT[ip].count > MAX_REQUESTS;
 }
 
-const BLOCKED_PATTERNS = [
-  /api[_\-]?key/i, /token/i, /secret/i, /password/i, /gsk_/i,
-  /bearer/i, /authorization/i, /cookie/i,
-];
+const BLOCKED = [/api[_\-]?key/i, /token/i, /secret/i, /password/i, /gsk_/i, /bearer/i];
 
-function contieneSecretos(texto) {
-  return BLOCKED_PATTERNS.some(p => p.test(texto));
+function contieneSecretos(t) {
+  return BLOCKED.some(p => p.test(t));
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("X-Content-Type-Options", "nosniff");
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const ip = getClientIP(req);
-  if (isRateLimited(ip)) {
-    return res.status(429).json({ error: "Demasiadas peticiones. Espera un momento." });
-  }
-
-  if (!GROQ_API_KEY) {
-    return res.status(500).json({ error: "Servicio no disponible" });
-  }
+  if (isRateLimited(ip)) return res.status(429).json({ error: "Demasiadas peticiones." });
+  if (!GROQ_API_KEY) return res.status(500).json({ error: "Servicio no disponible" });
 
   const { messages } = req.body;
-
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
-    return res.status(400).json({ error: "Messages requerido" });
+    return res.status(400).json({ error: "Mensaje requerido" });
   }
-
-  if (messages.length > 40) {
-    return res.status(400).json({ error: "Demasiados mensajes" });
-  }
+  if (messages.length > 40) return res.status(400).json({ error: "Demasiados mensajes" });
 
   for (const m of messages) {
-    if (!m.role || !m.content) {
-      return res.status(400).json({ error: "Formato de mensaje invalido" });
-    }
-    if (!["system", "user", "assistant"].includes(m.role)) {
-      return res.status(400).json({ error: "Rol de mensaje invalido" });
-    }
-    if (typeof m.content !== "string" || m.content.length > 4000) {
-      return res.status(400).json({ error: "Contenido del mensaje invalido" });
-    }
-    if (contieneSecretos(m.content)) {
-      return res.status(400).json({ error: "Contenido no permitido" });
-    }
+    if (!m.role || !m.content) return res.status(400).json({ error: "Formato invalido" });
+    if (!["system", "user", "assistant"].includes(m.role)) return res.status(400).json({ error: "Formato invalido" });
+    if (typeof m.content !== "string" || m.content.length > 4000) return res.status(400).json({ error: "Mensaje muy largo" });
+    if (contieneSecretos(m.content)) return res.status(400).json({ error: "Contenido no permitido" });
   }
 
   try {
@@ -84,31 +58,26 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         model: "llama-3.1-8b-instant",
-        messages: messages,
+        messages,
         max_tokens: 150,
         temperature: 0.6,
       }),
     });
 
     if (!groqRes.ok) {
-      const status = groqRes.status;
-      const body = await groqRes.text().catch(() => "");
-      console.error("Error backend:", status);
-      return res.status(status).json({ error: "Error del servicio" });
+      console.error("Error backend:", groqRes.status);
+      return res.status(500).json({ error: "Error del servicio" });
     }
 
     const data = await groqRes.json();
     const respuesta = data.choices?.[0]?.message?.content || null;
+    if (!respuesta) return res.status(500).json({ error: "Sin respuesta" });
 
-    if (!respuesta) {
-      return res.status(500).json({ error: "Sin respuesta" });
-    }
-
-    return res.status(200).json({ respuesta: respuesta });
+    return res.status(200).json({ respuesta });
   } catch (err) {
     console.error("Error backend:", err.message);
     return res.status(500).json({ error: "Error del servicio" });
   }
-};
+}
 
-module.exports.config = { maxDuration: 10 };
+export const config = { maxDuration: 10 };
