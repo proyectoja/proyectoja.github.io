@@ -76,7 +76,7 @@
     {
       id: 3,
       titulo: "Apoyo al proyecto",
-      descripcion:         "Querida comunidad, queremos compartirles algo con total transparencia y respeto. Por el momento, las actualizaciones quedarán en pausa hasta alcanzar las 100 suscripciones activas. Este proyecto se mantiene gracias al apoyo real de quienes creen en él. Cada mejora, corrección y nueva función requiere tiempo, recursos y compromiso, y llegar a esa meta nos permitirá seguir avanzando con la calidad y dedicación que ustedes merecen. No es una despedida, es una pausa consciente. Una invitación a reflexionar, a valorar el trabajo detrás de cada actualización y, si este proyecto ha sido de bendición para ti, a considerar apoyarlo para que pueda seguir creciendo. Gracias por estar, por usarlo y por creer. Con su apoyo, esto no se detiene… se fortalece",
+      descripcion: "Querida comunidad, queremos compartirles algo con total transparencia y respeto. Por el momento, las actualizaciones quedarán en pausa hasta alcanzar las 100 suscripciones activas. Este proyecto se mantiene gracias al apoyo real de quienes creen en él. Cada mejora, corrección y nueva función requiere tiempo, recursos y compromiso, y llegar a esa meta nos permitirá seguir avanzando con la calidad y dedicación que ustedes merecen. No es una despedida, es una pausa consciente. Una invitación a reflexionar, a valorar el trabajo detrás de cada actualización y, si este proyecto ha sido de bendición para ti, a considerar apoyarlo para que pueda seguir creciendo. Gracias por estar, por usarlo y por creer. Con su apoyo, esto no se detiene… se fortalece",
       fecha: "2026-01-14",
       categoria: "anuncio",
       leida: false,
@@ -160,11 +160,11 @@
 
   notificacionesOverlay.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #111; border-bottom: 1px solid #1a1a1a;">
-          <span style="font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #888;">Avisos</span>
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #ccc;">Avisos</span>
           <button id="cerrarNotificaciones" style="
               background: none;
-              border: 1px solid #333;
-              color: #666;
+              border: 1px solid #444;
+              color: #aaa;
               width: 24px;
               height: 24px;
               border-radius: 4px;
@@ -187,8 +187,8 @@
           <button id="marcarTodasLeidas" style="
               flex: 1;
               background: #161616;
-              border: 1px solid #222;
-              color: #666;
+              border: 1px solid #333;
+              color: #aaa;
               padding: 7px 0;
               border-radius: 4px;
               cursor: pointer;
@@ -250,11 +250,11 @@
       contenidoNotificacion += `
           <div style="padding: ${notif.imagen ? "8px 12px 10px" : "0"};">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                  <span style="font-size: 12px; font-weight: 600; color: #fff; line-height: 1.3;">${notif.titulo}</span>
+                  <span style="font-size: 15px; font-weight: 700; color: #fff; line-height: 1.3;">${notif.titulo}</span>
                   ${!notif.leida ? '<span style="width: 6px; height: 6px; border-radius: 50%; background: #c0392b; flex-shrink: 0; margin-left: 6px;"></span>' : ""}
               </div>
-              <p style="margin: 0; font-size: 11px; line-height: 1.4; color: #666;">${notif.descripcion}</p>
-              <span style="font-size: 10px; color: #444; margin-top: 4px; display: block;">${notif.fecha}</span>
+              <p style="margin: 0; font-size: 13px; line-height: 1.4; color: #bbb;">${notif.descripcion}</p>
+              <span style="font-size: 12px; color: #888; margin-top: 4px; display: block;">${notif.fecha}</span>
           </div>
       `;
 
@@ -301,12 +301,12 @@
     if (btnMarcarTodas) {
       btnMarcarTodas.onclick = marcarTodasLeidas;
       btnMarcarTodas.onmouseenter = () => {
-        btnMarcarTodas.style.borderColor = "#333";
-        btnMarcarTodas.style.color = "#999";
+        btnMarcarTodas.style.borderColor = "#555";
+        btnMarcarTodas.style.color = "#ddd";
       };
       btnMarcarTodas.onmouseleave = () => {
-        btnMarcarTodas.style.borderColor = "#222";
-        btnMarcarTodas.style.color = "#666";
+        btnMarcarTodas.style.borderColor = "#333";
+        btnMarcarTodas.style.color = "#aaa";
       };
     }
   }, 100);
@@ -508,7 +508,7 @@
     const bellSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
     botonNotificaciones.innerHTML =
       noLeidas > 0
-        ? bellSvg + `<span style="position: absolute; top: -2px; right: -2px; background: #4ade80; color: white; width: 14px; height: 14px; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: bold;">${noLeidas}</span>`
+        ? bellSvg + `<span style="position: absolute; top: -4px; right: -4px; background: #22c55e; color: #fff; width: 16px; height: 16px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; border: 2px solid rgba(30,30,50,0.85);">${noLeidas}</span>`
         : bellSvg;
 
     if (noLeidas > 0) {
