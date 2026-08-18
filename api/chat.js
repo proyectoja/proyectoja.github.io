@@ -1,5 +1,8 @@
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const fs = require("fs");
+const path = require("path");
 
+// === Rate Limiting ===
 const RATE_LIMIT = {};
 const MAX_REQUESTS = 15;
 const WINDOW_MS = 60000;
@@ -18,12 +21,95 @@ function isRateLimited(ip) {
   return RATE_LIMIT[ip].count > MAX_REQUESTS;
 }
 
+// === Proteccion ===
 const BLOCKED = [/api[_\-]?key/i, /token/i, /secret/i, /password/i, /gsk_/i, /bearer/i];
+function contieneSecretos(t) { return BLOCKED.some(p => p.test(t)); }
 
-function contieneSecretos(t) {
-  return BLOCKED.some(p => p.test(t));
+// === RAG: Carga y chunking de documentos ===
+let chunksCache = null;
+
+function loadDocs() {
+  if (chunksCache) return chunksCache;
+
+  const docsDir = path.join(process.cwd(), "docs");
+  chunksCache = [];
+
+  try {
+    const files = fs.readdirSync(docsDir).filter(f => f.endsWith(".md"));
+
+    for (const file of files) {
+      const content = fs.readFileSync(path.join(docsDir, file), "utf-8");
+      const appName = file.replace(".md", "");
+      const sections = content.split(/^## /m).filter(Boolean);
+
+      for (const section of sections) {
+        const lines = section.trim().split("\n");
+        const title = lines[0].trim();
+        const body = lines.slice(1).join("\n").trim();
+
+        if (body.length > 10) {
+          chunksCache.push({
+            app: appName,
+            title: title,
+            text: body,
+            full: title + "\n" + body,
+          });
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Error cargando docs:", e.message);
+  }
+
+  return chunksCache;
 }
 
+// === RAG: Busqueda por relevancia (TF-IDF simplificado) ===
+function tokenize(text) {
+  return text.toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .split(/\s+/)
+    .filter(w => w.length > 2);
+}
+
+function scoreChunk(queryTokens, chunk) {
+  const chunkText = chunk.full.toLowerCase();
+  let score = 0;
+
+  for (const token of queryTokens) {
+    const regex = new RegExp("\\b" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "gi");
+    const matches = chunkText.match(regex);
+    if (matches) {
+      score += matches.length;
+    }
+  }
+
+  // Bonus por coincidencia en el titulo
+  const titleLower = chunk.title.toLowerCase();
+  for (const token of queryTokens) {
+    if (titleLower.includes(token)) score += 3;
+  }
+
+  return score;
+}
+
+function searchDocs(query, topN = 4) {
+  const chunks = loadDocs();
+  if (!chunks.length) return [];
+
+  const queryTokens = tokenize(query);
+  if (!queryTokens.length) return [];
+
+  const scored = chunks
+    .map(chunk => ({ ...chunk, score: scoreChunk(queryTokens, chunk) }))
+    .filter(c => c.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topN);
+
+  return scored;
+}
+
+// === Handler principal ===
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -49,6 +135,28 @@ module.exports = async function handler(req, res) {
     if (contieneSecretos(m.content)) return res.status(400).json({ error: "Contenido no permitido" });
   }
 
+  // Obtener el ultimo mensaje del usuario para buscar contexto
+  const ultimoMensaje = [...messages].reverse().find(m => m.role === "user")?.content || "";
+  const contextoDocs = searchDocs(ultimoMensaje);
+
+  // Construir sistema con contexto RAG
+  let sistema = messages[0]?.role === "system" ? messages[0].content : "";
+
+  if (contextoDocs.length > 0) {
+    const contextoStr = contextoDocs
+      .map(c => `[${c.app.toUpperCase()}] ${c.title}\n${c.text}`)
+      .join("\n\n---\n\n");
+
+    sistema += `\n\nTienes acceso a la siguiente documentacion oficial. Usa SOLO esta informacion para responder:\n\n${contextoStr}`;
+
+    // Reemplar el system message
+    if (messages[0]?.role === "system") {
+      messages[0].content = sistema;
+    } else {
+      messages.unshift({ role: "system", content: sistema });
+    }
+  }
+
   try {
     const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
@@ -59,8 +167,8 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         model: "openai/gpt-oss-20b",
         messages,
-        max_tokens: 150,
-        temperature: 0.6,
+        max_tokens: 300,
+        temperature: 0.5,
       }),
     });
 
