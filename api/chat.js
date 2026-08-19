@@ -184,7 +184,7 @@ module.exports = async function handler(req, res) {
           "Authorization": "Bearer " + GROQ_API_KEY,
         },
         body: JSON.stringify({
-          model: "llama-3.1-8b-instant",
+          model: "meta-llama/llama-prompt-guard-2-86m",
           messages,
           max_tokens: 1024,
           temperature: 0.5,
