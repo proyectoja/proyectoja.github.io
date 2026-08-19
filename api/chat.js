@@ -172,23 +172,43 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + GROQ_API_KEY,
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-oss-20b",
-        messages,
-        max_tokens: 1024,
-        temperature: 0.5,
-      }),
-    });
+    let groqRes;
+    let intentos = 0;
+    const MAX_INTENTOS = 2;
+
+    while (intentos <= MAX_INTENTOS) {
+      groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + GROQ_API_KEY,
+        },
+        body: JSON.stringify({
+          model: "llama-3.1-8b-instant",
+          messages,
+          max_tokens: 1024,
+          temperature: 0.5,
+        }),
+      });
+
+      if (groqRes.status === 429 || groqRes.status === 503) {
+        intentos++;
+        if (intentos <= MAX_INTENTOS) {
+          await new Promise(r => setTimeout(r, 1500 * intentos));
+          continue;
+        }
+      }
+      break;
+    }
 
     if (!groqRes.ok) {
       console.error("Error backend:", groqRes.status);
-      return res.status(500).json({ error: "Error del servicio: mucha gente usando a Cortana..." });
+      let msg;
+      if (groqRes.status === 429) msg = "Demasiadas solicitudes. Espera un momento e intenta de nuevo.";
+      else if (groqRes.status === 503) msg = "Servicio temporalmente no disponible. Intenta de nuevo en unos segundos.";
+      else if (groqRes.status === 400) msg = "Mensaje no valido.";
+      else msg = "Error del servicio. Intenta de nuevo.";
+      return res.status(500).json({ error: msg });
     }
 
     const data = await groqRes.json();
@@ -198,6 +218,6 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ respuesta });
   } catch (err) {
     console.error("Error backend:", err.message);
-    return res.status(500).json({ error: "Error del servicio" });
+    return res.status(500).json({ error: "Error de conexion. Verifica tu internet." });
   }
 };
