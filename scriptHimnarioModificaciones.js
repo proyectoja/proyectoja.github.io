@@ -1,4 +1,4 @@
-﻿(async function () {
+(async function () {
 
   // ============================
   // SISTEMA DE NOTIFICACIONES
@@ -37,7 +37,7 @@
     {
       id: 3,
       titulo: "Apoyo al proyecto",
-      descripcion: "Querida comunidad, queremos compartirles algo con total transparencia y respeto. Por el momento, las actualizaciones quedarán en pausa hasta alcanzar las 100 suscripciones activas. Este proyecto se mantiene gracias al apoyo real de quienes creen en él. Cada mejora, corrección y nueva función requiere tiempo, recursos y compromiso, y llegar a esa meta nos permitirá seguir avanzando con la calidad y dedicación que ustedes merecen. No es una despedida, es una pausa consciente. Una invitación a reflexionar, a valorar el trabajo detrás de cada actualización y, si este proyecto ha sido de bendición para ti, a considerar apoyarlo para que pueda seguir creciendo. Gracias por estar, por usarlo y por creer. Con su apoyo, esto no se detiene… se fortalece",
+      descripcion: "Querida comunidad, queremos compartirles algo con total transparencia y respeto. Por el momento, las actualizaciones quedar�n en pausa hasta alcanzar las 100 suscripciones activas. Este proyecto se mantiene gracias al apoyo real de quienes creen en �l. Cada mejora, correcci�n y nueva funci�n requiere tiempo, recursos y compromiso, y llegar a esa meta nos permitir� seguir avanzando con la calidad y dedicaci�n que ustedes merecen. No es una despedida, es una pausa consciente. Una invitaci�n a reflexionar, a valorar el trabajo detr�s de cada actualizaci�n y, si este proyecto ha sido de bendici�n para ti, a considerar apoyarlo para que pueda seguir creciendo. Gracias por estar, por usarlo y por creer. Con su apoyo, esto no se detiene� se fortalece",
       fecha: "2026-01-14",
       categoria: "anuncio",
       leida: false,
@@ -45,18 +45,18 @@
     {
       id: 2,
       imagen: "//proyectoja.github.io/promocionUno.png",
-      titulo: "PROMOCIÓN EN NUESTRAS REDES SOCIALES",
+      titulo: "PROMOCI�N EN NUESTRAS REDES SOCIALES",
       descripcion:
-        "Puedes ir a nuestra página de Facebook y encontrar la información de nuestra promoción para obtener un código premium durante un año.",
+        "Puedes ir a nuestra p�gina de Facebook y encontrar la informaci�n de nuestra promoci�n para obtener un c�digo premium durante un a�o.",
       fecha: "2026-01-01",
       categoria: "promocion",
       leida: false,
     },
     {
       id: 1,
-      titulo: "Recordatorio de actualización",
+      titulo: "Recordatorio de actualizaci�n",
       descripcion:
-        "Mantén tu aplicación actualizada para disfrutar de todas las funciones y correcciones de seguridad. Este software está en constante actualización, cada semana se actualiza para mejorar la estabilización, optimización, diseño, características y funcionalidades potentes. No es un error que te llegue actualizaciones, es bueno que te lleguen, y puedas actualizar a la última versión siempre.",
+        "Mant�n tu aplicaci�n actualizada para disfrutar de todas las funciones y correcciones de seguridad. Este software est� en constante actualizaci�n, cada semana se actualiza para mejorar la estabilizaci�n, optimizaci�n, dise�o, caracter�sticas y funcionalidades potentes. No es un error que te llegue actualizaciones, es bueno que te lleguen, y puedas actualizar a la �ltima versi�n siempre.",
       fecha: "2026-01-01",
       leida: false,
     },
@@ -71,7 +71,7 @@
     if (notificacionesGuardadas) {
       try {
         const parsed = JSON.parse(notificacionesGuardadas);
-        // Combinar con las notificaciones base, manteniendo el estado leído
+        // Combinar con las notificaciones base, manteniendo el estado le�do
         return notificacionesBase.map((notifBase) => {
           const guardada = parsed.find((n) => n.id === notifBase.id);
           return guardada ? { ...notifBase, leida: guardada.leida } : notifBase;
@@ -163,7 +163,7 @@
 
   document.body.appendChild(notificacionesOverlay);
 
-  // Función para mostrar notificaciones
+  // Funci�n para mostrar notificaciones
   function mostrarNotificaciones() {
     const lista = document.getElementById("listaNotificaciones");
     if (!lista) return;
@@ -227,7 +227,7 @@
     notificacionesOverlay.style.animation = "notifSlideIn 0.25s ease-out";
   }
 
-  // Función para ocultar notificaciones
+  // Funci�n para ocultar notificaciones
   function ocultarNotificaciones() {
     notificacionesOverlay.style.animation = "notifSlideOut 0.2s ease-in";
     setTimeout(() => {
@@ -235,7 +235,7 @@
     }, 200);
   }
 
-  // Función para marcar todas como leídas
+  // Funci�n para marcar todas como le�das
   function marcarTodasLeidas() {
     notificaciones.forEach((notif) => (notif.leida = true));
     guardarNotificaciones(); // Guardar en localStorage
@@ -272,7 +272,7 @@
     }
   }, 100);
 
-  // Agregar estilos de animación
+  // Agregar estilos de animaci�n
   const estiloAnimaciones = document.createElement("style");
   estiloAnimaciones.textContent = `
       @keyframes notifSlideIn {
@@ -329,7 +329,7 @@
   `;
   document.head.appendChild(estiloAnimaciones);
 
-  // Mostrar notificaciones automáticamente después de 60 segundos (1 minuto) SOLO si hay no leídas
+  // Mostrar notificaciones autom�ticamente despu�s de 60 segundos (1 minuto) SOLO si hay no le�das
   setTimeout(() => {
     const hayNoLeidas = notificaciones.some((n) => !n.leida);
     if (hayNoLeidas) {
@@ -337,7 +337,7 @@
     }
   }, 60000);
 
-  // Crear botón flotante para abrir notificaciones manualmente
+  // Crear bot�n flotante para abrir notificaciones manualmente
   const botonNotificaciones = document.createElement("button");
   botonNotificaciones.id = "botonAbrirNotificaciones";
   botonNotificaciones.style.cssText = `
@@ -362,7 +362,7 @@
       backdrop-filter: blur(10px);
   `;
 
-  // Crear botón flotante de IA
+  // Crear bot�n flotante de IA
   const botonIA = document.createElement("button");
   botonIA.id = "botonIA";
   botonIA.style.cssText = `
@@ -457,13 +457,13 @@
   }
 
   function detectarIdioma(texto) {
-    if (/[ñÑ¿¡]/.test(texto)) return "español";
+    if (/[�ѿ�]/.test(texto)) return "espa�ol";
     const t = texto.toLowerCase();
-    const ptsEsp = (t.match(/\b(el|la|los|las|que|por|para|hola|gracias|muy|pero|porque|entonces|eres|somos|soy|días|señor|mundo|dios|iglesia|fe|amor|paz|biblia|familia|trabajo|escuela|amigo|tiempo|hoy|mañana|ayer|semana|año|si|no|ya|bien|mal|más|todo|nada|algo|otro|cuando|donde|como|quien|este|esta|estos|estas|ese|esa|esos|esas|nuestro|nuestra|yo|tú|él|ella|usted|nosotros|ellos|ellas|me|te|se|nos|lo|la|le|los|las|les|mi|tu|su|mis|tus|sus|vamos|voy|vas|va|van)\b/g) || []).length;
+    const ptsEsp = (t.match(/\b(el|la|los|las|que|por|para|hola|gracias|muy|pero|porque|entonces|eres|somos|soy|d�as|se�or|mundo|dios|iglesia|fe|amor|paz|biblia|familia|trabajo|escuela|amigo|tiempo|hoy|ma�ana|ayer|semana|a�o|si|no|ya|bien|mal|m�s|todo|nada|algo|otro|cuando|donde|como|quien|este|esta|estos|estas|ese|esa|esos|esas|nuestro|nuestra|yo|t�|�l|ella|usted|nosotros|ellos|ellas|me|te|se|nos|lo|la|le|los|las|les|mi|tu|su|mis|tus|sus|vamos|voy|vas|va|van)\b/g) || []).length;
     const ptsEng = (t.match(/\b(the|a|an|and|or|for|with|hello|hi|thanks|you|please|help|what|where|when|why|how|who|which|this|that|these|those|is|am|are|was|were|have|has|had|do|does|did|will|would|can|could|god|jesus|lord|bible|faith|love|hope|peace|church|life|time|today|tomorrow|yes|no|not|very|just|good|bad|big|small|new|old|great|more|most|other|here|there|in|out|on|off|over|under|before|after|from|about|because|while|then|than)\b/g) || []).length;
-    if (ptsEsp > ptsEng && ptsEsp > 0) return "español";
-    if (ptsEng > ptsEsp && ptsEng > 0) return "inglés";
-    if (ptsEsp > 0) return "español";
+    if (ptsEsp > ptsEng && ptsEsp > 0) return "espa�ol";
+    if (ptsEng > ptsEsp && ptsEng > 0) return "ingl�s";
+    if (ptsEsp > 0) return "espa�ol";
     return null;
   }
 
@@ -487,13 +487,13 @@
   async function responderChat(textoDetectar) {
     const idioma = detectarIdioma(textoDetectar);
     let instruccionIdioma = "";
-    if (idioma === "inglés") {
+    if (idioma === "ingl�s") {
       instruccionIdioma = "\nRESPOND EXACTLY IN ENGLISH. Do not translate.";
-    } else if (idioma === "español") {
-      instruccionIdioma = "\nRESPONDE EXACTAMENTE EN ESPAÑOL. NO traduzcas.";
+    } else if (idioma === "espa�ol") {
+      instruccionIdioma = "\nRESPONDE EXACTAMENTE EN ESPA�OL. NO traduzcas.";
     }
 
-    const sistema = idioma === "inglés"
+    const sistema = idioma === "ingl�s"
       ? "You are a helpful, natural, and friendly AI assistant. Be direct and concise. Never use vulgar words. When the user asks about Himnario Adventista PRO or Arcan Player, answer with the available information. If the user asks biblical or ministry questions, answer with love and wisdom. Never share websites, source code, links, or anything unrelated to the ministry or these applications. Your focus is serving the church." + instruccionIdioma
       : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde con la informacion que tengas disponible. Explica que hace, como se usa, y que opciones tiene. Si el usuario hace preguntas biblicas o del ministerio, responde con amor y sabiduria. Nunca compartas paginas web, codigo fuente, enlaces, ni nada que no este relacionado con el ministerio o estas aplicaciones. Tu enfoque es servir a la iglesia." + instruccionIdioma;
 
@@ -533,7 +533,7 @@
       </div>
       <button id="cerrarChatIA" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
     </div>
-    <div id="chatMensajes" style="flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;"></div>
+    <div id="chatMensajes" style="flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;position:relative;"></div>
     <div style="padding:10px;border-top:1px solid #1a1a1a;background:#111;">
       <div style="display:flex;gap:8px;align-items:flex-end;">
         <textarea id="chatInput" rows="1" placeholder="Escribe tu mensaje..." style="flex:1;background:#161616;border:1px solid #222;color:#e8edf9;font-family:inherit;font-size:13px;line-height:1.5;padding:8px 12px;border-radius:8px;resize:none;max-height:100px;outline:none;transition:border-color 0.2s;"></textarea>
@@ -546,8 +546,19 @@
   `;
   document.body.appendChild(chatOverlay);
 
+  (function() {
+    let scrollRAF = null;
+    const chatM = document.getElementById("chatMensajes");
+    if (chatM) chatM.addEventListener("scroll", function() {
+      if (scrollRAF) return;
+      scrollRAF = requestAnimationFrame(function() {
+        chatReconstruirConectores();
+        scrollRAF = null;
+      });
+    });
+  })();
+
   function mostrarChat() {
-    chatUltimoRol = null;
     chatOverlay.style.display = "flex";
     chatOverlay.style.animation = "notifSlideIn 0.25s ease-out";
     botonIA.style.display = "none";
@@ -555,6 +566,7 @@
     const chatMensajes = document.getElementById("chatMensajes");
     if (chatMensajes) chatMensajes.scrollTop = chatMensajes.scrollHeight;
     setTimeout(() => {
+      chatReconstruirConectores();
       const inp = document.getElementById("chatInput");
       if (inp) inp.focus();
     }, 300);
@@ -568,8 +580,6 @@
       botonNotificaciones.style.display = "flex";
     }, 200);
   }
-
-  let chatUltimoRol = null;
 
   function chatParsearMarkdown(texto) {
     const lineas = texto.split("\n");
@@ -627,7 +637,7 @@
       // Escapes HTML
       l = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-      // Headers: ### → h5, ## → h4, # → h3
+      // Headers: ### ? h5, ## ? h4, # ? h3
       const h3 = l.match(/^###\s+(.+)/);
       const h4 = l.match(/^##\s+(.+)/);
       const h5 = l.match(/^#\s+(.+)/);
@@ -670,34 +680,61 @@
     return html;
   }
 
+  function chatReconstruirConectores() {
+    const chatMensajes = document.getElementById("chatMensajes");
+    if (!chatMensajes) return;
+    let linea = document.getElementById("chatThreadLine");
+    if (!linea) {
+      linea = document.createElement("div");
+      linea.id = "chatThreadLine";
+      linea.style.cssText = "position:absolute;width:1px;background:#222233;pointer-events:none;z-index:0;";
+      chatMensajes.appendChild(linea);
+    }
+    const users = chatMensajes.querySelectorAll('[data-role="usuario"]');
+    if (users.length < 2) { linea.style.display = "none"; return; }
+    linea.style.display = "";
+    const avFirst = users[0].children[0].children[0];
+    const avLast = users[users.length - 1].children[0].children[0];
+    if (!avFirst || !avLast) { linea.style.display = "none"; return; }
+    function offsetHasta(el, limit) {
+      let t = 0, l = 0;
+      while (el && el !== limit) { t += el.offsetTop; l += el.offsetLeft; el = el.offsetParent; }
+      return { top: t, left: l };
+    }
+    const pFirst = offsetHasta(avFirst, chatMensajes);
+    const pLast = offsetHasta(avLast, chatMensajes);
+    linea.style.left = (pFirst.left + 14) + "px";
+    linea.style.top = (pFirst.top + 14) + "px";
+    linea.style.height = Math.max(0, (pLast.top + 14) - (pFirst.top + 14)) + "px";
+  }
+
   function chatAgregarMensaje(rol, texto) {
     const chatMensajes = document.getElementById("chatMensajes");
     if (!chatMensajes) return;
     const esUsuario = rol === "usuario";
-    const esMismoRol = chatUltimoRol === rol;
-    chatUltimoRol = rol;
 
-    const div = document.createElement("div");
-    div.style.cssText = "display:flex;gap:8px;max-width:92%;animation:chatEntrar 0.2s ease;" + (esUsuario ? "align-self:flex-end;flex-direction:row-reverse;" : "align-self:flex-start;");
+    const wrapper = document.createElement("div");
+    wrapper.style.cssText = "padding:3px 0;animation:chatEntrar 0.2s ease;position:relative;width:100%;";
+    if (esUsuario) wrapper.setAttribute("data-role", "usuario");
+
+    const row = document.createElement("div");
+    row.style.cssText = "display:flex;gap:8px;max-width:92%;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
 
     const avatarSvg = esUsuario
       ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
-      : '<svg width="16" height="16" viewBox="0 0 256 208" fill="#ddd"><path d="M205.28,31.36C219.376,46.24 225.296,66.56 227.792,95.04C234.418,95.04 240.597,96.509 244.768,102.192L252.56,112.752C254.8,115.792 256,119.424 256,123.2L256,151.888C255.992,155.592 254.157,159.203 251.168,161.392C215.885,187.222 172.35,208 128,208C78.934,208 29.81,179.727 4.832,161.392C1.843,159.203 0.007,155.592 0,151.888L0,123.2C0,119.424 1.2,115.776 3.424,112.736L11.216,102.192C15.389,96.535 21.595,95.04 28.208,95.04C30.704,66.56 36.608,46.24 50.72,31.36C77.331,3.165 112.567,0.06 127.552,0.001L128,0C142.72,0 178.4,2.88 205.28,31.36ZM128.016,78.736C124.976,78.736 121.472,78.912 117.744,79.28C116.432,84.176 114.496,88.592 111.664,91.408C100.464,102.608 86.96,104.336 79.728,104.336C72.926,104.336 65.801,102.916 59.984,99.248C54.482,101.056 49.198,103.663 48.848,110.16C48.262,122.441 48.211,134.709 48.16,146.984C48.134,153.145 48.109,159.306 48.016,165.472C48.04,169.051 50.198,172.375 53.456,173.856C79.936,185.92 104.976,192 128.016,192C151.024,192 176.064,185.92 202.528,173.856C205.786,172.375 207.943,169.051 207.968,165.472C208.285,147.054 208.03,128.56 207.152,110.16C206.826,103.626 201.52,101.062 196,99.248C190.179,102.9 183.073,104.336 176.272,104.336C169.04,104.336 155.552,102.608 144.336,91.408C141.504,88.592 139.568,84.176 138.256,79.28C134.853,78.934 131.436,78.753 128.016,78.736ZM101.075,122.667C106.823,122.667 111.483,127.327 111.483,133.075L111.483,152.258C111.483,158.007 106.823,162.667 101.075,162.667C95.327,162.667 90.667,158.007 90.667,152.258L90.667,133.075C90.667,127.327 95.327,122.667 101.075,122.667ZM154.408,122.667C160.156,122.667 164.816,127.327 164.816,133.075L164.816,152.258C164.816,158.007 160.156,162.667 154.408,162.667C148.66,162.667 144,158.007 144,152.258L144,133.075C144,127.327 148.66,122.667 154.408,122.667Z"/></svg>';
+      : '<svg width="16" height="16" viewBox="0 0 256 208" fill="#ddd"><path d="M205.28,31.36C219.376,46.24 225.296,66.56 227.792,95.04C234.418,95.04 240.597,96.509 244.768,102.192L252.56,112.752C254.8,115.792 256,119.424 256,123.2L256,151.888C255.992,155.592 254.157,159.203 251.168,161.392C215.885,187.222 172.35,208 128,208C78.934,208 29.81,179.727 4.832,161.392C1.843,159.203 0.007,155.592 0,151.888L0,123.2C0,119.424 1.2,115.776 3.424,112.736L11.216,102.192C15.389,96.509 21.595,95.04 28.208,95.04C30.704,66.56 36.608,46.24 50.72,31.36C77.331,3.165 112.567,0.06 127.552,0.001L128,0C142.72,0 178.4,2.88 205.28,31.36ZM128.016,78.736C124.976,78.736 121.472,78.912 117.744,79.28C116.432,84.176 114.496,88.592 111.664,91.408C100.464,102.608 86.96,104.336 79.728,104.336C72.926,104.336 65.801,102.916 59.984,99.248C54.482,101.056 49.198,103.663 48.848,110.16C48.262,122.441 48.211,134.709 48.16,146.984C48.134,153.145 48.109,159.306 48.016,165.472C48.04,169.051 50.198,172.375 53.456,173.856C79.936,185.92 104.976,192 128.016,192C151.024,192 176.064,185.92 202.528,173.856C205.786,172.375 207.943,169.051 207.968,165.472C208.285,147.054 208.03,128.56 207.152,110.16C206.826,103.626 201.52,101.062 196,99.248C190.179,102.9 183.073,104.336 176.272,104.336C169.04,104.336 155.552,102.608 144.336,91.408C141.504,88.592 139.568,84.176 138.256,79.28C134.853,78.934 131.436,78.753 128.016,78.736ZM101.075,122.667C106.823,122.667 111.483,127.327 111.483,133.075L111.483,152.258C111.483,158.007 106.823,162.667 101.075,162.667C95.327,162.667 90.667,158.007 90.667,152.258L90.667,133.075C90.667,127.327 95.327,122.667 101.075,122.667ZM154.408,122.667C160.156,122.667 164.816,127.327 164.816,133.075L164.816,152.258C164.816,158.007 160.156,162.667 154.408,162.667C148.66,162.667 144,158.007 144,152.258L144,133.075C144,127.327 148.66,122.667 154.408,122.667Z"/></svg>';
 
     const avatarBg = esUsuario ? "background:#161620;border:1px solid #222233;" : "background:#A52A2A;";
     const burbujaBg = esUsuario ? "background:#1a1a2e;border:1px solid #252540;border-top-right-radius:4px;color:#ccc;" : "background:#111118;border:1px solid #1a1a24;border-top-left-radius:4px;color:#ccc;";
 
-    let connector = "";
-    if (esMismoRol) {
-      const side = esUsuario ? "right:14px;" : "left:14px;";
-      connector = '<div style="position:absolute;' + side + 'top:-8px;width:1px;height:8px;background:#222233;"></div>';
-    }
-
     const textoRenderizado = "<em>" + chatParsearMarkdown(texto) + "</em>";
 
-    div.innerHTML = '<div style="position:relative;">' + connector + '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div></div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
-    chatMensajes.appendChild(div);
+    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
+
+    wrapper.appendChild(row);
+    chatMensajes.appendChild(wrapper);
     chatMensajes.scrollTop = chatMensajes.scrollHeight;
+    chatReconstruirConectores();
   }
 
   function chatMostrarTyping() {
@@ -862,26 +899,26 @@
   document.body.appendChild(botonNotificaciones);
   document.body.appendChild(botonIA);
 
-  // Actualizar contador cuando se marcan notificaciones como leídas
+  // Actualizar contador cuando se marcan notificaciones como le�das
   const marcarTodasLeidasOriginal = marcarTodasLeidas;
   marcarTodasLeidas = function () {
     marcarTodasLeidasOriginal();
     actualizarContadorNotificaciones();
   };
 
-  // Modificar la función mostrarNotificaciones para actualizar contador
+  // Modificar la funci�n mostrarNotificaciones para actualizar contador
   const mostrarNotificacionesOriginal = mostrarNotificaciones;
   mostrarNotificaciones = function () {
     mostrarNotificacionesOriginal();
-    // Ocultar botón mientras se muestran las notificaciones
+    // Ocultar bot�n mientras se muestran las notificaciones
     botonNotificaciones.style.display = "none";
   };
 
-  // Modificar la función ocultarNotificaciones para mostrar botón nuevamente
+  // Modificar la funci�n ocultarNotificaciones para mostrar bot�n nuevamente
   const ocultarNotificacionesOriginal = ocultarNotificaciones;
   ocultarNotificaciones = function () {
     ocultarNotificacionesOriginal();
-    // Mostrar botón después de ocultar notificaciones
+    // Mostrar bot�n despu�s de ocultar notificaciones
     setTimeout(() => {
       botonNotificaciones.style.display = "flex";
       actualizarContadorNotificaciones();
