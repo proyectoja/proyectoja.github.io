@@ -65,29 +65,34 @@ function loadDocs() {
 }
 
 // === RAG: Busqueda por relevancia (TF-IDF simplificado) ===
-function tokenize(text) {
+function normalize(text) {
   return text.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/[^\w\s]/g, " ")
     .split(/\s+/)
     .filter(w => w.length > 2);
 }
 
+function tokenize(text) {
+  return normalize(text);
+}
+
 function scoreChunk(queryTokens, chunk) {
-  const chunkText = chunk.full.toLowerCase();
+  const chunkText = normalize(chunk.full).join(" ");
   let score = 0;
 
   for (const token of queryTokens) {
-    const regex = new RegExp("\\b" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "gi");
+    const regex = new RegExp(token, "gi");
     const matches = chunkText.match(regex);
     if (matches) {
       score += matches.length;
     }
   }
 
-  // Bonus por coincidencia en el titulo
-  const titleLower = chunk.title.toLowerCase();
+  // Bonus por coincidencia en el titulo normalizado
+  const titleNorm = normalize(chunk.title).join(" ");
   for (const token of queryTokens) {
-    if (titleLower.includes(token)) score += 3;
+    if (titleNorm.includes(token)) score += 3;
   }
 
   return score;

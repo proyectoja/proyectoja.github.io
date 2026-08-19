@@ -755,7 +755,7 @@
 
     const sistema = idioma === "inglés"
       ? "You are a helpful, natural, and friendly AI assistant. Be direct and concise. Never use vulgar words. Only mention Himnario Adventista PRO or Arcan Player when the user explicitly asks about them." + instruccionIdioma
-      : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Solo menciona Himnario Adventista PRO o Arcan Player cuando el usuario pregunte explicitamente sobre ellos." + instruccionIdioma;
+      : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde como si le explicaras las funciones de la app a un usuario que quiere usarla, no como si la estuvieras vendiendo. Explica que hace, como se usa, y que opciones tiene. Solo menciona estas apps cuando el usuario pregunte explicitamente sobre ellas. Si la informacion que te piden no esta en la documentacion que te di, di que no tienes esa informacion y no la inventes." + instruccionIdioma;
 
     const mensajes = construirMensajes(chatSession, textoDetectar, sistema);
 
@@ -780,6 +780,7 @@
   chatOverlay.id = "chat-ia-overlay";
   chatOverlay.style.cssText = "position:fixed;top:0;right:0;width:380px;height:100vh;background:#0a0a0a;color:#fff;z-index:9999998;display:none;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;box-shadow:-8px 0 40px rgba(0,0,0,0.6);overflow:hidden;";
   chatOverlay.innerHTML = `
+    <div id="chatResizeHandle" style="position:absolute;left:0;top:0;width:5px;height:100%;cursor:ew-resize;z-index:10;transition:background 0.15s;"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:28px;height:28px;border-radius:8px;background:#A52A2A;display:flex;align-items:center;justify-content:center;">
@@ -866,7 +867,8 @@
         const celdas = l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim());
 
         if (!enTabla) {
-          html += '<table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:12px;">';
+          html += '<div style="margin:8px 0;">';
+          html += '<table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:auto;">';
           html += '<thead><tr>';
           for (const c of celdas) html += '<th style="background:#1a1a2e;border:1px solid #333;padding:5px 8px;text-align:left;color:#ddd;">' + c + '</th>';
           html += '</tr></thead><tbody>';
@@ -880,7 +882,7 @@
       }
 
       // Cerrar tabla si la linea no es de tabla
-      if (enTabla) { html += "</tbody></table>"; enTabla = false; }
+        if (enTabla) { html += "</tbody></table></div>"; enTabla = false; }
 
       // Escapes HTML
       l = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -920,7 +922,7 @@
       }
     }
     if (enLista) html += enLista === "ol" ? "</ol>" : "</ul>";
-    if (enTabla) html += "</tbody></table>";
+    if (enTabla) html += "</tbody></table></div>";
 
     html = html.replace(/<br>$/, "");
     html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
@@ -953,7 +955,7 @@
 
     const textoRenderizado = "<em>" + chatParsearMarkdown(texto) + "</em>";
 
-    div.innerHTML = '<div style="position:relative;">' + connector + '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div></div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;word-break:break-word;max-width:280px;' + burbujaBg + '">' + textoRenderizado + '</div>';
+    div.innerHTML = '<div style="position:relative;">' + connector + '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div></div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
     chatMensajes.appendChild(div);
     chatMensajes.scrollTop = chatMensajes.scrollHeight;
   }
@@ -1028,6 +1030,36 @@
       });
       chatInput.onfocus = () => { chatInput.style.borderColor = "#A52A2A"; };
       chatInput.onblur = () => { chatInput.style.borderColor = "#222"; };
+    }
+
+    // Resize handle
+    const resizeHandle = document.getElementById("chatResizeHandle");
+    if (resizeHandle) {
+      let resizing = false, startX, startW;
+      resizeHandle.addEventListener("mousedown", (e) => {
+        resizing = true;
+        startX = e.clientX;
+        startW = chatOverlay.offsetWidth;
+        document.body.style.cursor = "ew-resize";
+        document.body.style.userSelect = "none";
+        resizeHandle.style.background = "#A52A2A";
+        e.preventDefault();
+      });
+      document.addEventListener("mousemove", (e) => {
+        if (!resizing) return;
+        const diff = startX - e.clientX;
+        const newW = Math.max(280, Math.min(700, startW + diff));
+        chatOverlay.style.width = newW + "px";
+      });
+      document.addEventListener("mouseup", () => {
+        if (!resizing) return;
+        resizing = false;
+        document.body.style.cursor = "";
+        document.body.style.userSelect = "";
+        resizeHandle.style.background = "";
+      });
+      resizeHandle.addEventListener("mouseenter", () => { if (!resizing) resizeHandle.style.background = "rgba(165,42,42,0.3)"; });
+      resizeHandle.addEventListener("mouseleave", () => { if (!resizing) resizeHandle.style.background = ""; });
     }
 
     // Cargar historial previo
