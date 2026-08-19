@@ -834,14 +834,16 @@
     const lineas = texto.split("\n");
     let html = "";
     let enLista = false;
+    let enTabla = false;
 
     for (let i = 0; i < lineas.length; i++) {
       let l = lineas[i];
 
       // Separar: si empieza con "> ", es blockquote
-      if (/^&gt;\s?/.test(l)) {
+      if (/^>\s?/.test(l)) {
         if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
-        l = l.replace(/^&gt;\s?/, "");
+        if (enTabla) { html += "</table>"; enTabla = false; }
+        l = l.replace(/^>\s?/, "");
         html += '<blockquote style="border-left:3px solid #A52A2A;padding-left:10px;margin:6px 0;color:#aaa;font-style:italic;">' + l + '</blockquote>';
         continue;
       }
@@ -849,12 +851,57 @@
       // Linea horizontal: "---" o "***"
       if (/^[-*]{3,}$/.test(l.trim())) {
         if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        if (enTabla) { html += "</table>"; enTabla = false; }
         html += '<hr style="border:none;border-top:1px solid #333;margin:8px 0;">';
         continue;
       }
 
-      // Escapes HTML despues de blockquote
+      // Tabla markdown: "| col1 | col2 |"
+      if (/^\|(.+)\|$/.test(l.trim())) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+
+        // Separador de tabla: "|---|---|"
+        if (/^\|[\s\-:|]+\|$/.test(l.trim())) continue;
+
+        const celdas = l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim());
+
+        if (!enTabla) {
+          html += '<table style="width:100%;border-collapse:collapse;margin:8px 0;font-size:12px;">';
+          html += '<thead><tr>';
+          for (const c of celdas) html += '<th style="background:#1a1a2e;border:1px solid #333;padding:5px 8px;text-align:left;color:#ddd;">' + c + '</th>';
+          html += '</tr></thead><tbody>';
+          enTabla = true;
+        } else {
+          html += '<tr>';
+          for (const c of celdas) html += '<td style="border:1px solid #333;padding:4px 8px;color:#ccc;">' + c + '</td>';
+          html += '</tr>';
+        }
+        continue;
+      }
+
+      // Cerrar tabla si la linea no es de tabla
+      if (enTabla) { html += "</tbody></table>"; enTabla = false; }
+
+      // Escapes HTML
       l = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      // Headers: ### → h5, ## → h4, # → h3
+      const h3 = l.match(/^###\s+(.+)/);
+      const h4 = l.match(/^##\s+(.+)/);
+      const h5 = l.match(/^#\s+(.+)/);
+      if (h3) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += '<div style="font-size:14px;font-weight:bold;color:#ddd;margin:8px 0 4px 0;">' + h3[1] + '</div>';
+        continue;
+      } else if (h4) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += '<div style="font-size:13px;font-weight:bold;color:#ccc;margin:6px 0 3px 0;">' + h4[1] + '</div>';
+        continue;
+      } else if (h5) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += '<div style="font-size:12px;font-weight:bold;color:#bbb;margin:4px 0 2px 0;">' + h5[1] + '</div>';
+        continue;
+      }
 
       // Lista numerada: "1. texto" o "1- texto"
       const numMatch = l.match(/^(\d+)[.\-]\s+(.+)/);
@@ -873,6 +920,7 @@
       }
     }
     if (enLista) html += enLista === "ol" ? "</ol>" : "</ul>";
+    if (enTabla) html += "</tbody></table>";
 
     html = html.replace(/<br>$/, "");
     html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
