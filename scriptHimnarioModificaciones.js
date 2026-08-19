@@ -429,6 +429,7 @@
     const entrada = chatHistorial[key] || { msgs: [] };
     entrada.msgs.push({ role: "user", text: nuevoTexto, ts: Date.now() });
     chatHistorial[key] = entrada;
+    guardarHistorialChat();
 
     let tokensUsados = 0;
     const seleccionados = [];
@@ -683,29 +684,33 @@
   function chatReconstruirConectores() {
     const chatMensajes = document.getElementById("chatMensajes");
     if (!chatMensajes) return;
-    let linea = document.getElementById("chatThreadLine");
-    if (!linea) {
-      linea = document.createElement("div");
-      linea.id = "chatThreadLine";
-      linea.style.cssText = "position:absolute;width:1px;background:#222233;pointer-events:none;z-index:0;";
-      chatMensajes.appendChild(linea);
-    }
-    const users = chatMensajes.querySelectorAll('[data-role="usuario"]');
-    if (users.length < 2) { linea.style.display = "none"; return; }
-    linea.style.display = "";
-    const avFirst = users[0].children[0].children[0];
-    const avLast = users[users.length - 1].children[0].children[0];
-    if (!avFirst || !avLast) { linea.style.display = "none"; return; }
     function offsetHasta(el, limit) {
       let t = 0, l = 0;
       while (el && el !== limit) { t += el.offsetTop; l += el.offsetLeft; el = el.offsetParent; }
       return { top: t, left: l };
     }
-    const pFirst = offsetHasta(avFirst, chatMensajes);
-    const pLast = offsetHasta(avLast, chatMensajes);
-    linea.style.left = (pFirst.left + 14) + "px";
-    linea.style.top = (pFirst.top + 14) + "px";
-    linea.style.height = Math.max(0, (pLast.top + 14) - (pFirst.top + 14)) + "px";
+    function dibujarLinea(id, selector) {
+      let linea = document.getElementById(id);
+      if (!linea) {
+        linea = document.createElement("div");
+        linea.id = id;
+        linea.style.cssText = "position:absolute;width:1px;background:#222233;pointer-events:none;z-index:0;";
+        chatMensajes.appendChild(linea);
+      }
+      const items = chatMensajes.querySelectorAll(selector);
+      if (items.length < 2) { linea.style.display = "none"; return; }
+      linea.style.display = "";
+      const avFirst = items[0].children[0].children[0];
+      const avLast = items[items.length - 1].children[0].children[0];
+      if (!avFirst || !avLast) { linea.style.display = "none"; return; }
+      const pFirst = offsetHasta(avFirst, chatMensajes);
+      const pLast = offsetHasta(avLast, chatMensajes);
+      linea.style.left = (pFirst.left + 14) + "px";
+      linea.style.top = (pFirst.top + 14) + "px";
+      linea.style.height = Math.max(0, (pLast.top + 14) - (pFirst.top + 14)) + "px";
+    }
+    dibujarLinea("chatThreadLine", '[data-role="usuario"]');
+    dibujarLinea("chatThreadLineIA", '[data-role="ia"]');
   }
 
   function chatAgregarMensaje(rol, texto) {
@@ -716,6 +721,7 @@
     const wrapper = document.createElement("div");
     wrapper.style.cssText = "padding:3px 0;animation:chatEntrar 0.2s ease;position:relative;width:100%;";
     if (esUsuario) wrapper.setAttribute("data-role", "usuario");
+    else wrapper.setAttribute("data-role", "ia");
 
     const row = document.createElement("div");
     row.style.cssText = "display:flex;gap:8px;max-width:92%;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
