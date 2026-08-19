@@ -755,7 +755,7 @@
 
     const sistema = idioma === "inglés"
       ? "You are a helpful, natural, and friendly AI assistant. Be direct and concise. Never use vulgar words. Only mention Himnario Adventista PRO or Arcan Player when the user explicitly asks about them." + instruccionIdioma
-      : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde como si le explicaras las funciones de la app a un usuario que quiere usarla, no como si la estuvieras vendiendo. Explica que hace, como se usa, y que opciones tiene. Solo menciona estas apps cuando el usuario pregunte explicitamente sobre ellas. Si la informacion que te piden no esta en la documentacion que te di, di que no tienes esa informacion y no la inventes." + instruccionIdioma;
+      : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde con la informacion que tengas disponible. Explica que hace, como se usa, y que opciones tiene. Solo menciona estas apps cuando el usuario pregunte explicitamente sobre ellas." + instruccionIdioma;
 
     const mensajes = construirMensajes(chatSession, textoDetectar, sistema);
 

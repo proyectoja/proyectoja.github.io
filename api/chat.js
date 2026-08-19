@@ -87,6 +87,15 @@ function scoreChunk(queryTokens, chunk) {
     if (matches) {
       score += matches.length;
     }
+    // Buscar aussi la raiz (sin ultimas letras) para plurales/conjugaciones
+    if (token.length > 4) {
+      const raiz = token.slice(0, -2);
+      const regexRaiz = new RegExp(raiz, "gi");
+      const matchesRaiz = chunkText.match(regexRaiz);
+      if (matchesRaiz) {
+        score += matchesRaiz.length * 0.5;
+      }
+    }
   }
 
   // Bonus por coincidencia en el titulo normalizado
@@ -98,7 +107,7 @@ function scoreChunk(queryTokens, chunk) {
   return score;
 }
 
-function searchDocs(query, topN = 4) {
+function searchDocs(query, topN = 6) {
   const chunks = loadDocs();
   if (!chunks.length) return [];
 
@@ -152,7 +161,7 @@ module.exports = async function handler(req, res) {
       .map(c => `[${c.app.toUpperCase()}] ${c.title}\n${c.text}`)
       .join("\n\n---\n\n");
 
-    sistema += `\n\nTienes acceso a la siguiente documentacion oficial. Usa SOLO esta informacion para responder:\n\n${contextoStr}`;
+    sistema += `\n\nTienes acceso a la siguiente documentacion oficial. Usa esta informacion para responder. Si la respuesta esta en la documentacion, respondela. Si NO esta en la documentacion, di que no tienes esa informacion:\n\n${contextoStr}`;
 
     // Reemplar el system message
     if (messages[0]?.role === "system") {
