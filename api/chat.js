@@ -161,7 +161,7 @@ module.exports = async function handler(req, res) {
       .map(c => `[${c.app.toUpperCase()}] ${c.title}\n${c.text}`)
       .join("\n\n---\n\n");
 
-    sistema += `\n\nTienes acceso a la siguiente documentacion oficial. Usa esta informacion para responder. Si la respuesta esta en la documentacion, respondela. Si NO esta en la documentacion, di que no tienes esa informacion:\n\n${contextoStr}`;
+    sistema += `\n\nTienes acceso a la siguiente documentacion oficial. Usa esta informacion para responder. Si la respuesta esta en la documentacion, respondela. Si NO esta en la documentacion, di que no tienes esa informacion. Si es alguna pregunta relacionada a la Biblia o profecía, responde conforme a la Biblia y a la Igleisa Adventsita Del Septimo Día:\n\n${contextoStr}`;
 
     // Reemplar el system message
     if (messages[0]?.role === "system") {

@@ -732,7 +732,7 @@
     else wrapper.setAttribute("data-role", "ia");
 
     const row = document.createElement("div");
-    row.style.cssText = "display:flex;gap:8px;max-width:92%;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
+    row.style.cssText = "display:flex;gap:8px;max-width:92%;position:relative;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
 
     const avatarSvg = esUsuario
       ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
@@ -743,7 +743,9 @@
 
     const textoRenderizado = "<em>" + chatParsearMarkdown(texto) + "</em>";
 
-    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
+    const conectorPos = esUsuario ? "right:30px;" : "left:28px;";
+    const conectorHTML = '<div style="position:absolute;top:14px;' + conectorPos + 'width:8px;height:1px;background:#222233;pointer-events:none;"></div>';
+    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div>' + conectorHTML + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
 
     wrapper.appendChild(row);
     chatMensajes.appendChild(wrapper);
@@ -1116,7 +1118,7 @@
     else wrapper.setAttribute("data-role", "rt-otro");
 
     const row = document.createElement("div");
-    row.style.cssText = "display:flex;gap:8px;max-width:92%;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
+    row.style.cssText = "display:flex;gap:8px;max-width:92%;position:relative;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
 
     const avatarSvg = esUsuario
       ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
@@ -1127,7 +1129,9 @@
 
     const textoRenderizado = "<em>" + chatRTParsearMarkdown(texto) + "</em>";
 
-    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
+    const conectorPosRT = esUsuario ? "right:30px;" : "left:28px;";
+    const conectorHTMLRT = '<div style="position:absolute;top:14px;' + conectorPosRT + 'width:8px;height:1px;background:#222233;pointer-events:none;"></div>';
+    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div>' + conectorHTMLRT + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
 
     wrapper.appendChild(row);
     chatRTMensajes.appendChild(wrapper);
