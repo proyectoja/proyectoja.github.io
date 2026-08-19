@@ -1,4 +1,5 @@
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const CEREBRAS_API_KEY = process.env.CEREBRAS_API_KEY;
 const fs = require("fs");
 const path = require("path");
 
@@ -134,7 +135,7 @@ module.exports = async function handler(req, res) {
 
   const ip = getClientIP(req);
   if (isRateLimited(ip)) return res.status(429).json({ error: "Demasiadas peticiones." });
-  if (!GROQ_API_KEY) return res.status(500).json({ error: "Servicio no disponible" });
+  if (!GROQ_API_KEY && !CEREBRAS_API_KEY) return res.status(500).json({ error: "Servicio no disponible" });
 
   const { messages } = req.body;
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -171,51 +172,87 @@ module.exports = async function handler(req, res) {
     }
   }
 
+  // === Llamada a proveedor con fallback ===
+  async function llamarProveedor(url, apiKey, model, msgs) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + apiKey,
+      },
+      body: JSON.stringify({
+        model,
+        messages: msgs,
+        max_tokens: 1024,
+        temperature: 0.5,
+      }),
+    });
+    return res;
+  }
+
   try {
-    let groqRes;
-    let intentos = 0;
-    const MAX_INTENTOS = 2;
+    let respuesta = null;
+    let proveedor = null;
+    let errores = [];
 
-    while (intentos <= MAX_INTENTOS) {
-      groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + GROQ_API_KEY,
-        },
-        body: JSON.stringify({
-          model: "openai/gpt-oss-20b",
-          messages,
-          max_tokens: 1024,
-          temperature: 0.5,
-        }),
-      });
-
-      if (groqRes.status === 429 || groqRes.status === 503) {
-        intentos++;
-        if (intentos <= MAX_INTENTOS) {
-          await new Promise(r => setTimeout(r, 1500 * intentos));
+    // Intentar Groq primero
+    if (GROQ_API_KEY) {
+      let intentos = 0;
+      while (intentos <= 2) {
+        const groqRes = await llamarProveedor(
+          "https://api.groq.com/openai/v1/chat/completions",
+          GROQ_API_KEY,
+          "openai/gpt-oss-20b",
+          messages
+        );
+        if (groqRes.ok) {
+          const data = await groqRes.json();
+          respuesta = data.choices?.[0]?.message?.content || null;
+          proveedor = "groq";
+          break;
+        }
+        errores.push("groq:" + groqRes.status);
+        if (groqRes.status === 429 || groqRes.status === 503) {
+          intentos++;
+          if (intentos <= 2) await new Promise(r => setTimeout(r, 1500 * intentos));
           continue;
         }
+        break;
       }
-      break;
+    } else {
+      errores.push("groq:no_key");
     }
 
-    if (!groqRes.ok) {
-      console.error("Error backend:", groqRes.status);
-      let msg;
-      if (groqRes.status === 429) msg = "Demasiadas solicitudes. Espera un momento e intenta de nuevo.";
-      else if (groqRes.status === 503) msg = "Servicio temporalmente no disponible. Intenta de nuevo en unos segundos.";
-      else if (groqRes.status === 400) msg = "Mensaje no valido.";
-      else msg = "Error del servicio. Intenta de nuevo.";
-      return res.status(500).json({ error: msg });
+    // Si Groq fallo, intentar Cerebras
+    if (!respuesta && CEREBRAS_API_KEY) {
+      console.log("Groq fallo, intentando Cerebras...");
+      const cerebrasRes = await llamarProveedor(
+        "https://api.cerebras.ai/v1/chat/completions",
+        CEREBRAS_API_KEY,
+        "gpt-oss-120b",
+        messages
+      );
+      if (cerebrasRes.ok) {
+        const data = await cerebrasRes.json();
+        respuesta = data.choices?.[0]?.message?.content || null;
+        proveedor = "cerebras";
+      } else {
+        errores.push("cerebras:" + cerebrasRes.status);
+        console.error("Cerebras tambien fallo:", cerebrasRes.status);
+      }
+    } else if (!respuesta) {
+      errores.push("cerebras:no_key");
     }
 
-    const data = await groqRes.json();
-    const respuesta = data.choices?.[0]?.message?.content || null;
-    if (!respuesta) return res.status(500).json({ error: "Sin respuesta" });
+    if (!respuesta) {
+      console.error("Todos los proveedores fallaron:", errores.join(", "));
+      return res.status(500).json({
+        error: "Servicio temporalmente no disponible. Intenta de nuevo.",
+        proveedores_fallidos: errores,
+      });
+    }
 
-    return res.status(200).json({ respuesta });
+    return res.status(200).json({ respuesta, proveedor });
   } catch (err) {
     console.error("Error backend:", err.message);
     return res.status(500).json({ error: "Error de conexion. Verifica tu internet." });
