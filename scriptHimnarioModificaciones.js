@@ -326,6 +326,12 @@
       #chat-ia-overlay::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
       #chat-ia-overlay::-webkit-scrollbar-thumb:hover { background: #333; }
       #chat-ia-overlay { scrollbar-width: thin; scrollbar-color: #222 transparent; }
+
+      #chat-rt-overlay::-webkit-scrollbar { width: 4px; }
+      #chat-rt-overlay::-webkit-scrollbar-track { background: transparent; }
+      #chat-rt-overlay::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+      #chat-rt-overlay::-webkit-scrollbar-thumb:hover { background: #333; }
+      #chat-rt-overlay { scrollbar-width: thin; scrollbar-color: #222 transparent; }
   `;
   document.head.appendChild(estiloAnimaciones);
 
@@ -564,6 +570,7 @@
     chatOverlay.style.animation = "notifSlideIn 0.25s ease-out";
     botonIA.style.display = "none";
     botonNotificaciones.style.display = "none";
+    botonChatRT.style.display = "none";
     const chatMensajes = document.getElementById("chatMensajes");
     if (chatMensajes) chatMensajes.scrollTop = chatMensajes.scrollHeight;
     setTimeout(() => {
@@ -579,6 +586,7 @@
       chatOverlay.style.display = "none";
       botonIA.style.display = "flex";
       botonNotificaciones.style.display = "flex";
+      botonChatRT.style.display = "flex";
     }, 200);
   }
 
@@ -902,8 +910,339 @@
     botonNotificaciones.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.3)";
   });
 
+  // ============================
+  //  BOTON CHAT EN TIEMPO REAL
+  // ============================
+  const botonChatRT = document.createElement("button");
+  botonChatRT.id = "botonChatRT";
+  botonChatRT.style.cssText = `
+      position: fixed;
+      bottom: 15px;
+      right: 95px;
+      width: 32px;
+      height: 32px;
+      background: rgba(30, 30, 50, 0.85);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 9999997;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s ease;
+      padding: 0;
+      backdrop-filter: blur(10px);
+  `;
+  botonChatRT.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+  botonChatRT.addEventListener("mouseenter", () => { botonChatRT.style.transform = "scale(1.15)"; botonChatRT.style.boxShadow = "0 4px 12px rgba(0,0,0,0.4)"; });
+  botonChatRT.addEventListener("mouseleave", () => { botonChatRT.style.transform = "none"; botonChatRT.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)"; });
+
+  // Panel de chat RT (estructura completa igual a Cortana)
+  const chatRTOverlay = document.createElement("div");
+  chatRTOverlay.id = "chat-rt-overlay";
+  chatRTOverlay.style.cssText = "position:fixed;top:0;right:0;width:380px;height:100vh;background:#0a0a0a;color:#fff;z-index:9999998;display:none;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;box-shadow:-8px 0 40px rgba(0,0,0,0.6);overflow:hidden;";
+  chatRTOverlay.innerHTML = `
+    <div id="chatRTRResizeHandle" style="position:absolute;left:0;top:0;width:5px;height:100%;cursor:ew-resize;z-index:10;transition:background 0.15s;"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:#2563eb;display:flex;align-items:center;justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#fff;">Conexan</div>
+          <div style="font-size:10px;color:#666;">Comunicacion directa</div>
+        </div>
+      </div>
+      <button id="cerrarChatRT" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
+    </div>
+    <div id="chatRTMensajes" style="flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;position:relative;"></div>
+    <div style="padding:10px;border-top:1px solid #1a1a1a;background:#111;">
+      <div style="display:flex;gap:8px;align-items:flex-end;">
+        <textarea id="chatRTInput" rows="1" placeholder="Escribe tu mensaje..." style="flex:1;background:#161616;border:1px solid #222;color:#e8edf9;font-family:inherit;font-size:13px;line-height:1.5;padding:8px 12px;border-radius:8px;resize:none;max-height:100px;outline:none;transition:border-color 0.2s;"></textarea>
+        <button id="chatRTEnviar" style="width:36px;height:36px;border:none;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s ease;" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+        </button>
+      </div>
+      <div style="text-align:center;color:#444;font-size:10px;margin-top:6px;">Enter para enviar - Shift+Enter nueva linea</div>
+    </div>
+  `;
+  document.body.appendChild(chatRTOverlay);
   document.body.appendChild(botonNotificaciones);
   document.body.appendChild(botonIA);
+  document.body.appendChild(botonChatRT);
+
+  function mostrarChatRT() {
+    chatRTOverlay.style.display = "flex";
+    chatRTOverlay.style.animation = "notifSlideIn 0.25s ease-out";
+    botonChatRT.style.display = "none";
+    botonIA.style.display = "none";
+    botonNotificaciones.style.display = "none";
+    const chatRTMensajes = document.getElementById("chatRTMensajes");
+    if (chatRTMensajes) chatRTMensajes.scrollTop = chatRTMensajes.scrollHeight;
+    setTimeout(() => {
+      chatRTReconstruirConectores();
+      const inp = document.getElementById("chatRTInput");
+      if (inp) inp.focus();
+    }, 300);
+  }
+
+  function ocultarChatRT() {
+    chatRTOverlay.style.animation = "notifSlideOut 0.2s ease-in";
+    setTimeout(() => {
+      chatRTOverlay.style.display = "none";
+      botonChatRT.style.display = "flex";
+      botonIA.style.display = "flex";
+      botonNotificaciones.style.display = "flex";
+    }, 200);
+  }
+
+  function chatRTParsearMarkdown(texto) {
+    const lineas = texto.split("\n");
+    let html = "";
+    let enLista = false;
+    let enTabla = false;
+    for (let i = 0; i < lineas.length; i++) {
+      let l = lineas[i];
+      if (/^>\s?/.test(l)) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        if (enTabla) { html += "</table>"; enTabla = false; }
+        l = l.replace(/^>\s?/, "");
+        html += '<blockquote style="border-left:3px solid #2563eb;padding-left:10px;margin:6px 0;color:#aaa;font-style:italic;">' + l + '</blockquote>';
+        continue;
+      }
+      if (/^[-*]{3,}$/.test(l.trim())) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        if (enTabla) { html += "</table>"; enTabla = false; }
+        html += '<hr style="border:none;border-top:1px solid #333;margin:8px 0;">';
+        continue;
+      }
+      if (/^\|(.+)\|$/.test(l.trim())) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        if (/^\|[\s\-:|]+\|$/.test(l.trim())) continue;
+        const celdas = l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim());
+        if (!enTabla) {
+          html += '<div style="margin:8px 0;"><table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:auto;"><thead><tr>';
+          for (const c of celdas) html += '<th style="background:#1a1a2e;border:1px solid #333;padding:5px 8px;text-align:left;color:#ddd;">' + c + '</th>';
+          html += '</tr></thead><tbody>';
+          enTabla = true;
+        } else {
+          html += '<tr>';
+          for (const c of celdas) html += '<td style="border:1px solid #333;padding:4px 8px;color:#ccc;">' + c + '</td>';
+          html += '</tr>';
+        }
+        continue;
+      }
+      if (enTabla) { html += "</tbody></table></div>"; enTabla = false; }
+      l = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const h3 = l.match(/^###\s+(.+)/);
+      const h4 = l.match(/^##\s+(.+)/);
+      const h5 = l.match(/^#\s+(.+)/);
+      if (h3) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += '<div style="font-size:14px;font-weight:bold;color:#ddd;margin:8px 0 4px 0;">' + h3[1] + '</div>';
+        continue;
+      } else if (h4) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += '<div style="font-size:13px;font-weight:bold;color:#ccc;margin:6px 0 3px 0;">' + h4[1] + '</div>';
+        continue;
+      } else if (h5) {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += '<div style="font-size:12px;font-weight:bold;color:#bbb;margin:4px 0 2px 0;">' + h5[1] + '</div>';
+        continue;
+      }
+      const numMatch = l.match(/^(\d+)[.\-]\s+(.+)/);
+      const guionMatch = l.match(/^[-*]\s+(.+)/);
+      if (numMatch) {
+        if (enLista !== "ol") { if (enLista) html += "</ul>"; html += "<ol>"; enLista = "ol"; }
+        html += "<li>" + numMatch[2] + "</li>";
+      } else if (guionMatch) {
+        if (enLista !== "ul") { if (enLista) html += "</ol>"; html += "<ul>"; enLista = "ul"; }
+        html += "<li>" + guionMatch[1] + "</li>";
+      } else {
+        if (enLista) { html += enLista === "ol" ? "</ol>" : "</ul>"; enLista = false; }
+        html += l + "<br>";
+      }
+    }
+    if (enLista) html += enLista === "ol" ? "</ol>" : "</ul>";
+    if (enTabla) html += "</tbody></table></div>";
+    html = html.replace(/<br>$/, "");
+    html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    return html;
+  }
+
+  function chatRTReconstruirConectores() {
+    const chatRTMensajes = document.getElementById("chatRTMensajes");
+    if (!chatRTMensajes) return;
+    function offsetHasta(el, limit) {
+      let t = 0, l = 0;
+      while (el && el !== limit) { t += el.offsetTop; l += el.offsetLeft; el = el.offsetParent; }
+      return { top: t, left: l };
+    }
+    function dibujarLinea(id, selector) {
+      let linea = document.getElementById(id);
+      if (!linea) {
+        linea = document.createElement("div");
+        linea.id = id;
+        linea.style.cssText = "position:absolute;width:1px;background:#222233;pointer-events:none;z-index:0;";
+        chatRTMensajes.appendChild(linea);
+      }
+      const items = chatRTMensajes.querySelectorAll(selector);
+      if (items.length < 2) { linea.style.display = "none"; return; }
+      linea.style.display = "";
+      const avFirst = items[0].children[0].children[0];
+      const avLast = items[items.length - 1].children[0].children[0];
+      if (!avFirst || !avLast) { linea.style.display = "none"; return; }
+      const pFirst = offsetHasta(avFirst, chatRTMensajes);
+      const pLast = offsetHasta(avLast, chatRTMensajes);
+      linea.style.left = (pFirst.left + 14) + "px";
+      linea.style.top = (pFirst.top + 14) + "px";
+      linea.style.height = Math.max(0, (pLast.top + 14) - (pFirst.top + 14)) + "px";
+    }
+    dibujarLinea("chatRTThreadLine", '[data-role="rt-usuario"]');
+    dibujarLinea("chatRTThreadLineOtro", '[data-role="rt-otro"]');
+  }
+
+  function chatRTAgregarMensaje(rol, texto) {
+    const chatRTMensajes = document.getElementById("chatRTMensajes");
+    if (!chatRTMensajes) return;
+    const esUsuario = rol === "usuario";
+
+    const wrapper = document.createElement("div");
+    wrapper.style.cssText = "padding:3px 0;animation:chatEntrar 0.2s ease;position:relative;width:100%;";
+    if (esUsuario) wrapper.setAttribute("data-role", "rt-usuario");
+    else wrapper.setAttribute("data-role", "rt-otro");
+
+    const row = document.createElement("div");
+    row.style.cssText = "display:flex;gap:8px;max-width:92%;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
+
+    const avatarSvg = esUsuario
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+
+    const avatarBg = esUsuario ? "background:#161620;border:1px solid #222233;" : "background:#2563eb;";
+    const burbujaBg = esUsuario ? "background:#1a1a2e;border:1px solid #252540;border-top-right-radius:4px;color:#ccc;" : "background:#111118;border:1px solid #1a1a24;border-top-left-radius:4px;color:#ccc;";
+
+    const textoRenderizado = "<em>" + chatRTParsearMarkdown(texto) + "</em>";
+
+    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;' + avatarBg + '">' + avatarSvg + '</div><div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
+
+    wrapper.appendChild(row);
+    chatRTMensajes.appendChild(wrapper);
+    chatRTMensajes.scrollTop = chatRTMensajes.scrollHeight;
+    chatRTReconstruirConectores();
+  }
+
+  function chatRTMostrarTyping() {
+    const chatRTMensajes = document.getElementById("chatRTMensajes");
+    if (!chatRTMensajes) return;
+    const div = document.createElement("div");
+    div.id = "chatRTTyping";
+    div.style.cssText = "display:flex;gap:8px;align-self:flex-start;animation:chatEntrar 0.2s ease;";
+    div.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;background:#2563eb;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div style="display:flex;align-items:center;gap:6px;color:#555;font-size:12px;">Escribiendo<span style="display:inline-flex;gap:3px;"><span style="width:5px;height:5px;border-radius:50%;background:#2563eb;animation:chatPulse 1.2s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#2563eb;animation:chatPulse 1.2s 0.15s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#2563eb;animation:chatPulse 1.2s 0.3s infinite ease-in-out;"></span></span></div>';
+    chatRTMensajes.appendChild(div);
+    chatRTMensajes.scrollTop = chatRTMensajes.scrollHeight;
+  }
+
+  function chatRTQuitarTyping() {
+    const t = document.getElementById("chatRTTyping");
+    if (t) t.remove();
+  }
+
+  function chatRTEnviarMensaje() {
+    const inp = document.getElementById("chatRTInput");
+    const btn = document.getElementById("chatRTEnviar");
+    if (!inp) return;
+    const texto = inp.value.trim();
+    if (!texto) return;
+    chatRTAgregarMensaje("usuario", texto);
+    inp.value = "";
+    inp.style.height = "auto";
+    btn.disabled = true;
+    // Logica real-time se conectara despues
+  }
+
+  (function() {
+    let scrollRAF = null;
+    const chatRTM = document.getElementById("chatRTMensajes");
+    if (chatRTM) chatRTM.addEventListener("scroll", function() {
+      if (scrollRAF) return;
+      scrollRAF = requestAnimationFrame(function() {
+        chatRTReconstruirConectores();
+        scrollRAF = null;
+      });
+    });
+  })();
+
+  setTimeout(() => {
+    const btnCerrarRT = document.getElementById("cerrarChatRT");
+    const btnEnviarRT = document.getElementById("chatRTEnviar");
+    const chatRTInput = document.getElementById("chatRTInput");
+
+    if (btnCerrarRT) btnCerrarRT.onclick = ocultarChatRT;
+
+    if (btnEnviarRT) {
+      btnEnviarRT.onclick = chatRTEnviarMensaje;
+      btnEnviarRT.onmouseenter = () => { if (!btnEnviarRT.disabled) btnEnviarRT.style.transform = "translateY(-1px)"; };
+      btnEnviarRT.onmouseleave = () => { btnEnviarRT.style.transform = "none"; };
+    }
+
+    if (chatRTInput) {
+      chatRTInput.addEventListener("input", () => {
+        chatRTInput.style.height = "auto";
+        chatRTInput.style.height = Math.min(chatRTInput.scrollHeight, 100) + "px";
+        if (btnEnviarRT) btnEnviarRT.disabled = !chatRTInput.value.trim();
+      });
+      chatRTInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          chatRTEnviarMensaje();
+        }
+      });
+      chatRTInput.onfocus = () => { chatRTInput.style.borderColor = "#2563eb"; };
+      chatRTInput.onblur = () => { chatRTInput.style.borderColor = "#222"; };
+    }
+
+    // Resize handle
+    const resizeHandleRT = document.getElementById("chatRTRResizeHandle");
+    if (resizeHandleRT) {
+      let resizing = false, startX, startW;
+      resizeHandleRT.addEventListener("mousedown", (e) => {
+        resizing = true;
+        startX = e.clientX;
+        startW = chatRTOverlay.offsetWidth;
+        document.body.style.cursor = "ew-resize";
+        document.body.style.userSelect = "none";
+        resizeHandleRT.style.background = "#2563eb";
+        e.preventDefault();
+      });
+      document.addEventListener("mousemove", (e) => {
+        if (!resizing) return;
+        const diff = startX - e.clientX;
+        const newW = Math.max(280, Math.min(700, startW + diff));
+        chatRTOverlay.style.width = newW + "px";
+      });
+      document.addEventListener("mouseup", () => {
+        if (!resizing) return;
+        resizing = false;
+        document.body.style.cursor = "";
+        document.body.style.userSelect = "";
+        resizeHandleRT.style.background = "";
+      });
+      resizeHandleRT.addEventListener("mouseenter", () => { if (!resizing) resizeHandleRT.style.background = "rgba(37,99,235,0.3)"; });
+      resizeHandleRT.addEventListener("mouseleave", () => { if (!resizing) resizeHandleRT.style.background = ""; });
+    }
+  }, 100);
+
+  botonChatRT.addEventListener("click", () => {
+    if (chatRTOverlay.style.display === "flex") {
+      ocultarChatRT();
+    } else {
+      mostrarChatRT();
+    }
+  });
 
   // Actualizar contador cuando se marcan notificaciones como le�das
   const marcarTodasLeidasOriginal = marcarTodasLeidas;
@@ -916,17 +1255,19 @@
   const mostrarNotificacionesOriginal = mostrarNotificaciones;
   mostrarNotificaciones = function () {
     mostrarNotificacionesOriginal();
-    // Ocultar bot�n mientras se muestran las notificaciones
     botonNotificaciones.style.display = "none";
+    botonChatRT.style.display = "none";
+    botonIA.style.display = "none";
   };
 
   // Modificar la funci�n ocultarNotificaciones para mostrar bot�n nuevamente
   const ocultarNotificacionesOriginal = ocultarNotificaciones;
   ocultarNotificaciones = function () {
     ocultarNotificacionesOriginal();
-    // Mostrar bot�n despu�s de ocultar notificaciones
     setTimeout(() => {
       botonNotificaciones.style.display = "flex";
+      botonChatRT.style.display = "flex";
+      botonIA.style.display = "flex";
       actualizarContadorNotificaciones();
     }, 300);
   };
