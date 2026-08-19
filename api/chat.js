@@ -188,7 +188,7 @@ module.exports = async function handler(req, res) {
 
     if (!groqRes.ok) {
       console.error("Error backend:", groqRes.status);
-      return res.status(500).json({ error: "Error del servicio" });
+      return res.status(500).json({ error: "Error del servicio: mucha gente usando a Cortana..." });
     }
 
     const data = await groqRes.json();
