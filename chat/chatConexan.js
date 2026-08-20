@@ -284,6 +284,11 @@
           from { opacity: 1; transform: translateX(0); }
           to { opacity: 0; transform: translateX(100%); }
       }
+
+      @keyframes chatRTSlideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+      }
       
       #notificaciones-himnario::-webkit-scrollbar {
           width: 4px;
@@ -1763,7 +1768,12 @@
     };
     const elId = mapa[vista];
     const el = document.getElementById(elId);
-    if (el) el.style.display = "flex";
+    if (el) {
+      el.style.display = "flex";
+      el.style.animation = "none";
+      el.offsetHeight;
+      el.style.animation = "chatRTSlideIn 0.25s ease-out";
+    }
 
     // Mostrar/ocultar bottom bar segun vista
     const bottomBar = document.getElementById("chatRTBottomBar");
