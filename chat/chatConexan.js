@@ -1734,7 +1734,10 @@
     </div><!-- /chatRTViewsContainer -->
 
     <!-- Bottom bar (siempre visible cuando hay sesion) -->
-    <div id="chatRTBottomBar" style="display:none;padding:12px 16px;background:#111;border-top:1px solid #1a1a1a;justify-content:flex-end;">
+    <div id="chatRTBottomBar" style="display:none;padding:12px 16px;background:#111;border-top:1px solid #1a1a1a;justify-content:space-between;align-items:center;">
+      <div id="chatRTChatsBtn" style="width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#1a1a2e;border:1px solid #2563eb;transition:all 0.2s;" title="Chats">
+        ${_iconChat}
+      </div>
       <div id="chatRTPerfilBtn" style="width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid #222;transition:border-color 0.2s;" title="Mi perfil">
         <img id="chatRTFotoMini" src="${_defaultPhoto}" style="width:100%;height:100%;object-fit:cover;" />
       </div>
@@ -1751,6 +1754,7 @@
     botonChatRT.style.display = "none";
     botonIA.style.display = "none";
     botonNotificaciones.style.display = "none";
+    chatRTVistaActual = "";
     // Verificar sesion al abrir
     chatRTVerificarSesion();
     setTimeout(() => {
@@ -1761,7 +1765,10 @@
   }
 
   // === Navegacion entre vistas ===
+  let chatRTVistaActual = "";
   function chatRTMostrarVista(vista) {
+    if (vista === chatRTVistaActual) return;
+    chatRTVistaActual = vista;
     const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => {
       const el = document.getElementById(id);
@@ -2437,6 +2444,10 @@
 
     // Navegacion: perfil (abrir vista menu)
     if (btnPerfil) btnPerfil.onclick = () => chatRTToggleMenuPerfil();
+
+    // Navegacion: chats (volver a vista principal)
+    const btnChats = document.getElementById("chatRTChatsBtn");
+    if (btnChats) btnChats.onclick = () => chatRTMostrarVista("main");
 
     // Menu perfil: opciones
     const menuOpcionPerfil = document.getElementById("chatRTMenuOpcionPerfil");
