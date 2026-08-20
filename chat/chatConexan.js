@@ -1263,7 +1263,7 @@
     }
 
     // Guardar en localStorage
-    const local = {
+    const localData = {
       user_id: user.id,
       email: user.email,
       username: perfil.username,
@@ -1272,12 +1272,12 @@
       usuario: perfil.username,
       foto: perfil.photo_url || "",
     };
-    localStorage.setItem("rt_perfil", JSON.stringify(local));
+    localStorage.setItem("rt_perfil", JSON.stringify(localData));
     localStorage.setItem("rt_session", "active");
 
     // Actualizar UI
     const fotoMini = document.getElementById("chatRTFotoMini");
-    if (fotoMini) fotoMini.src = local.foto || _defaultPhoto;
+    if (fotoMini) fotoMini.src = localData.foto || _defaultPhoto;
 
     chatRTMostrarVista("main");
   }
