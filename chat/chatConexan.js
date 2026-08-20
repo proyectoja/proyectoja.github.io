@@ -1807,6 +1807,7 @@
         nombre: p.nombre || "",
         info: p.info || "",
         usuario: p.usuario || "",
+        pass: localStorage.getItem("rt_pass") || "",
       };
       chatRTVerificarPermisosEdicion();
     }
@@ -1832,7 +1833,7 @@
   function chatRTCerrarMenuPerfil() {}
 
   // === Edicion de perfil ===
-  let chatRTPerfilOriginales = { nombre: "", info: "", usuario: "" };
+  let chatRTPerfilOriginales = { nombre: "", info: "", usuario: "", pass: "" };
 
   function chatRTDetectarCambios() {
     const nombre = (document.getElementById("chatRTCampoNombre")?.value || "").trim();
@@ -1840,9 +1841,8 @@
     const usuario = document.getElementById("chatRTCampoUsuario");
     const pass = document.getElementById("chatRTCampoPass");
     let cambia = nombre !== chatRTPerfilOriginales.nombre || info !== chatRTPerfilOriginales.info;
-    // Solo detectar cambios en usuario/contrasena si no estan bloqueados
     if (usuario && !usuario.readOnly) cambia = cambia || usuario.value.trim() !== chatRTPerfilOriginales.usuario;
-    if (pass && !pass.readOnly) cambia = cambia || pass.value.length > 0;
+    if (pass && !pass.readOnly) cambia = cambia || pass.value !== chatRTPerfilOriginales.pass;
     const btn = document.getElementById("chatRTBtnGuardarPerfil");
     if (btn) btn.style.display = cambia ? "block" : "none";
   }
@@ -1901,13 +1901,15 @@
     const msgEl = document.getElementById("chatRTConfirmEditMsg");
     const nombre = (document.getElementById("chatRTCampoNombre")?.value || "").trim();
     const info = (document.getElementById("chatRTCampoInfo")?.value || "").trim();
-    const usuario = (document.getElementById("chatRTCampoUsuario")?.value || "").trim();
-    const pass = (document.getElementById("chatRTCampoPass")?.value || "");
+    const usuarioEl = document.getElementById("chatRTCampoUsuario");
+    const passEl = document.getElementById("chatRTCampoPass");
+    const usuario = usuarioEl ? usuarioEl.value.trim() : "";
+    const pass = passEl ? passEl.value : "";
     let cambios = [];
     if (nombre !== chatRTPerfilOriginales.nombre) cambios.push("Nombre");
     if (info !== chatRTPerfilOriginales.info) cambios.push("Informacion");
-    if (usuario !== chatRTPerfilOriginales.usuario) cambios.push("Usuario");
-    if (pass.length > 0) cambios.push("Contrasena");
+    if (usuarioEl && !usuarioEl.readOnly && usuario !== chatRTPerfilOriginales.usuario) cambios.push("Usuario");
+    if (passEl && !passEl.readOnly && pass !== chatRTPerfilOriginales.pass) cambios.push("Contrasena");
     if (cambios.length === 0) return;
     if (msgEl) msgEl.textContent = "Se actualizaran: " + cambios.join(", ") + ". Esta accion no se puede deshacer.";
     if (modal) modal.style.display = "flex";
@@ -1952,16 +1954,20 @@
       }
     }
     // Actualizar contrasena
-    if (!passBloqueado && pass.length > 0) {
+    if (!passBloqueado && pass !== chatRTPerfilOriginales.pass) {
       const { error: passErr } = await sb.auth.updateUser({ password: pass });
-      if (!passErr) {
-        localStorage.setItem("rt_pass", pass);
-        // Si cambio la contrasena, tambien actualizar last_profile_edit
-        if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) {
-          // Ya se actualizo arriba con el username
-        } else {
-          await sb.from("profiles").update({ last_profile_edit: new Date().toISOString() }).eq("user_id", session.user.id);
-        }
+      if (passErr) {
+        let msgPass = "No se pudo actualizar la contrasena.";
+        if (passErr.code === "same_password" || (passErr.message && passErr.message.includes("same_password"))) msgPass = "La nueva contrasena debe ser diferente a la actual.";
+        const msgEl = document.getElementById("chatRTPerfilEditMsg");
+        if (msgEl) { msgEl.style.display = "block"; msgEl.textContent = msgPass; msgEl.style.color = "#ef4444"; }
+        return;
+      }
+      localStorage.setItem("rt_pass", pass);
+      if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) {
+        // Ya se actualizo arriba con el username
+      } else {
+        await sb.from("profiles").update({ last_profile_edit: new Date().toISOString() }).eq("user_id", session.user.id);
       }
     }
     // Actualizar localStorage
@@ -1971,10 +1977,12 @@
     if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) { perfil.usuario = usuario; perfil.username = usuario; }
     perfil.email = session.user.email || perfil.email;
     guardarPerfilRT(perfil);
+    // Sincronizar fecha de edicion a localStorage para bloquear de inmediato
+    localStorage.setItem("rt_perfil_last_edit", Date.now().toString());
     // Reset y recargar permisos
-    chatRTPerfilOriginales = { nombre, info, usuario };
+    chatRTPerfilOriginales = { nombre, info, usuario, pass };
     chatRTDetectarCambios();
-    await chatRTVerificarPermisosEdicion();
+    chatRTVerificarPermisosEdicion();
   }
 
   // === Persistencia automatica del perfil (al escribir) ===
