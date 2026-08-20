@@ -1016,14 +1016,25 @@
 
   function validarUsername(user) {
     const n = normalizarTexto(user);
-    if (n.length < 3) return "Minimo 3 caracteres";
-    if (n.length > 20) return "Maximo 20 caracteres";
+    if (n.length < 1) return "Minimo 1 caracter";
+    if (n.length > 100) return "Maximo 100 caracteres";
     if (!/^[a-z0-9_]+$/.test(n)) return "Solo minusculas, numeros y guion bajo";
     return null;
   }
 
+  function validarNombre(nombre) {
+    if (nombre.length < 1) return "Minimo 1 caracter";
+    if (nombre.length > 100) return "Maximo 100 caracteres";
+    return null;
+  }
+
   function validarPassword(pass) {
-    if (pass.length < 6) return "Minimo 6 caracteres";
+    if (pass.length < 10) return "Minimo 10 caracteres";
+    if (pass.length > 100) return "Maximo 100 caracteres";
+    if (!/[A-Z]/.test(pass)) return "Requiere al menos 1 mayuscula";
+    if (!/[a-z]/.test(pass)) return "Requiere al menos 1 minuscula";
+    if (!/[0-9]/.test(pass)) return "Requiere al menos 1 numero";
+    if (!/[^A-Za-z0-9]/.test(pass)) return "Requiere al menos 1 caracter especial";
     return null;
   }
 
@@ -1084,7 +1095,8 @@
     // Validar username
     const errUser = validarUsername(username);
     if (errUser) { mostrarErrorRT("chatRTRegUserError", errUser); return; }
-    if (!nombre) { mostrarErrorRT("chatRTRegNombreError", "Ingresa tu nombre"); return; }
+    const errNombre = validarNombre(nombre);
+    if (errNombre) { mostrarErrorRT("chatRTRegNombreError", errNombre); return; }
     if (!email) { mostrarErrorRT("chatRTLoginEmailError", "Ingresa tu correo"); return; }
     if (!validarEmail(email)) { mostrarErrorRT("chatRTLoginEmailError", "Correo no valido"); return; }
     const errPass = validarPassword(pass);
@@ -1142,7 +1154,7 @@
         username: meta.username || normalizarTexto(user.email.split("@")[0]),
         display_name: meta.display_name || "",
         info: "",
-        photo_url: "",
+        photo_url: _chatRTRegFotoDataURL || "",
       };
       await sb.from("profiles").insert(nuevoPerfil);
       perfil = nuevoPerfil;
@@ -1180,6 +1192,16 @@
 
   // === Toggle Login / Registro ===
   let _chatRTModoRegistro = false;
+  let _chatRTRegFotoDataURL = null;
+  function chatRTResetFotoRegistro() {
+    _chatRTRegFotoDataURL = null;
+    const preview = document.getElementById("chatRTRegFotoPreview");
+    const icon = document.getElementById("chatRTRegFotoIcon");
+    const btn = document.getElementById("chatRTRegFotoBtn");
+    if (preview) { preview.src = _defaultPhoto; preview.style.display = "none"; }
+    if (icon) icon.style.display = "flex";
+    if (btn) { btn.style.borderStyle = "dashed"; btn.style.borderColor = "#2563eb"; }
+  }
   function chatRTToggleModoAuth(modoRegistro) {
     _chatRTModoRegistro = modoRegistro;
     const regFields = document.getElementById("chatRTRegisterFields");
@@ -1201,6 +1223,7 @@
       if (toggleText) toggleText.textContent = "No tienes cuenta?";
       if (toggleBtn) toggleBtn.textContent = "Registrate";
       if (subtitulo) subtitulo.textContent = "Inicia sesion para continuar";
+      chatRTResetFotoRegistro();
     }
   }
 
@@ -1283,6 +1306,11 @@
     }
   }
 
+  // Fix autofill: forzar fondo oscuro en inputs
+  const _autofillStyle = document.createElement("style");
+  _autofillStyle.textContent = 'input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active{-webkit-box-shadow:0 0 0 30px #111 inset!important;-webkit-text-fill-color:#e8edf9!important;caret-color:#e8edf9!important;transition:background-color 5000s ease-in-out 0s}input[data-autocompleted]{background-color:#111!important;color:#e8edf9!important}';
+  document.head.appendChild(_autofillStyle);
+
   chatRTOverlay.innerHTML = `
     <div id="chatRTRResizeHandle" style="position:absolute;left:0;top:0;width:5px;height:100%;cursor:ew-resize;z-index:10;transition:background 0.15s;"></div>
 
@@ -1325,6 +1353,7 @@
             <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);text-align:center;padding:6px 0;font-size:10px;color:#fff;display:flex;align-items:center;justify-content:center;gap:4px;">${_iconCam} Cambiar</div>
           </div>
           <input type="file" id="chatRTFileInput" accept="image/*" style="display:none;" />
+          <input type="file" id="chatRTRegFileInput" accept="image/*" style="display:none;" />
           <!-- Modal recorte -->
           <div id="chatRTCropModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999999;flex-direction:column;align-items:center;justify-content:center;padding:20px;">
             <div style="background:#111;border-radius:12px;padding:20px;width:320px;max-width:90vw;">
@@ -1381,6 +1410,14 @@
         <div id="chatRTLoginForm" style="width:100%;display:flex;flex-direction:column;gap:14px;">
           <!-- Campos solo registro -->
           <div id="chatRTRegisterFields" style="display:none;flex-direction:column;gap:14px;">
+            <!-- Foto de perfil (solo registro) -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+              <div id="chatRTRegFotoBtn" style="width:72px;height:72px;border-radius:50%;cursor:pointer;position:relative;overflow:hidden;background:#1a1a2e;border:2px dashed #2563eb;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" title="Subir foto (opcional)">
+                <img id="chatRTRegFotoPreview" src="${_defaultPhoto}" style="width:100%;height:100%;object-fit:cover;display:none;" />
+                <div id="chatRTRegFotoIcon" style="display:flex;flex-direction:column;align-items:center;gap:2px;">${_iconCam}<span style="font-size:8px;color:#666;">Foto</span></div>
+              </div>
+              <div id="chatRTRegFotoError" style="font-size:10px;color:#ef4444;display:none;"></div>
+            </div>
             <div>
               <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Nombre de usuario</div>
               <div style="position:relative;">
@@ -1404,7 +1441,13 @@
           <!-- Password (siempre visible) -->
           <div>
             <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Contrasena</div>
-            <input id="chatRTLoginPass" type="password" placeholder="Minimo 6 caracteres" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:13px;padding:10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" autocomplete="current-password" />
+            <div style="position:relative;">
+              <input id="chatRTLoginPass" type="password" placeholder="10+ caracteres, mayuscula, numero, especial" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:13px;padding:10px 36px 10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" autocomplete="current-password" />
+              <button id="chatRTTogglePass" type="button" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;opacity:0.5;transition:opacity 0.2s;">
+                <svg id="chatRTEyeOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="chatRTEyeClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
             <div id="chatRTLoginPassError" style="font-size:10px;color:#ef4444;margin-top:3px;display:none;"></div>
           </div>
           <!-- Boton principal -->
@@ -1567,6 +1610,11 @@
     fileInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
+      // Validar tamaño maximo 1MB
+      if (file.size > 1048576) {
+        mostrarErrorRT("chatRTRegFotoError", "Maximo 1MB. Se reducira automaticamente.");
+        setTimeout(() => ocultarErrorRT("chatRTRegFotoError"), 3000);
+      }
       const reader = new FileReader();
       reader.onload = (ev) => {
         cropImg.src = ev.target.result;
@@ -1613,7 +1661,13 @@
         const h = img.height * ratio;
         const top = parseInt(cropImg.style.top || "0");
         ctx.drawImage(img, (200 - w) / 2, top + (200 - h) / 2, w, h);
-        const dataURL = canvas.toDataURL("image/jpeg", 0.8);
+        // Comenzar con calidad 0.8 y reducir si es mayor a 1MB
+        let quality = 0.8;
+        let dataURL = canvas.toDataURL("image/jpeg", quality);
+        while (dataURL.length > 1398108 && quality > 0.1) {
+          quality -= 0.1;
+          dataURL = canvas.toDataURL("image/jpeg", quality);
+        }
         // Guardar
         const perfil = cargarPerfilRT();
         perfil.foto = dataURL;
@@ -1869,6 +1923,24 @@
       });
     });
 
+    // Toggle ver contraseña
+    const togglePass = document.getElementById("chatRTTogglePass");
+    if (togglePass) {
+      togglePass.addEventListener("click", () => {
+        const input = document.getElementById("chatRTLoginPass");
+        const eyeOpen = document.getElementById("chatRTEyeOpen");
+        const eyeClosed = document.getElementById("chatRTEyeClosed");
+        if (!input) return;
+        const visible = input.type === "text";
+        input.type = visible ? "password" : "text";
+        if (eyeOpen) eyeOpen.style.display = visible ? "block" : "none";
+        if (eyeClosed) eyeClosed.style.display = visible ? "none" : "block";
+        togglePass.style.opacity = "1";
+      });
+      togglePass.addEventListener("mouseenter", () => { togglePass.style.opacity = "0.8"; });
+      togglePass.addEventListener("mouseleave", () => { togglePass.style.opacity = "0.5"; });
+    }
+
     // Validar username en tiempo real (chequear disponibilidad)
     const campoUser = document.getElementById("chatRTRegUser");
     if (campoUser) {
@@ -1877,8 +1949,10 @@
         clearTimeout(_timeoutUser);
         const val = campoUser.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "");
         campoUser.value = val;
+        const err = validarUsername(val);
+        if (err) { mostrarErrorRT("chatRTRegUserError", err); return; }
         ocultarErrorRT("chatRTRegUserError");
-        if (val.length >= 3) {
+        if (val.length >= 1) {
           _timeoutUser = setTimeout(async () => {
             const sb = getSupabase();
             if (!sb) return;
@@ -1889,12 +1963,54 @@
       });
     }
 
+    // Validar nombre en tiempo real
+    const campoNombre = document.getElementById("chatRTRegNombre");
+    if (campoNombre) {
+      campoNombre.addEventListener("input", () => {
+        const val = campoNombre.value.trim();
+        const err = validarNombre(val);
+        if (err) { mostrarErrorRT("chatRTRegNombreError", err); }
+        else { ocultarErrorRT("chatRTRegNombreError"); }
+      });
+    }
+
     // Validar email en tiempo real (sin espacios, minusculas)
     const campoEmail = document.getElementById("chatRTLoginEmail");
     if (campoEmail) {
       campoEmail.addEventListener("input", () => {
         campoEmail.value = campoEmail.value.toLowerCase().replace(/\s+/g, "");
-        ocultarErrorRT("chatRTLoginEmailError");
+        const val = campoEmail.value.trim();
+        const el = document.getElementById("chatRTLoginEmailError");
+        if (!_chatRTModoRegistro) { ocultarErrorRT("chatRTLoginEmailError"); return; }
+        if (!val) {
+          ocultarErrorRT("chatRTLoginEmailError");
+          if (el) { el.textContent = ""; el.style.color = "#ef4444"; }
+        } else if (!validarEmail(val)) {
+          if (el) { el.textContent = "Correo no valido"; el.style.color = "#ef4444"; el.style.display = "block"; }
+        } else {
+          if (el) { el.textContent = "✓ Correo valido"; el.style.color = "#22c55e"; el.style.display = "block"; }
+        }
+      });
+    }
+
+    // Validar contraseña en tiempo real
+    const campoPass = document.getElementById("chatRTLoginPass");
+    if (campoPass) {
+      campoPass.addEventListener("input", () => {
+        const val = campoPass.value;
+        const el = document.getElementById("chatRTLoginPassError");
+        if (!_chatRTModoRegistro) { ocultarErrorRT("chatRTLoginPassError"); return; }
+        if (!val) {
+          ocultarErrorRT("chatRTLoginPassError");
+          if (el) { el.textContent = ""; el.style.color = "#ef4444"; }
+        } else {
+          const err = validarPassword(val);
+          if (err) {
+            if (el) { el.textContent = err + " (" + val.length + "/100)"; el.style.color = "#ef4444"; el.style.display = "block"; }
+          } else {
+            if (el) { el.textContent = "✓ Contrasena valida"; el.style.color = "#22c55e"; el.style.display = "block"; }
+          }
+        }
       });
     }
 
@@ -1915,6 +2031,53 @@
     if (fotoGrande) fotoGrande.onclick = chatRTCambiarFoto;
     chatRTConfigurarCrop();
     chatRTEscucharCampos();
+
+    // Foto de registro: click en boton abre file input
+    const regFotoBtn = document.getElementById("chatRTRegFotoBtn");
+    const regFileInput = document.getElementById("chatRTRegFileInput");
+    if (regFotoBtn && regFileInput) {
+      regFotoBtn.onclick = () => regFileInput.click();
+      regFileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.size > 1048576) {
+          mostrarErrorRT("chatRTRegFotoError", "Maximo 1MB. Reduciendo...");
+          setTimeout(() => ocultarErrorRT("chatRTRegFotoError"), 3000);
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let size = 200;
+            let quality = 0.8;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext("2d");
+            const ratio = Math.max(size / img.width, size / img.height);
+            const w = img.width * ratio;
+            const h = img.height * ratio;
+            ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+            // Si es mayor a 1MB, reducir calidad iterativamente
+            let dataURL = canvas.toDataURL("image/jpeg", quality);
+            while (dataURL.length > 1398108 && quality > 0.1) {
+              quality -= 0.1;
+              dataURL = canvas.toDataURL("image/jpeg", quality);
+            }
+            _chatRTRegFotoDataURL = dataURL;
+            const preview = document.getElementById("chatRTRegFotoPreview");
+            const icon = document.getElementById("chatRTRegFotoIcon");
+            if (preview) { preview.src = dataURL; preview.style.display = "block"; }
+            if (icon) icon.style.display = "none";
+            regFotoBtn.style.borderStyle = "solid";
+            regFotoBtn.style.borderColor = "#22c55e";
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+        regFileInput.value = "";
+      });
+    }
 
     // Cargar foto mini al iniciar
     const p = cargarPerfilRT();
