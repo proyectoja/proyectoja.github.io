@@ -1175,6 +1175,8 @@
 
     await chatRTPostAuth(data.user);
     await chatRTSubirFotoPendiente();
+    // Guardar contrasena en localStorage para mostrarla en perfil
+    localStorage.setItem("rt_pass", pass);
   }
 
   // === AUTH: Registro ===
@@ -1232,6 +1234,7 @@
         reader.readAsDataURL(_chatRTRegFotoFile);
       }
       mostrarErrorRT("chatRTLoginGeneralError", "Correo de verificacion enviado. Revisa tu bandeja.");
+      localStorage.setItem("rt_pass", pass);
       chatRTToggleModoAuth(false);
       chatRTResetFotoRegistro();
       return;
@@ -1239,6 +1242,7 @@
 
     await chatRTPostAuth(data.user);
     await chatRTSubirFotoPendiente();
+    localStorage.setItem("rt_pass", pass);
     chatRTResetFotoRegistro();
   }
 
@@ -1797,9 +1801,8 @@
       if (campoNombre) campoNombre.value = p.nombre || "";
       if (campoInfo) campoInfo.value = p.info || "";
       if (campoUsuario) campoUsuario.value = p.usuario || "";
-      if (campoPass) campoPass.value = "";
+      if (campoPass) campoPass.value = localStorage.getItem("rt_pass") || "";
       if (fotoGrande) fotoGrande.src = p.foto || _defaultPhoto;
-      // Guardar valores originales para detectar cambios
       chatRTPerfilOriginales = {
         nombre: p.nombre || "",
         info: p.info || "",
@@ -1844,25 +1847,51 @@
     if (btn) btn.style.display = cambia ? "block" : "none";
   }
 
-  function chatRTVerificarPermisosEdicion() {
+  async function chatRTVerificarPermisosEdicion() {
     const msg = document.getElementById("chatRTPerfilEditMsg");
-    const btn = document.getElementById("chatRTBtnGuardarPerfil");
-    const ultimaEdicion = localStorage.getItem("rt_perfil_last_edit");
-    // Solo usuario y contrasena se bloquean 30 dias
+    const usuarioEl = document.getElementById("chatRTCampoUsuario");
+    const passEl = document.getElementById("chatRTCampoPass");
     const camposRestringidos = ["chatRTCampoUsuario", "chatRTCampoPass"];
-    const camposLibres = ["chatRTCampoNombre", "chatRTCampoInfo"];
-    if (ultimaEdicion) {
-      const diff = Date.now() - parseInt(ultimaEdicion);
-      const diasRestantes = 30 - Math.floor(diff / 86400000);
+
+    // 1. Intentar desde localStorage (rapido)
+    let lastEdit = null;
+    const localEdit = localStorage.getItem("rt_perfil_last_edit");
+    if (localEdit) {
+      lastEdit = new Date(parseInt(localEdit));
+      const diff = Date.now() - lastEdit.getTime();
       if (diff < 2592000000) {
-        camposRestringidos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = true; });
-        if (msg) { msg.style.display = "block"; msg.textContent = "Usuario y contrasena: editables en " + diasRestantes + " dia(s). Nombre e informacion: editables ahora."; msg.style.color = "#666"; }
-        // Verificar si hay cambios en campos libres para mostrar boton
+        const diasRestantes = 30 - Math.floor(diff / 86400000);
+        camposRestringidos.forEach(id => { const el = document.getElementById(id); if (el) { el.readOnly = true; el.style.background = "#0d0d0d"; el.style.borderColor = "#1a1a1a"; el.style.color = "#666"; el.style.cursor = "not-allowed"; } });
+        if (msg) { msg.style.display = "block"; msg.textContent = "Usuario y contrasena: editables en " + diasRestantes + " dia(s)."; msg.style.color = "#666"; }
         chatRTDetectarCambios();
         return false;
       }
     }
-    camposRestringidos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = false; });
+
+    // 2. Sin local o ya pasaron 30 dias, consultar Supabase
+    const sb = getSupabase();
+    if (sb) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) {
+        const { data } = await sb.from("profiles").select("last_profile_edit").eq("user_id", session.user.id).maybeSingle();
+        if (data && data.last_profile_edit) {
+          lastEdit = new Date(data.last_profile_edit);
+          // Sincronizar a localStorage
+          localStorage.setItem("rt_perfil_last_edit", lastEdit.getTime().toString());
+          const diff = Date.now() - lastEdit.getTime();
+          if (diff < 2592000000) {
+            const diasRestantes = 30 - Math.floor(diff / 86400000);
+            camposRestringidos.forEach(id => { const el = document.getElementById(id); if (el) { el.readOnly = true; el.style.background = "#0d0d0d"; el.style.borderColor = "#1a1a1a"; el.style.color = "#666"; el.style.cursor = "not-allowed"; } });
+            if (msg) { msg.style.display = "block"; msg.textContent = "Usuario y contrasena: editables en " + diasRestantes + " dia(s)."; msg.style.color = "#666"; }
+            chatRTDetectarCambios();
+            return false;
+          }
+        }
+      }
+    }
+
+    // 3. Todo libre
+    camposRestringidos.forEach(id => { const el = document.getElementById(id); if (el) { el.readOnly = false; el.style.background = "#111"; el.style.borderColor = "#222"; el.style.color = "#e8edf9"; el.style.cursor = "auto"; } });
     if (msg) msg.style.display = "none";
     return true;
   }
@@ -1899,11 +1928,14 @@
     if (!sb) return;
     const { data: { session } } = await sb.auth.getSession();
     if (!session) return;
-    // Actualizar perfil en Supabase (siempre campos libres, y restringidos si estan editables)
+    // Actualizar perfil en Supabase
     const update = {};
     if (nombre !== chatRTPerfilOriginales.nombre) update.display_name = nombre;
     if (info !== chatRTPerfilOriginales.info) update.info = info;
-    if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) update.username = usuario;
+    if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) {
+      update.username = usuario;
+      update.last_profile_edit = new Date().toISOString();
+    }
     if (Object.keys(update).length > 0) {
       const { error } = await sb.from("profiles").update(update).eq("user_id", session.user.id);
       if (error) {
@@ -1912,15 +1944,25 @@
           if (msg) { msg.style.display = "block"; msg.textContent = "Este usuario ya esta en uso."; msg.style.color = "#ef4444"; }
           return;
         }
+        if (error.message && error.message.includes("30 dias")) {
+          const msg = document.getElementById("chatRTPerfilEditMsg");
+          if (msg) { msg.style.display = "block"; msg.textContent = "Solo puedes cambiar usuario o contrasena una vez cada 30 dias."; msg.style.color = "#ef4444"; }
+          return;
+        }
       }
     }
-    // Actualizar contrasena solo si no esta bloqueada
+    // Actualizar contrasena
     if (!passBloqueado && pass.length > 0) {
-      await sb.auth.updateUser({ password: pass });
-    }
-    // Registrar fecha de edicion SOLO si se cambiaron campos restringidos
-    if ((!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) || (!passBloqueado && pass.length > 0)) {
-      localStorage.setItem("rt_perfil_last_edit", Date.now().toString());
+      const { error: passErr } = await sb.auth.updateUser({ password: pass });
+      if (!passErr) {
+        localStorage.setItem("rt_pass", pass);
+        // Si cambio la contrasena, tambien actualizar last_profile_edit
+        if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) {
+          // Ya se actualizo arriba con el username
+        } else {
+          await sb.from("profiles").update({ last_profile_edit: new Date().toISOString() }).eq("user_id", session.user.id);
+        }
+      }
     }
     // Actualizar localStorage
     const perfil = cargarPerfilRT();
@@ -1929,11 +1971,10 @@
     if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) { perfil.usuario = usuario; perfil.username = usuario; }
     perfil.email = session.user.email || perfil.email;
     guardarPerfilRT(perfil);
-    // Reset
-    if (passEl) passEl.value = "";
+    // Reset y recargar permisos
     chatRTPerfilOriginales = { nombre, info, usuario };
     chatRTDetectarCambios();
-    chatRTVerificarPermisosEdicion();
+    await chatRTVerificarPermisosEdicion();
   }
 
   // === Persistencia automatica del perfil (al escribir) ===
@@ -2418,7 +2459,7 @@
     const ojoPass = document.getElementById("chatRTOjoPass");
     if (ojoPass) ojoPass.onclick = () => {
       const inp = document.getElementById("chatRTCampoPass");
-      if (!inp) return;
+      if (!inp || inp.readOnly) return;
       const visible = inp.type === "text";
       inp.type = visible ? "password" : "text";
       ojoPass.innerHTML = visible

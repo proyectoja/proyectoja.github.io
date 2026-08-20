@@ -17,6 +17,7 @@ CREATE TABLE profiles (
   display_name TEXT NOT NULL DEFAULT '',
   info TEXT DEFAULT '',
   photo_url TEXT DEFAULT '',
+  last_profile_edit TIMESTAMPTZ DEFAULT NULL,
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
@@ -69,6 +70,13 @@ BEGIN
   IF NEW.username !~ '^[a-z0-9_]+$' THEN RAISE EXCEPTION 'Username solo minusculas, numeros, guion bajo'; END IF;
   IF length(NEW.display_name) < 1 OR length(NEW.display_name) > 100 THEN RAISE EXCEPTION 'Nombre entre 1 y 100'; END IF;
   IF length(NEW.info) > 500 THEN RAISE EXCEPTION 'Info maximo 500'; END IF;
+  -- Bloquear usuario si se cambio hace menos de 30 dias (solo si username cambio)
+  IF NEW.username IS DISTINCT FROM OLD.username THEN
+    IF OLD.last_profile_edit IS NOT NULL AND (now() - OLD.last_profile_edit) < interval '30 days' THEN
+      RAISE EXCEPTION 'Solo puedes cambiar usuario o contrasena una vez cada 30 dias';
+    END IF;
+    NEW.last_profile_edit := now();
+  END IF;
   RETURN NEW;
 END;
 $$;
