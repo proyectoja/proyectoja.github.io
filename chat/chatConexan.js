@@ -976,6 +976,71 @@
     return p.foto || _defaultPhoto;
   }
 
+  // Subir foto a Supabase Storage, retorna URL publica
+  async function chatRTSubirFoto(file) {
+    const sb = getSupabase();
+    if (!sb) return null;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return null;
+    // Validar tamano maximo 1MB
+    if (file.size > 1048576) {
+      console.warn("Foto excede 1MB (" + file.size + " bytes). Reduciendo...");
+      // Si es Blob grande, intentar comprimir mas
+      if (file.type && file.type.startsWith("image/")) {
+        const compressed = await chatRTComprimirFoto(file);
+        if (compressed) file = compressed;
+      }
+      if (file.size > 1048576) return null;
+    }
+    const userId = session.user.id;
+    const filePath = userId + "/avatar.jpg";
+    // Subir (upsert para reemplazar si ya existe)
+    const { error } = await sb.storage.from("avatars").upload(filePath, file, {
+      contentType: "image/jpeg",
+      upsert: true,
+    });
+    if (error) { console.error("Error subiendo foto:", error.message); return null; }
+    // Obtener URL publica
+    const { data: urlData } = sb.storage.from("avatars").getPublicUrl(filePath);
+    return urlData ? urlData.publicUrl + "?t=" + Date.now() : null;
+  }
+
+  // Comprimir foto si exede 1MB
+  function chatRTComprimirFoto(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let quality = 0.7;
+          canvas.width = 200;
+          canvas.height = 200;
+          const ctx = canvas.getContext("2d");
+          const ratio = Math.max(200 / img.width, 200 / img.height);
+          const w = img.width * ratio;
+          const h = img.height * ratio;
+          ctx.drawImage(img, (200 - w) / 2, (200 - h) / 2, w, h);
+          // Reducir calidad hasta que pase de 1MB
+          const intentar = () => {
+            canvas.toBlob((blob) => {
+              if (!blob) { resolve(null); return; }
+              if (blob.size <= 1048576 || quality <= 0.1) {
+                resolve(blob);
+              } else {
+                quality -= 0.1;
+                intentar();
+              }
+            }, "image/jpeg", quality);
+          };
+          intentar();
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   // === SUPABASE CLIENT (carga dinamica) ===
   const _SUPABASE_URL = "https://hgangxlyytnxdndwjvgf.supabase.co";
   const _SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnYW5neGx5eXRueGRuZHdqdmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzNDgyNTksImV4cCI6MjA4MDkyNDI1OX0.VL5GgpkfV102lJc_NEi0Ga15gDiNSV92jSIRMuH-5hI";
@@ -1137,6 +1202,23 @@
     }
 
     await chatRTPostAuth(data.user);
+    // Subir foto a Storage si se selecciono una
+    if (_chatRTRegFotoFile) {
+      const fotoURL = await chatRTSubirFoto(_chatRTRegFotoFile);
+      if (fotoURL) {
+        const perfil = cargarPerfilRT();
+        perfil.foto = fotoURL;
+        guardarPerfilRT(perfil);
+        // Actualizar en Supabase
+        const sb = getSupabase();
+        if (sb) {
+          await sb.from("profiles").update({ photo_url: fotoURL }).eq("user_id", data.user.id);
+        }
+        const fotoMini = document.getElementById("chatRTFotoMini");
+        if (fotoMini) fotoMini.src = fotoURL;
+      }
+    }
+    chatRTResetFotoRegistro();
   }
 
   // === AUTH: Post-login (cargar perfil y entrar) ===
@@ -1144,7 +1226,20 @@
     const sb = getSupabase();
     if (!sb || !user) return;
 
-    // Cargar o crear perfil
+    // 1. Verificar si ya tenemos el perfil en localStorage
+    const local = cargarPerfilRT();
+    if (local.user_id === user.id && local.username) {
+      // Ya tenemos datos locales, usarlos inmediatamente
+      localStorage.setItem("rt_session", "active");
+      const fotoMini = document.getElementById("chatRTFotoMini");
+      if (fotoMini) fotoMini.src = local.foto || _defaultPhoto;
+      chatRTMostrarVista("main");
+      // Refrescar en background
+      chatRTRefrescarPerfilSilencioso(user.id);
+      return;
+    }
+
+    // 2. No hay datos locales, cargar desde Supabase
     let { data: perfil } = await sb.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
 
     if (!perfil) {
@@ -1156,8 +1251,15 @@
         info: "",
         photo_url: _chatRTRegFotoDataURL || "",
       };
-      await sb.from("profiles").insert(nuevoPerfil);
-      perfil = nuevoPerfil;
+      const { error: insertErr } = await sb.from("profiles").insert(nuevoPerfil);
+      if (insertErr) {
+        // Race condition: el trigger ya creo el perfil, recargar
+        const { data: reloaded } = await sb.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
+        if (reloaded) perfil = reloaded;
+        else perfil = nuevoPerfil;
+      } else {
+        perfil = nuevoPerfil;
+      }
     }
 
     // Guardar en localStorage
@@ -1193,8 +1295,10 @@
   // === Toggle Login / Registro ===
   let _chatRTModoRegistro = false;
   let _chatRTRegFotoDataURL = null;
+  let _chatRTRegFotoFile = null;
   function chatRTResetFotoRegistro() {
     _chatRTRegFotoDataURL = null;
+    _chatRTRegFotoFile = null;
     const preview = document.getElementById("chatRTRegFotoPreview");
     const icon = document.getElementById("chatRTRegFotoIcon");
     const btn = document.getElementById("chatRTRegFotoBtn");
@@ -1294,6 +1398,20 @@
   // === Verificar sesion al abrir ===
   async function chatRTVerificarSesion() {
     await cargarSupabaseSDK();
+
+    // 1. Intentar cargar desde localStorage primero (rapido, sin red)
+    const local = cargarPerfilRT();
+    const tieneSesion = localStorage.getItem("rt_session") === "active";
+    if (tieneSesion && local.user_id) {
+      chatRTMostrarVista("main");
+      const fotoMini = document.getElementById("chatRTFotoMini");
+      if (fotoMini) fotoMini.src = local.foto || _defaultPhoto;
+      // Refrescar en background sin bloquear la UI
+      chatRTRefrescarPerfilSilencioso(local.user_id);
+      return;
+    }
+
+    // 2. No hay sesion local, verificar con Supabase
     const sb = getSupabase();
     if (!sb) { chatRTMostrarVista("login"); return; }
 
@@ -1302,8 +1420,29 @@
       await chatRTPostAuth(session.user);
     } else {
       localStorage.removeItem("rt_session");
+      localStorage.removeItem("rt_perfil");
       chatRTMostrarVista("login");
     }
+  }
+
+  // Refrescar perfil en background (no bloquea UI)
+  async function chatRTRefrescarPerfilSilencioso(userId) {
+    const sb = getSupabase();
+    if (!sb || !userId) return;
+    try {
+      const { data: perfil } = await sb.from("profiles").select("*").eq("user_id", userId).maybeSingle();
+      if (perfil) {
+        const local = cargarPerfilRT();
+        local.nombre = perfil.display_name || local.nombre;
+        local.info = perfil.info || local.info;
+        local.usuario = perfil.username || local.usuario;
+        local.foto = perfil.photo_url || local.foto;
+        guardarPerfilRT(local);
+        // Actualizar UI si cambio la foto
+        const fotoMini = document.getElementById("chatRTFotoMini");
+        if (fotoMini && perfil.photo_url) fotoMini.src = perfil.photo_url;
+      }
+    } catch(e) {}
   }
 
   // Fix autofill: forzar fondo oscuro en inputs
@@ -1668,16 +1807,28 @@
           quality -= 0.1;
           dataURL = canvas.toDataURL("image/jpeg", quality);
         }
-        // Guardar
-        const perfil = cargarPerfilRT();
-        perfil.foto = dataURL;
-        guardarPerfilRT(perfil);
-        // Actualizar UI
-        const fotoGrande = document.getElementById("chatRTFotoPerfilImg");
-        const fotoMini = document.getElementById("chatRTFotoMini");
-        if (fotoGrande) fotoGrande.src = dataURL;
-        if (fotoMini) fotoMini.src = dataURL;
-        modal.style.display = "none";
+        // Convertir a Blob y subir a Supabase Storage
+        canvas.toBlob(async (blob) => {
+          if (!blob) return;
+          const fotoURL = await chatRTSubirFoto(blob);
+          const fotoFinal = fotoURL || dataURL;
+          // Guardar URL en perfil local
+          const perfil = cargarPerfilRT();
+          perfil.foto = fotoFinal;
+          guardarPerfilRT(perfil);
+          // Guardar URL en Supabase
+          const sb = getSupabase();
+          const { data: { session } } = sb ? await sb.auth.getSession() : { data: {} };
+          if (sb && session) {
+            await sb.from("profiles").update({ photo_url: fotoFinal }).eq("user_id", session.user.id);
+          }
+          // Actualizar UI
+          const fotoGrande = document.getElementById("chatRTFotoPerfilImg");
+          const fotoMini = document.getElementById("chatRTFotoMini");
+          if (fotoGrande) fotoGrande.src = fotoFinal;
+          if (fotoMini) fotoMini.src = fotoFinal;
+          modal.style.display = "none";
+        }, "image/jpeg", quality);
       };
       img.src = cropImg.src;
     };
@@ -2058,13 +2209,16 @@
             const w = img.width * ratio;
             const h = img.height * ratio;
             ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
-            // Si es mayor a 1MB, reducir calidad iterativamente
             let dataURL = canvas.toDataURL("image/jpeg", quality);
             while (dataURL.length > 1398108 && quality > 0.1) {
               quality -= 0.1;
               dataURL = canvas.toDataURL("image/jpeg", quality);
             }
             _chatRTRegFotoDataURL = dataURL;
+            // Guardar Blob comprimido para subir a Storage despues del registro
+            canvas.toBlob((blob) => {
+              _chatRTRegFotoFile = blob;
+            }, "image/jpeg", quality);
             const preview = document.getElementById("chatRTRegFotoPreview");
             const icon = document.getElementById("chatRTRegFotoIcon");
             if (preview) { preview.src = dataURL; preview.style.display = "block"; }

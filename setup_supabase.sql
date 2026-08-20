@@ -47,6 +47,8 @@ RETURNS trigger AS $$
 DECLARE
   _username TEXT;
   _display_name TEXT;
+  _final_username TEXT;
+  _suffix INT := 0;
 BEGIN
   _username := COALESCE(
     new.raw_user_meta_data->>'username',
@@ -74,8 +76,15 @@ BEGIN
     _display_name := left(_display_name, 100);
   END IF;
 
+  -- Resolver race condition: si username ya existe, agregar sufijo numerico
+  _final_username := _username;
+  WHILE EXISTS (SELECT 1 FROM profiles WHERE username = _final_username) LOOP
+    _suffix := _suffix + 1;
+    _final_username := left(_username, 95) || '_' || _suffix::text;
+  END LOOP;
+
   INSERT INTO public.profiles (user_id, username, display_name)
-  VALUES (new.id, _username, _display_name);
+  VALUES (new.id, _final_username, _display_name);
 
   RETURN new;
 END;
@@ -116,3 +125,36 @@ DROP TRIGGER IF EXISTS validate_profile_update ON profiles;
 CREATE TRIGGER validate_profile_update
   BEFORE UPDATE ON profiles
   FOR EACH ROW EXECUTE FUNCTION public.validate_profile_update();
+
+-- 7. Storage: bucket avatars
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('avatars', 'avatars', true, 1048576, ARRAY['image/jpeg','image/png','image/webp','image/gif'])
+ON CONFLICT (id) DO UPDATE SET
+  public = true,
+  file_size_limit = 1048576,
+  allowed_mime_types = ARRAY['image/jpeg','image/png','image/webp','image/gif'];
+
+-- 8. Storage: politicas RLS
+DROP POLICY IF EXISTS "avatar_upload_own" ON storage.objects;
+CREATE POLICY "avatar_upload_own"
+  ON storage.objects FOR INSERT
+  TO authenticated
+  WITH CHECK (bucket_id = 'avatars' AND auth.uid()::text = (storage.foldername(name))[1]);
+
+DROP POLICY IF EXISTS "avatar_read_public" ON storage.objects;
+CREATE POLICY "avatar_read_public"
+  ON storage.objects FOR SELECT
+  TO public
+  USING (bucket_id = 'avatars');
+
+DROP POLICY IF EXISTS "avatar_update_own" ON storage.objects;
+CREATE POLICY "avatar_update_own"
+  ON storage.objects FOR UPDATE
+  TO authenticated
+  USING (bucket_id = 'avatars' AND auth.uid()::text = (storage.foldername(name))[1]);
+
+DROP POLICY IF EXISTS "avatar_delete_own" ON storage.objects;
+CREATE POLICY "avatar_delete_own"
+  ON storage.objects FOR DELETE
+  TO authenticated
+  USING (bucket_id = 'avatars' AND auth.uid()::text = (storage.foldername(name))[1]);
