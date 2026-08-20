@@ -1138,10 +1138,9 @@
     if (btn) { btn.textContent = "Iniciar sesion"; btn.disabled = false; }
 
     if (error) {
-      let msg = "Error al iniciar sesion";
+      let msg = "No se pudo iniciar sesion. Intenta de nuevo.";
       if (error.message.includes("Invalid login")) msg = "Correo o contrasena incorrectos";
       else if (error.message.includes("Email not confirmed")) msg = "Confirma tu correo electronico primero";
-      else msg = error.message;
       mostrarErrorRT("chatRTLoginGeneralError", msg);
       return;
     }
@@ -1186,10 +1185,10 @@
     if (btn) { btn.textContent = "Registrate"; btn.disabled = false; }
 
     if (error) {
-      let msg = "Error al registrar";
+      let msg = "No se pudo crear la cuenta. Intenta de nuevo.";
       if (error.message.includes("already registered")) msg = "Este correo ya esta registrado";
       else if (error.message.includes("Password")) msg = "La contrasena no cumple requisitos";
-      else msg = error.message;
+      else if (error.message.includes("Database error") || error.code === "unexpected_failure") msg = "Error interno. Intenta de nuevo en unos minutos.";
       mostrarErrorRT("chatRTLoginGeneralError", msg);
       return;
     }
@@ -1365,7 +1364,7 @@
     if (btn) { btn.textContent = "Enviar correo"; btn.disabled = false; }
 
     if (error) {
-      mostrarErrorRT("chatRTRecGeneralError", error.message);
+      mostrarErrorRT("chatRTRecGeneralError", "No se pudo enviar el correo. Verifica tu direccion e intenta de nuevo.");
       return;
     }
 

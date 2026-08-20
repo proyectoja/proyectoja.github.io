@@ -1,10 +1,19 @@
 -- =============================================
--- SETUP COMPLETO DE SUPABASE PARA CONEXAN
--- Copiar y pegar en: Supabase Dashboard > SQL Editor
+-- SETUP LIMPIO - Borra todo y recrea desde cero
+-- Ejecutar en: Supabase Dashboard > SQL Editor
 -- =============================================
 
+-- LIMPIAR TODO PRIMERO
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+DROP TRIGGER IF EXISTS validate_profile_update ON profiles;
+DROP FUNCTION IF EXISTS public.handle_new_user();
+DROP FUNCTION IF EXISTS public.validate_profile_update();
+DROP POLICY IF EXISTS "own_profile_all" ON profiles;
+DROP POLICY IF EXISTS "search_usernames" ON profiles;
+DROP TABLE IF EXISTS profiles CASCADE;
+
 -- 1. Tabla profiles
-CREATE TABLE IF NOT EXISTS profiles (
+CREATE TABLE profiles (
   user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   username TEXT UNIQUE NOT NULL,
   display_name TEXT NOT NULL DEFAULT '',
@@ -13,35 +22,27 @@ CREATE TABLE IF NOT EXISTS profiles (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- 2. Validaciones server-side (CHECK constraints)
-ALTER TABLE profiles DROP CONSTRAINT IF EXISTS profiles_username_check;
+-- 2. Validaciones server-side
 ALTER TABLE profiles ADD CONSTRAINT profiles_username_check
   CHECK (length(username) >= 1 AND length(username) <= 100);
-
-ALTER TABLE profiles DROP CONSTRAINT IF EXISTS profiles_display_name_check;
 ALTER TABLE profiles ADD CONSTRAINT profiles_display_name_check
   CHECK (length(display_name) >= 1 AND length(display_name) <= 100);
-
-ALTER TABLE profiles DROP CONSTRAINT IF EXISTS profiles_info_check;
 ALTER TABLE profiles ADD CONSTRAINT profiles_info_check
   CHECK (length(info) <= 500);
 
--- 3. RLS: habilitar
+-- 3. RLS
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
--- 4. RLS: politicas
-DROP POLICY IF EXISTS "own_profile_all" ON profiles;
 CREATE POLICY "own_profile_all"
   ON profiles FOR ALL
   USING (auth.uid() = user_id);
 
-DROP POLICY IF EXISTS "search_usernames" ON profiles;
 CREATE POLICY "search_usernames"
   ON profiles FOR SELECT
   TO authenticated
   USING (true);
 
--- 5. Trigger: auto-crear perfil al registrar usuario
+-- 4. Trigger: auto-crear perfil al registrar
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 DECLARE
@@ -59,7 +60,6 @@ BEGIN
     split_part(new.email, '@', 1)
   );
 
-  -- Validar username (server-side)
   _username := lower(regexp_replace(_username, '[^a-z0-9_]', '', 'g'));
   IF length(_username) < 1 THEN
     _username := split_part(new.email, '@', 1);
@@ -68,7 +68,6 @@ BEGIN
     _username := left(_username, 100);
   END IF;
 
-  -- Validar display_name (server-side)
   IF length(_display_name) < 1 THEN
     _display_name := split_part(new.email, '@', 1);
   END IF;
@@ -76,7 +75,6 @@ BEGIN
     _display_name := left(_display_name, 100);
   END IF;
 
-  -- Resolver race condition: si username ya existe, agregar sufijo numerico
   _final_username := _username;
   WHILE EXISTS (SELECT 1 FROM profiles WHERE username = _final_username) LOOP
     _suffix := _suffix + 1;
@@ -90,43 +88,35 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- 6. Funcion para validar actualizaciones de perfil
+-- 5. Trigger: validar antes de actualizar perfil
 CREATE OR REPLACE FUNCTION public.validate_profile_update()
 RETURNS trigger AS $$
 BEGIN
-  -- Validar username
   IF length(NEW.username) < 1 OR length(NEW.username) > 100 THEN
     RAISE EXCEPTION 'Username debe tener entre 1 y 100 caracteres';
   END IF;
   IF NEW.username !~ '^[a-z0-9_]+$' THEN
     RAISE EXCEPTION 'Username solo puede contener minusculas, numeros y guion bajo';
   END IF;
-
-  -- Validar display_name
   IF length(NEW.display_name) < 1 OR length(NEW.display_name) > 100 THEN
     RAISE EXCEPTION 'Nombre debe tener entre 1 y 100 caracteres';
   END IF;
-
-  -- Validar info
   IF length(NEW.info) > 500 THEN
     RAISE EXCEPTION 'Informacion maximo 500 caracteres';
   END IF;
-
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
-DROP TRIGGER IF EXISTS validate_profile_update ON profiles;
 CREATE TRIGGER validate_profile_update
   BEFORE UPDATE ON profiles
   FOR EACH ROW EXECUTE FUNCTION public.validate_profile_update();
 
--- 7. Storage: bucket avatars
+-- 6. Storage: bucket avatars
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES ('avatars', 'avatars', true, 1048576, ARRAY['image/jpeg','image/png','image/webp','image/gif'])
 ON CONFLICT (id) DO UPDATE SET
@@ -134,7 +124,7 @@ ON CONFLICT (id) DO UPDATE SET
   file_size_limit = 1048576,
   allowed_mime_types = ARRAY['image/jpeg','image/png','image/webp','image/gif'];
 
--- 8. Storage: politicas RLS
+-- 7. Storage: politicas
 DROP POLICY IF EXISTS "avatar_upload_own" ON storage.objects;
 CREATE POLICY "avatar_upload_own"
   ON storage.objects FOR INSERT
