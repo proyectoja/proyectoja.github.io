@@ -1005,6 +1005,29 @@
     return urlData ? urlData.publicUrl + "?t=" + Date.now() : null;
   }
 
+  // Subir foto pendiente del registro (guardada en sessionStorage por confirmacion de correo)
+  async function chatRTSubirFotoPendiente() {
+    const pending = sessionStorage.getItem("rt_pending_foto");
+    if (!pending) return;
+    sessionStorage.removeItem("rt_pending_foto");
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    // Convertir dataURL a Blob
+    const res = await fetch(pending);
+    const blob = await res.blob();
+    const fotoURL = await chatRTSubirFoto(blob);
+    if (fotoURL) {
+      await sb.from("profiles").update({ photo_url: fotoURL }).eq("user_id", session.user.id);
+      const perfil = cargarPerfilRT();
+      perfil.foto = fotoURL;
+      guardarPerfilRT(perfil);
+      const fotoMini = document.getElementById("chatRTFotoMini");
+      if (fotoMini) fotoMini.src = fotoURL;
+    }
+  }
+
   // Comprimir foto si exede 1MB
   function chatRTComprimirFoto(file) {
     return new Promise((resolve) => {
@@ -1146,6 +1169,7 @@
     }
 
     await chatRTPostAuth(data.user);
+    await chatRTSubirFotoPendiente();
   }
 
   // === AUTH: Registro ===
@@ -1193,30 +1217,23 @@
       return;
     }
 
-    // Si need_email_confirmation, mostrar aviso
+    // Si need_email_confirmation, mostrar aviso y guardar foto pendiente
     if (data.user && !data.session) {
+      if (_chatRTRegFotoFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          sessionStorage.setItem("rt_pending_foto", reader.result);
+        };
+        reader.readAsDataURL(_chatRTRegFotoFile);
+      }
       mostrarErrorRT("chatRTLoginGeneralError", "Correo de verificacion enviado. Revisa tu bandeja.");
       chatRTToggleModoAuth(false);
+      chatRTResetFotoRegistro();
       return;
     }
 
     await chatRTPostAuth(data.user);
-    // Subir foto a Storage si se selecciono una
-    if (_chatRTRegFotoFile) {
-      const fotoURL = await chatRTSubirFoto(_chatRTRegFotoFile);
-      if (fotoURL) {
-        const perfil = cargarPerfilRT();
-        perfil.foto = fotoURL;
-        guardarPerfilRT(perfil);
-        // Actualizar en Supabase
-        const sb = getSupabase();
-        if (sb) {
-          await sb.from("profiles").update({ photo_url: fotoURL }).eq("user_id", data.user.id);
-        }
-        const fotoMini = document.getElementById("chatRTFotoMini");
-        if (fotoMini) fotoMini.src = fotoURL;
-      }
-    }
+    await chatRTSubirFotoPendiente();
     chatRTResetFotoRegistro();
   }
 
@@ -1452,6 +1469,9 @@
   chatRTOverlay.innerHTML = `
     <div id="chatRTRResizeHandle" style="position:absolute;left:0;top:0;width:5px;height:100%;cursor:ew-resize;z-index:10;transition:background 0.15s;"></div>
 
+    <!-- Contenedor de vistas -->
+    <div id="chatRTViewsContainer" style="flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
     <!-- ====== VISTA PRINCIPAL (empty state) ====== -->
     <div id="chatRTVistaMain" style="display:flex;flex-direction:column;height:100%;">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
@@ -1471,9 +1491,33 @@
           <div style="font-size:12px;color:#666;margin-top:6px;line-height:1.5;">Empieza a chatear con tus contactos.<br>Aun no hay conversaciones.</div>
         </div>
       </div>
-      <div id="chatRTBottomBar" style="padding:12px 16px;background:#111;border-top:1px solid #1a1a1a;display:flex;justify-content:flex-end;">
-        <div id="chatRTPerfilBtn" style="width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid #222;transition:border-color 0.2s;position:relative;" title="Mi perfil">
-          <img id="chatRTFotoMini" src="${_defaultPhoto}" style="width:100%;height:100%;object-fit:cover;" />
+    </div>
+
+    <!-- ====== VISTA MENU PERFIL (full window) ====== -->
+    <div id="chatRTVistaMenu" style="display:none;flex-direction:column;height:100%;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+        <button id="chatRTMenuVolverBtn" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;transition:background 0.15s;">${_iconBack}</button>
+        <div style="font-size:14px;font-weight:600;color:#fff;">Menu</div>
+      </div>
+      <div style="flex:1;overflow-y:auto;">
+        <div style="padding:24px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid #1a1a1a;">
+          <div style="width:56px;height:56px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#1a1a2e;border:2px solid #2563eb;">
+            <img id="chatRTMenuFotoImg" src="${_defaultPhoto}" style="width:100%;height:100%;object-fit:cover;" />
+          </div>
+          <div style="overflow:hidden;">
+            <div id="chatRTMenuNombre" style="font-size:15px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+            <div id="chatRTMenuUsuario" style="font-size:12px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+          </div>
+        </div>
+        <div style="padding:8px 0;">
+          <div id="chatRTMenuOpcionPerfil" style="display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
+            ${_iconUser}
+            <span style="font-size:13px;color:#ccc;">Mi perfil</span>
+          </div>
+          <div id="chatRTMenuOpcionLogout" style="display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;transition:background 0.15s;border-top:1px solid #1a1a1a;margin-top:8px;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span style="font-size:13px;color:#ef4444;">Cerrar sesion</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1508,6 +1552,10 @@
         </div>
         <div style="padding:0 20px 30px;display:flex;flex-direction:column;gap:20px;">
           <div>
+            <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Correo electronico</div>
+            <input id="chatRTCampoEmail" type="email" readonly style="width:100%;background:#0d0d0d;border:1px solid #1a1a1a;color:#666;font-size:14px;padding:10px 12px;border-radius:8px;box-sizing:border-box;cursor:not-allowed;" />
+          </div>
+          <div>
             <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Nombre</div>
             <input id="chatRTCampoNombre" type="text" placeholder="Escribe tu nombre" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:14px;padding:10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" />
           </div>
@@ -1523,7 +1571,19 @@
             <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Contrasena</div>
             <input id="chatRTCampoPass" type="password" placeholder="****" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:14px;padding:10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" />
           </div>
-          <button id="chatRTBtnLogout" style="width:100%;padding:10px;background:transparent;color:#ef4444;border:1px solid #333;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;margin-top:8px;">Cerrar sesion</button>
+          <div id="chatRTPerfilEditMsg" style="font-size:11px;color:#666;text-align:center;display:none;"></div>
+          <button id="chatRTBtnGuardarPerfil" style="width:100%;padding:11px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;display:none;">Guardar cambios</button>
+        </div>
+      </div>
+      <!-- Modal confirmar edicion -->
+      <div id="chatRTConfirmEditModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999999;flex-direction:column;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:#111;border-radius:12px;padding:24px;width:300px;max-width:90vw;text-align:center;">
+          <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;">Confirmar cambios</div>
+          <div id="chatRTConfirmEditMsg" style="font-size:12px;color:#999;margin-bottom:20px;line-height:1.5;"></div>
+          <div style="display:flex;gap:8px;">
+            <button id="chatRTConfirmEditCancel" style="flex:1;padding:10px;background:#222;color:#888;border:1px solid #333;border-radius:8px;cursor:pointer;font-size:12px;">Cancelar</button>
+            <button id="chatRTConfirmEditApply" style="flex:1;padding:10px;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">Confirmar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1657,6 +1717,14 @@
         <div style="text-align:center;color:#444;font-size:10px;margin-top:6px;">Enter para enviar - Shift+Enter nueva linea</div>
       </div>
     </div>
+    </div><!-- /chatRTViewsContainer -->
+
+    <!-- Bottom bar (siempre visible cuando hay sesion) -->
+    <div id="chatRTBottomBar" style="display:none;padding:12px 16px;background:#111;border-top:1px solid #1a1a1a;justify-content:flex-end;">
+      <div id="chatRTPerfilBtn" style="width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid #222;transition:border-color 0.2s;" title="Mi perfil">
+        <img id="chatRTFotoMini" src="${_defaultPhoto}" style="width:100%;height:100%;object-fit:cover;" />
+      </div>
+    </div>
   `;
   document.body.appendChild(chatRTOverlay);
   document.body.appendChild(botonNotificaciones);
@@ -1680,7 +1748,7 @@
 
   // === Navegacion entre vistas ===
   function chatRTMostrarVista(vista) {
-    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaPerfil", "chatRTVistaChat"];
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = "none";
@@ -1691,24 +1759,157 @@
       "main": "chatRTVistaMain",
       "perfil": "chatRTVistaPerfil",
       "chat": "chatRTVistaChat",
+      "menu": "chatRTVistaMenu",
     };
     const elId = mapa[vista];
     const el = document.getElementById(elId);
     if (el) el.style.display = "flex";
 
+    // Mostrar/ocultar bottom bar segun vista
+    const bottomBar = document.getElementById("chatRTBottomBar");
+    const ocultarBottom = (vista === "login" || vista === "recuperar");
+    if (bottomBar) bottomBar.style.display = ocultarBottom ? "none" : "flex";
+
     if (vista === "perfil") {
       const p = cargarPerfilRT();
+      const campoEmail = document.getElementById("chatRTCampoEmail");
       const campoNombre = document.getElementById("chatRTCampoNombre");
       const campoInfo = document.getElementById("chatRTCampoInfo");
       const campoUsuario = document.getElementById("chatRTCampoUsuario");
       const campoPass = document.getElementById("chatRTCampoPass");
       const fotoGrande = document.getElementById("chatRTFotoPerfilImg");
+      if (campoEmail) campoEmail.value = p.email || "";
       if (campoNombre) campoNombre.value = p.nombre || "";
       if (campoInfo) campoInfo.value = p.info || "";
       if (campoUsuario) campoUsuario.value = p.usuario || "";
-      if (campoPass) campoPass.value = p.contrasena || "";
+      if (campoPass) campoPass.value = "";
       if (fotoGrande) fotoGrande.src = p.foto || _defaultPhoto;
+      // Guardar valores originales para detectar cambios
+      chatRTPerfilOriginales = {
+        nombre: p.nombre || "",
+        info: p.info || "",
+        usuario: p.usuario || "",
+      };
+      chatRTVerificarPermisosEdicion();
     }
+
+    if (vista === "menu") {
+      const p = cargarPerfilRT();
+      const nombreEl = document.getElementById("chatRTMenuNombre");
+      const usuarioEl = document.getElementById("chatRTMenuUsuario");
+      const fotoEl = document.getElementById("chatRTMenuFotoImg");
+      if (nombreEl) nombreEl.textContent = p.nombre || p.usuario || "Usuario";
+      if (usuarioEl) usuarioEl.textContent = p.usuario ? "@" + p.usuario : "";
+      if (fotoEl) fotoEl.src = p.foto || _defaultPhoto;
+    }
+
+    // Cerrar menu perfil al cambiar de vista
+    chatRTCerrarMenuPerfil();
+  }
+
+  // === Menu perfil: navegar a vista menu ===
+  function chatRTToggleMenuPerfil() {
+    chatRTMostrarVista("menu");
+  }
+  function chatRTCerrarMenuPerfil() {}
+
+  // === Edicion de perfil ===
+  let chatRTPerfilOriginales = { nombre: "", info: "", usuario: "" };
+
+  function chatRTDetectarCambios() {
+    const nombre = (document.getElementById("chatRTCampoNombre")?.value || "").trim();
+    const info = (document.getElementById("chatRTCampoInfo")?.value || "").trim();
+    const usuario = (document.getElementById("chatRTCampoUsuario")?.value || "").trim();
+    const pass = (document.getElementById("chatRTCampoPass")?.value || "");
+    const cambia = nombre !== chatRTPerfilOriginales.nombre ||
+                   info !== chatRTPerfilOriginales.info ||
+                   usuario !== chatRTPerfilOriginales.usuario ||
+                   pass.length > 0;
+    const btn = document.getElementById("chatRTBtnGuardarPerfil");
+    if (btn) btn.style.display = cambia ? "block" : "none";
+  }
+
+  function chatRTVerificarPermisosEdicion() {
+    const msg = document.getElementById("chatRTPerfilEditMsg");
+    const btn = document.getElementById("chatRTBtnGuardarPerfil");
+    const ultimaEdicion = localStorage.getItem("rt_perfil_last_edit");
+    const campos = ["chatRTCampoNombre", "chatRTCampoInfo", "chatRTCampoUsuario", "chatRTCampoPass"];
+    if (ultimaEdicion) {
+      const diff = Date.now() - parseInt(ultimaEdicion);
+      const diasRestantes = 30 - Math.floor(diff / 86400000);
+      if (diff < 2592000000) {
+        campos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = true; });
+        if (btn) btn.style.display = "none";
+        if (msg) { msg.style.display = "block"; msg.textContent = "Puedes editar tu perfil de nuevo en " + diasRestantes + " dia(s)."; msg.style.color = "#666"; }
+        return false;
+      }
+    }
+    campos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = false; });
+    if (msg) msg.style.display = "none";
+    return true;
+  }
+
+  function chatRTGuardarPerfil() {
+    const modal = document.getElementById("chatRTConfirmEditModal");
+    const msgEl = document.getElementById("chatRTConfirmEditMsg");
+    const nombre = (document.getElementById("chatRTCampoNombre")?.value || "").trim();
+    const info = (document.getElementById("chatRTCampoInfo")?.value || "").trim();
+    const usuario = (document.getElementById("chatRTCampoUsuario")?.value || "").trim();
+    const pass = (document.getElementById("chatRTCampoPass")?.value || "");
+    let cambios = [];
+    if (nombre !== chatRTPerfilOriginales.nombre) cambios.push("Nombre");
+    if (info !== chatRTPerfilOriginales.info) cambios.push("Informacion");
+    if (usuario !== chatRTPerfilOriginales.usuario) cambios.push("Usuario");
+    if (pass.length > 0) cambios.push("Contrasena");
+    if (cambios.length === 0) return;
+    if (msgEl) msgEl.textContent = "Se actualizaran: " + cambios.join(", ") + ". Esta accion no se puede deshacer.";
+    if (modal) modal.style.display = "flex";
+  }
+
+  async function chatRTAplicarCambiosPerfil() {
+    const modal = document.getElementById("chatRTConfirmEditModal");
+    if (modal) modal.style.display = "none";
+    const nombre = (document.getElementById("chatRTCampoNombre")?.value || "").trim();
+    const info = (document.getElementById("chatRTCampoInfo")?.value || "").trim();
+    const usuario = (document.getElementById("chatRTCampoUsuario")?.value || "").trim();
+    const pass = (document.getElementById("chatRTCampoPass")?.value || "");
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    // Actualizar en Supabase
+    const update = {};
+    if (nombre !== chatRTPerfilOriginales.nombre) update.display_name = nombre;
+    if (info !== chatRTPerfilOriginales.info) update.info = info;
+    if (usuario !== chatRTPerfilOriginales.usuario) update.username = usuario;
+    if (Object.keys(update).length > 0) {
+      const { error } = await sb.from("profiles").update(update).eq("user_id", session.user.id);
+      if (error) {
+        if (error.message && error.message.includes("Username")) {
+          const msg = document.getElementById("chatRTPerfilEditMsg");
+          if (msg) { msg.style.display = "block"; msg.textContent = "Este usuario ya esta en uso."; msg.style.color = "#ef4444"; }
+          return;
+        }
+      }
+    }
+    // Actualizar contrasena
+    if (pass.length > 0) {
+      await sb.auth.updateUser({ password: pass });
+    }
+    // Actualizar localStorage
+    const perfil = cargarPerfilRT();
+    if (nombre !== chatRTPerfilOriginales.nombre) perfil.nombre = nombre;
+    if (info !== chatRTPerfilOriginales.info) perfil.info = info;
+    if (usuario !== chatRTPerfilOriginales.usuario) { perfil.usuario = usuario; perfil.username = usuario; }
+    perfil.email = session.user.email || perfil.email;
+    guardarPerfilRT(perfil);
+    // Registrar fecha de edicion
+    localStorage.setItem("rt_perfil_last_edit", Date.now().toString());
+    // Reset
+    document.getElementById("chatRTCampoPass").value = "";
+    chatRTPerfilOriginales = { nombre, info, usuario };
+    chatRTDetectarCambios();
+    chatRTVerificarPermisosEdicion();
   }
 
   // === Persistencia automatica del perfil (al escribir) ===
@@ -1717,16 +1918,13 @@
       { id: "chatRTCampoNombre", key: "nombre" },
       { id: "chatRTCampoInfo", key: "info" },
       { id: "chatRTCampoUsuario", key: "usuario" },
-      { id: "chatRTCampoPass", key: "contrasena" },
     ];
     campos.forEach(c => {
       const el = document.getElementById(c.id);
-      if (el) el.addEventListener("input", () => {
-        const perfil = cargarPerfilRT();
-        perfil[c.key] = el.value;
-        guardarPerfilRT(perfil);
-      });
+      if (el) el.addEventListener("input", chatRTDetectarCambios);
     });
+    const passEl = document.getElementById("chatRTCampoPass");
+    if (passEl) passEl.addEventListener("input", chatRTDetectarCambios);
   }
 
   // === Cambio de foto de perfil ===
@@ -2164,18 +2362,33 @@
       });
     }
 
-    // Navegacion: perfil
-    if (btnPerfil) btnPerfil.onclick = () => chatRTMostrarVista("perfil");
-    if (btnVolver) btnVolver.onclick = () => {
-      const p = cargarPerfilRT();
-      const fotoMini = document.getElementById("chatRTFotoMini");
-      if (fotoMini) fotoMini.src = p.foto || _defaultPhoto;
-      chatRTMostrarVista("main");
-    };
+    // Navegacion: perfil (abrir vista menu)
+    if (btnPerfil) btnPerfil.onclick = () => chatRTToggleMenuPerfil();
+
+    // Menu perfil: opciones
+    const menuOpcionPerfil = document.getElementById("chatRTMenuOpcionPerfil");
+    const menuOpcionLogout = document.getElementById("chatRTMenuOpcionLogout");
+    const menuVolverBtn = document.getElementById("chatRTMenuVolverBtn");
+    if (menuOpcionPerfil) menuOpcionPerfil.onclick = () => chatRTMostrarVista("perfil");
+    if (menuOpcionLogout) menuOpcionLogout.onclick = () => chatRTCerrarSesion();
+    if (menuVolverBtn) menuVolverBtn.onclick = () => chatRTMostrarVista("main");
+
+    if (btnVolver) btnVolver.onclick = () => chatRTMostrarVista("menu");
 
     // Cerrar sesion desde perfil
     const btnLogout = document.getElementById("chatRTBtnLogout");
     if (btnLogout) btnLogout.onclick = chatRTCerrarSesion;
+
+    // Guardar cambios de perfil
+    const btnGuardar = document.getElementById("chatRTBtnGuardarPerfil");
+    if (btnGuardar) btnGuardar.onclick = chatRTGuardarPerfil;
+    const btnConfirmApply = document.getElementById("chatRTConfirmEditApply");
+    const btnConfirmCancel = document.getElementById("chatRTConfirmEditCancel");
+    if (btnConfirmApply) btnConfirmApply.onclick = chatRTAplicarCambiosPerfil;
+    if (btnConfirmCancel) btnConfirmCancel.onclick = () => {
+      const modal = document.getElementById("chatRTConfirmEditModal");
+      if (modal) modal.style.display = "none";
+    };
 
     // Cambiar foto
     if (fotoGrande) fotoGrande.onclick = chatRTCambiarFoto;
