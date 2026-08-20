@@ -1572,9 +1572,14 @@
             <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Nombre de usuario</div>
             <input id="chatRTCampoUsuario" type="text" placeholder="@usuario" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:14px;padding:10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" />
           </div>
-          <div>
+          <div style="position:relative;">
             <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Contrasena</div>
-            <input id="chatRTCampoPass" type="password" placeholder="****" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:14px;padding:10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" />
+            <div style="position:relative;">
+              <input id="chatRTCampoPass" type="password" placeholder="Dejar vacio para no cambiar" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:14px;padding:10px 36px 10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" />
+              <button id="chatRTOjoPass" type="button" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
           </div>
           <div id="chatRTPerfilEditMsg" style="font-size:11px;color:#666;text-align:center;display:none;"></div>
           <button id="chatRTBtnGuardarPerfil" style="width:100%;padding:11px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;display:none;">Guardar cambios</button>
@@ -1829,12 +1834,12 @@
   function chatRTDetectarCambios() {
     const nombre = (document.getElementById("chatRTCampoNombre")?.value || "").trim();
     const info = (document.getElementById("chatRTCampoInfo")?.value || "").trim();
-    const usuario = (document.getElementById("chatRTCampoUsuario")?.value || "").trim();
-    const pass = (document.getElementById("chatRTCampoPass")?.value || "");
-    const cambia = nombre !== chatRTPerfilOriginales.nombre ||
-                   info !== chatRTPerfilOriginales.info ||
-                   usuario !== chatRTPerfilOriginales.usuario ||
-                   pass.length > 0;
+    const usuario = document.getElementById("chatRTCampoUsuario");
+    const pass = document.getElementById("chatRTCampoPass");
+    let cambia = nombre !== chatRTPerfilOriginales.nombre || info !== chatRTPerfilOriginales.info;
+    // Solo detectar cambios en usuario/contrasena si no estan bloqueados
+    if (usuario && !usuario.readOnly) cambia = cambia || usuario.value.trim() !== chatRTPerfilOriginales.usuario;
+    if (pass && !pass.readOnly) cambia = cambia || pass.value.length > 0;
     const btn = document.getElementById("chatRTBtnGuardarPerfil");
     if (btn) btn.style.display = cambia ? "block" : "none";
   }
@@ -1843,18 +1848,21 @@
     const msg = document.getElementById("chatRTPerfilEditMsg");
     const btn = document.getElementById("chatRTBtnGuardarPerfil");
     const ultimaEdicion = localStorage.getItem("rt_perfil_last_edit");
-    const campos = ["chatRTCampoNombre", "chatRTCampoInfo", "chatRTCampoUsuario", "chatRTCampoPass"];
+    // Solo usuario y contrasena se bloquean 30 dias
+    const camposRestringidos = ["chatRTCampoUsuario", "chatRTCampoPass"];
+    const camposLibres = ["chatRTCampoNombre", "chatRTCampoInfo"];
     if (ultimaEdicion) {
       const diff = Date.now() - parseInt(ultimaEdicion);
       const diasRestantes = 30 - Math.floor(diff / 86400000);
       if (diff < 2592000000) {
-        campos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = true; });
-        if (btn) btn.style.display = "none";
-        if (msg) { msg.style.display = "block"; msg.textContent = "Puedes editar tu perfil de nuevo en " + diasRestantes + " dia(s)."; msg.style.color = "#666"; }
+        camposRestringidos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = true; });
+        if (msg) { msg.style.display = "block"; msg.textContent = "Usuario y contrasena: editables en " + diasRestantes + " dia(s). Nombre e informacion: editables ahora."; msg.style.color = "#666"; }
+        // Verificar si hay cambios en campos libres para mostrar boton
+        chatRTDetectarCambios();
         return false;
       }
     }
-    campos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = false; });
+    camposRestringidos.forEach(id => { const el = document.getElementById(id); if (el) el.readOnly = false; });
     if (msg) msg.style.display = "none";
     return true;
   }
@@ -1881,17 +1889,21 @@
     if (modal) modal.style.display = "none";
     const nombre = (document.getElementById("chatRTCampoNombre")?.value || "").trim();
     const info = (document.getElementById("chatRTCampoInfo")?.value || "").trim();
-    const usuario = (document.getElementById("chatRTCampoUsuario")?.value || "").trim();
-    const pass = (document.getElementById("chatRTCampoPass")?.value || "");
+    const usuarioEl = document.getElementById("chatRTCampoUsuario");
+    const passEl = document.getElementById("chatRTCampoPass");
+    const usuario = usuarioEl ? usuarioEl.value.trim() : "";
+    const pass = passEl ? passEl.value : "";
+    const usuarioBloqueado = usuarioEl && usuarioEl.readOnly;
+    const passBloqueado = passEl && passEl.readOnly;
     const sb = getSupabase();
     if (!sb) return;
     const { data: { session } } = await sb.auth.getSession();
     if (!session) return;
-    // Actualizar en Supabase
+    // Actualizar perfil en Supabase (siempre campos libres, y restringidos si estan editables)
     const update = {};
     if (nombre !== chatRTPerfilOriginales.nombre) update.display_name = nombre;
     if (info !== chatRTPerfilOriginales.info) update.info = info;
-    if (usuario !== chatRTPerfilOriginales.usuario) update.username = usuario;
+    if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) update.username = usuario;
     if (Object.keys(update).length > 0) {
       const { error } = await sb.from("profiles").update(update).eq("user_id", session.user.id);
       if (error) {
@@ -1902,21 +1914,23 @@
         }
       }
     }
-    // Actualizar contrasena
-    if (pass.length > 0) {
+    // Actualizar contrasena solo si no esta bloqueada
+    if (!passBloqueado && pass.length > 0) {
       await sb.auth.updateUser({ password: pass });
+    }
+    // Registrar fecha de edicion SOLO si se cambiaron campos restringidos
+    if ((!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) || (!passBloqueado && pass.length > 0)) {
+      localStorage.setItem("rt_perfil_last_edit", Date.now().toString());
     }
     // Actualizar localStorage
     const perfil = cargarPerfilRT();
     if (nombre !== chatRTPerfilOriginales.nombre) perfil.nombre = nombre;
     if (info !== chatRTPerfilOriginales.info) perfil.info = info;
-    if (usuario !== chatRTPerfilOriginales.usuario) { perfil.usuario = usuario; perfil.username = usuario; }
+    if (!usuarioBloqueado && usuario !== chatRTPerfilOriginales.usuario) { perfil.usuario = usuario; perfil.username = usuario; }
     perfil.email = session.user.email || perfil.email;
     guardarPerfilRT(perfil);
-    // Registrar fecha de edicion
-    localStorage.setItem("rt_perfil_last_edit", Date.now().toString());
     // Reset
-    document.getElementById("chatRTCampoPass").value = "";
+    if (passEl) passEl.value = "";
     chatRTPerfilOriginales = { nombre, info, usuario };
     chatRTDetectarCambios();
     chatRTVerificarPermisosEdicion();
@@ -2398,6 +2412,18 @@
     if (btnConfirmCancel) btnConfirmCancel.onclick = () => {
       const modal = document.getElementById("chatRTConfirmEditModal");
       if (modal) modal.style.display = "none";
+    };
+
+    // Ojo contrasena perfil
+    const ojoPass = document.getElementById("chatRTOjoPass");
+    if (ojoPass) ojoPass.onclick = () => {
+      const inp = document.getElementById("chatRTCampoPass");
+      if (!inp) return;
+      const visible = inp.type === "text";
+      inp.type = visible ? "password" : "text";
+      ojoPass.innerHTML = visible
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
     };
 
     // Cambiar foto
