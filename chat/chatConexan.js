@@ -37,7 +37,7 @@
     {
       id: 3,
       titulo: "Apoyo al proyecto",
-      descripcion: "Querida comunidad, queremos compartirles algo con total transparencia y respeto. Por el momento, las actualizaciones quedar�n en pausa hasta alcanzar las 100 suscripciones activas. Este proyecto se mantiene gracias al apoyo real de quienes creen en �l. Cada mejora, correcci�n y nueva funci�n requiere tiempo, recursos y compromiso, y llegar a esa meta nos permitir� seguir avanzando con la calidad y dedicaci�n que ustedes merecen. No es una despedida, es una pausa consciente. Una invitaci�n a reflexionar, a valorar el trabajo detr�s de cada actualizaci�n y, si este proyecto ha sido de bendici�n para ti, a considerar apoyarlo para que pueda seguir creciendo. Gracias por estar, por usarlo y por creer. Con su apoyo, esto no se detiene� se fortalece",
+      descripcion: "Querida comunidad, queremos compartirles algo con total transparencia y respeto. Por el momento, las actualizaciones quedarán en pausa hasta alcanzar las 100 suscripciones activas. Este proyecto se mantiene gracias al apoyo real de quienes creen en él. Cada mejora, corrección y nueva función requiere tiempo, recursos y compromiso, y llegar a esa meta nos permitirá seguir avanzando con la calidad y dedicación que ustedes merecen. No es una despedida, es una pausa consciente. Una invitación a reflexionar, a valorar el trabajo detrás de cada actualización y, si este proyecto ha sido de bendición para ti, a considerar apoyarlo para que pueda seguir creciendo. Gracias por estar, por usarlo y por creer. Con su apoyo, esto no se detiene, se fortalece",
       fecha: "2026-01-14",
       categoria: "anuncio",
       leida: false,
@@ -45,18 +45,18 @@
     {
       id: 2,
       imagen: "//proyectoja.github.io/promocionUno.png",
-      titulo: "PROMOCI�N EN NUESTRAS REDES SOCIALES",
+      titulo: "PROMOCIÓN EN NUESTRAS REDES SOCIALES",
       descripcion:
-        "Puedes ir a nuestra p�gina de Facebook y encontrar la informaci�n de nuestra promoci�n para obtener un c�digo premium durante un a�o.",
+        "Puedes ir a nuestra página de Facebook y encontrar la información de nuestra promoción para obtener un código premium durante un año.",
       fecha: "2026-01-01",
       categoria: "promocion",
       leida: false,
     },
     {
       id: 1,
-      titulo: "Recordatorio de actualizaci�n",
+      titulo: "Recordatorio de actualización",
       descripcion:
-        "Mant�n tu aplicaci�n actualizada para disfrutar de todas las funciones y correcciones de seguridad. Este software est� en constante actualizaci�n, cada semana se actualiza para mejorar la estabilizaci�n, optimizaci�n, dise�o, caracter�sticas y funcionalidades potentes. No es un error que te llegue actualizaciones, es bueno que te lleguen, y puedas actualizar a la �ltima versi�n siempre.",
+        "Mantén tu aplicación actualizada para disfrutar de todas las funciones y correcciones de seguridad. Este software está en constante actualización, cada semana se actualiza para mejorar la estabilización, optimización, diseño, características y funcionalidades potentes. No es un error que te lleguen actualizaciones, es bueno que te lleguen, y puedas actualizar a la última versión siempre.",
       fecha: "2026-01-01",
       leida: false,
     },
@@ -71,7 +71,7 @@
     if (notificacionesGuardadas) {
       try {
         const parsed = JSON.parse(notificacionesGuardadas);
-        // Combinar con las notificaciones base, manteniendo el estado le�do
+        // Combinar con las notificaciones base, manteniendo el estado leído
         return notificacionesBase.map((notifBase) => {
           const guardada = parsed.find((n) => n.id === notifBase.id);
           return guardada ? { ...notifBase, leida: guardada.leida } : notifBase;
@@ -163,7 +163,7 @@
 
   document.body.appendChild(notificacionesOverlay);
 
-  // Funci�n para mostrar notificaciones
+  // Función para mostrar notificaciones
   function mostrarNotificaciones() {
     const lista = document.getElementById("listaNotificaciones");
     if (!lista) return;
@@ -227,7 +227,7 @@
     notificacionesOverlay.style.animation = "notifSlideIn 0.25s ease-out";
   }
 
-  // Funci�n para ocultar notificaciones
+  // Función para ocultar notificaciones
   function ocultarNotificaciones() {
     notificacionesOverlay.style.animation = "notifSlideOut 0.2s ease-in";
     setTimeout(() => {
@@ -235,7 +235,7 @@
     }, 200);
   }
 
-  // Funci�n para marcar todas como le�das
+  // Función para marcar todas como leídas
   function marcarTodasLeidas() {
     notificaciones.forEach((notif) => (notif.leida = true));
     guardarNotificaciones(); // Guardar en localStorage
@@ -272,7 +272,7 @@
     }
   }, 100);
 
-  // Agregar estilos de animaci�n
+  // Agregar estilos de animación
   const estiloAnimaciones = document.createElement("style");
   estiloAnimaciones.textContent = `
       @keyframes notifSlideIn {
@@ -335,7 +335,7 @@
   `;
   document.head.appendChild(estiloAnimaciones);
 
-  // Mostrar notificaciones autom�ticamente despu�s de 60 segundos (1 minuto) SOLO si hay no le�das
+  // Mostrar notificaciones automáticamente después de 60 segundos (1 minuto) SOLO si hay no leídas
   setTimeout(() => {
     const hayNoLeidas = notificaciones.some((n) => !n.leida);
     if (hayNoLeidas) {
@@ -343,7 +343,7 @@
     }
   }, 60000);
 
-  // Crear bot�n flotante para abrir notificaciones manualmente
+  // Crear botón flotante para abrir notificaciones manualmente
   const botonNotificaciones = document.createElement("button");
   botonNotificaciones.id = "botonAbrirNotificaciones";
   botonNotificaciones.style.cssText = `
@@ -368,7 +368,7 @@
       backdrop-filter: blur(10px);
   `;
 
-  // Crear bot�n flotante de IA
+  // Crear botón flotante de IA
   const botonIA = document.createElement("button");
   botonIA.id = "botonIA";
   botonIA.style.cssText = `
@@ -464,13 +464,13 @@
   }
 
   function detectarIdioma(texto) {
-    if (/[�ѿ�]/.test(texto)) return "espa�ol";
+    if (/[ñáéíóúü]/.test(texto)) return "español";
     const t = texto.toLowerCase();
-    const ptsEsp = (t.match(/\b(el|la|los|las|que|por|para|hola|gracias|muy|pero|porque|entonces|eres|somos|soy|d�as|se�or|mundo|dios|iglesia|fe|amor|paz|biblia|familia|trabajo|escuela|amigo|tiempo|hoy|ma�ana|ayer|semana|a�o|si|no|ya|bien|mal|m�s|todo|nada|algo|otro|cuando|donde|como|quien|este|esta|estos|estas|ese|esa|esos|esas|nuestro|nuestra|yo|t�|�l|ella|usted|nosotros|ellos|ellas|me|te|se|nos|lo|la|le|los|las|les|mi|tu|su|mis|tus|sus|vamos|voy|vas|va|van)\b/g) || []).length;
+    const ptsEsp = (t.match(/\b(el|la|los|las|que|por|para|hola|gracias|muy|pero|porque|entonces|eres|somos|soy|días|señor|mundo|dios|iglesia|fe|amor|paz|biblia|familia|trabajo|escuela|amigo|tiempo|hoy|mañana|ayer|semana|año|si|no|ya|bien|mal|más|todo|nada|algo|otro|cuando|donde|como|quien|este|esta|estos|estas|ese|esa|esos|esas|nuestro|nuestra|yo|tú|él|ella|usted|nosotros|ellos|ellas|me|te|se|nos|lo|la|le|los|las|les|mi|tu|su|mis|tus|sus|vamos|voy|vas|va|van)\b/g) || []).length;
     const ptsEng = (t.match(/\b(the|a|an|and|or|for|with|hello|hi|thanks|you|please|help|what|where|when|why|how|who|which|this|that|these|those|is|am|are|was|were|have|has|had|do|does|did|will|would|can|could|god|jesus|lord|bible|faith|love|hope|peace|church|life|time|today|tomorrow|yes|no|not|very|just|good|bad|big|small|new|old|great|more|most|other|here|there|in|out|on|off|over|under|before|after|from|about|because|while|then|than)\b/g) || []).length;
-    if (ptsEsp > ptsEng && ptsEsp > 0) return "espa�ol";
-    if (ptsEng > ptsEsp && ptsEng > 0) return "ingl�s";
-    if (ptsEsp > 0) return "espa�ol";
+    if (ptsEsp > ptsEng && ptsEsp > 0) return "español";
+    if (ptsEng > ptsEsp && ptsEng > 0) return "inglés";
+    if (ptsEsp > 0) return "español";
     return null;
   }
 
@@ -494,13 +494,13 @@
   async function responderChat(textoDetectar) {
     const idioma = detectarIdioma(textoDetectar);
     let instruccionIdioma = "";
-    if (idioma === "ingl�s") {
+    if (idioma === "inglés") {
       instruccionIdioma = "\nRESPOND EXACTLY IN ENGLISH. Do not translate.";
-    } else if (idioma === "espa�ol") {
-      instruccionIdioma = "\nRESPONDE EXACTAMENTE EN ESPA�OL. NO traduzcas.";
+    } else if (idioma === "español") {
+      instruccionIdioma = "\nRESPONDE EXACTAMENTE EN ESPAÑOL. NO traduzcas.";
     }
 
-    const sistema = idioma === "ingl�s"
+    const sistema = idioma === "inglés"
       ? "You are a helpful, natural, and friendly AI assistant. Be direct and concise. Never use vulgar words. When the user asks about Himnario Adventista PRO or Arcan Player, answer with the available information. If the user asks biblical or ministry questions, answer with love and wisdom. Never share websites, source code, links, or anything unrelated to the ministry or these applications. Your focus is serving the church." + instruccionIdioma
       : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde con la informacion que tengas disponible. Explica que hace, como se usa, y que opciones tiene. Si el usuario hace preguntas biblicas o del ministerio, responde con amor y sabiduria. Nunca compartas paginas web, codigo fuente, enlaces, ni nada que no este relacionado con el ministerio o estas aplicaciones. Tu enfoque es servir a la iglesia." + instruccionIdioma;
 
@@ -1989,14 +1989,14 @@
     }
   });
 
-  // Actualizar contador cuando se marcan notificaciones como le�das
+  // Actualizar contador cuando se marcan notificaciones como leídas
   const marcarTodasLeidasOriginal = marcarTodasLeidas;
   marcarTodasLeidas = function () {
     marcarTodasLeidasOriginal();
     actualizarContadorNotificaciones();
   };
 
-  // Modificar la funci�n mostrarNotificaciones para actualizar contador
+  // Modificar la función mostrarNotificaciones para actualizar contador
   const mostrarNotificacionesOriginal = mostrarNotificaciones;
   mostrarNotificaciones = function () {
     mostrarNotificacionesOriginal();
@@ -2005,7 +2005,7 @@
     botonIA.style.display = "none";
   };
 
-  // Modificar la funci�n ocultarNotificaciones para mostrar bot�n nuevamente
+  // Modificar la función ocultarNotificaciones para mostrar botón nuevamente
   const ocultarNotificacionesOriginal = ocultarNotificaciones;
   ocultarNotificaciones = function () {
     ocultarNotificacionesOriginal();
