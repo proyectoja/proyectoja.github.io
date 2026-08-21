@@ -267,12 +267,15 @@ $$;
 DROP POLICY IF EXISTS "group_select_members" ON groups;
 DROP POLICY IF EXISTS "group_insert_owner" ON groups;
 DROP POLICY IF EXISTS "group_update_owner_admin" ON groups;
+DROP POLICY IF EXISTS "group_delete_owner" ON groups;
 CREATE POLICY "group_select_members" ON groups FOR SELECT
   USING (is_group_member(groups.id, auth.uid()) OR groups.owner_id = auth.uid());
 CREATE POLICY "group_insert_owner" ON groups FOR INSERT
   WITH CHECK (auth.uid() = owner_id);
 CREATE POLICY "group_update_owner_admin" ON groups FOR UPDATE
   USING (is_group_admin(groups.id, auth.uid()) AND groups.settings_can_edit);
+CREATE POLICY "group_delete_owner" ON groups FOR DELETE
+  USING (is_group_owner(groups.id, auth.uid()));
 
 -- RLS group_members (usar la funcion para evitar recursion)
 DROP POLICY IF EXISTS "gm_select_members" ON group_members;
@@ -298,6 +301,10 @@ CREATE POLICY "gm_delete_owner_admin" ON group_members FOR DELETE
     OR
     (is_group_owner(group_members.group_id, auth.uid()) AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) IN ('member','admin'))
   );
+-- Permitir que un miembro se auto-elimine (salir del grupo)
+DROP POLICY IF EXISTS "gm_delete_self" ON group_members;
+CREATE POLICY "gm_delete_self" ON group_members FOR DELETE
+  USING (group_members.user_id = auth.uid() AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) <> 'owner');
 
 -- RLS group_messages
 DROP POLICY IF EXISTS "gmsg_select_members" ON group_messages;

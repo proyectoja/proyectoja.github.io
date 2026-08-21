@@ -1568,7 +1568,7 @@
           <button id="cerrarChatRT" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
         </div>
       </div>
-      <div id="chatRTContactosLista" style="flex:1;overflow-y:auto;"></div>
+      <div id="chatRTContactosLista" style="flex:1;overflow-y:auto;overflow-x:hidden;"></div>
       <div id="chatRTMainWelcome" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;">
         <div style="width:80px;height:80px;border-radius:20px;background:#111;display:flex;align-items:center;justify-content:center;border:1px solid #1a1a1a;">${_iconChatLg}</div>
         <div style="text-align:center;">
@@ -1949,7 +1949,7 @@
         </div>
         <button id="cerrarChatRT2" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
       </div>
-      <div id="chatRTMensajes" style="flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;position:relative;"></div>
+      <div id="chatRTMensajes" style="flex:1;overflow-y:auto;overflow-x:hidden;padding:10px;display:flex;flex-direction:column;position:relative;"></div>
       <!-- Barra de responder/citar -->
       <div id="chatRTReplyBar" style="display:none;padding:8px 12px;border-top:1px solid #1a1a1a;background:#14141f;align-items:center;gap:10px;">
         <div style="width:3px;height:100%;min-height:32px;background:#2563eb;border-radius:2px;flex-shrink:0;"></div>
@@ -2486,9 +2486,11 @@
         const escribiendoNombre = escribiendoIds.length > 0
           ? (_chatRTGrupoTypingNombres[escribiendoIds[0]] || "Alguien") + " esta escribiendo..."
           : "";
+        // Etiqueta de miembros: total + punto + nombres (como WhatsApp)
+        const etiquetaMiembros = (it.miembroTotal || 0) + " " + ((it.miembroTotal || 0) === 1 ? "miembro" : "miembros") + " · " + ((it.miembroNombres || []).slice(0, 3).join(", "));
         const subGrupo = escribiendoNombre
           ? '<span style="color:#22c55e;font-style:italic;">' + escribiendoNombre + '</span>'
-          : '<span style="color:#666;">' + preview + '</span>';
+          : '<span style="color:#666;">' + etiquetaMiembros + '</span>';
         html += '<div data-idx="' + i + '" class="chatRTGrupoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;background:#10101a;" onmouseover="this.style.background=\'#1a1a1a\'" onmouseout="this.style.background=\'#10101a\'">' +
           '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" /><div style="position:absolute;bottom:0;right:0;width:16px;height:16px;border-radius:50%;background:#2563eb;border:2px solid #10101a;display:flex;align-items:center;justify-content:center;">' + _iconGroup + '</div></div>' +
           '<div style="overflow:hidden;flex:1;">' +
@@ -2498,6 +2500,10 @@
             '</div>' +
             '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">' +
               '<div style="font-size:11px;color:' + (escribiendoNombre ? "#22c55e" : "#666") + ';font-weight:' + (escribiendoNombre ? "600" : "400") + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + subGrupo + '</div>' +
+            '</div>' +
+            '<div style="display:flex;align-items:center;gap:4px;margin-top:3px;">' +
+              '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
+              '<span style="font-size:10px;color:#22c55e;font-weight:600;">' + (it.miembroOnline || 0) + ' en linea</span>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -2944,7 +2950,7 @@
         else if (msg.delivered) status = "delivered";
         else status = "sent";
       }
-      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, status, null, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null);
+      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, status, null, chatRTResolveReply(msg.reply_to_id));
       if (!esMio && !msg.delivered) idsPorMarcar.push(msg.id);
     }
     if (idsPorMarcar.length > 0) {
@@ -3003,7 +3009,7 @@
       const yaExiste = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
       if (yaExiste) continue;
       chatRTReplyContenidos[msg.id] = { texto: msg.content, autor: esMio ? "Tu" : (chatRTChatActivo.nombre || "Alguien") };
-      container.insertBefore(chatRTConstruirMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, status, null, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null), container.firstChild);
+      container.insertBefore(chatRTConstruirMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, status, null, chatRTResolveReply(msg.reply_to_id)), container.firstChild);
       if (!esMio && !msg.delivered) idsPorMarcar.push(msg.id);
     }
     if (idsPorMarcar.length > 0) {
@@ -3241,7 +3247,7 @@
     if (!memberships) return;
     const ids = memberships.map(m => m.user_id);
     if (ids.length === 0) return;
-    const { data: perfiles } = await sb.from("profiles").select("user_id, photo_url").in("user_id", ids);
+    const { data: perfiles } = await sb.from("profiles").select("user_id, photo_url, display_name, username").in("user_id", ids);
     (perfiles || []).forEach(p => { _chatRTGrupoFotos[p.user_id] = p.photo_url || _defaultPhoto; _chatRTGrupoNombres[p.user_id] = p.display_name || p.username || "Alguien"; });
   }
 
@@ -3289,12 +3295,29 @@
         .order("created_at", { ascending: false })
         .limit(1)
         .maybeSingle();
+      // Obtener miembros del grupo (total + nombres)
+      let miembroNombres = [];
+      let miembroTotal = 0;
+      let miembroOnline = 0;
+      const { data: miembrosG } = await sb.from("group_members").select("user_id").eq("group_id", g.id);
+      if (miembrosG) {
+        miembroTotal = miembrosG.length;
+        const idsM = miembrosG.map(m => m.user_id);
+        if (idsM.length > 0) {
+          const { data: perfilesM } = await sb.from("profiles").select("display_name, username, last_seen").in("user_id", idsM);
+          miembroNombres = (perfilesM || []).map(p => p.display_name || p.username || "Usuario");
+          miembroOnline = (perfilesM || []).filter(p => p.last_seen && (Date.now() - new Date(p.last_seen).getTime()) < 60000).length;
+        }
+      }
       cache.push({
         ...g,
         rol: roles[g.id] || "member",
         ultimoMensaje: lastMsg ? lastMsg.content : "",
         ultimoMensajeEsMio: false,
         ultimoMensajeTiempo: lastMsg ? lastMsg.created_at : "",
+        miembroTotal: miembroTotal,
+        miembroNombres: miembroNombres,
+        miembroOnline: miembroOnline,
       });
     }
     _chatRTGruposCache = cache;
@@ -3388,7 +3411,7 @@
     for (const msg of page) {
       const esMio = msg.sender_id === session.user.id;
       const foto = esMio ? obtenerFotoRT() : (_chatRTGrupoFotos[msg.sender_id] || _defaultPhoto);
-      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null);
+      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, chatRTResolveReply(msg.reply_to_id));
     }
     if (page.length > 0) {
       _chatRTGrupoUltimoTs = page[page.length - 1].created_at;
@@ -3432,7 +3455,7 @@
       const esMio = msg.sender_id === session.user.id;
       const foto = esMio ? obtenerFotoRT() : (_chatRTGrupoFotos[msg.sender_id] || _defaultPhoto);
       chatRTReplyContenidos[msg.id] = { texto: msg.content, autor: esMio ? "Tu" : (_chatRTGrupoNombres[msg.sender_id] || "Alguien") };
-      container.insertBefore(chatRTConstruirMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null), container.firstChild);
+      container.insertBefore(chatRTConstruirMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, chatRTResolveReply(msg.reply_to_id)), container.firstChild);
     }
     if (page.length > 0) _chatRTGrupoUltimoTs = page[0].created_at;
     _chatRTGrupoHayMas = hayMas;
@@ -3463,7 +3486,7 @@
           if (document.querySelector('[data-rt-msgid="' + msg.id + '"]')) continue;
           const foto = _chatRTGrupoFotos[msg.sender_id] || _defaultPhoto;
           chatRTReplyContenidos[msg.id] = { texto: msg.content, autor: _chatRTGrupoNombres[msg.sender_id] || "Alguien" };
-          chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null);
+          chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, chatRTResolveReply(msg.reply_to_id));
         }
       }
     }, 3000);
@@ -3489,7 +3512,7 @@
           if (document.querySelector('[data-rt-msgid="' + msg.id + '"]')) return;
           const foto = _chatRTGrupoFotos[msg.sender_id] || _defaultPhoto;
           chatRTReplyContenidos[msg.id] = { texto: msg.content, autor: _chatRTGrupoNombres[msg.sender_id] || "Alguien" };
-          chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null);
+          chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", msg.sender_id, chatRTResolveReply(msg.reply_to_id));
         })
         .subscribe();
     }).catch(() => {});
@@ -3716,6 +3739,16 @@
     if (esAdmin) {
       html += '<button id="chatRTAgregarMiembroBtn" style="width:100%;padding:11px;background:#1a1a2e;color:#60a5fa;border:1px solid #2563eb;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-top:16px;">Agregar miembro</button>';
     }
+    // Salir del grupo (miembros y admins, no el owner) o eliminar grupo (solo owner)
+    if (esOwner) {
+      html += '<div style="margin-top:24px;padding-top:16px;border-top:1px solid #1a1a1a;">' +
+        '<button id="chatRTEliminarGrupoBtn" style="width:100%;padding:11px;background:#2a0f0f;color:#f87171;border:1px solid #7f1d1d;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Eliminar grupo</button>' +
+      '</div>';
+    } else {
+      html += '<div style="margin-top:24px;padding-top:16px;border-top:1px solid #1a1a1a;">' +
+        '<button id="chatRTSalirGrupoBtn" style="width:100%;padding:11px;background:#1a1a1a;color:#f87171;border:1px solid #333;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Salir del grupo</button>' +
+      '</div>';
+    }
     contenido.innerHTML = html;
     // Evento abrir perfil de miembro
     contenido.querySelectorAll('[data-perfil]').forEach(el => {
@@ -3796,6 +3829,44 @@
         }
       };
     }
+    // Salir del grupo (miembros y admins)
+    const btnSalirGrupo = document.getElementById("chatRTSalirGrupoBtn");
+    if (btnSalirGrupo) btnSalirGrupo.onclick = () => {
+      const sb2 = getSupabase();
+      if (!sb2) return;
+      sb2.auth.getSession().then(({ data: { session } }) => {
+        if (!session) return;
+        if (!confirm("¿Seguro que quieres salir del grupo?")) return;
+        sb2.from("group_members").delete().eq("group_id", grupo.id).eq("user_id", session.user.id).then(({ error }) => {
+          if (error) { chatRTMostrarSnackbar("No se pudo salir del grupo."); return; }
+          chatRTMostrarSnackbar("Saliste del grupo.");
+          _chatRTGrupoActivo = null;
+          _chatRTChatGrupoActivo = false;
+          chatRTPararPollingGrupo();
+          chatRTMostrarVista("main");
+          chatRTCargarGrupos();
+        });
+      });
+    };
+    // Eliminar grupo (solo owner) con confirmacion critica
+    const btnEliminarGrupo = document.getElementById("chatRTEliminarGrupoBtn");
+    if (btnEliminarGrupo) btnEliminarGrupo.onclick = () => {
+      const sb2 = getSupabase();
+      if (!sb2) return;
+      if (!confirm("ZONA DE PELIGRO\n\nEsta accion eliminara el grupo y todos sus mensajes permanentemente.\nNo se puede deshacer.\n\n¿Estas seguro de eliminar este grupo?")) return;
+      sb2.auth.getSession().then(({ data: { session } }) => {
+        if (!session) return;
+        sb2.from("groups").delete().eq("id", grupo.id).eq("owner_id", session.user.id).then(({ error }) => {
+          if (error) { chatRTMostrarSnackbar("No se pudo eliminar el grupo."); return; }
+          chatRTMostrarSnackbar("Grupo eliminado.");
+          _chatRTGrupoActivo = null;
+          _chatRTChatGrupoActivo = false;
+          chatRTPararPollingGrupo();
+          chatRTMostrarVista("main");
+          chatRTCargarGrupos();
+        });
+      });
+    };
   }
 
   // Mostrar perfil de un usuario (desde la info del grupo o header del chat)
@@ -4000,7 +4071,7 @@
             if (!document.querySelector('[data-rt-msgid="' + msg.id + '"]')) {
               const foto = chatRTChatActivo.foto || _defaultPhoto;
               chatRTReplyContenidos[msg.id] = { texto: msg.content, autor: chatRTChatActivo.nombre || "Alguien" };
-              chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", null, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null);
+              chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", null, chatRTResolveReply(msg.reply_to_id));
               chatRTMarcarLeidos(msg.sender_id);
             }
           } else {
@@ -4077,7 +4148,7 @@
           if (!yaExiste) {
             const foto = chatRTChatActivo.foto || _defaultPhoto;
             chatRTReplyContenidos[msg.id] = { texto: msg.content, autor: chatRTChatActivo.nombre || "Alguien" };
-            chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", null, msg.reply_to_id ? chatRTReplyContenidos[msg.reply_to_id] : null);
+            chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at, "", null, chatRTResolveReply(msg.reply_to_id));
             chatRTMarcarLeidos(msg.sender_id);
           }
           if (!msg.delivered) idsMarcarDelivered.push(msg.id);
@@ -4639,17 +4710,29 @@
         linea.style.cssText = "position:absolute;width:1px;background:#222233;pointer-events:none;z-index:0;";
         chatRTMensajes.appendChild(linea);
       }
+      // Circulo en el final de la linea (pegado al ultimo avatar)
+      let circulo = document.getElementById(id + "Circulo");
+      if (!circulo) {
+        circulo = document.createElement("div");
+        circulo.id = id + "Circulo";
+        circulo.style.cssText = "position:absolute;width:5px;height:5px;border-radius:50%;background:#222233;pointer-events:none;z-index:0;";
+        chatRTMensajes.appendChild(circulo);
+      }
       const items = chatRTMensajes.querySelectorAll(selector);
-      if (items.length < 2) { linea.style.display = "none"; return; }
+      if (items.length < 2) { linea.style.display = "none"; circulo.style.display = "none"; return; }
       linea.style.display = "";
+      circulo.style.display = "";
       const avFirst = items[0].children[0].children[0];
       const avLast = items[items.length - 1].children[0].children[0];
-      if (!avFirst || !avLast) { linea.style.display = "none"; return; }
+      if (!avFirst || !avLast) { linea.style.display = "none"; circulo.style.display = "none"; return; }
       const pFirst = offsetHasta(avFirst, chatRTMensajes);
       const pLast = offsetHasta(avLast, chatRTMensajes);
       linea.style.left = (pFirst.left + 14) + "px";
       linea.style.top = (pFirst.top + 14) + "px";
       linea.style.height = Math.max(0, (pLast.top + 14) - (pFirst.top + 14)) + "px";
+      // Circulo centrado en el punto final de la linea
+      circulo.style.left = (pLast.left + 14 - 2) + "px";
+      circulo.style.top = (pLast.top + 14 - 2) + "px";
     }
     dibujarLinea("chatRTThreadLine", '[data-role="rt-usuario"]');
     dibujarLinea("chatRTThreadLineOtro", '[data-role="rt-otro"]');
@@ -4717,11 +4800,19 @@
     // Bloque de cita (responder) si existe
     let replyHTML = "";
     if (reply && reply.texto) {
-      const replyTexto = reply.texto.length > 60 ? reply.texto.substring(0, 60) + "..." : reply.texto;
-      replyHTML = '<div style="display:flex;gap:8px;align-items:stretch;padding:5px 9px;background:' + (esUsuario ? "#141426" : "#0c0c12") + ';border-left:3px solid #60a5fa;border-radius:6px;margin-bottom:5px;max-width:100%;">' +
+      const replyTexto = String(reply.texto).length > 60 ? String(reply.texto).substring(0, 60) + "..." : String(reply.texto);
+      // Borde a la derecha solo cuando el mensaje CITADO es mio (autor "Tu")
+      const citadoEsMio = reply.autor === "Tu";
+      const bordeCita = citadoEsMio
+        ? "border-right:3px solid #35507a;"
+        : "border-left:3px solid #35507a;";
+      // Margen uniforme en todas las esquinas (3px)
+      const marginCita = "margin:3px;";
+      const paddingCita = citadoEsMio ? "padding:4px 10px 4px 8px;" : "padding:4px 8px 4px 10px;";
+      replyHTML = '<div style="display:flex;gap:8px;align-items:stretch;' + paddingCita + 'background:' + (citadoEsMio ? "#141426" : "#0c0c12") + ';' + bordeCita + 'border-radius:0;' + marginCita + 'max-width:100%;overflow:hidden;">' +
         '<div style="flex:1;overflow:hidden;">' +
-          '<div style="font-size:10px;color:#60a5fa;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (reply.autor || "Mensaje") + '</div>' +
-          '<div style="font-size:11px;color:' + (esUsuario ? "#aab" : "#888") + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">' + replyTexto + '</div>' +
+          '<div style="font-size:10px;color:#6f8bbf;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (reply.autor || "Mensaje") + '</div>' +
+          '<div style="font-size:11px;color:' + (citadoEsMio ? "#aab" : "#888") + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">' + replyTexto + '</div>' +
         '</div>' +
       '</div>';
     }
@@ -4746,55 +4837,89 @@
   }
 
   // Swipe horizontal a la derecha activa responder (como WhatsApp)
-  function chatRTAplicarSwipeResponder(wrapper, texto, autor) {
-    if (!msgIdEnWrapper(wrapper)) return;
-    let startX = null, startY = null, desplazando = false;
-    const msgId = wrapper.getAttribute("data-rt-msgid");
-    if (!msgId) return;
-    // Touch
-    wrapper.addEventListener("touchstart", (e) => {
-      const t = e.touches[0];
-      startX = t.clientX; startY = t.clientY; desplazando = false;
+  // Swipe horizontal activa responder (como WhatsApp)
+  // Usa un solo par de listeners globales para evitar acumulacion de eventos
+  let _chatRTSwipeW = null;
+  let _chatRTSwipeStartX = null;
+  let _chatRTSwipeStartY = null;
+  let _chatRTSwipeMio = false;
+  let _chatRTSwipeActivo = false;
+
+  function chatRTIniciarSwipeGlobal() {
+    if (window._chatRTSwipeGlobalIniciado) return;
+    window._chatRTSwipeGlobalIniciado = true;
+    document.addEventListener("touchstart", (e) => {
+      const w = e.target && e.target.closest ? e.target.closest("[data-rt-msgid]") : null;
+      if (!w) { _chatRTSwipeW = null; return; }
+      _chatRTSwipeW = w;
+      _chatRTSwipeStartX = e.touches[0].clientX;
+      _chatRTSwipeStartY = e.touches[0].clientY;
+      _chatRTSwipeMio = w.getAttribute("data-role") === "rt-usuario";
+      _chatRTSwipeActivo = false;
     }, { passive: true });
-    wrapper.addEventListener("touchmove", (e) => {
-      if (startX === null) return;
+    document.addEventListener("touchmove", (e) => {
+      if (!_chatRTSwipeW || _chatRTSwipeStartX === null) return;
       const t = e.touches[0];
-      const dx = t.clientX - startX;
-      const dy = t.clientY - startY;
-      if (Math.abs(dy) > Math.abs(dx) * 1.5) { startX = null; return; }
-      if (dx > 8) desplazando = true;
-      if (desplazando) wrapper.style.transform = "translateX(" + Math.min(dx, 60) + "px)";
-    }, { passive: true });
-    wrapper.addEventListener("touchend", () => {
-      const dx = startX !== null ? 0 : 0;
-      wrapper.style.transform = "";
-      if (desplazando) {
-        startX = null;
-        chatRTAbrirResponder(msgId, texto, autor);
+      const dx = t.clientX - _chatRTSwipeStartX;
+      const dy = t.clientY - _chatRTSwipeStartY;
+      if (Math.abs(dy) > Math.abs(dx) * 1.5) { _chatRTSwipeW = null; return; }
+      if (_chatRTSwipeMio) { if (dx < -8) _chatRTSwipeActivo = true; }
+      else { if (dx > 8) _chatRTSwipeActivo = true; }
+      if (_chatRTSwipeActivo) {
+        const v = _chatRTSwipeMio ? Math.max(dx, -60) : Math.min(dx, 60);
+        _chatRTSwipeW.style.transform = "translateX(" + v + "px)";
       }
-      startX = null;
+    }, { passive: true });
+    document.addEventListener("touchend", () => {
+      if (_chatRTSwipeW) {
+        _chatRTSwipeW.style.transform = "";
+        if (_chatRTSwipeActivo) {
+          const w = _chatRTSwipeW;
+          const mid = w.getAttribute("data-rt-msgid");
+          if (mid) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+        }
+      }
+      _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false;
     });
-    // Mouse drag
-    wrapper.addEventListener("mousedown", (e) => {
-      if (e.button !== 0) return;
-      startX = e.clientX; startY = e.clientY; desplazando = false;
+    document.addEventListener("mousedown", (e) => {
+      const w = e.target && e.target.closest ? e.target.closest("[data-rt-msgid]") : null;
+      if (!w) { _chatRTSwipeW = null; return; }
+      _chatRTSwipeW = w;
+      _chatRTSwipeStartX = e.clientX;
+      _chatRTSwipeStartY = e.clientY;
+      _chatRTSwipeMio = w.getAttribute("data-role") === "rt-usuario";
+      _chatRTSwipeActivo = false;
     });
     document.addEventListener("mousemove", (e) => {
-      if (startX === null) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-      if (Math.abs(dy) > Math.abs(dx) * 1.5) { startX = null; return; }
-      if (dx > 8) desplazando = true;
-      if (desplazando) wrapper.style.transform = "translateX(" + Math.min(dx, 60) + "px)";
+      if (!_chatRTSwipeW || _chatRTSwipeStartX === null) return;
+      const dx = e.clientX - _chatRTSwipeStartX;
+      const dy = e.clientY - _chatRTSwipeStartY;
+      if (Math.abs(dy) > Math.abs(dx) * 1.5) { _chatRTSwipeW = null; return; }
+      if (_chatRTSwipeMio) { if (dx < -8) _chatRTSwipeActivo = true; }
+      else { if (dx > 8) _chatRTSwipeActivo = true; }
+      if (_chatRTSwipeActivo) {
+        const v = _chatRTSwipeMio ? Math.max(dx, -60) : Math.min(dx, 60);
+        _chatRTSwipeW.style.transform = "translateX(" + v + "px)";
+      }
     });
     document.addEventListener("mouseup", () => {
-      wrapper.style.transform = "";
-      if (desplazando) {
-        startX = null;
-        chatRTAbrirResponder(msgId, texto, autor);
+      if (_chatRTSwipeW) {
+        _chatRTSwipeW.style.transform = "";
+        if (_chatRTSwipeActivo) {
+          const w = _chatRTSwipeW;
+          const mid = w.getAttribute("data-rt-msgid");
+          if (mid) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+        }
       }
-      startX = null;
+      _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false;
     });
+  }
+
+  function chatRTAplicarSwipeResponder(wrapper, texto, autor) {
+    if (!msgIdEnWrapper(wrapper)) return;
+    wrapper.setAttribute("data-rt-texto", texto || "");
+    wrapper.setAttribute("data-rt-autor", autor || "");
+    chatRTIniciarSwipeGlobal();
   }
 
   function msgIdEnWrapper(wrapper) {
@@ -4835,6 +4960,14 @@
     chatRTMostrarBarraResponder();
     const input = document.getElementById("chatRTInput");
     if (input) input.focus();
+  }
+
+  // Resolver contenido de un mensaje citado (fallback seguro)
+  function chatRTResolveReply(replyToId) {
+    if (!replyToId) return null;
+    const r = chatRTReplyContenidos[replyToId];
+    if (r && r.texto) return r;
+    return { texto: "Mensaje anterior", autor: "Mensaje" };
   }
 
   // Actualizar estado de un mensaje existente (solo borde + icono)
