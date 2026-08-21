@@ -26,6 +26,11 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_column THEN NULL;
 END $$;
 
+DO $$ BEGIN
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS last_seen TIMESTAMPTZ DEFAULT now();
+EXCEPTION WHEN duplicate_column THEN NULL;
+END $$;
+
 -- Sincronizar email de usuarios existentes desde auth.users
 UPDATE profiles SET email = au.email FROM auth.users au WHERE profiles.user_id = au.id AND (profiles.email IS NULL OR profiles.email = '');
 
@@ -150,6 +155,12 @@ CREATE TABLE IF NOT EXISTS direct_messages (
 );
 
 ALTER TABLE direct_messages ENABLE ROW LEVEL SECURITY;
+
+-- Habilitar Realtime para mensajes directos
+DO $$ BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE direct_messages;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 DO $$ BEGIN
   CREATE POLICY "users_select_own_messages" ON direct_messages FOR SELECT USING (auth.uid() = sender_id OR auth.uid() = receiver_id);
