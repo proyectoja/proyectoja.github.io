@@ -263,7 +263,7 @@ DROP POLICY IF EXISTS "group_select_members" ON groups;
 DROP POLICY IF EXISTS "group_insert_owner" ON groups;
 DROP POLICY IF EXISTS "group_update_owner_admin" ON groups;
 CREATE POLICY "group_select_members" ON groups FOR SELECT
-  USING (is_group_member(groups.id, auth.uid()));
+  USING (is_group_member(groups.id, auth.uid()) OR groups.owner_id = auth.uid());
 CREATE POLICY "group_insert_owner" ON groups FOR INSERT
   WITH CHECK (auth.uid() = owner_id);
 CREATE POLICY "group_update_owner_admin" ON groups FOR UPDATE
