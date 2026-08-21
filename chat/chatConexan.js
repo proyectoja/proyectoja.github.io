@@ -1845,14 +1845,22 @@
         <button id="cerrarChatRT2" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
       </div>
       <div id="chatRTMensajes" style="flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;position:relative;"></div>
-      <div style="padding:10px;border-top:1px solid #1a1a1a;background:#111;">
+      <div id="chatRTComposer" style="padding:10px;border-top:1px solid #1a1a1a;background:#111;">
         <div style="display:flex;gap:8px;align-items:flex-end;">
+          <button id="chatRTEmojiBtn" style="width:36px;height:36px;border:none;border-radius:8px;background:transparent;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;" title="Emoji">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </button>
           <textarea id="chatRTInput" rows="1" placeholder="Escribe tu mensaje..." style="flex:1;background:#161616;border:1px solid #222;color:#e8edf9;font-family:inherit;font-size:13px;line-height:1.5;padding:8px 12px;border-radius:8px;resize:none;max-height:100px;outline:none;transition:border-color 0.2s;"></textarea>
           <button id="chatRTEnviar" style="width:36px;height:36px;border:none;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s ease;" disabled>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
           </button>
         </div>
         <div style="text-align:center;color:#444;font-size:10px;margin-top:6px;">Enter para enviar - Shift+Enter nueva linea</div>
+      </div>
+      <!-- Panel emojis estilo WhatsApp -->
+      <div id="chatRTEmojiPanel" style="display:none;flex-direction:column;height:280px;border-top:1px solid #1a1a1a;background:#0d0d0d;overflow:hidden;">
+        <div id="chatRTEmojiScroll" style="flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 0;"></div>
+        <div id="chatRTEmojiTabs" style="display:flex;justify-content:space-around;align-items:center;padding:6px 4px;border-top:1px solid #1a1a1a;background:#111;flex-shrink:0;"></div>
       </div>
     </div>
     </div><!-- /chatRTViewsContainer -->
@@ -2714,6 +2722,131 @@
     chatRTCargandoViejos = false;
   }
 
+  // === SISTEMA DE EMOJIS (estilo WhatsApp) ===
+  const _chatRTEmojiCategorias = [
+    { key: "recientes", nombre: "Recientes", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' },
+    { key: "caras", nombre: "Sonrisas y emociones", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>' },
+    { key: "personas", nombre: "Personas", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { key: "animales", nombre: "Animales y naturaleza", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7c-2 0-3.5.5-4.5 1.5A6 6 0 0 0 12 8a6 6 0 0 0-3.5.5C7.5 7.5 6 7 4 7a5 5 0 0 0-1 9.9c.6.1 1 .5 1 1.1 0 1.1 1 2 2 2h12c1 0 2-.9 2-2 0-.6.4-1 1-1.1A5 5 0 0 0 20 7z"/></svg>' },
+    { key: "comida", nombre: "Comida y bebida", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>' },
+    { key: "actividades", nombre: "Actividades", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"/><path d="M10 24V6a2 2 0 0 1 4 0v18"/><path d="M17 8h4a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4"/><path d="M3 14a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4v8H3z"/></svg>' },
+    { key: "viajes", nombre: "Viajes y lugares", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' },
+    { key: "objetos", nombre: "Objetos", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' },
+    { key: "simbolos", nombre: "Simbolos", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.5-6.3 4.5L8 14 2 9.4h7.6z"/></svg>' },
+    { key: "banderas", nombre: "Banderas", icono: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>' },
+  ];
+  const _chatRTEmojiData = {
+    caras: ["😀","😃","😄","😁","😆","😅","😂","🤣","🙂","🙃","😉","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","🤨","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒","🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎","🤓","🧐","😕","😟","🙁","☹️","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","☠️","💩","🤡","👹","👺","👻","👽","👾","🤖"],
+    personas: ["👋","🤚","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆","🖕","👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","✍️","💅","🤳","💪","🦾","🦵","🦶","👂","🦻","👃","🧠","🦷","👀","👁️","👅","👄","👶","👧","🧒","👦","👩","🧑","👨","👵","🧓","👴","👲","👳","🧕","👮","👷","💂","🕵️","👩‍⚕️","👨‍⚕️","👩‍🏫","👨‍🏫","👩‍⚖️","👨‍⚖️","👩‍🌾","👨‍🌾","👩‍🍳","👨‍🍳","👩‍🔧","👨‍🔧","👩‍💻","👨‍💻","👩‍💼","👨‍💼","👩‍🔬","👨‍🔬","👩‍🎨","👨‍🎨","👩‍🚒","👨‍🚒","👩‍✈️","👨‍✈️","👩‍🚀","👨‍🚀","👩‍🎤","👨‍🎤","👷‍♀️","💃","🕺","🕴️","👯","🧖","🧗","🤺","🏇","⛷️","🏂","🏌️","🏄","🚣","🏊","🤽","🚴","🚵","🤸","🤼","🤾","🤹","🧘","🛀","🛌","👭","👫","👬","💏","💑","👪","👤","👥","🗣️","🧠","👣"],
+    animales: ["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🙈","🙉","🙊","🐒","🐔","🐧","🐦","🐤","🐣","🐥","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🐛","🦋","🐌","🐞","🐜","🪰","🪲","🪳","🦟","🦗","🕷️","🕸️","🦂","🐢","🐍","🦎","🦖","🦕","🐙","🦑","🦐","🦞","🦀","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦓","🦍","🦧","🐘","🦛","🦏","🐪","🐫","🦒","🦘","🦬","🐃","🐂","🐄","🐎","🐖","🐏","🐑","🦙","🐐","🦌","🐕","🐩","🦮","🐈","🐓","🦃","🦚","🦜","🦢","🦩","🕊️","🐇","🦝","🦨","🦡","🦫","🦦","🦥","🐁","🐀","🐿️","🦔"],
+    comida: ["🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🍆","🥑","🥦","🥬","🥒","🌶️","🫑","🌽","🥕","🫒","🧄","🧅","🥔","🍠","🥐","🥯","🍞","🥖","🥨","🧀","🥚","🍳","🧈","🥞","🧇","🥓","🥩","🍗","🍖","🌭","🍔","🍟","🍕","🥪","🥙","🧆","🌮","🌯","🥗","🥘","🫕","🍝","🍜","🍲","🍛","🍣","🍱","🥟","🦪","🍤","🍙","🍚","🍘","🍥","🥠","🥮","🍢","🍡","🍧","🍨","🍦","🥧","🧁","🍰","🎂","🍮","🍭","🍬","🍫","🍿","🍩","🍪","🌰","🥜","🍯","🥛","🍼","🫖","☕","🍵","🧃","🥤","🧋","🍶","🍺","🍻","🥂","🍷","🥃","🍸","🍹","🧉","🍾","🧊"],
+    actividades: ["⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉","🥏","🎱","🪀","🏓","🏸","🏒","🏑","🥍","🏏","🪃","🥅","⛳","🪁","🏹","🎣","🤿","🥊","🥋","🎽","🛹","🛼","🛷","⛸️","🥌","🎿","⛷️","🏂","🪂","🏋️","🤼","🤸","⛹️","🤺","🤾","🏌️","🏇","🧘","🏄","🏊","🤽","🚣","🧗","🚵","🚴","🏆","🥇","🥈","🥉","🏅","🎖️","🏵️","🎗️","🎫","🎟️","🎪","🤹","🎭","🩰","🎨","🎬","🎤","🎧","🎼","🎹","🥁","🪘","🎷","🎺","🪗","🎸","🪕","🎻","🎲","♟️","🎯","🎳","🎮","🎰","🧩"],
+    viajes: ["🚗","🚕","🚙","🚌","🚎","🏎️","🚓","🚑","🚒","🚐","🛻","🚚","🚛","🚜","🛵","🏍️","🛺","🚲","🛴","🛹","🚨","🚔","🚍","🚘","🚖","🚡","🚠","🚟","🚃","🚋","🚞","🚝","🚄","🚅","🚈","🚂","🚆","🚇","🚊","🚉","✈️","🛫","🛬","🛩️","💺","🛰️","🚀","🛸","🚁","🛶","⛵","🚤","🛥️","🛳️","⛴️","🚢","⚓","🪝","⛽","🚧","🚦","🚥","🚏","🗺️","🗿","🗽","🗼","🏰","🏯","🏟️","🎡","🎢","🎠","⛲","⛱️","🏖️","🏝️","🏜️","🌋","⛰️","🏔️","🗻","🏕️","⛺","🛖","🏠","🏡","🏘️","🏚️","🏗️","🏭","🏢","🏬","🏣","🏤","🏥","🏦","🏨","🏪","🏫","🏩","💒","🏛️","⛪","🕌","🕍","🛕","🕋","⛩️","🛤️","🛣️","🗾","🎑","🏞️","🌅","🌄","🌠","🎇","🎆","🌇","🌆","🏙️","🌃","🌌","🌉","🌁"],
+    objetos: ["⌚","📱","📲","💻","⌨️","🖥️","🖨️","🖱️","🖲️","🕹️","🗜️","💽","💾","💿","📀","📼","📷","📸","📹","🎥","📽️","🎞️","📞","☎️","📟","📠","📺","📻","🎙️","🎚️","🎛️","🧭","⏱️","⏲️","⏰","🕰️","⌛","⏳","📡","🔋","🪫","🔌","💡","🔦","🕯️","🪔","🧯","🛢️","💸","💵","💴","💶","💷","🪙","💰","💳","💎","⚖️","🪜","🧰","🪛","🔧","🔨","⚒️","🛠️","⛏️","🪚","🔩","⚙️","🪤","🧱","⛓️","🧲","🔫","💣","🧨","🪓","🔪","🗡️","⚔️","🛡️","🚬","⚰️","🪦","⚱️","🏺","🔮","📿","🧿","💈","⚗️","🔭","🔬","🕳️","🩹","🩺","🩻","🩼","💊","💉","🩸","🧬","🦠","🧫","🧪","🌡️","🧹","🪠","🧺","🧻","🚽","🚰","🚿","🛁","🛀","🧼","🪥","🪒","🧽","🪣","🧴","🛎️","🔑","🗝️","🚪","🪑","🛋️","🛏️","🛌","🧸","🪆","🖼️","🪞","🪟","🛍️","🛒","🎁","🎈","🎏","🎀","🪄","🪅","🎊","🎉","🎎","🏮","🎐","🧧","✉️","📩","📨","📧","💌","📥","📤","📦","🏷️","🪧","📪","📫","📬","📭","📮","📯","📜","📃","📄","📑","🧾","📊","📈","📉","🗒️","🗓️","📆","📅","🗑️","📇","🗃️","🗳️","🗄️","📋","📁","📂","🗂️","🗞️","📰","📓","📔","📒","📕","📗","📘","📙","📚","📖","🔖","🧷","🔗","📎","🖇️","📐","📏","🧮","📌","📍","✂️","🖊️","🖋️","✒️","🖌️","🖍️","📝","✏️","🔍","🔎","🔏","🔐","🔒","🔓"],
+    simbolos: ["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟","☮️","✝️","☪️","🕉️","☸️","✡️","🔯","🕎","☯️","☦️","🛐","⛎","♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓","🆔","⚛️","🉑","☢️","☣️","📴","📳","🈶","🈚","🈸","🈺","🈷️","✴️","🆚","💮","🉐","㊙️","㊗️","🈴","🈵","🈹","🈲","🅰️","🅱️","🆎","🆑","🅾️","🆘","❌","⭕","🛑","⛔","📛","🚫","💯","💢","♨️","🚷","🚯","🚳","🚱","🔞","📵","🚭","❗","❕","❓","❔","‼️","⁉️","🔅","🔆","〽️","⚠️","🚸","🔱","⚜️","🔰","♻️","✅","🈯","💹","❇️","✳️","❎","🌐","💠","Ⓜ️","🌀","💤","🏧","🚾","♿","🅿️","🛗","🈳","🈂️","🛂","🛃","🛄","🛅","🚹","🚺","🚼","⚧️","🚻","🚮","🎦","📶","🈁","🔣","ℹ️","🔤","🔡","🔠","🆖","🆗","🆙","🆒","🆕","🆓","0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟","🔢","#️⃣","*️⃣","⏏️","▶️","⏸️","⏯️","⏹️","⏺️","⏭️","⏮️","⏩","⏪","⏫","⏬","◀️","🔼","🔽","➡️","⬅️","⬆️","⬇️","↗️","↘️","↙️","↖️","↕️","↔️","↪️","↩️","⤴️","⤵️","🔀","🔁","🔂","🔄","🔃","🎵","🎶","➕","➖","➗","✖️","🟰","♾️","💲","💱","™️","©️","®️","👁️","🗨️","✌️","🫰","🫶","🤟"],
+    banderas: ["🏁","🚩","🎌","🏴","🏳️","🏳️‍🌈","🏳️‍⚧️","🏴‍☠️","🇦🇫","🇦🇽","🇦🇱","🇩🇿","🇦🇸","🇦🇩","🇦🇴","🇦🇮","🇦🇶","🇦🇬","🇦🇷","🇦🇲","🇦🇼","🇦🇺","🇦🇹","🇦🇿","🇧🇸","🇧🇭","🇧🇩","🇧🇧","🇧🇾","🇧🇪","🇧🇿","🇧🇯","🇧🇲","🇧🇹","🇧🇴","🇧🇦","🇧🇼","🇧🇷","🇮🇴","🇻🇬","🇧🇳","🇧🇬","🇧🇫","🇧🇮","🇨🇻","🇰🇭","🇨🇲","🇨🇦","🇮🇨","🇨🇻","🇧🇶","🇰🇾","🇨🇫","🇹🇩","🇨🇱","🇨🇳","🇨🇽","🇨🇨","🇨🇴","🇰🇲","🇨🇬","🇨🇩","🇨🇰","🇨🇷","🇨🇮","🇭🇷","🇨🇺","🇨🇼","🇨🇾","🇨🇿","🇩🇰","🇩🇯","🇩🇲","🇩🇴","🇪🇨","🇪🇬","🇸🇻","🇬🇶","🇪🇷","🇪🇪","🇸🇿","🇪🇹","🇪🇺","🇫🇰","🇫🇴","🇫🇯","🇫🇮","🇫🇷","🇬🇫","🇵🇫","🇹🇫","🇬🇦","🇬🇲","🇬🇪","🇩🇪","🇬🇭","🇬🇮","🇬🇷","🇬🇱","🇬🇩","🇬🇵","🇬🇺","🇬🇹","🇬🇬","🇬🇳","🇬🇼","🇬🇾","🇭🇹","🇭🇳","🇭🇰","🇭🇺","🇮🇸","🇮🇳","🇮🇩","🇮🇷","🇮🇶","🇮🇪","🇮🇲","🇮🇱","🇮🇹","🇯🇲","🇯🇵","🇯🇪","🇯🇴","🇰🇿","🇰🇪","🇰🇮","🇽🇰","🇰🇼","🇰🇬","🇱🇦","🇱🇻","🇱🇧","🇱🇸","🇱🇷","🇱🇾","🇱🇮","🇱🇹","🇱🇺","🇲🇴","🇲🇬","🇲🇼","🇲🇾","🇲🇻","🇲🇱","🇲🇹","🇲🇭","🇲🇶","🇲🇷","🇲🇺","🇾🇹","🇲🇽","🇫🇲","🇲🇩","🇲🇨","🇲🇳","🇲🇪","🇲🇸","🇲🇦","🇲🇿","🇲🇲","🇳🇦","🇳🇷","🇳🇵","🇳🇱","🇳🇨","🇳🇿","🇳🇮","🇳🇪","🇳🇬","🇳🇺","🇳🇫","🇰🇵","🇲🇰","🇲🇵","🇳🇴","🇴🇲","🇵🇰","🇵🇼","🇵🇸","🇵🇦","🇵🇬","🇵🇾","🇵🇪","🇵🇭","🇵🇳","🇵🇱","🇵🇹","🇵🇷","🇶🇦","🇷🇪","🇷🇴","🇷🇺","🇷🇼","🇼🇸","🇸🇲","🇸🇦","🇸🇳","🇷🇸","🇸🇨","🇸🇱","🇸🇬","🇸🇽","🇸🇰","🇸🇮","🇸🇧","🇸🇴","🇿🇦","🇬🇸","🇰🇷","🇸🇸","🇪🇸","🇱🇰","🇧🇱","🇸🇭","🇰🇳","🇱🇨","🇵🇲","🇻🇨","🇸🇩","🇸🇷","🇸🇪","🇨🇭","🇸🇾","🇹🇼","🇹🇯","🇹🇿","🇹🇭","🇹🇱","🇹🇬","🇹🇰","🇹🇴","🇹🇹","🇹🇳","🇹🇷","🇹🇲","🇹🇨","🇹🇻","🇺🇬","🇺🇦","🇦🇪","🇬🇧","🇺🇸","🇺🇾","🇺🇿","🇻🇺","🇻🇦","🇻🇪","🇻🇳","🇼🇫","🇪🇭","🇾🇪","🇿🇲","🇿🇼"],
+  };
+  let _chatRTEmojiRecientes = [];
+  try { const r = JSON.parse(localStorage.getItem("rt_emoji_recientes") || "[]"); if (Array.isArray(r)) _chatRTEmojiRecientes = r; } catch(e) {}
+  let _chatRTEmojiAbierto = false;
+  let _chatRTEmojiCategoriaActiva = "recientes";
+
+  function chatRTEmojiGuardarReciente(emoji) {
+    _chatRTEmojiRecientes = [emoji].concat(_chatRTEmojiRecientes.filter(e => e !== emoji)).slice(0, 24);
+    try { localStorage.setItem("rt_emoji_recientes", JSON.stringify(_chatRTEmojiRecientes)); } catch(e) {}
+    if (_chatRTEmojiAbierto) chatRTEmojiRender();
+  }
+
+  function chatRTEmojiRender() {
+    const scroll = document.getElementById("chatRTEmojiScroll");
+    const tabs = document.getElementById("chatRTEmojiTabs");
+    if (!scroll || !tabs) return;
+    // Construir secciones
+    let html = "";
+    for (const cat of _chatRTEmojiCategorias) {
+      let emojis = cat.key === "recientes" ? _chatRTEmojiRecientes : (_chatRTEmojiData[cat.key] || []);
+      if (cat.key === "recientes" && emojis.length === 0) emojis = _chatRTEmojiData.caras;
+      html += '<div class="chatRTEmojiCategoria" data-cat="' + cat.key + '" style="padding:6px 10px 10px;">' +
+        '<div style="font-size:11px;color:#888;padding:4px 4px 6px;">' + (cat.key === "recientes" && _chatRTEmojiRecientes.length > 0 ? "Recientes" : cat.nombre) + '</div>' +
+        '<div style="display:flex;flex-wrap:wrap;">' +
+        emojis.map(e => '<button data-emoji="' + e + '" style="width:36px;height:36px;font-size:22px;line-height:1;background:none;border:none;border-radius:8px;cursor:pointer;transition:background 0.1s;padding:0;" onmouseover="this.style.background=\'#1f1f2e\'" onmouseout="this.style.background=\'transparent\'">' + e + '</button>').join("") +
+        '</div></div>';
+    }
+    scroll.innerHTML = html;
+    // Eventos click en emojis
+    scroll.querySelectorAll("button[data-emoji]").forEach(btn => {
+      btn.onclick = () => {
+        const e = btn.getAttribute("data-emoji");
+        chatRTEmojiInsertar(e);
+        chatRTEmojiGuardarReciente(e);
+      };
+    });
+    // Tabs
+    let tabsHTML = "";
+    for (const cat of _chatRTEmojiCategorias) {
+      tabsHTML += '<button data-tab="' + cat.key + '" title="' + cat.nombre + '" style="width:32px;height:32px;background:none;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;opacity:' + (cat.key === _chatRTEmojiCategoriaActiva ? "1" : "0.4") + ';">' + cat.icono + '</button>';
+    }
+    tabs.innerHTML = tabsHTML;
+    tabs.querySelectorAll("button[data-tab]").forEach(btn => {
+      btn.onclick = () => {
+        _chatRTEmojiCategoriaActiva = btn.getAttribute("data-tab");
+        const seccion = scroll.querySelector('[data-cat="' + _chatRTEmojiCategoriaActiva + '"]');
+        if (seccion) {
+          seccion.scrollIntoView({ block: "start" });
+          scroll.scrollTop = seccion.offsetTop - scroll.offsetTop;
+        }
+        chatRTEmojiRenderTabs();
+      };
+    });
+  }
+
+  function chatRTEmojiRenderTabs() {
+    const tabs = document.getElementById("chatRTEmojiTabs");
+    if (!tabs) return;
+    tabs.querySelectorAll("button[data-tab]").forEach(btn => {
+      const activo = btn.getAttribute("data-tab") === _chatRTEmojiCategoriaActiva;
+      btn.style.opacity = activo ? "1" : "0.4";
+      btn.style.background = activo ? "#1f1f2e" : "none";
+    });
+  }
+
+  function chatRTEmojiInsertar(e) {
+    const input = document.getElementById("chatRTInput");
+    if (!input) return;
+    const ini = input.selectionStart || input.value.length;
+    const fin = input.selectionEnd || input.value.length;
+    input.value = input.value.slice(0, ini) + e + input.value.slice(fin);
+    input.focus();
+    const pos = ini + e.length;
+    input.setSelectionRange(pos, pos);
+    input.dispatchEvent(new Event("input"));
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 100) + "px";
+  }
+
+  function chatRTEmojiAbrir() {
+    _chatRTEmojiAbierto = true;
+    const panel = document.getElementById("chatRTEmojiPanel");
+    if (!panel) return;
+    chatRTEmojiRender();
+    panel.style.display = "flex";
+    _chatRTEmojiCategoriaActiva = "recientes";
+    const scroll = document.getElementById("chatRTEmojiScroll");
+    if (scroll) scroll.scrollTop = 0;
+    chatRTEmojiRenderTabs();
+  }
+
+  function chatRTEmojiCerrar() {
+    _chatRTEmojiAbierto = false;
+    const panel = document.getElementById("chatRTEmojiPanel");
+    if (panel) panel.style.display = "none";
+  }
+
+  function chatRTEmojiToggle() {
+    if (_chatRTEmojiAbierto) chatRTEmojiCerrar();
+    else chatRTEmojiAbrir();
+  }
+
   // Suscripcion real-time a mensajes directos
   let chatRTSubscription = null;
   function chatRTSuscribirMensajes() {
@@ -2949,6 +3082,7 @@
   var chatRTOptimisticId = 0;
   async function chatRTEnviarMensajeRT() {
     if (!chatRTChatActivo) return;
+    chatRTEmojiCerrar();
     chatRTEnviarTypingStop();
     chatRTTypingVisible = false;
     if (chatRTTypingDebounce) { clearTimeout(chatRTTypingDebounce); chatRTTypingDebounce = null; }
@@ -3432,7 +3566,7 @@
       statusIconHTML = '<div class="chatRTStatusIcon chatRTRetryBtn" style="width:14px;height:14px;flex-shrink:0;display:flex;align-items:center;cursor:pointer;" title="Reintentar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div>';
     }
 
-    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;overflow:hidden;' + avatarBg + '">' + avatarHTML + '</div>' + conectorHTMLRT + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + fechaHTML + '</div>' + statusIconHTML;
+    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;overflow:hidden;position:relative;z-index:1;' + avatarBg + '">' + avatarHTML + '</div>' + conectorHTMLRT + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + fechaHTML + '</div>' + statusIconHTML;
 
     wrapper.appendChild(row);
     return wrapper;
@@ -3929,6 +4063,29 @@
       });
       chatRTInput.onfocus = () => { chatRTInput.style.borderColor = "#2563eb"; };
       chatRTInput.onblur = () => { chatRTInput.style.borderColor = "#222"; };
+    }
+
+    // Boton emoji: abrir/cerrar panel
+    const chatRTEmojiBtn = document.getElementById("chatRTEmojiBtn");
+    if (chatRTEmojiBtn) chatRTEmojiBtn.onclick = () => chatRTEmojiToggle();
+
+    // Scroll del panel emoji: sincronizar pestaña activa
+    const chatRTEmojiScroll = document.getElementById("chatRTEmojiScroll");
+    if (chatRTEmojiScroll) {
+      chatRTEmojiScroll.addEventListener("scroll", () => {
+        if (!_chatRTEmojiAbierto) return;
+        const secciones = chatRTEmojiScroll.querySelectorAll(".chatRTEmojiCategoria");
+        let activa = "recientes";
+        for (const sec of secciones) {
+          const topSec = sec.offsetTop;
+          if (chatRTEmojiScroll.scrollTop >= topSec - 30) activa = sec.getAttribute("data-cat");
+          else break;
+        }
+        if (activa !== _chatRTEmojiCategoriaActiva) {
+          _chatRTEmojiCategoriaActiva = activa;
+          chatRTEmojiRenderTabs();
+        }
+      });
     }
 
     // Scroll hacia arriba: cargar mensajes anteriores (carga progresiva)
