@@ -1313,6 +1313,7 @@
     if (fotoMini) fotoMini.src = localData.foto || _defaultPhoto;
 
     // Cargar contactos y suscribirse a mensajes
+    chatRTMostrarVista("main");
     chatRTCargarContactos();
     chatRTSuscribirMensajes();
     chatRTVerificarContactosNuevos();
@@ -1920,13 +1921,18 @@
   let chatRTHeartbeatInterval = null;
 
   // Heartbeat: actualizar last_seen cada 30 segundos
+  let chatRTRefreshContactosInterval = null;
   function chatRTIniciarHeartbeat() {
     chatRTActualizarLastSeen();
     if (chatRTHeartbeatInterval) clearInterval(chatRTHeartbeatInterval);
     chatRTHeartbeatInterval = setInterval(chatRTActualizarLastSeen, 30000);
+    // Refrescar contactos cada 15 segundos para estado online y ultimos mensajes
+    if (chatRTRefreshContactosInterval) clearInterval(chatRTRefreshContactosInterval);
+    chatRTRefreshContactosInterval = setInterval(() => { chatRTCargarContactos(); }, 15000);
   }
   function chatRTPararHeartbeat() {
     if (chatRTHeartbeatInterval) { clearInterval(chatRTHeartbeatInterval); chatRTHeartbeatInterval = null; }
+    if (chatRTRefreshContactosInterval) { clearInterval(chatRTRefreshContactosInterval); chatRTRefreshContactosInterval = null; }
   }
   async function chatRTActualizarLastSeen() {
     const sb = getSupabase();
@@ -2044,7 +2050,7 @@
         : '';
       const tiempo = c.ultimoMensajeTiempo ? chatRTFormatearTiempo(c.ultimoMensajeTiempo) : "";
       return '<div data-idx="' + i + '" class="chatRTContactoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;" onmouseover="this.style.background=\'#111\'" onmouseout="this.style.background=\'transparent\'">' +
-        '<div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#1a1a2e;position:relative;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" />' + onlineDot + '</div>' +
+        '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" />' + onlineDot + '</div>' +
         '<div style="overflow:hidden;flex:1;">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;">' +
             '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + (c.nombre) + '</div>' +
@@ -2247,7 +2253,15 @@
     const usuario = document.getElementById("chatRTChatUsuario");
     if (foto) foto.src = contacto.foto || _defaultPhoto;
     if (nombre) nombre.textContent = contacto.nombre;
-    if (usuario) usuario.textContent = "@" + contacto.usuario;
+    if (usuario) {
+      if (contacto.online) {
+        usuario.textContent = "En linea";
+        usuario.style.color = "#22c55e";
+      } else {
+        usuario.textContent = contacto.lastSeen ? chatRTTiempoRelativo(contacto.lastSeen) : "@" + contacto.usuario;
+        usuario.style.color = "#666";
+      }
+    }
     const btnVolver = document.getElementById("chatRTChatVolverBtn");
     if (btnVolver) btnVolver.onclick = () => { chatRTChatActivo = null; chatRTMostrarVista("main"); };
     const btnCerrar = document.getElementById("cerrarChatRT2");
