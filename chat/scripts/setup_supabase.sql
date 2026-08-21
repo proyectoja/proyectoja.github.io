@@ -152,7 +152,8 @@ CREATE TABLE IF NOT EXISTS direct_messages (
   content TEXT NOT NULL,
   created_at TIMESTAMPTZ DEFAULT now(),
   read BOOLEAN DEFAULT false,
-  delivered BOOLEAN DEFAULT false
+  delivered BOOLEAN DEFAULT false,
+  reply_to_id UUID
 );
 
 ALTER TABLE direct_messages ENABLE ROW LEVEL SECURITY;
@@ -229,8 +230,12 @@ CREATE TABLE IF NOT EXISTS group_messages (
   group_id UUID REFERENCES groups(id) ON DELETE CASCADE NOT NULL,
   sender_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   content TEXT NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now(),
+  reply_to_id UUID
 );
+
+ALTER TABLE direct_messages ADD COLUMN IF NOT EXISTS reply_to_id UUID;
+ALTER TABLE group_messages ADD COLUMN IF NOT EXISTS reply_to_id UUID;
 
 ALTER TABLE groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE group_members ENABLE ROW LEVEL SECURITY;
