@@ -1,17 +1,13 @@
 -- =============================================
 -- SETUP COMPLETO SUPABASE - CONEXAN
 -- Copiar TODO y ejecutar en SQL Editor
+-- No borra tablas existentes, solo crea las que falten
 -- =============================================
 
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-DROP TRIGGER IF EXISTS validate_profile_update ON profiles;
-DROP FUNCTION IF EXISTS public.handle_new_user();
-DROP FUNCTION IF EXISTS public.validate_profile_update();
-DROP POLICY IF EXISTS "own_profile_all" ON profiles;
-DROP POLICY IF EXISTS "search_usernames" ON profiles;
-DROP TABLE IF EXISTS profiles CASCADE;
-
-CREATE TABLE profiles (
+-- =============================================
+-- TABLA DE PERFILES (solo crear si no existe)
+-- =============================================
+CREATE TABLE IF NOT EXISTS profiles (
   user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   username TEXT UNIQUE NOT NULL,
   display_name TEXT NOT NULL DEFAULT '',
@@ -23,9 +19,16 @@ CREATE TABLE profiles (
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "own_profile_all" ON profiles FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "search_usernames" ON profiles FOR SELECT TO authenticated USING (true);
+DO $$ BEGIN
+  CREATE POLICY "own_profile_all" ON profiles FOR ALL USING (auth.uid() = user_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "search_usernames" ON profiles FOR SELECT TO authenticated USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
+-- Trigger: crear perfil al registrar usuario
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger
 LANGUAGE plpgsql
@@ -55,10 +58,12 @@ BEGIN
 END;
 $$;
 
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
+-- Trigger: validar edicion de perfil
 CREATE OR REPLACE FUNCTION public.validate_profile_update()
 RETURNS trigger
 LANGUAGE plpgsql
@@ -70,7 +75,6 @@ BEGIN
   IF NEW.username !~ '^[a-z0-9_]+$' THEN RAISE EXCEPTION 'Username solo minusculas, numeros, guion bajo'; END IF;
   IF length(NEW.display_name) < 1 OR length(NEW.display_name) > 100 THEN RAISE EXCEPTION 'Nombre entre 1 y 100'; END IF;
   IF length(NEW.info) > 500 THEN RAISE EXCEPTION 'Info maximo 500'; END IF;
-  -- Bloquear usuario si se cambio hace menos de 30 dias (solo si username cambio)
   IF NEW.username IS DISTINCT FROM OLD.username THEN
     IF OLD.last_profile_edit IS NOT NULL AND (now() - OLD.last_profile_edit) < interval '30 days' THEN
       RAISE EXCEPTION 'Solo puedes cambiar usuario o contrasena una vez cada 30 dias';
@@ -81,10 +85,81 @@ BEGIN
 END;
 $$;
 
+DROP TRIGGER IF EXISTS validate_profile_update ON profiles;
 CREATE TRIGGER validate_profile_update
   BEFORE UPDATE ON profiles
   FOR EACH ROW EXECUTE FUNCTION public.validate_profile_update();
 
+-- =============================================
+-- TABLA DE CONTACTOS (solo crear si no existe)
+-- =============================================
+CREATE TABLE IF NOT EXISTS contacts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  contact_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  contact_email TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(user_id, contact_id)
+);
+
+-- Agregar columna contact_email si la tabla ya existe pero no la tiene
+DO $$ BEGIN
+  ALTER TABLE contacts ADD COLUMN IF NOT EXISTS contact_email TEXT;
+EXCEPTION WHEN duplicate_column THEN NULL;
+END $$;
+
+ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  CREATE POLICY "users_select_own_contacts" ON contacts FOR SELECT USING (auth.uid() = user_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "users_insert_own_contacts" ON contacts FOR INSERT WITH CHECK (auth.uid() = user_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "users_delete_own_contacts" ON contacts FOR DELETE USING (auth.uid() = user_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+CREATE INDEX IF NOT EXISTS idx_contacts_user ON contacts(user_id);
+CREATE INDEX IF NOT EXISTS idx_contacts_contact ON contacts(contact_id);
+CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(contact_email);
+
+-- =============================================
+-- TABLA DE MENSAJES DIRECTOS (solo crear si no existe)
+-- =============================================
+CREATE TABLE IF NOT EXISTS direct_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  sender_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  receiver_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  read BOOLEAN DEFAULT false
+);
+
+ALTER TABLE direct_messages ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  CREATE POLICY "users_select_own_messages" ON direct_messages FOR SELECT USING (auth.uid() = sender_id OR auth.uid() = receiver_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "users_send_messages" ON direct_messages FOR INSERT WITH CHECK (auth.uid() = sender_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "users_update_read_messages" ON direct_messages FOR UPDATE USING (auth.uid() = receiver_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+CREATE INDEX IF NOT EXISTS idx_dm_conversation ON direct_messages(sender_id, receiver_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_dm_receiver ON direct_messages(receiver_id, read);
+
+-- =============================================
+-- STORAGE AVATARS
+-- =============================================
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES ('avatars', 'avatars', true, 1048576, ARRAY['image/jpeg','image/png','image/webp','image/gif'])
 ON CONFLICT (id) DO UPDATE SET public=true, file_size_limit=1048576, allowed_mime_types=ARRAY['image/jpeg','image/png','image/webp','image/gif'];

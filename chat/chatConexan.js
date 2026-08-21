@@ -959,6 +959,11 @@
   const _iconBack = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>';
   const _iconDots = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#888"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>';
   const _iconCam = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
+  const _iconPlus = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  const _iconUserPlus = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>';
+  const _iconGroup = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
+  const _iconSearch = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+  const _iconCheck = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 
   // Default profile photo (data URI SVG)
   const _defaultPhoto = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#111"/><path stroke="#666" stroke-width="1.8" d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle stroke="#666" stroke-width="1.8" cx="12" cy="7" r="4"/></svg>');
@@ -1259,6 +1264,9 @@
       const fotoMini = document.getElementById("chatRTFotoMini");
       if (fotoMini) fotoMini.src = local.foto || _defaultPhoto;
       chatRTMostrarVista("main");
+      chatRTCargarContactos();
+      chatRTSuscribirMensajes();
+      chatRTVerificarContactosNuevos();
       // Refrescar en background
       chatRTRefrescarPerfilSilencioso(user.id);
       return;
@@ -1304,15 +1312,23 @@
     const fotoMini = document.getElementById("chatRTFotoMini");
     if (fotoMini) fotoMini.src = localData.foto || _defaultPhoto;
 
-    chatRTMostrarVista("main");
+    // Cargar contactos y suscribirse a mensajes
+    chatRTCargarContactos();
+    chatRTSuscribirMensajes();
+    chatRTVerificarContactosNuevos();
   }
 
   // === AUTH: Cerrar sesion ===
   async function chatRTCerrarSesion() {
     const sb = getSupabase();
-    if (sb) await sb.auth.signOut();
+    if (sb) {
+      if (chatRTSubscription) { try { sb.removeChannel(chatRTSubscription); } catch(e) {} chatRTSubscription = null; }
+      await sb.auth.signOut();
+    }
     localStorage.removeItem("rt_session");
     localStorage.removeItem("rt_perfil");
+    chatRTContactos = [];
+    chatRTChatActivo = null;
     chatRTMostrarVista("login");
     chatRTResetLoginForm();
   }
@@ -1491,18 +1507,62 @@
             <div style="font-size:10px;color:#666;">Comunicacion directa</div>
           </div>
         </div>
-        <button id="cerrarChatRT" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button id="chatRTNuevoChatBtn" style="background:none;border:1px solid #333;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;" title="Nuevo chat">${_iconPlus}</button>
+          <button id="cerrarChatRT" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>
+        </div>
       </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;">
+      <div id="chatRTContactosLista" style="flex:1;overflow-y:auto;"></div>
+      <div id="chatRTMainWelcome" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;">
         <div style="width:80px;height:80px;border-radius:20px;background:#111;display:flex;align-items:center;justify-content:center;border:1px solid #1a1a1a;">${_iconChatLg}</div>
         <div style="text-align:center;">
           <div style="font-size:16px;font-weight:600;color:#fff;">Conexan</div>
-          <div style="font-size:12px;color:#666;margin-top:6px;line-height:1.5;">Empieza a chatear con tus contactos.<br>Aun no hay conversaciones.</div>
+          <div style="font-size:12px;color:#666;margin-top:6px;line-height:1.5;">Empieza a chatear con tus contactos.<br>Pulsa + para agregar un contacto.</div>
         </div>
       </div>
     </div>
 
-    <!-- ====== VISTA MENU PERFIL (full window) ====== -->
+    <!-- ====== VISTA NUEVO CHAT ====== -->
+    <div id="chatRTVistaNuevoChat" style="display:none;flex-direction:column;height:100%;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+        <button id="chatRTNuevoChatVolver" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;">${_iconBack}</button>
+        <div style="font-size:14px;font-weight:600;color:#fff;">Nuevo chat</div>
+      </div>
+      <div style="padding:8px 0;">
+        <div id="chatRTNuevoContactoBtn" style="display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
+          <div style="width:40px;height:40px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center;">${_iconUserPlus}</div>
+          <div>
+            <div style="font-size:13px;color:#fff;font-weight:500;">Nuevo contacto</div>
+            <div style="font-size:11px;color:#666;">Buscar por nombre de usuario</div>
+          </div>
+        </div>
+        <div id="chatRTNuevoGrupoBtn" style="display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;transition:background 0.15s;opacity:0.4;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
+          <div style="width:40px;height:40px;border-radius:50%;background:#1a1a2e;border:1px solid #222;display:flex;align-items:center;justify-content:center;">${_iconGroup}</div>
+          <div>
+            <div style="font-size:13px;color:#888;font-weight:500;">Nuevo grupo</div>
+            <div style="font-size:11px;color:#555;">Proximamente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== VISTA NUEVO CONTACTO ====== -->
+    <div id="chatRTVistaNuevoContacto" style="display:none;flex-direction:column;height:100%;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+        <button id="chatRTNuevoContactoVolver" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;">${_iconBack}</button>
+        <div style="font-size:14px;font-weight:600;color:#fff;">Agregar contacto</div>
+      </div>
+      <div style="padding:16px;">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;">
+          <div style="flex:1;display:flex;align-items:center;background:#111;border:1px solid #222;border-radius:8px;padding:0 12px;">
+            <span style="color:#666;font-size:14px;">@</span>
+            <input id="chatRTBuscarContactoInput" type="text" placeholder="nombre de usuario" style="flex:1;background:none;border:none;color:#e8edf9;font-size:14px;padding:10px 6px;outline:none;" />
+          </div>
+          <button id="chatRTBuscarContactoBtn" style="background:#2563eb;border:none;color:#fff;width:38px;height:38px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;box-shadow:0 2px 8px rgba(37,99,235,0.3);" title="Buscar">${_iconSearch}</button>
+        </div>
+        <div id="chatRTBuscarContactoResultado" style="display:none;"></div>
+      </div>
+    </div>
     <div id="chatRTVistaMenu" style="display:none;flex-direction:column;height:100%;">
       <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
         <button id="chatRTMenuVolverBtn" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;transition:background 0.15s;">${_iconBack}</button>
@@ -1710,8 +1770,9 @@
 
     <!-- ====== VISTA CHAT (estructura existente, oculta por defecto) ====== -->
     <div id="chatRTVistaChat" style="display:none;flex-direction:column;height:100%;">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+      <div id="chatRTChatHeader" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
         <div style="display:flex;align-items:center;gap:10px;">
+          <button id="chatRTChatVolverBtn" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;">${_iconBack}</button>
           <div style="width:28px;height:28px;border-radius:8px;background:#2563eb;display:flex;align-items:center;justify-content:center;">${_iconChat}</div>
           <div>
             <div style="font-size:13px;font-weight:700;color:#fff;">Conexan</div>
@@ -1769,7 +1830,7 @@
   function chatRTMostrarVista(vista) {
     if (vista === chatRTVistaActual) return;
     chatRTVistaActual = vista;
-    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = "none";
@@ -1778,6 +1839,8 @@
       "login": "chatRTVistaLogin",
       "recuperar": "chatRTVistaRecuperar",
       "main": "chatRTVistaMain",
+      "nuevochat": "chatRTVistaNuevoChat",
+      "nuevocontacto": "chatRTVistaNuevoContacto",
       "perfil": "chatRTVistaPerfil",
       "chat": "chatRTVistaChat",
       "menu": "chatRTVistaMenu",
@@ -1793,9 +1856,12 @@
 
     // Mostrar/ocultar bottom bar segun vista
     const bottomBar = document.getElementById("chatRTBottomBar");
-    const ocultarBottom = (vista === "login" || vista === "recuperar");
+    const ocultarBottom = (vista === "login" || vista === "recuperar" || vista === "nuevochat" || vista === "nuevocontacto" || vista === "chat");
     if (bottomBar) bottomBar.style.display = ocultarBottom ? "none" : "flex";
 
+    if (vista === "main") {
+      chatRTCargarContactos();
+    }
     if (vista === "perfil") {
       const p = cargarPerfilRT();
       const campoEmail = document.getElementById("chatRTCampoEmail");
@@ -1838,6 +1904,359 @@
     chatRTMostrarVista("menu");
   }
   function chatRTCerrarMenuPerfil() {}
+
+  // === SISTEMA DE CONTACTOS Y CHAT ===
+  let chatRTContactos = [];
+  let chatRTChatActivo = null;
+  let chatRTBusquedasRecientes = [];
+
+  // Cargar contactos desde Supabase
+  async function chatRTCargarContactos() {
+    const sb = getSupabase();
+    if (!sb) return [];
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return [];
+    const { data, error } = await sb
+      .from("contacts")
+      .select("id, contact_id, contact_email, created_at")
+      .eq("user_id", session.user.id);
+    if (error || !data) return [];
+    // Cargar info de cada contacto desde profiles
+    const contactos = [];
+    for (const c of data) {
+      // Buscar por email primero, luego por user_id
+      let perfil = null;
+      if (c.contact_email) {
+        const { data: p1 } = await sb
+          .from("profiles")
+          .select("user_id, display_name, username, photo_url, email")
+          .eq("email", c.contact_email)
+          .maybeSingle();
+        perfil = p1;
+      }
+      if (!perfil && c.contact_id) {
+        const { data: p2 } = await sb
+          .from("profiles")
+          .select("user_id, display_name, username, photo_url, email")
+          .eq("user_id", c.contact_id)
+          .maybeSingle();
+        perfil = p2;
+      }
+      if (perfil) {
+        contactos.push({
+          contactId: perfil.user_id || c.contact_id,
+          perfilId: c.id,
+          nombre: perfil.display_name || perfil.username || "Sin nombre",
+          usuario: perfil.username || "",
+          foto: perfil.photo_url || "",
+          email: perfil.email || c.contact_email || "",
+          creado: c.created_at,
+        });
+      }
+    }
+    chatRTContactos = contactos;
+    chatRTMostrarContactosEnLista();
+    return contactos;
+  }
+
+  // Renderizar contactos en la vista principal
+  function chatRTMostrarContactosEnLista() {
+    const lista = document.getElementById("chatRTContactosLista");
+    const welcome = document.getElementById("chatRTMainWelcome");
+    if (!lista) return;
+    if (chatRTContactos.length === 0) {
+      lista.style.display = "none";
+      if (welcome) welcome.style.display = "flex";
+      return;
+    }
+    if (welcome) welcome.style.display = "none";
+    lista.style.display = "block";
+    lista.innerHTML = chatRTContactos.map((c, i) => {
+      const foto = c.foto || _defaultPhoto;
+      return '<div data-idx="' + i + '" class="chatRTContactoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;" onmouseover="this.style.background=\'#111\'" onmouseout="this.style.background=\'transparent\'">' +
+        '<div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#1a1a2e;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+        '<div style="overflow:hidden;flex:1;">' +
+          '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (c.nombre) + '</div>' +
+          '<div style="font-size:11px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@' + (c.usuario) + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+    // Eventos click
+    lista.querySelectorAll(".chatRTContactoItem").forEach(item => {
+      item.onclick = () => {
+        const idx = parseInt(item.dataset.idx);
+        const c = chatRTContactos[idx];
+        if (c) chatRTAbrirChat(c);
+      };
+    });
+  }
+
+  // Buscar usuario por username
+  async function chatRTBuscarContacto() {
+    const input = document.getElementById("chatRTBuscarContactoInput");
+    const resultado = document.getElementById("chatRTBuscarContactoResultado");
+    if (!input || !resultado) return;
+    const busqueda = input.value.trim().replace("@", "").toLowerCase();
+    if (busqueda.length < 2) return;
+    // Rate limit: 5 busquedas por minuto
+    const ahora = Date.now();
+    chatRTBusquedasRecientes = chatRTBusquedasRecientes.filter(t => ahora - t < 60000);
+    if (chatRTBusquedasRecientes.length >= 5) {
+      const restantes = Math.ceil((60000 - (ahora - chatRTBusquedasRecientes[0])) / 1000);
+      resultado.style.display = "block";
+      resultado.innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;font-size:12px;">Demasiadas busquedas. Intenta en ' + restantes + ' segundo(s).</div>';
+      return;
+    }
+    chatRTBusquedasRecientes.push(ahora);
+    const sb = getSupabase();
+    if (!sb) return;
+    resultado.style.display = "block";
+    resultado.innerHTML = '<div style="text-align:center;padding:20px;color:#666;font-size:12px;">Buscando...</div>';
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    // Buscar por username exacto
+    const { data: perfil } = await sb
+      .from("profiles")
+      .select("user_id, display_name, username, photo_url, email")
+      .ilike("username", busqueda)
+      .maybeSingle();
+    if (!perfil || perfil.user_id === session.user.id) {
+      resultado.innerHTML = '<div style="text-align:center;padding:20px;color:#666;font-size:12px;">Usuario no encontrado</div>';
+      return;
+    }
+    // Verificar si ya es contacto (por email)
+    const { data: existe } = await sb
+      .from("contacts")
+      .select("id")
+      .eq("user_id", session.user.id)
+      .eq("contact_email", perfil.email)
+      .maybeSingle();
+    const foto = perfil.photo_url || _defaultPhoto;
+    const yaExiste = !!existe;
+    resultado.innerHTML =
+      '<div style="display:flex;align-items:center;gap:12px;padding:12px;background:#111;border-radius:8px;border:1px solid #1a1a1a;">' +
+        '<div style="width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#1a1a2e;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+        '<div style="flex:1;overflow:hidden;">' +
+          '<div style="font-size:13px;font-weight:600;color:#fff;">' + (perfil.display_name || perfil.username) + '</div>' +
+          '<div style="font-size:11px;color:#666;">@' + (perfil.username || "") + '</div>' +
+        '</div>' +
+        (yaExiste
+          ? '<div style="color:#666;font-size:11px;">Ya es contacto</div>'
+          : '<button data-userid="' + perfil.user_id + '" data-email="' + (perfil.email || "") + '" data-nombre="' + (perfil.display_name || perfil.username) + '" data-usuario="' + (perfil.username || "") + '" data-foto="' + foto + '" class="chatRTAgregarContactoBtn" style="background:#2563eb;border:none;color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;transition:all 0.15s;box-shadow:0 2px 6px rgba(37,99,235,0.3);">Agregar</button>'
+        ) +
+      '</div>';
+    // Evento agregar
+    if (!yaExiste) {
+      const btn = resultado.querySelector(".chatRTAgregarContactoBtn");
+      if (btn) btn.onclick = () => chatRTAgregarContacto(btn.dataset.userid, btn.dataset.email, btn.dataset.nombre, btn.dataset.usuario, btn.dataset.foto);
+    }
+  }
+
+  // Agregar contacto
+  async function chatRTAgregarContacto(contactUserId, contactEmail, contactNombre, contactUsuario, contactFoto) {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    // Insertar por email
+    const { error } = await sb.from("contacts").insert([
+      { user_id: session.user.id, contact_id: contactUserId, contact_email: contactEmail },
+    ]);
+    if (error) {
+      if (error.code === "23505") {
+        // Ya existe
+      }
+      return;
+    }
+    // Auto-agregar a la lista local
+    chatRTContactos.push({
+      contactId: contactUserId,
+      perfilId: "",
+      nombre: contactNombre,
+      usuario: contactUsuario,
+      foto: contactFoto,
+      email: contactEmail,
+      creado: new Date().toISOString(),
+    });
+    chatRTMostrarContactosEnLista();
+    // Snackbar de confirmacion
+    chatRTMostrarSnackbar("Contacto agregado correctamente");
+    // Notificacion para chatear
+    chatRTMostrarNotificacionChat(contactNombre, contactUsuario, contactFoto, contactUserId, contactEmail);
+  }
+
+  // Notificacion para chatear con el contacto recien agregado
+  function chatRTMostrarNotificacionChat(nombre, usuario, foto, userId, email) {
+    let notif = document.getElementById("chatRTNotifChat");
+    if (!notif) {
+      notif = document.createElement("div");
+      notif.id = "chatRTNotifChat";
+      notif.style.cssText = "position:fixed;bottom:0;left:50%;transform:translateX(-50%);background:#111;border-top:1px solid #1a1a1a;padding:14px 16px;display:none;z-index:9999999;width:100%;max-width:400px;box-sizing:border-box;";
+      document.body.appendChild(notif);
+    }
+    notif.innerHTML =
+      '<div style="display:flex;align-items:center;gap:12px;">' +
+        '<div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#1a1a2e;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+        '<div style="flex:1;">' +
+          '<div style="font-size:12px;color:#fff;font-weight:500;">Chatear con @' + usuario + '</div>' +
+          '<div style="font-size:11px;color:#666;">Ahora puedes enviarle mensajes</div>' +
+        '</div>' +
+        '<button id="chatRTNotifChatBtn" style="background:#2563eb;border:none;color:#fff;padding:8px 16px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;">Chat</button>' +
+        '<button id="chatRTNotifChatCerrar" style="background:none;border:none;color:#666;cursor:pointer;font-size:18px;padding:0 4px;">\u00d7</button>' +
+      '</div>';
+    notif.style.display = "block";
+    const btnChat = document.getElementById("chatRTNotifChatBtn");
+    const btnCerrar = document.getElementById("chatRTNotifChatCerrar");
+    if (btnChat) btnChat.onclick = () => {
+      notif.style.display = "none";
+      chatRTAbrirChat({ contactId: userId, nombre: nombre, usuario: usuario, foto: foto, email: email });
+    };
+    if (btnCerrar) btnCerrar.onclick = () => { notif.style.display = "none"; };
+  }
+
+  // Snackbar notificacion
+  function chatRTMostrarSnackbar(texto) {
+    let snackbar = document.getElementById("chatRTSnackbar");
+    if (!snackbar) {
+      snackbar = document.createElement("div");
+      snackbar.id = "chatRTSnackbar";
+      snackbar.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2563eb;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:9999999;display:none;text-align:center;max-width:320px;box-shadow:0 4px 12px rgba(0,0,0,0.4);";
+      document.body.appendChild(snackbar);
+    }
+    snackbar.textContent = texto;
+    snackbar.style.display = "block";
+    setTimeout(() => { snackbar.style.display = "none"; }, 3000);
+  }
+
+  // Abrir chat con un contacto
+  function chatRTAbrirChat(contacto) {
+    chatRTChatActivo = contacto;
+    // Actualizar header del chat
+    const chatHeader = document.querySelector("#chatRTVistaChat > div:first-child");
+    if (chatHeader) {
+      const foto = contacto.foto || _defaultPhoto;
+      chatHeader.innerHTML =
+        '<div style="display:flex;align-items:center;gap:10px;flex:1;">' +
+          '<button id="chatRTChatVolverBtn" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;">' + _iconBack + '</button>' +
+          '<div style="width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#1a1a2e;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+          '<div>' +
+            '<div style="font-size:13px;font-weight:700;color:#fff;">' + contacto.nombre + '</div>' +
+            '<div style="font-size:10px;color:#666;">@' + contacto.usuario + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<button id="cerrarChatRT2" style="background:none;border:1px solid #333;color:#888;width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;line-height:1;">X</button>';
+      // Re-asignar eventos
+      const btnVolver = document.getElementById("chatRTChatVolverBtn");
+      if (btnVolver) btnVolver.onclick = () => { chatRTChatActivo = null; chatRTMostrarVista("main"); };
+      const btnCerrar = document.getElementById("cerrarChatRT2");
+      if (btnCerrar) btnCerrar.onclick = ocultarChatRT;
+    }
+    chatRTMostrarVista("chat");
+    chatRTCargarMensajes();
+  }
+
+  // Cargar mensajes de la conversacion activa
+  async function chatRTCargarMensajes() {
+    if (!chatRTChatActivo) return;
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    const container = document.getElementById("chatRTMensajes");
+    if (!container) return;
+    const { data, error } = await sb
+      .from("direct_messages")
+      .select("id, sender_id, receiver_id, content, created_at")
+      .or("and(sender_id.eq." + session.user.id + ",receiver_id.eq." + chatRTChatActivo.contactId + "),and(sender_id.eq." + chatRTChatActivo.contactId + ",receiver_id.eq." + session.user.id + "))")
+      .order("created_at", { ascending: true });
+    if (error || !data) return;
+    container.innerHTML = "";
+    const miFoto = obtenerFotoRT();
+    const suFoto = chatRTChatActivo.foto || _defaultPhoto;
+    for (const msg of data) {
+      const esMio = msg.sender_id === session.user.id;
+      const role = esMio ? "rt-usuario" : "rt-otro";
+      const foto = esMio ? miFoto : suFoto;
+      const wrapper = document.createElement("div");
+      wrapper.setAttribute("data-role", role);
+      wrapper.style.cssText = "display:flex;align-items:flex-end;gap:6px;margin-bottom:2px;padding:0 4px;" + (esMio ? "justify-content:flex-end;" : "justify-content:flex-start;");
+      const img = document.createElement("img");
+      img.src = foto;
+      img.style.cssText = "width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;";
+      const bubble = document.createElement("div");
+      bubble.style.cssText = "max-width:75%;padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.4;overflow-wrap:break-word;white-space:normal;" + (esMio ? "background:#2563eb;color:#fff;border-bottom-right-radius:4px;" : "background:#1a1a2e;color:#e8edf9;border-bottom-left-radius:4px;");
+      bubble.textContent = msg.content;
+      if (esMio) {
+        wrapper.appendChild(bubble);
+        wrapper.appendChild(img);
+      } else {
+        wrapper.appendChild(img);
+        wrapper.appendChild(bubble);
+      }
+      container.appendChild(wrapper);
+    }
+    container.scrollTop = container.scrollHeight;
+  }
+
+  // Suscripcion real-time a mensajes directos
+  let chatRTSubscription = null;
+  function chatRTSuscribirMensajes() {
+    const sb = getSupabase();
+    if (!sb) return;
+    if (chatRTSubscription) { try { sb.removeChannel(chatRTSubscription); } catch(e) {} }
+    chatRTSubscription = sb.channel("dm_" + Date.now())
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
+        const msg = payload.new;
+        if (chatRTChatActivo && (msg.sender_id === chatRTChatActivo.contactId || msg.receiver_id === chatRTChatActivo.contactId)) {
+          chatRTCargarMensajes();
+        }
+      })
+      .subscribe();
+  }
+
+  // Verificar si alguien te agrego como contacto (notificacion)
+  let chatRTUltimoCheckContactos = 0;
+  async function chatRTVerificarContactosNuevos() {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    // Contar contactos que te tienen
+    const { count } = await sb
+      .from("contacts")
+      .select("id", { count: "exact", head: true })
+      .eq("contact_id", session.user.id)
+      .gt("created_at", new Date(chatRTUltimoCheckContactos).toISOString());
+    chatRTUltimoCheckContactos = Date.now();
+    if (count && count > 0) {
+      chatRTMostrarSnackbar(count + " contacto(s) nuevo(s) te agregaron");
+      chatRTCargarContactos();
+    }
+  }
+
+  // Enviar mensaje
+  async function chatRTEnviarMensajeRT() {
+    if (!chatRTChatActivo) return;
+    const input = document.getElementById("chatRTInput");
+    const btnEnviar = document.getElementById("chatRTEnviar");
+    if (!input || !btnEnviar) return;
+    const texto = input.value.trim();
+    if (!texto) return;
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    input.value = "";
+    input.style.height = "auto";
+    btnEnviar.disabled = true;
+    const { error } = await sb.from("direct_messages").insert({
+      sender_id: session.user.id,
+      receiver_id: chatRTChatActivo.contactId,
+      content: texto,
+    });
+    if (error) return;
+    chatRTCargarMensajes();
+  }
 
   // === Edicion de perfil ===
   let chatRTPerfilOriginales = { nombre: "", info: "", usuario: "", pass: "" };
@@ -2457,6 +2876,37 @@
     if (menuOpcionLogout) menuOpcionLogout.onclick = () => chatRTCerrarSesion();
     if (menuVolverBtn) menuVolverBtn.onclick = () => chatRTMostrarVista("main");
 
+    // Boton Nuevo Chat (+)
+    const btnNuevoChat = document.getElementById("chatRTNuevoChatBtn");
+    if (btnNuevoChat) btnNuevoChat.onclick = () => chatRTMostrarVista("nuevochat");
+
+    // Volver desde Nuevo Chat
+    const btnNuevoChatVolver = document.getElementById("chatRTNuevoChatVolver");
+    if (btnNuevoChatVolver) btnNuevoChatVolver.onclick = () => chatRTMostrarVista("main");
+
+    // Nuevo Contacto
+    const btnNuevoContacto = document.getElementById("chatRTNuevoContactoBtn");
+    if (btnNuevoContacto) btnNuevoContacto.onclick = () => {
+      const input = document.getElementById("chatRTBuscarContactoInput");
+      const resultado = document.getElementById("chatRTBuscarContactoResultado");
+      if (input) input.value = "";
+      if (resultado) { resultado.style.display = "none"; resultado.innerHTML = ""; }
+      chatRTMostrarVista("nuevocontacto");
+      if (input) input.focus();
+    };
+
+    // Volver desde Nuevo Contacto
+    const btnNuevoContactoVolver = document.getElementById("chatRTNuevoContactoVolver");
+    if (btnNuevoContactoVolver) btnNuevoContactoVolver.onclick = () => chatRTMostrarVista("nuevochat");
+
+    // Buscar contacto
+    const btnBuscarContacto = document.getElementById("chatRTBuscarContactoBtn");
+    if (btnBuscarContacto) btnBuscarContacto.onclick = chatRTBuscarContacto;
+    const inputBuscarContacto = document.getElementById("chatRTBuscarContactoInput");
+    if (inputBuscarContacto) inputBuscarContacto.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") chatRTBuscarContacto();
+    });
+
     if (btnVolver) btnVolver.onclick = () => chatRTMostrarVista("menu");
 
     // Cerrar sesion desde perfil
@@ -2548,7 +2998,7 @@
 
     // Chat existente
     if (btnEnviarRT) {
-      btnEnviarRT.onclick = chatRTEnviarMensaje;
+      btnEnviarRT.onclick = () => { if (chatRTChatActivo) chatRTEnviarMensajeRT(); else chatRTEnviarMensaje(); };
       btnEnviarRT.onmouseenter = () => { if (!btnEnviarRT.disabled) btnEnviarRT.style.transform = "translateY(-1px)"; };
       btnEnviarRT.onmouseleave = () => { btnEnviarRT.style.transform = "none"; };
     }
@@ -2562,7 +3012,7 @@
       chatRTInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
-          chatRTEnviarMensaje();
+          if (chatRTChatActivo) chatRTEnviarMensajeRT(); else chatRTEnviarMensaje();
         }
       });
       chatRTInput.onfocus = () => { chatRTInput.style.borderColor = "#2563eb"; };
