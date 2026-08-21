@@ -1990,6 +1990,21 @@
         <img id="chatRTFotoMini" src="${_defaultPhoto}" style="width:100%;height:100%;object-fit:cover;" />
       </div>
     </div>
+
+    <!-- Modal de confirmacion elegante -->
+    <div id="chatRTConfirmModal" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.75);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+      <div style="background:#15151f;border:1px solid #252540;border-radius:14px;width:320px;max-width:90vw;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.6);">
+        <div id="chatRTConfirmIcono" style="display:flex;align-items:center;justify-content:center;padding:20px 20px 0;"></div>
+        <div style="padding:14px 20px 20px;text-align:center;">
+          <div id="chatRTConfirmTitulo" style="font-size:15px;font-weight:700;color:#fff;"></div>
+          <div id="chatRTConfirmMensaje" style="font-size:12px;color:#999;margin-top:8px;line-height:1.5;white-space:pre-line;"></div>
+        </div>
+        <div style="display:flex;border-top:1px solid #1f1f2e;">
+          <button id="chatRTConfirmCancelar" style="flex:1;padding:12px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;border-right:1px solid #1f1f2e;transition:background 0.15s;" onmouseover="this.style.background='#1a1a24'" onmouseout="this.style.background='transparent'">Cancelar</button>
+          <button id="chatRTConfirmAceptar" style="flex:1;padding:12px;background:none;border:none;color:#ef4444;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#2a0f0f'" onmouseout="this.style.background='transparent'">Eliminar</button>
+        </div>
+      </div>
+    </div>
   `;
   document.body.appendChild(chatRTOverlay);
   document.body.appendChild(botonNotificaciones);
@@ -2486,11 +2501,9 @@
         const escribiendoNombre = escribiendoIds.length > 0
           ? (_chatRTGrupoTypingNombres[escribiendoIds[0]] || "Alguien") + " esta escribiendo..."
           : "";
-        // Etiqueta de miembros: total + punto + nombres (como WhatsApp)
-        const etiquetaMiembros = (it.miembroTotal || 0) + " " + ((it.miembroTotal || 0) === 1 ? "miembro" : "miembros") + " · " + ((it.miembroNombres || []).slice(0, 3).join(", "));
         const subGrupo = escribiendoNombre
           ? '<span style="color:#22c55e;font-style:italic;">' + escribiendoNombre + '</span>'
-          : '<span style="color:#666;">' + etiquetaMiembros + '</span>';
+          : '<span style="color:#666;">' + preview + '</span>';
         html += '<div data-idx="' + i + '" class="chatRTGrupoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;background:#10101a;" onmouseover="this.style.background=\'#1a1a1a\'" onmouseout="this.style.background=\'#10101a\'">' +
           '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" /><div style="position:absolute;bottom:0;right:0;width:16px;height:16px;border-radius:50%;background:#2563eb;border:2px solid #10101a;display:flex;align-items:center;justify-content:center;">' + _iconGroup + '</div></div>' +
           '<div style="overflow:hidden;flex:1;">' +
@@ -2500,10 +2513,6 @@
             '</div>' +
             '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">' +
               '<div style="font-size:11px;color:' + (escribiendoNombre ? "#22c55e" : "#666") + ';font-weight:' + (escribiendoNombre ? "600" : "400") + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + subGrupo + '</div>' +
-            '</div>' +
-            '<div style="display:flex;align-items:center;gap:4px;margin-top:3px;">' +
-              '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
-              '<span style="font-size:10px;color:#22c55e;font-weight:600;">' + (it.miembroOnline || 0) + ' en linea</span>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -2743,6 +2752,50 @@
     snackbar.textContent = texto;
     snackbar.style.display = "block";
     setTimeout(() => { snackbar.style.display = "none"; }, 3000);
+  }
+
+  // Modal de confirmacion elegante (reemplaza confirm nativo)
+  function chatRTConfirmar(opciones) {
+    return new Promise((resolve) => {
+      const modal = document.getElementById("chatRTConfirmModal");
+      if (!modal) { resolve(false); return; }
+      const tituloEl = document.getElementById("chatRTConfirmTitulo");
+      const msgEl = document.getElementById("chatRTConfirmMensaje");
+      const iconoEl = document.getElementById("chatRTConfirmIcono");
+      const btnAceptar = document.getElementById("chatRTConfirmAceptar");
+      const btnCancelar = document.getElementById("chatRTConfirmCancelar");
+      const titulo = opciones.titulo || "Confirmar";
+      const mensaje = opciones.mensaje || "";
+      const peligro = opciones.peligro !== false;
+      // Icono: alerta roja si es zona de peligro, advertencia si no
+      if (iconoEl) {
+        if (peligro) {
+          iconoEl.innerHTML = '<div style="width:52px;height:52px;border-radius:50%;background:#2a0f0f;border:2px solid #7f1d1d;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>';
+        } else {
+          iconoEl.innerHTML = '<div style="width:52px;height:52px;border-radius:50%;background:#1a1a2e;border:2px solid #2563eb;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>';
+        }
+      }
+      if (tituloEl) tituloEl.textContent = titulo;
+      if (msgEl) msgEl.textContent = mensaje;
+      if (btnAceptar) {
+        btnAceptar.textContent = opciones.aceptarTexto || "Eliminar";
+        btnAceptar.style.color = peligro ? "#ef4444" : "#ef4444";
+        btnAceptar.onclick = () => {
+          modal.style.display = "none";
+          resolve(true);
+        };
+      }
+      if (btnCancelar) btnCancelar.onclick = () => {
+        modal.style.display = "none";
+        resolve(false);
+      };
+      modal.style.display = "flex";
+      // Cerrar con tecla Esc
+      const cerrarEsc = (e) => { if (e.key === "Escape") { document.removeEventListener("keydown", cerrarEsc); modal.style.display = "none"; resolve(false); } };
+      document.addEventListener("keydown", cerrarEsc);
+      // Click fuera del modal cancela
+      modal.onclick = (e) => { if (e.target === modal) { document.removeEventListener("keydown", cerrarEsc); modal.style.display = "none"; resolve(false); } };
+    });
   }
 
   // Abrir chat con un contacto (usa la vista chat existente)
@@ -3322,6 +3375,27 @@
     }
     _chatRTGruposCache = cache;
     chatRTMostrarGruposEnLista();
+    // Actualizar header del chat de grupo activo
+    if (_chatRTChatGrupoActivo && _chatRTGrupoActivo) {
+      const actualizado = cache.find(x => x.id === _chatRTGrupoActivo.id);
+      if (actualizado) {
+        _chatRTGrupoActivo.miembroTotal = actualizado.miembroTotal;
+        _chatRTGrupoActivo.miembroOnline = actualizado.miembroOnline;
+        _chatRTGrupoActivo.miembroNombres = actualizado.miembroNombres;
+        const usuarioEl = document.getElementById("chatRTChatUsuario");
+        if (usuarioEl) {
+          const total = actualizado.miembroTotal || 0;
+          const online = actualizado.miembroOnline || 0;
+          const nombres = (actualizado.miembroNombres || []).slice(0, 3).join(", ");
+          let txt = total + " " + (total === 1 ? "miembro" : "miembros") + (nombres ? " · " + nombres : "");
+          if (online > 0) {
+            usuarioEl.innerHTML = '<div style="line-height:1.3;">' + txt + '</div><div style="line-height:1.3;color:#22c55e;display:flex;align-items:center;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + online + ' en linea</div>';
+          } else {
+            usuarioEl.textContent = txt;
+          }
+        }
+      }
+    }
   }
 
   // Mostrar grupos en la lista principal (bajo los contactos)
@@ -3341,7 +3415,17 @@
     const usuario = document.getElementById("chatRTChatUsuario");
     if (foto) foto.src = grupo.photo_url || _defaultPhoto;
     if (nombre) nombre.textContent = grupo.name;
-    if (usuario) { usuario.textContent = "Grupo"; usuario.style.color = "#888"; }
+    if (usuario) {
+      const total = grupo.miembroTotal || 0;
+      const online = grupo.miembroOnline || 0;
+      const nombres = (grupo.miembroNombres || []).slice(0, 3).join(", ");
+      let txt = total + " " + (total === 1 ? "miembro" : "miembros") + (nombres ? " · " + nombres : "");
+      if (online > 0) {
+        usuario.innerHTML = '<div style="line-height:1.3;">' + txt + '</div><div style="line-height:1.3;color:#22c55e;display:flex;align-items:center;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + online + ' en linea</div>';
+      } else {
+        usuario.textContent = txt;
+      }
+    }
     // Header tocable -> info grupo
     const header = document.getElementById("chatRTChatHeader");
     if (header) {
@@ -3831,41 +3915,49 @@
     }
     // Salir del grupo (miembros y admins)
     const btnSalirGrupo = document.getElementById("chatRTSalirGrupoBtn");
-    if (btnSalirGrupo) btnSalirGrupo.onclick = () => {
+    if (btnSalirGrupo) btnSalirGrupo.onclick = async () => {
       const sb2 = getSupabase();
       if (!sb2) return;
-      sb2.auth.getSession().then(({ data: { session } }) => {
-        if (!session) return;
-        if (!confirm("¿Seguro que quieres salir del grupo?")) return;
-        sb2.from("group_members").delete().eq("group_id", grupo.id).eq("user_id", session.user.id).then(({ error }) => {
-          if (error) { chatRTMostrarSnackbar("No se pudo salir del grupo."); return; }
-          chatRTMostrarSnackbar("Saliste del grupo.");
-          _chatRTGrupoActivo = null;
-          _chatRTChatGrupoActivo = false;
-          chatRTPararPollingGrupo();
-          chatRTMostrarVista("main");
-          chatRTCargarGrupos();
-        });
+      const ok = await chatRTConfirmar({
+        titulo: "Salir del grupo",
+        mensaje: "¿Seguro que quieres salir del grupo?",
+        peligro: false,
+        aceptarTexto: "Salir",
       });
+      if (!ok) return;
+      const { data: { session } } = await sb2.auth.getSession();
+      if (!session) return;
+      const { error } = await sb2.from("group_members").delete().eq("group_id", grupo.id).eq("user_id", session.user.id);
+      if (error) { chatRTMostrarSnackbar("No se pudo salir del grupo."); return; }
+      chatRTMostrarSnackbar("Saliste del grupo.");
+      _chatRTGrupoActivo = null;
+      _chatRTChatGrupoActivo = false;
+      chatRTPararPollingGrupo();
+      chatRTMostrarVista("main");
+      chatRTCargarGrupos();
     };
     // Eliminar grupo (solo owner) con confirmacion critica
     const btnEliminarGrupo = document.getElementById("chatRTEliminarGrupoBtn");
-    if (btnEliminarGrupo) btnEliminarGrupo.onclick = () => {
+    if (btnEliminarGrupo) btnEliminarGrupo.onclick = async () => {
       const sb2 = getSupabase();
       if (!sb2) return;
-      if (!confirm("ZONA DE PELIGRO\n\nEsta accion eliminara el grupo y todos sus mensajes permanentemente.\nNo se puede deshacer.\n\n¿Estas seguro de eliminar este grupo?")) return;
-      sb2.auth.getSession().then(({ data: { session } }) => {
-        if (!session) return;
-        sb2.from("groups").delete().eq("id", grupo.id).eq("owner_id", session.user.id).then(({ error }) => {
-          if (error) { chatRTMostrarSnackbar("No se pudo eliminar el grupo."); return; }
-          chatRTMostrarSnackbar("Grupo eliminado.");
-          _chatRTGrupoActivo = null;
-          _chatRTChatGrupoActivo = false;
-          chatRTPararPollingGrupo();
-          chatRTMostrarVista("main");
-          chatRTCargarGrupos();
-        });
+      const ok = await chatRTConfirmar({
+        titulo: "Eliminar grupo",
+        mensaje: "Esta accion eliminara el grupo y todos sus mensajes permanentemente.\nNo se puede deshacer.\n\n¿Estas seguro de eliminar este grupo?",
+        peligro: true,
+        aceptarTexto: "Eliminar",
       });
+      if (!ok) return;
+      const { data: { session } } = await sb2.auth.getSession();
+      if (!session) return;
+      const { error } = await sb2.from("groups").delete().eq("id", grupo.id).eq("owner_id", session.user.id);
+      if (error) { chatRTMostrarSnackbar("No se pudo eliminar el grupo."); return; }
+      chatRTMostrarSnackbar("Grupo eliminado.");
+      _chatRTGrupoActivo = null;
+      _chatRTChatGrupoActivo = false;
+      chatRTPararPollingGrupo();
+      chatRTMostrarVista("main");
+      chatRTCargarGrupos();
     };
   }
 
