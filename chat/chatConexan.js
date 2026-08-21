@@ -3345,37 +3345,38 @@
   async function chatRTCargarGrupos() {
     const sb = getSupabase();
     if (!sb) return;
-    const { data: { session } } = await sb.auth.getSession();
-    if (!session) {
-      // Sin sesion: usar cache si existe
-      const cacheSin = chatRTCargarCacheGrupos();
-      if (cacheSin.length > 0) { _chatRTGruposCache = cacheSin; chatRTMostrarGruposEnLista(); }
-      return;
-    }
-    const { data: memberships } = await sb
-      .from("group_members")
-      .select("group_id, role")
-      .eq("user_id", session.user.id);
-    if (!memberships) return;
-    const ids = memberships.map(m => m.group_id);
-    if (ids.length === 0) { _chatRTGruposCache = []; return; }
-    const { data: grupos } = await sb
-      .from("groups")
-      .select("id, name, info, photo_url, owner_id, settings_can_edit, settings_can_send, created_at")
-      .in("id", ids);
-    if (!grupos) return;
-    const roles = {};
-    memberships.forEach(m => roles[m.group_id] = m.role);
-    // Obtener ultimo mensaje de cada grupo para ordenar
-    const cache = [];
-    for (const g of grupos) {
-      const { data: lastMsg } = await sb
-        .from("group_messages")
-        .select("content, created_at")
-        .eq("group_id", g.id)
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) {
+        // Sin sesion: usar cache si existe
+        const cacheSin = chatRTCargarCacheGrupos();
+        if (cacheSin.length > 0) { _chatRTGruposCache = cacheSin; chatRTMostrarGruposEnLista(); }
+        return;
+      }
+      const { data: memberships } = await sb
+        .from("group_members")
+        .select("group_id, role")
+        .eq("user_id", session.user.id);
+      if (!memberships) { chatRTMostrarGruposEnLista(); return; }
+      const ids = memberships.map(m => m.group_id);
+      if (ids.length === 0) { _chatRTGruposCache = []; chatRTMostrarGruposEnLista(); return; }
+      const { data: grupos } = await sb
+        .from("groups")
+        .select("id, name, info, photo_url, owner_id, settings_can_edit, settings_can_send, created_at")
+        .in("id", ids);
+      if (!grupos) { chatRTMostrarGruposEnLista(); return; }
+      const roles = {};
+      memberships.forEach(m => roles[m.group_id] = m.role);
+      // Obtener ultimo mensaje de cada grupo para ordenar
+      const cache = [];
+      for (const g of grupos) {
+        const { data: lastMsg } = await sb
+          .from("group_messages")
+          .select("content, created_at")
+          .eq("group_id", g.id)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
       // Obtener miembros del grupo (total + nombres)
       let miembroNombres = [];
       let miembroTotal = 0;
@@ -3402,7 +3403,9 @@
       });
     }
     _chatRTGruposCache = cache;
-    chatRTGuardarCacheGrupos(cache);
+    if (cache.length > 0 || !chatRTCargarCacheGrupos().length) {
+      chatRTGuardarCacheGrupos(cache);
+    }
     chatRTMostrarGruposEnLista();
     // Actualizar header del chat de grupo activo
     if (_chatRTChatGrupoActivo && _chatRTGrupoActivo) {
@@ -3425,6 +3428,7 @@
         }
       }
     }
+    } catch(e) { chatRTMostrarGruposEnLista(); }
   }
 
   // Mostrar grupos en la lista principal (bajo los contactos)
