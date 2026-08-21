@@ -201,4 +201,99 @@ DROP POLICY IF EXISTS "avatar_delete_own" ON storage.objects;
 CREATE POLICY "avatar_delete_own" ON storage.objects FOR DELETE TO authenticated
   USING (bucket_id = 'avatars' AND auth.uid()::text = (storage.foldername(name))[1]);
 
+-- =============================================
+-- GRUPOS
+-- =============================================
+CREATE TABLE IF NOT EXISTS groups (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  info TEXT DEFAULT '',
+  photo_url TEXT DEFAULT '',
+  owner_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  settings_can_edit BOOLEAN DEFAULT true,
+  settings_can_send BOOLEAN DEFAULT true
+);
+
+CREATE TABLE IF NOT EXISTS group_members (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  group_id UUID REFERENCES groups(id) ON DELETE CASCADE NOT NULL,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  role TEXT DEFAULT 'member', -- owner | admin | member
+  joined_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(group_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS group_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  group_id UUID REFERENCES groups(id) ON DELETE CASCADE NOT NULL,
+  sender_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE groups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE group_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE group_messages ENABLE ROW LEVEL SECURITY;
+
+-- Realtime para mensajes de grupo
+DO $$ BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE group_messages;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+-- RLS groups
+-- Funciones auxiliares SECURITY DEFINER: evitan recursion de RLS
+CREATE OR REPLACE FUNCTION is_group_member(gid UUID, uid UUID)
+RETURNS BOOLEAN LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = gid AND gm.user_id = uid);
+$$;
+
+CREATE OR REPLACE FUNCTION is_group_admin(gid UUID, uid UUID)
+RETURNS BOOLEAN LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = gid AND gm.user_id = uid AND gm.role IN ('owner','admin'));
+$$;
+
+DROP POLICY IF EXISTS "group_select_members" ON groups;
+DROP POLICY IF EXISTS "group_insert_owner" ON groups;
+DROP POLICY IF EXISTS "group_update_owner_admin" ON groups;
+CREATE POLICY "group_select_members" ON groups FOR SELECT
+  USING (is_group_member(groups.id, auth.uid()));
+CREATE POLICY "group_insert_owner" ON groups FOR INSERT
+  WITH CHECK (auth.uid() = owner_id);
+CREATE POLICY "group_update_owner_admin" ON groups FOR UPDATE
+  USING (is_group_admin(groups.id, auth.uid()) AND groups.settings_can_edit);
+
+-- RLS group_members (usar la funcion para evitar recursion)
+DROP POLICY IF EXISTS "gm_select_members" ON group_members;
+DROP POLICY IF EXISTS "gm_insert_owner_admin" ON group_members;
+DROP POLICY IF EXISTS "gm_update_owner_admin" ON group_members;
+DROP POLICY IF EXISTS "gm_delete_owner_admin" ON group_members;
+CREATE POLICY "gm_select_members" ON group_members FOR SELECT
+  USING (is_group_member(group_members.group_id, auth.uid()));
+CREATE POLICY "gm_insert_owner_admin" ON group_members FOR INSERT
+  WITH CHECK (is_group_admin(group_members.group_id, auth.uid()));
+CREATE POLICY "gm_update_owner_admin" ON group_members FOR UPDATE
+  USING (is_group_admin(group_members.group_id, auth.uid())
+        AND group_members.role <> 'owner')
+  WITH CHECK (is_group_admin(group_members.group_id, auth.uid())
+        AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) <> 'owner');
+CREATE POLICY "gm_delete_owner_admin" ON group_members FOR DELETE
+  USING (is_group_admin(group_members.group_id, auth.uid())
+        AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) <> 'owner');
+
+-- RLS group_messages
+DROP POLICY IF EXISTS "gmsg_select_members" ON group_messages;
+DROP POLICY IF EXISTS "gmsg_insert_members" ON group_messages;
+DROP POLICY IF EXISTS "gm_select_members" ON group_messages;
+DROP POLICY IF EXISTS "gm_insert_members" ON group_messages;
+CREATE POLICY "gmsg_select_members" ON group_messages FOR SELECT
+  USING (is_group_member(group_messages.group_id, auth.uid()));
+CREATE POLICY "gmsg_insert_members" ON group_messages FOR INSERT
+  WITH CHECK (is_group_member(group_messages.group_id, auth.uid())
+              AND NOT EXISTS (SELECT 1 FROM groups g WHERE g.id = group_messages.group_id AND NOT g.settings_can_send));
+
+CREATE INDEX IF NOT EXISTS idx_gm_group_user ON group_members(group_id, user_id);
+CREATE INDEX IF NOT EXISTS idx_gmsg_group ON group_messages(group_id, created_at);
+
 SELECT 'Setup completo OK' AS resultado;

@@ -1000,6 +1000,16 @@
     try { localStorage.setItem("rt_perfil", JSON.stringify(perfil)); } catch(e) {}
   }
 
+  // Superadmin: unico que puede crear grupos
+  const _SUPERADMIN_USERNAME = "proyectoja";
+  const _SUPERADMIN_EMAIL = "kendall.torres.17@gmail.com";
+  function esSuperadmin() {
+    const p = cargarPerfilRT();
+    if (p && p.usuario === _SUPERADMIN_USERNAME) return true;
+    if (p && p.email && p.email.toLowerCase() === _SUPERADMIN_EMAIL) return true;
+    return false;
+  }
+
   // Obtener foto de perfil (para usar en burbujas de chat)
   function obtenerFotoRT() {
     const p = cargarPerfilRT();
@@ -1564,11 +1574,11 @@
             <div style="font-size:11px;color:#666;">Buscar por nombre de usuario</div>
           </div>
         </div>
-        <div id="chatRTNuevoGrupoBtn" style="display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;transition:background 0.15s;opacity:0.4;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
+        <div id="chatRTNuevoGrupoBtn" style="display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:not-allowed;transition:background 0.15s;opacity:0.4;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
           <div style="width:40px;height:40px;border-radius:50%;background:#1a1a2e;border:1px solid #222;display:flex;align-items:center;justify-content:center;">${_iconGroup}</div>
           <div>
-            <div style="font-size:13px;color:#888;font-weight:500;">Nuevo grupo</div>
-            <div style="font-size:11px;color:#555;">Proximamente</div>
+            <div id="chatRTNuevoGrupoTxt" style="font-size:13px;color:#fff;font-weight:500;">Nuevo grupo</div>
+            <div id="chatRTNuevoGrupoSub" style="font-size:11px;color:#666;">Solo superadmin</div>
           </div>
         </div>
       </div>
@@ -1591,6 +1601,64 @@
         <div id="chatRTBuscarContactoResultado" style="display:none;"></div>
       </div>
     </div>
+
+    <!-- ====== VISTA CREAR GRUPO ====== -->
+    <div id="chatRTVistaCrearGrupo" style="display:none;flex-direction:column;height:100%;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+        <button id="chatRTCrearGrupoVolver" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;">${_iconBack}</button>
+        <div style="font-size:14px;font-weight:600;color:#fff;">Nuevo grupo</div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:20px;">
+        <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:20px;">
+          <div id="chatRTGrupoFotoBtn" style="width:88px;height:88px;border-radius:50%;cursor:pointer;position:relative;overflow:hidden;background:#1a1a2e;border:2px dashed #2563eb;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" title="Subir foto">
+            <img id="chatRTGrupoFotoPreview" src="${_defaultPhoto}" style="width:100%;height:100%;object-fit:cover;display:none;" />
+            <div id="chatRTGrupoFotoIcon" style="display:flex;flex-direction:column;align-items:center;gap:2px;">${_iconCam}<span style="font-size:8px;color:#666;">Foto</span></div>
+          </div>
+          <input type="file" id="chatRTGrupoFileInput" accept="image/*" style="display:none;" />
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div>
+            <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Nombre del grupo</div>
+            <input id="chatRTGrupoNombre" type="text" placeholder="Ej. Grupo de estudio" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:14px;padding:10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;" maxlength="40" />
+          </div>
+          <div>
+            <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Informacion del grupo</div>
+            <textarea id="chatRTGrupoInfo" rows="2" placeholder="Describe el grupo..." style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:13px;padding:10px 12px;border-radius:8px;outline:none;transition:border-color 0.2s;box-sizing:border-box;resize:none;font-family:inherit;" maxlength="200"></textarea>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Permisos del grupo</div>
+            <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;margin-bottom:10px;">
+              <div>
+                <div style="font-size:13px;color:#e8edf9;">Editar ajustes del grupo</div>
+                <div style="font-size:11px;color:#666;margin-top:2px;">Foto, nombre e informacion</div>
+              </div>
+              <input id="chatRTGrupoPermEditar" type="checkbox" checked style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />
+            </label>
+            <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;">
+              <div>
+                <div style="font-size:13px;color:#e8edf9;">Enviar mensajes</div>
+                <div style="font-size:11px;color:#666;margin-top:2px;">Permitir enviar mensajes a todos</div>
+              </div>
+              <input id="chatRTGrupoPermEnviar" type="checkbox" checked style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />
+            </label>
+          </div>
+        </div>
+        <button id="chatRTCrearGrupoBtn" style="width:100%;padding:12px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;margin-top:20px;box-shadow:0 2px 8px rgba(37,99,235,0.3);">Crear grupo</button>
+        <div id="chatRTCrearGrupoMsg" style="font-size:11px;color:#ef4444;text-align:center;margin-top:10px;display:none;"></div>
+      </div>
+    </div>
+
+    <!-- ====== VISTA INFO GRUPO ====== -->
+    <div id="chatRTVistaInfoGrupo" style="display:none;flex-direction:column;height:100%;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+        <button id="chatRTInfoGrupoVolver" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;">${_iconBack}</button>
+        <div style="font-size:14px;font-weight:600;color:#fff;">Info del grupo</div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:20px;">
+        <div id="chatRTInfoGrupoContenido"></div>
+      </div>
+    </div>
+
     <div id="chatRTVistaMenu" style="display:none;flex-direction:column;height:100%;">
       <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
         <button id="chatRTMenuVolverBtn" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;transition:background 0.15s;">${_iconBack}</button>
@@ -1916,7 +1984,7 @@
     chatRTVistaActual = vista;
     // Detener polling si salimos del chat
     if (vista !== "chat") chatRTPararPolling();
-    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaChat", "chatRTVistaMenu"];
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaCrearGrupo", "chatRTVistaInfoGrupo", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = "none";
@@ -1929,6 +1997,8 @@
       "nuevocontacto": "chatRTVistaNuevoContacto",
       "perfil": "chatRTVistaPerfil",
       "colores": "chatRTVistaColores",
+      "creargrupo": "chatRTVistaCrearGrupo",
+      "infogrupo": "chatRTVistaInfoGrupo",
       "chat": "chatRTVistaChat",
       "menu": "chatRTVistaMenu",
     };
@@ -1960,6 +2030,8 @@
         chatRTMostrarContactosEnLista();
       }
       chatRTCargarContactos();
+      chatRTCargarGrupos();
+      actualizarEstadoNuevoGrupo();
     }
     if (vista === "perfil") {
       const p = cargarPerfilRT();
@@ -2035,6 +2107,7 @@
   // === Cerrar/reabrir todas las conexiones ===
   function chatRTCerrarTodasConexiones() {
     chatRTPararPolling();
+    chatRTPararPollingGrupo();
     chatRTPararHeartbeat();
     chatRTEnviarTypingStop();
     if (chatRTTypingDebounce) { clearTimeout(chatRTTypingDebounce); chatRTTypingDebounce = null; }
@@ -2043,6 +2116,8 @@
     const sb = getSupabase();
     if (sb && chatRTSubscription) { try { sb.removeChannel(chatRTSubscription); } catch(e) {} chatRTSubscription = null; }
     if (sb && chatRTTypingChannel) { try { sb.removeChannel(chatRTTypingChannel); } catch(e) {} chatRTTypingChannel = null; }
+    if (sb && _chatRTGrupoSubscription) { try { sb.removeChannel(_chatRTGrupoSubscription); } catch(e) {} _chatRTGrupoSubscription = null; }
+    _chatRTChatGrupoActivo = false;
   }
   function chatRTReanudarConexiones() {
     const sb = getSupabase();
@@ -2526,6 +2601,8 @@
 
   // Abrir chat con un contacto (usa la vista chat existente)
   function chatRTAbrirChat(contacto) {
+    _chatRTChatGrupoActivo = false;
+    chatRTPararPollingGrupo();
     chatRTChatActivo = contacto;
     const foto = document.getElementById("chatRTChatFoto");
     const nombre = document.getElementById("chatRTChatNombre");
@@ -2542,11 +2619,18 @@
       }
     }
     const btnVolver = document.getElementById("chatRTChatVolverBtn");
-    if (btnVolver) btnVolver.onclick = () => { chatRTChatActivo = null; chatRTPararPolling(); chatRTMostrarVista("main"); };
+    if (btnVolver) btnVolver.onclick = () => {
+      chatRTChatActivo = null;
+      chatRTPararPolling();
+      chatRTPararPollingGrupo();
+      _chatRTChatGrupoActivo = false;
+      _chatRTGrupoActivo = null;
+      chatRTMostrarVista("main");
+    };
     const btnCerrar = document.getElementById("cerrarChatRT2");
     if (btnCerrar) btnCerrar.onclick = ocultarChatRT;
     // Forzar mostrar vista chat (aunque ya estemos en ella, para cambiar de contacto)
-    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaChat", "chatRTVistaMenu"];
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaCrearGrupo", "chatRTVistaInfoGrupo", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
     const chatEl = document.getElementById("chatRTVistaChat");
     if (chatEl) { chatEl.style.display = "flex"; chatEl.style.animation = "none"; chatEl.offsetHeight; chatEl.style.animation = "chatRTSlideIn 0.25s ease-out"; }
@@ -2856,6 +2940,502 @@
   function chatRTEmojiToggle() {
     if (_chatRTEmojiAbierto) chatRTEmojiCerrar();
     else chatRTEmojiAbrir();
+  }
+
+  // === SISTEMA DE GRUPOS ===
+  let _chatRTGruposCache = [];       // grupos del usuario
+  let _chatRTGrupoActivo = null;     // grupo en el chat
+  let _chatRTInfoGrupoDesde = "main"; // vista desde donde se abrio info
+  let _chatRTGrupoFotoDataURL = null;
+  let _chatRTGrupoFotoFile = null;
+  let _chatRTChatGrupoActivo = false; // si el chat activo es un grupo
+  let _chatRTGrupoUltimoTs = null;
+  let _chatRTGrupoHayMas = false;
+  let _chatRTGrupoCargandoViejos = false;
+  let _chatRTGrupoPollingTimer = null;
+  let _chatRTGrupoSubscription = null;
+
+  // Reset del formulario de crear grupo
+  function chatRTResetCrearGrupo() {
+    _chatRTGrupoFotoDataURL = null;
+    _chatRTGrupoFotoFile = null;
+    const preview = document.getElementById("chatRTGrupoFotoPreview");
+    const icon = document.getElementById("chatRTGrupoFotoIcon");
+    const nombre = document.getElementById("chatRTGrupoNombre");
+    const info = document.getElementById("chatRTGrupoInfo");
+    const msg = document.getElementById("chatRTCrearGrupoMsg");
+    const permE = document.getElementById("chatRTGrupoPermEditar");
+    const permS = document.getElementById("chatRTGrupoPermEnviar");
+    if (preview) { preview.src = _defaultPhoto; preview.style.display = "none"; }
+    if (icon) icon.style.display = "flex";
+    if (nombre) nombre.value = "";
+    if (info) info.value = "";
+    if (msg) msg.style.display = "none";
+    if (permE) permE.checked = true;
+    if (permS) permS.checked = true;
+  }
+
+  // Subir foto de grupo (si hay) y crear el grupo
+  async function chatRTCrearGrupo() {
+    const nombre = document.getElementById("chatRTGrupoNombre");
+    const info = document.getElementById("chatRTGrupoInfo");
+    const msg = document.getElementById("chatRTCrearGrupoMsg");
+    if (!nombre || !info) return;
+    const nombreVal = nombre.value.trim();
+    if (!nombreVal) { if (msg) { msg.style.display = "block"; msg.textContent = "Pon un nombre al grupo."; } return; }
+    const infoVal = info.value.trim();
+    const permEditar = document.getElementById("chatRTGrupoPermEditar") ? document.getElementById("chatRTGrupoPermEditar").checked : true;
+    const permEnviar = document.getElementById("chatRTGrupoPermEnviar") ? document.getElementById("chatRTGrupoPermEnviar").checked : true;
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    if (msg) { msg.style.display = "block"; msg.style.color = "#888"; msg.textContent = "Creando grupo..."; }
+    // Foto
+    let fotoURL = "";
+    if (_chatRTGrupoFotoFile) {
+      fotoURL = await chatRTSubirFotoGrupo(_chatRTGrupoFotoFile);
+    } else if (_chatRTGrupoFotoDataURL) {
+      fotoURL = _chatRTGrupoFotoDataURL;
+    }
+    const { data: grupo, error } = await sb.from("groups").insert({
+      name: nombreVal,
+      info: infoVal,
+      photo_url: fotoURL,
+      owner_id: session.user.id,
+      settings_can_edit: permEditar,
+      settings_can_send: permEnviar,
+    }).select("id").single();
+    if (error || !grupo) {
+      if (msg) { msg.style.display = "block"; msg.style.color = "#ef4444"; msg.textContent = "No se pudo crear el grupo."; }
+      return;
+    }
+    // Agregar al creador como owner
+    const { error: errMember } = await sb.from("group_members").insert({
+      group_id: grupo.id,
+      user_id: session.user.id,
+      role: "owner",
+    });
+    if (errMember) {
+      if (msg) { msg.style.display = "block"; msg.style.color = "#ef4444"; msg.textContent = "Error al agregar como propietario."; }
+      return;
+    }
+    if (msg) { msg.style.display = "none"; }
+    chatRTCargarGrupos();
+    chatRTMostrarVista("main");
+  }
+
+  async function chatRTSubirFotoGrupo(file) {
+    const sb = getSupabase();
+    if (!sb) return "";
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return "";
+    try {
+      const path = session.user.id + "/grupo_" + Date.now() + ".jpg";
+      const { error } = await sb.storage.from("avatars").upload(path, file, { contentType: file.type, upsert: true });
+      if (error) return "";
+      const { data: pub } = sb.storage.from("avatars").getPublicUrl(path);
+      return pub ? pub.publicUrl : "";
+    } catch(e) { return ""; }
+  }
+
+  // Cargar grupos del usuario
+  async function chatRTCargarGrupos() {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    const { data: memberships } = await sb
+      .from("group_members")
+      .select("group_id, role")
+      .eq("user_id", session.user.id);
+    if (!memberships) return;
+    const ids = memberships.map(m => m.group_id);
+    if (ids.length === 0) { _chatRTGruposCache = []; return; }
+    const { data: grupos } = await sb
+      .from("groups")
+      .select("id, name, info, photo_url, owner_id, settings_can_edit, settings_can_send, created_at")
+      .in("id", ids);
+    if (!grupos) return;
+    const roles = {};
+    memberships.forEach(m => roles[m.group_id] = m.role);
+    _chatRTGruposCache = grupos.map(g => ({ ...g, rol: roles[g.id] || "member" }));
+    chatRTMostrarGruposEnLista();
+  }
+
+  // Mostrar grupos en la lista principal (bajo los contactos)
+  function chatRTMostrarGruposEnLista() {
+    const lista = document.getElementById("chatRTContactosLista");
+    if (!lista) return;
+    const gruposHtml = _chatRTGruposCache.map((g, i) => {
+      const foto = g.photo_url || _defaultPhoto;
+      return '<div data-idx="grupo' + i + '" class="chatRTGrupoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;background:#10101a;" onmouseover="this.style.background=\'#1a1a1a\'" onmouseout="this.style.background=\'#10101a\'">' +
+        '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" /><div style="position:absolute;bottom:0;right:0;width:16px;height:16px;border-radius:50%;background:#2563eb;border:2px solid #10101a;display:flex;align-items:center;justify-content:center;">' + _iconGroup + '</div></div>' +
+        '<div style="overflow:hidden;flex:1;">' +
+          '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + g.name + '</div>' +
+          '<div style="font-size:11px;color:#666;margin-top:2px;">Grupo</div>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+    lista.insertAdjacentHTML("beforeend", gruposHtml);
+    lista.querySelectorAll(".chatRTGrupoItem").forEach(item => {
+      item.onclick = () => {
+        const idx = parseInt(item.dataset.idx.replace("grupo", ""));
+        const g = _chatRTGruposCache[idx];
+        if (g) chatRTAbrirChatGrupo(g);
+      };
+    });
+  }
+
+  // Abrir chat de grupo
+  async function chatRTAbrirChatGrupo(grupo) {
+    _chatRTGrupoActivo = grupo;
+    _chatRTChatGrupoActivo = true;
+    const foto = document.getElementById("chatRTChatFoto");
+    const nombre = document.getElementById("chatRTChatNombre");
+    const usuario = document.getElementById("chatRTChatUsuario");
+    if (foto) foto.src = grupo.photo_url || _defaultPhoto;
+    if (nombre) nombre.textContent = grupo.name;
+    if (usuario) { usuario.textContent = "Grupo"; usuario.style.color = "#888"; }
+    // Header tocable -> info grupo
+    const header = document.getElementById("chatRTChatHeader");
+    if (header) header.style.cursor = "pointer";
+    const fotoEl = document.getElementById("chatRTChatFoto");
+    if (fotoEl) fotoEl.onclick = () => { _chatRTInfoGrupoDesde = "chat"; chatRTMostrarInfoGrupo(grupo); };
+    if (nombre) nombre.onclick = () => { _chatRTInfoGrupoDesde = "chat"; chatRTMostrarInfoGrupo(grupo); };
+    if (usuario) usuario.onclick = () => { _chatRTInfoGrupoDesde = "chat"; chatRTMostrarInfoGrupo(grupo); };
+    // Mostrar vista chat
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaCrearGrupo", "chatRTVistaInfoGrupo", "chatRTVistaChat", "chatRTVistaMenu"];
+    vistas.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
+    const chatEl = document.getElementById("chatRTVistaChat");
+    if (chatEl) { chatEl.style.display = "flex"; }
+    const bottomBar = document.getElementById("chatRTBottomBar");
+    if (bottomBar) bottomBar.style.display = "none";
+    chatRTVistaActual = "chat";
+    chatRTPararPolling();
+    chatRTPararPollingGrupo();
+    const container = document.getElementById("chatRTMensajes");
+    if (container) container.innerHTML = "";
+    chatRTMostrarSkeletonMensajes();
+    await chatRTCargarMensajesGrupo();
+    chatRTIniciarPollingGrupo();
+    chatRTSuscribirGrupo();
+    const input = document.getElementById("chatRTInput");
+    if (input) { input.value = ""; input.style.height = "auto"; }
+  }
+
+  // Cargar mensajes de grupo (ultimos 30)
+  async function chatRTCargarMensajesGrupo() {
+    if (!_chatRTGrupoActivo) return;
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    const container = document.getElementById("chatRTMensajes");
+    if (!container) return;
+    const { data, error } = await sb
+      .from("group_messages")
+      .select("id, sender_id, content, created_at")
+      .eq("group_id", _chatRTGrupoActivo.id)
+      .order("created_at", { ascending: false })
+      .limit(31);
+    if (error || !data) { if (container.innerHTML) container.innerHTML = ""; return; }
+    const hayMas = data.length > 30;
+    const page = data.slice(0, 30).reverse();
+    container.innerHTML = "";
+    for (const msg of page) {
+      const esMio = msg.sender_id === session.user.id;
+      const foto = esMio ? obtenerFotoRT() : _defaultPhoto;
+      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at);
+    }
+    if (page.length > 0) {
+      _chatRTGrupoUltimoTs = page[page.length - 1].created_at;
+    }
+    _chatRTGrupoHayMas = hayMas;
+    container.scrollTop = container.scrollHeight;
+  }
+
+  // Cargar mensajes viejos de grupo
+  async function chatRTCargarMensajesGrupoViejos() {
+    if (!_chatRTGrupoActivo || _chatRTGrupoCargandoViejos || !_chatRTGrupoHayMas) return;
+    if (!_chatRTGrupoUltimoTs) return;
+    _chatRTGrupoCargandoViejos = true;
+    const sb = getSupabase();
+    const container = document.getElementById("chatRTMensajes");
+    if (!sb || !container) { _chatRTGrupoCargandoViejos = false; return; }
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { _chatRTGrupoCargandoViejos = false; return; }
+    const loader = document.createElement("div");
+    loader.id = "chatRTCargandoViejos";
+    loader.style.cssText = "display:flex;justify-content:center;padding:8px 0;";
+    loader.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" style="animation:chatRTSpin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="31.4" stroke-dashoffset="8" /></svg>';
+    container.prepend(loader);
+    const prevHeight = container.scrollHeight;
+    const prevScroll = container.scrollTop;
+    const { data, error } = await sb
+      .from("group_messages")
+      .select("id, sender_id, content, created_at")
+      .eq("group_id", _chatRTGrupoActivo.id)
+      .lt("created_at", _chatRTGrupoUltimoTs)
+      .order("created_at", { ascending: false })
+      .limit(31);
+    const loaderEl = document.getElementById("chatRTCargandoViejos");
+    if (loaderEl) loaderEl.remove();
+    if (error || !data) { _chatRTGrupoCargandoViejos = false; return; }
+    const hayMas = data.length > 30;
+    const page = data.slice(0, 30).reverse();
+    for (const msg of page) {
+      const yaExiste = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
+      if (yaExiste) continue;
+      const esMio = msg.sender_id === session.user.id;
+      const foto = esMio ? obtenerFotoRT() : _defaultPhoto;
+      container.insertBefore(chatRTConstruirMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at), container.firstChild);
+    }
+    if (page.length > 0) _chatRTGrupoUltimoTs = page[0].created_at;
+    _chatRTGrupoHayMas = hayMas;
+    chatRTReconstruirConectores();
+    container.scrollTop = prevScroll + (container.scrollHeight - prevHeight);
+    _chatRTGrupoCargandoViejos = false;
+  }
+
+  // Polling de grupo
+  function chatRTIniciarPollingGrupo() {
+    chatRTPararPollingGrupo();
+    _chatRTGrupoPollingTimer = setInterval(async () => {
+      if (!_chatRTGrupoActivo || !_chatRTChatGrupoActivo) return;
+      const sb = getSupabase();
+      if (!sb) return;
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return;
+      let q = sb.from("group_messages")
+        .select("id, sender_id, content, created_at")
+        .eq("group_id", _chatRTGrupoActivo.id)
+        .order("created_at", { ascending: true });
+      if (_chatRTGrupoUltimoTs) q = q.gt("created_at", _chatRTGrupoUltimoTs);
+      const { data } = await q;
+      if (data && data.length > 0) {
+        _chatRTGrupoUltimoTs = data[data.length - 1].created_at;
+        for (const msg of data) {
+          if (msg.sender_id === session.user.id) continue;
+          if (document.querySelector('[data-rt-msgid="' + msg.id + '"]')) continue;
+          const foto = _defaultPhoto;
+          chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at);
+        }
+      }
+    }, 3000);
+  }
+
+  function chatRTPararPollingGrupo() {
+    if (_chatRTGrupoPollingTimer) { clearInterval(_chatRTGrupoPollingTimer); _chatRTGrupoPollingTimer = null; }
+  }
+
+  // Suscripcion realtime grupo
+  function chatRTSuscribirGrupo() {
+    const sb = getSupabase();
+    if (!sb) return;
+    if (_chatRTGrupoSubscription) { try { sb.removeChannel(_chatRTGrupoSubscription); } catch(e) {} }
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (!session) return;
+      const uid = session.user.id;
+      _chatRTGrupoSubscription = sb.channel("grupo_" + (_chatRTGrupoActivo ? _chatRTGrupoActivo.id : Date.now()))
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "group_messages" }, (payload) => {
+          const msg = payload.new;
+          if (!_chatRTGrupoActivo || msg.group_id !== _chatRTGrupoActivo.id) return;
+          if (msg.sender_id === uid) return;
+          if (document.querySelector('[data-rt-msgid="' + msg.id + '"]')) return;
+          chatRTAgregarMensaje("otro", msg.content, _defaultPhoto, msg.id, msg.created_at);
+        })
+        .subscribe();
+    }).catch(() => {});
+  }
+
+  // Enviar mensaje a grupo
+  async function chatRTEnviarMensajeGrupo() {
+    if (!_chatRTGrupoActivo) return;
+    chatRTEmojiCerrar();
+    const input = document.getElementById("chatRTInput");
+    const btnEnviar = document.getElementById("chatRTEnviar");
+    if (!input || !btnEnviar) return;
+    const texto = input.value.trim();
+    if (!texto) return;
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    input.value = "";
+    input.style.height = "auto";
+    btnEnviar.disabled = true;
+    const localId = "gopt_" + Date.now();
+    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT(), localId, new Date().toISOString());
+    const { data, error } = await sb.from("group_messages").insert({
+      group_id: _chatRTGrupoActivo.id,
+      sender_id: session.user.id,
+      content: texto,
+    }).select("id, created_at");
+    if (error || !data || !data[0]) {
+      chatRTActualizarEstadoMensaje(localId, "failed");
+      chatRTFailedMessages[localId] = { content: texto, groupId: _chatRTGrupoActivo.id };
+      return;
+    }
+    const wrapper = document.querySelector('[data-rt-msgid="' + localId + '"]');
+    if (wrapper) wrapper.setAttribute("data-rt-msgid", data[0].id);
+    chatRTUltimoMsgTs = null;
+  }
+
+  // Mostrar info de grupo
+  async function chatRTMostrarInfoGrupo(grupo) {
+    _chatRTInfoGrupoDesde = _chatRTInfoGrupoDesde || "main";
+    const contenido = document.getElementById("chatRTInfoGrupoContenido");
+    if (!contenido) return;
+    contenido.innerHTML = '<div style="text-align:center;padding:20px;color:#666;font-size:12px;">Cargando...</div>';
+    chatRTMostrarVista("infogrupo");
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    const myId = session.user.id;
+    const [gRes, mRes] = await Promise.all([
+      sb.from("groups").select("id, name, info, photo_url, owner_id, settings_can_edit, settings_can_send").eq("id", grupo.id).single(),
+      sb.from("group_members").select("user_id, role, joined_at").eq("group_id", grupo.id)
+    ]);
+    const g = gRes.data;
+    const miembros = mRes.data || [];
+    if (!g) { contenido.innerHTML = '<div style="text-align:center;padding:20px;color:#666;font-size:12px;">Grupo no encontrado.</div>'; return; }
+    // Cargar perfiles de miembros
+    const userIds = miembros.map(m => m.user_id);
+    const { data: perfiles } = await sb.from("profiles").select("user_id, display_name, username, photo_url").in("user_id", userIds);
+    const perfMap = {};
+    (perfiles || []).forEach(p => perfMap[p.user_id] = p);
+    // Ordenar: owner primero, luego admins, luego miembros
+    const orden = { owner: 0, admin: 1, member: 2 };
+    const ordenados = [...miembros].sort((a, b) => (orden[a.role] || 3) - (orden[b.role] || 3));
+    const miembro = miembros.find(m => m.user_id === myId);
+    const esAdmin = miembro && (miembro.role === "owner" || miembro.role === "admin");
+    const esOwner = miembro && miembro.role === "owner";
+    const etiqueta = { owner: '<span style="background:#2563eb;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.3px;">PROPIETARIO</span>', admin: '<span style="background:#1a1a2e;border:1px solid #2563eb;color:#60a5fa;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.3px;">ADMIN</span>' };
+    let html = '';
+    // Header
+    html += '<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 24px;border-bottom:1px solid #1a1a1a;">' +
+      '<div style="width:100px;height:100px;border-radius:50%;overflow:hidden;background:#1a1a2e;border:2px solid #2563eb;"><img src="' + (g.photo_url || _defaultPhoto) + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+      '<div style="font-size:16px;font-weight:700;color:#fff;margin-top:12px;">' + g.name + '</div>' +
+      '<div style="font-size:11px;color:#888;margin-top:4px;">Grupo</div>' +
+      (g.info ? '<div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center;max-width:280px;">' + g.info + '</div>' : '') +
+    '</div>';
+    // Seccion admins
+    const admins = ordenados.filter(m => m.role === "owner" || m.role === "admin");
+    if (admins.length > 0) {
+      html += '<div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin:20px 0 8px;">Admins</div>';
+      html += admins.map(m => {
+        const p = perfMap[m.user_id] || {};
+        const foto = p.photo_url || _defaultPhoto;
+        const nombre = p.display_name || p.username || "Usuario";
+        const etiq = m.role === "owner" ? etiqueta.owner : etiqueta.admin;
+        return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;">' +
+          '<div style="width:42px;height:42px;border-radius:50%;overflow:hidden;background:#1a1a2e;flex-shrink:0;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+          '<div style="flex:1;overflow:hidden;">' +
+            '<div style="font-size:13px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + nombre + '</div>' +
+            '<div style="font-size:11px;color:#666;">@' + (p.username || "") + '</div>' +
+          '</div>' + etiq + '</div>';
+      }).join("");
+    }
+    // Seccion miembros
+    const miembrosNorm = ordenados.filter(m => m.role === "member");
+    html += '<div style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin:20px 0 8px;">Miembros (' + miembros.length + ')</div>';
+    html += miembrosNorm.map(m => {
+      const p = perfMap[m.user_id] || {};
+      const foto = p.photo_url || _defaultPhoto;
+      const nombre = p.display_name || p.username || "Usuario";
+      const btnAdmin = (esAdmin && m.user_id !== myId)
+        ? '<button data-accion="haceradmin" data-userid="' + m.user_id + '" style="background:none;border:1px solid #333;color:#60a5fa;font-size:10px;padding:4px 10px;border-radius:6px;cursor:pointer;">Hacer admin</button>'
+        : '';
+      return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;">' +
+        '<div style="width:42px;height:42px;border-radius:50%;overflow:hidden;background:#1a1a2e;flex-shrink:0;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+        '<div style="flex:1;overflow:hidden;">' +
+          '<div style="font-size:13px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + nombre + '</div>' +
+          '<div style="font-size:11px;color:#666;">@' + (p.username || "") + '</div>' +
+        '</div>' + btnAdmin + '</div>';
+    }).join("");
+    if (miembrosNorm.length === 0) html += '<div style="font-size:12px;color:#666;padding:6px 0;">Aun no hay miembros.</div>';
+    // Boton agregar miembro (solo admin/owner)
+    if (esAdmin) {
+      html += '<button id="chatRTAgregarMiembroBtn" style="width:100%;padding:11px;background:#1a1a2e;color:#60a5fa;border:1px solid #2563eb;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-top:16px;">Agregar miembro</button>';
+    }
+    contenido.innerHTML = html;
+    // Evento hacer admin
+    contenido.querySelectorAll('[data-accion="haceradmin"]').forEach(btn => {
+      btn.onclick = () => chatRTHacerAdminGrupo(grupo.id, btn.getAttribute("data-userid"), btn);
+    });
+    // Evento agregar miembro
+    const btnAgregar = document.getElementById("chatRTAgregarMiembroBtn");
+    if (btnAgregar) btnAgregar.onclick = () => chatRTMostrarSelectorAgregarMiembro(grupo);
+  }
+
+  // Hacer admin a un miembro
+  async function chatRTHacerAdminGrupo(groupId, userId, btn) {
+    const sb = getSupabase();
+    if (!sb) return;
+    if (btn) btn.disabled = true;
+    const { error } = await sb.from("group_members").update({ role: "admin" })
+      .eq("group_id", groupId).eq("user_id", userId);
+    if (btn) btn.disabled = false;
+    if (error) { chatRTMostrarSnackbar("No se pudo cambiar el rol."); return; }
+    chatRTMostrarSnackbar("Ahora es admin.");
+    if (_chatRTGrupoActivo) chatRTMostrarInfoGrupo(_chatRTGrupoActivo);
+  }
+
+  // Selector de contactos para agregar como miembro del grupo
+  async function chatRTMostrarSelectorAgregarMiembro(grupo) {
+    const contenido = document.getElementById("chatRTInfoGrupoContenido");
+    if (!contenido) return;
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    contenido.innerHTML = '<div style="text-align:center;padding:20px;color:#666;font-size:12px;">Cargando contactos...</div>';
+    // Cargar contactos
+    const { data: contactsData } = await sb.from("contacts").select("contact_id, contact_email").eq("user_id", session.user.id);
+    const { data: memberships } = await sb.from("group_members").select("user_id").eq("group_id", grupo.id);
+    const miembrosIds = new Set((memberships || []).map(m => m.user_id));
+    // Cargar perfiles de los contactos
+    const contactIds = (contactsData || []).map(c => c.contact_id).filter(Boolean);
+    let perfiles = [];
+    if (contactIds.length > 0) {
+      const { data } = await sb.from("profiles").select("user_id, display_name, username, photo_url").in("user_id", contactIds);
+      perfiles = data || [];
+    }
+    const disponibles = perfiles.filter(p => !miembrosIds.has(p.user_id));
+    let html = '';
+    html += '<div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">Agregar miembros</div>';
+    html += '<div style="font-size:11px;color:#666;margin-bottom:16px;">Selecciona contactos para agregar al grupo</div>';
+    if (disponibles.length === 0) {
+      html += '<div style="font-size:12px;color:#666;padding:12px 0;">No tienes contactos disponibles para agregar.</div>';
+    } else {
+      html += disponibles.map(p => {
+        const foto = p.photo_url || _defaultPhoto;
+        const nombre = p.display_name || p.username || "Usuario";
+        return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #1a1a1a;">' +
+          '<div style="width:42px;height:42px;border-radius:50%;overflow:hidden;background:#1a1a2e;flex-shrink:0;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+          '<div style="flex:1;overflow:hidden;">' +
+            '<div style="font-size:13px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + nombre + '</div>' +
+            '<div style="font-size:11px;color:#666;">@' + (p.username || "") + '</div>' +
+          '</div>' +
+          '<button data-gadd="' + p.user_id + '" style="background:#2563eb;border:none;color:#fff;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer;">Agregar</button>' +
+        '</div>';
+      }).join("");
+    }
+    html += '<button id="chatRTVolverInfoGrupoBtn" style="width:100%;padding:10px;background:#1a1a2e;color:#888;border:1px solid #333;border-radius:8px;font-size:12px;cursor:pointer;margin-top:16px;">Volver</button>';
+    contenido.innerHTML = html;
+    contenido.querySelectorAll('[data-gadd]').forEach(btn => {
+      btn.onclick = async () => {
+        btn.disabled = true;
+        const { error } = await sb.from("group_members").insert({ group_id: grupo.id, user_id: btn.getAttribute("data-gadd"), role: "member" });
+        if (error) { chatRTMostrarSnackbar("No se pudo agregar."); btn.disabled = false; return; }
+        chatRTMostrarSnackbar("Miembro agregado.");
+        if (_chatRTGrupoActivo) chatRTMostrarInfoGrupo(_chatRTGrupoActivo);
+      };
+    });
+    const btnVolverInfo = document.getElementById("chatRTVolverInfoGrupoBtn");
+    if (btnVolverInfo) btnVolverInfo.onclick = () => { if (_chatRTGrupoActivo) chatRTMostrarInfoGrupo(_chatRTGrupoActivo); };
   }
 
   // Suscripcion real-time a mensajes directos
@@ -3963,6 +4543,64 @@
       if (e.key === "Enter") chatRTBuscarContacto();
     });
 
+    // Nuevo Grupo (solo superadmin)
+    const btnNuevoGrupo = document.getElementById("chatRTNuevoGrupoBtn");
+    const btnNuevoGrupoSub = document.getElementById("chatRTNuevoGrupoSub");
+    function actualizarEstadoNuevoGrupo() {
+      const btnNuevoGrupo = document.getElementById("chatRTNuevoGrupoBtn");
+      const btnNuevoGrupoSub = document.getElementById("chatRTNuevoGrupoSub");
+      const esSA = esSuperadmin();
+      if (btnNuevoGrupo) {
+        btnNuevoGrupo.style.cursor = esSA ? "pointer" : "not-allowed";
+        btnNuevoGrupo.style.opacity = esSA ? "1" : "0.4";
+        const circulo = btnNuevoGrupo.children[0];
+        if (circulo) {
+          circulo.style.background = esSA ? "#2563eb" : "#1a1a2e";
+          circulo.style.border = esSA ? "none" : "1px solid #222";
+        }
+        if (esSA) btnNuevoGrupo.onclick = () => { chatRTResetCrearGrupo(); chatRTMostrarVista("creargrupo"); };
+        else btnNuevoGrupo.onclick = null;
+      }
+      if (btnNuevoGrupoSub) btnNuevoGrupoSub.textContent = esSA ? "Disponible" : "Solo superadmin";
+    }
+    actualizarEstadoNuevoGrupo();
+
+    // Volver desde Crear Grupo
+    const btnCrearGrupoVolver = document.getElementById("chatRTCrearGrupoVolver");
+    if (btnCrearGrupoVolver) btnCrearGrupoVolver.onclick = () => chatRTMostrarVista("nuevochat");
+    // Crear grupo
+    const btnCrearGrupo = document.getElementById("chatRTCrearGrupoBtn");
+    if (btnCrearGrupo) btnCrearGrupo.onclick = chatRTCrearGrupo;
+    // Foto grupo
+    const btnGrupoFoto = document.getElementById("chatRTGrupoFotoBtn");
+    if (btnGrupoFoto) btnGrupoFoto.onclick = () => {
+      const fi = document.getElementById("chatRTGrupoFileInput");
+      if (fi) fi.click();
+    };
+    const grupoFileInput = document.getElementById("chatRTGrupoFileInput");
+    if (grupoFileInput) grupoFileInput.onchange = () => {
+      const file = grupoFileInput.files && grupoFileInput.files[0];
+      if (!file) return;
+      if (file.size > 1048576) { chatRTMostrarSnackbar("La foto debe ser menor a 1MB."); return; }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const preview = document.getElementById("chatRTGrupoFotoPreview");
+        const icon = document.getElementById("chatRTGrupoFotoIcon");
+        _chatRTGrupoFotoDataURL = ev.target.result;
+        _chatRTGrupoFotoFile = file;
+        if (preview) { preview.src = ev.target.result; preview.style.display = "block"; }
+        if (icon) icon.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+      grupoFileInput.value = "";
+    };
+    // Info grupo volver
+    const btnInfoGrupoVolver = document.getElementById("chatRTInfoGrupoVolver");
+    if (btnInfoGrupoVolver) btnInfoGrupoVolver.onclick = () => {
+      if (chatRTInfoGrupoDesde === "chat") chatRTMostrarVista("chat");
+      else chatRTMostrarVista("main");
+    };
+
     if (btnVolver) btnVolver.onclick = () => chatRTMostrarVista("menu");
 
     // Cerrar sesion desde perfil
@@ -4054,7 +4692,11 @@
 
     // Chat existente
     if (btnEnviarRT) {
-      btnEnviarRT.onclick = () => { if (chatRTChatActivo) chatRTEnviarMensajeRT(); else chatRTEnviarMensaje(); };
+      btnEnviarRT.onclick = () => {
+        if (_chatRTChatGrupoActivo) chatRTEnviarMensajeGrupo();
+        else if (chatRTChatActivo) chatRTEnviarMensajeRT();
+        else chatRTEnviarMensaje();
+      };
       btnEnviarRT.onmouseenter = () => { if (!btnEnviarRT.disabled) btnEnviarRT.style.transform = "translateY(-1px)"; };
       btnEnviarRT.onmouseleave = () => { btnEnviarRT.style.transform = "none"; };
     }
@@ -4074,7 +4716,9 @@
       chatRTInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
-          if (chatRTChatActivo) chatRTEnviarMensajeRT(); else chatRTEnviarMensaje();
+          if (_chatRTChatGrupoActivo) chatRTEnviarMensajeGrupo();
+          else if (chatRTChatActivo) chatRTEnviarMensajeRT();
+          else chatRTEnviarMensaje();
         }
       });
       chatRTInput.onfocus = () => { chatRTInput.style.borderColor = "#2563eb"; };
@@ -4108,8 +4752,10 @@
     const chatRTMsgsEl = document.getElementById("chatRTMensajes");
     if (chatRTMsgsEl) {
       chatRTMsgsEl.addEventListener("scroll", () => {
-        if (!chatRTChatActivo || chatRTCargandoViejos || !chatRTHayMas) return;
-        if (chatRTMsgsEl.scrollTop <= 20) chatRTCargarMensajesViejos();
+        if (chatRTMsgsEl.scrollTop <= 20) {
+          if (_chatRTChatGrupoActivo) { chatRTCargarMensajesGrupoViejos(); return; }
+          if (chatRTChatActivo && !chatRTCargandoViejos && chatRTHayMas) chatRTCargarMensajesViejos();
+        }
       });
     }
 
