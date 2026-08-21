@@ -1260,6 +1260,7 @@
   async function chatRTPostAuth(user) {
     const sb = getSupabase();
     if (!sb || !user) return;
+    chatRTSolicitarPermisoNotificaciones();
 
     // 1. Verificar si ya tenemos el perfil en localStorage
     const local = cargarPerfilRT();
@@ -1595,6 +1596,10 @@
             ${_iconUser}
             <span style="font-size:13px;color:#ccc;">Mi perfil</span>
           </div>
+          <div id="chatRTMenuOpcionColores" style="display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span style="font-size:13px;color:#ccc;">Chats</span>
+          </div>
           <div id="chatRTMenuOpcionLogout" style="display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;transition:background 0.15s;border-top:1px solid #1a1a1a;margin-top:8px;" onmouseover="this.style.background='#1a1a1a'" onmouseout="this.style.background='transparent'">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             <span style="font-size:13px;color:#ef4444;">Cerrar sesion</span>
@@ -1669,6 +1674,47 @@
           <div style="display:flex;gap:8px;">
             <button id="chatRTConfirmEditCancel" style="flex:1;padding:10px;background:#222;color:#888;border:1px solid #333;border-radius:8px;cursor:pointer;font-size:12px;">Cancelar</button>
             <button id="chatRTConfirmEditApply" style="flex:1;padding:10px;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== VISTA COLORES ====== -->
+    <div id="chatRTVistaColores" style="display:none;flex-direction:column;height:100%;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111;border-bottom:1px solid #1a1a1a;">
+        <button id="chatRTColoresVolverBtn" style="background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;transition:background 0.15s;">${_iconBack}</button>
+        <div style="font-size:14px;font-weight:600;color:#fff;">Chats</div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:20px;">
+        <div style="font-size:12px;color:#999;line-height:1.6;margin-bottom:20px;">Cada mensaje que envias tiene un estado que te indica su recorrido. Estos colores te ayudan a saber en que punto se encuentra tu mensaje.</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;border:2px solid #22c55e;flex-shrink:0;background:#1a1a2e;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Verde</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue enviado y se encuentra en camino hacia el destinatario.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;border:2px solid #60a5fa;flex-shrink:0;background:#1a1a2e;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Celeste</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue entregado al dispositivo del destinatario, pero aun no lo ha abierto.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;border:2px solid #252540;flex-shrink:0;background:#1a1a2e;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Normal</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue visto y leido por el destinatario.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;border:2px solid #ef4444;flex-shrink:0;background:#1a1a2e;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Rojo</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje no pudo ser enviado. Puedes tocarlo para volver a intentarlo.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1847,7 +1893,7 @@
     chatRTVistaActual = vista;
     // Detener polling si salimos del chat
     if (vista !== "chat") chatRTPararPolling();
-    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = "none";
@@ -1859,6 +1905,7 @@
       "nuevochat": "chatRTVistaNuevoChat",
       "nuevocontacto": "chatRTVistaNuevoContacto",
       "perfil": "chatRTVistaPerfil",
+      "colores": "chatRTVistaColores",
       "chat": "chatRTVistaChat",
       "menu": "chatRTVistaMenu",
     };
@@ -2395,7 +2442,7 @@
     const btnCerrar = document.getElementById("cerrarChatRT2");
     if (btnCerrar) btnCerrar.onclick = ocultarChatRT;
     // Forzar mostrar vista chat (aunque ya estemos en ella, para cambiar de contacto)
-    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
     const chatEl = document.getElementById("chatRTVistaChat");
     if (chatEl) { chatEl.style.display = "flex"; chatEl.style.animation = "none"; chatEl.offsetHeight; chatEl.style.animation = "chatRTSlideIn 0.25s ease-out"; }
@@ -2586,6 +2633,7 @@
         .select("id, delivered, read")
         .eq("sender_id", session.user.id)
         .eq("receiver_id", chatRTChatActivo.contactId)
+        .or("delivered.eq.false,read.eq.false")
         .order("created_at", { ascending: false })
         .limit(30);
       if (!data) return;
@@ -2622,7 +2670,32 @@
   }
 
   // Notificacion visual de mensaje entrante (dentro del panel)
+  function chatRTSolicitarPermisoNotificaciones() {
+    if (!("Notification" in window)) return;
+    if (Notification.permission === "default") {
+      try { Notification.requestPermission(); } catch(e) {}
+    }
+  }
+
   function chatRTNotificarMensajeEntrante(senderId, contenido) {
+    // Notificacion del navegador si hay permiso
+    if ("Notification" in window && Notification.permission === "granted") {
+      try {
+        const contacto = chatRTContactos.find(c => c.contactId === senderId);
+        const nombre = contacto ? contacto.nombre : "Nuevo mensaje";
+        const textoCorto = contenido.length > 80 ? contenido.substring(0, 80) + "..." : contenido;
+        const n = new Notification(nombre, {
+          body: textoCorto,
+          icon: (contacto && contacto.foto) ? contacto.foto : undefined,
+          tag: "chatRTConexan"
+        });
+        n.onclick = function() {
+          window.focus();
+          if (n.close) n.close();
+          if (contacto) chatRTAbrirChat(contacto);
+        };
+      } catch(e) {}
+    }
     let notif = document.getElementById("chatRTNotifEntrante");
     if (!notif) {
       notif = document.createElement("div");
@@ -3114,7 +3187,9 @@
     let bordeColor = "#252540";
     if (esUsuario) {
       if (status === "sending") bordeColor = "#60a5fa";
-      else if (status === "sent" || status === "delivered") bordeColor = "#ffffff";
+      else if (status === "sent") bordeColor = "#22c55e";
+      else if (status === "delivered") bordeColor = "#60a5fa";
+      else if (status === "read") bordeColor = "#252540";
       else if (status === "failed") bordeColor = "#ef4444";
     }
     const burbujaBg = esUsuario
@@ -3168,7 +3243,7 @@
     const row = wrapper.children[0];
     if (!row) return;
     const burbuja = row.children[2];
-    const colores = { sending: "#60a5fa", sent: "#ffffff", delivered: "#ffffff", read: "#252540", failed: "#ef4444" };
+    const colores = { sending: "#60a5fa", sent: "#22c55e", delivered: "#60a5fa", read: "#252540", failed: "#ef4444" };
     const c = colores[nuevoStatus] || "#252540";
     if (burbuja) burbuja.style.borderColor = c;
     const viejo = row.querySelector(".chatRTStatusIcon");
@@ -3486,11 +3561,17 @@
 
     // Menu perfil: opciones
     const menuOpcionPerfil = document.getElementById("chatRTMenuOpcionPerfil");
+    const menuOpcionColores = document.getElementById("chatRTMenuOpcionColores");
     const menuOpcionLogout = document.getElementById("chatRTMenuOpcionLogout");
     const menuVolverBtn = document.getElementById("chatRTMenuVolverBtn");
     if (menuOpcionPerfil) menuOpcionPerfil.onclick = () => chatRTMostrarVista("perfil");
+    if (menuOpcionColores) menuOpcionColores.onclick = () => chatRTMostrarVista("colores");
     if (menuOpcionLogout) menuOpcionLogout.onclick = () => chatRTCerrarSesion();
     if (menuVolverBtn) menuVolverBtn.onclick = () => chatRTMostrarVista("main");
+
+    // Vista colores: volver al menu
+    const coloresVolverBtn = document.getElementById("chatRTColoresVolverBtn");
+    if (coloresVolverBtn) coloresVolverBtn.onclick = () => chatRTMostrarVista("menu");
 
     // Boton Nuevo Chat (+)
     const btnNuevoChat = document.getElementById("chatRTNuevoChatBtn");
