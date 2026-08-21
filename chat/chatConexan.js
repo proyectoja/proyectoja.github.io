@@ -1010,6 +1010,24 @@
     return false;
   }
 
+  function actualizarEstadoNuevoGrupo() {
+    const btnNuevoGrupo = document.getElementById("chatRTNuevoGrupoBtn");
+    const btnNuevoGrupoSub = document.getElementById("chatRTNuevoGrupoSub");
+    const esSA = esSuperadmin();
+    if (btnNuevoGrupo) {
+      btnNuevoGrupo.style.cursor = esSA ? "pointer" : "not-allowed";
+      btnNuevoGrupo.style.opacity = esSA ? "1" : "0.4";
+      const circulo = btnNuevoGrupo.children[0];
+      if (circulo) {
+        circulo.style.background = esSA ? "#2563eb" : "#1a1a2e";
+        circulo.style.border = esSA ? "none" : "1px solid #222";
+      }
+      if (esSA) btnNuevoGrupo.onclick = () => { chatRTResetCrearGrupo(); chatRTMostrarVista("creargrupo"); };
+      else btnNuevoGrupo.onclick = null;
+    }
+    if (btnNuevoGrupoSub) btnNuevoGrupoSub.textContent = esSA ? "Disponible" : "Solo superadmin";
+  }
+
   // Obtener foto de perfil (para usar en burbujas de chat)
   function obtenerFotoRT() {
     const p = cargarPerfilRT();
@@ -2366,53 +2384,93 @@
     const lista = document.getElementById("chatRTContactosLista");
     const welcome = document.getElementById("chatRTMainWelcome");
     if (!lista) return;
-    if (chatRTContactos.length === 0) {
+    const hayGrupos = _chatRTGruposCache.length > 0;
+    if (chatRTContactos.length === 0 && !hayGrupos) {
       lista.style.display = "none";
       if (welcome) welcome.style.display = "flex";
       return;
     }
     if (welcome) welcome.style.display = "none";
     lista.style.display = "block";
-    lista.innerHTML = chatRTContactos.map((c, i) => {
-      const foto = c.foto || _defaultPhoto;
-      const onlineDot = c.online
-        ? '<div style="position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#22c55e;border:2px solid #0a0a0a;"></div>'
-        : '';
-      const statusLine = c.online
-        ? '<span style="color:#22c55e;">En linea</span>'
-        : (c.lastSeen ? '<span style="color:#666;">' + chatRTTiempoRelativo(c.lastSeen) + '</span>' : '<span style="color:#666;">@' + c.usuario + '</span>');
-      const preview = c.ultimoMensaje
-        ? (c.ultimoMensajeEsMio ? "Tu: " : "") + c.ultimoMensaje
-        : "";
-      const estaEscribiendo = chatRTTypingUsers[c.contactId] && (Date.now() - chatRTTypingUsers[c.contactId]) < 4000;
-      const subLinea = estaEscribiendo
-        ? '<span style="color:#22c55e;font-style:italic;">Escribiendo...</span>'
-        : (preview || statusLine);
-      const previewColor = estaEscribiendo ? "#22c55e" : (c.noLeidos > 0 ? "#e8edf9" : "#666");
-      const previewWeight = estaEscribiendo ? "600" : (c.noLeidos > 0 ? "600" : "400");
-      const badge = c.noLeidos > 0
-        ? '<div style="min-width:20px;height:20px;border-radius:10px;background:#2563eb;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;">' + c.noLeidos + '</div>'
-        : '';
-      const tiempo = c.ultimoMensajeTiempo ? chatRTFormatearTiempo(c.ultimoMensajeTiempo) : "";
-      return '<div data-idx="' + i + '" class="chatRTContactoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;" onmouseover="this.style.background=\'#111\'" onmouseout="this.style.background=\'transparent\'">' +
-        '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" />' + onlineDot + '</div>' +
-        '<div style="overflow:hidden;flex:1;">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-            '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + (c.nombre) + '</div>' +
-            '<div style="font-size:10px;color:#666;flex-shrink:0;margin-left:8px;">' + tiempo + '</div>' +
+    // Combinar contactos y grupos, ordenar por ultimo mensaje (mas reciente primero)
+    const items = [
+      ...chatRTContactos.map(c => ({ tipo: "contacto", ...c })),
+      ..._chatRTGruposCache.map(g => ({ tipo: "grupo", ...g })),
+    ].sort((a, b) => {
+      const ta = a.ultimoMensajeTiempo ? new Date(a.ultimoMensajeTiempo).getTime() : 0;
+      const tb = b.ultimoMensajeTiempo ? new Date(b.ultimoMensajeTiempo).getTime() : 0;
+      if (ta && tb) return tb - ta;
+      if (ta) return -1;
+      if (tb) return 1;
+      return 0;
+    });
+    let html = "";
+    items.forEach((it, i) => {
+      if (it.tipo === "grupo") {
+        const foto = it.photo_url || _defaultPhoto;
+        const tiempo = it.ultimoMensajeTiempo ? chatRTFormatearTiempo(it.ultimoMensajeTiempo) : "";
+        const preview = it.ultimoMensaje ? it.ultimoMensaje : "";
+        html += '<div data-idx="' + i + '" class="chatRTGrupoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;background:#10101a;" onmouseover="this.style.background=\'#1a1a1a\'" onmouseout="this.style.background=\'#10101a\'">' +
+          '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" /><div style="position:absolute;bottom:0;right:0;width:16px;height:16px;border-radius:50%;background:#2563eb;border:2px solid #10101a;display:flex;align-items:center;justify-content:center;">' + _iconGroup + '</div></div>' +
+          '<div style="overflow:hidden;flex:1;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+              '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + it.name + '</div>' +
+              '<div style="font-size:10px;color:#666;flex-shrink:0;margin-left:8px;">' + tiempo + '</div>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">' +
+              '<div style="font-size:11px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + preview + '</div>' +
+            '</div>' +
           '</div>' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">' +
-            '<div style="font-size:11px;color:' + previewColor + ';font-weight:' + previewWeight + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + subLinea + '</div>' +
-            badge +
+        '</div>';
+      } else {
+        const foto = it.foto || _defaultPhoto;
+        const onlineDot = it.online
+          ? '<div style="position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#22c55e;border:2px solid #0a0a0a;"></div>'
+          : '';
+        const statusLine = it.online
+          ? '<span style="color:#22c55e;">En linea</span>'
+          : (it.lastSeen ? '<span style="color:#666;">' + chatRTTiempoRelativo(it.lastSeen) + '</span>' : '<span style="color:#666;">@' + it.usuario + '</span>');
+        const preview = it.ultimoMensaje
+          ? (it.ultimoMensajeEsMio ? "Tu: " : "") + it.ultimoMensaje
+          : "";
+        const estaEscribiendo = chatRTTypingUsers[it.contactId] && (Date.now() - chatRTTypingUsers[it.contactId]) < 4000;
+        const subLinea = estaEscribiendo
+          ? '<span style="color:#22c55e;font-style:italic;">Escribiendo...</span>'
+          : (preview || statusLine);
+        const previewColor = estaEscribiendo ? "#22c55e" : (it.noLeidos > 0 ? "#e8edf9" : "#666");
+        const previewWeight = estaEscribiendo ? "600" : (it.noLeidos > 0 ? "600" : "400");
+        const badge = it.noLeidos > 0
+          ? '<div style="min-width:20px;height:20px;border-radius:10px;background:#2563eb;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;">' + it.noLeidos + '</div>'
+          : '';
+        const tiempo = it.ultimoMensajeTiempo ? chatRTFormatearTiempo(it.ultimoMensajeTiempo) : "";
+        html += '<div data-idx="' + i + '" class="chatRTContactoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;" onmouseover="this.style.background=\'#111\'" onmouseout="this.style.background=\'transparent\'">' +
+          '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" />' + onlineDot + '</div>' +
+          '<div style="overflow:hidden;flex:1;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+              '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + (it.nombre) + '</div>' +
+              '<div style="font-size:10px;color:#666;flex-shrink:0;margin-left:8px;">' + tiempo + '</div>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">' +
+              '<div style="font-size:11px;color:' + previewColor + ';font-weight:' + previewWeight + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' + subLinea + '</div>' +
+              badge +
+            '</div>' +
           '</div>' +
-        '</div>' +
-      '</div>';
-    }).join("");
+        '</div>';
+      }
+    });
+    lista.innerHTML = html;
     lista.querySelectorAll(".chatRTContactoItem").forEach(item => {
       item.onclick = () => {
         const idx = parseInt(item.dataset.idx);
-        const c = chatRTContactos[idx];
-        if (c) chatRTAbrirChat(c);
+        const it = items[idx];
+        if (it && it.tipo === "contacto") chatRTAbrirChat(it);
+      };
+    });
+    lista.querySelectorAll(".chatRTGrupoItem").forEach(item => {
+      item.onclick = () => {
+        const idx = parseInt(item.dataset.idx);
+        const it = items[idx];
+        if (it && it.tipo === "grupo") chatRTAbrirChatGrupo(it);
       };
     });
   }
@@ -3059,32 +3117,32 @@
     if (!grupos) return;
     const roles = {};
     memberships.forEach(m => roles[m.group_id] = m.role);
-    _chatRTGruposCache = grupos.map(g => ({ ...g, rol: roles[g.id] || "member" }));
+    // Obtener ultimo mensaje de cada grupo para ordenar
+    const cache = [];
+    for (const g of grupos) {
+      const { data: lastMsg } = await sb
+        .from("group_messages")
+        .select("content, created_at")
+        .eq("group_id", g.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      cache.push({
+        ...g,
+        rol: roles[g.id] || "member",
+        ultimoMensaje: lastMsg ? lastMsg.content : "",
+        ultimoMensajeEsMio: false,
+        ultimoMensajeTiempo: lastMsg ? lastMsg.created_at : "",
+      });
+    }
+    _chatRTGruposCache = cache;
     chatRTMostrarGruposEnLista();
   }
 
   // Mostrar grupos en la lista principal (bajo los contactos)
   function chatRTMostrarGruposEnLista() {
-    const lista = document.getElementById("chatRTContactosLista");
-    if (!lista) return;
-    const gruposHtml = _chatRTGruposCache.map((g, i) => {
-      const foto = g.photo_url || _defaultPhoto;
-      return '<div data-idx="grupo' + i + '" class="chatRTGrupoItem" style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;border-bottom:1px solid #1a1a1a;transition:background 0.15s;background:#10101a;" onmouseover="this.style.background=\'#1a1a1a\'" onmouseout="this.style.background=\'#10101a\'">' +
-        '<div style="width:44px;height:44px;position:relative;flex-shrink:0;"><img src="' + foto + '" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" /><div style="position:absolute;bottom:0;right:0;width:16px;height:16px;border-radius:50%;background:#2563eb;border:2px solid #10101a;display:flex;align-items:center;justify-content:center;">' + _iconGroup + '</div></div>' +
-        '<div style="overflow:hidden;flex:1;">' +
-          '<div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + g.name + '</div>' +
-          '<div style="font-size:11px;color:#666;margin-top:2px;">Grupo</div>' +
-        '</div>' +
-      '</div>';
-    }).join("");
-    lista.insertAdjacentHTML("beforeend", gruposHtml);
-    lista.querySelectorAll(".chatRTGrupoItem").forEach(item => {
-      item.onclick = () => {
-        const idx = parseInt(item.dataset.idx.replace("grupo", ""));
-        const g = _chatRTGruposCache[idx];
-        if (g) chatRTAbrirChatGrupo(g);
-      };
-    });
+    // Los grupos se renderizan junto a los contactos en chatRTMostrarContactosEnLista
+    chatRTMostrarContactosEnLista();
   }
 
   // Abrir chat de grupo
@@ -3315,12 +3373,57 @@
     const etiqueta = { owner: '<span style="background:#2563eb;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.3px;">PROPIETARIO</span>', admin: '<span style="background:#1a1a2e;border:1px solid #2563eb;color:#60a5fa;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.3px;">ADMIN</span>' };
     let html = '';
     // Header
-    html += '<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 24px;border-bottom:1px solid #1a1a1a;">' +
-      '<div style="width:100px;height:100px;border-radius:50%;overflow:hidden;background:#1a1a2e;border:2px solid #2563eb;"><img src="' + (g.photo_url || _defaultPhoto) + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
-      '<div style="font-size:16px;font-weight:700;color:#fff;margin-top:12px;">' + g.name + '</div>' +
-      '<div style="font-size:11px;color:#888;margin-top:4px;">Grupo</div>' +
-      (g.info ? '<div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center;max-width:280px;">' + g.info + '</div>' : '') +
-    '</div>';
+    if (esAdmin) {
+      html += '<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 16px;border-bottom:1px solid #1a1a1a;">' +
+        '<div id="chatRTInfoFotoBtn" style="width:100px;height:100px;border-radius:50%;overflow:hidden;background:#1a1a2e;border:2px solid #2563eb;cursor:pointer;position:relative;" title="Cambiar foto">' +
+          '<img id="chatRTInfoFotoImg" src="' + (g.photo_url || _defaultPhoto) + '" style="width:100%;height:100%;object-fit:cover;" />' +
+          '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);text-align:center;padding:4px 0;font-size:9px;color:#fff;">' + _iconCam + '</div>' +
+        '</div>' +
+        '<div style="width:100%;max-width:280px;margin-top:12px;">' +
+          '<div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Nombre del grupo</div>' +
+          '<input id="chatRTInfoNombre" type="text" value="' + g.name + '" maxlength="40" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:13px;padding:8px 10px;border-radius:8px;outline:none;box-sizing:border-box;" />' +
+        '</div>' +
+        '<div style="width:100%;max-width:280px;margin-top:10px;">' +
+          '<div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Informacion</div>' +
+          '<textarea id="chatRTInfoTexto" rows="2" maxlength="200" style="width:100%;background:#111;border:1px solid #222;color:#e8edf9;font-size:12px;padding:8px 10px;border-radius:8px;outline:none;box-sizing:border-box;resize:none;font-family:inherit;">' + (g.info || "") + '</textarea>' +
+        '</div>' +
+        '<input type="file" id="chatRTInfoFileInput" accept="image/*" style="display:none;" />' +
+      '</div>';
+      // Permisos (editable por admin)
+      html += '<div style="margin-top:16px;padding-bottom:8px;border-bottom:1px solid #1a1a1a;">' +
+        '<div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Permisos del grupo</div>' +
+        '<label style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;margin-bottom:8px;">' +
+          '<div><div style="font-size:13px;color:#e8edf9;">Editar ajustes del grupo</div><div style="font-size:11px;color:#666;margin-top:2px;">Quien puede cambiar foto, nombre e info</div></div>' +
+          '<input id="chatRTInfoPermEditar" type="checkbox" ' + (g.settings_can_edit ? "checked" : "") + ' style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />' +
+        '</label>' +
+        '<label style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;">' +
+          '<div><div style="font-size:13px;color:#e8edf9;">Enviar mensajes</div><div style="font-size:11px;color:#666;margin-top:2px;">Permitir que todos envien mensajes</div></div>' +
+          '<input id="chatRTInfoPermEnviar" type="checkbox" ' + (g.settings_can_send ? "checked" : "") + ' style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />' +
+        '</label>' +
+        '<button id="chatRTInfoGuardarBtn" style="width:100%;padding:10px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px;">Guardar cambios</button>' +
+        '<div id="chatRTInfoGuardarMsg" style="font-size:11px;color:#22c55e;text-align:center;margin-top:8px;display:none;"></div>' +
+      '</div>';
+    } else {
+      // Miembro normal: ver header sin editar, permisos atenuados
+      html += '<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 16px;border-bottom:1px solid #1a1a1a;">' +
+        '<div style="width:100px;height:100px;border-radius:50%;overflow:hidden;background:#1a1a2e;border:2px solid #2563eb;"><img src="' + (g.photo_url || _defaultPhoto) + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
+        '<div style="font-size:16px;font-weight:700;color:#fff;margin-top:12px;">' + g.name + '</div>' +
+        '<div style="font-size:11px;color:#888;margin-top:4px;">Grupo</div>' +
+        (g.info ? '<div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center;max-width:280px;">' + g.info + '</div>' : '') +
+      '</div>';
+      // Permisos atenuados (solo lectura para miembros)
+      html += '<div style="margin-top:16px;padding-bottom:8px;border-bottom:1px solid #1a1a1a;opacity:0.45;">' +
+        '<div style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Permisos del grupo</div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;margin-bottom:8px;">' +
+          '<div><div style="font-size:13px;color:#e8edf9;">Editar ajustes del grupo</div></div>' +
+          '<input type="checkbox" ' + (g.settings_can_edit ? "checked" : "") + ' disabled style="width:18px;height:18px;accent-color:#2563eb;opacity:0.5;" />' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;">' +
+          '<div><div style="font-size:13px;color:#e8edf9;">Enviar mensajes</div></div>' +
+          '<input type="checkbox" ' + (g.settings_can_send ? "checked" : "") + ' disabled style="width:18px;height:18px;accent-color:#2563eb;opacity:0.5;" />' +
+        '</div>' +
+      '</div>';
+    }
     // Seccion admins
     const admins = ordenados.filter(m => m.role === "owner" || m.role === "admin");
     if (admins.length > 0) {
@@ -3329,13 +3432,21 @@
         const p = perfMap[m.user_id] || {};
         const foto = p.photo_url || _defaultPhoto;
         const nombre = p.display_name || p.username || "Usuario";
-        const etiq = m.role === "owner" ? etiqueta.owner : etiqueta.admin;
+        let etiq = m.role === "owner" ? etiqueta.owner : etiqueta.admin;
+        // El owner puede quitar admin a un admin (no a si mismo ni al owner)
+        if (m.role === "admin" && esOwner && m.user_id !== myId) {
+          etiq = '<span data-accion="quitaradmin" data-userid="' + m.user_id + '" style="background:#1a1a2e;border:1px solid #ef4444;color:#f87171;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.3px;cursor:pointer;" title="Quitar admin">ADMIN</span>';
+        }
+        // Solo el owner puede expulsar a otro admin
+        const btnExpulsarAdmin = (m.role === "admin" && esOwner && m.user_id !== myId)
+          ? '<button data-accion="expulsar" data-userid="' + m.user_id + '" style="background:none;border:1px solid #333;color:#ef4444;font-size:10px;padding:4px 10px;border-radius:6px;cursor:pointer;margin-left:6px;">Expulsar</button>'
+          : '';
         return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;">' +
           '<div style="width:42px;height:42px;border-radius:50%;overflow:hidden;background:#1a1a2e;flex-shrink:0;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
           '<div style="flex:1;overflow:hidden;">' +
             '<div style="font-size:13px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + nombre + '</div>' +
             '<div style="font-size:11px;color:#666;">@' + (p.username || "") + '</div>' +
-          '</div>' + etiq + '</div>';
+          '</div>' + etiq + btnExpulsarAdmin + '</div>';
       }).join("");
     }
     // Seccion miembros
@@ -3345,8 +3456,11 @@
       const p = perfMap[m.user_id] || {};
       const foto = p.photo_url || _defaultPhoto;
       const nombre = p.display_name || p.username || "Usuario";
-      const btnAdmin = (esAdmin && m.user_id !== myId)
+      const btnAdmin = (esOwner && m.user_id !== myId)
         ? '<button data-accion="haceradmin" data-userid="' + m.user_id + '" style="background:none;border:1px solid #333;color:#60a5fa;font-size:10px;padding:4px 10px;border-radius:6px;cursor:pointer;">Hacer admin</button>'
+        : '';
+      const btnExpulsar = (esAdmin && m.user_id !== myId)
+        ? '<button data-accion="expulsar" data-userid="' + m.user_id + '" style="background:none;border:1px solid #333;color:#ef4444;font-size:10px;padding:4px 10px;border-radius:6px;cursor:pointer;margin-left:6px;">Expulsar</button>'
         : '';
       return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;">' +
         '<div style="width:42px;height:42px;border-radius:50%;overflow:hidden;background:#1a1a2e;flex-shrink:0;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
@@ -3365,9 +3479,73 @@
     contenido.querySelectorAll('[data-accion="haceradmin"]').forEach(btn => {
       btn.onclick = () => chatRTHacerAdminGrupo(grupo.id, btn.getAttribute("data-userid"), btn);
     });
+    // Evento quitar admin (solo owner)
+    contenido.querySelectorAll('[data-accion="quitaradmin"]').forEach(btn => {
+      btn.onclick = () => chatRTQuitarAdminGrupo(grupo.id, btn.getAttribute("data-userid"), btn);
+    });
+    // Evento expulsar miembro (solo owner)
+    contenido.querySelectorAll('[data-accion="expulsar"]').forEach(btn => {
+      btn.onclick = () => chatRTExpulsarMiembroGrupo(grupo.id, btn.getAttribute("data-userid"), btn);
+    });
     // Evento agregar miembro
     const btnAgregar = document.getElementById("chatRTAgregarMiembroBtn");
     if (btnAgregar) btnAgregar.onclick = () => chatRTMostrarSelectorAgregarMiembro(grupo);
+    // Eventos de edicion de ajustes (solo admin)
+    if (esAdmin) {
+      const infoFotoBtn = document.getElementById("chatRTInfoFotoBtn");
+      const infoFileInput = document.getElementById("chatRTInfoFileInput");
+      if (infoFotoBtn && infoFileInput) infoFotoBtn.onclick = () => infoFileInput.click();
+      if (infoFileInput) infoFileInput.onchange = () => {
+        const file = infoFileInput.files && infoFileInput.files[0];
+        if (!file) return;
+        if (file.size > 1048576) { chatRTMostrarSnackbar("La foto debe ser menor a 1MB."); return; }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = document.getElementById("chatRTInfoFotoImg");
+          if (img) img.src = ev.target.result;
+          _chatRTGrupoFotoDataURL = ev.target.result;
+          _chatRTGrupoFotoFile = file;
+        };
+        reader.readAsDataURL(file);
+        infoFileInput.value = "";
+      };
+      const btnGuardar = document.getElementById("chatRTInfoGuardarBtn");
+      if (btnGuardar) btnGuardar.onclick = async () => {
+        const nombreEl = document.getElementById("chatRTInfoNombre");
+        const infoEl = document.getElementById("chatRTInfoTexto");
+        const permE = document.getElementById("chatRTInfoPermEditar");
+        const permS = document.getElementById("chatRTInfoPermEnviar");
+        const msgEl = document.getElementById("chatRTInfoGuardarMsg");
+        const nombreVal = nombreEl ? nombreEl.value.trim() : "";
+        if (!nombreVal) { chatRTMostrarSnackbar("El nombre no puede estar vacio."); return; }
+        let fotoURL = g.photo_url || "";
+        if (_chatRTGrupoFotoFile) {
+          fotoURL = await chatRTSubirFotoGrupo(_chatRTGrupoFotoFile) || fotoURL;
+          _chatRTGrupoFotoFile = null;
+          _chatRTGrupoFotoDataURL = null;
+        } else if (_chatRTGrupoFotoDataURL && !_chatRTGrupoFotoFile) {
+          fotoURL = _chatRTGrupoFotoDataURL;
+          _chatRTGrupoFotoDataURL = null;
+        }
+        const { error } = await sb.from("groups").update({
+          name: nombreVal,
+          info: infoEl ? infoEl.value.trim() : "",
+          photo_url: fotoURL,
+          settings_can_edit: permE ? permE.checked : true,
+          settings_can_send: permS ? permS.checked : true,
+        }).eq("id", grupo.id);
+        if (error) { chatRTMostrarSnackbar("No se pudo guardar."); return; }
+        if (msgEl) { msgEl.style.display = "block"; msgEl.textContent = "Cambios guardados."; setTimeout(() => { msgEl.style.display = "none"; }, 2000); }
+        _chatRTGrupoFotoDataURL = null;
+        _chatRTGrupoFotoFile = null;
+        chatRTCargarGrupos();
+        if (_chatRTGrupoActivo) {
+          _chatRTGrupoActivo.name = nombreVal;
+          _chatRTGrupoActivo.info = infoEl ? infoEl.value.trim() : "";
+          _chatRTGrupoActivo.photo_url = fotoURL;
+        }
+      };
+    }
   }
 
   // Hacer admin a un miembro
@@ -3380,6 +3558,32 @@
     if (btn) btn.disabled = false;
     if (error) { chatRTMostrarSnackbar("No se pudo cambiar el rol."); return; }
     chatRTMostrarSnackbar("Ahora es admin.");
+    if (_chatRTGrupoActivo) chatRTMostrarInfoGrupo(_chatRTGrupoActivo);
+  }
+
+  // Quitar admin (solo el propietario)
+  async function chatRTQuitarAdminGrupo(groupId, userId, btn) {
+    const sb = getSupabase();
+    if (!sb) return;
+    if (btn) btn.disabled = true;
+    const { error } = await sb.from("group_members").update({ role: "member" })
+      .eq("group_id", groupId).eq("user_id", userId);
+    if (btn) btn.disabled = false;
+    if (error) { chatRTMostrarSnackbar("No se pudo quitar el admin."); return; }
+    chatRTMostrarSnackbar("Ya no es admin.");
+    if (_chatRTGrupoActivo) chatRTMostrarInfoGrupo(_chatRTGrupoActivo);
+  }
+
+  // Expulsar miembro (solo el propietario)
+  async function chatRTExpulsarMiembroGrupo(groupId, userId, btn) {
+    const sb = getSupabase();
+    if (!sb) return;
+    if (btn) btn.disabled = true;
+    const { error } = await sb.from("group_members").delete()
+      .eq("group_id", groupId).eq("user_id", userId);
+    if (btn) btn.disabled = false;
+    if (error) { chatRTMostrarSnackbar("No se pudo expulsar."); return; }
+    chatRTMostrarSnackbar("Miembro expulsado.");
     if (_chatRTGrupoActivo) chatRTMostrarInfoGrupo(_chatRTGrupoActivo);
   }
 
@@ -4546,23 +4750,6 @@
     // Nuevo Grupo (solo superadmin)
     const btnNuevoGrupo = document.getElementById("chatRTNuevoGrupoBtn");
     const btnNuevoGrupoSub = document.getElementById("chatRTNuevoGrupoSub");
-    function actualizarEstadoNuevoGrupo() {
-      const btnNuevoGrupo = document.getElementById("chatRTNuevoGrupoBtn");
-      const btnNuevoGrupoSub = document.getElementById("chatRTNuevoGrupoSub");
-      const esSA = esSuperadmin();
-      if (btnNuevoGrupo) {
-        btnNuevoGrupo.style.cursor = esSA ? "pointer" : "not-allowed";
-        btnNuevoGrupo.style.opacity = esSA ? "1" : "0.4";
-        const circulo = btnNuevoGrupo.children[0];
-        if (circulo) {
-          circulo.style.background = esSA ? "#2563eb" : "#1a1a2e";
-          circulo.style.border = esSA ? "none" : "1px solid #222";
-        }
-        if (esSA) btnNuevoGrupo.onclick = () => { chatRTResetCrearGrupo(); chatRTMostrarVista("creargrupo"); };
-        else btnNuevoGrupo.onclick = null;
-      }
-      if (btnNuevoGrupoSub) btnNuevoGrupoSub.textContent = esSA ? "Disponible" : "Solo superadmin";
-    }
     actualizarEstadoNuevoGrupo();
 
     // Volver desde Crear Grupo
@@ -4597,7 +4784,7 @@
     // Info grupo volver
     const btnInfoGrupoVolver = document.getElementById("chatRTInfoGrupoVolver");
     if (btnInfoGrupoVolver) btnInfoGrupoVolver.onclick = () => {
-      if (chatRTInfoGrupoDesde === "chat") chatRTMostrarVista("chat");
+      if (_chatRTInfoGrupoDesde === "chat") chatRTMostrarVista("chat");
       else chatRTMostrarVista("main");
     };
 

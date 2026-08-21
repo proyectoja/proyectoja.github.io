@@ -280,13 +280,19 @@ CREATE POLICY "gm_insert_owner_admin" ON group_members FOR INSERT
   WITH CHECK (is_group_admin(group_members.group_id, auth.uid())
             OR is_group_owner(group_members.group_id, auth.uid()));
 CREATE POLICY "gm_update_owner_admin" ON group_members FOR UPDATE
-  USING (is_group_admin(group_members.group_id, auth.uid())
-        AND group_members.role <> 'owner')
-  WITH CHECK (is_group_admin(group_members.group_id, auth.uid())
-        AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) <> 'owner');
+  USING (
+    (is_group_admin(group_members.group_id, auth.uid()) AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) = 'member')
+    OR
+    (is_group_owner(group_members.group_id, auth.uid()) AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) IN ('member','admin'))
+  )
+  WITH CHECK (is_group_owner(group_members.group_id, auth.uid())
+            OR (is_group_admin(group_members.group_id, auth.uid()) AND group_members.role = (SELECT role FROM group_members g3 WHERE g3.id = group_members.id)));
 CREATE POLICY "gm_delete_owner_admin" ON group_members FOR DELETE
-  USING (is_group_admin(group_members.group_id, auth.uid())
-        AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) <> 'owner');
+  USING (
+    (is_group_admin(group_members.group_id, auth.uid()) AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) = 'member')
+    OR
+    (is_group_owner(group_members.group_id, auth.uid()) AND (SELECT role FROM group_members g3 WHERE g3.id = group_members.id) IN ('member','admin'))
+  );
 
 -- RLS group_messages
 DROP POLICY IF EXISTS "gmsg_select_members" ON group_messages;
