@@ -1450,6 +1450,11 @@
       chatRTMostrarVista("main");
       const fotoMini = document.getElementById("chatRTFotoMini");
       if (fotoMini) fotoMini.src = local.foto || _defaultPhoto;
+      // Iniciar todo lo necesario (heartbeat, contactos, suscripcion)
+      chatRTCargarContactos();
+      chatRTSuscribirMensajes();
+      chatRTVerificarContactosNuevos();
+      chatRTIniciarHeartbeat();
       // Refrescar en background sin bloquear la UI
       chatRTRefrescarPerfilSilencioso(local.user_id);
       return;
@@ -1833,6 +1838,8 @@
   function chatRTMostrarVista(vista) {
     if (vista === chatRTVistaActual) return;
     chatRTVistaActual = vista;
+    // Detener polling si salimos del chat
+    if (vista !== "chat") chatRTPararPolling();
     const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => {
       const el = document.getElementById(id);
@@ -1926,9 +1933,9 @@
     chatRTActualizarLastSeen();
     if (chatRTHeartbeatInterval) clearInterval(chatRTHeartbeatInterval);
     chatRTHeartbeatInterval = setInterval(chatRTActualizarLastSeen, 30000);
-    // Refrescar contactos cada 15 segundos para estado online y ultimos mensajes
+    // Refrescar contactos cada 30 segundos para estado online
     if (chatRTRefreshContactosInterval) clearInterval(chatRTRefreshContactosInterval);
-    chatRTRefreshContactosInterval = setInterval(() => { chatRTCargarContactos(); }, 15000);
+    chatRTRefreshContactosInterval = setInterval(() => { chatRTCargarContactos(); }, 30000);
   }
   function chatRTPararHeartbeat() {
     if (chatRTHeartbeatInterval) { clearInterval(chatRTHeartbeatInterval); chatRTHeartbeatInterval = null; }
@@ -1948,65 +1955,106 @@
     if (!sb) return [];
     const { data: { session } } = await sb.auth.getSession();
     if (!session) return [];
-    const { data, error } = await sb
+    const myId = session.user.id;
+
+    // 1. Cargar contactos explícitos
+    const { data: contactsData } = await sb
       .from("contacts")
       .select("id, contact_id, contact_email, created_at")
-      .eq("user_id", session.user.id);
-    if (error || !data) return [];
-    const contactos = [];
-    for (const c of data) {
-      let perfil = null;
-      if (c.contact_email) {
-        const { data: p1 } = await sb
-          .from("profiles")
-          .select("user_id, display_name, username, photo_url, email, last_seen")
-          .eq("email", c.contact_email)
-          .maybeSingle();
-        perfil = p1;
-      }
-      if (!perfil && c.contact_id) {
-        const { data: p2 } = await sb
-          .from("profiles")
-          .select("user_id, display_name, username, photo_url, email, last_seen")
-          .eq("user_id", c.contact_id)
-          .maybeSingle();
-        perfil = p2;
-      }
-      if (perfil) {
-        const estaOnline = perfil.last_seen && (Date.now() - new Date(perfil.last_seen).getTime()) < 60000;
-        const ultimoVisto = perfil.last_seen || null;
-        // Obtener ultimo mensaje
-        const { data: lastMsg } = await sb
-          .from("direct_messages")
-          .select("content, sender_id, created_at")
-          .or("and(sender_id.eq." + session.user.id + ",receiver_id.eq." + perfil.user_id + "),and(sender_id.eq." + perfil.user_id + ",receiver_id.eq." + session.user.id + "))")
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        // Contar no leidos
-        const { count: unread } = await sb
-          .from("direct_messages")
-          .select("id", { count: "exact", head: true })
-          .eq("sender_id", perfil.user_id)
-          .eq("receiver_id", session.user.id)
-          .eq("read", false);
-        contactos.push({
-          contactId: perfil.user_id,
-          perfilId: c.id,
-          nombre: perfil.display_name || perfil.username || "Sin nombre",
-          usuario: perfil.username || "",
-          foto: perfil.photo_url || "",
-          email: perfil.email || c.contact_email || "",
-          creado: c.created_at,
-          online: estaOnline,
-          lastSeen: ultimoVisto,
-          ultimoMensaje: lastMsg ? lastMsg.content : "",
-          ultimoMensajeEsMio: lastMsg ? lastMsg.sender_id === session.user.id : false,
-          ultimoMensajeTiempo: lastMsg ? lastMsg.created_at : "",
-          noLeidos: unread || 0,
-        });
+      .eq("user_id", myId);
+
+    const contactosMap = new Map();
+    const contactEmails = new Set();
+
+    if (contactsData) {
+      for (const c of contactsData) {
+        let perfil = null;
+        if (c.contact_email) {
+          const { data: p1 } = await sb
+            .from("profiles")
+            .select("user_id, display_name, username, photo_url, email, last_seen")
+            .eq("email", c.contact_email)
+            .maybeSingle();
+          perfil = p1;
+        }
+        if (!perfil && c.contact_id) {
+          const { data: p2 } = await sb
+            .from("profiles")
+            .select("user_id, display_name, username, photo_url, email, last_seen")
+            .eq("user_id", c.contact_id)
+            .maybeSingle();
+          perfil = p2;
+        }
+        if (perfil) {
+          if (perfil.email) contactEmails.add(perfil.email);
+          contactosMap.set(perfil.user_id, { perfil, creado: c.created_at });
+        }
       }
     }
+
+    // 2. Buscar personas con las que hay mensajes pero NO estan en contactos
+    const { data: dmPartners } = await sb
+      .from("direct_messages")
+      .select("sender_id, receiver_id")
+      .or("sender_id.eq." + myId + ",receiver_id.eq." + myId);
+
+    const missingIds = new Set();
+    if (dmPartners) {
+      for (const dm of dmPartners) {
+        const otherId = dm.sender_id === myId ? dm.receiver_id : dm.sender_id;
+        if (otherId !== myId && !contactosMap.has(otherId)) {
+          missingIds.add(otherId);
+        }
+      }
+    }
+
+    if (missingIds.size > 0) {
+      const { data: missingProfiles } = await sb
+        .from("profiles")
+        .select("user_id, display_name, username, photo_url, email, last_seen")
+        .in("user_id", [...missingIds]);
+      if (missingProfiles) {
+        for (const perfil of missingProfiles) {
+          if (perfil.email) contactEmails.add(perfil.email);
+          contactosMap.set(perfil.user_id, { perfil, creado: null });
+        }
+      }
+    }
+
+    // 3. Para cada perfil, obtener ultimo mensaje y no leidos
+    const contactos = [];
+    for (const [userId, { perfil, creado }] of contactosMap) {
+      const estaOnline = perfil.last_seen && (Date.now() - new Date(perfil.last_seen).getTime()) < 60000;
+      const ultimoVisto = perfil.last_seen || null;
+      const { data: lastMsg } = await sb
+        .from("direct_messages")
+        .select("content, sender_id, created_at")
+        .or("and(sender_id.eq." + myId + ",receiver_id.eq." + userId + "),and(sender_id.eq." + userId + ",receiver_id.eq." + myId + "))")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      const { count: unread } = await sb
+        .from("direct_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("sender_id", userId)
+        .eq("receiver_id", myId)
+        .eq("read", false);
+      contactos.push({
+        contactId: userId,
+        nombre: perfil.display_name || perfil.username || "Sin nombre",
+        usuario: perfil.username || "",
+        foto: perfil.photo_url || "",
+        email: perfil.email || "",
+        creado: creado,
+        online: estaOnline,
+        lastSeen: ultimoVisto,
+        ultimoMensaje: lastMsg ? lastMsg.content : "",
+        ultimoMensajeEsMio: lastMsg ? lastMsg.sender_id === myId : false,
+        ultimoMensajeTiempo: lastMsg ? lastMsg.created_at : "",
+        noLeidos: unread || 0,
+      });
+    }
+
     // Ordenar: primero con mensajes, por tiempo
     contactos.sort((a, b) => {
       if (a.ultimoMensajeTiempo && b.ultimoMensajeTiempo) return new Date(b.ultimoMensajeTiempo) - new Date(a.ultimoMensajeTiempo);
@@ -2016,6 +2064,24 @@
     });
     chatRTContactos = contactos;
     chatRTMostrarContactosEnLista();
+    // Actualizar header del chat si hay uno activo
+    if (chatRTChatActivo) {
+      const actualizado = contactos.find(c => c.contactId === chatRTChatActivo.contactId);
+      if (actualizado) {
+        chatRTChatActivo.online = actualizado.online;
+        chatRTChatActivo.lastSeen = actualizado.lastSeen;
+        const usuario = document.getElementById("chatRTChatUsuario");
+        if (usuario) {
+          if (actualizado.online) {
+            usuario.textContent = "En linea";
+            usuario.style.color = "#22c55e";
+          } else {
+            usuario.textContent = actualizado.lastSeen ? chatRTTiempoRelativo(actualizado.lastSeen) : "@" + actualizado.usuario;
+            usuario.style.color = "#666";
+          }
+        }
+      }
+    }
     return contactos;
   }
 
@@ -2263,12 +2329,22 @@
       }
     }
     const btnVolver = document.getElementById("chatRTChatVolverBtn");
-    if (btnVolver) btnVolver.onclick = () => { chatRTChatActivo = null; chatRTMostrarVista("main"); };
+    if (btnVolver) btnVolver.onclick = () => { chatRTChatActivo = null; chatRTPararPolling(); chatRTMostrarVista("main"); };
     const btnCerrar = document.getElementById("cerrarChatRT2");
     if (btnCerrar) btnCerrar.onclick = ocultarChatRT;
-    chatRTMostrarVista("chat");
-    chatRTCargarMensajes();
+    // Forzar mostrar vista chat (aunque ya estemos en ella, para cambiar de contacto)
+    const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaChat", "chatRTVistaMenu"];
+    vistas.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
+    const chatEl = document.getElementById("chatRTVistaChat");
+    if (chatEl) { chatEl.style.display = "flex"; chatEl.style.animation = "none"; chatEl.offsetHeight; chatEl.style.animation = "chatRTSlideIn 0.25s ease-out"; }
+    const bottomBar = document.getElementById("chatRTBottomBar");
+    if (bottomBar) bottomBar.style.display = "none";
+    chatRTVistaActual = "chat";
     chatRTMarcarLeidos(contacto.contactId);
+    // Activar polling: esperar a que cargarMensajes termine para tener el timestamp
+    chatRTPollingActivo = true;
+    chatRTUltimoMsgTs = null;
+    chatRTCargarMensajes().then(() => { chatRTPollingLoop(); });
   }
 
   // Marcar mensajes como leidos
@@ -2308,8 +2384,10 @@
     for (const msg of data) {
       const esMio = msg.sender_id === session.user.id;
       const foto = esMio ? obtenerFotoRT() : (chatRTChatActivo.foto || _defaultPhoto);
-      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto);
+      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id);
     }
+    // Guardar timestamp del ultimo mensaje para el polling
+    if (data.length > 0) chatRTUltimoMsgTs = data[data.length - 1].created_at;
   }
 
   // Suscripcion real-time a mensajes directos
@@ -2318,18 +2396,118 @@
     const sb = getSupabase();
     if (!sb) return;
     if (chatRTSubscription) { try { sb.removeChannel(chatRTSubscription); } catch(e) {} }
-    chatRTSubscription = sb.channel("dm_" + Date.now())
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
-        const msg = payload.new;
-        // Si hay chat abierto con ese contacto, recargar mensajes
-        if (chatRTChatActivo && (msg.sender_id === chatRTChatActivo.contactId || msg.receiver_id === chatRTChatActivo.contactId)) {
-          chatRTCargarMensajes();
-          chatRTMarcarLeidos(chatRTChatActivo.contactId);
+    const myId = (function(){ const s = sb.auth.getSession && null; return null; })();
+    // Intentar suscripcion Realtime (si funciona, genial)
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (!session) return;
+      const uid = session.user.id;
+      chatRTSubscription = sb.channel("dm_" + Date.now())
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
+          const msg = payload.new;
+          if (msg.sender_id === uid) return;
+          if (chatRTChatActivo && msg.sender_id === chatRTChatActivo.contactId) {
+            // Deduplicar: no agregar si ya esta en el DOM
+            if (!document.querySelector('[data-rt-msgid="' + msg.id + '"]')) {
+              const foto = chatRTChatActivo.foto || _defaultPhoto;
+              chatRTAgregarMensaje("otro", msg.content, foto, msg.id);
+              chatRTMarcarLeidos(msg.sender_id);
+            }
+          } else {
+            chatRTActualizarPreviewLocal(msg.sender_id, msg.content, false);
+            chatRTIncrementarNoLeidos(msg.sender_id);
+            chatRTNotificarMensajeEntrante(msg.sender_id, msg.content);
+          }
+        })
+        .subscribe();
+    }).catch(() => {});
+
+    // Polling de respaldo: cada 3 segundos buscar mensajes nuevos
+    chatRTPollingActivo = true;
+    chatRTPollingLoop();
+  }
+
+  // Polling ligero: 1 query cada 3s, solo si hay chat abierto
+  let chatRTPollingActivo = false;
+  let chatRTPollingTimer = null;
+  let chatRTUltimoMsgTs = null;
+
+  function chatRTPollingLoop() {
+    if (chatRTPollingTimer) clearInterval(chatRTPollingTimer);
+    chatRTPollingTimer = setInterval(async () => {
+      if (!chatRTPollingActivo || !chatRTChatActivo) return;
+      const sb = getSupabase();
+      if (!sb) return;
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return;
+      // Query liviana: mensajes nuevos desde el ultimo conocido
+      let query = sb.from("direct_messages")
+        .select("id, sender_id, receiver_id, content, created_at")
+        .or("and(sender_id.eq." + session.user.id + ",receiver_id.eq." + chatRTChatActivo.contactId + "),and(sender_id.eq." + chatRTChatActivo.contactId + ",receiver_id.eq." + session.user.id + "))")
+        .order("created_at", { ascending: true });
+      if (chatRTUltimoMsgTs) {
+        query = query.gt("created_at", chatRTUltimoMsgTs);
+      }
+      const { data } = await query;
+      if (data && data.length > 0) {
+        chatRTUltimoMsgTs = data[data.length - 1].created_at;
+        for (const msg of data) {
+          if (msg.sender_id === session.user.id) continue;
+          const yaExiste = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
+          if (!yaExiste) {
+            const foto = chatRTChatActivo.foto || _defaultPhoto;
+            chatRTAgregarMensaje("otro", msg.content, foto, msg.id);
+            chatRTMarcarLeidos(msg.sender_id);
+          }
         }
-        // Siempre refrescar lista de contactos (para preview)
-        chatRTCargarContactos();
-      })
-      .subscribe();
+      }
+    }, 3000);
+  }
+
+  function chatRTPararPolling() {
+    chatRTPollingActivo = false;
+    if (chatRTPollingTimer) { clearInterval(chatRTPollingTimer); chatRTPollingTimer = null; }
+    chatRTUltimoMsgTs = null;
+  }
+
+  // Actualizar preview de un contacto localmente sin query
+  function chatRTActualizarPreviewLocal(contactId, contenido, esMio) {
+    const contacto = chatRTContactos.find(c => c.contactId === contactId);
+    if (contacto) {
+      contacto.ultimoMensaje = contenido;
+      contacto.ultimoMensajeEsMio = esMio;
+      contacto.ultimoMensajeTiempo = new Date().toISOString();
+      chatRTMostrarContactosEnLista();
+    }
+  }
+
+  function chatRTIncrementarNoLeidos(contactId) {
+    const contacto = chatRTContactos.find(c => c.contactId === contactId);
+    if (contacto) {
+      contacto.noLeidos = (contacto.noLeidos || 0) + 1;
+      chatRTMostrarContactosEnLista();
+    }
+  }
+
+  // Notificacion visual de mensaje entrante (dentro del panel)
+  function chatRTNotificarMensajeEntrante(senderId, contenido) {
+    let notif = document.getElementById("chatRTNotifEntrante");
+    if (!notif) {
+      notif = document.createElement("div");
+      notif.id = "chatRTNotifEntrante";
+      notif.style.cssText = "position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:9999;background:#1e1e32;border:1px solid #2563eb;border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:10px;animation:chatEntrar 0.25s ease;box-shadow:0 4px 16px rgba(0,0,0,0.5);max-width:90%;cursor:pointer;";
+      const overlay = document.getElementById("chatRTOverlay");
+      if (overlay) overlay.appendChild(notif);
+    }
+    const contacto = chatRTContactos.find(c => c.contactId === senderId);
+    const nombre = contacto ? contacto.nombre : "Alguien";
+    const textoCorto = contenido.length > 40 ? contenido.substring(0, 40) + "..." : contenido;
+    notif.innerHTML = '<div style="flex:1;"><div style="font-size:12px;font-weight:600;color:#e8edf9;">' + nombre + '</div><div style="font-size:11px;color:#999;margin-top:2px;">' + textoCorto + '</div></div><div style="font-size:10px;color:#2563eb;">Abrir</div>';
+    notif.onclick = () => {
+      if (contacto) chatRTAbrirChat(contacto);
+      notif.remove();
+    };
+    notif.style.display = "flex";
+    setTimeout(() => { if (notif) notif.remove(); }, 4000);
   }
 
   // Verificar si alguien te agrego como contacto (notificacion)
@@ -2367,14 +2545,17 @@
     input.value = "";
     input.style.height = "auto";
     btnEnviar.disabled = true;
+    // Insercion optimista: mostrar el mensaje al instante
+    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT());
+    chatRTUltimoMsgTs = new Date().toISOString();
     const { error } = await sb.from("direct_messages").insert({
       sender_id: session.user.id,
       receiver_id: chatRTChatActivo.contactId,
       content: texto,
     });
-    if (error) return;
-    chatRTCargarMensajes();
-    chatRTCargarContactos();
+    if (error) { chatRTMostrarSnackbar("No se pudo enviar"); return; }
+    // Actualizar preview del contacto localmente (sin query)
+    chatRTActualizarPreviewLocal(chatRTChatActivo.contactId, texto, true);
   }
   let chatRTPerfilOriginales = { nombre: "", info: "", usuario: "", pass: "" };
 
@@ -2648,6 +2829,7 @@
   }
 
   function ocultarChatRT() {
+    chatRTPararPolling();
     chatRTOverlay.style.animation = "notifSlideOut 0.2s ease-in";
     setTimeout(() => {
       chatRTOverlay.style.display = "none";
@@ -2764,7 +2946,7 @@
     dibujarLinea("chatRTThreadLineOtro", '[data-role="rt-otro"]');
   }
 
-  function chatRTAgregarMensaje(rol, texto, fotoUrl) {
+  function chatRTAgregarMensaje(rol, texto, fotoUrl, msgId) {
     const chatRTMensajes = document.getElementById("chatRTMensajes");
     if (!chatRTMensajes) return;
     const esUsuario = rol === "usuario";
@@ -2773,6 +2955,7 @@
     wrapper.style.cssText = "padding:3px 0;animation:chatEntrar 0.2s ease;position:relative;width:100%;";
     if (esUsuario) wrapper.setAttribute("data-role", "rt-usuario");
     else wrapper.setAttribute("data-role", "rt-otro");
+    if (msgId) wrapper.setAttribute("data-rt-msgid", msgId);
 
     const row = document.createElement("div");
     row.style.cssText = "display:flex;gap:8px;max-width:92%;position:relative;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
