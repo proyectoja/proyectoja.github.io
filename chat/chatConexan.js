@@ -326,6 +326,11 @@
           40% { opacity: 1; transform: scale(1); }
       }
 
+      @keyframes chatRTSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+      }
+
       #chat-ia-overlay::-webkit-scrollbar { width: 4px; }
       #chat-ia-overlay::-webkit-scrollbar-track { background: transparent; }
       #chat-ia-overlay::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
@@ -1322,10 +1327,9 @@
 
   // === AUTH: Cerrar sesion ===
   async function chatRTCerrarSesion() {
-    chatRTPararHeartbeat();
+    chatRTCerrarTodasConexiones();
     const sb = getSupabase();
     if (sb) {
-      if (chatRTSubscription) { try { sb.removeChannel(chatRTSubscription); } catch(e) {} chatRTSubscription = null; }
       await sb.auth.signOut();
     }
     localStorage.removeItem("rt_session");
@@ -1972,7 +1976,7 @@
       chatRTSuscribirMensajes();
       chatRTIniciarHeartbeat();
       chatRTActualizarLastSeen();
-      if (chatRTChatActivo) { chatRTUltimoMsgTs = null; chatRTPollingActivo = true; chatRTPollingLoop(); }
+      if (chatRTChatActivo) { chatRTUltimoMsgTs = null; chatRTPollingActivo = true; chatRTPollingLoop(); chatRTStatusPollingLoop(); }
     });
   }
 
@@ -2435,17 +2439,27 @@
     if (!container) return;
     const { data, error } = await sb
       .from("direct_messages")
-      .select("id, sender_id, receiver_id, content, created_at")
+      .select("id, sender_id, receiver_id, content, created_at, delivered, read")
       .or("and(sender_id.eq." + session.user.id + ",receiver_id.eq." + chatRTChatActivo.contactId + "),and(sender_id.eq." + chatRTChatActivo.contactId + ",receiver_id.eq." + session.user.id + "))")
       .order("created_at", { ascending: true });
     if (error || !data) return;
     container.innerHTML = "";
+    var idsPorMarcar = [];
     for (const msg of data) {
       const esMio = msg.sender_id === session.user.id;
       const foto = esMio ? obtenerFotoRT() : (chatRTChatActivo.foto || _defaultPhoto);
-      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at);
+      var status = "";
+      if (esMio) {
+        if (msg.read) status = "read";
+        else if (msg.delivered) status = "delivered";
+        else status = "sent";
+      }
+      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at, status);
+      if (!esMio && !msg.delivered) idsPorMarcar.push(msg.id);
     }
-    // Guardar timestamp del ultimo mensaje para el polling
+    if (idsPorMarcar.length > 0) {
+      sb.from("direct_messages").update({ delivered: true }).in("id", idsPorMarcar).then(function(){});
+    }
     if (data.length > 0) chatRTUltimoMsgTs = data[data.length - 1].created_at;
   }
 
@@ -2464,8 +2478,9 @@
         .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, (payload) => {
           const msg = payload.new;
           if (msg.sender_id === uid) return;
+          // Marcar delivered
+          sb.from("direct_messages").update({ delivered: true }).eq("id", msg.id).then(function(){});
           if (chatRTChatActivo && msg.sender_id === chatRTChatActivo.contactId) {
-            // Deduplicar: no agregar si ya esta en el DOM
             if (!document.querySelector('[data-rt-msgid="' + msg.id + '"]')) {
               const foto = chatRTChatActivo.foto || _defaultPhoto;
               chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at);
@@ -2477,18 +2492,31 @@
             chatRTNotificarMensajeEntrante(msg.sender_id, msg.content);
           }
         })
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "direct_messages" }, (payload) => {
+          const msg = payload.new;
+          if (msg.sender_id !== uid) return;
+          const w = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
+          if (!w) return;
+          let nuevo = "sent";
+          if (msg.read) nuevo = "read";
+          else if (msg.delivered) nuevo = "delivered";
+          const actual = w.getAttribute("data-rt-status");
+          if (actual !== nuevo) chatRTActualizarEstadoMensaje(msg.id, nuevo);
+        })
         .subscribe();
     }).catch(() => {});
 
     // Polling de respaldo: cada 3 segundos buscar mensajes nuevos
     chatRTPollingActivo = true;
     chatRTPollingLoop();
+    chatRTStatusPollingLoop();
   }
 
   // Polling ligero: 1 query cada 3s, solo si hay chat abierto
   let chatRTPollingActivo = false;
   let chatRTPollingTimer = null;
   let chatRTUltimoMsgTs = null;
+  let chatRTStatusPollingTimer = null;
 
   function chatRTPollingLoop() {
     if (chatRTPollingTimer) clearInterval(chatRTPollingTimer);
@@ -2500,7 +2528,7 @@
       if (!session) return;
       // Query liviana: mensajes nuevos desde el ultimo conocido
       let query = sb.from("direct_messages")
-        .select("id, sender_id, receiver_id, content, created_at")
+        .select("id, sender_id, receiver_id, content, created_at, delivered, read")
         .or("and(sender_id.eq." + session.user.id + ",receiver_id.eq." + chatRTChatActivo.contactId + "),and(sender_id.eq." + chatRTChatActivo.contactId + ",receiver_id.eq." + session.user.id + "))")
         .order("created_at", { ascending: true });
       if (chatRTUltimoMsgTs) {
@@ -2509,14 +2537,30 @@
       const { data } = await query;
       if (data && data.length > 0) {
         chatRTUltimoMsgTs = data[data.length - 1].created_at;
+        var idsMarcarDelivered = [];
         for (const msg of data) {
-          if (msg.sender_id === session.user.id) continue;
+          if (msg.sender_id === session.user.id) {
+            // Actualizar estado de mensajes propios
+            var w = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
+            if (w) {
+              var est = w.getAttribute("data-rt-status");
+              var nuevo = "sent";
+              if (msg.read) nuevo = "read";
+              else if (msg.delivered) nuevo = "delivered";
+              if (est !== nuevo) chatRTActualizarEstadoMensaje(msg.id, nuevo);
+            }
+            continue;
+          }
           const yaExiste = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
           if (!yaExiste) {
             const foto = chatRTChatActivo.foto || _defaultPhoto;
             chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at);
             chatRTMarcarLeidos(msg.sender_id);
           }
+          if (!msg.delivered) idsMarcarDelivered.push(msg.id);
+        }
+        if (idsMarcarDelivered.length > 0) {
+          sb.from("direct_messages").update({ delivered: true }).in("id", idsMarcarDelivered).then(function(){});
         }
       }
     }, 3000);
@@ -2525,7 +2569,37 @@
   function chatRTPararPolling() {
     chatRTPollingActivo = false;
     if (chatRTPollingTimer) { clearInterval(chatRTPollingTimer); chatRTPollingTimer = null; }
+    if (chatRTStatusPollingTimer) { clearInterval(chatRTStatusPollingTimer); chatRTStatusPollingTimer = null; }
     chatRTUltimoMsgTs = null;
+  }
+
+  // Status polling: cada 10s checkear estado de mensajes propios (fallback de realtime)
+  function chatRTStatusPollingLoop() {
+    if (chatRTStatusPollingTimer) clearInterval(chatRTStatusPollingTimer);
+    chatRTStatusPollingTimer = setInterval(async () => {
+      if (!chatRTPollingActivo || !chatRTChatActivo) return;
+      const sb = getSupabase();
+      if (!sb) return;
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return;
+      const { data } = await sb.from("direct_messages")
+        .select("id, delivered, read")
+        .eq("sender_id", session.user.id)
+        .eq("receiver_id", chatRTChatActivo.contactId)
+        .order("created_at", { ascending: false })
+        .limit(30);
+      if (!data) return;
+      for (const msg of data) {
+        const w = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
+        if (!w) continue;
+        const actual = w.getAttribute("data-rt-status");
+        if (actual === "failed" || actual === "sending") continue;
+        let nuevo = "sent";
+        if (msg.read) nuevo = "read";
+        else if (msg.delivered) nuevo = "delivered";
+        if (actual !== nuevo) chatRTActualizarEstadoMensaje(msg.id, nuevo);
+      }
+    }, 10000);
   }
 
   // Actualizar preview de un contacto localmente sin query
@@ -2590,6 +2664,7 @@
   }
 
   // Enviar mensaje
+  var chatRTOptimisticId = 0;
   async function chatRTEnviarMensajeRT() {
     if (!chatRTChatActivo) return;
     chatRTEnviarTypingStop();
@@ -2608,16 +2683,22 @@
     input.value = "";
     input.style.height = "auto";
     btnEnviar.disabled = true;
-    // Insercion optimista: mostrar el mensaje al instante
-    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT(), null, new Date().toISOString());
+    var localId = "opt_" + (++chatRTOptimisticId) + "_" + Date.now();
+    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT(), localId, new Date().toISOString(), "sending");
     chatRTUltimoMsgTs = new Date().toISOString();
-    const { error } = await sb.from("direct_messages").insert({
+    var res = await sb.from("direct_messages").insert({
       sender_id: session.user.id,
       receiver_id: chatRTChatActivo.contactId,
       content: texto,
-    });
-    if (error) { chatRTMostrarSnackbar("No se pudo enviar"); return; }
-    // Actualizar preview del contacto localmente (sin query)
+    }).select("id, created_at");
+    if (res.error || !res.data || !res.data[0]) {
+      chatRTActualizarEstadoMensaje(localId, "failed");
+      chatRTFailedMessages[localId] = { content: texto, receiverId: chatRTChatActivo.contactId };
+      return;
+    }
+    var wrapper = document.querySelector('[data-rt-msgid="' + localId + '"]');
+    if (wrapper) wrapper.setAttribute("data-rt-msgid", res.data[0].id);
+    chatRTActualizarEstadoMensaje(res.data[0].id, "sent");
     chatRTActualizarPreviewLocal(chatRTChatActivo.contactId, texto, true);
   }
   let chatRTPerfilOriginales = { nombre: "", info: "", usuario: "", pass: "" };
@@ -3010,7 +3091,7 @@
     dibujarLinea("chatRTThreadLineOtro", '[data-role="rt-otro"]');
   }
 
-  function chatRTAgregarMensaje(rol, texto, fotoUrl, msgId, createdAt) {
+  function chatRTAgregarMensaje(rol, texto, fotoUrl, msgId, createdAt, status) {
     const chatRTMensajes = document.getElementById("chatRTMensajes");
     if (!chatRTMensajes) return;
     const esUsuario = rol === "usuario";
@@ -3020,6 +3101,7 @@
     if (esUsuario) wrapper.setAttribute("data-role", "rt-usuario");
     else wrapper.setAttribute("data-role", "rt-otro");
     if (msgId) wrapper.setAttribute("data-rt-msgid", msgId);
+    if (status) wrapper.setAttribute("data-rt-status", status);
 
     const row = document.createElement("div");
     row.style.cssText = "display:flex;gap:8px;max-width:92%;position:relative;" + (esUsuario ? "margin-left:auto;flex-direction:row-reverse;" : "");
@@ -3028,11 +3110,19 @@
     const avatarBg = esUsuario ? "background:#161620;border:1px solid #222233;" : "background:#2563eb;";
     const avatarHTML = '<img src="' + foto + '" style="width:28px;height:28px;border-radius:8px;object-fit:cover;flex-shrink:0;" />';
 
-    const burbujaBg = esUsuario ? "background:#1a1a2e;border:1px solid #252540;border-top-right-radius:4px;color:#ccc;" : "background:#111118;border:1px solid #1a1a24;border-top-left-radius:4px;color:#ccc;";
+    // Borde de burbuja segun estado (solo usuario)
+    let bordeColor = "#252540";
+    if (esUsuario) {
+      if (status === "sending") bordeColor = "#60a5fa";
+      else if (status === "sent" || status === "delivered") bordeColor = "#ffffff";
+      else if (status === "failed") bordeColor = "#ef4444";
+    }
+    const burbujaBg = esUsuario
+      ? "background:#1a1a2e;border:1px solid " + bordeColor + ";border-top-right-radius:4px;color:#ccc;"
+      : "background:#111118;border:1px solid #1a1a24;border-top-left-radius:4px;color:#ccc;";
 
     const textoRenderizado = "<em>" + chatRTParsearMarkdown(texto) + "</em>";
 
-    // Formato de fecha: hora + fecha si no es hoy
     let fechaHTML = "";
     if (createdAt) {
       const d = new Date(createdAt);
@@ -3051,12 +3141,84 @@
 
     const conectorPosRT = esUsuario ? "right:30px;" : "left:28px;";
     const conectorHTMLRT = '<div style="position:absolute;top:14px;' + conectorPosRT + 'width:8px;height:1px;background:#222233;pointer-events:none;"></div>';
-    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;overflow:hidden;' + avatarBg + '">' + avatarHTML + '</div>' + conectorHTMLRT + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + fechaHTML + '</div>';
+
+    // Icono de estado (solo para mensajes propios)
+    let statusIconHTML = "";
+    if (esUsuario && status === "sending") {
+      statusIconHTML = '<div class="chatRTStatusIcon" style="width:14px;height:14px;flex-shrink:0;display:flex;align-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" style="animation:chatRTSpin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="31.4" stroke-dashoffset="8" /></svg></div>';
+    } else if (esUsuario && status === "failed") {
+      statusIconHTML = '<div class="chatRTStatusIcon chatRTRetryBtn" style="width:14px;height:14px;flex-shrink:0;display:flex;align-items:center;cursor:pointer;" title="Reintentar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div>';
+    }
+
+    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;overflow:hidden;' + avatarBg + '">' + avatarHTML + '</div>' + conectorHTMLRT + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + fechaHTML + '</div>' + statusIconHTML;
 
     wrapper.appendChild(row);
     chatRTMensajes.appendChild(wrapper);
     chatRTMensajes.scrollTop = chatRTMensajes.scrollHeight;
     chatRTReconstruirConectores();
+  }
+
+  // Actualizar estado de un mensaje existente (solo borde + icono)
+  function chatRTActualizarEstadoMensaje(msgId, nuevoStatus) {
+    const wrapper = document.querySelector('[data-rt-msgid="' + msgId + '"]');
+    if (!wrapper) return;
+    const anterior = wrapper.getAttribute("data-rt-status");
+    if (anterior === nuevoStatus) return;
+    wrapper.setAttribute("data-rt-status", nuevoStatus);
+    const row = wrapper.children[0];
+    if (!row) return;
+    const burbuja = row.children[2];
+    const colores = { sending: "#60a5fa", sent: "#ffffff", delivered: "#ffffff", read: "#252540", failed: "#ef4444" };
+    const c = colores[nuevoStatus] || "#252540";
+    if (burbuja) burbuja.style.borderColor = c;
+    const viejo = row.querySelector(".chatRTStatusIcon");
+    if (viejo) viejo.remove();
+    if (nuevoStatus === "sending") {
+      const el = document.createElement("div");
+      el.className = "chatRTStatusIcon";
+      el.style.cssText = "width:14px;height:14px;flex-shrink:0;display:flex;align-items:center;";
+      el.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" style="animation:chatRTSpin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="31.4" stroke-dashoffset="8" /></svg>';
+      row.appendChild(el);
+    } else if (nuevoStatus === "failed") {
+      const el = document.createElement("div");
+      el.className = "chatRTStatusIcon chatRTRetryBtn";
+      el.style.cssText = "width:14px;height:14px;flex-shrink:0;display:flex;align-items:center;cursor:pointer;";
+      el.title = "Reintentar";
+      el.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+      el.onclick = function() { chatRTRetryMensaje(msgId); };
+      row.appendChild(el);
+    }
+  }
+
+  // Mapa local de mensajes fallidos
+  var chatRTFailedMessages = {};
+
+  // Reintentar envio de mensaje fallido
+  function chatRTRetryMensaje(localId) {
+    var failed = chatRTFailedMessages[localId];
+    if (!failed) return;
+    delete chatRTFailedMessages[localId];
+    chatRTActualizarEstadoMensaje(localId, "sending");
+    var sb = getSupabase();
+    if (!sb) { chatRTActualizarEstadoMensaje(localId, "failed"); chatRTFailedMessages[localId] = failed; return; }
+    sb.auth.getSession().then(function(res) {
+      var session = res.data && res.data.session;
+      if (!session) { chatRTActualizarEstadoMensaje(localId, "failed"); chatRTFailedMessages[localId] = failed; return; }
+      sb.from("direct_messages").insert({
+        sender_id: session.user.id,
+        receiver_id: failed.receiverId,
+        content: failed.content
+      }).select("id, created_at").then(function(res2) {
+        if (res2.error || !res2.data || !res2.data[0]) {
+          chatRTActualizarEstadoMensaje(localId, "failed");
+          chatRTFailedMessages[localId] = failed;
+          return;
+        }
+        var wrapper = document.querySelector('[data-rt-msgid="' + localId + '"]');
+        if (wrapper) wrapper.setAttribute("data-rt-msgid", res2.data[0].id);
+        chatRTActualizarEstadoMensaje(res2.data[0].id, "sent");
+      });
+    });
   }
 
   // === TYPING INDICATOR ===

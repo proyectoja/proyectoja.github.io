@@ -151,7 +151,8 @@ CREATE TABLE IF NOT EXISTS direct_messages (
   receiver_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   content TEXT NOT NULL,
   created_at TIMESTAMPTZ DEFAULT now(),
-  read BOOLEAN DEFAULT false
+  read BOOLEAN DEFAULT false,
+  delivered BOOLEAN DEFAULT false
 );
 
 ALTER TABLE direct_messages ENABLE ROW LEVEL SECURITY;
@@ -171,7 +172,7 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 DO $$ BEGIN
-  CREATE POLICY "users_update_read_messages" ON direct_messages FOR UPDATE USING (auth.uid() = receiver_id);
+  CREATE POLICY "users_update_read_messages" ON direct_messages FOR UPDATE USING (auth.uid() = sender_id OR auth.uid() = receiver_id);
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 
