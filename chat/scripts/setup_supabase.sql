@@ -273,7 +273,16 @@ CREATE POLICY "group_select_members" ON groups FOR SELECT
 CREATE POLICY "group_insert_owner" ON groups FOR INSERT
   WITH CHECK (auth.uid() = owner_id);
 CREATE POLICY "group_update_owner_admin" ON groups FOR UPDATE
-  USING (is_group_admin(groups.id, auth.uid()) AND groups.settings_can_edit);
+  USING (
+    is_group_admin(groups.id, auth.uid())
+    OR
+    (is_group_member(groups.id, auth.uid()) AND groups.settings_can_edit)
+  )
+  WITH CHECK (
+    is_group_admin(groups.id, auth.uid())
+    OR
+    (is_group_member(groups.id, auth.uid()) AND groups.settings_can_edit)
+  );
 CREATE POLICY "group_delete_owner" ON groups FOR DELETE
   USING (is_group_owner(groups.id, auth.uid()));
 

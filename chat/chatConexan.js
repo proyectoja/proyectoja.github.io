@@ -2844,6 +2844,9 @@
   function chatRTAbrirChat(contacto) {
     _chatRTChatGrupoActivo = false;
     _chatRTChatPersonal = !!contacto.esPersonal;
+    // Restaurar composer (en DMs siempre se puede escribir)
+    const composerDM = document.getElementById("chatRTComposer");
+    if (composerDM) composerDM.style.display = "block";
     // Si no venimos de la info del grupo, el volver regresa a main
     if (chatRTVistaActual !== "perfilusuario") _chatRTVistaAnterior = "main";
     chatRTPararPollingGrupo();
@@ -3500,6 +3503,13 @@
     chatRTIniciarPollingGrupo();
     chatRTSuscribirGrupo();
     chatRTSuscribirTypingGrupo();
+    // Permisos de envio: si "enviar mensajes" esta desactivado, solo admins/owner escriben
+    const rolYo = grupo.rol || "member";
+    const soyAdminGrupo = rolYo === "owner" || rolYo === "admin";
+    const composer = document.getElementById("chatRTComposer");
+    const emojiPanel = document.getElementById("chatRTEmojiPanel");
+    if (composer) composer.style.display = (soyAdminGrupo || grupo.settings_can_send !== false) ? "block" : "none";
+    if (emojiPanel) emojiPanel.style.display = "none";
     const input = document.getElementById("chatRTInput");
     if (input) { input.value = ""; input.style.height = "auto"; }
   }
@@ -3755,7 +3765,8 @@
     const etiqueta = { owner: '<span style="background:#2563eb;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.3px;">PROPIETARIO</span>', admin: '<span style="background:#1a1a2e;border:1px solid #2563eb;color:#60a5fa;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.3px;">ADMIN</span>' };
     let html = '';
     // Header
-    if (esAdmin) {
+    const puedeEditarAjustes = esAdmin || !!g.settings_can_edit;
+    if (puedeEditarAjustes) {
       html += '<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 16px;border-bottom:1px solid #1a1a1a;">' +
         '<div id="chatRTInfoFotoBtn" style="width:100px;height:100px;border-radius:50%;overflow:hidden;background:#1a1a2e;border:2px solid #2563eb;cursor:pointer;position:relative;" title="Cambiar foto">' +
           '<img id="chatRTInfoFotoImg" src="' + (g.photo_url || _defaultPhoto) + '" style="width:100%;height:100%;object-fit:cover;" />' +
@@ -3771,22 +3782,24 @@
         '</div>' +
         '<input type="file" id="chatRTInfoFileInput" accept="image/*" style="display:none;" />' +
       '</div>';
-      // Permisos (editable por admin)
-      html += '<div style="margin-top:16px;padding-bottom:8px;border-bottom:1px solid #1a1a1a;">' +
-        '<div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Permisos del grupo</div>' +
-        '<label style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;margin-bottom:8px;">' +
-          '<div><div style="font-size:13px;color:#e8edf9;">Editar ajustes del grupo</div><div style="font-size:11px;color:#666;margin-top:2px;">Quien puede cambiar foto, nombre e info</div></div>' +
-          '<input id="chatRTInfoPermEditar" type="checkbox" ' + (g.settings_can_edit ? "checked" : "") + ' style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />' +
-        '</label>' +
-        '<label style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;">' +
-          '<div><div style="font-size:13px;color:#e8edf9;">Enviar mensajes</div><div style="font-size:11px;color:#666;margin-top:2px;">Permitir que todos envien mensajes</div></div>' +
-          '<input id="chatRTInfoPermEnviar" type="checkbox" ' + (g.settings_can_send ? "checked" : "") + ' style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />' +
-        '</label>' +
-        '<button id="chatRTInfoGuardarBtn" style="width:100%;padding:10px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px;">Guardar cambios</button>' +
-        '<div id="chatRTInfoGuardarMsg" style="font-size:11px;color:#22c55e;text-align:center;margin-top:8px;display:none;"></div>' +
-      '</div>';
+      // Permisos: SOLO admin puede cambiar los toggles
+      if (esAdmin) {
+        html += '<div style="margin-top:16px;padding-bottom:8px;border-bottom:1px solid #1a1a1a;">' +
+          '<div style="font-size:10px;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Permisos del grupo</div>' +
+          '<label style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;margin-bottom:8px;">' +
+            '<div><div style="font-size:13px;color:#e8edf9;">Editar ajustes del grupo</div><div style="font-size:11px;color:#666;margin-top:2px;">Quien puede cambiar foto, nombre e info</div></div>' +
+            '<input id="chatRTInfoPermEditar" type="checkbox" ' + (g.settings_can_edit ? "checked" : "") + ' style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />' +
+          '</label>' +
+          '<label style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;cursor:pointer;">' +
+            '<div><div style="font-size:13px;color:#e8edf9;">Enviar mensajes</div><div style="font-size:11px;color:#666;margin-top:2px;">Permitir que todos envien mensajes</div></div>' +
+            '<input id="chatRTInfoPermEnviar" type="checkbox" ' + (g.settings_can_send ? "checked" : "") + ' style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />' +
+          '</label>' +
+        '</div>';
+      }
+      html += '<button id="chatRTInfoGuardarBtn" style="width:100%;padding:10px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px;">Guardar cambios</button>' +
+        '<div id="chatRTInfoGuardarMsg" style="font-size:11px;color:#22c55e;text-align:center;margin-top:8px;display:none;"></div>';
     } else {
-      // Miembro normal: ver header sin editar, permisos atenuados
+      // Miembro normal sin permiso de editar: ver header sin editar, permisos atenuados
       html += '<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 16px;border-bottom:1px solid #1a1a1a;">' +
         '<div style="width:100px;height:100px;border-radius:50%;overflow:hidden;background:#1a1a2e;border:2px solid #2563eb;"><img src="' + (g.photo_url || _defaultPhoto) + '" style="width:100%;height:100%;object-fit:cover;" /></div>' +
         '<div style="font-size:16px;font-weight:700;color:#fff;margin-top:12px;">' + g.name + '</div>' +
@@ -3890,8 +3903,8 @@
     // Evento agregar miembro
     const btnAgregar = document.getElementById("chatRTAgregarMiembroBtn");
     if (btnAgregar) btnAgregar.onclick = () => chatRTMostrarSelectorAgregarMiembro(grupo);
-    // Eventos de edicion de ajustes (solo admin)
-    if (esAdmin) {
+    // Eventos de edicion de ajustes (miembros con permiso o admin)
+    if (puedeEditarAjustes) {
       const infoFotoBtn = document.getElementById("chatRTInfoFotoBtn");
       const infoFileInput = document.getElementById("chatRTInfoFileInput");
       if (infoFotoBtn && infoFileInput) infoFotoBtn.onclick = () => infoFileInput.click();
@@ -3927,13 +3940,17 @@
           fotoURL = _chatRTGrupoFotoDataURL;
           _chatRTGrupoFotoDataURL = null;
         }
-        const { error } = await sb.from("groups").update({
+        // Solo admin puede cambiar los permisos; el resto conserva los actuales
+        const updateData = {
           name: nombreVal,
           info: infoEl ? infoEl.value.trim() : "",
           photo_url: fotoURL,
-          settings_can_edit: permE ? permE.checked : true,
-          settings_can_send: permS ? permS.checked : true,
-        }).eq("id", grupo.id);
+        };
+        if (esAdmin) {
+          updateData.settings_can_edit = permE ? permE.checked : true;
+          updateData.settings_can_send = permS ? permS.checked : true;
+        }
+        const { error } = await sb.from("groups").update(updateData).eq("id", grupo.id);
         if (error) { chatRTMostrarSnackbar("No se pudo guardar."); return; }
         if (msgEl) { msgEl.style.display = "block"; msgEl.textContent = "Cambios guardados."; setTimeout(() => { msgEl.style.display = "none"; }, 2000); }
         _chatRTGrupoFotoDataURL = null;
