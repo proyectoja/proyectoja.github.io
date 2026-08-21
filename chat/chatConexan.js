@@ -2083,6 +2083,12 @@
         chatRTContactos = cache;
         chatRTMostrarContactosEnLista();
       }
+      // Cache de grupos (instantaneo)
+      const cacheGrupos = chatRTCargarCacheGrupos();
+      if (cacheGrupos.length > 0) {
+        _chatRTGruposCache = cacheGrupos;
+        chatRTMostrarContactosEnLista();
+      }
       chatRTCargarContactos();
       chatRTCargarGrupos();
       chatRTCargarUltimoMsgPersonal();
@@ -2266,6 +2272,23 @@
       if (!parsed || !Array.isArray(parsed.data)) return null;
       return parsed.data;
     } catch(e) { return null; }
+  }
+
+  // Cache de grupos
+  function chatRTGuardarCacheGrupos(grupos) {
+    try {
+      localStorage.setItem("rt_grupos_cache", JSON.stringify({ t: Date.now(), data: grupos }));
+    } catch(e) {}
+  }
+
+  function chatRTCargarCacheGrupos() {
+    try {
+      const raw = localStorage.getItem("rt_grupos_cache");
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.data)) return [];
+      return parsed.data;
+    } catch(e) { return []; }
   }
 
   // Cache de mensajes por contacto (ultimos 60 mensajes)
@@ -3323,7 +3346,12 @@
     const sb = getSupabase();
     if (!sb) return;
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) return;
+    if (!session) {
+      // Sin sesion: usar cache si existe
+      const cacheSin = chatRTCargarCacheGrupos();
+      if (cacheSin.length > 0) { _chatRTGruposCache = cacheSin; chatRTMostrarGruposEnLista(); }
+      return;
+    }
     const { data: memberships } = await sb
       .from("group_members")
       .select("group_id, role")
@@ -3374,6 +3402,7 @@
       });
     }
     _chatRTGruposCache = cache;
+    chatRTGuardarCacheGrupos(cache);
     chatRTMostrarGruposEnLista();
     // Actualizar header del chat de grupo activo
     if (_chatRTChatGrupoActivo && _chatRTGrupoActivo) {
