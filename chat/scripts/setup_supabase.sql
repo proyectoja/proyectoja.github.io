@@ -254,6 +254,11 @@ RETURNS BOOLEAN LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
   SELECT EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = gid AND gm.user_id = uid AND gm.role IN ('owner','admin'));
 $$;
 
+CREATE OR REPLACE FUNCTION is_group_owner(gid UUID, uid UUID)
+RETURNS BOOLEAN LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT EXISTS (SELECT 1 FROM groups g WHERE g.id = gid AND g.owner_id = uid);
+$$;
+
 DROP POLICY IF EXISTS "group_select_members" ON groups;
 DROP POLICY IF EXISTS "group_insert_owner" ON groups;
 DROP POLICY IF EXISTS "group_update_owner_admin" ON groups;
@@ -272,7 +277,8 @@ DROP POLICY IF EXISTS "gm_delete_owner_admin" ON group_members;
 CREATE POLICY "gm_select_members" ON group_members FOR SELECT
   USING (is_group_member(group_members.group_id, auth.uid()));
 CREATE POLICY "gm_insert_owner_admin" ON group_members FOR INSERT
-  WITH CHECK (is_group_admin(group_members.group_id, auth.uid()));
+  WITH CHECK (is_group_admin(group_members.group_id, auth.uid())
+            OR is_group_owner(group_members.group_id, auth.uid()));
 CREATE POLICY "gm_update_owner_admin" ON group_members FOR UPDATE
   USING (is_group_admin(group_members.group_id, auth.uid())
         AND group_members.role <> 'owner')
