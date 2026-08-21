@@ -9,6 +9,7 @@
 -- =============================================
 CREATE TABLE IF NOT EXISTS profiles (
   user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT DEFAULT '',
   username TEXT UNIQUE NOT NULL,
   display_name TEXT NOT NULL DEFAULT '',
   info TEXT DEFAULT '',
@@ -18,6 +19,15 @@ CREATE TABLE IF NOT EXISTS profiles (
 );
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+-- Agregar columna email si la tabla ya existe pero no la tiene
+DO $$ BEGIN
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS email TEXT DEFAULT '';
+EXCEPTION WHEN duplicate_column THEN NULL;
+END $$;
+
+-- Sincronizar email de usuarios existentes desde auth.users
+UPDATE profiles SET email = au.email FROM auth.users au WHERE profiles.user_id = au.id AND (profiles.email IS NULL OR profiles.email = '');
 
 DO $$ BEGIN
   CREATE POLICY "own_profile_all" ON profiles FOR ALL USING (auth.uid() = user_id);
@@ -53,7 +63,7 @@ BEGIN
     _suffix := _suffix + 1;
     _final_username := left(_username, 95) || '_' || _suffix::text;
   END LOOP;
-  INSERT INTO public.profiles (user_id, username, display_name) VALUES (new.id, _final_username, _display_name);
+  INSERT INTO public.profiles (user_id, username, display_name, email) VALUES (new.id, _final_username, _display_name, new.email);
   RETURN new;
 END;
 $$;
