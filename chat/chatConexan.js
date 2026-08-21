@@ -1824,8 +1824,11 @@
     botonIA.style.display = "none";
     botonNotificaciones.style.display = "none";
     chatRTVistaActual = "";
+    // Reanudar conexiones si estaban cerradas por inactividad
+    if (chatRTConexionesCerradas) { chatRTConexionesCerradas = false; chatRTReanudarConexiones(); }
     // Verificar sesion al abrir
     chatRTVerificarSesion();
+    chatRTIniciarMonitoreoInactividad();
     setTimeout(() => {
       chatRTReconstruirConectores();
       const inp = document.getElementById("chatRTInput");
@@ -1947,6 +1950,58 @@
     const { data: { session } } = await sb.auth.getSession();
     if (!session) return;
     await sb.from("profiles").update({ last_seen: new Date().toISOString() }).eq("user_id", session.user.id);
+  }
+
+  // === Cerrar/reabrir todas las conexiones ===
+  function chatRTCerrarTodasConexiones() {
+    chatRTPararPolling();
+    chatRTPararHeartbeat();
+    chatRTEnviarTypingStop();
+    if (chatRTTypingDebounce) { clearTimeout(chatRTTypingDebounce); chatRTTypingDebounce = null; }
+    if (chatRTTypingInterval) { clearInterval(chatRTTypingInterval); chatRTTypingInterval = null; }
+    chatRTTypingUsers = {};
+    const sb = getSupabase();
+    if (sb && chatRTSubscription) { try { sb.removeChannel(chatRTSubscription); } catch(e) {} chatRTSubscription = null; }
+    if (sb && chatRTTypingChannel) { try { sb.removeChannel(chatRTTypingChannel); } catch(e) {} chatRTTypingChannel = null; }
+  }
+  function chatRTReanudarConexiones() {
+    const sb = getSupabase();
+    if (!sb) return;
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (!session) return;
+      chatRTSuscribirMensajes();
+      chatRTIniciarHeartbeat();
+      chatRTActualizarLastSeen();
+      if (chatRTChatActivo) { chatRTUltimoMsgTs = null; chatRTPollingActivo = true; chatRTPollingLoop(); }
+    });
+  }
+
+  // === Inactividad: cerrar conexiones despues de 2 minutos (como WhatsApp) ===
+  let chatRTInactividadTimer = null;
+  const _chatRT_TIMEOUT = 120000; // 2 minutos
+
+  function chatRTReiniciarInactividad() {
+    if (chatRTInactividadTimer) clearTimeout(chatRTInactividadTimer);
+    chatRTInactividadTimer = setTimeout(() => {
+      chatRTCerrarTodasConexiones();
+      chatRTConexionesCerradas = true;
+    }, _chatRT_TIMEOUT);
+  }
+  let chatRTConexionesCerradas = false;
+
+  function chatRTOnInteraccion() {
+    if (chatRTConexionesCerradas) {
+      chatRTConexionesCerradas = false;
+      chatRTReanudarConexiones();
+    }
+    chatRTReiniciarInactividad();
+  }
+
+  function chatRTIniciarMonitoreoInactividad() {
+    ["click", "keydown", "scroll", "mousemove"].forEach(evt => {
+      chatRTOverlay.addEventListener(evt, chatRTOnInteraccion, { passive: true });
+    });
+    chatRTReiniciarInactividad();
   }
 
   // Cargar contactos desde Supabase (con ultimo mensaje y no leidos)
@@ -2108,9 +2163,12 @@
       const preview = c.ultimoMensaje
         ? (c.ultimoMensajeEsMio ? "Tu: " : "") + c.ultimoMensaje
         : "";
-      const subLinea = preview || statusLine;
-      const previewColor = c.noLeidos > 0 ? "#e8edf9" : "#666";
-      const previewWeight = c.noLeidos > 0 ? "600" : "400";
+      const estaEscribiendo = chatRTTypingUsers[c.contactId] && (Date.now() - chatRTTypingUsers[c.contactId]) < 4000;
+      const subLinea = estaEscribiendo
+        ? '<span style="color:#22c55e;font-style:italic;">Escribiendo...</span>'
+        : (preview || statusLine);
+      const previewColor = estaEscribiendo ? "#22c55e" : (c.noLeidos > 0 ? "#e8edf9" : "#666");
+      const previewWeight = estaEscribiendo ? "600" : (c.noLeidos > 0 ? "600" : "400");
       const badge = c.noLeidos > 0
         ? '<div style="min-width:20px;height:20px;border-radius:10px;background:#2563eb;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;">' + c.noLeidos + '</div>'
         : '';
@@ -2345,6 +2403,7 @@
     chatRTPollingActivo = true;
     chatRTUltimoMsgTs = null;
     chatRTCargarMensajes().then(() => { chatRTPollingLoop(); });
+    chatRTSuscribirTyping(contacto.contactId);
   }
 
   // Marcar mensajes como leidos
@@ -2384,7 +2443,7 @@
     for (const msg of data) {
       const esMio = msg.sender_id === session.user.id;
       const foto = esMio ? obtenerFotoRT() : (chatRTChatActivo.foto || _defaultPhoto);
-      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id);
+      chatRTAgregarMensaje(esMio ? "usuario" : "otro", msg.content, foto, msg.id, msg.created_at);
     }
     // Guardar timestamp del ultimo mensaje para el polling
     if (data.length > 0) chatRTUltimoMsgTs = data[data.length - 1].created_at;
@@ -2409,7 +2468,7 @@
             // Deduplicar: no agregar si ya esta en el DOM
             if (!document.querySelector('[data-rt-msgid="' + msg.id + '"]')) {
               const foto = chatRTChatActivo.foto || _defaultPhoto;
-              chatRTAgregarMensaje("otro", msg.content, foto, msg.id);
+              chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at);
               chatRTMarcarLeidos(msg.sender_id);
             }
           } else {
@@ -2455,7 +2514,7 @@
           const yaExiste = document.querySelector('[data-rt-msgid="' + msg.id + '"]');
           if (!yaExiste) {
             const foto = chatRTChatActivo.foto || _defaultPhoto;
-            chatRTAgregarMensaje("otro", msg.content, foto, msg.id);
+            chatRTAgregarMensaje("otro", msg.content, foto, msg.id, msg.created_at);
             chatRTMarcarLeidos(msg.sender_id);
           }
         }
@@ -2533,6 +2592,10 @@
   // Enviar mensaje
   async function chatRTEnviarMensajeRT() {
     if (!chatRTChatActivo) return;
+    chatRTEnviarTypingStop();
+    chatRTTypingVisible = false;
+    if (chatRTTypingDebounce) { clearTimeout(chatRTTypingDebounce); chatRTTypingDebounce = null; }
+    if (chatRTTypingInterval) { clearInterval(chatRTTypingInterval); chatRTTypingInterval = null; }
     const input = document.getElementById("chatRTInput");
     const btnEnviar = document.getElementById("chatRTEnviar");
     if (!input || !btnEnviar) return;
@@ -2546,7 +2609,7 @@
     input.style.height = "auto";
     btnEnviar.disabled = true;
     // Insercion optimista: mostrar el mensaje al instante
-    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT());
+    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT(), null, new Date().toISOString());
     chatRTUltimoMsgTs = new Date().toISOString();
     const { error } = await sb.from("direct_messages").insert({
       sender_id: session.user.id,
@@ -2829,7 +2892,8 @@
   }
 
   function ocultarChatRT() {
-    chatRTPararPolling();
+    chatRTCerrarTodasConexiones();
+    if (chatRTInactividadTimer) { clearTimeout(chatRTInactividadTimer); chatRTInactividadTimer = null; }
     chatRTOverlay.style.animation = "notifSlideOut 0.2s ease-in";
     setTimeout(() => {
       chatRTOverlay.style.display = "none";
@@ -2946,7 +3010,7 @@
     dibujarLinea("chatRTThreadLineOtro", '[data-role="rt-otro"]');
   }
 
-  function chatRTAgregarMensaje(rol, texto, fotoUrl, msgId) {
+  function chatRTAgregarMensaje(rol, texto, fotoUrl, msgId, createdAt) {
     const chatRTMensajes = document.getElementById("chatRTMensajes");
     if (!chatRTMensajes) return;
     const esUsuario = rol === "usuario";
@@ -2968,9 +3032,26 @@
 
     const textoRenderizado = "<em>" + chatRTParsearMarkdown(texto) + "</em>";
 
+    // Formato de fecha: hora + fecha si no es hoy
+    let fechaHTML = "";
+    if (createdAt) {
+      const d = new Date(createdAt);
+      const ahora = new Date();
+      const esHoy = d.toDateString() === ahora.toDateString();
+      const ayer = new Date(ahora); ayer.setDate(ayer.getDate() - 1);
+      const esAyer = d.toDateString() === ayer.toDateString();
+      const hora = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true });
+      let fechaStr = hora;
+      if (!esHoy) {
+        if (esAyer) fechaStr = "Ayer " + hora;
+        else fechaStr = d.toLocaleDateString() + " " + hora;
+      }
+      fechaHTML = '<div style="font-size:10px;color:#555;margin-top:4px;' + (esUsuario ? "text-align:right;" : "text-align:left;") + '">' + fechaStr + '</div>';
+    }
+
     const conectorPosRT = esUsuario ? "right:30px;" : "left:28px;";
     const conectorHTMLRT = '<div style="position:absolute;top:14px;' + conectorPosRT + 'width:8px;height:1px;background:#222233;pointer-events:none;"></div>';
-    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;overflow:hidden;' + avatarBg + '">' + avatarHTML + '</div>' + conectorHTMLRT + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + '</div>';
+    row.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;flex-shrink:0;overflow:hidden;' + avatarBg + '">' + avatarHTML + '</div>' + conectorHTMLRT + '<div style="padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;overflow-wrap:break-word;white-space:normal;max-width:calc(100vw - 120px);' + burbujaBg + '">' + textoRenderizado + fechaHTML + '</div>';
 
     wrapper.appendChild(row);
     chatRTMensajes.appendChild(wrapper);
@@ -2978,14 +3059,87 @@
     chatRTReconstruirConectores();
   }
 
+  // === TYPING INDICATOR ===
+  let chatRTTypingChannel = null;
+  let chatRTTypingDebounce = null;
+  let chatRTTypingVisible = false;
+  let chatRTTypingInterval = null;
+  let chatRTTypingUsers = {};
+
+  function chatRTSuscribirTyping(otroUserId) {
+    const sb = getSupabase();
+    if (!sb || !otroUserId) return;
+    if (chatRTTypingChannel) { try { sb.removeChannel(chatRTTypingChannel); } catch(e) {} }
+    let myId = null;
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (session) myId = session.user.id;
+      const channelName = "typing_" + [myId, otroUserId].sort().join("_");
+      chatRTTypingChannel = sb.channel(channelName)
+        .on("broadcast", { event: "typing_start" }, (payload) => {
+          if (payload.payload && payload.payload.userId !== myId) {
+            chatRTTypingUsers[payload.payload.userId] = Date.now();
+            if (chatRTChatActivo && chatRTChatActivo.contactId === payload.payload.userId) {
+              chatRTMostrarTyping();
+            }
+            chatRTMostrarContactosEnLista();
+          }
+        })
+        .on("broadcast", { event: "typing_stop" }, (payload) => {
+          if (payload.payload && payload.payload.userId !== myId) {
+            delete chatRTTypingUsers[payload.payload.userId];
+            if (chatRTChatActivo && chatRTChatActivo.contactId === payload.payload.userId) {
+              chatRTQuitarTyping();
+            }
+            chatRTMostrarContactosEnLista();
+          }
+        })
+        .subscribe();
+    });
+  }
+
+  function chatRTEnviarTypingStart() {
+    const sb = getSupabase();
+    if (!sb || !chatRTTypingChannel || !chatRTChatActivo) return;
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (!session) return;
+      chatRTTypingChannel.send({ type: "broadcast", event: "typing_start", payload: { userId: session.user.id } });
+    });
+  }
+
+  function chatRTEnviarTypingStop() {
+    const sb = getSupabase();
+    if (!sb || !chatRTTypingChannel || !chatRTChatActivo) return;
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (!session) return;
+      chatRTTypingChannel.send({ type: "broadcast", event: "typing_stop", payload: { userId: session.user.id } });
+    });
+  }
+
+  function chatRTOnTypingInput() {
+    if (!chatRTTypingVisible) {
+      chatRTEnviarTypingStart();
+      chatRTTypingVisible = true;
+      // Reenviar typing_start cada 3 segundos mientras se sigue escribiendo
+      chatRTTypingInterval = setInterval(() => chatRTEnviarTypingStart(), 3000);
+    }
+    if (chatRTTypingDebounce) clearTimeout(chatRTTypingDebounce);
+    chatRTTypingDebounce = setTimeout(() => {
+      chatRTEnviarTypingStop();
+      chatRTTypingVisible = false;
+      if (chatRTTypingInterval) { clearInterval(chatRTTypingInterval); chatRTTypingInterval = null; }
+    }, 2000);
+  }
+
+  // Dentro del chat: solo 3 puntos animados (sin texto)
   function chatRTMostrarTyping() {
+    if (document.getElementById("chatRTTyping")) return;
     const chatRTMensajes = document.getElementById("chatRTMensajes");
     if (!chatRTMensajes) return;
     const foto = chatRTChatActivo ? (chatRTChatActivo.foto || _defaultPhoto) : _defaultPhoto;
     const div = document.createElement("div");
     div.id = "chatRTTyping";
-    div.style.cssText = "display:flex;gap:8px;align-self:flex-start;animation:chatEntrar 0.2s ease;";
-    div.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;background:#2563eb;flex-shrink:0;overflow:hidden;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div><div style="display:flex;align-items:center;gap:6px;color:#555;font-size:12px;">Escribiendo<span style="display:inline-flex;gap:3px;"><span style="width:5px;height:5px;border-radius:50%;background:#2563eb;animation:chatPulse 1.2s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#2563eb;animation:chatPulse 1.2s 0.15s infinite ease-in-out;"></span><span style="width:5px;height:5px;border-radius:50%;background:#2563eb;animation:chatPulse 1.2s 0.3s infinite ease-in-out;"></span></span></div>';
+    div.style.cssText = "display:flex;gap:8px;align-self:flex-start;animation:chatEntrar 0.2s ease;padding:3px 0;width:100%;";
+    div.innerHTML = '<div style="width:28px;height:28px;border-radius:8px;background:#2563eb;flex-shrink:0;overflow:hidden;"><img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;" /></div><div style="display:flex;align-items:center;padding:9px 13px;background:#111118;border:1px solid #1a1a24;border-radius:12px;border-top-left-radius:4px;"><span style="display:inline-flex;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#555;animation:chatPulse 1.2s infinite ease-in-out;"></span><span style="width:6px;height:6px;border-radius:50%;background:#555;animation:chatPulse 1.2s 0.2s infinite ease-in-out;"></span><span style="width:6px;height:6px;border-radius:50%;background:#555;animation:chatPulse 1.2s 0.4s infinite ease-in-out;"></span></span></div>';
     chatRTMensajes.appendChild(div);
     chatRTMensajes.scrollTop = chatRTMensajes.scrollHeight;
   }
@@ -3001,7 +3155,7 @@
     if (!inp) return;
     const texto = inp.value.trim();
     if (!texto) return;
-    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT());
+    chatRTAgregarMensaje("usuario", texto, obtenerFotoRT(), null, new Date().toISOString());
     inp.value = "";
     inp.style.height = "auto";
     btn.disabled = true;
@@ -3308,6 +3462,7 @@
         chatRTInput.style.height = "auto";
         chatRTInput.style.height = Math.min(chatRTInput.scrollHeight, 100) + "px";
         if (btnEnviarRT) btnEnviarRT.disabled = !chatRTInput.value.trim();
+        if (chatRTChatActivo) chatRTOnTypingInput();
       });
       chatRTInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
