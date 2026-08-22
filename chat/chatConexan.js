@@ -35,6 +35,15 @@
   // ============================
   const notificacionesBase = [
     {
+      id: 103,
+      titulo: "Comunicado: pausa en el desarrollo de nuevas funcionalidades",
+      descripcion: "Existe un plan de desarrollo ambicioso que contempla: ampliación del catálogo bíblico, módulo de estudio bíblico avanzado y diccionarios bíblicos de referencia. Cada funcionalidad representa una inversión de más de 1.500 dólares y meses de trabajo. El respaldo recibido no ha sido suficiente para sostener este ritmo, por lo que pausaremos las actualizaciones mayores hasta contar con el apoyo necesario. Las funcionalidades existentes seguirán disponibles con total normalidad.",
+      fecha: "2026-08-22",
+      categoria: "aviso",
+      enlace: "",
+      leida: false,
+    },
+    {
       id: 101,
       imagen: "//proyectoja.github.io/images/arcan-player-bannerUno.png",
       titulo: "ARCAN PLAYER",
