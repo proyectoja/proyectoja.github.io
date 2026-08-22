@@ -1057,9 +1057,10 @@
   async function esSuperadmin() {
     if (_superadminConsultado) return _superadminCache;
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      if (!_supabase) { _superadminCache = false; _superadminConsultado = true; return false; }
+      const { data: { user } } = await _supabase.auth.getUser();
       if (!user) { _superadminCache = false; _superadminConsultado = true; return false; }
-      const { data, error } = await supabase.rpc("check_superadmin", { uid: user.id });
+      const { data, error } = await _supabase.rpc("check_superadmin", { uid: user.id });
       _superadminCache = !error && data === true;
       _superadminConsultado = true;
       return _superadminCache;
