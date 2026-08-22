@@ -1547,6 +1547,14 @@
   _autofillStyle.textContent = 'input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active{-webkit-box-shadow:0 0 0 30px #111 inset!important;-webkit-text-fill-color:#e8edf9!important;caret-color:#e8edf9!important;transition:background-color 5000s ease-in-out 0s}input[data-autocompleted]{background-color:#111!important;color:#e8edf9!important}';
   document.head.appendChild(_autofillStyle);
 
+  // Bloquear clic derecho y seleccion de texto en toda la app
+  const _noSelectStyle = document.createElement("style");
+  _noSelectStyle.textContent = '#chat-rt-overlay, #chat-rt-overlay * { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } #chat-rt-overlay input, #chat-rt-overlay textarea { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }';
+  document.head.appendChild(_noSelectStyle);
+  document.addEventListener("contextmenu", (e) => {
+    if (chatRTOverlay && chatRTOverlay.style.display !== "none") e.preventDefault();
+  });
+
   chatRTOverlay.innerHTML = `
     <div id="chatRTRResizeHandle" style="position:absolute;left:0;top:0;width:5px;height:100%;cursor:ew-resize;z-index:10;transition:background 0.15s;"></div>
 
@@ -1961,6 +1969,13 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+      <!-- Barra de eliminar (modo seleccion): contenedor completo rojo transparente -->
+      <div id="chatRTEliminarBar" style="display:none;padding:14px 16px;border-top:1px solid #7f1d1d;background:rgba(220,38,38,0.55);cursor:pointer;transition:background 0.15s;" onclick="chatRTEjecutarEliminar()" onmouseover="this.style.background='rgba(220,38,38,0.7)'" onmouseout="this.style.background='rgba(220,38,38,0.55)'">
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          <span id="chatRTEliminarContador" style="font-size:14px;font-weight:700;color:#fff;">Eliminar</span>
+        </div>
+      </div>
       <div id="chatRTComposer" style="padding:10px;border-top:1px solid #1a1a1a;background:#111;">
         <div style="display:flex;gap:8px;align-items:flex-end;">
           <button id="chatRTEmojiBtn" style="width:36px;height:36px;border:none;border-radius:8px;background:transparent;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;" title="Emoji">
@@ -2189,8 +2204,14 @@
     _chatRTGrupoTypingUsers = {};
     _chatRTChatGrupoActivo = false;
     _chatRTGrupoBloqueado = false;
+    _chatRTModoEliminar = false;
+    _chatRTSeleccionEliminar = {};
     const avisoBloqueo = document.getElementById("chatRTGrupoCerradoAviso");
     if (avisoBloqueo) avisoBloqueo.style.display = "none";
+    const barElim = document.getElementById("chatRTEliminarBar");
+    if (barElim) barElim.style.display = "none";
+    const composerC = document.getElementById("chatRTComposer");
+    if (composerC) composerC.style.display = "block";
   }
   function chatRTReanudarConexiones() {
     const sb = getSupabase();
@@ -5016,6 +5037,10 @@
   let _chatRTSwipeStartY = null;
   let _chatRTSwipeMio = false;
   let _chatRTSwipeActivo = false;
+  // Modo eliminar (swipe vertical abajo)
+  let _chatRTModoEliminar = false;
+  let _chatRTSeleccionEliminar = {}; // msgId -> true
+  let _chatRTSwipeDir = null; // "responder" | "eliminar"
 
   function chatRTIniciarSwipeGlobal() {
     if (window._chatRTSwipeGlobalIniciado) return;
@@ -5028,30 +5053,59 @@
       _chatRTSwipeStartY = e.touches[0].clientY;
       _chatRTSwipeMio = w.getAttribute("data-role") === "rt-usuario";
       _chatRTSwipeActivo = false;
+      _chatRTSwipeDir = null;
     }, { passive: true });
     document.addEventListener("touchmove", (e) => {
       if (!_chatRTSwipeW || _chatRTSwipeStartX === null) return;
-      const t = e.touches[0];
-      const dx = t.clientX - _chatRTSwipeStartX;
+      const t = e.touches[0];      const dx = t.clientX - _chatRTSwipeStartX;
       const dy = t.clientY - _chatRTSwipeStartY;
-      if (Math.abs(dy) > Math.abs(dx) * 1.5) { _chatRTSwipeW = null; return; }
-      if (_chatRTSwipeMio) { if (dx < -8) _chatRTSwipeActivo = true; }
-      else { if (dx > 8) _chatRTSwipeActivo = true; }
-      if (_chatRTSwipeActivo) {
-        const v = _chatRTSwipeMio ? Math.max(dx, -60) : Math.min(dx, 60);
-        _chatRTSwipeW.style.transform = "translateX(" + v + "px)";
+      // Determinar direccion dominante
+      if (!_chatRTSwipeDir) {
+        if (Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx) * 1.3) {
+          _chatRTSwipeDir = dy > 0 ? "eliminar" : "cancelar";
+        } else if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+          _chatRTSwipeDir = "responder";
+        }
       }
-    }, { passive: true });
+      if (_chatRTSwipeDir === "eliminar") {
+        // Deslizar hacia abajo: mostrar indicador de eliminar
+        _chatRTSwipeActivo = true;
+        _chatRTSwipeW.style.transform = "translateY(" + Math.min(dy, 40) + "px)";
+        if (e.cancelable) e.preventDefault();
+      } else if (_chatRTSwipeDir === "cancelar") {
+        if (_chatRTModoEliminar) {
+          _chatRTSwipeActivo = true;
+          _chatRTSwipeW.style.transform = "translateY(" + Math.max(dy, -40) + "px)";
+          if (e.cancelable) e.preventDefault();
+        } else {
+          _chatRTSwipeW = null;
+        }
+      } else if (_chatRTSwipeDir === "responder") {
+        if (_chatRTModoEliminar) { _chatRTSwipeW = null; return; }
+        if (_chatRTSwipeMio) { if (dx < -8) _chatRTSwipeActivo = true; }
+        else { if (dx > 8) _chatRTSwipeActivo = true; }
+        if (_chatRTSwipeActivo) {
+          const v = _chatRTSwipeMio ? Math.max(dx, -60) : Math.min(dx, 60);
+          _chatRTSwipeW.style.transform = "translateX(" + v + "px)";
+        }
+      }
+    }, { passive: false });
     document.addEventListener("touchend", () => {
       if (_chatRTSwipeW) {
         _chatRTSwipeW.style.transform = "";
         if (_chatRTSwipeActivo) {
           const w = _chatRTSwipeW;
           const mid = w.getAttribute("data-rt-msgid");
-          if (mid && !_chatRTGrupoBloqueado) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+          if (_chatRTSwipeDir === "eliminar") {
+            if (mid && !_chatRTGrupoBloqueado) chatRTAbrirModoEliminar(mid);
+          } else if (_chatRTSwipeDir === "cancelar") {
+            chatRTCerrarModoEliminar();
+          } else if (_chatRTSwipeDir === "responder") {
+            if (mid && !_chatRTGrupoBloqueado) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+          }
         }
       }
-      _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false;
+      _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false; _chatRTSwipeDir = null;
     });
     document.addEventListener("mousedown", (e) => {
       const w = e.target && e.target.closest ? e.target.closest("[data-rt-msgid]") : null;
@@ -5061,17 +5115,35 @@
       _chatRTSwipeStartY = e.clientY;
       _chatRTSwipeMio = w.getAttribute("data-role") === "rt-usuario";
       _chatRTSwipeActivo = false;
+      _chatRTSwipeDir = null;
     });
     document.addEventListener("mousemove", (e) => {
       if (!_chatRTSwipeW || _chatRTSwipeStartX === null) return;
       const dx = e.clientX - _chatRTSwipeStartX;
       const dy = e.clientY - _chatRTSwipeStartY;
-      if (Math.abs(dy) > Math.abs(dx) * 1.5) { _chatRTSwipeW = null; return; }
-      if (_chatRTSwipeMio) { if (dx < -8) _chatRTSwipeActivo = true; }
-      else { if (dx > 8) _chatRTSwipeActivo = true; }
-      if (_chatRTSwipeActivo) {
-        const v = _chatRTSwipeMio ? Math.max(dx, -60) : Math.min(dx, 60);
-        _chatRTSwipeW.style.transform = "translateX(" + v + "px)";
+      if (!_chatRTSwipeDir) {
+        if (Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx) * 1.3) {
+          _chatRTSwipeDir = dy > 0 ? "eliminar" : "cancelar";
+        } else if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+          _chatRTSwipeDir = "responder";
+        }
+      }
+      if (_chatRTSwipeDir === "eliminar") {
+        _chatRTSwipeActivo = true;
+        _chatRTSwipeW.style.transform = "translateY(" + Math.min(dy, 40) + "px)";
+      } else if (_chatRTSwipeDir === "cancelar") {
+        if (_chatRTModoEliminar) {
+          _chatRTSwipeActivo = true;
+          _chatRTSwipeW.style.transform = "translateY(" + Math.max(dy, -40) + "px)";
+        } else { _chatRTSwipeW = null; }
+      } else if (_chatRTSwipeDir === "responder") {
+        if (_chatRTModoEliminar) { _chatRTSwipeW = null; return; }
+        if (_chatRTSwipeMio) { if (dx < -8) _chatRTSwipeActivo = true; }
+        else { if (dx > 8) _chatRTSwipeActivo = true; }
+        if (_chatRTSwipeActivo) {
+          const v = _chatRTSwipeMio ? Math.max(dx, -60) : Math.min(dx, 60);
+          _chatRTSwipeW.style.transform = "translateX(" + v + "px)";
+        }
       }
     });
     document.addEventListener("mouseup", () => {
@@ -5080,10 +5152,16 @@
         if (_chatRTSwipeActivo) {
           const w = _chatRTSwipeW;
           const mid = w.getAttribute("data-rt-msgid");
-          if (mid && !_chatRTGrupoBloqueado) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+          if (_chatRTSwipeDir === "eliminar") {
+            if (mid && !_chatRTGrupoBloqueado) chatRTAbrirModoEliminar(mid);
+          } else if (_chatRTSwipeDir === "cancelar") {
+            chatRTCerrarModoEliminar();
+          } else if (_chatRTSwipeDir === "responder") {
+            if (mid && !_chatRTGrupoBloqueado) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+          }
         }
       }
-      _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false;
+      _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false; _chatRTSwipeDir = null;
     });
   }
 
@@ -5140,6 +5218,130 @@
     const r = chatRTReplyContenidos[replyToId];
     if (r && r.texto) return r;
     return { texto: "Mensaje anterior", autor: "Mensaje" };
+  }
+
+  // === MODO ELIMINAR (swipe abajo, como Telegram) ===
+  // Un mensaje es eliminable si: es mio, o soy admin/owner del grupo
+  function chatRTMensajeEliminable(msgId) {
+    if (!msgId) return false;
+    const w = document.querySelector('[data-rt-msgid="' + msgId + '"]');
+    if (!w) return false;
+    const esMio = w.getAttribute("data-role") === "rt-usuario";
+    if (esMio) return true;
+    // Mensaje de otro: solo admin/owner del grupo pueden
+    if (_chatRTChatGrupoActivo && _chatRTGrupoActivo) {
+      const rol = _chatRTGrupoActivo.rol || "member";
+      return rol === "owner" || rol === "admin";
+    }
+    return false; // En DM, no se puede eliminar el mensaje de la otra persona
+  }
+
+  function chatRTAbrirModoEliminar(msgId) {
+    if (!chatRTMensajeEliminable(msgId)) return;
+    _chatRTModoEliminar = true;
+    _chatRTSeleccionEliminar = {};
+    _chatRTSeleccionEliminar[msgId] = true;
+    // Ocultar barra de responder y composer
+    const replyBar = document.getElementById("chatRTReplyBar");
+    if (replyBar) replyBar.style.display = "none";
+    chatRTRespondiendoA = null;
+    const composer = document.getElementById("chatRTComposer");
+    if (composer) composer.style.display = "none";
+    const emojiPanel = document.getElementById("chatRTEmojiPanel");
+    if (emojiPanel) emojiPanel.style.display = "none";
+    chatRTMostrarBarraEliminar();
+    chatRTActualizarPalomitas();
+  }
+
+  function chatRTToggleEliminar(msgId) {
+    if (!_chatRTModoEliminar) return;
+    if (!chatRTMensajeEliminable(msgId)) return;
+    if (_chatRTSeleccionEliminar[msgId]) delete _chatRTSeleccionEliminar[msgId];
+    else _chatRTSeleccionEliminar[msgId] = true;
+    chatRTMostrarBarraEliminar();
+    chatRTActualizarPalomitas();
+  }
+
+  function chatRTCerrarModoEliminar() {
+    _chatRTModoEliminar = false;
+    _chatRTSeleccionEliminar = {};
+    const bar = document.getElementById("chatRTEliminarBar");
+    if (bar) bar.style.display = "none";
+    const composer = document.getElementById("chatRTComposer");
+    if (composer) composer.style.display = "block";
+    chatRTActualizarPalomitas();
+  }
+
+  function chatRTMostrarBarraEliminar() {
+    const bar = document.getElementById("chatRTEliminarBar");
+    if (!bar) return;
+    const n = Object.keys(_chatRTSeleccionEliminar).length;
+    const cont = document.getElementById("chatRTEliminarContador");
+    if (cont) cont.textContent = n > 1 ? "Eliminar (" + n + ")" : "Eliminar";
+    bar.style.display = "flex";
+  }
+
+  // Pintar palomitas de seleccion en los mensajes
+  function chatRTActualizarPalomitas() {
+    const cont = document.getElementById("chatRTMensajes");
+    if (!cont) return;
+    cont.querySelectorAll("[data-rt-msgid]").forEach(w => {
+      const mid = w.getAttribute("data-rt-msgid");
+      let chk = w.querySelector(".chatRTPalomita");
+      if (_chatRTModoEliminar && chatRTMensajeEliminable(mid)) {
+        if (!chk) {
+          chk = document.createElement("div");
+          chk.className = "chatRTPalomita";
+          // Campo sobrante exterior: a la derecha para mensajes de otros, izquierda para propios
+          const esMioPal = w.getAttribute("data-role") === "rt-usuario";
+          chk.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;border:2px solid #555;display:flex;align-items:center;justify-content:center;z-index:5;cursor:pointer;transition:all 0.15s;" + (esMioPal ? "left:6px;" : "right:6px;");
+          w.appendChild(chk);
+        }
+        const sel = !!_chatRTSeleccionEliminar[mid];
+        chk.style.background = sel ? "#2563eb" : "transparent";
+        chk.style.borderColor = sel ? "#2563eb" : "#555";
+        chk.innerHTML = sel ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '';
+        chk.onclick = (e) => { e.stopPropagation(); chatRTToggleEliminar(mid); };
+      } else {
+        if (chk) chk.remove();
+      }
+    });
+  }
+
+  // Ejecutar eliminacion de los mensajes seleccionados
+  async function chatRTEjecutarEliminar() {
+    const ids = Object.keys(_chatRTSeleccionEliminar);
+    if (ids.length === 0) return;
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    const ok = await chatRTConfirmar({
+      titulo: "Eliminar mensajes",
+      mensaje: ids.length === 1 ? "¿Eliminar este mensaje?" : "¿Eliminar " + ids.length + " mensajes?\nEsta accion no se puede deshacer.",
+      peligro: true,
+      aceptarTexto: "Eliminar",
+    });
+    if (!ok) return;
+    for (const id of ids) {
+      const w = document.querySelector('[data-rt-msgid="' + id + '"]');
+      if (!w) continue;
+      const esMio = w.getAttribute("data-role") === "rt-usuario";
+      if (_chatRTChatGrupoActivo && _chatRTGrupoActivo) {
+        const rol = _chatRTGrupoActivo.rol || "member";
+        const puedo = esMio || rol === "owner" || rol === "admin";
+        if (!puedo) continue;
+        const { error } = await sb.from("group_messages").delete().eq("id", id);
+        if (!error && w.parentNode) w.parentNode.removeChild(w);
+      } else {
+        if (!esMio) continue;
+        const { error } = await sb.from("direct_messages").delete().eq("id", id).eq("sender_id", session.user.id);
+        if (!error && w.parentNode) w.parentNode.removeChild(w);
+      }
+    }
+    chatRTCerrarModoEliminar();
+    chatRTReconstruirConectores();
+    chatRTMostrarSnackbar("Mensaje(s) eliminado(s).");
   }
 
   // Actualizar estado de un mensaje existente (solo borde + icono)
@@ -5706,6 +5908,15 @@
     // Boton cerrar responder
     const chatRTReplyCerrar = document.getElementById("chatRTReplyCerrar");
     if (chatRTReplyCerrar) chatRTReplyCerrar.onclick = () => chatRTCerrarResponder();
+    // Barra eliminar: el contenedor tiene onclick inline (chatRTEjecutarEliminar)
+    // Cerrar modo eliminar con click en el fondo del chat
+    const msgsElim = document.getElementById("chatRTMensajes");
+    if (msgsElim && !msgsElim.getAttribute("data-elim-click")) {
+      msgsElim.setAttribute("data-elim-click", "1");
+      msgsElim.addEventListener("click", (e) => {
+        if (_chatRTModoEliminar && !e.target.closest(".chatRTPalomita")) chatRTCerrarModoEliminar();
+      });
+    }
 
     // Scroll del panel emoji: sincronizar pestaña activa
     const chatRTEmojiScroll = document.getElementById("chatRTEmojiScroll");

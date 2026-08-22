@@ -176,6 +176,10 @@ DO $$ BEGIN
   CREATE POLICY "users_update_read_messages" ON direct_messages FOR UPDATE USING (auth.uid() = sender_id OR auth.uid() = receiver_id);
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
+DO $$ BEGIN
+  CREATE POLICY "users_delete_own_messages" ON direct_messages FOR DELETE USING (auth.uid() = sender_id);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 CREATE INDEX IF NOT EXISTS idx_dm_conversation ON direct_messages(sender_id, receiver_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_dm_receiver ON direct_messages(receiver_id, read);
@@ -330,6 +334,13 @@ CREATE POLICY "gmsg_insert_members" ON group_messages FOR INSERT
       OR
       NOT EXISTS (SELECT 1 FROM groups g WHERE g.id = group_messages.group_id AND NOT g.settings_can_send)
     )
+  );
+-- Eliminar mensajes: propio siempre, o cualquier si es admin/owner
+DROP POLICY IF EXISTS "gmsg_delete_messages" ON group_messages;
+CREATE POLICY "gmsg_delete_messages" ON group_messages FOR DELETE
+  USING (
+    group_messages.sender_id = auth.uid()
+    OR is_group_admin(group_messages.group_id, auth.uid())
   );
 
 CREATE INDEX IF NOT EXISTS idx_gm_group_user ON group_members(group_id, user_id);
