@@ -231,7 +231,7 @@
         guardarNotificaciones();
         actualizarContadorNotificaciones();
         if (notif.enlace) {
-          window.location.href = notif.enlace;
+          window.open(notif.enlace, "_blank");
         } else {
           mostrarNotificaciones();
         }
