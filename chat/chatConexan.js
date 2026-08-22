@@ -50,7 +50,7 @@
       descripcion: "Reproductor de audio y video con interfaz moderna, ecualizador, listas de reproduccion y mas.",
       fecha: "2026-08-18",
       categoria: "promo-app",
-      enlace: "arcan.html",
+      enlace: "https://proyectoja.github.io/arcan.html",
       leida: false,
     },
     {
@@ -60,7 +60,7 @@
       descripcion: "Mira nuestro contenido promocional y descubre todas las funciones del reproductor.",
       fecha: "2026-08-18",
       categoria: "promo-app",
-      enlace: "arcan.html",
+      enlace: "https://proyectoja.github.io/arcan.html",
       leida: false,
     },
     {
@@ -70,7 +70,7 @@
       descripcion: "Descarga la ultima version del Himnario Adventista PRO con todas las canciones, acordes, buscador avanzado y mas.",
       fecha: "2026-08-18",
       categoria: "promo-app",
-      enlace: "himnario.html",
+      enlace: "https://proyectoja.github.io/himnario.html",
       leida: false,
     },
     {
