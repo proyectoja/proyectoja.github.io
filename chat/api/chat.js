@@ -1,5 +1,6 @@
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const CEREBRAS_API_KEY = process.env.CEREBRAS_API_KEY;
+const { vectorSearch } = require("./rag");
 const fs = require("fs");
 const path = require("path");
 
@@ -90,7 +91,7 @@ function loadDocs() {
   return chunksCache;
 }
 
-// === RAG: Busqueda por relevancia (TF-IDF simplificado) ===
+// === RAG: Busqueda por relevancia ===
 function normalize(text) {
   return text.toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -103,32 +104,81 @@ function tokenize(text) {
   return normalize(text);
 }
 
+// Mapa de sinonimos para mejorar la busqueda
+const SINONIMOS = {
+  precio: ["costo", "valor", "tarifa", "mensual", "anual", "dolares", "pago", "plan", "basico", "premium", "gratis", "suscripcion"],
+  plan: ["precio", "costo", "basico", "premium", "gratis", "suscripcion", "tarifa"],
+  himnario: ["hymnal", "cancionero", "himnos", "cantos", "alabanza"],
+  biblia: ["biblico", "versiculo", "libro", "capitulo", "version", "rvr", "nvi"],
+  instalar: ["instalacion", "descarga", "sistema", "requisitos", "windows", "mac", "linux"],
+  funcion: ["funcionalidad", "caracteristica", "recurso", "herramienta", "modo"],
+  video: ["youtube", "reproduccion", "pantalla", "proyeccion", "monitor"],
+};
+
 function scoreChunk(queryTokens, chunk) {
   const chunkText = normalize(chunk.full).join(" ");
+  const titleNorm = normalize(chunk.title).join(" ");
   let score = 0;
 
+  // Expandir query tokens con sinonimos
+  const expandedTokens = [...queryTokens];
+  for (const token of queryTokens) {
+    for (const [key, syns] of Object.entries(SINONIMOS)) {
+      if (key.includes(token) || token.includes(key)) {
+        expandedTokens.push(...syns);
+      }
+    }
+  }
+
+  // FASE 1: Coincidencia en titulo
+  for (const token of expandedTokens) {
+    if (titleNorm.includes(token)) score += 8;
+  }
+
+  // FASE 2: Coincidencia en cuerpo
   for (const token of queryTokens) {
     const regex = new RegExp(token, "gi");
     const matches = chunkText.match(regex);
     if (matches) {
-      score += matches.length;
+      score += matches.length * 2;
     }
-    // Buscar aussi la raiz (sin ultimas letras) para plurales/conjugaciones
+  }
+
+  // FASE 3: Raiz para plurales
+  for (const token of queryTokens) {
     if (token.length > 4) {
       const raiz = token.slice(0, -2);
       const regexRaiz = new RegExp(raiz, "gi");
       const matchesRaiz = chunkText.match(regexRaiz);
       if (matchesRaiz) {
-        score += matchesRaiz.length * 0.5;
+        score += matchesRaiz.length;
       }
     }
   }
 
-  // Bonus por coincidencia en el titulo normalizado
-  const titleNorm = normalize(chunk.title).join(" ");
-  for (const token of queryTokens) {
-    if (titleNorm.includes(token)) score += 3;
+  // FASE 4: Bonus por keywords de alto valor en titulo
+  const keywordsAltoValor = ["precio", "plan", "basico", "premium", "gratis", "suscripcion", "costo", "funcion", "caracteristica", "instalacion", "tutorial", "biblia", "control remoto", "youtube", "powerpoint"];
+  for (const kw of keywordsAltoValor) {
+    if (titleNorm.includes(kw)) {
+      for (const token of expandedTokens) {
+        if (kw.includes(token) || token.includes(kw)) score += 5;
+      }
+    }
   }
+
+  // FASE 5: Detectar precios numericos ($X.XX) como senal de chunk de pricing
+  const tienePrecio = /\$\d/.test(chunk.full);
+  if (tienePrecio) {
+    for (const token of queryTokens) {
+      if (["precio", "costo", "plan", "cuanto", "vale", "pago", "suscripcion"].some(p => token.includes(p) || p.includes(token))) {
+        score += 15;
+      }
+    }
+  }
+
+  // FASE 6: Penalizar chunks largos
+  if (chunk.text.length > 4000) score *= 0.8;
+  if (chunk.text.length > 6000) score *= 0.7;
 
   return score;
 }
@@ -190,12 +240,20 @@ module.exports = async function handler(req, res) {
 
   // Obtener el ultimo mensaje del usuario para buscar contexto
   const ultimoMensaje = [...messages].reverse().find(m => m.role === "user")?.content || "";
-  const contextoDocs = searchDocs(ultimoMensaje, 6);
+
+  let contextoDocs = await vectorSearch(ultimoMensaje, 6);
+  let metodoBusqueda = "vector";
+
+  if (!contextoDocs) {
+    contextoDocs = searchDocs(ultimoMensaje, 6);
+    metodoBusqueda = "tfidf";
+  }
 
   console.log("Query:", ultimoMensaje);
+  console.log("Metodo:", metodoBusqueda);
   console.log("Docs encontrados:", contextoDocs.length);
   if (contextoDocs.length > 0) {
-    console.log("Top chunks:", contextoDocs.map(c => c.app + "/" + c.title + " (score:" + c.score + ")"));
+    console.log("Top chunks:", contextoDocs.map(c => c.app + "/" + c.title + " (score:" + c.score.toFixed(4) + ")"));
   }
 
   // Construir sistema con contexto RAG

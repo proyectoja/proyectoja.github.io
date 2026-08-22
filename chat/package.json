@@ -1,5 +1,11 @@
 {
   "name": "proyectoja-github-io",
-  "version": "1.0.0",
-  "private": true
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "embed": "node scripts/embed_docs.js"
+  },
+  "dependencies": {
+    "cohere-ai": "^7.14.0"
+  }
 }
