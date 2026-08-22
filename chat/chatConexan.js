@@ -346,6 +346,11 @@
           to { transform: translateY(100%); opacity: 0; }
       }
 
+      @keyframes chatRTEliminarSlide {
+          from { transform: translateY(100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+      }
+
       #chat-ia-overlay::-webkit-scrollbar { width: 4px; }
       #chat-ia-overlay::-webkit-scrollbar-track { background: transparent; }
       #chat-ia-overlay::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
@@ -1969,12 +1974,12 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <!-- Barra de eliminar (modo seleccion): contenedor completo rojo transparente -->
-      <div id="chatRTEliminarBar" style="display:none;padding:14px 16px;border-top:1px solid #7f1d1d;background:rgba(220,38,38,0.55);cursor:pointer;transition:background 0.15s;" onclick="chatRTEjecutarEliminar()" onmouseover="this.style.background='rgba(220,38,38,0.7)'" onmouseout="this.style.background='rgba(220,38,38,0.55)'">
-        <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+      <!-- Barra de eliminar (modo seleccion): rojo transparente, animacion hacia arriba -->
+      <div id="chatRTEliminarBar" style="display:none;padding:14px 16px;border-top:2px solid #ef4444;background:rgba(239,68,68,0.15);cursor:pointer;transition:background 0.15s;width:100%;box-sizing:border-box;flex:0 0 auto;align-items:center;justify-content:center;" onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'">
+        <span style="display:inline-flex;align-items:center;justify-content:center;gap:10px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
           <span id="chatRTEliminarContador" style="font-size:14px;font-weight:700;color:#fff;">Eliminar</span>
-        </div>
+        </span>
       </div>
       <div id="chatRTComposer" style="padding:10px;border-top:1px solid #1a1a1a;background:#111;">
         <div style="display:flex;gap:8px;align-items:flex-end;">
@@ -2051,7 +2056,12 @@
     if (vista === chatRTVistaActual) return;
     chatRTVistaActual = vista;
     // Detener polling si salimos del chat
-    if (vista !== "chat") chatRTPararPolling();
+    if (vista !== "chat") {
+      chatRTPararPolling();
+      // Cancelar modo eliminar/responder al salir del chat
+      if (_chatRTModoEliminar) chatRTCerrarModoEliminar();
+      if (chatRTRespondiendoA) chatRTCerrarResponder();
+    }
     const vistas = ["chatRTVistaLogin", "chatRTVistaRecuperar", "chatRTVistaMain", "chatRTVistaNuevoChat", "chatRTVistaNuevoContacto", "chatRTVistaPerfil", "chatRTVistaColores", "chatRTVistaCrearGrupo", "chatRTVistaInfoGrupo", "chatRTVistaPerfilUsuario", "chatRTVistaChat", "chatRTVistaMenu"];
     vistas.forEach(id => {
       const el = document.getElementById(id);
@@ -5037,6 +5047,9 @@
   let _chatRTSwipeStartY = null;
   let _chatRTSwipeMio = false;
   let _chatRTSwipeActivo = false;
+  let _chatRTSwipeMsgsBottom = null;
+  let _chatRTSwipeH = 0;
+  let _chatRTModoEliminarTiempo = 0;
   // Modo eliminar (swipe vertical abajo)
   let _chatRTModoEliminar = false;
   let _chatRTSeleccionEliminar = {}; // msgId -> true
@@ -5054,23 +5067,34 @@
       _chatRTSwipeMio = w.getAttribute("data-role") === "rt-usuario";
       _chatRTSwipeActivo = false;
       _chatRTSwipeDir = null;
+      _chatRTSwipeH = w.offsetHeight || 40;
+      const msgsC = document.getElementById("chatRTMensajes");
+      _chatRTSwipeMsgsBottom = msgsC ? (msgsC.getBoundingClientRect().bottom - 4) : null;
     }, { passive: true });
     document.addEventListener("touchmove", (e) => {
       if (!_chatRTSwipeW || _chatRTSwipeStartX === null) return;
-      const t = e.touches[0];      const dx = t.clientX - _chatRTSwipeStartX;
+      const t = e.touches[0];
+      const dx = t.clientX - _chatRTSwipeStartX;
       const dy = t.clientY - _chatRTSwipeStartY;
+      // Limitar al area de mensajes: si el puntero supera el fondo, cancelar
+      if (_chatRTSwipeMsgsBottom !== null && t.clientY > _chatRTSwipeMsgsBottom) { _chatRTSwipeW = null; return; }
       // Determinar direccion dominante
       if (!_chatRTSwipeDir) {
-        if (Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx) * 1.3) {
+        if (Math.abs(dy) > 3 && Math.abs(dy) > Math.abs(dx) * 1.3) {
           _chatRTSwipeDir = dy > 0 ? "eliminar" : "cancelar";
-        } else if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        } else if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.3) {
           _chatRTSwipeDir = "responder";
         }
       }
       if (_chatRTSwipeDir === "eliminar") {
-        // Deslizar hacia abajo: mostrar indicador de eliminar
+        // Abrir modo eliminar cuando se baja al 50% de la altura del mensaje
         _chatRTSwipeActivo = true;
-        _chatRTSwipeW.style.transform = "translateY(" + Math.min(dy, 40) + "px)";
+        const umbral50 = Math.max(_chatRTSwipeH * 0.5, 30);
+        _chatRTSwipeW.style.transform = "translateY(" + Math.min(dy, umbral50) + "px)";
+        if (!_chatRTModoEliminar && dy >= umbral50) {
+          const mid = _chatRTSwipeW.getAttribute("data-rt-msgid");
+          if (mid && !_chatRTGrupoBloqueado) chatRTAbrirModoEliminar(mid);
+        }
         if (e.cancelable) e.preventDefault();
       } else if (_chatRTSwipeDir === "cancelar") {
         if (_chatRTModoEliminar) {
@@ -5116,21 +5140,31 @@
       _chatRTSwipeMio = w.getAttribute("data-role") === "rt-usuario";
       _chatRTSwipeActivo = false;
       _chatRTSwipeDir = null;
+      _chatRTSwipeH = w.offsetHeight || 40;
+      const msgsC = document.getElementById("chatRTMensajes");
+      _chatRTSwipeMsgsBottom = msgsC ? (msgsC.getBoundingClientRect().bottom - 4) : null;
     });
     document.addEventListener("mousemove", (e) => {
       if (!_chatRTSwipeW || _chatRTSwipeStartX === null) return;
       const dx = e.clientX - _chatRTSwipeStartX;
       const dy = e.clientY - _chatRTSwipeStartY;
+      // Limitar al area de mensajes
+      if (_chatRTSwipeMsgsBottom !== null && e.clientY > _chatRTSwipeMsgsBottom) { _chatRTSwipeW = null; return; }
       if (!_chatRTSwipeDir) {
-        if (Math.abs(dy) > 6 && Math.abs(dy) > Math.abs(dx) * 1.3) {
+        if (Math.abs(dy) > 3 && Math.abs(dy) > Math.abs(dx) * 1.3) {
           _chatRTSwipeDir = dy > 0 ? "eliminar" : "cancelar";
-        } else if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        } else if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.3) {
           _chatRTSwipeDir = "responder";
         }
       }
       if (_chatRTSwipeDir === "eliminar") {
         _chatRTSwipeActivo = true;
-        _chatRTSwipeW.style.transform = "translateY(" + Math.min(dy, 40) + "px)";
+        const umbral50 = Math.max(_chatRTSwipeH * 0.5, 30);
+        _chatRTSwipeW.style.transform = "translateY(" + Math.min(dy, umbral50) + "px)";
+        if (!_chatRTModoEliminar && dy >= umbral50) {
+          const mid = _chatRTSwipeW.getAttribute("data-rt-msgid");
+          if (mid && !_chatRTGrupoBloqueado) chatRTAbrirModoEliminar(mid);
+        }
       } else if (_chatRTSwipeDir === "cancelar") {
         if (_chatRTModoEliminar) {
           _chatRTSwipeActivo = true;
@@ -5239,6 +5273,7 @@
   function chatRTAbrirModoEliminar(msgId) {
     if (!chatRTMensajeEliminable(msgId)) return;
     _chatRTModoEliminar = true;
+    _chatRTModoEliminarTiempo = Date.now();
     _chatRTSeleccionEliminar = {};
     _chatRTSeleccionEliminar[msgId] = true;
     // Ocultar barra de responder y composer
@@ -5279,6 +5314,10 @@
     const cont = document.getElementById("chatRTEliminarContador");
     if (cont) cont.textContent = n > 1 ? "Eliminar (" + n + ")" : "Eliminar";
     bar.style.display = "flex";
+    // Animacion de subida (re-animar al cambiar seleccion)
+    bar.style.animation = "none";
+    bar.offsetHeight;
+    bar.style.animation = "chatRTEliminarSlide 0.22s ease-out";
   }
 
   // Pintar palomitas de seleccion en los mensajes
@@ -5908,13 +5947,22 @@
     // Boton cerrar responder
     const chatRTReplyCerrar = document.getElementById("chatRTReplyCerrar");
     if (chatRTReplyCerrar) chatRTReplyCerrar.onclick = () => chatRTCerrarResponder();
-    // Barra eliminar: el contenedor tiene onclick inline (chatRTEjecutarEliminar)
+    // Barra eliminar: asignar handler por JS (no inline, no es global)
+    const eliminarBarBtn = document.getElementById("chatRTEliminarBar");
+    if (eliminarBarBtn) eliminarBarBtn.onclick = (e) => {
+      e.stopPropagation();
+      chatRTEjecutarEliminar();
+    };
     // Cerrar modo eliminar con click en el fondo del chat
     const msgsElim = document.getElementById("chatRTMensajes");
     if (msgsElim && !msgsElim.getAttribute("data-elim-click")) {
       msgsElim.setAttribute("data-elim-click", "1");
       msgsElim.addEventListener("click", (e) => {
-        if (_chatRTModoEliminar && !e.target.closest(".chatRTPalomita")) chatRTCerrarModoEliminar();
+        if (_chatRTModoEliminar && !e.target.closest(".chatRTPalomita")) {
+          // Ignorar el click que sigue al swipe (el modo acaba de abrirse)
+          if (Date.now() - _chatRTModoEliminarTiempo < 600) return;
+          chatRTCerrarModoEliminar();
+        }
       });
     }
 
