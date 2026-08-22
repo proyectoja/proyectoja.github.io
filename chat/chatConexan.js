@@ -1809,35 +1809,100 @@
         <div style="font-size:14px;font-weight:600;color:#fff;">Chats</div>
       </div>
       <div style="flex:1;overflow-y:auto;padding:20px;">
-        <div style="font-size:12px;color:#999;line-height:1.6;margin-bottom:20px;">Cada mensaje que envias tiene un estado que te indica su recorrido. Estos colores te ayudan a saber en que punto se encuentra tu mensaje.</div>
-        <div style="display:flex;flex-direction:column;gap:14px;">
-          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+        <div style="font-size:12px;color:#999;line-height:1.6;margin-bottom:18px;">Aqui encontraras una guia rapida de todo lo que puedes hacer en Conexan.</div>
+
+        <!-- Estado de mensajes -->
+        <div style="font-size:10px;color:#2563eb;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin:14px 0 8px;">Colores de los mensajes</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
             <div style="width:34px;height:34px;border-radius:10px;border:2px solid #22c55e;flex-shrink:0;background:#1a1a2e;"></div>
             <div>
               <div style="font-size:13px;font-weight:600;color:#e8edf9;">Verde</div>
-              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue enviado y se encuentra en camino hacia el destinatario.</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue enviado y esta en camino.</div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
             <div style="width:34px;height:34px;border-radius:10px;border:2px solid #60a5fa;flex-shrink:0;background:#1a1a2e;"></div>
             <div>
               <div style="font-size:13px;font-weight:600;color:#e8edf9;">Celeste</div>
-              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue entregado al dispositivo del destinatario, pero aun no lo ha abierto.</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue entregado pero aun no lo abrieron.</div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
             <div style="width:34px;height:34px;border-radius:10px;border:2px solid #252540;flex-shrink:0;background:#1a1a2e;"></div>
             <div>
               <div style="font-size:13px;font-weight:600;color:#e8edf9;">Normal</div>
-              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue visto y leido por el destinatario.</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje fue visto y leido.</div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
             <div style="width:34px;height:34px;border-radius:10px;border:2px solid #ef4444;flex-shrink:0;background:#1a1a2e;"></div>
             <div>
               <div style="font-size:13px;font-weight:600;color:#e8edf9;">Rojo</div>
-              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El mensaje no pudo ser enviado. Puedes tocarlo para volver a intentarlo.</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">No se pudo enviar. Toca el icono para reintentar.</div>
             </div>
+          </div>
+        </div>
+
+        <!-- Gestos -->
+        <div style="font-size:10px;color:#2563eb;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin:20px 0 8px;">Gestos en los mensajes</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#1a1a2e;border:1px solid #2563eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></svg></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Deslizar hacia abajo</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">Marca el mensaje para eliminarlo. Puedes elegir varios con la palomita. Solo tus mensajes (o cualquiera si eres admin).</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#1a1a2e;border:1px solid #2563eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Deslizar a los lados</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">Izquierda a derecha en mensajes recibidos, o derecha a izquierda en los tuyos, para responder o citar.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#1a1a2e;border:1px solid #2563eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Emojis</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">El icono de carita al lado del mensaje abre el panel con emojis por categorias.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grupos -->
+        <div style="font-size:10px;color:#2563eb;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin:20px 0 8px;">Grupos</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#1a1a2e;border:1px solid #2563eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${_iconGroup}</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Crear grupos</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">Solo el superadmin puede crear grupos. Puede configurar foto, nombre, info y permisos.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#1a1a2e;border:1px solid #2563eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Roles</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">Propietario (crea y elimina el grupo), admins (gestionan miembros) y miembros. El propietario no puede ser expulsado.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#1a1a2e;border:1px solid #2563eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#e8edf9;">Permisos del grupo</div>
+              <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">Los admins deciden quien puede editar ajustes y quien puede enviar mensajes. Si esta cerrado, solo admins escriben.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notas personales -->
+        <div style="font-size:10px;color:#2563eb;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin:20px 0 8px;">Notas personales</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;background:#14141f;border:1px solid #1f1f2e;border-radius:10px;padding:11px 14px;">
+          <div style="width:34px;height:34px;border-radius:10px;background:#0f1624;border:1px solid #22c55e;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#e8edf9;">Chat contigo mismo</div>
+            <div style="font-size:11px;color:#888;margin-top:2px;line-height:1.5;">Desde la lista principal abre "Notas personales" para guardar recordatorios o ideas solo para ti.</div>
           </div>
         </div>
       </div>
