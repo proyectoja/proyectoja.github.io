@@ -268,6 +268,22 @@ RETURNS BOOLEAN LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
   SELECT EXISTS (SELECT 1 FROM groups g WHERE g.id = gid AND g.owner_id = uid);
 $$;
 
+-- Superadmin: verifica si el usuario logueado es superadmin comparando su correo en auth.users
+-- El correo NUNCA se expone en el frontend, solo existe AQUI en el servidor
+CREATE OR REPLACE FUNCTION check_superadmin(uid UUID)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, auth
+AS $$
+DECLARE
+  user_email TEXT;
+BEGIN
+  SELECT email INTO user_email FROM auth.users WHERE id = uid;
+  RETURN user_email = 'kendall.torres.17@gmail.com';
+END;
+$$;
+
 DROP POLICY IF EXISTS "group_select_members" ON groups;
 DROP POLICY IF EXISTS "group_insert_owner" ON groups;
 DROP POLICY IF EXISTS "group_update_owner_admin" ON groups;
@@ -345,33 +361,5 @@ CREATE POLICY "gmsg_delete_messages" ON group_messages FOR DELETE
 
 CREATE INDEX IF NOT EXISTS idx_gm_group_user ON group_members(group_id, user_id);
 CREATE INDEX IF NOT EXISTS idx_gmsg_group ON group_messages(group_id, created_at);
-
--- =============================================
--- SISTEMA DE SUPERADMIN (correo validado en Supabase)
--- El correo NUNCA se expone en el frontend
--- =============================================
-
--- La funcion check_superadmin verifica si el usuario logueado es superadmin
--- comparando su correo contra el guardado en auth.users
--- Solo el correo del superadmin esta hardcodeado AQUI (servidor), nunca en el navegador
-
-CREATE OR REPLACE FUNCTION check_superadmin(uid UUID)
-RETURNS BOOLEAN
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public, auth
-AS $$
-DECLARE
-  user_email TEXT;
-BEGIN
-  SELECT email INTO user_email FROM auth.users WHERE id = uid;
-  -- Comparar contra el correo del superadmin (solo existe en esta funcion, en el servidor)
-  RETURN user_email = 'kendall.torres.17@gmail.com';
-END;
-$$;
-
--- La RLS policy de groups INSERT usa esta funcion:
--- CREATE POLICY "group_insert_owner" ON groups FOR INSERT
---   WITH CHECK (check_superadmin(auth.uid()));
 
 SELECT 'Setup completo OK' AS resultado;
