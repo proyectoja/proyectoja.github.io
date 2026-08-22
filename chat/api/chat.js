@@ -124,6 +124,19 @@ function searchDocs(query, topN = 6) {
   return scored;
 }
 
+// Detectar si la pregunta es sobre las aplicaciones del proyecto
+function esPreguntaDeSoftware(query) {
+  const q = (query || "").toLowerCase();
+  const apps = [
+    "himnario", "adventista", "himno", "cancionero",
+    "arcan", "player", "reproductor", "musica",
+    "conexan", "chat", "mensaje",
+    "proyectoja", "proyecto ja", "app", "aplicacion",
+    "descargar", "instalar", "requisitos", "tutorial", "como usar",
+  ];
+  return apps.some(a => q.includes(a));
+}
+
 // === Handler principal ===
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -169,6 +182,14 @@ module.exports = async function handler(req, res) {
       messages[0].content = sistema;
     } else {
       messages.unshift({ role: "system", content: sistema });
+    }
+  } else if (esPreguntaDeSoftware(ultimoMensaje)) {
+    // Pregunta sobre software pero no se encontro contexto relevante
+    let sistemaExtra = `\n\nEl usuario esta preguntando sobre una de nuestras aplicaciones (Himnario Adventista, Arcan Player, Conexan u otras de nuestro proyecto). IMPORTANTE: Debes priorizar buscar la respuesta en la documentacion oficial del proyecto. Revisa los archivos de la carpeta docs/ que contienen la informacion. Si la documentacion no cubre esa pregunta, responde con lo que sepas de forma general y util, indicando que es informacion general y no oficial.`;
+    if (messages[0]?.role === "system") {
+      messages[0].content += sistemaExtra;
+    } else {
+      messages.unshift({ role: "system", content: sistemaExtra });
     }
   }
 

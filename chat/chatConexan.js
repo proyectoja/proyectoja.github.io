@@ -1,6 +1,24 @@
 (async function () {
 
   // ============================
+  // VALIDACION DE ID DE CONTENEDOR (PRIORIDAD ALTA)
+  // ============================
+  // Conexan solo se inicializa si la pagina tiene un div con uno de los IDs permitidos.
+  // Si no hay id -> no funciona nada del codigo.
+  // El id determina que funcionalidades se habilitan.
+  // chatConexanHimnario: Cortana + notificaciones, SIN boton Conexan.
+  const _chatRTContenedor = document.getElementById("chatConexanHimnario") || document.getElementById("chatConexan");
+  const _chatRTIdValido = !!_chatRTContenedor;
+  const _chatRTModoHimnario = _chatRTIdValido && !!document.getElementById("chatConexanHimnario");
+  // En modo Himnario se oculta el boton de Conexan
+  const _chatRTMostrarConexan = _chatRTIdValido && !_chatRTModoHimnario;
+
+  // Si no hay id valido, no se ejecuta nada del codigo
+  if (!_chatRTIdValido) {
+    return;
+  }
+
+  // ============================
   // SISTEMA DE NOTIFICACIONES
   // ============================
   const notificacionesBase = [
@@ -616,7 +634,7 @@
       chatOverlay.style.display = "none";
       botonIA.style.display = "flex";
       botonNotificaciones.style.display = "flex";
-      botonChatRT.style.display = "flex";
+      chatRTMostrarBotonConexan();
     }, 200);
   }
 
@@ -970,6 +988,11 @@
   botonChatRT.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
   botonChatRT.addEventListener("mouseenter", () => { botonChatRT.style.transform = "scale(1.15)"; botonChatRT.style.boxShadow = "0 4px 12px rgba(0,0,0,0.4)"; });
   botonChatRT.addEventListener("mouseleave", () => { botonChatRT.style.transform = "none"; botonChatRT.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)"; });
+
+  // Mostrar el boton de Conexan solo si el id lo permite
+  function chatRTMostrarBotonConexan() {
+    if (_chatRTMostrarConexan) botonChatRT.style.display = "flex";
+  }
 
   // Panel de chat RT (estructura completa igual a Cortana)
   const chatRTOverlay = document.createElement("div");
@@ -2094,7 +2117,12 @@
   document.body.appendChild(chatRTOverlay);
   document.body.appendChild(botonNotificaciones);
   document.body.appendChild(botonIA);
-  document.body.appendChild(botonChatRT);
+  // El boton de Conexan solo se muestra si el id lo permite
+  if (_chatRTMostrarConexan) {
+    document.body.appendChild(botonChatRT);
+  } else {
+    botonChatRT.style.display = "none";
+  }
 
   function mostrarChatRT() {
     chatRTOverlay.style.display = "flex";
@@ -4881,7 +4909,7 @@
     chatRTOverlay.style.animation = "notifSlideOut 0.2s ease-in";
     setTimeout(() => {
       chatRTOverlay.style.display = "none";
-      botonChatRT.style.display = "flex";
+      chatRTMostrarBotonConexan();
       botonIA.style.display = "flex";
       botonNotificaciones.style.display = "flex";
     }, 200);
@@ -6129,7 +6157,7 @@
     ocultarNotificacionesOriginal();
     setTimeout(() => {
       botonNotificaciones.style.display = "flex";
-      botonChatRT.style.display = "flex";
+      chatRTMostrarBotonConexan();
       botonIA.style.display = "flex";
       actualizarContadorNotificaciones();
     }, 300);

@@ -196,6 +196,22 @@ Para controlar la aplicación desde tu móvil:
 
 **Importante:** Ambos dispositivos deben estar en la misma red Wi-Fi.
 
+#### Problemas comunes al conectar (Windows y Mac)
+
+**En Windows:**
+
+- **Firewall bloqueando el puerto:** si el móvil o la Mac no conectan, verifica que el Firewall de Windows permita conexiones entrantes en los puertos 3555 y 3556. La aplicación intenta configurarlos automáticamente al iniciarse, pero si el programa no se ejecutó con permisos de administrador, es posible que no se hayan aplicado. Revisa en: Panel de Control → Firewall de Windows → Configuración avanzada → Reglas de entrada.
+- **Aislamiento de clientes del router (AP Isolation):** si todos los dispositivos están en el mismo Wi-Fi pero no conectan entre sí, desactiva el "Aislamiento de clientes" o "Aislamiento de AP" en la configuración del router.
+- **Misma red y subred:** el móvil o la Mac deben estar en la misma red que el computador (por ejemplo, ambas con IP 192.168.x.x). No uses VPN ni datos móviles en ninguno de los dispositivos.
+- **Dirección IP incorrecta o cambiada:** la IP puede cambiar si el router asigna direcciones dinámicas (DHCP). Usa siempre la IP que muestra la aplicación o el código QR.
+
+**En Mac (los problemas más frecuentes):**
+
+- **Permiso de "Red Local" (el más importante):** macOS bloquea que los navegadores (Safari, Chrome) se conecten a dispositivos de la red local a menos que se conceda el permiso. Si la página se queda cargando o en blanco, permite el acceso en: **Ajustes del Sistema → Privacidad y Seguridad → Red Local** y activa el interruptor del navegador que uses (Safari o Chrome). Si al abrir la dirección aparece la pregunta *"¿Permitir que [navegador] encuentre dispositivos en tu red local?"*, elige **Permitir**.
+- **Certificado SSL autofirmado:** si usas la dirección con candado (https, puerto 3555), Safari puede bloquearla por tratarse de un certificado no confiable. Usa preferentemente la dirección **"Sin certificado"** (http, puerto 3556), que no presenta este problema.
+- **Firewall de macOS:** revisa que el firewall del Mac no esté bloqueando las conexiones hacia la red local (Ajustes del Sistema → Red → Firewall).
+- **Red de invitados o VLAN:** si el Mac está conectado a una red de invitados o a un segmento distinto al del computador, no podrá conectarse aunque esté en el mismo lugar físico.
+
 ---
 
 ## Características Principales
@@ -247,10 +263,10 @@ Cada himno puede reproducirse en tres modalidades:
 
 **Controles de reproducción:**
 
-- **Play**: Inicia la reproducción
-- **Pausa**: Pausa el audio
-- **Stop**: Detiene y regresa al inicio
-- **Volumen**: Ajusta con el slider
+- ▶️ **Play**: Inicia la reproducción
+- ⏸️ **Pausa**: Pausa el audio
+- ⏹️ **Stop**: Detiene y regresa al inicio
+- 🔊 **Volumen**: Ajusta con el slider
 
 #### YouTube Integration
 
@@ -340,19 +356,19 @@ El modo Premium desbloquea funcionalidades avanzadas:
 
 #### Características Premium:
 
-- **Control Remoto Activado**
+✅ **Control Remoto Activado**
 
 - Controla desde cualquier dispositivo en tu red
 - Código PIN de seguridad
 - Interfaz móvil optimizada
 
-- **Descarga Automática de Assets**
+✅ **Descarga Automática de Assets**
 
 - Portadas HD para todos los himnos
 - Pistas de audio en alta calidad
 - Videos y multimedia
 
-- **Acceso a Funciones Exclusivas**
+✅ **Acceso a Funciones Exclusivas**
 
 - Modos de reproducción adicionales
 - Personalización avanzada
@@ -417,8 +433,8 @@ El modo Premium desbloquea funcionalidades avanzadas:
 
 2. **Verifica el código PIN**
    - En la barra de estado verás un mensaje como:
-    - PIN generado: 123456
-    - Control remoto activo en: http://192.168.1.10:3555
+   - "🔒 PIN generado: 123456"
+   - "📡 Control remoto activo en: http://192.168.1.10:3555"
 
 3. **Conecta tu móvil a la misma Wi-Fi**
    - Asegúrate de estar en la misma red
@@ -462,7 +478,7 @@ El modo Premium desbloquea funcionalidades avanzadas:
      - Haz clic en el video que deseas
 
 3. **Reproduce el video**
-   - Haz clic en Play
+   - Haz clic en ▶️ Play
    - El video se reproducirá en la ventana
 
 4. **Proyecta en monitor secundario** (opcional)
@@ -536,10 +552,10 @@ El modo Premium desbloquea funcionalidades avanzadas:
    - Haz clic en "Iniciar"
 
 4. **Controles del cronómetro:**
-   - **Iniciar**: Comienza la cuenta
-   - **Pausar**: Pausa el tiempo
-   - **Reiniciar**: Vuelve al tiempo inicial
-   - **Stop**: Detiene y reinicia
+   - ▶️ **Iniciar**: Comienza la cuenta
+   - ⏸️ **Pausar**: Pausa el tiempo
+   - 🔄 **Reiniciar**: Vuelve al tiempo inicial
+   - ⏹️ **Stop**: Detiene y reinicia
 
 5. **Alerta STOP:**
    - Cuando el temporizador llegue a 00:00:00
