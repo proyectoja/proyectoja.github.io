@@ -323,8 +323,14 @@ DROP POLICY IF EXISTS "gm_insert_members" ON group_messages;
 CREATE POLICY "gmsg_select_members" ON group_messages FOR SELECT
   USING (is_group_member(group_messages.group_id, auth.uid()));
 CREATE POLICY "gmsg_insert_members" ON group_messages FOR INSERT
-  WITH CHECK (is_group_member(group_messages.group_id, auth.uid())
-              AND NOT EXISTS (SELECT 1 FROM groups g WHERE g.id = group_messages.group_id AND NOT g.settings_can_send));
+  WITH CHECK (
+    is_group_member(group_messages.group_id, auth.uid())
+    AND (
+      is_group_admin(group_messages.group_id, auth.uid())
+      OR
+      NOT EXISTS (SELECT 1 FROM groups g WHERE g.id = group_messages.group_id AND NOT g.settings_can_send)
+    )
+  );
 
 CREATE INDEX IF NOT EXISTS idx_gm_group_user ON group_members(group_id, user_id);
 CREATE INDEX IF NOT EXISTS idx_gmsg_group ON group_messages(group_id, created_at);

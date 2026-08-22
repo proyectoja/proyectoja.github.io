@@ -2188,6 +2188,9 @@
     if (sb && _chatRTGrupoTypingChannel) { try { sb.removeChannel(_chatRTGrupoTypingChannel); } catch(e) {} _chatRTGrupoTypingChannel = null; }
     _chatRTGrupoTypingUsers = {};
     _chatRTChatGrupoActivo = false;
+    _chatRTGrupoBloqueado = false;
+    const avisoBloqueo = document.getElementById("chatRTGrupoCerradoAviso");
+    if (avisoBloqueo) avisoBloqueo.style.display = "none";
   }
   function chatRTReanudarConexiones() {
     const sb = getSupabase();
@@ -2906,6 +2909,11 @@
       _chatRTGrupoActivo = null;
       _chatRTChatPersonal = false;
       _chatRTGrupoTypingUsers = {};
+      _chatRTGrupoBloqueado = false;
+      const composerV = document.getElementById("chatRTComposer");
+      if (composerV) composerV.style.display = "block";
+      const avisoV = document.getElementById("chatRTGrupoCerradoAviso");
+      if (avisoV) avisoV.style.display = "none";
       if (_chatRTVistaAnterior === "infogrupo") chatRTMostrarVista("infogrupo");
       else chatRTMostrarVista("main");
     };
@@ -3242,6 +3250,7 @@
   let _chatRTGrupoSubscription = null;
   let _chatRTGrupoFotos = {}; // sender_id -> foto url
   let _chatRTGrupoNombres = {}; // sender_id -> nombre
+  let _chatRTGrupoBloqueado = false; // grupo cerrado para mi (no puedo escribir/responder)
   let _chatRTGrupoTypingChannel = null;
   let _chatRTGrupoTypingUsers = {}; // userId -> timestamp
   let _chatRTGrupoTypingNombres = {}; // userId -> nombre
@@ -3482,6 +3491,9 @@
       _chatRTGrupoActivo = null;
       _chatRTChatPersonal = false;
       _chatRTGrupoTypingUsers = {};
+      _chatRTGrupoBloqueado = false;
+      const avisoB = document.getElementById("chatRTGrupoCerradoAviso");
+      if (avisoB) avisoB.style.display = "none";
       if (_chatRTVistaAnterior === "infogrupo") chatRTMostrarVista("infogrupo");
       else chatRTMostrarVista("main");
     };
@@ -3506,10 +3518,28 @@
     // Permisos de envio: si "enviar mensajes" esta desactivado, solo admins/owner escriben
     const rolYo = grupo.rol || "member";
     const soyAdminGrupo = rolYo === "owner" || rolYo === "admin";
+    const grupoCerrado = grupo.settings_can_send === false;
     const composer = document.getElementById("chatRTComposer");
     const emojiPanel = document.getElementById("chatRTEmojiPanel");
-    if (composer) composer.style.display = (soyAdminGrupo || grupo.settings_can_send !== false) ? "block" : "none";
+    const puedeEscribir = soyAdminGrupo || !grupoCerrado;
+    _chatRTGrupoBloqueado = !puedeEscribir;
+    if (composer) composer.style.display = puedeEscribir ? "block" : "none";
     if (emojiPanel) emojiPanel.style.display = "none";
+    // Aviso para miembros sin permiso de escribir (grupo cerrado)
+    let avisoExistente = document.getElementById("chatRTGrupoCerradoAviso");
+    if (!puedeEscribir) {
+      if (!avisoExistente) {
+        avisoExistente = document.createElement("div");
+        avisoExistente.id = "chatRTGrupoCerradoAviso";
+        avisoExistente.style.cssText = "padding:12px;border-top:1px solid #1a1a1a;background:#111;display:flex;align-items:center;justify-content:center;gap:8px;";
+        avisoExistente.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span style="font-size:12px;color:#f87171;">Solo el superadmin o admin pueden escribir en este grupo.</span>';
+        const chatEl2 = document.getElementById("chatRTVistaChat");
+        if (chatEl2) chatEl2.appendChild(avisoExistente);
+      }
+      avisoExistente.style.display = "flex";
+    } else {
+      if (avisoExistente) avisoExistente.style.display = "none";
+    }
     const input = document.getElementById("chatRTInput");
     if (input) { input.value = ""; input.style.height = "auto"; }
   }
@@ -5018,7 +5048,7 @@
         if (_chatRTSwipeActivo) {
           const w = _chatRTSwipeW;
           const mid = w.getAttribute("data-rt-msgid");
-          if (mid) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+          if (mid && !_chatRTGrupoBloqueado) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
         }
       }
       _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false;
@@ -5050,7 +5080,7 @@
         if (_chatRTSwipeActivo) {
           const w = _chatRTSwipeW;
           const mid = w.getAttribute("data-rt-msgid");
-          if (mid) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
+          if (mid && !_chatRTGrupoBloqueado) chatRTAbrirResponder(mid, w.getAttribute("data-rt-texto") || "", w.getAttribute("data-rt-autor") || null);
         }
       }
       _chatRTSwipeW = null; _chatRTSwipeStartX = null; _chatRTSwipeActivo = false;
