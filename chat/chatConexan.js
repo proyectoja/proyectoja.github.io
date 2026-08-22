@@ -4,17 +4,29 @@
   // VALIDACION DE ID DE CONTENEDOR (PRIORIDAD ALTA)
   // ============================
   // Conexan solo se inicializa si la pagina tiene un div con uno de los IDs permitidos.
-  // Si no hay id -> no funciona nada del codigo.
+  // Si no hay id -> el script se elimina del navegador y no funciona nada.
   // El id determina que funcionalidades se habilitan.
   // chatConexanHimnario: Cortana + notificaciones, SIN boton Conexan.
+  const _chatRTScript = document.currentScript;
   const _chatRTContenedor = document.getElementById("chatConexanHimnario") || document.getElementById("chatConexan");
   const _chatRTIdValido = !!_chatRTContenedor;
   const _chatRTModoHimnario = _chatRTIdValido && !!document.getElementById("chatConexanHimnario");
   // En modo Himnario se oculta el boton de Conexan
   const _chatRTMostrarConexan = _chatRTIdValido && !_chatRTModoHimnario;
 
-  // Si no hay id valido, no se ejecuta nada del codigo
+  // Si no hay id valido, se elimina el script del navegador y no se ejecuta nada
   if (!_chatRTIdValido) {
+    try {
+      if (_chatRTScript && _chatRTScript.parentNode) {
+        _chatRTScript.parentNode.removeChild(_chatRTScript);
+      } else {
+        // Fallback: eliminar cualquier script que cargue este archivo
+        const srcs = document.querySelectorAll("script[src]");
+        srcs.forEach(s => {
+          if (s.src && s.src.indexOf("chatConexan") !== -1) s.parentNode.removeChild(s);
+        });
+      }
+    } catch(e) {}
     return;
   }
 
