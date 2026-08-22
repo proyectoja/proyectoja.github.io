@@ -165,17 +165,20 @@ module.exports = async function handler(req, res) {
 
   // Obtener el ultimo mensaje del usuario para buscar contexto
   const ultimoMensaje = [...messages].reverse().find(m => m.role === "user")?.content || "";
-  const contextoDocs = searchDocs(ultimoMensaje);
+  const contextoDocs = searchDocs(ultimoMensaje, 6);
 
   // Construir sistema con contexto RAG
   let sistema = messages[0]?.role === "system" ? messages[0].content : "";
 
   if (contextoDocs.length > 0) {
     const contextoStr = contextoDocs
-      .map(c => `[${c.app.toUpperCase()}] ${c.title}\n${c.text}`)
+      .map(c => {
+        const textoCorto = c.text.length > 400 ? c.text.slice(0, 400) + "..." : c.text;
+        return `[${c.app.toUpperCase()}] ${c.title}\n${textoCorto}`;
+      })
       .join("\n\n---\n\n");
 
-    sistema += `\n\nTienes acceso a la siguiente documentacion oficial. Usa esta informacion para responder. Si la respuesta esta en la documentacion, respondela. Si NO esta en la documentacion, di que no tienes esa informacion. Si es alguna pregunta relacionada a la Biblia o profecía, responde conforme a la Biblia y a la Igleisa Adventsita Del Septimo Día:\n\n${contextoStr}`;
+    sistema += `\n\n=== INSTRUCCIONES CRITICAS PARA RESPUESTAS SOBRE EL PROYECTO ===\n\nTienes acceso a la documentacion oficial del proyecto. DEBES usar EXCLUSIVAMENTE esta informacion para responder. PROHIBIDO inventar, agregar o suplir informacion que no este en la documentacion. Si algo no esta en la documentacion, di literalmente: "No tengo esa informacion en la documentacion oficial. Puedes contactar al soporte en configuración > soporte"\n\nREGLAS ESTRICTAS:\n1. Los precios, funciones, plataformas, categorias y caracteristicas DEBEN coincidir EXACTAMENTE con lo que dice la documentacion.\n2. NUNCA inventes precios, versiones de la app, tiendas de descarga o funcionalidades.\n3. NUNCA menciones App Store, Google Play, iOS, Android o moviles, a menos que la documentacion lo diga explicitamente.\n4. Si la documentacion dice que algo es de escritorio (Windows/Mac/Linux), NO lo pidas como app movil.\n5. Si no sabes algo, di que no tienes esa informacion.\n\nDOCUMENTACION OFICIAL:\n\n${contextoStr}`;
 
     // Reemplar el system message
     if (messages[0]?.role === "system") {
@@ -185,7 +188,7 @@ module.exports = async function handler(req, res) {
     }
   } else if (esPreguntaDeSoftware(ultimoMensaje)) {
     // Pregunta sobre software pero no se encontro contexto relevante
-    let sistemaExtra = `\n\nEl usuario esta preguntando sobre una de nuestras aplicaciones (Himnario Adventista, Arcan Player, Conexan u otras de nuestro proyecto). IMPORTANTE: Debes priorizar buscar la respuesta en la documentacion oficial del proyecto. Revisa los archivos de la carpeta docs/ que contienen la informacion. Si la documentacion no cubre esa pregunta, responde con lo que sepas de forma general y util, indicando que es informacion general y no oficial.`;
+    let sistemaExtra = `\n\n=== PREGUNTA SOBRE EL PROYECTO (sin documentacion encontrada) ===\n\nEl usuario pregunta sobre una de nuestras aplicaciones. NO inventes informacion. Si no tienes la documentacion relevante, responde: "No tengo la informacion exacta sobre eso. Puedes consultar la documentacion oficial o contactar al soporte en configuración > soporte"\n\nSolo responde con informacion que seas 100% seguro de que es correcta basandote en lo que ya sabes. NUNCA inventes precios, plataformas de descarga, o funcionalidades que no existan.`;
     if (messages[0]?.role === "system") {
       messages[0].content += sistemaExtra;
     } else {
@@ -204,7 +207,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         model,
         messages: msgs,
-        max_tokens: 1024,
+        max_tokens: 1200,
         temperature: 0.5,
       }),
     });

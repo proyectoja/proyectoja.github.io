@@ -4,6 +4,21 @@ Novedades del software por versión.
 
 ---
 
+## 2026-08-22 — Configuración de tu licencia y nuevo soporte por tickets
+
+### **Tipo:** Nueva funcionalidad
+
+Ahora tienes más control sobre tu suscripción y una nueva forma de recibir ayuda, todo desde el mismo programa:
+
+- **Revisa tu suscripción en Configuración:** desde la sección de Configuración puedes ver en qué plan estás y consultar los datos de tu suscripción sin salir de la aplicación.
+- **Desvincula tu licencia de esta computadora:** si necesitas usar tu licencia en otro equipo, ahora puedes desvincular la computadora actual desde Configuración. Así puedes activar tu licencia en la máquina nueva sin complicaciones.
+- **Nuevo sistema de soporte por tickets:** si tienes una duda o encuentras un problema, puedes enviar una consulta directamente desde la aplicación. Tu caso queda registrado con un número de seguimiento y recibirás atención ordenada, sin necesidad de buscar ayuda en otro lugar.
+
+- **Chats y Cortana**
+Próximamente aparecerá un chat donde se podrá conversar en tiempo real en días de culto de adoración, además, una nueva inteligencia llamada Cortana para explicar toda la documentación y recursos bíblicos del software.
+
+---
+
 ## 2026-08-06 — Devocionales Matutinos
 
 ### **Versión:** 1.0.22 · **Tipo:** Nueva funcionalidad

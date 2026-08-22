@@ -37,7 +37,7 @@
     {
       id: 103,
       titulo: "Comunicado: pausa en el desarrollo de nuevas funcionalidades",
-      descripcion: "Queremos compartir con nuestra comunidad el rumbo del proyecto. Existe un plan de desarrollo ambicioso orientado a llevar la aplicación a un nivel superior, que contempla, entre otras funcionalidades:\n\n- Ampliación del catálogo bíblico: incorporar más versiones y traducciones de la Biblia.\n- Módulo de estudio bíblico avanzado: un espacio dedicado al análisis profundo de las Escrituras.\n- Diccionarios bíblicos de referencia: herramientas como el Diccionario Strong y otros recursos equivalentes, pensadas para pastores, maestros y eruditos.\n\nCada una de estas funcionalidades representa una inversión considerable: más de 1.500 dólares por funcionalidad, junto con meses de trabajo de arquitectura, diseño, desarrollo y pruebas.\n\nLamentablemente, el respaldo recibido hasta el momento en forma de suscripciones no ha sido suficiente para sostener este ritmo de inversión, en gran parte porque muchas congregaciones e instituciones esperan obtener acceso gratuito a todas las funcionalidades. Ante esta realidad, y con el objetivo de preservar la sostenibilidad y la calidad del proyecto, hemos tomado la decisión de pausar las actualizaciones mayores hasta contar con el apoyo necesario.\n\nQueremos agradecer de forma sincera a todos los usuarios que han decidido respaldar el proyecto mediante su suscripción; ese apoyo es el que hace posible que la aplicación continúe en funcionamiento. Las funcionalidades ya existentes seguirán disponibles y operativas con total normalidad.",
+      descripcion: "Queremos compartir con nuestra comunidad el rumbo del proyecto. Existe un plan de desarrollo ambicioso orientado a llevar la aplicación a un nivel superior, que contempla, entre otras funcionalidades:\n\n- **Ampliación del catálogo bíblico:** incorporar más versiones y traducciones de la Biblia.\n- **Módulo de estudio bíblico avanzado:** un espacio dedicado al análisis profundo de las Escrituras.\n- **Diccionarios bíblicos de referencia:** herramientas como el Diccionario Strong y otros recursos equivalentes, pensadas para pastores, maestros y eruditos.\n\nCada una de estas funcionalidades representa una inversión considerable: **más de 1.500 dólares por funcionalidad**, junto con meses de trabajo de arquitectura, diseño, desarrollo y pruebas.\n\nLamentablemente, el respaldo recibido hasta el momento en forma de suscripciones no ha sido suficiente para sostener este ritmo de inversión, en gran parte porque muchas congregaciones e instituciones esperan obtener acceso gratuito a todas las funcionalidades. Ante esta realidad, y con el objetivo de preservar la sostenibilidad y la calidad del proyecto, hemos tomado la decisión de **pausar las actualizaciones mayores** hasta contar con el apoyo necesario.\n\nQueremos agradecer de forma sincera a todos los usuarios que han decidido respaldar el proyecto mediante su suscripción; ese apoyo es el que hace posible que la aplicación continúe en funcionamiento. Las funcionalidades ya existentes seguirán disponibles y operativas con total normalidad.",
       fecha: "2026-08-22",
       categoria: "aviso",
       enlace: "",
@@ -253,7 +253,7 @@
                   <span style="font-size: 15px; font-weight: 700; color: #fff; line-height: 1.3;">${notif.titulo}</span>
                   ${!notif.leida ? '<span style="width: 6px; height: 6px; border-radius: 50%; background: #c0392b; flex-shrink: 0; margin-left: 6px;"></span>' : ""}
               </div>
-              <p style="margin: 0; font-size: 13px; line-height: 1.4; color: #bbb;">${notif.descripcion}</p>
+              <div style="font-size: 13px; line-height: 1.5; color: #bbb;">${chatRTParsearMarkdown(notif.descripcion)}</div>
               <span style="font-size: 12px; color: #888; margin-top: 4px; display: block;">${notif.fecha}</span>
           </div>
       `;
@@ -479,8 +479,8 @@
   const CHAT_API_URL = location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "https://proyectoja-github-io.vercel.app/api/chat"
     : "/api/chat";
-  const CONTEXTO_MAX_TOKENS = 1200;
-  const CONTEXTO_MAX_MENSAJES = 30;
+  const CONTEXTO_MAX_TOKENS = 600;
+  const CONTEXTO_MAX_MENSAJES = 10;
 
   const chatSession = localStorage.getItem("ia_session") || ("web_" + Date.now().toString(36));
   localStorage.setItem("ia_session", chatSession);
@@ -570,8 +570,8 @@
     }
 
     const sistema = idioma === "inglés"
-      ? "You are a helpful, natural, and friendly AI assistant. Be direct and concise. Never use vulgar words. When the user asks about Himnario Adventista PRO or Arcan Player, answer with the available information. If the user asks biblical or ministry questions, answer with love and wisdom. Never share websites, source code, links, or anything unrelated to the ministry or these applications. Your focus is serving the church." + instruccionIdioma
-      : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde con la informacion que tengas disponible. Explica que hace, como se usa, y que opciones tiene. Si el usuario hace preguntas biblicas o del ministerio, responde con amor y sabiduria. Nunca compartas paginas web, codigo fuente, enlaces, ni nada que no este relacionado con el ministerio o estas aplicaciones. Tu enfoque es servir a la iglesia." + instruccionIdioma;
+      ? "You are a helpful, natural, and friendly AI assistant. Be direct and concise. Never use vulgar words. When the user asks about Himnario Adventista PRO or Arcan Player, answer ONLY with the official documentation provided. NEVER invent prices, features, platforms, or any information not in the docs. If you don't have the info, say: 'I don't have that information in the official documentation. You can contact support at kendall.torres.17@gmail.com'. If the user asks biblical or ministry questions, answer with love and wisdom. Never share websites, source code, links, or anything unrelated to the ministry or these applications. Your focus is serving the church." + instruccionIdioma
+      : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde SOLO con la documentacion oficial que se te proporcione. NUNCA inventes precios, funcionalidades, plataformas de descarga ni ninguna informacion que no este en los documentos. Si no tienes la informacion, di: 'No tengo esa informacion en la documentacion oficial. Puedes contactar al soporte en kendall.torres.17@gmail.com'. Si el usuario hace preguntas biblicas o del ministerio, responde con amor y sabiduria. Nunca compartas paginas web, codigo fuente, enlaces, ni nada que no este relacionado con el ministerio o estas aplicaciones. Tu enfoque es servir a la iglesia." + instruccionIdioma;
 
     const mensajes = construirMensajes(chatSession, textoDetectar, sistema);
 
@@ -5008,6 +5008,8 @@
     html = html.replace(/<br>$/, "");
     html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
     html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    html = html.replace(/~~(.+?)~~/g, "<s>$1</s>");
+    html = html.replace(/`(.+?)`/g, "<code style=\"background:#1a1a24;padding:1px 5px;border-radius:4px;font-size:11px;\">$1</code>");
     return html;
   }
 
