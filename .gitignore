@@ -6,3 +6,8 @@ lunaradio.min.js
 indexViejo.html
 embedClappr.html
 /chat/node_modules
+chat/node_modules
+.env
+.env.*
+chat/.env
+chat/.env.*

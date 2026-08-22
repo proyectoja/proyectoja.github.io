@@ -5,18 +5,25 @@
 // Requiere: COHERE_API_KEY en .env o variable de entorno
 // =============================================
 
-const { CohereClientV2 } = require("cohere-ai");
 const fs = require("fs");
 const path = require("path");
+
+// Cargar .env si existe
+const envPath = path.join(__dirname, "..", ".env");
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, "utf-8");
+  for (const line of envContent.split("\n")) {
+    const match = line.match(/^([^#=]+)=(.+)$/);
+    if (match) process.env[match[1].trim()] = match[2].trim();
+  }
+}
 
 const COHERE_API_KEY = process.env.COHERE_API_KEY;
 if (!COHERE_API_KEY) {
   console.error("Error: COHERE_API_KEY no configurada.");
-  console.error("Ejecuta: export COHERE_API_KEY=tu_api_key");
+  console.error("Crea chat/.env con: COHERE_API_KEY=tu_api_key");
   process.exit(1);
 }
-
-const co = new CohereClientV2({ token: COHERE_API_KEY });
 
 const DOCS_DIR = path.join(__dirname, "..", "docs");
 const OUTPUT_DIR = path.join(__dirname, "..", "data");
@@ -77,13 +84,27 @@ function loadAndChunk() {
 }
 
 async function embedBatch(texts) {
-  const response = await co.embed({
-    texts,
-    model: MODEL,
-    inputType: "search_document",
-    embeddingTypes: ["float"],
+  const res = await fetch("https://api.cohere.com/v2/embed", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + COHERE_API_KEY,
+    },
+    body: JSON.stringify({
+      texts,
+      model: MODEL,
+      input_type: "search_document",
+      embedding_types: ["float"],
+    }),
   });
-  return response.embeddings.float;
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error("Cohere API error " + res.status + ": " + err);
+  }
+
+  const data = await res.json();
+  return data.embeddings.float;
 }
 
 async function main() {

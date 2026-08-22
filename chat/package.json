@@ -4,8 +4,5 @@
   "private": true,
   "scripts": {
     "embed": "node scripts/embed_docs.js"
-  },
-  "dependencies": {
-    "cohere-ai": "^7.14.0"
   }
 }
