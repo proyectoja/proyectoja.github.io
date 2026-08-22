@@ -1057,14 +1057,18 @@
   async function esSuperadmin() {
     if (_superadminConsultado) return _superadminCache;
     try {
-      if (!_supabase) { _superadminCache = false; _superadminConsultado = true; return false; }
-      const { data: { user } } = await _supabase.auth.getUser();
-      if (!user) { _superadminCache = false; _superadminConsultado = true; return false; }
-      const { data, error } = await _supabase.rpc("check_superadmin", { uid: user.id });
+      const sb = getSupabase();
+      if (!sb) { console.log("[Superadmin] Supabase no disponible aún"); _superadminCache = false; _superadminConsultado = true; return false; }
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user) { console.log("[Superadmin] No hay usuario logueado"); _superadminCache = false; _superadminConsultado = true; return false; }
+      console.log("[Superadmin] Consultando RPC con uid:", user.id);
+      const { data, error } = await sb.rpc("check_superadmin", { uid: user.id });
+      console.log("[Superadmin] Resultado:", data, "Error:", error);
       _superadminCache = !error && data === true;
       _superadminConsultado = true;
       return _superadminCache;
     } catch (e) {
+      console.log("[Superadmin] Excepcion:", e.message);
       _superadminCache = false;
       _superadminConsultado = true;
       return false;
