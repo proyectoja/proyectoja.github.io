@@ -32,11 +32,35 @@ let chunksCache = null;
 function loadDocs() {
   if (chunksCache) return chunksCache;
 
-  const docsDir = path.join(process.cwd(), "docs");
+  // Buscar docs en multiples rutas posibles (Vercel, local, etc.)
+  const posiblesRutas = [
+    path.join(process.cwd(), "docs"),
+    path.join(__dirname, "..", "docs"),
+    path.join(__dirname, "docs"),
+    "/var/task/docs",
+  ];
+
+  let docsDir = null;
+  for (const ruta of posiblesRutas) {
+    try {
+      if (fs.existsSync(ruta)) {
+        docsDir = ruta;
+        break;
+      }
+    } catch (e) {}
+  }
+
+  if (!docsDir) {
+    console.error("No se encontro carpeta docs en ninguna ruta");
+    chunksCache = [];
+    return chunksCache;
+  }
+
   chunksCache = [];
 
   try {
     const files = fs.readdirSync(docsDir).filter(f => f.endsWith(".md"));
+    console.log("Docs encontrados en:", docsDir, "->", files);
 
     for (const file of files) {
       const content = fs.readFileSync(path.join(docsDir, file), "utf-8");
@@ -58,6 +82,7 @@ function loadDocs() {
         }
       }
     }
+    console.log("Chunks cargados:", chunksCache.length);
   } catch (e) {
     console.error("Error cargando docs:", e.message);
   }
@@ -167,6 +192,12 @@ module.exports = async function handler(req, res) {
   const ultimoMensaje = [...messages].reverse().find(m => m.role === "user")?.content || "";
   const contextoDocs = searchDocs(ultimoMensaje, 6);
 
+  console.log("Query:", ultimoMensaje);
+  console.log("Docs encontrados:", contextoDocs.length);
+  if (contextoDocs.length > 0) {
+    console.log("Top chunks:", contextoDocs.map(c => c.app + "/" + c.title + " (score:" + c.score + ")"));
+  }
+
   // Construir sistema con contexto RAG
   let sistema = messages[0]?.role === "system" ? messages[0].content : "";
 
@@ -178,7 +209,7 @@ module.exports = async function handler(req, res) {
       })
       .join("\n\n---\n\n");
 
-    sistema += `\n\n=== INSTRUCCIONES CRITICAS PARA RESPUESTAS SOBRE EL PROYECTO ===\n\nTienes acceso a la documentacion oficial del proyecto. DEBES usar EXCLUSIVAMENTE esta informacion para responder. PROHIBIDO inventar, agregar o suplir informacion que no este en la documentacion. Si algo no esta en la documentacion, di literalmente: "No tengo esa informacion en la documentacion oficial. Puedes contactar al soporte en configuración > soporte"\n\nREGLAS ESTRICTAS:\n1. Los precios, funciones, plataformas, categorias y caracteristicas DEBEN coincidir EXACTAMENTE con lo que dice la documentacion.\n2. NUNCA inventes precios, versiones de la app, tiendas de descarga o funcionalidades.\n3. NUNCA menciones App Store, Google Play, iOS, Android o moviles, a menos que la documentacion lo diga explicitamente.\n4. Si la documentacion dice que algo es de escritorio (Windows/Mac/Linux), NO lo pidas como app movil.\n5. Si no sabes algo, di que no tienes esa informacion.\n\nDOCUMENTACION OFICIAL:\n\n${contextoStr}`;
+    sistema += `\n\n=== INSTRUCCIONES CRITICAS PARA RESPUESTAS SOBRE EL PROYECTO ===\n\nTienes acceso a la documentacion oficial del proyecto. DEBES usar EXCLUSIVAMENTE esta informacion para responder. PROHIBIDO inventar, agregar o suplir informacion que no este en la documentacion. Si algo no esta en la documentacion, di literalmente: "No tengo esa informacion disponible ahora mismo. Puedes preguntarme otra cosa o intentar mas tarde."\n\nREGLAS ESTRICTAS:\n1. Los precios, funciones, plataformas, categorias y caracteristicas DEBEN coincidir EXACTAMENTE con lo que dice la documentacion.\n2. NUNCA inventes precios, versiones de la app, tiendas de descarga o funcionalidades.\n3. NUNCA menciones App Store, Google Play, iOS, Android o moviles, a menos que la documentacion lo diga explicitamente.\n4. Si la documentacion dice que algo es de escritorio (Windows/Mac/Linux), NO lo pidas como app movil.\n5. Si no sabes algo, di que no tienes esa informacion.\n6. NUNCA compartas correos electronicos, direcciones IP, codigos fuente, enlaces ni datos personales.\n7. Tu nombre es Cortana - eres el medio de contacto del usuario, nunca des otros canales de contacto.\n\nDOCUMENTACION OFICIAL:\n\n${contextoStr}`;
 
     // Reemplar el system message
     if (messages[0]?.role === "system") {
@@ -188,7 +219,7 @@ module.exports = async function handler(req, res) {
     }
   } else if (esPreguntaDeSoftware(ultimoMensaje)) {
     // Pregunta sobre software pero no se encontro contexto relevante
-    let sistemaExtra = `\n\n=== PREGUNTA SOBRE EL PROYECTO (sin documentacion encontrada) ===\n\nEl usuario pregunta sobre una de nuestras aplicaciones. NO inventes informacion. Si no tienes la documentacion relevante, responde: "No tengo la informacion exacta sobre eso. Puedes consultar la documentacion oficial o contactar al soporte en configuración > soporte"\n\nSolo responde con informacion que seas 100% seguro de que es correcta basandote en lo que ya sabes. NUNCA inventes precios, plataformas de descarga, o funcionalidades que no existan.`;
+    let sistemaExtra = `\n\n=== PREGUNTA SOBRE EL PROYECTO (sin documentacion encontrada) ===\n\nEl usuario pregunta sobre una de nuestras aplicaciones. NO inventes informacion. Si no tienes la documentacion relevante, responde: "No tengo la informacion exacta sobre eso ahora mismo. Puedes preguntarme otra cosa o intentar mas tarde."\n\nTu nombre es Cortana - eres el medio de contacto. NUNCA compartas correos electronicos ni datos personales. Solo responde con informacion que seas 100% seguro de que es correcta basandote en lo que ya sabes. NUNCA inventes precios, plataformas de descarga, o funcionalidades que no existan.`;
     if (messages[0]?.role === "system") {
       messages[0].content += sistemaExtra;
     } else {

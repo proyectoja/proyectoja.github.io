@@ -275,7 +275,7 @@ DROP POLICY IF EXISTS "group_delete_owner" ON groups;
 CREATE POLICY "group_select_members" ON groups FOR SELECT
   USING (is_group_member(groups.id, auth.uid()) OR groups.owner_id = auth.uid());
 CREATE POLICY "group_insert_owner" ON groups FOR INSERT
-  WITH CHECK (auth.uid() = owner_id);
+  WITH CHECK (check_superadmin(auth.uid()));
 CREATE POLICY "group_update_owner_admin" ON groups FOR UPDATE
   USING (
     is_group_admin(groups.id, auth.uid())
@@ -345,5 +345,33 @@ CREATE POLICY "gmsg_delete_messages" ON group_messages FOR DELETE
 
 CREATE INDEX IF NOT EXISTS idx_gm_group_user ON group_members(group_id, user_id);
 CREATE INDEX IF NOT EXISTS idx_gmsg_group ON group_messages(group_id, created_at);
+
+-- =============================================
+-- SISTEMA DE SUPERADMIN (correo validado en Supabase)
+-- El correo NUNCA se expone en el frontend
+-- =============================================
+
+-- La funcion check_superadmin verifica si el usuario logueado es superadmin
+-- comparando su correo contra el guardado en auth.users
+-- Solo el correo del superadmin esta hardcodeado AQUI (servidor), nunca en el navegador
+
+CREATE OR REPLACE FUNCTION check_superadmin(uid UUID)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, auth
+AS $$
+DECLARE
+  user_email TEXT;
+BEGIN
+  SELECT email INTO user_email FROM auth.users WHERE id = uid;
+  -- Comparar contra el correo del superadmin (solo existe en esta funcion, en el servidor)
+  RETURN user_email = 'kendall.torres.17@gmail.com';
+END;
+$$;
+
+-- La RLS policy de groups INSERT usa esta funcion:
+-- CREATE POLICY "group_insert_owner" ON groups FOR INSERT
+--   WITH CHECK (check_superadmin(auth.uid()));
 
 SELECT 'Setup completo OK' AS resultado;

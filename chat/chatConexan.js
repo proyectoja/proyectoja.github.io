@@ -570,8 +570,8 @@
     }
 
     const sistema = idioma === "inglés"
-      ? "You are a helpful, natural, and friendly AI assistant. Be direct and concise. Never use vulgar words. When the user asks about Himnario Adventista PRO or Arcan Player, answer ONLY with the official documentation provided. NEVER invent prices, features, platforms, or any information not in the docs. If you don't have the info, say: 'I don't have that information in the official documentation. You can contact support at kendall.torres.17@gmail.com'. If the user asks biblical or ministry questions, answer with love and wisdom. Never share websites, source code, links, or anything unrelated to the ministry or these applications. Your focus is serving the church." + instruccionIdioma
-      : "Eres un asistente IA util, natural y amigable. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde SOLO con la documentacion oficial que se te proporcione. NUNCA inventes precios, funcionalidades, plataformas de descarga ni ninguna informacion que no este en los documentos. Si no tienes la informacion, di: 'No tengo esa informacion en la documentacion oficial. Puedes contactar al soporte en kendall.torres.17@gmail.com'. Si el usuario hace preguntas biblicas o del ministerio, responde con amor y sabiduria. Nunca compartas paginas web, codigo fuente, enlaces, ni nada que no este relacionado con el ministerio o estas aplicaciones. Tu enfoque es servir a la iglesia." + instruccionIdioma;
+      ? "You are Cortana, a helpful, natural, and friendly AI assistant for PROYECTO JA. Be direct and concise. Never use vulgar words. When the user asks about Himnario Adventista PRO or Arcan Player, answer ONLY with the official documentation provided. NEVER invent prices, features, platforms, or any information not in the docs. If you don't have the info, say: 'I don't have that information available right now. You can ask me anything else or try again later.' If the user asks biblical or ministry questions, answer with love and wisdom. Never share websites, source code, links, emails, or anything unrelated to the ministry or these applications. Your focus is serving the church. You ARE the contact method - never give out email addresses." + instruccionIdioma
+      : "Eres Cortana, una asistente IA util, natural y amigable de PROYECTO JA. Habla directo, con buena onda. Nunca uses palabras vulgares. Cuando el usuario pregunte sobre Himnario Adventista PRO o Arcan Player, responde SOLO con la documentacion oficial que se te proporcione. NUNCA inventes precios, funcionalidades, plataformas de descarga ni ninguna informacion que no este en los documentos. Si no tienes la informacion, di: 'No tengo esa informacion disponible ahora mismo. Puedes preguntarme otra cosa o intentar mas tarde.' Si el usuario hace preguntas biblicas o del ministerio, responde con amor y sabiduria. Nunca compartas paginas web, codigo fuente, enlaces, correos electronicos ni nada que no este relacionado con el ministerio o estas aplicaciones. Tu enfoque es servir a la iglesia. TU eres el medio de contacto - nunca compartas correos electronicos." + instruccionIdioma;
 
     const mensajes = construirMensajes(chatSession, textoDetectar, sistema);
 
@@ -1050,19 +1050,35 @@
   }
 
   // Superadmin: unico que puede crear grupos
-  const _SUPERADMIN_USERNAME = "proyectoja";
-  const _SUPERADMIN_EMAIL = "kendall.torres.17@gmail.com";
-  function esSuperadmin() {
-    const p = cargarPerfilRT();
-    if (p && p.usuario === _SUPERADMIN_USERNAME) return true;
-    if (p && p.email && p.email.toLowerCase() === _SUPERADMIN_EMAIL) return true;
-    return false;
+  // Se verifica en Supabase via funcion segura, nunca se almacena el correo en el frontend
+  let _superadminCache = null;
+  let _superadminConsultado = false;
+
+  async function esSuperadmin() {
+    if (_superadminConsultado) return _superadminCache;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { _superadminCache = false; _superadminConsultado = true; return false; }
+      const { data, error } = await supabase.rpc("check_superadmin", { uid: user.id });
+      _superadminCache = !error && data === true;
+      _superadminConsultado = true;
+      return _superadminCache;
+    } catch (e) {
+      _superadminCache = false;
+      _superadminConsultado = true;
+      return false;
+    }
   }
 
-  function actualizarEstadoNuevoGrupo() {
+  function resetSuperadminCache() {
+    _superadminCache = null;
+    _superadminConsultado = false;
+  }
+
+  async function actualizarEstadoNuevoGrupo() {
     const btnNuevoGrupo = document.getElementById("chatRTNuevoGrupoBtn");
     const btnNuevoGrupoSub = document.getElementById("chatRTNuevoGrupoSub");
-    const esSA = esSuperadmin();
+    const esSA = await esSuperadmin();
     if (btnNuevoGrupo) {
       btnNuevoGrupo.style.cursor = esSA ? "pointer" : "not-allowed";
       btnNuevoGrupo.style.opacity = esSA ? "1" : "0.4";

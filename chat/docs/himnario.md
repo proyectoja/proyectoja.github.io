@@ -1040,9 +1040,7 @@ Al contactar soporte, incluye:
 - Logs relevantes
 - Pasos para reproducir el error
 
-**Contacto:**
 
-- Email: kendall.torres.17@gmail.com
 
 ---
 
@@ -1199,7 +1197,7 @@ Al contactar soporte, incluye:
 **PROYECTO JA**
 
 - **Desarrollador principal**: Kendall Torres
-- **Email**: kendall.torres.17@gmail.com
+- **Email**: soporte a través del chat de la aplicación
 
 ### Tecnologías y Licencias
 
@@ -1214,7 +1212,7 @@ Esta aplicación utiliza software de código abierto:
 ### Soporte
 
 **Email:**
-Para consultas generales: kendall.torres.17@gmail.com
+Para consultas generales: soporte a través del chat de la aplicación
 
 ### Licencia
 
