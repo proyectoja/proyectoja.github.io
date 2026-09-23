@@ -1,43 +1,44 @@
 #EXTM3U
-#EXTINF:-1,Señal en vivo
+#EXTINF:-1,Hope Channel PROYECTO JA 
 https://edge1-us-newyork.picarto.tv/stream/hls/golive%2bXSTUDIOCODE/0_1/index.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel
+#EXTINF:-1,Hope Channel PROYECTO JA (Nativo)
+#EXTINF:-1,Hope Channel
 https://jstre.am/live/jsl:0sUSK6VA7GT.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel International
+#EXTINF:-1,Hope Channel International
 https://jstre.am/live/jsl:cZXINbwrFj6.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Italia
+#EXTINF:-1,Hope Channel Italia
 https://avventisti.tv:1935/AvventistiUICCA/LiveHLS_source/playlist.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Southeast Asia
+#EXTINF:-1,Hope Channel Southeast Asia
 https://jstre.am/live/jsl:jl2Tix8X0Un.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Philippines
+#EXTINF:-1,Hope Channel Philippines
 https://jstre.am/live/jsl:7A1swL7Fhlh.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Tanzania
+#EXTINF:-1,Hope Channel Tanzania
 https://jstre.am/live/jsl:oVTOBy6W2en.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Kenya
+#EXTINF:-1,Hope Channel Kenya
 https://jstre.am/live/jsl:krAjUc5w5bw.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Ghana
+#EXTINF:-1,Hope Channel Ghana
 https://jstre.am/live/jsl:KEsxhxIQjUj.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Africa
+#EXTINF:-1,Hope Channel Africa
 https://jstre.am/live/jsl:i1onRBELcGV.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Polska
+#EXTINF:-1,Hope Channel Polska
 https://stream.hopechannel.pl/livetv/colombo/hope.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Ukraine
+#EXTINF:-1,Hope Channel Ukraine
 https://jstre.am/live/jsl:uKe2xEgS5IL.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Norwegian
+#EXTINF:-1,Hope Channel Norwegian
 https://jstre.am/live/jsl:mWqnLrC4qc7.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel India
+#EXTINF:-1,Hope Channel India
 https://jstre.am/live/jsl:bRf7tet2nDb.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Chinese (希望電視台)
+#EXTINF:-1,Hope Channel Chinese (希望電視台)
 https://jstre.am/live/jsl:nGL7123If9H.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Deutsch
+#EXTINF:-1,Hope Channel Deutsch
 https://jstre.am/live/jsl:AQfP7b5HoTM.m3u8
-#EXTINF:-1,Señal en vivo Esperanza Tv Nuevo Tiempo (Sur América)
+#EXTINF:-1,Esperanza Tv Nuevo Tiempo (Sur América)
 https://stream.live.novotempo.com/tv/smil:tvnuevotiempo.smil/playlist.m3u8
-#EXTINF:-1,Señal en vivo Rede Novo Tempo de Comunicação (TV Novo Tempo)
+#EXTINF:-1,Rede Novo Tempo de Comunicação (TV Novo Tempo)
 https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Inter-America: Español
+#EXTINF:-1,Hope Channel Inter-America: Español
 https://jstre.am/live/jsl:EC0Mq0i6HJU.m3u8
-#EXTINF:-1,Señal en vivo Hope Channel Speranta Tv
+#EXTINF:-1,Hope Channel Speranta Tv
 https://jstre.am/live/jsl:2gNjpghXRLE.m3u8
-#EXTINF:-1,Señal en vivo Esperanza Tv Costa Rica
+#EXTINF:-1,Esperanza Tv Costa Rica
 https://jstre.am/live/jsl:kRualFlRu2u.m3u8
