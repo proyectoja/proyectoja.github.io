@@ -147,11 +147,18 @@
         background-color: rgba(255, 255, 255, 0.3) !important;
       }
 
-      .lp-disqus-toggle {
+      .lp-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 40px;
+      }
+      .lp-disqus-toggle,
+      .lp-stats-toggle {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        margin-top: 40px;
         padding: 12px 24px;
         border-radius: 12px;
         background: rgba(255,255,255,0.05);
@@ -165,12 +172,46 @@
         backdrop-filter: blur(10px);
         z-index: 10;
       }
-      .lp-disqus-toggle:hover {
+      .lp-disqus-toggle:hover,
+      .lp-stats-toggle:hover,
+      .lp-stats-toggle.active {
         background: rgba(255,255,255,0.1);
         border-color: rgba(255,255,255,0.2);
         color: #fff;
         transform: translateY(-1px);
         box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
+      .lp-stats-toggle {
+        padding: 12px;
+      }
+      .lp-stats-toggle:focus-visible {
+        outline: 2px solid #78b4ff;
+        outline-offset: 4px;
+      }
+      .lp-stats-section {
+        width: 100%;
+        max-width: 900px;
+        margin-top: 24px;
+        padding: 24px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.05);
+      }
+      .lp-stats-section[hidden] {
+        display: none;
+      }
+      .lp-stats-section h2 {
+        margin: 0 0 24px;
+        font-size: 1.1rem;
+      }
+      .lp-stats-widget {
+        overflow-x: auto;
+        margin-top: 16px;
+        padding-bottom: 8px;
+      }
+      .lp-stats-widget h3 {
+        margin: 0 0 12px;
+        font-size: 0.9rem;
       }
       .lp-disqus-arrow {
         transition: transform 0.3s ease;
@@ -249,15 +290,34 @@
         </a>
       </div>
 
-      <button class="lp-disqus-toggle" onclick="toggleDisqus()">
+      <div class="lp-actions">
+      <button type="button" class="lp-disqus-toggle" onclick="toggleDisqus()">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Comentarios
         <svg class="lp-disqus-arrow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
       </button>
+      <button type="button" class="lp-stats-toggle" id="stats-toggle" aria-label="Estadísticas" title="Estadísticas" aria-controls="stats-section" aria-expanded="false" onclick="toggleStats()">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M3 3h2v16h16v2H3V3zm4 9h3v5H7v-5zm5-5h3v10h-3V7zm5-3h3v13h-3V4z"/></svg>
+      </button>
+      </div>
 
       <div class="lp-disqus-section" id="disqus-section">
         <div id="disqus_thread"></div>
       </div>
+
+      <section class="lp-stats-section" id="stats-section" aria-labelledby="stats-title" hidden>
+        <h2 id="stats-title">Estadísticas de visitas</h2>
+        <!-- Restored from index.html before 46b1555. Load on every visit, even while hidden. -->
+        <div class="lp-stats-widget">
+          <h3>Visitas por país</h3>
+          <script async src="https://widget.supercounters.com/ssl/flag.js" onload="sc_flag(1696014, '000000', 'ffffff', 'ffffff', 8, 100, 0, 0)" onerror="this.parentNode.appendChild(document.createTextNode('No se pudieron cargar las visitas por país.'))"></script>
+        </div>
+        <div class="lp-stats-widget">
+          <h3>Visitantes recientes</h3>
+          <script>var sc_visitor_var = sc_visitor_var || [];</script>
+          <script async src="https://widget.supercounters.com/ssl/vt.js" onload="sc_vt(1700240, '000000', 'cccccc', 'ffffff', 10)" onerror="this.parentNode.appendChild(document.createTextNode('No se pudieron cargar los visitantes recientes.'))"></script>
+        </div>
+      </section>
 
       <div class="lp-footer">
         &copy; 2013–2026 PROYECTO JA &middot; Compartiendo esperanza
@@ -634,6 +694,14 @@
     })();
     </script>
     <script>
+      function toggleStats() {
+        var section = document.getElementById('stats-section');
+        var btn = document.getElementById('stats-toggle');
+        section.hidden = !section.hidden;
+        btn.classList.toggle('active', !section.hidden);
+        btn.setAttribute('aria-expanded', String(!section.hidden));
+      }
+
       var disqusLoaded = false;
       function toggleDisqus() {
         var section = document.getElementById('disqus-section');
