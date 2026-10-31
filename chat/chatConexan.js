@@ -1,5 +1,16 @@
 (async function () {
 
+  // Anuncio temporal independiente. Para desactivarlo, cambia esta variable a false.
+  const CHATRT_ANUNCIO_HIMNARIO_ACTIVO = true;
+  const CHATRT_ANUNCIO_HIMNARIO = {
+    fechaInicio: "2026-10-31", // El primer anuncio es este sábado
+    hora: "8:00 p. m.",
+    zonaHoraria: "Centro de México",
+    titulo: "Webinar del Himnario Adventista PRO",
+    descripcion: "Conoce el software y aprende a aprovechar sus funciones en esta sesión en vivo.",
+    url: "https://meet.jit.si/moderated/624714a843ef97e90f129f67fa1ecf949879d9f77dc6a5fa9bacbf4c352a2fc7"
+  };
+
   // ============================
   // VALIDACION DE ID DE CONTENEDOR (PRIORIDAD ALTA)
   // ============================
@@ -29,6 +40,145 @@
     } catch(e) {}
     return;
   }
+
+  // ============================
+  // ANUNCIO DEL WEBINAR DEL HIMNARIO
+  // ============================
+  function chatRTMostrarAnuncioHimnario() {
+    if (!CHATRT_ANUNCIO_HIMNARIO_ACTIVO || document.getElementById("chatRTAnuncioHimnario")) return;
+
+    function fechaCentroMexico() {
+      const partes = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Mexico_City",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).formatToParts(new Date());
+      const valores = {};
+      partes.forEach(parte => { valores[parte.type] = parte.value; });
+      return `${valores.year}-${valores.month}-${valores.day}`;
+    }
+
+    function ultimoSabadoDelMes(fecha) {
+      const [anio, mes] = fecha.split("-").map(Number);
+      const ultimoDia = new Date(Date.UTC(anio, mes, 0)).getUTCDate();
+      const diaSemana = new Date(Date.UTC(anio, mes - 1, ultimoDia)).getUTCDay();
+      const dia = ultimoDia - ((diaSemana - 6 + 7) % 7);
+      return `${anio}-${String(mes).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
+    }
+
+    let hoyMexico = "";
+    try {
+      hoyMexico = fechaCentroMexico();
+    } catch (error) {
+      return;
+    }
+    const fechaEvento = ultimoSabadoDelMes(hoyMexico);
+    if (hoyMexico !== fechaEvento || hoyMexico < CHATRT_ANUNCIO_HIMNARIO.fechaInicio) return;
+
+    const overlay = document.createElement("div");
+    overlay.id = "chatRTAnuncioHimnario";
+    overlay.setAttribute("role", "presentation");
+    overlay.style.cssText = "position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:14px;box-sizing:border-box;background:rgba(5,9,18,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;";
+
+    const tarjeta = document.createElement("section");
+    tarjeta.setAttribute("role", "dialog");
+    tarjeta.setAttribute("aria-modal", "true");
+    tarjeta.setAttribute("aria-labelledby", "chatRTAnuncioTitulo");
+    tarjeta.setAttribute("aria-describedby", "chatRTAnuncioDescripcion");
+    tarjeta.style.cssText = "position:relative;width:min(100%,380px);max-height:calc(100dvh - 28px);box-sizing:border-box;overflow:hidden;padding:21px 21px 16px;border:1px solid rgba(211,174,111,.48);border-radius:18px;background:radial-gradient(ellipse at 100% 0%,rgba(216,189,141,.14),transparent 42%),linear-gradient(145deg,#171b26,#10131b);color:#f6f3ed;box-shadow:0 24px 70px rgba(0,0,0,.5);animation:chatRTAnuncioEntrada .24s ease-out both;";
+    tarjeta.innerHTML = `
+      <button type="button" id="chatRTAnuncioCerrar" aria-label="Cerrar anuncio" title="Cerrar" style="position:absolute;top:11px;right:11px;width:29px;height:29px;border:1px solid rgba(255,255,255,.13);border-radius:50%;background:rgba(255,255,255,.05);color:#c8cbd1;font-size:19px;line-height:1;cursor:pointer;">&times;</button>
+      <div style="margin:1px 36px 8px 0;color:#d7b77e;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Invitación especial · Hoy</div>
+      <h2 id="chatRTAnuncioTitulo" style="margin:0 24px 7px 0;color:#fff;font-size:clamp(19px,5vw,22px);font-weight:750;line-height:1.18;letter-spacing:-.035em;"></h2>
+      <p id="chatRTAnuncioDescripcion" style="margin:0 0 13px;color:#b8bec9;font-size:12px;line-height:1.45;"></p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:9px 11px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.035);">
+        <div style="flex:1;min-width:0;"><div style="margin-bottom:4px;color:#818b99;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Fecha</div><strong id="chatRTAnuncioFecha" style="display:block;color:#f1eee8;font-size:11px;line-height:1.3;"></strong></div>
+        <div style="width:1px;height:29px;background:rgba(255,255,255,.12);"></div>
+        <div style="flex:0 0 auto;"><div style="margin-bottom:4px;color:#818b99;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Hora</div><strong id="chatRTAnuncioHora" style="display:block;color:#f1eee8;font-size:12px;line-height:1.3;"></strong><small id="chatRTAnuncioZona" style="display:block;margin-top:2px;color:#858e9c;font-size:9px;"></small></div>
+      </div>
+      <button type="button" id="chatRTAnuncioCopiar" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:40px;padding:9px 12px;border:1px solid rgba(215,183,126,.55);border-radius:10px;background:linear-gradient(110deg,#b28c54,#c8a66d);color:#171b22;font:700 12px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;cursor:pointer;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
+        Copiar enlace de la reunión
+      </button>
+      <a id="chatRTAnuncioIr" href="#" target="_blank" rel="noopener noreferrer" style="display:none;align-items:center;justify-content:center;gap:8px;width:100%;min-height:40px;box-sizing:border-box;padding:9px 12px;border:1px solid rgba(215,183,126,.55);border-radius:10px;background:linear-gradient(110deg,#b28c54,#c8a66d);color:#171b22;font:700 12px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-decoration:none;">Ir a la reunión ↗</a>
+      <p id="chatRTAnuncioEstado" role="status" aria-live="polite" style="min-height:13px;margin:6px 0 0;color:#aab2bd;font-size:10px;text-align:center;"></p>
+    `;
+    overlay.appendChild(tarjeta);
+
+    const partesFecha = fechaEvento.split("-").map(Number);
+    const fechaParaMostrar = new Date(Date.UTC(partesFecha[0], partesFecha[1] - 1, partesFecha[2], 12));
+    const fechaVisible = new Intl.DateTimeFormat("es-MX", {
+      timeZone: "UTC",
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }).format(fechaParaMostrar);
+    tarjeta.querySelector("#chatRTAnuncioTitulo").textContent = CHATRT_ANUNCIO_HIMNARIO.titulo;
+    tarjeta.querySelector("#chatRTAnuncioDescripcion").textContent = CHATRT_ANUNCIO_HIMNARIO.descripcion;
+    tarjeta.querySelector("#chatRTAnuncioFecha").textContent = fechaVisible.charAt(0).toLocaleUpperCase("es-MX") + fechaVisible.slice(1);
+    tarjeta.querySelector("#chatRTAnuncioHora").textContent = CHATRT_ANUNCIO_HIMNARIO.hora;
+    tarjeta.querySelector("#chatRTAnuncioZona").textContent = CHATRT_ANUNCIO_HIMNARIO.zonaHoraria;
+
+    if (!document.getElementById("chatRTAnuncioHimnarioAnimacion")) {
+      const estilo = document.createElement("style");
+      estilo.id = "chatRTAnuncioHimnarioAnimacion";
+      estilo.textContent = "@keyframes chatRTAnuncioEntrada{from{opacity:0;transform:translateY(7px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}@media(prefers-reduced-motion:reduce){#chatRTAnuncioHimnario section{animation:none!important}}";
+      document.head.appendChild(estilo);
+    }
+    document.body.appendChild(overlay);
+
+    const botonCerrar = tarjeta.querySelector("#chatRTAnuncioCerrar");
+    const botonCopiar = tarjeta.querySelector("#chatRTAnuncioCopiar");
+    const botonIr = tarjeta.querySelector("#chatRTAnuncioIr");
+    const estado = tarjeta.querySelector("#chatRTAnuncioEstado");
+    botonIr.href = CHATRT_ANUNCIO_HIMNARIO.url;
+    const cerrarConEscape = event => {
+      if (event.key === "Escape" && document.getElementById("chatRTAnuncioHimnario")) cerrarAnuncio();
+    };
+    function cerrarAnuncio() {
+      overlay.remove();
+      document.removeEventListener("keydown", cerrarConEscape);
+    }
+    botonCerrar.addEventListener("click", cerrarAnuncio);
+    overlay.addEventListener("click", event => {
+      if (event.target === overlay) cerrarAnuncio();
+    });
+    document.addEventListener("keydown", cerrarConEscape);
+
+    botonCopiar.addEventListener("click", async () => {
+      let copiado = false;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(CHATRT_ANUNCIO_HIMNARIO.url);
+          copiado = true;
+        } else {
+          const campo = document.createElement("textarea");
+          campo.value = CHATRT_ANUNCIO_HIMNARIO.url;
+          campo.setAttribute("readonly", "");
+          campo.style.cssText = "position:fixed;left:-9999px;top:0;opacity:0;";
+          document.body.appendChild(campo);
+          campo.select();
+          copiado = document.execCommand("copy");
+          campo.remove();
+        }
+      } catch (error) {
+        copiado = false;
+      }
+      if (copiado) {
+        botonCopiar.style.display = "none";
+        botonIr.style.display = "flex";
+        estado.textContent = "Enlace copiado. ¡Te esperamos!";
+      } else {
+        estado.textContent = "No se pudo copiar el enlace; intenta de nuevo.";
+      }
+    });
+
+    botonCerrar.focus({ preventScroll: true });
+  }
+
+  chatRTMostrarAnuncioHimnario();
 
   // ============================
   // SISTEMA DE NOTIFICACIONES
